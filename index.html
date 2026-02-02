@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eduversal Teachers Hub | Indonesia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #6c5ce7;
+        --primary-dark: #5f3dc4;
+        --accent: #00d9ff;
+        --accent-secondary: #ff6b9d;
+        --accent-tertiary: #ffd93d;
+        --dark: #0a0a1a;
+        --darker: #050510;
+        --light: #f8f9ff;
+        --glass: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --text-primary: #ffffff;
+        --text-secondary: rgba(255, 255, 255, 0.7);
+        --glow-primary: 0 0 60px rgba(108, 92, 231, 0.5);
+        --glow-accent: 0 0 40px rgba(0, 217, 255, 0.4);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Sora", sans-serif;
+        background: var(--darker);
+        color: var(--text-primary);
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* Animated Background */
+      .bg-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        overflow: hidden;
+      }
+
+      .bg-gradient {
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        top: -50%;
+        left: -50%;
+        background: radial-gradient(
+            ellipse at 20% 20%,
+            rgba(108, 92, 231, 0.3) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 80% 80%,
+            rgba(0, 217, 255, 0.2) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 60% 30%,
+            rgba(255, 107, 157, 0.15) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            ellipse at 30% 70%,
+            rgba(255, 217, 61, 0.1) 0%,
+            transparent 40%
+          );
+        animation: bgFloat 30s ease-in-out infinite;
+      }
+
+      @keyframes bgFloat {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+          transform: translate(5%, 5%) rotate(2deg);
+        }
+        50% {
+          transform: translate(-5%, 10%) rotate(-2deg);
+        }
+        75% {
+          transform: translate(10%, -5%) rotate(1deg);
+        }
+      }
+
+      /* Floating Orbs */
+      .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.6;
+        animation: orbFloat 20s ease-in-out infinite;
+      }
+
+      .orb-1 {
+        width: 600px;
+        height: 600px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        top: -200px;
+        right: -200px;
+        animation-delay: 0s;
+      }
+
+      .orb-2 {
+        width: 400px;
+        height: 400px;
+        background: linear-gradient(
+          135deg,
+          var(--accent-secondary),
+          var(--primary)
+        );
+        bottom: -100px;
+        left: -100px;
+        animation-delay: -7s;
+      }
+
+      .orb-3 {
+        width: 300px;
+        height: 300px;
+        background: linear-gradient(
+          135deg,
+          var(--accent),
+          var(--accent-tertiary)
+        );
+        top: 40%;
+        left: 60%;
+        animation-delay: -14s;
+      }
+
+      @keyframes orbFloat {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        33% {
+          transform: translate(30px, -30px) scale(1.1);
+        }
+        66% {
+          transform: translate(-20px, 20px) scale(0.9);
+        }
+      }
+
+      /* Grid Pattern Overlay */
+      .grid-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(
+            rgba(255, 255, 255, 0.02) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-size: 80px 80px;
+        animation: gridMove 40s linear infinite;
+      }
+
+      @keyframes gridMove {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(80px, 80px);
+        }
+      }
+
+      /* Particle Canvas */
+      #particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      /* Main Content */
+      .main-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Navigation */
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(5, 5, 16, 0.8);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--glass-border);
+        transition: all 0.3s ease;
+      }
+
+      .nav.scrolled {
+        padding: 15px 40px;
+        background: rgba(5, 5, 16, 0.95);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        box-shadow: var(--glow-primary);
+        animation: logoGlow 3s ease-in-out infinite;
+      }
+
+      @keyframes logoGlow {
+        0%,
+        100% {
+          box-shadow: 0 0 30px rgba(108, 92, 231, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 50px rgba(0, 217, 255, 0.6);
+        }
+      }
+
+      .logo-text {
+        font-family: "Outfit", sans-serif;
+        font-weight: 800;
+        font-size: 24px;
+        background: linear-gradient(135deg, var(--text-primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-stats {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+      }
+
+      .stat-item {
+        text-align: center;
+        padding: 8px 20px;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+      }
+
+      .stat-number {
+        font-family: "Outfit", sans-serif;
+        font-size: 28px;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--accent), var(--primary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .stat-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--text-secondary);
+        margin-top: 2px;
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 160px 40px 100px;
+        text-align: center;
+        position: relative;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 24px;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--accent);
+        margin-bottom: 32px;
+        animation: fadeInUp 0.8s ease-out;
+      }
+
+      .badge-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        border-radius: 50%;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(1.2);
+        }
+      }
+
+      .hero-title {
+        font-family: "Outfit", sans-serif;
+        font-size: clamp(48px, 8vw, 100px);
+        font-weight: 900;
+        line-height: 1;
+        margin-bottom: 24px;
+        animation: fadeInUp 0.8s ease-out 0.1s both;
+      }
+
+      .hero-title .line-1 {
+        display: block;
+        background: linear-gradient(
+          135deg,
+          var(--text-primary) 0%,
+          var(--text-secondary) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-title .line-2 {
+        display: block;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--accent) 50%,
+          var(--accent-secondary) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradientShift 5s ease infinite;
+        background-size: 200% 200%;
+      }
+
+      @keyframes gradientShift {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      .hero-subtitle {
+        font-size: clamp(18px, 2vw, 24px);
+        color: var(--text-secondary);
+        max-width: 700px;
+        line-height: 1.6;
+        margin-bottom: 48px;
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+      }
+
+      /* Search Section */
+      .search-container {
+        width: 100%;
+        max-width: 700px;
+        position: relative;
+        animation: fadeInUp 0.8s ease-out 0.3s both;
+      }
+
+      .search-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 24px 70px 24px 30px;
+        font-family: "Sora", sans-serif;
+        font-size: 17px;
+        border: none;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        color: var(--text-primary);
+        outline: none;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .search-input::placeholder {
+        color: var(--text-secondary);
+      }
+
+      .search-input:focus {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: var(--accent);
+        box-shadow: 0 0 40px rgba(0, 217, 255, 0.2),
+          inset 0 0 20px rgba(0, 217, 255, 0.05);
+      }
+
+      .search-icon {
+        position: absolute;
+        right: 24px;
+        width: 44px;
+        height: 44px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .search-icon:hover {
+        transform: scale(1.1);
+        box-shadow: var(--glow-accent);
+      }
+
+      /* Scroll Indicator */
+      .scroll-indicator {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        animation: fadeInUp 0.8s ease-out 0.5s both;
+      }
+
+      .scroll-text {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: var(--text-secondary);
+      }
+
+      .scroll-line {
+        width: 2px;
+        height: 60px;
+        background: linear-gradient(to bottom, var(--accent), transparent);
+        animation: scrollBounce 2s ease-in-out infinite;
+      }
+
+      @keyframes scrollBounce {
+        0%,
+        100% {
+          transform: scaleY(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scaleY(0.5);
+          opacity: 0.5;
+        }
+      }
+
+      /* Category Filter Section */
+      .filter-section {
+        padding: 0 40px 60px;
+        position: relative;
+        z-index: 10;
+      }
+
+      .filter-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .filter-btn {
+        padding: 16px 32px;
+        font-family: "Sora", sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        border: none;
+        border-radius: 16px;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .filter-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-4px);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .filter-btn.active {
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: white;
+        border-color: transparent;
+        box-shadow: var(--glow-primary);
+        transform: translateY(-4px);
+      }
+
+      .filter-icon {
+        font-size: 20px;
+      }
+
+      /* Resources Grid */
+      .resources-section {
+        padding: 40px 40px 120px;
+      }
+
+      .resources-container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 48px;
+      }
+
+      .section-title {
+        font-family: "Outfit", sans-serif;
+        font-size: 32px;
+        font-weight: 800;
+      }
+
+      .resources-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        gap: 32px;
+      }
+
+      /* Resource Card */
+      .resource-card {
+        position: relative;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--glass-border);
+        border-radius: 28px;
+        padding: 36px;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+      }
+
+      .resource-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          var(--card-color-1) 0%,
+          var(--card-color-2) 100%
+        );
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        z-index: 0;
+      }
+
+      .resource-card:hover::before {
+        opacity: 0.08;
+      }
+
+      .resource-card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--card-color-1),
+          var(--card-color-2)
+        );
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .resource-card:hover::after {
+        transform: scaleX(1);
+      }
+
+      .resource-card:hover {
+        transform: translateY(-12px);
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3), 0 0 40px var(--card-glow);
+      }
+
+      .card-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 28px;
+      }
+
+      .card-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 42px;
+        background: linear-gradient(
+          135deg,
+          var(--card-color-1),
+          var(--card-color-2)
+        );
+        box-shadow: 0 10px 30px var(--card-glow);
+        transition: all 0.4s ease;
+      }
+
+      .resource-card:hover .card-icon {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 15px 40px var(--card-glow);
+      }
+
+      .card-badge {
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        background: linear-gradient(
+          135deg,
+          var(--card-color-1),
+          var(--card-color-2)
+        );
+        color: white;
+        box-shadow: 0 4px 15px var(--card-glow);
+      }
+
+      .card-title {
+        font-family: "Outfit", sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 14px;
+        line-height: 1.3;
+        transition: color 0.3s ease;
+      }
+
+      .resource-card:hover .card-title {
+        background: linear-gradient(
+          135deg,
+          var(--card-color-1),
+          var(--card-color-2)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .card-description {
+        font-size: 15px;
+        line-height: 1.7;
+        color: var(--text-secondary);
+        margin-bottom: 28px;
+      }
+
+      .card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .card-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--text-secondary);
+        transition: all 0.3s ease;
+      }
+
+      .resource-card:hover .card-link {
+        color: var(--text-primary);
+      }
+
+      .card-arrow {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        transition: all 0.4s ease;
+      }
+
+      .resource-card:hover .card-arrow {
+        background: linear-gradient(
+          135deg,
+          var(--card-color-1),
+          var(--card-color-2)
+        );
+        border-color: transparent;
+        transform: translateX(8px);
+        box-shadow: 0 0 20px var(--card-glow);
+      }
+
+      /* No Results */
+      .no-results {
+        text-align: center;
+        padding: 100px 20px;
+        display: none;
+      }
+
+      .no-results-icon {
+        font-size: 100px;
+        margin-bottom: 24px;
+        opacity: 0.3;
+      }
+
+      .no-results-title {
+        font-family: "Outfit", sans-serif;
+        font-size: 36px;
+        font-weight: 800;
+        margin-bottom: 12px;
+      }
+
+      .no-results-text {
+        color: var(--text-secondary);
+        font-size: 18px;
+      }
+
+      /* Footer */
+      .footer {
+        background: rgba(5, 5, 16, 0.95);
+        border-top: 1px solid var(--glass-border);
+        padding: 60px 40px;
+      }
+
+      .footer-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 24px;
+      }
+
+      .footer-brand {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .footer-logo {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+      }
+
+      .footer-info h4 {
+        font-family: "Outfit", sans-serif;
+        font-weight: 700;
+        font-size: 18px;
+        margin-bottom: 4px;
+      }
+
+      .footer-info p {
+        color: var(--text-secondary);
+        font-size: 14px;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 24px;
+      }
+
+      .footer-link {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.3s ease;
+      }
+
+      .footer-link:hover {
+        color: var(--accent);
+      }
+
+      .footer-contact {
+        text-align: right;
+      }
+
+      .footer-contact p {
+        color: var(--text-secondary);
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+
+      .footer-email {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 15px;
+        transition: all 0.3s ease;
+      }
+
+      .footer-email:hover {
+        text-shadow: 0 0 20px var(--accent);
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .card-appear {
+        animation: cardAppear 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+      }
+
+      @keyframes cardAppear {
+        from {
+          opacity: 0;
+          transform: translateY(40px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .nav {
+          padding: 16px 24px;
+        }
+
+        .nav-stats {
+          display: none;
+        }
+
+        .hero {
+          padding: 140px 24px 80px;
+        }
+
+        .filter-section,
+        .resources-section {
+          padding-left: 24px;
+          padding-right: 24px;
+        }
+
+        .resources-grid {
+          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+          gap: 24px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 42px;
+        }
+
+        .resources-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .footer-contact {
+          text-align: center;
+        }
+      }
+
+      /* Loading Animation */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--darker);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+
+      .loading-overlay.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .loader {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 4px solid var(--glass-border);
+        border-top-color: var(--accent);
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+<script>
+  window.ENV = {
+    FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+    FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+    FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+    FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+    FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+    FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+  };
+</script>
+  
+</head>
+  <body>
+    <!-- Loading Screen -->
+<div id="loadingScreen" style="
+  position:fixed; inset:0;
+  background:#0a0a1a;
+  display:flex; justify-content:center; align-items:center;
+  z-index:99999;">
+  <div style="
+    width:50px;height:50px;
+    border:4px solid rgba(255,255,255,.3);
+    border-top:4px solid #00d9ff;
+    border-radius:50%;
+    animation:spin 1s linear infinite;"></div>
+</div>
+
+<!-- Login Screen -->
+<div id="loginScreen" style="
+  position:fixed; inset:0;
+  background:linear-gradient(135deg,#6c5ce7,#00d9ff);
+  display:none; justify-content:center; align-items:center;
+  z-index:99998;">
+  <div style="
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    width:90%; max-width:420px;
+    box-shadow:0 20px 60px rgba(0,0,0,.3);">
+    <h2 style="text-align:center;color:#111">Eduversal Teachers Hub</h2>
+    <p style="text-align:center;color:#555;margin-bottom:20px">Login</p>
+
+    <div id="errorMsg" style="
+      display:none;
+      background:#fed7d7;color:#c53030;
+      padding:10px;border-radius:8px;margin-bottom:10px"></div>
+
+    <form id="loginForm">
+      <input id="emailInput" type="email" placeholder="Email" required style="width:100%;padding:12px;margin:8px 0">
+      <input id="passwordInput" type="password" placeholder="Password" required style="width:100%;padding:12px;margin:8px 0">
+      <button id="loginBtn" style="width:100%;padding:12px;background:#6c5ce7;color:white;border:none;border-radius:8px">
+        Sign In
+      </button>
+    </form>
+  </div>
+</div>
+
+<button id="logoutBtn" style="
+  position:fixed; bottom:20px; right:20px;
+  display:none; padding:10px 16px;
+  background:#000;color:white;border:none;border-radius:8px;z-index:9999">
+  Sign Out
+</button>
+
+<div id="mainContent" class="main-content" style="display:none">
+
+
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Animated Background -->
+    <div class="bg-container">
+      <div class="bg-gradient"></div>
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="grid-overlay"></div>
+      <canvas id="particles"></canvas>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Navigation -->
+      <nav class="nav" id="nav">
+        <a href="#" class="logo">
+          <div class="logo-icon">🎓</div>
+          <span class="logo-text">Eduversal Indonesia</span>
+        </a>
+        <div class="nav-stats">
+          <div class="stat-item">
+            <div class="stat-number" id="resource-count">7</div>
+            <div class="stat-label">Resources</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">15+</div>
+            <div class="stat-label">Schools</div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span>Resource Center 2025</span>
+        </div>
+        <h1 class="hero-title">
+          <span class="line-1">Teachers Hub</span>
+          <span class="line-2">Indonesia</span>
+        </h1>
+        <p class="hero-subtitle">
+          Comprehensive resource center for educational excellence and
+          professional development across all Eduversal partner schools
+        </p>
+
+        <div class="search-container">
+          <div class="search-wrapper">
+            <input
+              type="text"
+              id="search-input"
+              class="search-input"
+              placeholder="Search handbooks, policies, frameworks..."
+              onkeyup="filterResources()"
+            />
+            <div class="search-icon">🔍</div>
+          </div>
+        </div>
+
+        <div class="scroll-indicator">
+          <span class="scroll-text">Explore</span>
+          <div class="scroll-line"></div>
+        </div>
+      </section>
+
+      <!-- Category Filter -->
+      <section class="filter-section">
+        <div class="filter-container">
+          <button
+            class="filter-btn active"
+            onclick="filterByCategory('All', this)"
+          >
+            <span class="filter-icon">📚</span>
+            All Resources
+          </button>
+          <button
+            class="filter-btn"
+            onclick="filterByCategory('Academic', this)"
+          >
+            <span class="filter-icon">🎓</span>
+            Academic
+          </button>
+          <button
+            class="filter-btn"
+            onclick="filterByCategory('Technology', this)"
+          >
+            <span class="filter-icon">💻</span>
+            Technology
+          </button>
+          <button
+            class="filter-btn"
+            onclick="filterByCategory('Curriculum', this)"
+          >
+            <span class="filter-icon">📖</span>
+            Curriculum
+          </button>
+        </div>
+      </section>
+
+      <!-- Resources Section -->
+      <section class="resources-section">
+        <div class="resources-container">
+          <div id="resources-grid" class="resources-grid">
+            <!-- Cards will be inserted here -->
+          </div>
+
+          <div class="no-results" id="no-results">
+            <div class="no-results-icon">📭</div>
+            <h3 class="no-results-title">No resources found</h3>
+            <p class="no-results-text">
+              Try adjusting your search or filter criteria
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <div class="footer-logo">🎓</div>
+            <div class="footer-info">
+              <h4>Eduversal Indonesia</h4>
+              <p>Education Department © 2025</p>
+            </div>
+          </div>
+          <div class="footer-contact">
+            <p>For technical support or questions</p>
+            <a href="mailto:secondary.edu@eduversal.org" class="footer-email">
+              secondary.edu@eduversal.org
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+</div>
+
+
+    <script>
+      // Resources Data
+      const resources = [
+        {
+          id: 1,
+          title: "AS & A Level Preparation Handbook",
+          description:
+            "Unified framework for Cambridge AS & A Level exam preparation in Mathematics, Physics, Chemistry, and Biology",
+          icon: "🎯",
+          url: "https://docs.google.com/document/d/1ckf44RW6ZaxNKL2Fc3CoFLzTf1Z-rzjol0sPjprD3N8/edit?usp=sharing",
+          category: "Academic",
+          color1: "#7c3aed",
+          color2: "#a78bfa",
+        },
+        {
+          id: 2,
+          title: "Laboratory Handbook",
+          description:
+            "Comprehensive laboratory safety, equipment, and curriculum alignment guide for Cambridge Science education (Grades 7-12)",
+          icon: "🧪",
+          url: "https://docs.google.com/document/d/1wpPoZ-sSRs4SYGjEsbYTISsL8NL6jb_4smWO0aKqyXM/edit?usp=sharing",
+          category: "Academic",
+          color1: "#059669",
+          color2: "#10b981",
+        },
+        {
+          id: 3,
+          title: "AI Competency Framework",
+          description:
+            "Comprehensive framework for AI integration across K-12 education with practical implementation strategies",
+          icon: "🤖",
+          url: "https://docs.google.com/document/d/12sYAJUSea8KUFl5cD6iYKi6U5D1OOleEu3ka6EKDd4s/edit?usp=drive_link",
+          category: "Technology",
+          color1: "#3b82f6",
+          color2: "#06b6d4",
+        },
+        {
+          id: 4,
+          title: "Assessment Policy",
+          description:
+            "Complete assessment guidelines and procedures for academic year 2025-2026",
+          icon: "📊",
+          url: "https://docs.google.com/document/d/1qUux1fMQ7Csmex3Gxt9DMhLYmsXXAbTUb566dprRPxc/edit?usp=drive_link",
+          category: "Academic",
+          color1: "#10b981",
+          color2: "#34d399",
+        },
+        {
+          id: 5,
+          title: "IGCSE Preparation Handbook",
+          description:
+            "Essential guide and best practices for IGCSE examination preparation and success",
+          icon: "📚",
+          url: "https://docs.google.com/document/d/1-vcC-X_ISE9CWYUMtmHN4CNWpBy9y0yVs3nV_jgkg4c/edit?usp=drive_link",
+          category: "Academic",
+          color1: "#a855f7",
+          color2: "#d946ef",
+        },
+        {
+          id: 6,
+          title: "Cambridge Pathway",
+          description:
+            "Complete roadmap and guide to the Cambridge curriculum pathway from primary to A-Level",
+          icon: "🎓",
+          url: "https://docs.google.com/document/d/16gQdAxhxaQbCCNd6t97DdRHXolZHmXMzev8kGPopuBU/edit?usp=drive_link",
+          category: "Curriculum",
+          color1: "#f97316",
+          color2: "#fb923c",
+        },
+        {
+          id: 7,
+          title: "Digital Citizenship Framework",
+          description:
+            "Comprehensive guidelines for responsible digital behavior, online safety, and digital literacy",
+          icon: "🌐",
+          url: "https://docs.google.com/document/d/16igD73jJbgW4gSqjBDw7uffw4JWyOqbrC1dol4BSW8k/edit?usp=drive_link",
+          category: "Technology",
+          color1: "#6366f1",
+          color2: "#818cf8",
+        },
+        {
+          id: 8,
+          title: "STEAM Integration Framework",
+          description:
+            "Comprehensive framework for implementing STEAM education across all grade levels",
+          icon: "🔬",
+          url: "https://docs.google.com/document/d/1cIgg-LrgWFuUicGg2uXTc5RBG8o--qdBS_VylsyMT5w/edit?usp=drive_link",
+          category: "Curriculum",
+          color1: "#14b8a6",
+          color2: "#2dd4bf",
+        },
+        {
+          id: 9,
+          title: "Student Portfolio Systems Guide",
+          description:
+            "Step-by-step implementation guide for effective student portfolio assessment systems",
+          icon: "📁",
+          url: "https://docs.google.com/document/d/15v3EdgBM-xGteb7nBJGvJ4j-bby2yAXRYaOPemaOYX0/edit?usp=drive_link",
+          category: "Academic",
+          color1: "#ec4899",
+          color2: "#f472b6",
+        },
+      ];
+
+      let currentCategory = "All";
+      let currentSearch = "";
+
+      // Render Resources
+      function renderResources() {
+        const grid = document.getElementById("resources-grid");
+        const noResults = document.getElementById("no-results");
+
+        const filtered = resources.filter((r) => {
+          const matchesCategory =
+            currentCategory === "All" || r.category === currentCategory;
+          const matchesSearch =
+            r.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
+            r.description.toLowerCase().includes(currentSearch.toLowerCase());
+          return matchesCategory && matchesSearch;
+        });
+
+        document.getElementById("resource-count").textContent = filtered.length;
+
+        if (filtered.length === 0) {
+          grid.style.display = "none";
+          noResults.style.display = "block";
+          return;
+        }
+
+        grid.style.display = "grid";
+        noResults.style.display = "none";
+
+        grid.innerHTML = filtered
+          .map(
+            (resource, index) => `
+          <a href="${resource.url}" target="_blank" rel="noopener noreferrer" 
+             class="resource-card card-appear" 
+             style="--card-color-1: ${resource.color1}; --card-color-2: ${
+              resource.color2
+            }; --card-glow: ${resource.color1}40; animation-delay: ${
+              index * 0.1
+            }s;">
+            <div class="card-content">
+              <div class="card-header">
+                <div class="card-icon">${resource.icon}</div>
+                <span class="card-badge">${resource.category}</span>
+              </div>
+              <h3 class="card-title">${resource.title}</h3>
+              <p class="card-description">${resource.description}</p>
+              <div class="card-footer">
+                <span class="card-link">View Resource</span>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+          </a>
+        `
+          )
+          .join("");
+      }
+
+      // Filter Functions
+      function filterByCategory(category, button) {
+        currentCategory = category;
+
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        button.classList.add("active");
+
+        renderResources();
+      }
+
+      function filterResources() {
+        currentSearch = document.getElementById("search-input").value;
+        renderResources();
+      }
+
+      // Particles Animation
+      function initParticles() {
+        const canvas = document.getElementById("particles");
+        const ctx = canvas.getContext("2d");
+
+        function resize() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener("resize", resize);
+
+        const particles = [];
+        const particleCount = 80;
+
+        for (let i = 0; i < particleCount; i++) {
+          particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5,
+            radius: Math.random() * 2 + 1,
+            opacity: Math.random() * 0.5 + 0.2,
+          });
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          particles.forEach((p) => {
+            p.x += p.vx;
+            p.y += p.vy;
+
+            if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+            if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(108, 92, 231, ${p.opacity})`;
+            ctx.fill();
+          });
+
+          // Draw connections
+          particles.forEach((p1, i) => {
+            particles.slice(i + 1).forEach((p2) => {
+              const dx = p1.x - p2.x;
+              const dy = p1.y - p2.y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+
+              if (dist < 120) {
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = `rgba(0, 217, 255, ${
+                  0.1 * (1 - dist / 120)
+                })`;
+                ctx.stroke();
+              }
+            });
+          });
+
+          requestAnimationFrame(animate);
+        }
+
+        animate();
+      }
+
+      // Nav Scroll Effect
+      window.addEventListener("scroll", () => {
+        const nav = document.getElementById("nav");
+        if (window.scrollY > 50) {
+          nav.classList.add("scrolled");
+        } else {
+          nav.classList.remove("scrolled");
+        }
+      });
+
+      // Initialize
+      window.addEventListener("load", () => {
+        renderResources();
+        initParticles();
+
+        setTimeout(() => {
+          document.getElementById("loading").classList.add("hidden");
+        }, 800);
+      });
+    </script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut,
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: window.ENV.FIREBASE_API_KEY,
+    authDomain: window.ENV.FIREBASE_AUTH_DOMAIN,
+    projectId: window.ENV.FIREBASE_PROJECT_ID,
+    storageBucket: window.ENV.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
+    appId: window.ENV.FIREBASE_APP_ID,
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const loginForm = document.getElementById("loginForm");
+  const errorMsg = document.getElementById("errorMsg");
+
+  onAuthStateChanged(auth, (user) => {
+    document.getElementById("loadingScreen").style.display = "none";
+    if (user) {
+      document.getElementById("loginScreen").style.display = "none";
+      document.getElementById("mainContent").style.display = "block";
+      document.getElementById("logoutBtn").style.display = "block";
+    } else {
+      document.getElementById("loginScreen").style.display = "flex";
+      document.getElementById("mainContent").style.display = "none";
+      document.getElementById("logoutBtn").style.display = "none";
+    }
+  });
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      errorMsg.textContent = "Invalid email or password";
+      errorMsg.style.display = "block";
+      setTimeout(() => (errorMsg.style.display = "none"), 3000);
+    }
+  });
+
+  logoutBtn.addEventListener("click", () => signOut(auth));
+</script>
+ 
+</body>
+</html>
