@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -64,7 +64,8 @@
         height: 200%;
         top: -50%;
         left: -50%;
-        background: radial-gradient(
+        background:
+          radial-gradient(
             ellipse at 20% 20%,
             rgba(108, 92, 231, 0.3) 0%,
             transparent 50%
@@ -167,10 +168,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-image: linear-gradient(
-            rgba(255, 255, 255, 0.02) 1px,
-            transparent 1px
-          ),
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
           linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
         background-size: 80px 80px;
         animation: gridMove 40s linear infinite;
@@ -432,7 +431,8 @@
       .search-input:focus {
         background: rgba(255, 255, 255, 0.08);
         border-color: var(--accent);
-        box-shadow: 0 0 40px rgba(0, 217, 255, 0.2),
+        box-shadow:
+          0 0 40px rgba(0, 217, 255, 0.2),
           inset 0 0 20px rgba(0, 217, 255, 0.05);
       }
 
@@ -635,7 +635,9 @@
       .resource-card:hover {
         transform: translateY(-12px);
         border-color: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3), 0 0 40px var(--card-glow);
+        box-shadow:
+          0 30px 60px rgba(0, 0, 0, 0.3),
+          0 0 40px var(--card-glow);
       }
 
       .card-content {
@@ -952,7 +954,9 @@
         align-items: center;
         justify-content: center;
         z-index: 9999;
-        transition: opacity 0.5s ease, visibility 0.5s ease;
+        transition:
+          opacity 0.5s ease,
+          visibility 0.5s ease;
       }
 
       .loading-overlay.hidden {
@@ -975,268 +979,395 @@
         }
       }
     </style>
-<script>
-  window.ENV = {
-    FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
-    FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
-    FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
-    FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
-    FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
-    FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
-  };
-</script>
-  
-</head>
+    <script>
+      window.ENV = {
+        FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+        FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+        FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+        FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+        FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+        FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+      };
+    </script>
+  </head>
   <body>
     <!-- Loading Screen -->
-<div id="loadingScreen" style="
-  position:fixed; inset:0;
-  background:#0a0a1a;
-  display:flex; justify-content:center; align-items:center;
-  z-index:99999;">
-  <div style="
-    width:50px;height:50px;
-    border:4px solid rgba(255,255,255,.3);
-    border-top:4px solid #00d9ff;
-    border-radius:50%;
-    animation:spin 1s linear infinite;"></div>
-</div>
-
-<!-- Login Screen -->
-<div id="loginScreen" style="
-  position:fixed; inset:0;
-  background:linear-gradient(135deg,#6c5ce7,#00d9ff);
-  display:none; justify-content:center; align-items:center;
-  z-index:99998;">
-  <div style="
-    background:white;
-    padding:40px;
-    border-radius:20px;
-    width:90%; max-width:420px;
-    box-shadow:0 20px 60px rgba(0,0,0,.3);">
-    <h2 style="text-align:center;color:#111">Eduversal Teachers Hub</h2>
-    <p style="text-align:center;color:#555;margin-bottom:20px">Sign in to continue</p>
-
-    <div id="errorMsg" style="
-      display:none;
-      background:#fed7d7;color:#c53030;
-      padding:10px;border-radius:8px;margin-bottom:10px"></div>
-
-    <button id="googleLoginBtn" style="
-      width:100%;
-      padding:14px;
-      background:#fff;
-      color:#333;
-      border:1px solid #ddd;
-      border-radius:8px;
-      font-size:16px;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      transition:background 0.3s, box-shadow 0.3s;">
-      <svg width="20" height="20" viewBox="0 0 48 48">
-        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-      </svg>
-      Sign in with Google
-    </button>
-
-    <div style="display:flex;align-items:center;margin:20px 0;gap:10px;">
-      <div style="flex:1;height:1px;background:#ddd;"></div>
-      <span style="color:#888;font-size:14px;">or</span>
-      <div style="flex:1;height:1px;background:#ddd;"></div>
+    <div
+      id="loadingScreen"
+      style="
+        position: fixed;
+        inset: 0;
+        background: #0a0a1a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 99999;
+      "
+    >
+      <div
+        style="
+          width: 50px;
+          height: 50px;
+          border: 4px solid rgba(255, 255, 255, 0.3);
+          border-top: 4px solid #00d9ff;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        "
+      ></div>
     </div>
 
-    <form id="loginForm">
-      <input id="emailInput" type="email" placeholder="Email" required style="
-        width:100%;
-        padding:14px;
-        margin-bottom:12px;
-        border:1px solid #ddd;
-        border-radius:8px;
-        font-size:15px;
-        box-sizing:border-box;">
-      <input id="passwordInput" type="password" placeholder="Password" required style="
-        width:100%;
-        padding:14px;
-        margin-bottom:16px;
-        border:1px solid #ddd;
-        border-radius:8px;
-        font-size:15px;
-        box-sizing:border-box;">
-      <button type="submit" style="
-        width:100%;
-        padding:14px;
-        background:#6c5ce7;
-        color:white;
-        border:none;
-        border-radius:8px;
-        font-size:16px;
-        cursor:pointer;
-        transition:background 0.3s;">
-        Sign In
-      </button>
-    </form>
-  </div>
-</div>
+    <!-- Login Screen -->
+    <div
+      id="loginScreen"
+      style="
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          #7c6be0 0%,
+          #9485e0 50%,
+          #7c6be0 100%
+        );
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 99998;
+      "
+    >
+      <div
+        style="
+          background: white;
+          padding: 50px 40px;
+          border-radius: 24px;
+          width: 90%;
+          max-width: 400px;
+          box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+        "
+      >
+        <!-- Graduation Cap Icon -->
+        <div style="font-size: 48px; margin-bottom: 20px">🎓</div>
 
-<button id="logoutBtn" style="
-  position:fixed; bottom:20px; right:20px;
-  display:none; padding:10px 16px;
-  background:#000;color:white;border:none;border-radius:8px;z-index:9999">
-  Sign Out
-</button>
-
-<div id="mainContent" class="main-content" style="display:none">
-
-
-
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loading">
-      <div class="loader"></div>
-    </div>
-
-    <!-- Animated Background -->
-    <div class="bg-container">
-      <div class="bg-gradient"></div>
-      <div class="orb orb-1"></div>
-      <div class="orb orb-2"></div>
-      <div class="orb orb-3"></div>
-      <div class="grid-overlay"></div>
-      <canvas id="particles"></canvas>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-      <!-- Navigation -->
-      <nav class="nav" id="nav">
-        <a href="#" class="logo">
-          <div class="logo-icon">🎓</div>
-          <span class="logo-text">Eduversal Indonesia</span>
-        </a>
-        <div class="nav-stats">
-          <div class="stat-item">
-            <div class="stat-number" id="resource-count">7</div>
-            <div class="stat-label">Resources</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">15+</div>
-            <div class="stat-label">Schools</div>
-          </div>
-        </div>
-      </nav>
-
-      <!-- Hero Section -->
-      <section class="hero">
-        <div class="hero-badge">
-          <span class="badge-dot"></span>
-          <span>Resource Center 2025</span>
-        </div>
-        <h1 class="hero-title">
-          <span class="line-1">Teachers Hub</span>
-          <span class="line-2">Indonesia</span>
+        <!-- Watermark Title -->
+        <h1
+          style="
+            font-family: 'Times New Roman', Georgia, serif;
+            font-size: 52px;
+            font-weight: 400;
+            font-style: italic;
+            color: #d8d4f2;
+            line-height: 1.05;
+            margin-bottom: 12px;
+            letter-spacing: 0px;
+          "
+        >
+          Eduversal<br />Indonesia
         </h1>
-        <p class="hero-subtitle">
-          Comprehensive resource center for educational excellence and
-          professional development across all Eduversal partner schools
+
+        <!-- Subtitle -->
+        <p
+          style="
+            color: #8b7ec8;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+          "
+        >
+          Teachers Hub
         </p>
 
-        <div class="search-container">
-          <div class="search-wrapper">
-            <input
-              type="text"
-              id="search-input"
-              class="search-input"
-              placeholder="Search handbooks, policies, frameworks..."
-              onkeyup="filterResources()"
+        <div
+          id="errorMsg"
+          style="
+            display: none;
+            background: #fed7d7;
+            color: #c53030;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+          "
+        ></div>
+
+        <form id="loginForm">
+          <input
+            id="emailInput"
+            type="email"
+            placeholder="maliusta84@gmail.com"
+            required
+            style="
+              width: 100%;
+              padding: 16px 20px;
+              margin-bottom: 12px;
+              border: none;
+              border-radius: 12px;
+              font-size: 15px;
+              box-sizing: border-box;
+              background: #e8eaf6;
+              color: #333;
+              outline: none;
+              transition: box-shadow 0.3s;
+            "
+          />
+          <input
+            id="passwordInput"
+            type="password"
+            placeholder="••••••••••"
+            required
+            style="
+              width: 100%;
+              padding: 16px 20px;
+              margin-bottom: 20px;
+              border: none;
+              border-radius: 12px;
+              font-size: 15px;
+              box-sizing: border-box;
+              background: #e8eaf6;
+              color: #333;
+              outline: none;
+              transition: box-shadow 0.3s;
+            "
+          />
+          <button
+            type="submit"
+            style="
+              width: 100%;
+              padding: 16px;
+              background: linear-gradient(135deg, #5b8def 0%, #8b6eb8 100%);
+              color: white;
+              border: none;
+              border-radius: 12px;
+              font-size: 16px;
+              font-weight: 600;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 10px;
+              transition:
+                transform 0.2s,
+                box-shadow 0.3s;
+              box-shadow: 0 8px 25px rgba(91, 141, 239, 0.3);
+            "
+          >
+            <span style="font-size: 18px">🔓</span>
+            Sign In
+          </button>
+        </form>
+
+        <div
+          style="display: flex; align-items: center; margin: 24px 0; gap: 10px"
+        >
+          <div style="flex: 1; height: 1px; background: #e0e0e0"></div>
+          <span style="color: #aaa; font-size: 13px">or</span>
+          <div style="flex: 1; height: 1px; background: #e0e0e0"></div>
+        </div>
+
+        <button
+          id="googleLoginBtn"
+          style="
+            width: 100%;
+            padding: 14px;
+            background: #fff;
+            color: #555;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition:
+              background 0.3s,
+              box-shadow 0.3s;
+          "
+        >
+          <svg width="20" height="20" viewBox="0 0 48 48">
+            <path
+              fill="#EA4335"
+              d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
             />
-            <div class="search-icon">🔍</div>
-          </div>
-        </div>
-
-        <div class="scroll-indicator">
-          <span class="scroll-text">Explore</span>
-          <div class="scroll-line"></div>
-        </div>
-      </section>
-
-      <!-- Category Filter -->
-      <section class="filter-section">
-        <div class="filter-container">
-          <button
-            class="filter-btn active"
-            onclick="filterByCategory('All', this)"
-          >
-            <span class="filter-icon">📚</span>
-            All Resources
-          </button>
-          <button
-            class="filter-btn"
-            onclick="filterByCategory('Academic', this)"
-          >
-            <span class="filter-icon">🎓</span>
-            Academic
-          </button>
-          <button
-            class="filter-btn"
-            onclick="filterByCategory('Technology', this)"
-          >
-            <span class="filter-icon">💻</span>
-            Technology
-          </button>
-          <button
-            class="filter-btn"
-            onclick="filterByCategory('Curriculum', this)"
-          >
-            <span class="filter-icon">📖</span>
-            Curriculum
-          </button>
-        </div>
-      </section>
-
-      <!-- Resources Section -->
-      <section class="resources-section">
-        <div class="resources-container">
-          <div id="resources-grid" class="resources-grid">
-            <!-- Cards will be inserted here -->
-          </div>
-
-          <div class="no-results" id="no-results">
-            <div class="no-results-icon">📭</div>
-            <h3 class="no-results-title">No resources found</h3>
-            <p class="no-results-text">
-              Try adjusting your search or filter criteria
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Footer -->
-      <footer class="footer">
-        <div class="footer-content">
-          <div class="footer-brand">
-            <div class="footer-logo">🎓</div>
-            <div class="footer-info">
-              <h4>Eduversal Indonesia</h4>
-              <p>Education Department © 2025</p>
-            </div>
-          </div>
-          <div class="footer-contact">
-            <p>For technical support or questions</p>
-            <a href="mailto:secondary.edu@eduversal.org" class="footer-email">
-              secondary.edu@eduversal.org
-            </a>
-          </div>
-        </div>
-      </footer>
+            <path
+              fill="#4285F4"
+              d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
+            />
+            <path
+              fill="#FBBC05"
+              d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"
+            />
+            <path
+              fill="#34A853"
+              d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
+            />
+          </svg>
+          Sign in with Google
+        </button>
+      </div>
     </div>
 
-</div>
+    <button
+      id="logoutBtn"
+      style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        display: none;
+        padding: 10px 16px;
+        background: #000;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        z-index: 9999;
+      "
+    >
+      Sign Out
+    </button>
 
+    <div id="mainContent" class="main-content" style="display: none">
+      <!-- Loading Overlay -->
+      <div class="loading-overlay" id="loading">
+        <div class="loader"></div>
+      </div>
+
+      <!-- Animated Background -->
+      <div class="bg-container">
+        <div class="bg-gradient"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="grid-overlay"></div>
+        <canvas id="particles"></canvas>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Navigation -->
+        <nav class="nav" id="nav">
+          <a href="#" class="logo">
+            <div class="logo-icon">🎓</div>
+            <span class="logo-text">Eduversal Indonesia</span>
+          </a>
+          <div class="nav-stats">
+            <div class="stat-item">
+              <div class="stat-number" id="resource-count">7</div>
+              <div class="stat-label">Resources</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">15+</div>
+              <div class="stat-label">Schools</div>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            <span>Resource Center 2025</span>
+          </div>
+          <h1 class="hero-title">
+            <span class="line-1">Teachers Hub</span>
+            <span class="line-2">Indonesia</span>
+          </h1>
+          <p class="hero-subtitle">
+            Comprehensive resource center for educational excellence and
+            professional development across all Eduversal partner schools
+          </p>
+
+          <div class="search-container">
+            <div class="search-wrapper">
+              <input
+                type="text"
+                id="search-input"
+                class="search-input"
+                placeholder="Search handbooks, policies, frameworks..."
+                onkeyup="filterResources()"
+              />
+              <div class="search-icon">🔍</div>
+            </div>
+          </div>
+
+          <div class="scroll-indicator">
+            <span class="scroll-text">Explore</span>
+            <div class="scroll-line"></div>
+          </div>
+        </section>
+
+        <!-- Category Filter -->
+        <section class="filter-section">
+          <div class="filter-container">
+            <button
+              class="filter-btn active"
+              onclick="filterByCategory('All', this)"
+            >
+              <span class="filter-icon">📚</span>
+              All Resources
+            </button>
+            <button
+              class="filter-btn"
+              onclick="filterByCategory('Academic', this)"
+            >
+              <span class="filter-icon">🎓</span>
+              Academic
+            </button>
+            <button
+              class="filter-btn"
+              onclick="filterByCategory('Technology', this)"
+            >
+              <span class="filter-icon">💻</span>
+              Technology
+            </button>
+            <button
+              class="filter-btn"
+              onclick="filterByCategory('Curriculum', this)"
+            >
+              <span class="filter-icon">📖</span>
+              Curriculum
+            </button>
+          </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section class="resources-section">
+          <div class="resources-container">
+            <div id="resources-grid" class="resources-grid">
+              <!-- Cards will be inserted here -->
+            </div>
+
+            <div class="no-results" id="no-results">
+              <div class="no-results-icon">📭</div>
+              <h3 class="no-results-title">No resources found</h3>
+              <p class="no-results-text">
+                Try adjusting your search or filter criteria
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <div class="footer-content">
+            <div class="footer-brand">
+              <div class="footer-logo">🎓</div>
+              <div class="footer-info">
+                <h4>Eduversal Indonesia</h4>
+                <p>Education Department © 2025</p>
+              </div>
+            </div>
+            <div class="footer-contact">
+              <p>For technical support or questions</p>
+              <a href="mailto:secondary.edu@eduversal.org" class="footer-email">
+                secondary.edu@eduversal.org
+              </a>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
 
     <script>
       // Resources Data
@@ -1376,10 +1507,10 @@
           <a href="${resource.url}" target="_blank" rel="noopener noreferrer" 
              class="resource-card card-appear" 
              style="--card-color-1: ${resource.color1}; --card-color-2: ${
-              resource.color2
-            }; --card-glow: ${resource.color1}40; animation-delay: ${
-              index * 0.1
-            }s;">
+               resource.color2
+             }; --card-glow: ${resource.color1}40; animation-delay: ${
+               index * 0.1
+             }s;">
             <div class="card-content">
               <div class="card-header">
                 <div class="card-icon">${resource.icon}</div>
@@ -1393,7 +1524,7 @@
               </div>
             </div>
           </a>
-        `
+        `,
           )
           .join("");
       }
@@ -1502,94 +1633,94 @@
         }, 800);
       });
     </script>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import {
-    getAuth,
-    signInWithPopup,
-    signInWithEmailAndPassword,
-    GoogleAuthProvider,
-    onAuthStateChanged,
-    signOut,
-  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getAuth,
+        signInWithPopup,
+        signInWithEmailAndPassword,
+        GoogleAuthProvider,
+        onAuthStateChanged,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: window.ENV.FIREBASE_API_KEY,
-    authDomain: window.ENV.FIREBASE_AUTH_DOMAIN,
-    projectId: window.ENV.FIREBASE_PROJECT_ID,
-    storageBucket: window.ENV.FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
-    appId: window.ENV.FIREBASE_APP_ID,
-  };
+      const firebaseConfig = {
+        apiKey: window.ENV.FIREBASE_API_KEY,
+        authDomain: window.ENV.FIREBASE_AUTH_DOMAIN,
+        projectId: window.ENV.FIREBASE_PROJECT_ID,
+        storageBucket: window.ENV.FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
+        appId: window.ENV.FIREBASE_APP_ID,
+      };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
 
-  // Allowed email domains
-  const allowedDomains = ["kbs.sch.id"];
+      // Allowed email domains
+      const allowedDomains = ["kbs.sch.id"];
 
-  const googleLoginBtn = document.getElementById("googleLoginBtn");
-  const loginForm = document.getElementById("loginForm");
-  const errorMsg = document.getElementById("errorMsg");
+      const googleLoginBtn = document.getElementById("googleLoginBtn");
+      const loginForm = document.getElementById("loginForm");
+      const errorMsg = document.getElementById("errorMsg");
 
-  onAuthStateChanged(auth, (user) => {
-    document.getElementById("loadingScreen").style.display = "none";
-    if (user) {
-      document.getElementById("loginScreen").style.display = "none";
-      document.getElementById("mainContent").style.display = "block";
-      document.getElementById("logoutBtn").style.display = "block";
-    } else {
-      document.getElementById("loginScreen").style.display = "flex";
-      document.getElementById("mainContent").style.display = "none";
-      document.getElementById("logoutBtn").style.display = "none";
-    }
-  });
-
-  googleLoginBtn.addEventListener("click", () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        const email = user.email;
-
-        // Domain check
-        const domain = email.split("@")[1];
-
-        if (!allowedDomains.includes(domain)) {
-          errorMsg.textContent = "This email domain is not authorized: " + domain;
-          errorMsg.style.display = "block";
-          auth.signOut();
-          setTimeout(() => (errorMsg.style.display = "none"), 4000);
-          return;
+      onAuthStateChanged(auth, (user) => {
+        document.getElementById("loadingScreen").style.display = "none";
+        if (user) {
+          document.getElementById("loginScreen").style.display = "none";
+          document.getElementById("mainContent").style.display = "block";
+          document.getElementById("logoutBtn").style.display = "block";
+        } else {
+          document.getElementById("loginScreen").style.display = "flex";
+          document.getElementById("mainContent").style.display = "none";
+          document.getElementById("logoutBtn").style.display = "none";
         }
-
-        console.log("Authorized login:", email);
-      })
-      .catch((error) => {
-        console.error(error);
-        errorMsg.textContent = error.message;
-        errorMsg.style.display = "block";
-        setTimeout(() => (errorMsg.style.display = "none"), 4000);
       });
-  });
 
-  // Email/Password login
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("emailInput").value.trim();
-    const password = document.getElementById("passwordInput").value;
+      googleLoginBtn.addEventListener("click", () => {
+        signInWithPopup(auth, provider)
+          .then((result) => {
+            const user = result.user;
+            const email = user.email;
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (err) {
-      errorMsg.textContent = "Invalid email or password";
-      errorMsg.style.display = "block";
-      setTimeout(() => (errorMsg.style.display = "none"), 4000);
-    }
-  });
+            // Domain check
+            const domain = email.split("@")[1];
 
-  logoutBtn.addEventListener("click", () => signOut(auth));
-</script>
- 
-</body>
+            if (!allowedDomains.includes(domain)) {
+              errorMsg.textContent =
+                "This email domain is not authorized: " + domain;
+              errorMsg.style.display = "block";
+              auth.signOut();
+              setTimeout(() => (errorMsg.style.display = "none"), 4000);
+              return;
+            }
+
+            console.log("Authorized login:", email);
+          })
+          .catch((error) => {
+            console.error(error);
+            errorMsg.textContent = error.message;
+            errorMsg.style.display = "block";
+            setTimeout(() => (errorMsg.style.display = "none"), 4000);
+          });
+      });
+
+      // Email/Password login
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("emailInput").value.trim();
+        const password = document.getElementById("passwordInput").value;
+
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+        } catch (err) {
+          errorMsg.textContent = "Invalid email or password";
+          errorMsg.style.display = "block";
+          setTimeout(() => (errorMsg.style.display = "none"), 4000);
+        }
+      });
+
+      logoutBtn.addEventListener("click", () => signOut(auth));
+    </script>
+  </body>
 </html>
