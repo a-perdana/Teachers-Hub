@@ -1053,7 +1053,7 @@
         <!-- Watermark Title -->
         <h1
           style="
-            font-family: 'Times New Roman', Georgia, serif;
+            font-family: &quot;Times New Roman&quot;, Georgia, serif;
             font-size: 52px;
             font-weight: 400;
             font-style: italic;
@@ -1096,7 +1096,7 @@
           <input
             id="emailInput"
             type="email"
-            placeholder="maliusta84@gmail.com"
+            placeholder="Username"
             required
             style="
               width: 100%;
@@ -1115,7 +1115,7 @@
           <input
             id="passwordInput"
             type="password"
-            placeholder="••••••••••"
+            placeholder="Password"
             required
             style="
               width: 100%;
@@ -1658,15 +1658,43 @@
       const provider = new GoogleAuthProvider();
 
       // Allowed email domains
-      const allowedDomains = ["kbs.sch.id"];
+      const allowedDomains = [
+        "scr.sch.id",
+        "eibos.sch.id",
+        "fatih.sch.id",
+        "gcb.sch.id",
+        "kesatuanbangsa.sch.id",
+        "kbs.sch.id",
+        "mega.sch.id",
+        "pakarbelia.sch.id",
+        "prestigeschool.sch.id",
+        "pribadibandung.sch.id",
+        "pribadidepok.sch.id",
+        "pribadipremiere.sch.id",
+        "semesta.sch.id",
+        "tnafatih.sch.id",
+        "eduversal.org",
+      ];
 
       const googleLoginBtn = document.getElementById("googleLoginBtn");
       const loginForm = document.getElementById("loginForm");
       const errorMsg = document.getElementById("errorMsg");
 
-      onAuthStateChanged(auth, (user) => {
+      function showError(message) {
+        errorMsg.textContent = message;
+        errorMsg.style.display = "block";
+        setTimeout(() => (errorMsg.style.display = "none"), 4000);
+      }
+
+      onAuthStateChanged(auth, async (user) => {
         document.getElementById("loadingScreen").style.display = "none";
         if (user) {
+          const domain = user.email.split("@")[1];
+          if (!allowedDomains.includes(domain)) {
+            await signOut(auth);
+            showError("Access denied. Only authorized school emails are allowed.");
+            return;
+          }
           document.getElementById("loginScreen").style.display = "none";
           document.getElementById("mainContent").style.display = "block";
           document.getElementById("logoutBtn").style.display = "block";
@@ -1679,19 +1707,13 @@
 
       googleLoginBtn.addEventListener("click", () => {
         signInWithPopup(auth, provider)
-          .then((result) => {
-            const user = result.user;
-            const email = user.email;
-
-            // Domain check
+          .then(async (result) => {
+            const email = result.user.email;
             const domain = email.split("@")[1];
 
             if (!allowedDomains.includes(domain)) {
-              errorMsg.textContent =
-                "This email domain is not authorized: " + domain;
-              errorMsg.style.display = "block";
-              auth.signOut();
-              setTimeout(() => (errorMsg.style.display = "none"), 4000);
+              await signOut(auth);
+              showError("Access denied. Only authorized school emails are allowed.");
               return;
             }
 
@@ -1699,9 +1721,7 @@
           })
           .catch((error) => {
             console.error(error);
-            errorMsg.textContent = error.message;
-            errorMsg.style.display = "block";
-            setTimeout(() => (errorMsg.style.display = "none"), 4000);
+            showError(error.message);
           });
       });
 
@@ -1711,12 +1731,16 @@
         const email = document.getElementById("emailInput").value.trim();
         const password = document.getElementById("passwordInput").value;
 
+        const domain = email.split("@")[1];
+        if (!allowedDomains.includes(domain)) {
+          showError("Access denied. Only authorized school emails are allowed.");
+          return;
+        }
+
         try {
           await signInWithEmailAndPassword(auth, email, password);
         } catch (err) {
-          errorMsg.textContent = "Invalid email or password";
-          errorMsg.style.display = "block";
-          setTimeout(() => (errorMsg.style.display = "none"), 4000);
+          showError("Invalid email or password");
         }
       });
 
