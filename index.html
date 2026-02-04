@@ -1690,7 +1690,10 @@
         document.getElementById("loadingScreen").style.display = "none";
         if (user) {
           const domain = user.email.split("@")[1];
-          if (!allowedDomains.includes(domain)) {
+          const isPasswordUser = user.providerData.some(
+            (p) => p.providerId === "password"
+          );
+          if (!allowedDomains.includes(domain) && !isPasswordUser) {
             await signOut(auth);
             showError("Access denied. Only authorized school emails are allowed.");
             return;
@@ -1730,12 +1733,6 @@
         e.preventDefault();
         const email = document.getElementById("emailInput").value.trim();
         const password = document.getElementById("passwordInput").value;
-
-        const domain = email.split("@")[1];
-        if (!allowedDomains.includes(domain)) {
-          showError("Access denied. Only authorized school emails are allowed.");
-          return;
-        }
 
         try {
           await signInWithEmailAndPassword(auth, email, password);
