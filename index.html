@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -1416,6 +1416,202 @@
           font-size: 28px;
         }
       }
+    
+      /* Accreditation Celebration Banner */
+      .celebration-banner {
+        position: relative;
+        z-index: 20;
+        max-width: 1200px;
+        margin: 130px auto 20px;
+        padding: 0 40px;
+        animation: fadeInUp 0.8s ease-out 0.15s both;
+      }
+
+      .celebration-card {
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 28px;
+        padding: 26px 30px;
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background:
+          radial-gradient(circle at 0% 0%, rgba(0, 217, 255, 0.12), transparent 50%),
+          radial-gradient(circle at 100% 100%, rgba(255, 107, 157, 0.1), transparent 50%),
+          rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(18px);
+        box-shadow:
+          0 20px 50px rgba(0, 0, 0, 0.35),
+          inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+
+      .confetti-container {
+        pointer-events: none;
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+
+      .confetti {
+        position: absolute;
+        top: -14px;
+        width: 7px;
+        height: 13px;
+        opacity: 0;
+        border-radius: 3px;
+        animation: confettiFall 6s linear infinite;
+      }
+
+      .confetti:nth-child(1) { left: 10%; background: var(--accent); animation-delay: 0s; }
+      .confetti:nth-child(2) { left: 18%; background: var(--accent-tertiary); animation-delay: 0.6s; }
+      .confetti:nth-child(3) { left: 25%; background: var(--accent-secondary); animation-delay: 1.3s; }
+      .confetti:nth-child(4) { left: 35%; background: var(--accent); animation-delay: 2s; }
+      .confetti:nth-child(5) { left: 47%; background: var(--accent-tertiary); animation-delay: 2.8s; }
+      .confetti:nth-child(6) { left: 58%; background: var(--accent-secondary); animation-delay: 1.1s; }
+      .confetti:nth-child(7) { left: 69%; background: var(--accent); animation-delay: 3.2s; }
+      .confetti:nth-child(8) { left: 78%; background: var(--accent-tertiary); animation-delay: 1.8s; }
+      .confetti:nth-child(9) { left: 87%; background: var(--accent-secondary); animation-delay: 2.4s; }
+      .confetti:nth-child(10) { left: 94%; background: var(--accent); animation-delay: 0.9s; }
+
+      @keyframes confettiFall {
+        0% { opacity: 0; transform: translateY(0) rotate(0deg); }
+        12% { opacity: 0.95; }
+        90% { opacity: 0.95; }
+        100% { opacity: 0; transform: translateY(150px) rotate(320deg); }
+      }
+
+      .grade-badge {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #ffd700 0%, #ffb703 55%, #ffd700 100%);
+        box-shadow: 0 12px 30px rgba(255, 183, 3, 0.35), inset 0 1px 6px rgba(255, 255, 255, 0.35);
+        color: #3d2800;
+        border: 2px solid rgba(255, 255, 255, 0.65);
+        flex-shrink: 0;
+      }
+
+      .grade-badge .grade {
+        font-family: "Outfit", sans-serif;
+        font-size: 38px;
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .grade-badge .label {
+        margin-top: -2px;
+        font-size: 9px;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      .celebration-content { min-width: 0; }
+
+      .congrats {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        margin-bottom: 12px;
+        background: rgba(0, 217, 255, 0.14);
+        border: 1px solid rgba(0, 217, 255, 0.35);
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .congrats svg {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+      }
+
+      .celebration-content h3 {
+        font-family: "Outfit", sans-serif;
+        font-size: clamp(21px, 2.3vw, 31px);
+        line-height: 1.15;
+        margin-bottom: 10px;
+        color: var(--text-primary);
+      }
+
+      .celebration-content p {
+        font-size: 15px;
+        line-height: 1.65;
+        color: rgba(255, 255, 255, 0.78);
+        max-width: 780px;
+      }
+
+      .trophy-icon {
+        width: 74px;
+        height: 74px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+        flex-shrink: 0;
+      }
+
+      .trophy-icon svg {
+        width: 42px;
+        height: 42px;
+        fill: url(#trophy-gradient);
+        filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.45));
+      }
+
+      @media (max-width: 1024px) {
+        .celebration-banner {
+          padding: 0 24px;
+          margin-top: 120px;
+        }
+
+        .celebration-card {
+          grid-template-columns: 1fr;
+          gap: 16px;
+          text-align: center;
+          justify-items: center;
+          padding: 24px;
+        }
+
+        .celebration-content p { max-width: 100%; }
+      }
+
+      @media (max-width: 768px) {
+        .celebration-banner {
+          padding: 0 16px;
+          margin-top: 108px;
+          margin-bottom: 8px;
+        }
+
+        .celebration-card {
+          border-radius: 20px;
+          padding: 20px 18px;
+        }
+
+        .grade-badge {
+          width: 82px;
+          height: 82px;
+        }
+
+        .grade-badge .grade { font-size: 34px; }
+
+        .trophy-icon {
+          width: 64px;
+          height: 64px;
+        }
+      }
     </style>
     <script>
       window.ENV = {
@@ -1469,7 +1665,7 @@
       <!-- Login Card -->
       <div class="login-card">
         <!-- Logo -->
-        <div class="login-logo">🎓</div>
+        <div class="login-logo">ðŸŽ“</div>
 
         <!-- Title -->
         <h1 class="login-title">Eduversal <span>Indonesia</span></h1>
@@ -1577,7 +1773,7 @@
         <!-- Navigation -->
         <nav class="nav" id="nav">
           <a href="#" class="logo">
-            <div class="logo-icon">🎓</div>
+            <div class="logo-icon">ðŸŽ“</div>
             <span class="logo-text">Eduversal Indonesia</span>
           </a>
           <div class="nav-stats">
@@ -1591,6 +1787,74 @@
             </div>
           </div>
         </nav>
+
+                <!-- BAN-PT Accreditation Celebration Banner -->
+        <div class="celebration-banner">
+          <div class="celebration-card">
+            <!-- Confetti Animation -->
+            <div class="confetti-container">
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+              <div class="confetti"></div>
+            </div>
+
+            <!-- Grade A Badge -->
+            <div class="grade-badge">
+              <span class="grade">A</span>
+              <span class="label">Accredited</span>
+            </div>
+
+            <!-- Content -->
+            <div class="celebration-content">
+              <div class="congrats">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                  />
+                </svg>
+                Selamat!
+              </div>
+              <h3>
+                Eduversal Partner Schools Achieve "A" Accreditation from BAN-SM
+              </h3>
+              <p>
+                Our partner schools across Indonesia have been awarded the
+                highest accreditation grade by Badan Akreditasi Nasional
+                Sekolah/Madrasah, recognizing excellence in educational quality
+                and standards.
+              </p>
+            </div>
+
+            <!-- Trophy Icon -->
+            <div class="trophy-icon">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient
+                    id="trophy-gradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" style="stop-color: #ffd700" />
+                    <stop offset="50%" style="stop-color: #ffaa00" />
+                    <stop offset="100%" style="stop-color: #ffd700" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
 
         <!-- Hero Section -->
         <section class="hero">
@@ -1616,7 +1880,7 @@
                 placeholder="Search handbooks, policies, frameworks..."
                 onkeyup="filterResources()"
               />
-              <div class="search-icon">🔍</div>
+              <div class="search-icon">ðŸ”</div>
             </div>
           </div>
 
@@ -1633,28 +1897,28 @@
               class="filter-btn active"
               onclick="filterByCategory('All', this)"
             >
-              <span class="filter-icon">📚</span>
+              <span class="filter-icon">ðŸ“š</span>
               All Resources
             </button>
             <button
               class="filter-btn"
               onclick="filterByCategory('Academic', this)"
             >
-              <span class="filter-icon">🎓</span>
+              <span class="filter-icon">ðŸŽ“</span>
               Academic
             </button>
             <button
               class="filter-btn"
               onclick="filterByCategory('Technology', this)"
             >
-              <span class="filter-icon">💻</span>
+              <span class="filter-icon">ðŸ’»</span>
               Technology
             </button>
             <button
               class="filter-btn"
               onclick="filterByCategory('Curriculum', this)"
             >
-              <span class="filter-icon">📖</span>
+              <span class="filter-icon">ðŸ“–</span>
               Curriculum
             </button>
           </div>
@@ -1668,7 +1932,7 @@
             </div>
 
             <div class="no-results" id="no-results">
-              <div class="no-results-icon">📭</div>
+              <div class="no-results-icon">ðŸ“­</div>
               <h3 class="no-results-title">No resources found</h3>
               <p class="no-results-text">
                 Try adjusting your search or filter criteria
@@ -1681,10 +1945,10 @@
         <footer class="footer">
           <div class="footer-content">
             <div class="footer-brand">
-              <div class="footer-logo">🎓</div>
+              <div class="footer-logo">ðŸŽ“</div>
               <div class="footer-info">
                 <h4>Eduversal Indonesia</h4>
-                <p>Education Department © 2025</p>
+                <p>Education Department Â© 2025</p>
               </div>
             </div>
             <div class="footer-contact">
@@ -1706,7 +1970,7 @@
           title: "AS & A Level Preparation Handbook",
           description:
             "Unified framework for Cambridge AS & A Level exam preparation in Mathematics, Physics, Chemistry, and Biology",
-          icon: "🎯",
+          icon: "ðŸŽ¯",
           url: "https://docs.google.com/document/d/1ckf44RW6ZaxNKL2Fc3CoFLzTf1Z-rzjol0sPjprD3N8/edit?usp=sharing",
           category: "Academic",
           color1: "#7c3aed",
@@ -1717,7 +1981,7 @@
           title: "Laboratory Handbook",
           description:
             "Comprehensive laboratory safety, equipment, and curriculum alignment guide for Cambridge Science education (Grades 7-12)",
-          icon: "🧪",
+          icon: "ðŸ§ª",
           url: "https://docs.google.com/document/d/1wpPoZ-sSRs4SYGjEsbYTISsL8NL6jb_4smWO0aKqyXM/edit?usp=sharing",
           category: "Academic",
           color1: "#059669",
@@ -1728,7 +1992,7 @@
           title: "AI Competency Framework",
           description:
             "Comprehensive framework for AI integration across K-12 education with practical implementation strategies",
-          icon: "🤖",
+          icon: "ðŸ¤–",
           url: "https://docs.google.com/document/d/12sYAJUSea8KUFl5cD6iYKi6U5D1OOleEu3ka6EKDd4s/edit?usp=drive_link",
           category: "Technology",
           color1: "#3b82f6",
@@ -1739,7 +2003,7 @@
           title: "Assessment Policy",
           description:
             "Complete assessment guidelines and procedures for academic year 2025-2026",
-          icon: "📊",
+          icon: "ðŸ“Š",
           url: "https://docs.google.com/document/d/1qUux1fMQ7Csmex3Gxt9DMhLYmsXXAbTUb566dprRPxc/edit?usp=drive_link",
           category: "Academic",
           color1: "#10b981",
@@ -1750,7 +2014,7 @@
           title: "IGCSE Preparation Handbook",
           description:
             "Essential guide and best practices for IGCSE examination preparation and success",
-          icon: "📚",
+          icon: "ðŸ“š",
           url: "https://docs.google.com/document/d/1-vcC-X_ISE9CWYUMtmHN4CNWpBy9y0yVs3nV_jgkg4c/edit?usp=drive_link",
           category: "Academic",
           color1: "#a855f7",
@@ -1761,7 +2025,7 @@
           title: "Cambridge Pathway",
           description:
             "Complete roadmap and guide to the Cambridge curriculum pathway from primary to A-Level",
-          icon: "🎓",
+          icon: "ðŸŽ“",
           url: "https://docs.google.com/document/d/16gQdAxhxaQbCCNd6t97DdRHXolZHmXMzev8kGPopuBU/edit?usp=drive_link",
           category: "Curriculum",
           color1: "#f97316",
@@ -1772,7 +2036,7 @@
           title: "Digital Citizenship Framework",
           description:
             "Comprehensive guidelines for responsible digital behavior, online safety, and digital literacy",
-          icon: "🌐",
+          icon: "ðŸŒ",
           url: "https://docs.google.com/document/d/16igD73jJbgW4gSqjBDw7uffw4JWyOqbrC1dol4BSW8k/edit?usp=drive_link",
           category: "Technology",
           color1: "#6366f1",
@@ -1783,7 +2047,7 @@
           title: "STEAM Integration Framework",
           description:
             "Comprehensive framework for implementing STEAM education across all grade levels",
-          icon: "🔬",
+          icon: "ðŸ”¬",
           url: "https://docs.google.com/document/d/1cIgg-LrgWFuUicGg2uXTc5RBG8o--qdBS_VylsyMT5w/edit?usp=drive_link",
           category: "Curriculum",
           color1: "#14b8a6",
@@ -1794,7 +2058,7 @@
           title: "Student Portfolio Systems Guide",
           description:
             "Step-by-step implementation guide for effective student portfolio assessment systems",
-          icon: "📁",
+          icon: "ðŸ“",
           url: "https://docs.google.com/document/d/15v3EdgBM-xGteb7nBJGvJ4j-bby2yAXRYaOPemaOYX0/edit?usp=drive_link",
           category: "Academic",
           color1: "#ec4899",
@@ -1849,7 +2113,7 @@
               <p class="card-description">${resource.description}</p>
               <div class="card-footer">
                 <span class="card-link">View Resource</span>
-                <div class="card-arrow">→</div>
+                <div class="card-arrow">â†’</div>
               </div>
             </div>
           </a>
@@ -2074,3 +2338,4 @@
     </script>
   </body>
 </html>
+
