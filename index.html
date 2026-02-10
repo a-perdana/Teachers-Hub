@@ -300,9 +300,9 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
-        padding: 88px 40px 100px;
+        padding: 56px 40px 100px;
         text-align: center;
         position: relative;
       }
@@ -909,7 +909,7 @@
         }
 
         .hero {
-          padding: 76px 24px 80px;
+          padding: 48px 24px 80px;
         }
 
         .filter-section,
@@ -1422,7 +1422,7 @@
         position: relative;
         z-index: 20;
         max-width: 1360px;
-        margin: 118px auto 6px;
+        margin: 118px auto 0;
         padding: 0 24px;
         animation: fadeInUp 0.8s ease-out 0.15s both;
       }
@@ -1542,7 +1542,9 @@
         line-height: 1.15;
         margin-bottom: 10px;
         color: var(--text-primary);
-      }      .celebration-content .no-wrap {
+      }
+
+      .celebration-content .no-wrap {
         white-space: nowrap;
       }
 
@@ -1587,11 +1589,7 @@
           text-align: center;
           justify-items: center;
           padding: 24px;
-        }      .celebration-content .no-wrap {
-        white-space: nowrap;
-      }
-
-
+        }
 
         .celebration-content p { max-width: 100%; }
       }
@@ -1673,7 +1671,7 @@
       <!-- Login Card -->
       <div class="login-card">
         <!-- Logo -->
-        <div class="login-logo">ðŸŽ“</div>
+        <div class="login-logo">🎓</div>
 
         <!-- Title -->
         <h1 class="login-title">Eduversal <span>Indonesia</span></h1>
@@ -1781,7 +1779,7 @@
         <!-- Navigation -->
         <nav class="nav" id="nav">
           <a href="#" class="logo">
-            <div class="logo-icon">ðŸŽ“</div>
+            <div class="logo-icon">🎓</div>
             <span class="logo-text">Eduversal Indonesia</span>
           </a>
           <div class="nav-stats">
@@ -1888,7 +1886,7 @@
                 placeholder="Search handbooks, policies, frameworks..."
                 onkeyup="filterResources()"
               />
-              <div class="search-icon">ðŸ”</div>
+              <div class="search-icon">🔍</div>
             </div>
           </div>
 
@@ -1905,28 +1903,28 @@
               class="filter-btn active"
               onclick="filterByCategory('All', this)"
             >
-              <span class="filter-icon">ðŸ“š</span>
+              <span class="filter-icon">📚</span>
               All Resources
             </button>
             <button
               class="filter-btn"
               onclick="filterByCategory('Academic', this)"
             >
-              <span class="filter-icon">ðŸŽ“</span>
+              <span class="filter-icon">🎓</span>
               Academic
             </button>
             <button
               class="filter-btn"
               onclick="filterByCategory('Technology', this)"
             >
-              <span class="filter-icon">ðŸ’»</span>
+              <span class="filter-icon">💻</span>
               Technology
             </button>
             <button
               class="filter-btn"
               onclick="filterByCategory('Curriculum', this)"
             >
-              <span class="filter-icon">ðŸ“–</span>
+              <span class="filter-icon">📖</span>
               Curriculum
             </button>
           </div>
@@ -1940,7 +1938,7 @@
             </div>
 
             <div class="no-results" id="no-results">
-              <div class="no-results-icon">ðŸ“­</div>
+              <div class="no-results-icon">📭</div>
               <h3 class="no-results-title">No resources found</h3>
               <p class="no-results-text">
                 Try adjusting your search or filter criteria
@@ -1953,10 +1951,10 @@
         <footer class="footer">
           <div class="footer-content">
             <div class="footer-brand">
-              <div class="footer-logo">ðŸŽ“</div>
+              <div class="footer-logo">🎓</div>
               <div class="footer-info">
                 <h4>Eduversal Indonesia</h4>
-                <p>Education Department Â© 2025</p>
+                <p>Education Department © 2025</p>
               </div>
             </div>
             <div class="footer-contact">
@@ -1978,7 +1976,7 @@
           title: "AS & A Level Preparation Handbook",
           description:
             "Unified framework for Cambridge AS & A Level exam preparation in Mathematics, Physics, Chemistry, and Biology",
-          icon: "ðŸŽ¯",
+          icon: "🎯",
           url: "https://docs.google.com/document/d/1ckf44RW6ZaxNKL2Fc3CoFLzTf1Z-rzjol0sPjprD3N8/edit?usp=sharing",
           category: "Academic",
           color1: "#7c3aed",
@@ -1989,7 +1987,7 @@
           title: "Laboratory Handbook",
           description:
             "Comprehensive laboratory safety, equipment, and curriculum alignment guide for Cambridge Science education (Grades 7-12)",
-          icon: "ðŸ§ª",
+          icon: "🧪",
           url: "https://docs.google.com/document/d/1wpPoZ-sSRs4SYGjEsbYTISsL8NL6jb_4smWO0aKqyXM/edit?usp=sharing",
           category: "Academic",
           color1: "#059669",
@@ -2000,7 +1998,7 @@
           title: "AI Competency Framework",
           description:
             "Comprehensive framework for AI integration across K-12 education with practical implementation strategies",
-          icon: "ðŸ¤–",
+          icon: "🤖",
           url: "https://docs.google.com/document/d/12sYAJUSea8KUFl5cD6iYKi6U5D1OOleEu3ka6EKDd4s/edit?usp=drive_link",
           category: "Technology",
           color1: "#3b82f6",
@@ -2011,7 +2009,7 @@
           title: "Assessment Policy",
           description:
             "Complete assessment guidelines and procedures for academic year 2025-2026",
-          icon: "ðŸ“Š",
+          icon: "📊",
           url: "https://docs.google.com/document/d/1qUux1fMQ7Csmex3Gxt9DMhLYmsXXAbTUb566dprRPxc/edit?usp=drive_link",
           category: "Academic",
           color1: "#10b981",
@@ -2022,7 +2020,7 @@
           title: "IGCSE Preparation Handbook",
           description:
             "Essential guide and best practices for IGCSE examination preparation and success",
-          icon: "ðŸ“š",
+          icon: "📚",
           url: "https://docs.google.com/document/d/1-vcC-X_ISE9CWYUMtmHN4CNWpBy9y0yVs3nV_jgkg4c/edit?usp=drive_link",
           category: "Academic",
           color1: "#a855f7",
@@ -2033,7 +2031,7 @@
           title: "Cambridge Pathway",
           description:
             "Complete roadmap and guide to the Cambridge curriculum pathway from primary to A-Level",
-          icon: "ðŸŽ“",
+          icon: "🎓",
           url: "https://docs.google.com/document/d/16gQdAxhxaQbCCNd6t97DdRHXolZHmXMzev8kGPopuBU/edit?usp=drive_link",
           category: "Curriculum",
           color1: "#f97316",
@@ -2044,7 +2042,7 @@
           title: "Digital Citizenship Framework",
           description:
             "Comprehensive guidelines for responsible digital behavior, online safety, and digital literacy",
-          icon: "ðŸŒ",
+          icon: "🌐",
           url: "https://docs.google.com/document/d/16igD73jJbgW4gSqjBDw7uffw4JWyOqbrC1dol4BSW8k/edit?usp=drive_link",
           category: "Technology",
           color1: "#6366f1",
@@ -2055,7 +2053,7 @@
           title: "STEAM Integration Framework",
           description:
             "Comprehensive framework for implementing STEAM education across all grade levels",
-          icon: "ðŸ”¬",
+          icon: "🔬",
           url: "https://docs.google.com/document/d/1cIgg-LrgWFuUicGg2uXTc5RBG8o--qdBS_VylsyMT5w/edit?usp=drive_link",
           category: "Curriculum",
           color1: "#14b8a6",
@@ -2066,7 +2064,7 @@
           title: "Student Portfolio Systems Guide",
           description:
             "Step-by-step implementation guide for effective student portfolio assessment systems",
-          icon: "ðŸ“",
+          icon: "📁",
           url: "https://docs.google.com/document/d/15v3EdgBM-xGteb7nBJGvJ4j-bby2yAXRYaOPemaOYX0/edit?usp=drive_link",
           category: "Academic",
           color1: "#ec4899",
@@ -2121,7 +2119,7 @@
               <p class="card-description">${resource.description}</p>
               <div class="card-footer">
                 <span class="card-link">View Resource</span>
-                <div class="card-arrow">â†’</div>
+                <div class="card-arrow">→</div>
               </div>
             </div>
           </a>
@@ -2346,6 +2344,8 @@
     </script>
   </body>
 </html>
+
+
 
 
 
