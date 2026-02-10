@@ -302,7 +302,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 160px 40px 100px;
+        padding: 88px 40px 100px;
         text-align: center;
         position: relative;
       }
@@ -909,7 +909,7 @@
         }
 
         .hero {
-          padding: 140px 24px 80px;
+          padding: 76px 24px 80px;
         }
 
         .filter-section,
@@ -1421,9 +1421,9 @@
       .celebration-banner {
         position: relative;
         z-index: 20;
-        max-width: 1200px;
-        margin: 130px auto 20px;
-        padding: 0 40px;
+        max-width: 1360px;
+        margin: 118px auto 6px;
+        padding: 0 24px;
         animation: fadeInUp 0.8s ease-out 0.15s both;
       }
 
@@ -1538,11 +1538,15 @@
 
       .celebration-content h3 {
         font-family: "Outfit", sans-serif;
-        font-size: clamp(21px, 2.3vw, 31px);
+        font-size: clamp(21px, 2vw, 31px);
         line-height: 1.15;
         margin-bottom: 10px;
         color: var(--text-primary);
+      }      .celebration-content .no-wrap {
+        white-space: nowrap;
       }
+
+
 
       .celebration-content p {
         font-size: 15px;
@@ -1583,7 +1587,11 @@
           text-align: center;
           justify-items: center;
           padding: 24px;
-        }
+        }      .celebration-content .no-wrap {
+        white-space: nowrap;
+      }
+
+
 
         .celebration-content p { max-width: 100%; }
       }
@@ -1822,7 +1830,7 @@
                 Selamat!
               </div>
               <h3>
-                Eduversal Partner Schools Achieve "A" Accreditation from BAN-SM
+                Eduversal Partner Schools Achieve "A" Accreditation from <span class="no-wrap">BAN-SM</span>
               </h3>
               <p>
                 Our partner schools across Indonesia have been awarded the
@@ -2338,4 +2346,7 @@
     </script>
   </body>
 </html>
+
+
+
 
