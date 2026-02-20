@@ -7,9 +7,6 @@ if (!fs.existsSync(distDir)) {
   fs.mkdirSync(distDir, { recursive: true });
 }
 
-// Read index.html
-let html = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
-
 // Environment variables to replace
 const envVars = [
   'FIREBASE_API_KEY',
@@ -20,20 +17,25 @@ const envVars = [
   'FIREBASE_APP_ID'
 ];
 
-// Replace placeholders with environment variables
-envVars.forEach(varName => {
-  const placeholder = `__${varName}__`;
-  const value = process.env[varName] || '';
+function processFile(filename) {
+  let html = fs.readFileSync(path.join(__dirname, filename), 'utf8');
 
-  if (!value) {
-    console.warn(`Warning: ${varName} environment variable is not set`);
-  }
+  envVars.forEach(varName => {
+    const placeholder = `__${varName}__`;
+    const value = process.env[varName] || '';
 
-  html = html.replace(new RegExp(placeholder, 'g'), value);
-});
+    if (!value) {
+      console.warn(`Warning: ${varName} environment variable is not set`);
+    }
 
-// Write to dist/index.html
-fs.writeFileSync(path.join(distDir, 'index.html'), html);
+    html = html.replace(new RegExp(placeholder, 'g'), value);
+  });
+
+  fs.writeFileSync(path.join(distDir, filename), html);
+  console.log(`Output: dist/${filename}`);
+}
+
+processFile('index.html');
+processFile('messageboard.html');
 
 console.log('Build completed successfully!');
-console.log('Output: dist/index.html');

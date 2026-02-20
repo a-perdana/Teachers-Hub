@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Message Board — Eduversal Indonesia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Sora:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #6c5ce7;
+        --primary-dark: #5f3dc4;
+        --accent: #00d9ff;
+        --accent-secondary: #ff6b9d;
+        --accent-tertiary: #ffd93d;
+        --dark: #0a0a1a;
+        --darker: #050510;
+        --glass: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --text-primary: #ffffff;
+        --text-secondary: rgba(255, 255, 255, 0.7);
+        --glow-primary: 0 0 60px rgba(108, 92, 231, 0.5);
+        --glow-accent: 0 0 40px rgba(0, 217, 255, 0.4);
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        font-family: "Sora", sans-serif;
+        background: var(--darker);
+        color: var(--text-primary);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ── LOADING SPINNER ─────────────────────────────────────────── */
+      @keyframes spin { to { transform: rotate(360deg); } }
+
+      /* ── ANIMATED BACKGROUND ─────────────────────────────────────── */
+      .bg-container {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .bg-gradient {
+        position: absolute;
+        width: 200%; height: 200%;
+        top: -50%; left: -50%;
+        background:
+          radial-gradient(ellipse at 20% 20%, rgba(108, 92, 231, 0.3) 0%, transparent 50%),
+          radial-gradient(ellipse at 80% 80%, rgba(0, 217, 255, 0.2) 0%, transparent 50%),
+          radial-gradient(ellipse at 60% 30%, rgba(255, 107, 157, 0.15) 0%, transparent 40%),
+          radial-gradient(ellipse at 30% 70%, rgba(255, 217, 61, 0.1) 0%, transparent 40%);
+        animation: bgFloat 30s ease-in-out infinite;
+      }
+
+      @keyframes bgFloat {
+        0%, 100% { transform: translate(0, 0) rotate(0deg); }
+        25%  { transform: translate(5%, 5%) rotate(2deg); }
+        50%  { transform: translate(-5%, 10%) rotate(-2deg); }
+        75%  { transform: translate(10%, -5%) rotate(1deg); }
+      }
+
+      .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.6;
+        animation: orbFloat 20s ease-in-out infinite;
+      }
+      .orb-1 { width: 600px; height: 600px; background: linear-gradient(135deg, var(--primary), var(--accent)); top: -200px; right: -200px; animation-delay: 0s; }
+      .orb-2 { width: 400px; height: 400px; background: linear-gradient(135deg, var(--accent-secondary), var(--primary)); bottom: -100px; left: -100px; animation-delay: -7s; }
+      .orb-3 { width: 300px; height: 300px; background: linear-gradient(135deg, var(--accent), var(--accent-tertiary)); top: 40%; left: 60%; animation-delay: -14s; }
+
+      @keyframes orbFloat {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(30px, -30px) scale(1.1); }
+        66% { transform: translate(-20px, 20px) scale(0.9); }
+      }
+
+      .grid-overlay {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-size: 80px 80px;
+        animation: gridMove 40s linear infinite;
+      }
+
+      @keyframes gridMove {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(80px, 80px); }
+      }
+
+      /* ── LOGIN SCREEN ─────────────────────────────────────────────── */
+      .login-screen {
+        position: fixed; inset: 0;
+        display: none; justify-content: center; align-items: center;
+        z-index: 99998; background: #0a0a1a; overflow: hidden;
+      }
+      .login-screen.visible { display: flex; }
+
+      .login-bg { position: absolute; inset: 0; overflow: hidden; }
+      .login-bg::before {
+        content: ''; position: absolute; width: 150%; height: 150%; top: -25%; left: -25%;
+        background:
+          radial-gradient(ellipse at 20% 50%, rgba(108, 92, 231, 0.4) 0%, transparent 50%),
+          radial-gradient(ellipse at 80% 20%, rgba(0, 217, 255, 0.3) 0%, transparent 50%),
+          radial-gradient(ellipse at 40% 80%, rgba(255, 107, 157, 0.25) 0%, transparent 50%),
+          radial-gradient(ellipse at 70% 60%, rgba(255, 217, 61, 0.15) 0%, transparent 40%);
+        animation: loginBgMove 20s ease-in-out infinite;
+      }
+      @keyframes loginBgMove {
+        0%, 100% { transform: translate(0, 0) rotate(0deg); }
+        25%  { transform: translate(3%, -3%) rotate(1deg); }
+        50%  { transform: translate(-2%, 4%) rotate(-1deg); }
+        75%  { transform: translate(4%, 2%) rotate(0.5deg); }
+      }
+
+      .login-orb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.5; animation: loginOrbFloat 15s ease-in-out infinite; }
+      .login-orb:nth-child(1) { width: 300px; height: 300px; background: rgba(108, 92, 231, 0.5); top: -10%; left: -5%; animation-duration: 18s; }
+      .login-orb:nth-child(2) { width: 250px; height: 250px; background: rgba(0, 217, 255, 0.4); top: 60%; right: -8%; animation-delay: -5s; animation-duration: 22s; }
+      .login-orb:nth-child(3) { width: 200px; height: 200px; background: rgba(255, 107, 157, 0.35); bottom: -5%; left: 30%; animation-delay: -10s; animation-duration: 20s; }
+      .login-orb:nth-child(4) { width: 180px; height: 180px; background: rgba(255, 217, 61, 0.25); top: 20%; right: 20%; animation-delay: -7s; animation-duration: 16s; }
+      @keyframes loginOrbFloat {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        25%  { transform: translate(40px, -30px) scale(1.1); }
+        50%  { transform: translate(-20px, 50px) scale(0.9); }
+        75%  { transform: translate(30px, 20px) scale(1.05); }
+      }
+
+      .login-particles { position: absolute; inset: 0; overflow: hidden; }
+      .login-particle { position: absolute; background: rgba(255, 255, 255, 0.6); border-radius: 50%; animation: loginParticleRise linear infinite; }
+      @keyframes loginParticleRise {
+        0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+        10%  { opacity: 1; }
+        90%  { opacity: 1; }
+        100% { transform: translateY(-20vh) scale(1); opacity: 0; }
+      }
+
+      .login-grid {
+        position: absolute; inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+        animation: loginGridDrift 30s linear infinite;
+      }
+      @keyframes loginGridDrift { 0% { transform: translate(0, 0); } 100% { transform: translate(60px, 60px); } }
+
+      .login-card {
+        position: relative; width: 90%; max-width: 440px;
+        padding: 48px 40px; border-radius: 28px;
+        background: rgba(255, 255, 255, 0.07);
+        backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05) inset, 0 0 80px rgba(108, 92, 231, 0.15);
+        text-align: center;
+        animation: loginCardEnter 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+        z-index: 2;
+      }
+      .login-card::before {
+        content: ''; position: absolute; inset: -1px; border-radius: 29px; padding: 1px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05), rgba(108, 92, 231, 0.3));
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+      }
+      @keyframes loginCardEnter {
+        from { opacity: 0; transform: translateY(60px) scale(0.9); filter: blur(10px); }
+        to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+      }
+
+      .login-logo {
+        width: 72px; height: 72px; margin: 0 auto 24px; border-radius: 20px;
+        background: linear-gradient(135deg, #6c5ce7, #00d9ff);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 36px; box-shadow: 0 12px 40px rgba(108, 92, 231, 0.4);
+        animation: loginLogoEnter 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; position: relative;
+      }
+      .login-logo::after {
+        content: ''; position: absolute; inset: -3px; border-radius: 23px;
+        background: linear-gradient(135deg, #6c5ce7, #00d9ff, #ff6b9d);
+        z-index: -1; opacity: 0.5; filter: blur(12px);
+        animation: loginLogoPulse 3s ease-in-out infinite;
+      }
+      @keyframes loginLogoEnter { from { opacity: 0; transform: translateY(30px) scale(0.5) rotate(-10deg); } to { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); } }
+      @keyframes loginLogoPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.1); } }
+
+      .login-title { font-family: "Space Grotesk", sans-serif; font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 4px; letter-spacing: -0.5px; animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both; }
+      .login-title span { background: linear-gradient(135deg, #00d9ff, #6c5ce7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+      .login-subtitle { font-family: "Sora", sans-serif; font-size: 14px; color: rgba(255, 255, 255, 0.45); margin-bottom: 36px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both; }
+      @keyframes loginFadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+      .login-error { display: none; background: rgba(255, 85, 85, 0.15); color: #ff6b6b; padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; font-size: 13px; border: 1px solid rgba(255, 85, 85, 0.2); backdrop-filter: blur(10px); }
+
+      .login-form { animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both; }
+      .login-input-group { position: relative; margin-bottom: 14px; }
+      .login-input-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: rgba(255, 255, 255, 0.35); transition: color 0.3s; pointer-events: none; z-index: 1; display: flex; }
+      .login-input { width: 100%; padding: 16px 20px 16px 48px; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; font-size: 15px; font-family: "Sora", sans-serif; background: rgba(255, 255, 255, 0.06); color: #fff; outline: none; transition: all 0.3s ease; }
+      .login-input::placeholder { color: rgba(255, 255, 255, 0.3); }
+      .login-input:focus { border-color: rgba(108, 92, 231, 0.6); background: rgba(255, 255, 255, 0.1); box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.15), 0 0 30px rgba(108, 92, 231, 0.1); }
+      .login-input-group:focus-within .login-input-icon { color: #6c5ce7; }
+
+      .login-btn { width: 100%; padding: 16px; margin-top: 6px; background: linear-gradient(135deg, #6c5ce7 0%, #00d9ff 100%); color: white; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; font-family: "Sora", sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s ease; box-shadow: 0 8px 30px rgba(108, 92, 231, 0.35); position: relative; overflow: hidden; }
+      .login-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent); transition: left 0.5s; }
+      .login-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(108, 92, 231, 0.5); }
+      .login-btn:hover::before { left: 100%; }
+
+      .login-divider { display: flex; align-items: center; margin: 24px 0; gap: 12px; animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both; }
+      .login-divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent); }
+      .login-divider-text { color: rgba(255, 255, 255, 0.3); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; }
+
+      .login-google-btn { width: 100%; padding: 14px; background: rgba(255, 255, 255, 0.08); color: rgba(255, 255, 255, 0.8); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px; font-size: 15px; font-family: "Sora", sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s ease; animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both; }
+      .login-google-btn:hover { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.25); transform: translateY(-1px); }
+
+      .login-footer { margin-top: 28px; font-size: 11px; color: rgba(255, 255, 255, 0.25); letter-spacing: 0.5px; animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both; }
+
+      @media (max-width: 480px) {
+        .login-card { padding: 36px 24px; margin: 16px; border-radius: 24px; }
+        .login-title { font-size: 26px; }
+        .login-logo { width: 60px; height: 60px; font-size: 28px; }
+      }
+
+      /* ── NAV BAR ──────────────────────────────────────────────────── */
+      .mb-nav {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+        padding: 0 40px; height: 72px;
+        display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+        background: rgba(5, 5, 16, 0.85);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--glass-border);
+      }
+
+      .mb-nav-left { display: flex; align-items: center; }
+      .mb-nav-center { text-align: center; }
+      .mb-nav-right { display: flex; justify-content: flex-end; align-items: center; }
+
+      .back-link {
+        display: inline-flex; align-items: center; gap: 6px;
+        color: var(--text-secondary); text-decoration: none;
+        font-size: 14px; font-weight: 500; transition: color 0.2s;
+        white-space: nowrap;
+      }
+      .back-link:hover { color: var(--text-primary); }
+      .back-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+      .mb-nav-title {
+        font-family: "Outfit", sans-serif; font-size: 18px; font-weight: 700;
+        background: linear-gradient(135deg, #fff 40%, var(--primary));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      }
+
+      .mb-user-name {
+        font-size: 13px; font-weight: 600; color: var(--text-secondary);
+        max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+
+      /* ── MAIN WRAPPER ─────────────────────────────────────────────── */
+      .mb-main {
+        position: relative; z-index: 1;
+        padding-top: 72px; min-height: 100vh;
+      }
+
+      .mb-page {
+        max-width: 860px; margin: 0 auto;
+        padding: 40px 24px 100px;
+      }
+
+      /* ── TOPIC LIST VIEW ──────────────────────────────────────────── */
+      .view-header {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-bottom: 28px;
+      }
+
+      .view-title {
+        font-family: "Outfit", sans-serif; font-size: 26px; font-weight: 800;
+      }
+
+      .new-topic-btn {
+        display: inline-flex; align-items: center; gap: 7px;
+        padding: 10px 20px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: white; border: none; border-radius: 12px;
+        font-family: "Sora", sans-serif; font-size: 14px; font-weight: 600;
+        cursor: pointer; transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(108, 92, 231, 0.35);
+      }
+      .new-topic-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108, 92, 231, 0.5); }
+      .new-topic-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+      .topic-list { display: flex; flex-direction: column; gap: 10px; }
+
+      .topic-card {
+        background: rgba(255, 255, 255, 0.04); border: 1px solid var(--glass-border);
+        border-radius: 16px; padding: 20px 24px; cursor: pointer;
+        transition: all 0.25s ease;
+      }
+      .topic-card:hover {
+        background: rgba(255, 255, 255, 0.07); border-color: rgba(108, 92, 231, 0.4);
+        transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .topic-card-title {
+        font-family: "Outfit", sans-serif; font-size: 17px; font-weight: 700;
+        color: var(--text-primary); line-height: 1.3; margin-bottom: 10px;
+      }
+
+      .topic-card-meta {
+        display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+        font-size: 13px; color: var(--text-secondary);
+      }
+
+      .topic-sep { opacity: 0.4; }
+
+      .topic-replies-badge {
+        margin-left: auto;
+        background: rgba(108, 92, 231, 0.18); border: 1px solid rgba(108, 92, 231, 0.3);
+        border-radius: 6px; padding: 2px 9px;
+        font-size: 12px; font-weight: 600; color: rgba(160, 140, 255, 0.95);
+        white-space: nowrap;
+      }
+
+      .empty-state {
+        text-align: center; padding: 60px 20px;
+        color: var(--text-secondary); font-size: 15px;
+      }
+
+      /* ── TOPIC DETAIL VIEW ────────────────────────────────────────── */
+      .back-btn {
+        display: inline-flex; align-items: center; gap: 6px;
+        background: none; border: none; color: var(--text-secondary);
+        font-family: "Sora", sans-serif; font-size: 14px; font-weight: 500;
+        cursor: pointer; padding: 0; margin-bottom: 24px; transition: color 0.2s;
+      }
+      .back-btn:hover { color: var(--text-primary); }
+      .back-btn svg { width: 16px; height: 16px; }
+
+      .topic-post {
+        background: rgba(255, 255, 255, 0.04); border: 1px solid var(--glass-border);
+        border-radius: 20px; padding: 28px; margin-bottom: 20px;
+      }
+
+      .post-header {
+        display: flex; justify-content: space-between; align-items: flex-start;
+        gap: 12px; margin-bottom: 16px;
+      }
+
+      .post-title {
+        font-family: "Outfit", sans-serif; font-size: 24px; font-weight: 800;
+        line-height: 1.3; flex: 1;
+      }
+
+      .post-actions { display: flex; gap: 8px; flex-shrink: 0; align-items: flex-start; }
+
+      .post-body {
+        font-size: 15px; line-height: 1.8; color: rgba(255, 255, 255, 0.85);
+        white-space: pre-wrap; word-break: break-word;
+      }
+
+      .post-meta {
+        margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+        font-size: 13px; color: var(--text-secondary);
+      }
+
+      .edited-badge {
+        background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 6px; padding: 2px 8px; font-size: 11px; font-weight: 600;
+        color: rgba(255, 255, 255, 0.45);
+      }
+
+      /* ── ACTION BUTTONS ───────────────────────────────────────────── */
+      .action-btn {
+        padding: 6px 12px; border-radius: 8px; border: 1px solid;
+        font-family: "Sora", sans-serif; font-size: 12px; font-weight: 600;
+        cursor: pointer; transition: all 0.2s ease;
+        display: inline-flex; align-items: center; gap: 5px;
+        white-space: nowrap;
+      }
+      .action-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+      .edit-btn {
+        background: rgba(108, 92, 231, 0.15); border-color: rgba(108, 92, 231, 0.35);
+        color: rgba(160, 140, 255, 0.95);
+      }
+      .edit-btn:hover {
+        background: rgba(108, 92, 231, 0.3); border-color: rgba(108, 92, 231, 0.6); color: #fff;
+      }
+
+      .delete-btn {
+        background: rgba(255, 85, 85, 0.12); border-color: rgba(255, 85, 85, 0.3);
+        color: rgba(255, 110, 110, 0.9);
+      }
+      .delete-btn:hover {
+        background: rgba(255, 85, 85, 0.25); border-color: rgba(255, 85, 85, 0.6); color: #fff;
+      }
+
+      /* ── INLINE EDIT ──────────────────────────────────────────────── */
+      .inline-edit-form { display: flex; flex-direction: column; gap: 12px; }
+
+      .inline-input, .inline-textarea {
+        width: 100%; background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(108, 92, 231, 0.4); border-radius: 12px;
+        color: #fff; font-family: "Sora", sans-serif; padding: 12px 16px;
+        outline: none; resize: vertical; transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      .inline-input { font-size: 15px; font-weight: 600; resize: none; }
+      .inline-textarea { font-size: 14px; line-height: 1.7; min-height: 120px; }
+      .inline-input:focus, .inline-textarea:focus {
+        border-color: var(--primary); box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+      }
+
+      .inline-edit-actions { display: flex; gap: 8px; }
+
+      .save-btn {
+        padding: 8px 20px; background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: white; border: none; border-radius: 10px;
+        font-family: "Sora", sans-serif; font-size: 13px; font-weight: 600;
+        cursor: pointer; transition: all 0.2s;
+      }
+      .save-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4); }
+      .save-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+      .cancel-btn {
+        padding: 8px 16px; background: rgba(255, 255, 255, 0.08);
+        color: var(--text-secondary); border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 10px; font-family: "Sora", sans-serif; font-size: 13px; font-weight: 500;
+        cursor: pointer; transition: all 0.2s;
+      }
+      .cancel-btn:hover { background: rgba(255, 255, 255, 0.14); color: #fff; }
+
+      /* ── REPLIES SECTION ──────────────────────────────────────────── */
+      .replies-section { margin-bottom: 16px; }
+
+      .replies-header {
+        font-family: "Outfit", sans-serif; font-size: 15px; font-weight: 700;
+        color: var(--text-secondary); margin-bottom: 14px;
+        padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      }
+
+      .reply-list { display: flex; flex-direction: column; gap: 8px; }
+
+      .reply-item {
+        background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 14px; padding: 16px 18px;
+      }
+
+      .reply-body {
+        font-size: 14px; line-height: 1.75; color: rgba(255, 255, 255, 0.85);
+        white-space: pre-wrap; word-break: break-word; margin-bottom: 10px;
+      }
+
+      .reply-meta {
+        display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+        font-size: 12px; color: var(--text-secondary);
+      }
+
+      .reply-actions { margin-left: auto; display: flex; gap: 6px; }
+
+      /* ── REPLY FORM ───────────────────────────────────────────────── */
+      .reply-form-section {
+        background: rgba(255, 255, 255, 0.04); border: 1px solid var(--glass-border);
+        border-radius: 16px; padding: 20px;
+      }
+
+      .reply-form-label {
+        font-size: 11px; font-weight: 600; text-transform: uppercase;
+        letter-spacing: 0.09em; color: rgba(255, 255, 255, 0.4); margin-bottom: 10px;
+      }
+
+      .reply-textarea {
+        width: 100%; background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px;
+        color: #fff; font-family: "Sora", sans-serif; font-size: 14px;
+        padding: 14px 16px; outline: none; resize: vertical; min-height: 96px;
+        line-height: 1.65; transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      .reply-textarea::placeholder { color: rgba(255, 255, 255, 0.3); }
+      .reply-textarea:focus {
+        border-color: rgba(108, 92, 231, 0.5); box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.12);
+      }
+
+      .reply-form-footer { display: flex; justify-content: flex-end; margin-top: 12px; }
+
+      .reply-send-btn {
+        padding: 10px 22px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: white; border: none; border-radius: 10px;
+        font-family: "Sora", sans-serif; font-size: 14px; font-weight: 600;
+        cursor: pointer; transition: all 0.2s;
+        display: inline-flex; align-items: center; gap: 7px;
+      }
+      .reply-send-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4); }
+      .reply-send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+      .reply-send-btn svg { width: 15px; height: 15px; }
+
+      /* ── NEW TOPIC MODAL ──────────────────────────────────────────── */
+      .modal-overlay {
+        position: fixed; inset: 0;
+        background: rgba(5, 5, 16, 0.82); backdrop-filter: blur(8px);
+        z-index: 10000; display: flex; align-items: center; justify-content: center;
+        opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+      }
+      .modal-overlay.open { opacity: 1; visibility: visible; }
+
+      .modal-card {
+        position: relative; width: 100%; max-width: 560px; margin: 20px;
+        background: linear-gradient(135deg, rgba(15, 15, 35, 0.97), rgba(10, 10, 25, 0.99));
+        border: 1px solid rgba(108, 92, 231, 0.3); border-radius: 24px; padding: 36px;
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.65), 0 0 45px rgba(108, 92, 231, 0.12);
+        transform: translateY(22px) scale(0.97);
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .modal-overlay.open .modal-card { transform: translateY(0) scale(1); }
+
+      .modal-header {
+        display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px;
+      }
+      .modal-title {
+        font-size: 20px; font-weight: 700;
+        background: linear-gradient(135deg, #fff 40%, rgba(108, 92, 231, 0.85));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      }
+      .modal-close-btn {
+        width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+        background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 50%; color: var(--text-secondary); cursor: pointer; font-size: 20px;
+        line-height: 1; transition: all 0.2s;
+      }
+      .modal-close-btn:hover { background: rgba(255, 255, 255, 0.14); color: #fff; }
+
+      .modal-field { margin-bottom: 20px; }
+      .modal-label {
+        display: block; font-size: 11px; font-weight: 600; text-transform: uppercase;
+        letter-spacing: 0.09em; color: rgba(255, 255, 255, 0.5); margin-bottom: 8px;
+      }
+
+      .modal-input, .modal-textarea {
+        width: 100%; background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.11); border-radius: 12px;
+        color: #fff; font-family: "Sora", sans-serif; padding: 13px 16px;
+        outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      .modal-input { font-size: 15px; }
+      .modal-textarea { font-size: 14px; min-height: 140px; resize: vertical; line-height: 1.7; }
+      .modal-input::placeholder, .modal-textarea::placeholder { color: rgba(255, 255, 255, 0.25); }
+      .modal-input:focus, .modal-textarea:focus {
+        border-color: rgba(108, 92, 231, 0.55); box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.13);
+      }
+
+      .modal-submit-btn {
+        width: 100%; padding: 14px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: white; border: none; border-radius: 14px;
+        font-family: "Sora", sans-serif; font-size: 15px; font-weight: 600;
+        cursor: pointer; transition: all 0.3s; box-shadow: 0 6px 25px rgba(108, 92, 231, 0.35);
+      }
+      .modal-submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 35px rgba(108, 92, 231, 0.5); }
+      .modal-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+      .modal-status { margin-top: 12px; font-size: 13px; text-align: center; min-height: 20px; }
+      .modal-status.error { color: #ff6b6b; }
+
+      /* ── SPINNER ──────────────────────────────────────────────────── */
+      .btn-spinner {
+        display: inline-block; width: 14px; height: 14px;
+        border: 2px solid rgba(255, 255, 255, 0.3); border-top-color: #fff;
+        border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle;
+      }
+
+      /* ── RESPONSIVE ───────────────────────────────────────────────── */
+      @media (max-width: 768px) {
+        .mb-nav { padding: 0 16px; }
+        .mb-page { padding: 28px 14px 100px; }
+        .mb-nav-title { font-size: 16px; }
+        .mb-user-name { max-width: 110px; }
+        .post-header { flex-direction: column; gap: 12px; }
+        .post-title { font-size: 20px; }
+        .post-actions { align-self: flex-start; }
+        .reply-actions { margin-left: 0; margin-top: 6px; }
+        .reply-meta { flex-wrap: wrap; }
+      }
+      @media (max-width: 480px) {
+        .mb-nav { height: 60px; }
+        .mb-main { padding-top: 60px; }
+        .back-link .back-link-text { display: none; }
+        .view-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+        .new-topic-btn { width: 100%; justify-content: center; }
+        .modal-card { padding: 28px 20px; }
+        .topic-card { padding: 16px 18px; }
+        .topic-replies-badge { margin-left: 0; }
+        .mb-user-name { max-width: 80px; }
+      }
+    </style>
+    <script>
+      window.ENV = {
+        FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+        FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+        FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+        FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+        FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+        FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+      };
+    </script>
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div
+      id="loadingScreen"
+      style="
+        position: fixed; inset: 0; background: #0a0a1a;
+        display: flex; justify-content: center; align-items: center; z-index: 99999;
+      "
+    >
+      <div
+        style="
+          width: 48px; height: 48px;
+          border: 3px solid rgba(255, 255, 255, 0.15);
+          border-top-color: #6c5ce7; border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+        "
+      ></div>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+      <div class="login-bg">
+        <div class="login-orb"></div>
+        <div class="login-orb"></div>
+        <div class="login-orb"></div>
+        <div class="login-orb"></div>
+      </div>
+      <div class="login-grid"></div>
+      <div class="login-particles" id="loginParticles"></div>
+
+      <div class="login-card">
+        <div class="login-logo">🎓</div>
+        <h1 class="login-title">Eduversal <span>Indonesia</span></h1>
+        <p class="login-subtitle">Message Board</p>
+
+        <div id="errorMsg" class="login-error"></div>
+
+        <form id="loginForm" class="login-form">
+          <div class="login-input-group">
+            <input id="emailInput" type="email" placeholder="Email address" required class="login-input" />
+            <span class="login-input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+            </span>
+          </div>
+          <div class="login-input-group">
+            <input id="passwordInput" type="password" placeholder="Password" required class="login-input" />
+            <span class="login-input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </span>
+          </div>
+          <button type="submit" class="login-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            Sign In
+          </button>
+        </form>
+
+        <div class="login-divider">
+          <div class="login-divider-line"></div>
+          <span class="login-divider-text">or</span>
+          <div class="login-divider-line"></div>
+        </div>
+
+        <button id="googleLoginBtn" class="login-google-btn">
+          <svg width="18" height="18" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+          </svg>
+          Sign in with Google
+        </button>
+
+        <p class="login-footer">Secure access for authorized educators only</p>
+      </div>
+    </div>
+
+    <!-- Sign Out Button -->
+    <button
+      id="logoutBtn"
+      style="
+        position: fixed; bottom: 20px; right: 20px; display: none;
+        padding: 10px 16px; background: #000; color: white;
+        border: none; border-radius: 8px; z-index: 9999; cursor: pointer;
+        font-family: 'Sora', sans-serif; font-size: 13px;
+      "
+    >
+      Sign Out
+    </button>
+
+    <!-- Main Content -->
+    <div id="mainContent" style="display: none;">
+      <!-- Animated Background -->
+      <div class="bg-container">
+        <div class="bg-gradient"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="grid-overlay"></div>
+      </div>
+
+      <!-- Nav Bar -->
+      <nav class="mb-nav">
+        <div class="mb-nav-left">
+          <a href="index.html" class="back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+            <span class="back-link-text">Back to Portal</span>
+          </a>
+        </div>
+        <div class="mb-nav-center">
+          <span class="mb-nav-title">Message Board</span>
+        </div>
+        <div class="mb-nav-right">
+          <span class="mb-user-name" id="navUserName"></span>
+        </div>
+      </nav>
+
+      <!-- Forum -->
+      <div class="mb-main">
+        <div class="mb-page">
+
+          <!-- Topic List View -->
+          <div id="topicListView">
+            <div class="view-header">
+              <h2 class="view-title">Topics</h2>
+              <button class="new-topic-btn" id="newTopicBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                New Topic
+              </button>
+            </div>
+            <div id="topicList" class="topic-list">
+              <div class="empty-state">Loading topics…</div>
+            </div>
+          </div>
+
+          <!-- Topic Detail View -->
+          <div id="topicDetailView" style="display: none;">
+            <button class="back-btn" id="backToListBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+              All Topics
+            </button>
+            <div id="topicPost"></div>
+            <div id="repliesArea"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- New Topic Modal -->
+    <div class="modal-overlay" id="newTopicModal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <span class="modal-title">New Topic</span>
+          <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+        </div>
+        <form id="newTopicForm" novalidate>
+          <div class="modal-field">
+            <label class="modal-label" for="topicTitle">Title</label>
+            <input class="modal-input" id="topicTitle" type="text" placeholder="What do you want to discuss?" required />
+          </div>
+          <div class="modal-field">
+            <label class="modal-label" for="topicBody">Message</label>
+            <textarea class="modal-textarea" id="topicBody" placeholder="Share your thoughts, questions, or resources…" required></textarea>
+          </div>
+          <button type="submit" class="modal-submit-btn" id="topicSubmitBtn">Post Topic</button>
+          <div class="modal-status" id="topicStatus"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Login Particles -->
+    <script>
+      (function () {
+        const container = document.getElementById("loginParticles");
+        if (!container) return;
+        for (let i = 0; i < 30; i++) {
+          const p = document.createElement("div");
+          p.className = "login-particle";
+          p.style.left = Math.random() * 100 + "%";
+          p.style.animationDuration = (6 + Math.random() * 10) + "s";
+          p.style.animationDelay = (Math.random() * 10) + "s";
+          const size = (2 + Math.random() * 3) + "px";
+          p.style.width = size;
+          p.style.height = size;
+          p.style.opacity = (0.2 + Math.random() * 0.5).toString();
+          container.appendChild(p);
+        }
+      })();
+    </script>
+
+    <!-- Firebase Module Script -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getAuth,
+        signInWithPopup,
+        signInWithEmailAndPassword,
+        GoogleAuthProvider,
+        onAuthStateChanged,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+      import {
+        getFirestore,
+        collection,
+        doc,
+        addDoc,
+        updateDoc,
+        deleteDoc,
+        getDoc,
+        onSnapshot,
+        query,
+        orderBy,
+        serverTimestamp,
+        increment,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+      /*
+       * ── FIRESTORE SECURITY RULES (add in Firebase Console) ──────────
+       *
+       * rules_version = '2';
+       * service cloud.firestore {
+       *   match /databases/{database}/documents {
+       *     match /topics/{topicId} {
+       *       allow read: if request.auth != null;
+       *       allow create: if request.auth != null
+       *                     && request.resource.data.uid == request.auth.uid;
+       *       allow update, delete: if request.auth != null
+       *                     && (resource.data.uid == request.auth.uid
+       *                         || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "moderator");
+       *       match /replies/{replyId} {
+       *         allow read: if request.auth != null;
+       *         allow create: if request.auth != null
+       *                       && request.resource.data.uid == request.auth.uid;
+       *         allow update, delete: if request.auth != null
+       *                       && (resource.data.uid == request.auth.uid
+       *                           || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "moderator");
+       *       }
+       *     }
+       *   }
+       * }
+       */
+
+      // ── Firebase Init ────────────────────────────────────────────────
+      const firebaseConfig = {
+        apiKey: window.ENV.FIREBASE_API_KEY,
+        authDomain: window.ENV.FIREBASE_AUTH_DOMAIN,
+        projectId: window.ENV.FIREBASE_PROJECT_ID,
+        storageBucket: window.ENV.FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
+        appId: window.ENV.FIREBASE_APP_ID,
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+      const provider = new GoogleAuthProvider();
+
+      // ── App State ────────────────────────────────────────────────────
+      let currentUser = null;
+      let currentUserRole = null;
+      let currentTopicId = null;
+      let currentTopicData = null;
+      let unsubTopics = null;
+      let unsubReplies = null;
+      let cachedReplyDocs = [];
+      // editingTarget: null | { type: 'topic' } | { type: 'reply', replyId: string }
+      let editingTarget = null;
+
+      const allowedDomains = [
+        "scr.sch.id", "eibos.sch.id", "fatih.sch.id", "gcb.sch.id",
+        "kesatuanbangsa.sch.id", "kbs.sch.id", "mega.sch.id",
+        "pakarbelia.sch.id", "prestigeschool.sch.id", "pribadibandung.sch.id",
+        "pribadidepok.sch.id", "pribadipremiere.sch.id", "semesta.sch.id",
+        "tnafatih.sch.id", "eduversal.org",
+      ];
+
+      // ── Utility Functions ────────────────────────────────────────────
+      function escHtml(str) {
+        if (!str) return "";
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function formatDate(ts) {
+        if (!ts) return "just now";
+        const date = ts.toDate ? ts.toDate() : new Date(ts);
+        const diff = (Date.now() - date.getTime()) / 1000;
+        if (diff < 60) return "just now";
+        if (diff < 3600) return Math.floor(diff / 60) + "m ago";
+        if (diff < 86400) return Math.floor(diff / 3600) + "h ago";
+        if (diff < 604800) return Math.floor(diff / 86400) + "d ago";
+        return new Intl.DateTimeFormat("en-US", {
+          month: "short", day: "numeric", year: "numeric",
+        }).format(date);
+      }
+
+      function getDisplayName(user) {
+        return user.displayName || user.email.split("@")[0];
+      }
+
+      function canModify(uid) {
+        return currentUser && (currentUser.uid === uid || currentUserRole === "moderator");
+      }
+
+      // SVG snippets
+      const EDIT_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+      const DELETE_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
+      const SEND_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`;
+
+      // ── Auth Error Display ───────────────────────────────────────────
+      function showError(msg) {
+        const el = document.getElementById("errorMsg");
+        el.textContent = msg;
+        el.style.display = "block";
+        setTimeout(() => (el.style.display = "none"), 4000);
+      }
+
+      // ── Auth State ───────────────────────────────────────────────────
+      onAuthStateChanged(auth, async (user) => {
+        document.getElementById("loadingScreen").style.display = "none";
+
+        if (user) {
+          const domain = user.email.split("@")[1];
+          const isPasswordUser = user.providerData.some(
+            (p) => p.providerId === "password"
+          );
+          if (!allowedDomains.includes(domain) && !isPasswordUser) {
+            await signOut(auth);
+            showError("Access denied. Only authorized school emails are allowed.");
+            return;
+          }
+
+          currentUser = user;
+
+          // Load role from users/{uid}
+          try {
+            const userSnap = await getDoc(doc(db, "users", user.uid));
+            currentUserRole = userSnap.exists()
+              ? userSnap.data().role || null
+              : null;
+          } catch {
+            currentUserRole = null;
+          }
+
+          document.getElementById("navUserName").textContent = getDisplayName(user);
+          document.getElementById("loginScreen").classList.remove("visible");
+          document.getElementById("mainContent").style.display = "block";
+          document.getElementById("logoutBtn").style.display = "block";
+
+          initForum();
+        } else {
+          currentUser = null;
+          currentUserRole = null;
+          if (unsubTopics) { unsubTopics(); unsubTopics = null; }
+          if (unsubReplies) { unsubReplies(); unsubReplies = null; }
+          document.getElementById("loginScreen").classList.add("visible");
+          document.getElementById("mainContent").style.display = "none";
+          document.getElementById("logoutBtn").style.display = "none";
+        }
+      });
+
+      document.getElementById("googleLoginBtn").addEventListener("click", () => {
+        signInWithPopup(auth, provider)
+          .then((result) => {
+            const domain = result.user.email.split("@")[1];
+            if (!allowedDomains.includes(domain)) {
+              signOut(auth);
+              showError("Access denied. Only authorized school emails are allowed.");
+            }
+          })
+          .catch((err) => showError(err.message));
+      });
+
+      document.getElementById("loginForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("emailInput").value.trim();
+        const password = document.getElementById("passwordInput").value;
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+        } catch {
+          showError("Invalid email or password");
+        }
+      });
+
+      document.getElementById("logoutBtn").addEventListener("click", () => signOut(auth));
+
+      // ── Forum Init ───────────────────────────────────────────────────
+      function initForum() {
+        showTopicList();
+      }
+
+      // ── View: Topic List ─────────────────────────────────────────────
+      function showTopicList() {
+        editingTarget = null;
+        currentTopicId = null;
+        currentTopicData = null;
+        cachedReplyDocs = [];
+
+        if (unsubReplies) { unsubReplies(); unsubReplies = null; }
+
+        document.getElementById("topicListView").style.display = "block";
+        document.getElementById("topicDetailView").style.display = "none";
+
+        // Set up real-time listener once
+        if (!unsubTopics) {
+          const q = query(collection(db, "topics"), orderBy("timestamp", "desc"));
+          unsubTopics = onSnapshot(q, (snap) => renderTopicList(snap.docs));
+        }
+      }
+
+      function renderTopicList(docs) {
+        const container = document.getElementById("topicList");
+        if (!docs.length) {
+          container.innerHTML = '<div class="empty-state">No topics yet. Be the first to post!</div>';
+          return;
+        }
+        container.innerHTML = docs
+          .map((d) => {
+            const data = d.data();
+            const cnt = data.replyCount || 0;
+            return `
+              <div class="topic-card" onclick="window.__mb_openTopic('${d.id}')">
+                <div class="topic-card-title">${escHtml(data.title)}</div>
+                <div class="topic-card-meta">
+                  <span>${escHtml(data.displayName)}</span>
+                  <span class="topic-sep">·</span>
+                  <span>${formatDate(data.timestamp)}</span>
+                  <span class="topic-replies-badge">${cnt} ${cnt === 1 ? "reply" : "replies"}</span>
+                </div>
+              </div>`;
+          })
+          .join("");
+      }
+
+      // ── View: Topic Detail ───────────────────────────────────────────
+      async function openTopic(topicId) {
+        // Tear down topics listener; keep topic list hidden during transition
+        if (unsubTopics) { unsubTopics(); unsubTopics = null; }
+        if (unsubReplies) { unsubReplies(); unsubReplies = null; }
+
+        editingTarget = null;
+        cachedReplyDocs = [];
+        currentTopicId = topicId;
+
+        document.getElementById("topicListView").style.display = "none";
+        document.getElementById("topicDetailView").style.display = "block";
+        document.getElementById("topicPost").innerHTML =
+          '<div class="empty-state">Loading…</div>';
+        document.getElementById("repliesArea").innerHTML = "";
+
+        const topicSnap = await getDoc(doc(db, "topics", topicId));
+        if (!topicSnap.exists()) {
+          showTopicList();
+          return;
+        }
+        currentTopicData = { id: topicId, ...topicSnap.data() };
+        renderTopicPost();
+
+        // Real-time replies listener
+        const rQ = query(
+          collection(db, "topics", topicId, "replies"),
+          orderBy("timestamp", "asc")
+        );
+        unsubReplies = onSnapshot(rQ, (snap) => {
+          cachedReplyDocs = snap.docs;
+          if (editingTarget && editingTarget.type === "reply") return; // preserve inline edit
+          renderReplies(snap.docs);
+        });
+      }
+
+      // ── Render: Topic Post ───────────────────────────────────────────
+      function renderTopicPost() {
+        const el = document.getElementById("topicPost");
+        if (!el || !currentTopicData) return;
+        const d = currentTopicData;
+        const canEdit = canModify(d.uid);
+        const editedBadge = d.editedAt
+          ? `<span class="edited-badge">(edited) ${formatDate(d.editedAt)}</span>`
+          : "";
+
+        if (editingTarget && editingTarget.type === "topic") {
+          el.innerHTML = `
+            <div class="topic-post">
+              <div class="inline-edit-form">
+                <input
+                  class="inline-input"
+                  id="editTopicTitle"
+                  value="${escHtml(d.title)}"
+                  placeholder="Title"
+                />
+                <textarea
+                  class="inline-textarea"
+                  id="editTopicBody"
+                  placeholder="Body"
+                >${escHtml(d.body)}</textarea>
+                <div class="inline-edit-actions">
+                  <button class="save-btn" id="saveTopicEditBtn">Save</button>
+                  <button class="cancel-btn" id="cancelTopicEditBtn">Cancel</button>
+                </div>
+              </div>
+            </div>`;
+
+          document.getElementById("saveTopicEditBtn").addEventListener("click", saveTopicEdit);
+          document.getElementById("cancelTopicEditBtn").addEventListener("click", () => {
+            editingTarget = null;
+            renderTopicPost();
+          });
+        } else {
+          el.innerHTML = `
+            <div class="topic-post">
+              <div class="post-header">
+                <h2 class="post-title">${escHtml(d.title)}</h2>
+                ${canEdit
+                  ? `<div class="post-actions">
+                      <button class="action-btn edit-btn" id="editTopicBtn">${EDIT_ICON} Edit</button>
+                      <button class="action-btn delete-btn" id="deleteTopicBtn">${DELETE_ICON} Delete</button>
+                    </div>`
+                  : ""}
+              </div>
+              <div class="post-body">${escHtml(d.body)}</div>
+              <div class="post-meta">
+                <span>${escHtml(d.displayName)}</span>
+                <span class="topic-sep">·</span>
+                <span>${formatDate(d.timestamp)}</span>
+                ${editedBadge}
+              </div>
+            </div>`;
+
+          if (canEdit) {
+            document.getElementById("editTopicBtn").addEventListener("click", () => {
+              editingTarget = { type: "topic" };
+              renderTopicPost();
+            });
+            document.getElementById("deleteTopicBtn").addEventListener("click", deleteTopic);
+          }
+        }
+      }
+
+      // ── Render: Replies ──────────────────────────────────────────────
+      function renderReplies(docs) {
+        const area = document.getElementById("repliesArea");
+        if (!area) return;
+        cachedReplyDocs = docs;
+
+        const cnt = docs.length;
+        const repliesHtml = !cnt
+          ? '<div class="empty-state" style="padding: 32px 0;">No replies yet. Start the conversation!</div>'
+          : docs.map((d) => {
+              const data = d.data();
+              const canEdit = canModify(data.uid);
+              const editedBadge = data.editedAt
+                ? `<span class="edited-badge">(edited) ${formatDate(data.editedAt)}</span>`
+                : "";
+
+              if (editingTarget && editingTarget.type === "reply" && editingTarget.replyId === d.id) {
+                return `
+                  <div class="reply-item">
+                    <div class="inline-edit-form">
+                      <textarea
+                        class="inline-textarea"
+                        id="editReplyBody_${d.id}"
+                        placeholder="Reply"
+                      >${escHtml(data.body)}</textarea>
+                      <div class="inline-edit-actions">
+                        <button class="save-btn" data-replyid="${d.id}" data-action="saveReply">Save</button>
+                        <button class="cancel-btn" data-action="cancelReply">Cancel</button>
+                      </div>
+                    </div>
+                    <div class="reply-meta" style="margin-top: 10px;">
+                      <span>${escHtml(data.displayName)}</span>
+                      <span class="topic-sep">·</span>
+                      <span>${formatDate(data.timestamp)}</span>
+                      ${editedBadge}
+                    </div>
+                  </div>`;
+              }
+
+              return `
+                <div class="reply-item">
+                  <div class="reply-body">${escHtml(data.body)}</div>
+                  <div class="reply-meta">
+                    <span>${escHtml(data.displayName)}</span>
+                    <span class="topic-sep">·</span>
+                    <span>${formatDate(data.timestamp)}</span>
+                    ${editedBadge}
+                    ${canEdit
+                      ? `<div class="reply-actions">
+                          <button class="action-btn edit-btn" data-replyid="${d.id}" data-action="editReply">${EDIT_ICON} Edit</button>
+                          <button class="action-btn delete-btn" data-replyid="${d.id}" data-action="deleteReply">${DELETE_ICON} Delete</button>
+                        </div>`
+                      : ""}
+                  </div>
+                </div>`;
+            }).join("");
+
+        area.innerHTML = `
+          <div class="replies-section">
+            <div class="replies-header">${cnt} ${cnt === 1 ? "Reply" : "Replies"}</div>
+            <div class="reply-list">${repliesHtml}</div>
+          </div>
+          <div class="reply-form-section">
+            <div class="reply-form-label">Leave a Reply</div>
+            <textarea
+              class="reply-textarea"
+              id="replyTextarea"
+              placeholder="Write your reply…"
+            ></textarea>
+            <div class="reply-form-footer">
+              <button class="reply-send-btn" id="replySendBtn">
+                ${SEND_ICON} Send Reply
+              </button>
+            </div>
+          </div>`;
+
+        // Attach reply-area event listeners via delegation
+        area.addEventListener("click", handleReplyAreaClick, { once: true });
+        document.getElementById("replySendBtn").addEventListener("click", submitReply);
+      }
+
+      function handleReplyAreaClick(e) {
+        const btn = e.target.closest("[data-action]");
+        if (!btn) return;
+        const action = btn.dataset.action;
+        const replyId = btn.dataset.replyid;
+
+        if (action === "editReply") {
+          editingTarget = { type: "reply", replyId };
+          renderReplies(cachedReplyDocs);
+        } else if (action === "deleteReply") {
+          deleteReply(replyId);
+        } else if (action === "saveReply") {
+          saveReplyEdit(replyId);
+        } else if (action === "cancelReply") {
+          editingTarget = null;
+          renderReplies(cachedReplyDocs);
+        }
+      }
+
+      // ── Topic CRUD ───────────────────────────────────────────────────
+      async function saveTopicEdit() {
+        const titleEl = document.getElementById("editTopicTitle");
+        const bodyEl = document.getElementById("editTopicBody");
+        if (!titleEl || !bodyEl) return;
+
+        const title = titleEl.value.trim();
+        const body = bodyEl.value.trim();
+        if (!title || !body) return;
+
+        const saveBtn = document.getElementById("saveTopicEditBtn");
+        if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = "Saving…"; }
+
+        try {
+          await updateDoc(doc(db, "topics", currentTopicId), {
+            title,
+            body,
+            editedAt: serverTimestamp(),
+          });
+          // Refetch to get server timestamp
+          const snap = await getDoc(doc(db, "topics", currentTopicId));
+          currentTopicData = { id: currentTopicId, ...snap.data() };
+          editingTarget = null;
+          renderTopicPost();
+        } catch (err) {
+          console.error("Topic edit error:", err);
+          if (saveBtn) { saveBtn.disabled = false; saveBtn.textContent = "Save"; }
+        }
+      }
+
+      async function deleteTopic() {
+        if (!confirm("Delete this topic and all its replies? This cannot be undone.")) return;
+        try {
+          await deleteDoc(doc(db, "topics", currentTopicId));
+          showTopicList();
+        } catch (err) {
+          console.error("Topic delete error:", err);
+        }
+      }
+
+      // ── Reply CRUD ───────────────────────────────────────────────────
+      async function submitReply() {
+        const textarea = document.getElementById("replyTextarea");
+        if (!textarea) return;
+        const body = textarea.value.trim();
+        if (!body || !currentUser) return;
+
+        const btn = document.getElementById("replySendBtn");
+        btn.disabled = true;
+        btn.innerHTML = `<span class="btn-spinner"></span> Sending…`;
+
+        try {
+          await addDoc(collection(db, "topics", currentTopicId, "replies"), {
+            body,
+            uid: currentUser.uid,
+            displayName: getDisplayName(currentUser),
+            timestamp: serverTimestamp(),
+          });
+          await updateDoc(doc(db, "topics", currentTopicId), {
+            replyCount: increment(1),
+          });
+          textarea.value = "";
+        } catch (err) {
+          console.error("Reply submit error:", err);
+        } finally {
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = `${SEND_ICON} Send Reply`;
+          }
+        }
+      }
+
+      async function saveReplyEdit(replyId) {
+        const bodyEl = document.getElementById("editReplyBody_" + replyId);
+        if (!bodyEl) return;
+        const body = bodyEl.value.trim();
+        if (!body) return;
+
+        try {
+          await updateDoc(
+            doc(db, "topics", currentTopicId, "replies", replyId),
+            { body, editedAt: serverTimestamp() }
+          );
+          editingTarget = null;
+          // Snapshot listener will re-render with updated data
+        } catch (err) {
+          console.error("Reply edit error:", err);
+        }
+      }
+
+      async function deleteReply(replyId) {
+        if (!confirm("Delete this reply?")) return;
+        try {
+          await deleteDoc(doc(db, "topics", currentTopicId, "replies", replyId));
+          await updateDoc(doc(db, "topics", currentTopicId), {
+            replyCount: increment(-1),
+          });
+        } catch (err) {
+          console.error("Reply delete error:", err);
+        }
+      }
+
+      // ── New Topic Modal ──────────────────────────────────────────────
+      const modal = document.getElementById("newTopicModal");
+
+      function openModal() {
+        document.getElementById("newTopicForm").reset();
+        document.getElementById("topicStatus").textContent = "";
+        document.getElementById("topicStatus").className = "modal-status";
+        modal.classList.add("open");
+      }
+
+      function closeModal() {
+        modal.classList.remove("open");
+      }
+
+      document.getElementById("newTopicBtn").addEventListener("click", openModal);
+      document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
+      modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+
+      document.getElementById("newTopicForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!currentUser) return;
+
+        const title = document.getElementById("topicTitle").value.trim();
+        const body = document.getElementById("topicBody").value.trim();
+        if (!title || !body) return;
+
+        const btn = document.getElementById("topicSubmitBtn");
+        const statusEl = document.getElementById("topicStatus");
+        btn.disabled = true;
+        btn.textContent = "Posting…";
+        statusEl.className = "modal-status";
+        statusEl.textContent = "";
+
+        try {
+          const ref = await addDoc(collection(db, "topics"), {
+            title,
+            body,
+            uid: currentUser.uid,
+            displayName: getDisplayName(currentUser),
+            timestamp: serverTimestamp(),
+            replyCount: 0,
+          });
+          closeModal();
+          openTopic(ref.id);
+        } catch (err) {
+          console.error("Topic create error:", err);
+          statusEl.className = "modal-status error";
+          statusEl.textContent = "Failed to post. Please try again.";
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Post Topic";
+        }
+      });
+
+      // ── Back Button ──────────────────────────────────────────────────
+      document.getElementById("backToListBtn").addEventListener("click", showTopicList);
+
+      // ── Global bridge for inline onclick handlers ─────────────────────
+      window.__mb_openTopic = openTopic;
+    </script>
+  </body>
+</html>
