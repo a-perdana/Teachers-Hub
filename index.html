@@ -2669,7 +2669,7 @@
         try {
           await addDoc(collection(db, "feedbacks"), {
             uid: currentUser.uid,
-            displayName: currentUser.displayName || null,
+            displayName: currentUser.displayName || currentUser.email.split("@")[0],
             email: currentUser.email,
             subject,
             message,
