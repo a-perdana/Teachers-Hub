@@ -253,6 +253,192 @@
         flex-shrink: 0;
       }
 
+      /* ── Profile Button ─────────────────────────── */
+      .profile-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .profile-btn {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 5px 12px 5px 5px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 100px;
+        color: white;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: 'Sora', sans-serif;
+        font-size: 13px;
+        font-weight: 500;
+      }
+      .profile-btn:hover {
+        background: rgba(255,255,255,0.11);
+        border-color: rgba(255,255,255,0.24);
+      }
+      .profile-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+        color: white;
+        flex-shrink: 0;
+        overflow: hidden;
+        font-family: 'Outfit', sans-serif;
+      }
+      .profile-avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+      .profile-name-short {
+        max-width: 90px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .profile-chevron {
+        width: 13px; height: 13px;
+        transition: transform 0.2s;
+        opacity: 0.5;
+        flex-shrink: 0;
+      }
+      .profile-wrap.open .profile-chevron { transform: rotate(180deg); }
+
+      /* ── Profile Dropdown ───────────────────────── */
+      .profile-dropdown {
+        position: absolute;
+        top: calc(100% + 12px);
+        right: 0;
+        width: 290px;
+        background: rgba(10, 10, 26, 0.97);
+        border: 1px solid rgba(255,255,255,0.10);
+        border-radius: 18px;
+        backdrop-filter: blur(24px);
+        box-shadow: 0 24px 64px rgba(0,0,0,0.55);
+        z-index: 9000;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-10px) scale(0.96);
+        pointer-events: none;
+        transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
+      }
+      .profile-wrap.open .profile-dropdown {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: all;
+      }
+      .pd-header {
+        padding: 18px 18px 14px;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+      }
+      .pd-avatar-lg {
+        width: 46px; height: 46px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 700;
+        color: white;
+        flex-shrink: 0;
+        overflow: hidden;
+        font-family: 'Outfit', sans-serif;
+      }
+      .pd-avatar-lg img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+      .pd-info-name { font-weight: 600; font-size: 14px; color: white; margin-bottom: 3px; }
+      .pd-info-email { font-size: 11.5px; color: rgba(255,255,255,0.38); word-break: break-all; }
+      .pd-section {
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+      .pd-section:last-child { border-bottom: none; padding-bottom: 14px; }
+      .pd-label {
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.28);
+        margin-bottom: 8px;
+        font-family: 'Space Grotesk', sans-serif;
+      }
+      .pd-input {
+        width: 100%;
+        padding: 8px 11px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.09);
+        border-radius: 9px;
+        color: white;
+        font-family: 'Sora', sans-serif;
+        font-size: 13px;
+        outline: none;
+        transition: border-color 0.15s;
+        margin-bottom: 8px;
+      }
+      .pd-input:focus { border-color: var(--primary); background: rgba(108,92,231,0.08); }
+      .pd-input::placeholder { color: rgba(255,255,255,0.22); }
+      .pd-save-btn {
+        width: 100%;
+        padding: 8px;
+        background: var(--primary);
+        border: none;
+        border-radius: 9px;
+        color: white;
+        font-family: 'Sora', sans-serif;
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .pd-save-btn:hover { filter: brightness(1.15); }
+      .pd-save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+      .pd-msg {
+        font-size: 11.5px;
+        margin-top: 7px;
+        padding: 5px 9px;
+        border-radius: 7px;
+        display: none;
+      }
+      .pd-msg.ok { display:block; background:rgba(39,174,96,0.15); color:#2ecc71; border:1px solid rgba(39,174,96,0.2); }
+      .pd-msg.err { display:block; background:rgba(231,76,60,0.15); color:#e74c3c; border:1px solid rgba(231,76,60,0.2); }
+      .pd-pw-toggle {
+        font-size: 12px;
+        color: rgba(255,255,255,0.35);
+        cursor: pointer;
+        margin-bottom: 9px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: color 0.15s;
+        user-select: none;
+      }
+      .pd-pw-toggle:hover { color: rgba(255,255,255,0.65); }
+      .pd-pw-fields { display: none; }
+      .pd-pw-fields.open { display: block; }
+      .pd-signout-btn {
+        width: 100%;
+        padding: 9px;
+        background: rgba(231,76,60,0.10);
+        border: 1px solid rgba(231,76,60,0.18);
+        border-radius: 9px;
+        color: #e74c3c;
+        font-family: 'Sora', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        transition: all 0.15s;
+      }
+      .pd-signout-btn:hover { background: rgba(231,76,60,0.2); }
+
       /* Feedback Modal Overlay */
       .feedback-overlay {
         position: fixed;
@@ -1940,24 +2126,6 @@
       })();
     </script>
 
-    <button
-      id="logoutBtn"
-      style="
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        display: none;
-        padding: 10px 16px;
-        background: #000;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        z-index: 9999;
-      "
-    >
-      Sign Out
-    </button>
-
     <!-- Feedback Modal -->
     <div class="feedback-overlay" id="feedbackOverlay">
       <div class="feedback-modal">
@@ -2042,6 +2210,65 @@
               </svg>
               Feedback
             </button>
+
+            <!-- Profile Button -->
+            <div class="profile-wrap" id="profileWrap" style="display:none;">
+              <button class="profile-btn" id="profileBtn">
+                <div class="profile-avatar" id="profileAvatar"></div>
+                <span class="profile-name-short" id="profileNameShort">User</span>
+                <svg class="profile-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="4 6 8 10 12 6"/>
+                </svg>
+              </button>
+
+              <!-- Dropdown Panel -->
+              <div class="profile-dropdown" id="profileDropdown">
+
+                <!-- Header -->
+                <div class="pd-header">
+                  <div class="pd-avatar-lg" id="pdAvatarLg"></div>
+                  <div>
+                    <div class="pd-info-name" id="pdName"></div>
+                    <div class="pd-info-email" id="pdEmail"></div>
+                  </div>
+                </div>
+
+                <!-- Phone -->
+                <div class="pd-section">
+                  <div class="pd-label">Phone Number</div>
+                  <input type="tel" class="pd-input" id="pdPhone" placeholder="+62 xxx xxx xxxx">
+                  <button class="pd-save-btn" id="pdPhoneBtn">Save Phone Number</button>
+                  <div class="pd-msg" id="pdPhoneMsg"></div>
+                </div>
+
+                <!-- Password (email users only) -->
+                <div class="pd-section" id="pdPwSection" style="display:none;">
+                  <div class="pd-label">Password</div>
+                  <div class="pd-pw-toggle" id="pdPwToggle">▸ Change password</div>
+                  <div class="pd-pw-fields" id="pdPwFields">
+                    <input type="password" class="pd-input" id="pdPwCurrent" placeholder="Current password">
+                    <input type="password" class="pd-input" id="pdPwNew" placeholder="New password (min. 6 chars)">
+                    <input type="password" class="pd-input" id="pdPwConfirm" placeholder="Confirm new password">
+                    <button class="pd-save-btn" id="pdPwBtn">Update Password</button>
+                    <div class="pd-msg" id="pdPwMsg"></div>
+                  </div>
+                </div>
+
+                <!-- Sign Out -->
+                <div class="pd-section">
+                  <button class="pd-signout-btn" id="pdSignOut">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                      <polyline points="16 17 21 12 16 7"/>
+                      <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    Sign Out
+                  </button>
+                </div>
+
+              </div><!-- /profile-dropdown -->
+            </div><!-- /profile-wrap -->
+
           </div>
         </nav>
 
@@ -2533,11 +2760,17 @@
         GoogleAuthProvider,
         onAuthStateChanged,
         signOut,
+        updatePassword,
+        reauthenticateWithCredential,
+        EmailAuthProvider,
       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
       import {
         getFirestore,
         collection,
         addDoc,
+        doc,
+        getDoc,
+        setDoc,
         serverTimestamp,
       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -2601,12 +2834,12 @@
           currentUser = user;
           document.getElementById("loginScreen").classList.remove("visible");
           document.getElementById("mainContent").style.display = "block";
-          document.getElementById("logoutBtn").style.display = "block";
+          showProfileUI(user);
         } else {
           currentUser = null;
           document.getElementById("loginScreen").classList.add("visible");
           document.getElementById("mainContent").style.display = "none";
-          document.getElementById("logoutBtn").style.display = "none";
+          document.getElementById("profileWrap").style.display = "none";
         }
       });
 
@@ -2643,7 +2876,121 @@
         }
       });
 
-      logoutBtn.addEventListener("click", () => signOut(auth));
+      // ── Profile UI ─────────────────────────────────────────────
+      function avatarColor(str) {
+        const palette = ['#6c5ce7','#00b894','#e17055','#0984e3','#a29bfe','#e84393','#00cec9','#f39c12'];
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        return palette[Math.abs(hash) % palette.length];
+      }
+
+      function getInitials(name) {
+        return name.split(' ').filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0, 2) || '?';
+      }
+
+      function buildAvatar(el, user) {
+        if (user.photoURL) {
+          el.innerHTML = `<img src="${user.photoURL}" alt="avatar" referrerpolicy="no-referrer">`;
+          el.style.background = 'transparent';
+        } else {
+          const name = user.displayName || user.email.split('@')[0];
+          el.style.background = avatarColor(name);
+          el.textContent = getInitials(name);
+        }
+      }
+
+      async function showProfileUI(user) {
+        const displayName = user.displayName || user.email.split('@')[0];
+        // Small avatar + name in nav
+        buildAvatar(document.getElementById('profileAvatar'), user);
+        document.getElementById('profileNameShort').textContent = displayName.split(' ')[0];
+        // Large avatar + info in dropdown
+        buildAvatar(document.getElementById('pdAvatarLg'), user);
+        document.getElementById('pdName').textContent = displayName;
+        document.getElementById('pdEmail').textContent = user.email;
+        // Load phone from Firestore
+        try {
+          const snap = await getDoc(doc(db, 'users', user.uid));
+          if (snap.exists() && snap.data().phone) {
+            document.getElementById('pdPhone').value = snap.data().phone;
+          }
+        } catch(_) {}
+        // Show password section only for email/password users
+        const isEmailUser = user.providerData.some(p => p.providerId === 'password');
+        document.getElementById('pdPwSection').style.display = isEmailUser ? 'block' : 'none';
+        // Show profile wrap
+        document.getElementById('profileWrap').style.display = 'flex';
+      }
+
+      // Dropdown toggle
+      const profileWrap = document.getElementById('profileWrap');
+      document.getElementById('profileBtn').addEventListener('click', e => {
+        e.stopPropagation();
+        profileWrap.classList.toggle('open');
+      });
+      document.addEventListener('click', () => profileWrap.classList.remove('open'));
+      document.getElementById('profileDropdown').addEventListener('click', e => e.stopPropagation());
+
+      // Phone save
+      document.getElementById('pdPhoneBtn').addEventListener('click', async () => {
+        if (!currentUser) return;
+        const phone = document.getElementById('pdPhone').value.trim();
+        const msg = document.getElementById('pdPhoneMsg');
+        const btn = document.getElementById('pdPhoneBtn');
+        btn.disabled = true; btn.textContent = 'Saving…';
+        try {
+          await setDoc(doc(db, 'users', currentUser.uid), { phone }, { merge: true });
+          msg.textContent = 'Phone number saved ✓';
+          msg.className = 'pd-msg ok';
+        } catch(e) {
+          msg.textContent = 'Failed to save. Try again.';
+          msg.className = 'pd-msg err';
+        } finally {
+          btn.disabled = false; btn.textContent = 'Save Phone Number';
+          setTimeout(() => { msg.className = 'pd-msg'; }, 3000);
+        }
+      });
+
+      // Password change toggle
+      document.getElementById('pdPwToggle').addEventListener('click', () => {
+        const fields = document.getElementById('pdPwFields');
+        const toggle = document.getElementById('pdPwToggle');
+        const isOpen = fields.classList.toggle('open');
+        toggle.textContent = isOpen ? '▾ Hide' : '▸ Change password';
+      });
+
+      // Password update
+      document.getElementById('pdPwBtn').addEventListener('click', async () => {
+        if (!currentUser) return;
+        const current = document.getElementById('pdPwCurrent').value;
+        const newPw   = document.getElementById('pdPwNew').value;
+        const confirm = document.getElementById('pdPwConfirm').value;
+        const msg = document.getElementById('pdPwMsg');
+        const btn = document.getElementById('pdPwBtn');
+        msg.className = 'pd-msg';
+        if (newPw.length < 6) { msg.textContent = 'Password must be at least 6 characters.'; msg.className = 'pd-msg err'; return; }
+        if (newPw !== confirm) { msg.textContent = 'Passwords do not match.'; msg.className = 'pd-msg err'; return; }
+        btn.disabled = true; btn.textContent = 'Updating…';
+        try {
+          const credential = EmailAuthProvider.credential(currentUser.email, current);
+          await reauthenticateWithCredential(currentUser, credential);
+          await updatePassword(currentUser, newPw);
+          msg.textContent = 'Password updated successfully ✓';
+          msg.className = 'pd-msg ok';
+          ['pdPwCurrent','pdPwNew','pdPwConfirm'].forEach(id => document.getElementById(id).value = '');
+          document.getElementById('pdPwFields').classList.remove('open');
+          document.getElementById('pdPwToggle').textContent = '▸ Change password';
+        } catch(e) {
+          msg.textContent = e.code === 'auth/wrong-password' ? 'Current password is incorrect.' : 'Failed to update. Try again.';
+          msg.className = 'pd-msg err';
+        } finally {
+          btn.disabled = false; btn.textContent = 'Update Password';
+          setTimeout(() => { msg.className = 'pd-msg'; }, 4000);
+        }
+      });
+
+      // Sign out
+      document.getElementById('pdSignOut').addEventListener('click', () => signOut(auth));
 
       // ── Feedback Modal ──────────────────────────────────────────
       const feedbackOverlay = document.getElementById("feedbackOverlay");
