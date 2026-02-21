@@ -690,6 +690,30 @@ window.ENV = {
 
 <div class="toast" id="toast"></div>
 
+<!-- ── HOME BUTTON ─────────────────────────────── -->
+<style>
+.home-float {
+  position: fixed; bottom: 22px; left: 22px;
+  width: 42px; height: 42px; border-radius: 12px;
+  background: var(--ink); border: 1px solid rgba(255,255,255,0.10);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.5); text-decoration: none;
+  box-shadow: 0 4px 18px rgba(28,28,46,0.35);
+  transition: all 0.22s cubic-bezier(0.16,1,0.3,1); z-index: 150;
+}
+.home-float:hover {
+  color: white; background: var(--accent); border-color: var(--accent);
+  box-shadow: 0 6px 24px rgba(39,174,96,0.4); transform: translateY(-2px);
+}
+.home-float svg { width: 18px; height: 18px; }
+</style>
+<a href="index.html" class="home-float" title="Back to Hub">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+    <polyline points="9 22 9 12 15 12 15 22"/>
+  </svg>
+</a>
+
 <script>
 // ═══════════════════════════════════════════════════════════
 // SEED DATA — empty until seeded from Excel via seedFirestore
