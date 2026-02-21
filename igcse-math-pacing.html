@@ -996,9 +996,9 @@ function scrollToChapter(ci) {
 }
 
 function resetProgress() {
-  if (!confirm('Reset all topic statuses to Pending? This will update Firestore for all users.')) return;
-  DATA = JSON.parse(JSON.stringify(RAW_DATA));
-  saveState(); render(); showToast('Progress reset');
+  if (!confirm('Reset your progress? All topics will return to Pending.')) return;
+  DATA.forEach(ch => ch.topics.forEach(t => t.status = 'pending'));
+  saveState(); render(); showToast('Your progress has been reset');
 }
 
 function handleSearch(val) { searchQ = val; renderPacing(); renderNav(); }
@@ -1119,22 +1119,23 @@ function render() {
  * service cloud.firestore {
  *   match /databases/{database}/documents {
  *
- *     // User roles — set manually via Firebase Console or Admin SDK
+ *     // User profiles & roles — set role manually via Firebase Console
  *     // Set users/{uid}.role = "coordinator" for coordinators
  *     match /users/{uid} {
  *       allow read: if request.auth != null && request.auth.uid == uid;
  *       allow write: if false;
  *     }
  *
- *     // Pacing guide data
- *     // Both roles can write — the app enforces what each role can edit.
- *     // (Teachers update status; coordinators also edit structure.)
- *     // To restrict teachers to read-only, replace the write rule with:
- *     //   allow write: if request.auth != null
- *     //     && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "coordinator";
+ *     // Shared pacing structure — all authenticated users can read;
+ *     // coordinators write chapter/topic structure (no statuses stored here)
  *     match /igcse_pacing/{docId} {
  *       allow read:  if request.auth != null;
  *       allow write: if request.auth != null;
+ *     }
+ *
+ *     // Per-user progress — each teacher reads/writes only their own doc
+ *     match /userProgress/{uid} {
+ *       allow read, write: if request.auth != null && request.auth.uid == uid;
  *     }
  *   }
  * }
@@ -1173,20 +1174,44 @@ const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getFirestore(app);
 
-let unsubSnapshot = null;
+// ── Module-level state ────────────────────────────────────────
+let unsubStructure  = null;   // listener for shared chapter structure
+let unsubUserProg   = null;   // listener for this user's own progress
+let currentUID      = null;
+let currentRole     = 'teacher';
+let sharedStructure = null;   // chapters/topics without statuses
+let userStatuses    = {};     // { "ci-ti": "pending"|"inprogress"|"done" }
+
+// ── Merge shared structure + per-user statuses → window.DATA ──
+function _mergeAndRender(isFirstLoad, appRole) {
+  if (!sharedStructure) return;
+  window.DATA = sharedStructure.map((ch, ci) => ({
+    ...ch,
+    topics: ch.topics.map((t, ti) => ({
+      ...t,
+      status: userStatuses[`${ci}-${ti}`] || 'pending',
+    })),
+  }));
+  if (isFirstLoad) {
+    document.getElementById('loadingScreen').style.display = 'none';
+    document.getElementById('loginScreen').style.display  = 'none';
+    applyRole(appRole);   // sets role var, updates badge, calls render()
+  } else {
+    render();
+  }
+}
 
 // ── Auth State ────────────────────────────────────────────────
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    // Fetch role from users/{uid}
+    currentUID = user.uid;
     let appRole     = 'teacher';
     let displayName = user.displayName || user.email.split('@')[0];
 
     try {
-      const userRef  = doc(db, 'users', user.uid);
-      // Ensure user document exists (creates it on first login)
+      const userRef = doc(db, 'users', user.uid);
       await setDoc(userRef, {
-        displayName: displayName,
+        displayName,
         email: user.email || '',
       }, { merge: true });
       const userSnap = await getDoc(userRef);
@@ -1195,17 +1220,20 @@ onAuthStateChanged(auth, async (user) => {
       }
     } catch(e) { /* role stays 'teacher' */ }
 
-    // Show user name in topbar
     const nameEl = document.getElementById('userDisplayName');
     if (nameEl) nameEl.textContent = '· ' + displayName;
     document.getElementById('logoutBtn').style.display = '';
 
-    // Start Firestore real-time listener
     _startSnapshot(appRole);
 
   } else {
-    // Signed out
-    if (unsubSnapshot) { unsubSnapshot(); unsubSnapshot = null; }
+    // Signed out — tear down listeners & reset state
+    if (unsubStructure) { unsubStructure(); unsubStructure = null; }
+    if (unsubUserProg)  { unsubUserProg();  unsubUserProg  = null; }
+    currentUID      = null;
+    sharedStructure = null;
+    userStatuses    = {};
+
     document.getElementById('loadingScreen').style.display = 'none';
     document.getElementById('loginScreen').style.display  = 'flex';
     document.getElementById('logoutBtn').style.display    = 'none';
@@ -1213,7 +1241,6 @@ onAuthStateChanged(auth, async (user) => {
     const nameEl = document.getElementById('userDisplayName');
     if (nameEl) nameEl.textContent = '';
 
-    // Reset Google button
     const gBtn = document.getElementById('googleBtn');
     if (gBtn) {
       gBtn.disabled = false;
@@ -1222,65 +1249,117 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// ── Firestore Real-time Listener ──────────────────────────────
+// ── Start real-time listeners ─────────────────────────────────
 function _startSnapshot(appRole) {
-  if (unsubSnapshot) unsubSnapshot();
+  if (unsubStructure) unsubStructure();
+  if (unsubUserProg)  unsubUserProg();
 
-  const docRef = doc(db, 'igcse_pacing', 'year9-10');
-  let firstLoad = true;
+  currentRole = appRole;
 
-  unsubSnapshot = onSnapshot(docRef, async (snap) => {
+  const structureRef = doc(db, 'igcse_pacing', 'year9-10');
+  const userProgRef  = doc(db, 'userProgress', currentUID);
+
+  let firstLoad      = true;
+  let structureReady = false;
+  let progressReady  = false;
+
+  function tryRender() {
+    if (!structureReady || !progressReady) return;
+    const fl = firstLoad;
+    firstLoad = false;
+    _mergeAndRender(fl, appRole);
+  }
+
+  // ── Shared structure listener ─────────────────────────────
+  unsubStructure = onSnapshot(structureRef, async (snap) => {
     if (!snap.exists()) {
-      // Document doesn't exist yet — auto-seed from RAW_DATA
       try {
-        await setDoc(docRef, {
-          chapters:  RAW_DATA,
-          seededAt:  serverTimestamp(),
-        });
-        // onSnapshot will fire again with the seeded data
+        // Seed structure — strip statuses, they live in userProgress
+        const seed = RAW_DATA.map(ch => ({
+          ...ch,
+          topics: ch.topics.map(({ status, ...rest }) => rest),
+        }));
+        await setDoc(structureRef, { chapters: seed, seededAt: serverTimestamp() });
+        // onSnapshot fires again with seeded data
         return;
       } catch(seedErr) {
-        console.warn('Could not seed Firestore (may need coordinator access):', seedErr);
-        // Fall through: use the in-memory RAW_DATA copy already in window.DATA
+        console.warn('Could not seed Firestore:', seedErr);
+        sharedStructure = RAW_DATA.map(ch => ({
+          ...ch,
+          topics: ch.topics.map(({ status, ...rest }) => rest),
+        }));
       }
     } else {
       const d = snap.data();
-      if (Array.isArray(d.chapters)) {
-        window.DATA = d.chapters;
-      }
+      if (Array.isArray(d.chapters)) sharedStructure = d.chapters;
     }
-
-    if (firstLoad) {
-      firstLoad = false;
-      document.getElementById('loadingScreen').style.display = 'none';
-      document.getElementById('loginScreen').style.display  = 'none';
-      // applyRole sets role var, updates badge, and calls render()
-      applyRole(appRole);
-    } else {
-      // Real-time update from another session — just re-render
-      render();
-    }
+    structureReady = true;
+    tryRender();
   }, (err) => {
-    console.error('Firestore snapshot error:', err);
-    // Show app anyway with whatever DATA we have
+    console.error('Structure snapshot error:', err);
     document.getElementById('loadingScreen').style.display = 'none';
     document.getElementById('loginScreen').style.display  = 'none';
     applyRole(appRole);
     showToast('⚠ Firestore connection error');
   });
+
+  // ── Per-user progress listener ────────────────────────────
+  unsubUserProg = onSnapshot(userProgRef, (snap) => {
+    userStatuses  = (snap.exists() && snap.data().statuses)
+      ? snap.data().statuses
+      : {};
+    progressReady = true;
+    tryRender();
+  }, (err) => {
+    console.error('User progress snapshot error:', err);
+    userStatuses  = {};
+    progressReady = true;
+    tryRender();
+  });
 }
 
 // ── Save to Firestore ─────────────────────────────────────────
 window.__fbSaveState = async function(data) {
+  if (!currentUID) return;
+
+  // 1. Build this user's status map (skip 'pending' to keep doc lean)
+  const newStatuses = {};
+  data.forEach((ch, ci) => {
+    ch.topics.forEach((t, ti) => {
+      if (t.status && t.status !== 'pending') {
+        newStatuses[`${ci}-${ti}`] = t.status;
+      }
+    });
+  });
+
+  // 2. Save user's own progress
   try {
     await setDoc(
-      doc(db, 'igcse_pacing', 'year9-10'),
-      { chapters: data, updatedAt: serverTimestamp() },
-      { merge: true }
+      doc(db, 'userProgress', currentUID),
+      { statuses: newStatuses, updatedAt: serverTimestamp() }
     );
   } catch(e) {
-    console.error('Firestore save error:', e);
+    console.error('User progress save error:', e);
     showToast('⚠ Save failed — check connection');
+    return;
+  }
+
+  // 3. Coordinators also save structure changes (no statuses stored here)
+  if (currentRole === 'coord') {
+    const structureOnly = data.map(ch => ({
+      ...ch,
+      topics: ch.topics.map(({ status, ...rest }) => rest),
+    }));
+    try {
+      await setDoc(
+        doc(db, 'igcse_pacing', 'year9-10'),
+        { chapters: structureOnly, updatedAt: serverTimestamp() },
+        { merge: true }
+      );
+    } catch(e) {
+      console.error('Structure save error:', e);
+      showToast('⚠ Structure save failed');
+    }
   }
 };
 
