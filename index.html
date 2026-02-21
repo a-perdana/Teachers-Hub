@@ -253,6 +253,24 @@
         flex-shrink: 0;
       }
 
+      /* ── Nav Badge ──────────────────────────────── */
+      .nav-btn-wrap { position: relative; display: inline-flex; align-items: center; }
+      .nav-badge {
+        position: absolute; top: -5px; right: -5px;
+        background: #e74c3c; color: #fff; border-radius: 999px;
+        font-size: 10px; font-weight: 700; letter-spacing: 0;
+        min-width: 17px; height: 17px;
+        display: flex; align-items: center; justify-content: center;
+        padding: 0 3px; pointer-events: none;
+        border: 2px solid var(--darker);
+        box-shadow: 0 2px 8px rgba(231,76,60,0.55);
+        animation: badge-pop 0.25s cubic-bezier(0.16,1,0.3,1);
+      }
+      @keyframes badge-pop {
+        from { transform: scale(0.4); opacity: 0; }
+        to   { transform: scale(1);   opacity: 1; }
+      }
+
       /* ── Profile Button ─────────────────────────── */
       .profile-wrap {
         position: relative;
@@ -2196,14 +2214,30 @@
             </div>
           </div>
           <div style="display: flex; gap: 10px; align-items: center;">
-            <a href="messageboard.html" class="feedback-btn" style="text-decoration: none;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                <line x1="9" y1="10" x2="15" y2="10"/>
-                <line x1="9" y1="14" x2="13" y2="14"/>
-              </svg>
-              Message Board
-            </a>
+            <!-- Announcements -->
+            <div class="nav-btn-wrap">
+              <a href="announcements.html" class="feedback-btn" id="announcementsBtn" style="text-decoration: none;" title="Announcements">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                </svg>
+                Announcements
+              </a>
+              <span class="nav-badge" id="announcementsBadge" style="display:none;"></span>
+            </div>
+            <!-- Message Board -->
+            <div class="nav-btn-wrap">
+              <a href="messageboard.html" class="feedback-btn" id="msgBoardBtn" style="text-decoration: none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  <line x1="9" y1="10" x2="15" y2="10"/>
+                  <line x1="9" y1="14" x2="13" y2="14"/>
+                </svg>
+                Message Board
+              </a>
+              <span class="nav-badge" id="msgBoardBadge" style="display:none;"></span>
+            </div>
             <button class="feedback-btn" id="feedbackBtn">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -2384,6 +2418,22 @@
             >
               <span class="filter-icon">📐</span>
               Topic Pacing
+            </a>
+            <a
+              href="library.html"
+              class="filter-btn"
+              style="text-decoration:none;"
+            >
+              <span class="filter-icon">🔗</span>
+              Library
+            </a>
+            <a
+              href="announcements.html"
+              class="filter-btn"
+              style="text-decoration:none;"
+            >
+              <span class="filter-icon">📢</span>
+              Announcements
             </a>
             <button
               class="filter-btn active"
@@ -2772,6 +2822,9 @@
         getDoc,
         setDoc,
         serverTimestamp,
+        query,
+        onSnapshot,
+        where,
       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
       const firebaseConfig = {
@@ -2835,6 +2888,7 @@
           document.getElementById("loginScreen").classList.remove("visible");
           document.getElementById("mainContent").style.display = "block";
           showProfileUI(user);
+          setupUnreadBadges(user);
         } else {
           currentUser = null;
           document.getElementById("loginScreen").classList.add("visible");
@@ -2920,6 +2974,51 @@
         document.getElementById('pdPwSection').style.display = isEmailUser ? 'block' : 'none';
         // Show profile wrap
         document.getElementById('profileWrap').style.display = 'flex';
+      }
+
+      // ── Unread Badges ───────────────────────────────────────────
+      async function setupUnreadBadges(user) {
+        const userRef = doc(db, 'users', user.uid);
+        const snap = await getDoc(userRef);
+        const data = snap.exists() ? snap.data() : {};
+
+        let lastMsgTime = data.lastReadMessageboard ? data.lastReadMessageboard.toDate() : null;
+        let lastAnnTime = data.lastReadAnnouncements ? data.lastReadAnnouncements.toDate() : null;
+
+        // First login: set lastRead to now → no badge on fresh account
+        const updates = {};
+        const now = new Date();
+        if (!lastMsgTime) { updates.lastReadMessageboard = serverTimestamp(); lastMsgTime = now; }
+        if (!lastAnnTime) { updates.lastReadAnnouncements = serverTimestamp(); lastAnnTime = now; }
+        if (Object.keys(updates).length) setDoc(userRef, updates, { merge: true });
+
+        // Live badge for Message Board
+        onSnapshot(
+          query(collection(db, 'topics'), where('timestamp', '>', lastMsgTime)),
+          (snap) => {
+            const n = snap.size;
+            const el = document.getElementById('msgBoardBadge');
+            if (el) { el.textContent = n > 9 ? '9+' : String(n); el.style.display = n > 0 ? 'flex' : 'none'; }
+          }
+        );
+
+        // Live badge for Announcements
+        onSnapshot(
+          query(collection(db, 'announcements'), where('timestamp', '>', lastAnnTime)),
+          (snap) => {
+            const n = snap.size;
+            const el = document.getElementById('announcementsBadge');
+            if (el) { el.textContent = n > 9 ? '9+' : String(n); el.style.display = n > 0 ? 'flex' : 'none'; }
+          }
+        );
+
+        // Mark as read on click (clear badge)
+        document.getElementById('msgBoardBtn')?.addEventListener('click', () => {
+          setDoc(userRef, { lastReadMessageboard: serverTimestamp() }, { merge: true });
+        });
+        document.getElementById('announcementsBtn')?.addEventListener('click', () => {
+          setDoc(userRef, { lastReadAnnouncements: serverTimestamp() }, { merge: true });
+        });
       }
 
       // Dropdown toggle
