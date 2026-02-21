@@ -38,5 +38,9 @@ function processFile(filename) {
 processFile('index.html');
 processFile('messageboard.html');
 processFile('igcse-math-pacing.html');
+processFile('pacing-hub.html');
+processFile('igcse-physics-pacing.html');
+processFile('igcse-chemistry-pacing.html');
+processFile('igcse-biology-pacing.html');
 
 console.log('Build completed successfully!');

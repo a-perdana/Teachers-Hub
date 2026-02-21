@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cambridge IGCSE Biology — Pacing Guide</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1c1c2e;
+  --ink-2: #44445a;
+  --ink-3: #8888a8;
+  --paper: #f7f6f3;
+  --paper-2: #efede8;
+  --white: #ffffff;
+  --border: #e0ddd6;
+  --accent: #27ae60;
+  --accent-2: #e8f6ed;
+  --green: #1e7a4a;
+  --green-2: #e6f5ed;
+  --blue: #1a5fa8;
+  --blue-2: #e8f0fb;
+  --amber: #b07800;
+  --amber-2: #fef8e7;
+  --purple: #6c3fa0;
+  --purple-2: #f2ecfb;
+  --shadow-sm: 0 1px 4px rgba(28,28,46,.07);
+  --shadow: 0 3px 14px rgba(28,28,46,.10);
+  --shadow-lg: 0 10px 40px rgba(28,28,46,.16);
+  --radius: 10px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── TOPBAR ─────────────────────────────────── */
+.topbar {
+  background: var(--ink);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  border-bottom: 3px solid var(--accent);
+}
+
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-mark {
+  width: 36px; height: 36px;
+  background: var(--accent);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Lora', serif;
+  font-size: 1.1rem;
+  color: white;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.brand-text h1 { font-family: 'Lora', serif; font-size: .95rem; font-weight: 600; }
+.brand-text p  { font-size: .68rem; color: #9999bb; margin-top: 1px; }
+
+.topbar-right { display: flex; align-items: center; gap: 14px; }
+
+/* Role badge */
+.role-badge {
+  display: flex; align-items: center; gap: 6px;
+  font-size: .7rem; font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.08);
+  letter-spacing: .03em;
+  max-width: 260px;
+}
+.role-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.role-dot.coord { background: #f5a623; }
+.role-dot.teacher { background: #4cd98a; }
+
+/* Progress pill */
+.prog-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  padding: 6px 12px;
+}
+.prog-bar-wrap { width: 90px; height: 5px; background: rgba(255,255,255,.15); border-radius: 3px; overflow: hidden; }
+.prog-bar-fill  { height: 100%; background: var(--accent); border-radius: 3px; transition: width .5s ease; }
+.prog-text { font-size: .7rem; color: #ccc; white-space: nowrap; }
+.prog-text strong { color: white; }
+
+/* ─── LAYOUT ─────────────────────────────────── */
+.layout { display: grid; grid-template-columns: 260px 1fr; height: calc(100vh - 60px); }
+
+/* ─── SIDEBAR ─────────────────────────────────── */
+.sidebar {
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-section {
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-label {
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+}
+
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+
+.chip {
+  font-size: .68rem; font-weight: 500;
+  padding: 3px 9px; border-radius: 100px;
+  border: 1px solid var(--border);
+  background: var(--paper);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: all .15s;
+  line-height: 1.6;
+}
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.chip.on { background: var(--accent); border-color: var(--accent); color: white; }
+
+.search-wrap { position: relative; }
+.search-wrap svg { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); opacity: .4; }
+.search-input {
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .78rem;
+  padding: 7px 10px 7px 30px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--paper);
+  color: var(--ink);
+  outline: none;
+  transition: border-color .15s;
+}
+.search-input:focus { border-color: var(--accent); background: white; }
+
+/* Chapter nav */
+.ch-nav { flex: 1; overflow-y: auto; padding: 6px 0 20px; }
+.ch-nav-group { margin-bottom: 2px; }
+.ch-nav-group-label {
+  font-size: .6rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-3); padding: 10px 16px 4px;
+}
+
+.ch-nav-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 16px; cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all .12s;
+}
+.ch-nav-item:hover { background: var(--paper); }
+.ch-nav-item.active { background: var(--accent-2); border-left-color: var(--accent); }
+.ch-nav-num {
+  font-family: 'DM Mono', monospace; font-size: .62rem;
+  background: var(--paper-2); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 5px; min-width: 24px; text-align: center;
+  color: var(--ink-2); flex-shrink: 0;
+}
+.ch-nav-item.active .ch-nav-num { background: var(--accent); border-color: var(--accent); color: white; }
+.ch-nav-title { font-size: .75rem; font-weight: 500; flex: 1; line-height: 1.3; color: var(--ink); }
+.ch-nav-mini { width: 28px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+.ch-nav-mini-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width .4s; }
+
+/* ─── MAIN ────────────────────────────────────── */
+.main { overflow-y: auto; display: flex; flex-direction: column; }
+
+/* View bar */
+.view-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 24px; background: white;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 50;
+  gap: 12px;
+}
+
+.tab-group { display: flex; gap: 2px; background: var(--paper); border-radius: 8px; padding: 3px; }
+.tab-btn {
+  font-family: 'DM Sans', sans-serif; font-size: .73rem; font-weight: 500;
+  padding: 5px 13px; border-radius: 6px; border: none; background: none;
+  color: var(--ink-2); cursor: pointer; transition: all .15s;
+}
+.tab-btn.on { background: white; color: var(--ink); box-shadow: var(--shadow-sm); }
+
+.view-actions { display: flex; gap: 7px; align-items: center; }
+
+.btn {
+  font-family: 'DM Sans', sans-serif; font-size: .72rem; font-weight: 500;
+  padding: 6px 12px; border-radius: 7px;
+  border: 1px solid var(--border); background: white; color: var(--ink-2);
+  cursor: pointer; transition: all .15s;
+}
+.btn:hover { border-color: var(--ink-2); color: var(--ink); }
+.btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+.btn.primary:hover { background: #1e8a4a; }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+
+/* ─── PANELS ──────────────────────────────────── */
+.panel { display: none; flex: 1; padding: 20px 24px; }
+.panel.on { display: block; }
+
+/* ─── PACING VIEW ─────────────────────────────── */
+.ch-block {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); margin-bottom: 14px;
+  overflow: hidden; box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s;
+}
+.ch-block:hover { box-shadow: var(--shadow); }
+
+.ch-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 18px; cursor: pointer;
+  background: var(--paper); border-bottom: 1px solid var(--border);
+  user-select: none;
+}
+
+.ch-badge {
+  font-family: 'DM Mono', monospace; font-size: .65rem; font-weight: 500;
+  padding: 2px 7px; border-radius: 5px;
+  background: var(--ink); color: white; flex-shrink: 0;
+}
+
+.ch-header-title {
+  font-family: 'Lora', serif; font-size: 1rem; flex: 1;
+}
+
+.ch-year-tag {
+  font-size: .62rem; font-weight: 600; padding: 2px 7px;
+  border-radius: 100px; flex-shrink: 0;
+}
+.yr9 { background: var(--blue-2); color: var(--blue); border: 1px solid #c2d8f5; }
+.yr10 { background: var(--purple-2); color: var(--purple); border: 1px solid #d5c3f0; }
+
+.ch-stats { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.ch-prog-bar { width: 70px; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.ch-prog-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width .4s; }
+.ch-pct { font-size: .68rem; color: var(--ink-3); font-weight: 500; min-width: 28px; }
+.ch-topic-count { font-size: .65rem; color: var(--ink-3); background: var(--paper-2); border: 1px solid var(--border); padding: 1px 6px; border-radius: 4px; }
+
+.ch-caret { color: var(--ink-3); font-size: .75rem; transition: transform .2s; flex-shrink: 0; }
+.ch-block.collapsed .ch-caret { transform: rotate(-90deg); }
+.ch-block.collapsed .topics-wrap { display: none; }
+
+/* Topics table */
+.topics-wrap { overflow-x: auto; }
+table.topics-tbl { width: 100%; border-collapse: collapse; table-layout: fixed; }
+
+table.topics-tbl th {
+  font-size: .62rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--ink-3); padding: 9px 16px; text-align: left;
+  border-bottom: 1px solid var(--border); background: #fafaf8;
+  white-space: nowrap;
+}
+
+table.topics-tbl td {
+  padding: 10px 16px; border-bottom: 1px solid var(--border);
+  vertical-align: top; font-size: .8rem;
+}
+table.topics-tbl tr:last-child td { border-bottom: none; }
+table.topics-tbl tr.done-row { background: var(--green-2); }
+table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
+
+/* Checkbox */
+.tcheck {
+  width: 17px; height: 17px;
+  border: 2px solid var(--border); border-radius: 4px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all .15s; flex-shrink: 0;
+}
+.tcheck:hover { border-color: var(--green); }
+.tcheck.on { background: var(--green); border-color: var(--green); }
+.tcheck.on::after { content: '✓'; color: white; font-size: .65rem; font-weight: 800; }
+
+/* Topic cell */
+.topic-cell { min-width: 200px; }
+.topic-name { font-weight: 500; line-height: 1.4; }
+.topic-name.struck { text-decoration: line-through; color: var(--ink-3); }
+
+/* Obj codes */
+.obj-codes { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 5px; }
+.obj-code {
+  font-size: .6rem; font-family: 'DM Mono', monospace;
+  padding: 1px 5px; border-radius: 3px;
+  background: var(--blue-2); color: var(--blue);
+  border: 1px solid #c0d4f0; cursor: pointer;
+  transition: all .12s; white-space: nowrap;
+}
+.obj-code:hover { background: var(--blue); color: white; }
+
+/* Duration badge */
+.dur-badge {
+  font-size: .68rem; font-family: 'DM Mono', monospace;
+  background: var(--amber-2); color: var(--amber);
+  border: 1px solid #f0dea0; padding: 2px 7px;
+  border-radius: 4px; white-space: nowrap; display: inline-block;
+}
+
+/* Status select */
+.status-select {
+  font-family: 'DM Sans', sans-serif; font-size: .7rem;
+  padding: 4px 7px; border-radius: 6px;
+  border: 1px solid var(--border); background: white; color: var(--ink);
+  cursor: pointer; outline: none;
+  transition: border-color .15s;
+}
+.status-select:focus { border-color: var(--accent); }
+.status-select:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Editable cell */
+.editable {
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: -2px -4px;
+  transition: background .15s;
+  cursor: default;
+  outline: none;
+  line-height: 1.5;
+}
+.coord-mode .editable {
+  cursor: text;
+  border: 1px dashed transparent;
+}
+.coord-mode .editable:hover { background: var(--paper-2); border-color: var(--border); }
+.coord-mode .editable:focus { background: white; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(39,174,96,.12); }
+
+/* Edit indicator */
+.edit-hint {
+  display: none;
+  font-size: .6rem; color: var(--accent); font-weight: 500;
+  padding: 4px 16px; background: var(--accent-2);
+  border-bottom: 1px solid #b0dcc0;
+}
+.coord-mode .edit-hint { display: block; }
+
+/* ─── WEEKLY VIEW ─────────────────────────────── */
+.week-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+
+.week-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s;
+}
+.week-card:hover { box-shadow: var(--shadow); }
+
+.week-card-head {
+  padding: 10px 14px; background: var(--ink); color: white;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.week-card-title { font-family: 'Lora', serif; font-size: .9rem; }
+.week-hours-tag {
+  font-size: .65rem; font-family: 'DM Mono', monospace;
+  background: rgba(255,255,255,.15); padding: 2px 6px; border-radius: 4px;
+}
+.week-topics-list { padding: 4px 0; }
+.week-topic-row {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 7px 14px; border-bottom: 1px solid var(--border); font-size: .75rem;
+}
+.week-topic-row:last-child { border-bottom: none; }
+.wt-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.wt-name { flex: 1; line-height: 1.4; font-weight: 500; }
+.wt-ch { font-size: .62rem; color: var(--ink-3); font-family: 'DM Mono', monospace; white-space: nowrap; }
+
+/* Year dot colors */
+.dot-y9  { background: var(--blue); }
+.dot-y10 { background: var(--purple); }
+
+/* ─── MODAL ───────────────────────────────────── */
+.modal-bg {
+  position: fixed; inset: 0;
+  background: rgba(28,28,46,.55);
+  display: none; align-items: center; justify-content: center;
+  z-index: 1000; backdrop-filter: blur(4px);
+}
+.modal-bg.open { display: flex; }
+
+.modal {
+  background: white; border-radius: 14px;
+  width: 500px; max-width: 92vw; max-height: 82vh;
+  overflow: hidden; display: flex; flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  animation: popIn .18s ease;
+}
+@keyframes popIn { from { transform: scale(.93); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.modal-head {
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; justify-content: space-between;
+  flex-shrink: 0;
+}
+.modal-head-text h3 { font-family: 'Lora', serif; font-size: 1.05rem; }
+.modal-head-text p  { font-size: .72rem; color: var(--ink-3); margin-top: 3px; }
+.modal-close { background: none; border: none; cursor: pointer; font-size: 1.1rem; color: var(--ink-3); padding: 0 2px; line-height: 1; }
+.modal-close:hover { color: var(--ink); }
+
+.modal-body { padding: 16px 22px 22px; overflow-y: auto; flex: 1; }
+
+.obj-entry { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.obj-entry:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.obj-entry-code { font-family: 'DM Mono', monospace; font-size: .72rem; color: var(--blue); font-weight: 500; margin-bottom: 4px; }
+.obj-entry-text { font-size: .82rem; line-height: 1.65; color: var(--ink); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* Empty state */
+.empty { text-align: center; padding: 48px 20px; color: var(--ink-3); }
+.empty-icon { font-size: 2rem; margin-bottom: 8px; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--ink); color: white;
+  padding: 10px 18px; border-radius: 8px;
+  font-size: .78rem; font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(60px); opacity: 0;
+  transition: all .25s ease;
+  z-index: 2000;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* ─── COORD ADD / DELETE CONTROLS ─────────────── */
+.del-topic-btn {
+  display: none; background: none; border: none; cursor: pointer;
+  color: var(--ink-3); font-size: .85rem; padding: 2px 4px;
+  border-radius: 4px; line-height: 1; margin-top: 2px;
+  transition: color .15s, background .15s;
+}
+.del-topic-btn:hover { color: var(--accent); background: var(--accent-2); }
+.coord-mode .del-topic-btn { display: inline-flex; }
+
+.del-ch-btn {
+  display: none; background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,.5); font-size: .9rem; padding: 2px 6px;
+  border-radius: 4px; line-height: 1; margin-left: auto;
+  transition: color .15s;
+}
+.del-ch-btn:hover { color: white; }
+.coord-mode .del-ch-btn { display: inline-flex; }
+
+.add-topic-row td { padding: 6px 16px !important; border-bottom: none !important; }
+.add-topic-btn {
+  display: none; background: none; border: 1.5px dashed var(--border);
+  color: var(--ink-3); font-size: .75rem; padding: 5px 14px;
+  border-radius: 6px; cursor: pointer; width: 100%; text-align: left;
+  transition: border-color .15s, color .15s;
+}
+.add-topic-btn:hover { border-color: var(--accent); color: var(--accent); }
+.coord-mode .add-topic-btn { display: block; }
+
+.add-chapter-wrap {
+  display: none; text-align: center; padding: 16px 0 8px;
+}
+.add-chapter-btn {
+  background: none; border: 2px dashed var(--border);
+  color: var(--ink-3); font-size: .8rem; padding: 10px 28px;
+  border-radius: 10px; cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.add-chapter-btn:hover { border-color: var(--accent); color: var(--accent); }
+.coord-mode .add-chapter-wrap { display: block; }
+
+/* ─── LOGIN SCREEN ────────────────────────────── */
+.login-input {
+  width: 100%; padding: 10px 13px;
+  border: 1px solid var(--border); border-radius: 8px;
+  font-family: 'DM Sans', sans-serif; font-size: .83rem;
+  outline: none; color: var(--ink); margin-bottom: 10px;
+  transition: border-color .15s;
+}
+.login-input:focus { border-color: var(--accent); }
+.login-submit {
+  width: 100%; padding: 11px;
+  background: var(--accent); color: white;
+  border: none; border-radius: 8px;
+  font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 600;
+  cursor: pointer; transition: background .15s;
+}
+.login-submit:hover { background: #1e8a4a; }
+.login-submit:disabled { opacity: .6; cursor: not-allowed; }
+</style>
+
+<script>
+window.ENV = {
+  FIREBASE_API_KEY:             "__FIREBASE_API_KEY__",
+  FIREBASE_AUTH_DOMAIN:         "__FIREBASE_AUTH_DOMAIN__",
+  FIREBASE_PROJECT_ID:          "__FIREBASE_PROJECT_ID__",
+  FIREBASE_STORAGE_BUCKET:      "__FIREBASE_STORAGE_BUCKET__",
+  FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+  FIREBASE_APP_ID:              "__FIREBASE_APP_ID__",
+};
+</script>
+</head>
+<body>
+
+<!-- ── LOADING SCREEN ──────────────────────────── -->
+<div id="loadingScreen" style="
+  position:fixed;inset:0;background:var(--ink);
+  display:flex;align-items:center;justify-content:center;z-index:99999;
+">
+  <div style="text-align:center;">
+    <div style="
+      width:36px;height:36px;
+      border:3px solid rgba(255,255,255,.15);
+      border-top-color:var(--accent);
+      border-radius:50%;
+      animation:spin .8s linear infinite;
+      margin:0 auto 14px;
+    "></div>
+    <p style="font-size:.75rem;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif;">Loading pacing guide…</p>
+  </div>
+</div>
+
+<!-- ── LOGIN SCREEN ────────────────────────────── -->
+<div id="loginScreen" style="
+  position:fixed;inset:0;background:rgba(28,28,46,.96);
+  display:none;align-items:center;justify-content:center;
+  z-index:99998;backdrop-filter:blur(4px);
+">
+  <div style="
+    background:white;border-radius:16px;width:360px;max-width:92vw;
+    padding:36px 32px;box-shadow:var(--shadow-lg);
+  ">
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="
+        width:50px;height:50px;background:var(--accent);border-radius:12px;
+        display:inline-flex;align-items:center;justify-content:center;
+        font-family:'Lora',serif;font-size:1.5rem;color:white;margin-bottom:14px;
+      ">🧬</div>
+      <h2 style="font-family:'Lora',serif;font-size:1.1rem;color:var(--ink);margin-bottom:4px;">IGCSE Biology</h2>
+      <p style="font-size:.72rem;color:var(--ink-3);">0610 · Year 9–10 Pacing Guide</p>
+    </div>
+    <div id="loginError" style="
+      display:none;background:var(--accent-2);color:var(--accent);
+      font-size:.72rem;padding:8px 12px;border-radius:7px;
+      border:1px solid #b0dcc0;margin-bottom:14px;
+    "></div>
+    <button id="googleBtn" type="button" style="
+      width:100%;padding:11px;border-radius:8px;border:1.5px solid #dadce0;
+      background:white;cursor:pointer;font-size:.85rem;font-weight:500;
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      margin-bottom:16px;transition:background .15s;
+    " onmouseover="this.style.background='#f8f8f8'" onmouseout="this.style.background='white'">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Continue with Google
+    </button>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+      <div style="flex:1;height:1px;background:#e8e8e8;"></div>
+      <span style="font-size:.72rem;color:var(--ink-3);">or</span>
+      <div style="flex:1;height:1px;background:#e8e8e8;"></div>
+    </div>
+    <form id="loginForm" novalidate>
+      <input type="email" id="loginEmail" placeholder="Email address" class="login-input" required>
+      <input type="password" id="loginPassword" placeholder="Password" class="login-input" style="margin-bottom:16px;" required>
+      <button type="submit" id="loginBtn" class="login-submit">Sign In</button>
+    </form>
+  </div>
+</div>
+
+<!-- ── TOPBAR ──────────────────────────────────── -->
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">🧬</div>
+    <div class="brand-text">
+      <h1>Cambridge IGCSE Biology</h1>
+      <p>0610 · Core & Extended · Year 9–10 Pacing Guide</p>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="prog-pill">
+      <div class="prog-bar-wrap"><div class="prog-bar-fill" id="topProgBar"></div></div>
+      <div class="prog-text"><strong id="topProgDone">0</strong> / <span id="topProgTotal">0</span> topics</div>
+    </div>
+    <div class="role-badge" id="roleBadge">
+      <span class="role-dot teacher" id="roleDot"></span>
+      <span id="roleLabel">Teacher</span>
+      <span id="userDisplayName" style="opacity:.6;font-weight:400;margin-left:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;"></span>
+    </div>
+    <button class="btn" id="logoutBtn"
+      style="display:none;color:rgba(255,255,255,.65);border-color:rgba(255,255,255,.2);background:transparent;font-size:.68rem;"
+      onclick="window.__fbLogout && window.__fbLogout()"
+    >Sign Out</button>
+  </div>
+</header>
+
+<!-- ── LAYOUT ──────────────────────────────────── -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="search-wrap">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <circle cx="5.5" cy="5.5" r="4" stroke="#888" stroke-width="1.4"/>
+          <path d="M9 9l3 3" stroke="#888" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <input class="search-input" id="searchInput" placeholder="Search topics, objectives…" oninput="handleSearch(this.value)">
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Year</div>
+      <div class="chips" id="yearChips">
+        <div class="chip on" data-year="all">All</div>
+        <div class="chip" data-year="Year 9">Year 9</div>
+        <div class="chip" data-year="Year 10">Year 10</div>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Status</div>
+      <div class="chips" id="statusChips">
+        <div class="chip on" data-status="all">All</div>
+        <div class="chip" data-status="pending">Pending</div>
+        <div class="chip" data-status="inprogress">In Progress</div>
+        <div class="chip" data-status="done">Done</div>
+      </div>
+    </div>
+    <div class="ch-nav" id="chNav"></div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="view-bar">
+      <div class="tab-group">
+        <button class="tab-btn on" onclick="switchView('pacing',this)">📋 Pacing Guide</button>
+        <button class="tab-btn" onclick="switchView('weekly',this)">📅 Weekly View</button>
+      </div>
+      <div class="view-actions">
+        <button class="btn" onclick="expandAll()">Expand All</button>
+        <button class="btn" onclick="collapseAll()">Collapse All</button>
+        <button class="btn primary" id="resetBtn" onclick="resetProgress()" style="display:none">Reset All</button>
+      </div>
+    </div>
+
+    <!-- PACING PANEL -->
+    <div class="panel on" id="panel-pacing">
+      <div class="edit-hint" id="editHint">✏️ Coordinator mode — click any topic name, objective, or duration to edit inline.</div>
+      <div id="chBlocks"></div>
+    </div>
+
+    <!-- WEEKLY PANEL -->
+    <div class="panel" id="panel-weekly">
+      <div class="week-grid" id="weekGrid"></div>
+    </div>
+  </main>
+</div>
+
+<!-- ── OBJECTIVES MODAL ────────────────────────── -->
+<div class="modal-bg" id="objModal" onclick="closeObjModal(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-head-text">
+        <h3 id="objModalTitle">Objectives</h3>
+        <p id="objModalSub"></p>
+      </div>
+      <button class="modal-close" onclick="document.getElementById('objModal').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-body" id="objModalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// SEED DATA — empty until seeded from Excel via seedFirestore
+// ═══════════════════════════════════════════════════════════
+var RAW_DATA = [];
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+var DATA = [];
+var role = 'teacher';
+
+let filterYear   = 'all';
+let filterStatus = 'all';
+let searchQ      = '';
+
+// ═══════════════════════════════════════════════════════════
+// PERSIST
+// ═══════════════════════════════════════════════════════════
+function saveState() {
+  if (window.__fbSaveState) window.__fbSaveState(DATA);
+}
+
+// ═══════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════
+function parseObjCodes(objStr) {
+  if (!objStr) return [];
+  const matches = objStr.match(/[CE]\d+\.\d+/g);
+  return matches ? [...new Set(matches)] : [];
+}
+
+function allTopics() {
+  return DATA.flatMap((ch, ci) => ch.topics.map((t, ti) => ({ch: ci, ti, ...t})));
+}
+
+function escHtml(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ═══════════════════════════════════════════════════════════
+// RENDER — SIDEBAR NAV
+// ═══════════════════════════════════════════════════════════
+function renderNav() {
+  const y9  = DATA.filter(ch => ch.year === 'Year 9');
+  const y10 = DATA.filter(ch => ch.year === 'Year 10');
+
+  function buildItems(arr) {
+    return arr.map(ch => {
+      const ci   = DATA.indexOf(ch);
+      const done = ch.topics.filter(t => t.status === 'done').length;
+      const pct  = ch.topics.length ? Math.round(done / ch.topics.length * 100) : 0;
+      return `<div class="ch-nav-item" onclick="scrollToChapter(${ci})" id="nav-${ci}">
+        <span class="ch-nav-num">${ci+1}</span>
+        <span class="ch-nav-title">${ch.chapter.replace(/^\d+\.\s*/, '')}</span>
+        <div class="ch-nav-mini"><div class="ch-nav-mini-fill" style="width:${pct}%"></div></div>
+      </div>`;
+    }).join('');
+  }
+
+  const nav = document.getElementById('chNav');
+  if (!DATA.length) {
+    nav.innerHTML = '<div style="padding:16px;font-size:.72rem;color:var(--ink-3);text-align:center;">No chapters yet</div>';
+    return;
+  }
+  nav.innerHTML = `
+    <div class="ch-nav-group"><div class="ch-nav-group-label">Year 9</div>${buildItems(y9)}</div>
+    <div class="ch-nav-group"><div class="ch-nav-group-label">Year 10</div>${buildItems(y10)}</div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// RENDER — TOP PROGRESS
+// ═══════════════════════════════════════════════════════════
+function renderProgress() {
+  const all  = allTopics();
+  const done = all.filter(t => t.status === 'done').length;
+  const pct  = all.length ? Math.round(done / all.length * 100) : 0;
+  document.getElementById('topProgBar').style.width  = pct + '%';
+  document.getElementById('topProgDone').textContent  = done;
+  document.getElementById('topProgTotal').textContent = all.length;
+}
+
+// ═══════════════════════════════════════════════════════════
+// RENDER — PACING GUIDE
+// ═══════════════════════════════════════════════════════════
+function renderPacing() {
+  const container = document.getElementById('chBlocks');
+
+  if (!DATA.length) {
+    container.innerHTML = `<div class="empty"><div class="empty-icon">🧬</div><p>No chapters yet. Data will appear here once the Physics curriculum is loaded.</p></div>`;
+    return;
+  }
+
+  let html = '';
+
+  DATA.forEach((ch, ci) => {
+    if (filterYear !== 'all' && ch.year !== filterYear) return;
+
+    const filteredTopics = ch.topics.map((t, ti) => ({t, ti})).filter(({t}) => {
+      if (filterStatus !== 'all' && t.status !== filterStatus) return false;
+      if (searchQ) {
+        const q = searchQ.toLowerCase();
+        return t.topic.toLowerCase().includes(q) || (t.objective||'').toLowerCase().includes(q);
+      }
+      return true;
+    });
+
+    if (!filteredTopics.length) return;
+
+    const done      = ch.topics.filter(t => t.status === 'done').length;
+    const pct       = ch.topics.length ? Math.round(done / ch.topics.length * 100) : 0;
+    const yearClass = ch.year === 'Year 9' ? 'yr9' : 'yr10';
+
+    html += `
+    <div class="ch-block" id="ch-${ci}">
+      <div class="ch-header" onclick="toggleChapter(${ci})">
+        <span class="ch-badge">Ch ${ci+1}</span>
+        <span class="ch-header-title">${ch.chapter}</span>
+        <span class="ch-year-tag ${yearClass}">${ch.year}</span>
+        <div class="ch-stats">
+          <div class="ch-prog-bar"><div class="ch-prog-fill" style="width:${pct}%"></div></div>
+          <span class="ch-pct">${pct}%</span>
+          <span class="ch-topic-count">${ch.topics.length} topics</span>
+        </div>
+        <button class="del-ch-btn" onclick="event.stopPropagation();deleteChapter(${ci})" title="Delete chapter">✕</button>
+        <span class="ch-caret">▾</span>
+      </div>
+      <div class="topics-wrap">
+        <table class="topics-tbl">
+          <thead><tr>
+            <th style="width:38px"></th>
+            <th style="width:25%">Topic</th>
+            <th>Objectives</th>
+            <th style="width:70px">Hours</th>
+            <th style="width:110px">Status</th>
+          </tr></thead>
+          <tbody>
+            ${filteredTopics.map(({t, ti}) => {
+              const codes   = parseObjCodes(t.objective);
+              const rowClass = t.status === 'done' ? 'done-row' : t.status === 'inprogress' ? 'inprogress-row' : '';
+              const isCoord  = role === 'coord';
+              return `
+              <tr class="${rowClass}" id="row-${ci}-${ti}">
+                <td>
+                  <div class="tcheck ${t.status==='done'?'on':''}" onclick="toggleDone(${ci},${ti})"></div>
+                  <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">✕</button>
+                </td>
+                <td class="topic-cell">
+                  <div class="topic-name ${t.status==='done'?'struck':''} editable"
+                    contenteditable="${isCoord}"
+                    data-field="topic" data-ci="${ci}" data-ti="${ti}"
+                    onblur="saveEdit(this,${ci},${ti},'topic')"
+                    onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+                  >${escHtml(t.topic)}</div>
+                  ${codes.length ? `<div class="obj-codes">${codes.map(c => `<span class="obj-code" onclick="showObj(${ci},${ti})">${c}</span>`).join('')}</div>` : ''}
+                </td>
+                <td>
+                  <div class="editable" style="font-size:.75rem;color:var(--ink-2);line-height:1.5;"
+                    contenteditable="${isCoord}"
+                    data-field="objective" data-ci="${ci}" data-ti="${ti}"
+                    onblur="saveEdit(this,${ci},${ti},'objective')"
+                  >${escHtml(t.objective ? t.objective.substring(0,120) + (t.objective.length>120?'…':'') : '—')}</div>
+                  ${t.objective && t.objective.length > 120 ? `<span class="obj-code" style="margin-top:4px;display:inline-block" onclick="showObj(${ci},${ti})">see full</span>` : ''}
+                </td>
+                <td>
+                  <span class="dur-badge editable"
+                    contenteditable="${isCoord}"
+                    data-field="hour" data-ci="${ci}" data-ti="${ti}"
+                    onblur="saveEdit(this,${ci},${ti},'hour')"
+                    onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+                  >${t.hour}h</span>
+                </td>
+                <td>
+                  <select class="status-select" onchange="setStatus(${ci},${ti},this.value)">
+                    <option value="pending"    ${t.status==='pending'   ?'selected':''}>📌 Pending</option>
+                    <option value="inprogress" ${t.status==='inprogress'?'selected':''}>🔄 In Progress</option>
+                    <option value="done"       ${t.status==='done'      ?'selected':''}>✅ Done</option>
+                  </select>
+                </td>
+              </tr>`;
+            }).join('')}
+            <tr class="add-topic-row">
+              <td colspan="5">
+                <button class="add-topic-btn" onclick="addTopic(${ci})">+ Add Topic</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  });
+
+  if (!html) html = `<div class="empty"><div class="empty-icon">🔍</div><p>No topics match your filters.</p></div>`;
+  html += `<div class="add-chapter-wrap"><button class="add-chapter-btn" onclick="addChapter()">+ Add Chapter</button></div>`;
+  container.innerHTML = html;
+
+  if (role === 'coord') {
+    document.body.classList.add('coord-mode');
+    document.getElementById('editHint').style.display = 'block';
+  } else {
+    document.body.classList.remove('coord-mode');
+    document.getElementById('editHint').style.display = 'none';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// RENDER — WEEKLY VIEW
+// ═══════════════════════════════════════════════════════════
+function renderWeekly() {
+  const weekMap = {};
+  DATA.forEach(ch => {
+    ch.topics.forEach(t => {
+      const w = t.week ? String(t.week) : null;
+      if (!w) return;
+      if (!weekMap[w]) weekMap[w] = { topics: [], totalHours: 0 };
+      weekMap[w].topics.push({ name: t.topic, chapter: ch.chapter, year: ch.year, hour: t.hour });
+      weekMap[w].totalHours += t.hour;
+    });
+  });
+
+  const weeks = Object.keys(weekMap).sort((a, b) => {
+    return parseInt(a.replace(/\D/g,'')) - parseInt(b.replace(/\D/g,''));
+  });
+
+  const grid = document.getElementById('weekGrid');
+  if (!weeks.length) {
+    grid.innerHTML = '<div class="empty"><div class="empty-icon">📅</div><p>No weeks assigned yet.</p></div>';
+    return;
+  }
+
+  grid.innerHTML = weeks.map(w => {
+    const data = weekMap[w];
+    return `
+    <div class="week-card">
+      <div class="week-card-head">
+        <div class="week-card-title">Week ${w.replace('Week ','')}</div>
+        <div class="week-hours-tag">${data.totalHours}h total</div>
+      </div>
+      <div class="week-topics-list">
+        ${data.topics.map(t => `
+          <div class="week-topic-row">
+            <div class="wt-dot ${t.year==='Year 9'?'dot-y9':'dot-y10'}"></div>
+            <div class="wt-name">${t.name}</div>
+            <div class="wt-ch">${t.chapter.match(/^\d+/)?.[0]||''}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+// INTERACTIONS
+// ═══════════════════════════════════════════════════════════
+function toggleDone(ci, ti) {
+  DATA[ci].topics[ti].status = DATA[ci].topics[ti].status === 'done' ? 'pending' : 'done';
+  saveState(); render();
+}
+
+function setStatus(ci, ti, val) {
+  DATA[ci].topics[ti].status = val;
+  saveState(); render();
+}
+
+function saveEdit(el, ci, ti, field) {
+  if (role !== 'coord') return;
+  let val = el.innerText.trim();
+  if (field === 'hour') val = parseInt(val) || DATA[ci].topics[ti].hour;
+  DATA[ci].topics[ti][field] = val;
+  saveState();
+  showToast('Saved ✓');
+  setTimeout(render, 200);
+}
+
+function addTopic(ci) {
+  if (role !== 'coord') return;
+  DATA[ci].topics.push({ topic: 'New Topic', objective: '', week: null, hour: 1, status: 'pending' });
+  saveState(); render();
+  showToast('Topic added ✓');
+}
+
+function deleteTopic(ci, ti) {
+  if (role !== 'coord') return;
+  if (!confirm(`Delete "${DATA[ci].topics[ti].topic}"?`)) return;
+  DATA[ci].topics.splice(ti, 1);
+  saveState(); render();
+  showToast('Topic deleted');
+}
+
+function addChapter() {
+  if (role !== 'coord') return;
+  const name = prompt('Chapter name:');
+  if (!name || !name.trim()) return;
+  const year = prompt('Year (Year 9 or Year 10):', 'Year 10');
+  DATA.push({ chapter: name.trim(), year: (year || 'Year 10').trim(), topics: [] });
+  saveState(); render();
+  showToast('Chapter added ✓');
+}
+
+function deleteChapter(ci) {
+  if (role !== 'coord') return;
+  if (!confirm(`Delete chapter "${DATA[ci].chapter}" and all its topics?`)) return;
+  DATA.splice(ci, 1);
+  saveState(); render();
+  showToast('Chapter deleted');
+}
+
+function toggleChapter(ci) {
+  const el = document.getElementById(`ch-${ci}`);
+  if (el) el.classList.toggle('collapsed');
+}
+
+function expandAll()   { document.querySelectorAll('.ch-block').forEach(el => el.classList.remove('collapsed')); }
+function collapseAll() { document.querySelectorAll('.ch-block').forEach(el => el.classList.add('collapsed')); }
+
+function scrollToChapter(ci) {
+  switchViewById('pacing');
+  setTimeout(() => {
+    const el = document.getElementById(`ch-${ci}`);
+    if (el) { el.classList.remove('collapsed'); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+  }, 50);
+}
+
+function resetProgress() {
+  if (!confirm('Reset all topic statuses to Pending? This will update Firestore for all users.')) return;
+  DATA.forEach(ch => ch.topics.forEach(t => t.status = 'pending'));
+  saveState(); render(); showToast('Progress reset');
+}
+
+function handleSearch(val) { searchQ = val; renderPacing(); renderNav(); }
+
+// Year chips
+document.getElementById('yearChips').addEventListener('click', e => {
+  const chip = e.target.closest('[data-year]');
+  if (!chip) return;
+  document.querySelectorAll('[data-year]').forEach(c => c.classList.remove('on'));
+  chip.classList.add('on');
+  filterYear = chip.dataset.year;
+  renderPacing();
+});
+
+// Status chips
+document.getElementById('statusChips').addEventListener('click', e => {
+  const chip = e.target.closest('[data-status]');
+  if (!chip) return;
+  document.querySelectorAll('[data-status]').forEach(c => c.classList.remove('on'));
+  chip.classList.add('on');
+  filterStatus = chip.dataset.status;
+  renderPacing();
+});
+
+// ═══════════════════════════════════════════════════════════
+// VIEWS
+// ═══════════════════════════════════════════════════════════
+function switchView(view, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  switchViewById(view);
+}
+function switchViewById(view) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  document.getElementById('panel-' + view).classList.add('on');
+}
+
+// ═══════════════════════════════════════════════════════════
+// OBJECTIVES MODAL
+// ═══════════════════════════════════════════════════════════
+function showObj(ci, ti) {
+  const ch    = DATA[ci];
+  const t     = ch.topics[ti];
+  const parts = (t.objective||'').split(/\n\n+/).filter(Boolean);
+
+  document.getElementById('objModalTitle').textContent = t.topic;
+  document.getElementById('objModalSub').textContent   = ch.chapter;
+  document.getElementById('objModalBody').innerHTML    = parts.map(p => {
+    const colonIdx = p.indexOf(':');
+    const code = colonIdx > -1 ? p.substring(0, colonIdx) : '';
+    const desc = colonIdx > -1 ? p.substring(colonIdx+1).trim() : p;
+    return `<div class="obj-entry">
+      ${code ? `<div class="obj-entry-code">${escHtml(code)}</div>` : ''}
+      <div class="obj-entry-text">${escHtml(desc)}</div>
+    </div>`;
+  }).join('') || '<p style="color:var(--ink-3);font-size:.8rem">No objectives listed for this topic.</p>';
+
+  document.getElementById('objModal').classList.add('open');
+}
+
+function closeObjModal(e) {
+  if (e.target === document.getElementById('objModal')) document.getElementById('objModal').classList.remove('open');
+}
+
+// ═══════════════════════════════════════════════════════════
+// ROLE
+// ═══════════════════════════════════════════════════════════
+function applyRole(r) {
+  role = r;
+  const dot      = document.getElementById('roleDot');
+  const label    = document.getElementById('roleLabel');
+  const resetBtn = document.getElementById('resetBtn');
+  if (r === 'coord') {
+    dot.className     = 'role-dot coord';
+    label.textContent = 'Coordinator';
+    if (resetBtn) resetBtn.style.display = '';
+  } else {
+    dot.className     = 'role-dot teacher';
+    label.textContent = 'Teacher';
+    if (resetBtn) resetBtn.style.display = 'none';
+  }
+  render();
+}
+
+// ═══════════════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════════════
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ═══════════════════════════════════════════════════════════
+// MAIN RENDER
+// ═══════════════════════════════════════════════════════════
+function render() {
+  renderProgress();
+  renderNav();
+  renderPacing();
+  renderWeekly();
+}
+</script>
+
+<!-- ── FIREBASE MODULE ─────────────────────────── -->
+<script type="module">
+import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signOut,
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  onSnapshot,
+  serverTimestamp,
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:            window.ENV.FIREBASE_API_KEY,
+  authDomain:        window.ENV.FIREBASE_AUTH_DOMAIN,
+  projectId:         window.ENV.FIREBASE_PROJECT_ID,
+  storageBucket:     window.ENV.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
+  appId:             window.ENV.FIREBASE_APP_ID,
+};
+
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+let unsubSnapshot = null;
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    let appRole     = 'teacher';
+    let displayName = user.displayName || user.email.split('@')[0];
+
+    try {
+      const userRef  = doc(db, 'users', user.uid);
+      await setDoc(userRef, {
+        displayName: displayName,
+        email: user.email || '',
+      }, { merge: true });
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists() && userSnap.data().role === 'coordinator') {
+        appRole = 'coord';
+      }
+    } catch(e) { /* role stays 'teacher' */ }
+
+    const nameEl = document.getElementById('userDisplayName');
+    if (nameEl) nameEl.textContent = '· ' + displayName;
+    document.getElementById('logoutBtn').style.display = '';
+
+    _startSnapshot(appRole);
+
+  } else {
+    if (unsubSnapshot) { unsubSnapshot(); unsubSnapshot = null; }
+    document.getElementById('loadingScreen').style.display = 'none';
+    document.getElementById('loginScreen').style.display  = 'flex';
+    document.getElementById('logoutBtn').style.display    = 'none';
+
+    const nameEl = document.getElementById('userDisplayName');
+    if (nameEl) nameEl.textContent = '';
+
+    const gBtn = document.getElementById('googleBtn');
+    if (gBtn) {
+      gBtn.disabled = false;
+      gBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continue with Google`;
+    }
+  }
+});
+
+function _startSnapshot(appRole) {
+  if (unsubSnapshot) unsubSnapshot();
+
+  const docRef = doc(db, 'biology_pacing', 'year9-10');
+  let firstLoad = true;
+
+  unsubSnapshot = onSnapshot(docRef, async (snap) => {
+    if (!snap.exists()) {
+      // No data yet — show empty state
+      window.DATA = [];
+    } else {
+      const d = snap.data();
+      if (Array.isArray(d.chapters)) {
+        window.DATA = d.chapters;
+      }
+    }
+
+    if (firstLoad) {
+      firstLoad = false;
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('loginScreen').style.display  = 'none';
+      applyRole(appRole);
+    } else {
+      render();
+    }
+  }, (err) => {
+    console.error('Firestore snapshot error:', err);
+    document.getElementById('loadingScreen').style.display = 'none';
+    document.getElementById('loginScreen').style.display  = 'none';
+    applyRole(appRole);
+    showToast('⚠ Firestore connection error');
+  });
+}
+
+window.__fbSaveState = async function(data) {
+  try {
+    await setDoc(
+      doc(db, 'biology_pacing', 'year9-10'),
+      { chapters: data, updatedAt: serverTimestamp() },
+      { merge: true }
+    );
+  } catch(e) {
+    console.error('Firestore save error:', e);
+    showToast('⚠ Save failed — check connection');
+  }
+};
+
+window.__fbLogout = () => signOut(auth);
+
+document.getElementById('googleBtn').addEventListener('click', async () => {
+  const btn   = document.getElementById('googleBtn');
+  const errEl = document.getElementById('loginError');
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+  errEl.style.display = 'none';
+  try {
+    await signInWithPopup(auth, new GoogleAuthProvider());
+  } catch(err) {
+    errEl.textContent   = 'Google sign-in failed. Please try again.';
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continue with Google`;
+  }
+});
+
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email    = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const btn      = document.getElementById('loginBtn');
+  const errEl    = document.getElementById('loginError');
+
+  btn.textContent = 'Signing in…';
+  btn.disabled    = true;
+  errEl.style.display = 'none';
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch(err) {
+    errEl.textContent   = 'Invalid email or password.';
+    errEl.style.display = 'block';
+    btn.textContent     = 'Sign In';
+    btn.disabled        = false;
+  }
+});
+</script>
+</body>
+</html>
