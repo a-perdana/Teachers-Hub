@@ -280,7 +280,7 @@ table.topics-tbl th {
 
 table.topics-tbl td {
   padding: 10px 16px; border-bottom: 1px solid var(--border);
-  vertical-align: middle; font-size: .8rem;
+  vertical-align: top; font-size: .8rem;
 }
 table.topics-tbl tr:last-child td { border-bottom: none; }
 table.topics-tbl tr.done-row { background: var(--green-2); }
@@ -448,6 +448,47 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
   z-index: 2000;
 }
 .toast.show { transform: translateY(0); opacity: 1; }
+
+/* ─── COORD ADD / DELETE CONTROLS ─────────────── */
+.del-topic-btn {
+  display: none; background: none; border: none; cursor: pointer;
+  color: var(--ink-3); font-size: .85rem; padding: 2px 4px;
+  border-radius: 4px; line-height: 1; margin-top: 2px;
+  transition: color .15s, background .15s;
+}
+.del-topic-btn:hover { color: var(--accent); background: var(--accent-2); }
+.coord-mode .del-topic-btn { display: inline-flex; }
+
+.del-ch-btn {
+  display: none; background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,.5); font-size: .9rem; padding: 2px 6px;
+  border-radius: 4px; line-height: 1; margin-left: auto;
+  transition: color .15s;
+}
+.del-ch-btn:hover { color: white; }
+.coord-mode .del-ch-btn { display: inline-flex; }
+
+.add-topic-row td { padding: 6px 16px !important; border-bottom: none !important; }
+.add-topic-btn {
+  display: none; background: none; border: 1.5px dashed var(--border);
+  color: var(--ink-3); font-size: .75rem; padding: 5px 14px;
+  border-radius: 6px; cursor: pointer; width: 100%; text-align: left;
+  transition: border-color .15s, color .15s;
+}
+.add-topic-btn:hover { border-color: var(--accent); color: var(--accent); }
+.coord-mode .add-topic-btn { display: block; }
+
+.add-chapter-wrap {
+  display: none; text-align: center; padding: 16px 0 8px;
+}
+.add-chapter-btn {
+  background: none; border: 2px dashed var(--border);
+  color: var(--ink-3); font-size: .8rem; padding: 10px 28px;
+  border-radius: 10px; cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.add-chapter-btn:hover { border-color: var(--accent); color: var(--accent); }
+.coord-mode .add-chapter-wrap { display: block; }
 
 /* ─── LOGIN SCREEN ────────────────────────────── */
 .login-input {
@@ -762,6 +803,7 @@ function renderPacing() {
           <span class="ch-pct">${pct}%</span>
           <span class="ch-topic-count">${ch.topics.length} topics</span>
         </div>
+        <button class="del-ch-btn" onclick="event.stopPropagation();deleteChapter(${ci})" title="Delete chapter">✕</button>
         <span class="ch-caret">▾</span>
       </div>
       <div class="topics-wrap">
@@ -780,7 +822,10 @@ function renderPacing() {
               const isCoord  = role === 'coord';
               return `
               <tr class="${rowClass}" id="row-${ci}-${ti}">
-                <td><div class="tcheck ${t.status==='done'?'on':''}" onclick="toggleDone(${ci},${ti})"></div></td>
+                <td>
+                  <div class="tcheck ${t.status==='done'?'on':''}" onclick="toggleDone(${ci},${ti})"></div>
+                  <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">✕</button>
+                </td>
                 <td class="topic-cell">
                   <div class="topic-name ${t.status==='done'?'struck':''} editable"
                     contenteditable="${isCoord}"
@@ -815,6 +860,11 @@ function renderPacing() {
                 </td>
               </tr>`;
             }).join('')}
+            <tr class="add-topic-row">
+              <td colspan="5">
+                <button class="add-topic-btn" onclick="addTopic(${ci})">+ Add Topic</button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -822,6 +872,7 @@ function renderPacing() {
   });
 
   if (!html) html = `<div class="empty"><div class="empty-icon">🔍</div><p>No topics match your filters.</p></div>`;
+  html += `<div class="add-chapter-wrap"><button class="add-chapter-btn" onclick="addChapter()">+ Add Chapter</button></div>`;
   container.innerHTML = html;
 
   if (role === 'coord') {
@@ -893,6 +944,39 @@ function saveEdit(el, ci, ti, field) {
   saveState();
   showToast('Saved ✓');
   setTimeout(render, 200);
+}
+
+function addTopic(ci) {
+  if (role !== 'coord') return;
+  DATA[ci].topics.push({ topic: 'New Topic', objective: '', week: null, hour: 1, status: 'pending' });
+  saveState(); render();
+  showToast('Topic added ✓');
+}
+
+function deleteTopic(ci, ti) {
+  if (role !== 'coord') return;
+  if (!confirm(`Delete "${DATA[ci].topics[ti].topic}"?`)) return;
+  DATA[ci].topics.splice(ti, 1);
+  saveState(); render();
+  showToast('Topic deleted');
+}
+
+function addChapter() {
+  if (role !== 'coord') return;
+  const name = prompt('Chapter name:');
+  if (!name || !name.trim()) return;
+  const year = prompt('Year (Year 9 or Year 10):', 'Year 10');
+  DATA.push({ chapter: name.trim(), year: (year || 'Year 10').trim(), topics: [] });
+  saveState(); render();
+  showToast('Chapter added ✓');
+}
+
+function deleteChapter(ci) {
+  if (role !== 'coord') return;
+  if (!confirm(`Delete chapter "${DATA[ci].chapter}" and all its topics?`)) return;
+  DATA.splice(ci, 1);
+  saveState(); render();
+  showToast('Chapter deleted');
 }
 
 function toggleChapter(ci) {
