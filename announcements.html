@@ -663,22 +663,33 @@ body {
 
   // ── Announcements List ───────────────────────────────────────
   function initAnnouncements() {
-    const q = query(collection(db, 'announcements'), orderBy('pinned', 'desc'), orderBy('timestamp', 'desc'));
+    // Single-field orderBy — no composite index needed.
+    // Pinned-first sorting is handled client-side below.
+    const q = query(collection(db, 'announcements'), orderBy('timestamp', 'desc'));
     unsubAnn = onSnapshot(q, async (snap) => {
       const annList = document.getElementById('annList');
       const annEmpty = document.getElementById('annEmpty');
 
       if (snap.empty) {
         annEmpty.style.display = 'block';
-        // Remove cards but keep empty msg
         [...annList.children].forEach(c => { if (c !== annEmpty) c.remove(); });
         return;
       }
       annEmpty.style.display = 'none';
 
+      // Sort client-side: pinned first, then by timestamp desc
+      const sorted = [...snap.docs].sort((a, b) => {
+        const ap = a.data().pinned ? 1 : 0;
+        const bp = b.data().pinned ? 1 : 0;
+        if (bp !== ap) return bp - ap;
+        const at = a.data().timestamp?.toMillis?.() || 0;
+        const bt = b.data().timestamp?.toMillis?.() || 0;
+        return bt - at;
+      });
+
       // Build set of current IDs in DOM
       const existingIds = new Set([...annList.querySelectorAll('.ann-card')].map(c => c.dataset.id));
-      const incomingIds = new Set(snap.docs.map(d => d.id));
+      const incomingIds = new Set(sorted.map(d => d.id));
 
       // Remove stale cards
       existingIds.forEach(id => {
@@ -689,7 +700,7 @@ body {
       });
 
       // Add/update cards
-      for (const docSnap of snap.docs) {
+      for (const docSnap of sorted) {
         const id = docSnap.id;
         const d = docSnap.data();
         let card = annList.querySelector(`.ann-card[data-id="${id}"]`);
@@ -701,12 +712,10 @@ body {
         }
       }
 
-      // Re-sort DOM to match Firestore order (pinned first, then newest)
-      const cards = [...annList.querySelectorAll('.ann-card')];
-      const order = snap.docs.map(d => d.id);
-      order.forEach((id, i) => {
-        const card = annList.querySelector(`.ann-card[data-id="${id}"]`);
-        if (card) annList.appendChild(card); // move to end in order
+      // Re-sort DOM to match client-sorted order (pinned first, then newest)
+      sorted.forEach(docSnap => {
+        const card = annList.querySelector(`.ann-card[data-id="${docSnap.id}"]`);
+        if (card) annList.appendChild(card);
       });
     }, (err) => console.error('Announcements listener error:', err));
   }
