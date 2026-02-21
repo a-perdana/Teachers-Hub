@@ -42,5 +42,7 @@ processFile('pacing-hub.html');
 processFile('igcse-physics-pacing.html');
 processFile('igcse-chemistry-pacing.html');
 processFile('igcse-biology-pacing.html');
+processFile('announcements.html');
+processFile('library.html');
 
 console.log('Build completed successfully!');

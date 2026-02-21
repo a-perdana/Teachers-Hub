@@ -828,6 +828,7 @@
         updateDoc,
         deleteDoc,
         getDoc,
+        setDoc,
         onSnapshot,
         query,
         orderBy,
@@ -970,6 +971,9 @@
           document.getElementById("loginScreen").classList.remove("visible");
           document.getElementById("mainContent").style.display = "block";
           document.getElementById("logoutBtn").style.display = "block";
+
+          // Mark messageboard as read (clears badge on index.html)
+          setDoc(doc(db, 'users', user.uid), { lastReadMessageboard: serverTimestamp() }, { merge: true }).catch(() => {});
 
           initForum();
         } else {

@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Announcements — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1c1c2e;
+  --ink-2: #44445a;
+  --ink-3: #8888a8;
+  --paper: #f7f6f3;
+  --paper-2: #efede8;
+  --white: #ffffff;
+  --border: #e0ddd6;
+  --accent: #d97706;
+  --accent-2: #fef3c7;
+  --shadow-sm: 0 1px 4px rgba(28,28,46,.07);
+  --shadow: 0 3px 14px rgba(28,28,46,.10);
+  --shadow-lg: 0 10px 40px rgba(28,28,46,.16);
+  --radius: 10px;
+  --pin-color: #d97706;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* ─── TOPBAR ─────────────────────────────────── */
+.topbar {
+  background: var(--ink);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  border-bottom: 3px solid var(--accent);
+  gap: 16px;
+}
+.topbar-left { display: flex; align-items: center; gap: 14px; }
+.back-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 8px;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14);
+  color: rgba(255,255,255,.75); font-size: 12.5px; font-weight: 500;
+  cursor: pointer; text-decoration: none;
+  transition: all .18s ease;
+}
+.back-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
+.topbar-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 17px; font-weight: 700; color: white;
+  display: flex; align-items: center; gap: 8px;
+}
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.new-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 16px; border-radius: 8px;
+  background: var(--accent); border: none;
+  color: #fff; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all .18s ease;
+  font-family: 'DM Sans', sans-serif;
+}
+.new-btn:hover { background: #b45309; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(217,119,6,.4); }
+.user-chip {
+  display: flex; align-items: center; gap: 7px;
+  padding: 5px 12px 5px 7px;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 20px; color: rgba(255,255,255,.8); font-size: 12px; font-weight: 500;
+}
+.user-avatar {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: white; flex-shrink: 0;
+  overflow: hidden;
+}
+.user-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+/* ─── LOADING ─────────────────────────────────── */
+#loadingScreen {
+  position: fixed; inset: 0; background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; flex-direction: column; gap: 14px;
+}
+.spinner {
+  width: 36px; height: 36px; border: 3px solid rgba(255,255,255,.15);
+  border-top-color: var(--accent); border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+#loadingScreen p { color: rgba(255,255,255,.5); font-size: 13px; }
+
+/* ─── LOGIN ──────────────────────────────────── */
+#loginScreen {
+  position: fixed; inset: 0; background: var(--ink);
+  display: none; align-items: center; justify-content: center;
+  z-index: 1000; flex-direction: column; gap: 16px;
+}
+#loginScreen.visible { display: flex; }
+.login-box {
+  background: #26263e; border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px; padding: 36px 32px; width: 340px; text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+}
+.login-icon { font-size: 42px; margin-bottom: 12px; }
+.login-box h2 { color: white; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.login-box p { color: rgba(255,255,255,.5); font-size: 13px; margin-bottom: 24px; }
+.login-google {
+  width: 100%; padding: 11px; border-radius: 9px;
+  background: white; border: none; cursor: pointer;
+  font-size: 14px; font-weight: 600; color: #333;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: all .2s; font-family: 'DM Sans', sans-serif;
+}
+.login-google:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,.2); }
+.login-or { color: rgba(255,255,255,.3); font-size: 12px; margin: 14px 0; }
+.login-email { display: flex; flex-direction: column; gap: 8px; }
+.login-email input {
+  width: 100%; padding: 9px 12px; border-radius: 8px;
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+  color: white; font-size: 13px; font-family: 'DM Sans', sans-serif; outline: none;
+}
+.login-email input::placeholder { color: rgba(255,255,255,.3); }
+.login-email input:focus { border-color: var(--accent); }
+.login-email button {
+  padding: 10px; border-radius: 8px; background: var(--accent); border: none;
+  color: white; font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: background .2s;
+}
+.login-email button:hover { background: #b45309; }
+.login-error { color: #fc8181; font-size: 12px; margin-top: 8px; display: none; }
+
+/* ─── MAIN CONTENT ────────────────────────────── */
+#mainContent { display: none; }
+
+.page-wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 32px 20px 100px;
+}
+
+/* ─── ANNOUNCEMENTS LIST ─────────────────────── */
+.ann-list { display: flex; flex-direction: column; gap: 16px; }
+
+.ann-empty {
+  text-align: center; padding: 60px 20px;
+  color: var(--ink-3); font-size: 15px;
+}
+.ann-empty-icon { font-size: 48px; margin-bottom: 12px; }
+
+.ann-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: box-shadow .2s;
+}
+.ann-card:hover { box-shadow: var(--shadow); }
+.ann-card.pinned {
+  border-color: var(--accent);
+  border-left: 4px solid var(--accent);
+}
+
+.ann-card-header {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 18px 20px 14px;
+  cursor: pointer;
+}
+.ann-pin-icon {
+  font-size: 14px; color: var(--pin-color);
+  flex-shrink: 0; margin-top: 2px; opacity: 0;
+  transition: opacity .15s;
+}
+.ann-card.pinned .ann-pin-icon { opacity: 1; }
+.ann-card-body { flex: 1; min-width: 0; }
+.ann-title {
+  font-size: 15.5px; font-weight: 700; color: var(--ink);
+  line-height: 1.35; margin-bottom: 5px;
+}
+.ann-meta {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  font-size: 12px; color: var(--ink-3);
+}
+.ann-meta-sep { opacity: .4; }
+.ann-comment-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--paper-2); border-radius: 20px;
+  padding: 2px 8px; font-size: 11.5px; color: var(--ink-2);
+  font-weight: 500;
+}
+.ann-admin-btns {
+  display: flex; gap: 6px; flex-shrink: 0; align-items: center;
+  margin-left: auto;
+}
+.ann-admin-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 7px; border: 1px solid var(--border);
+  background: transparent; cursor: pointer; font-size: 13px;
+  color: var(--ink-3); transition: all .15s;
+}
+.ann-admin-btn:hover { background: var(--paper-2); color: var(--ink); }
+.ann-admin-btn.pin-active { background: var(--accent-2); border-color: var(--accent); color: var(--accent); }
+.ann-admin-btn.del:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+
+.ann-preview {
+  padding: 0 20px 14px;
+  font-size: 13.5px; color: var(--ink-2); line-height: 1.6;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ann-expand-row {
+  padding: 0 20px 14px;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--accent); font-weight: 600;
+  cursor: pointer; user-select: none;
+}
+.ann-expand-row svg { width: 13px; height: 13px; transition: transform .2s; }
+.ann-card.expanded .ann-expand-row svg { transform: rotate(180deg); }
+.ann-card.expanded .ann-preview { display: none; }
+
+/* ─── EXPANDED BODY ───────────────────────────── */
+.ann-full-body {
+  display: none;
+  padding: 4px 20px 16px;
+  font-size: 14px; color: var(--ink-2); line-height: 1.75;
+  white-space: pre-wrap;
+}
+.ann-card.expanded .ann-full-body { display: block; }
+
+/* ─── COMMENTS ────────────────────────────────── */
+.ann-comments {
+  display: none;
+  border-top: 1px solid var(--border);
+  background: var(--paper);
+}
+.ann-card.expanded .ann-comments { display: block; }
+
+.comments-list { display: flex; flex-direction: column; gap: 0; }
+.comment-item {
+  display: flex; gap: 10px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.comment-item:last-child { border-bottom: none; }
+.comment-avatar {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: white;
+  overflow: hidden;
+}
+.comment-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.comment-body { flex: 1; min-width: 0; }
+.comment-author { font-size: 12.5px; font-weight: 600; color: var(--ink); }
+.comment-text { font-size: 13px; color: var(--ink-2); line-height: 1.55; margin-top: 2px; }
+.comment-time { font-size: 11px; color: var(--ink-3); margin-top: 3px; }
+.comment-del-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--ink-3); font-size: 13px; padding: 2px 6px; border-radius: 5px;
+  transition: all .15s; align-self: flex-start; margin-top: 1px;
+}
+.comment-del-btn:hover { background: #fee2e2; color: #dc2626; }
+
+.no-comments {
+  text-align: center; padding: 18px; color: var(--ink-3); font-size: 13px;
+}
+
+.comment-input-row {
+  display: flex; gap: 10px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--white);
+  align-items: flex-end;
+}
+.comment-input {
+  flex: 1;
+  padding: 8px 12px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  color: var(--ink); resize: none; outline: none;
+  min-height: 38px; max-height: 120px;
+  transition: border-color .15s;
+}
+.comment-input::placeholder { color: var(--ink-3); }
+.comment-input:focus { border-color: var(--accent); }
+.comment-post-btn {
+  padding: 8px 16px; border-radius: 9px;
+  background: var(--accent); border: none;
+  color: white; font-size: 13px; font-weight: 600;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  transition: all .15s; white-space: nowrap;
+  align-self: flex-end;
+}
+.comment-post-btn:hover { background: #b45309; }
+.comment-post-btn:disabled { opacity: .6; cursor: default; }
+
+/* ─── NEW ANNOUNCEMENT MODAL ─────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.55); backdrop-filter: blur(4px);
+  z-index: 500; display: none; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--white); border-radius: 16px;
+  width: 100%; max-width: 560px; padding: 28px;
+  box-shadow: var(--shadow-lg);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.modal-box h3 { font-size: 17px; font-weight: 700; color: var(--ink); }
+.modal-field { display: flex; flex-direction: column; gap: 6px; }
+.modal-label { font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
+.modal-input, .modal-textarea {
+  width: 100%; padding: 10px 12px;
+  border: 1px solid var(--border); border-radius: 9px;
+  font-size: 13.5px; font-family: 'DM Sans', sans-serif;
+  color: var(--ink); outline: none; background: var(--paper);
+  transition: border-color .15s;
+}
+.modal-input:focus, .modal-textarea:focus { border-color: var(--accent); background: var(--white); }
+.modal-textarea { min-height: 140px; resize: vertical; line-height: 1.6; }
+.modal-pin-row {
+  display: flex; align-items: center; gap: 9px;
+  font-size: 13px; color: var(--ink-2); cursor: pointer;
+}
+.modal-pin-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
+.modal-footer { display: flex; gap: 10px; justify-content: flex-end; }
+.modal-cancel {
+  padding: 9px 20px; border-radius: 9px; border: 1px solid var(--border);
+  background: transparent; color: var(--ink-2); font-size: 13px;
+  font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 500;
+  transition: all .15s;
+}
+.modal-cancel:hover { background: var(--paper-2); }
+.modal-publish {
+  padding: 9px 22px; border-radius: 9px; border: none;
+  background: var(--accent); color: white; font-size: 13px;
+  font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 600;
+  transition: all .15s;
+}
+.modal-publish:hover { background: #b45309; }
+.modal-publish:disabled { opacity: .6; cursor: default; }
+.modal-err { font-size: 12px; color: #dc2626; }
+
+/* ─── FLOATING HOME BUTTON ────────────────────── */
+.home-float {
+  position: fixed; bottom: 22px; left: 22px;
+  width: 42px; height: 42px; border-radius: 12px;
+  background: var(--ink); border: 1px solid rgba(255,255,255,0.10);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.5); text-decoration: none;
+  box-shadow: 0 4px 18px rgba(28,28,46,0.35);
+  transition: all 0.22s cubic-bezier(0.16,1,0.3,1); z-index: 150;
+}
+.home-float:hover {
+  color: white; background: var(--accent); border-color: var(--accent);
+  box-shadow: 0 6px 24px rgba(217,119,6,0.45); transform: translateY(-2px);
+}
+
+/* ─── CONFIRM DIALOG ─────────────────────────── */
+.confirm-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.5); backdrop-filter: blur(3px);
+  z-index: 600; display: none; align-items: center; justify-content: center;
+}
+.confirm-overlay.open { display: flex; }
+.confirm-box {
+  background: var(--white); border-radius: 13px;
+  padding: 24px 28px; max-width: 360px; width: 90%;
+  box-shadow: var(--shadow-lg); text-align: center;
+}
+.confirm-box h4 { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.confirm-box p { font-size: 13px; color: var(--ink-2); margin-bottom: 20px; line-height: 1.5; }
+.confirm-btns { display: flex; gap: 10px; justify-content: center; }
+.confirm-cancel { padding: 8px 20px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--ink-2); font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 500; }
+.confirm-delete { padding: 8px 20px; border-radius: 8px; border: none; background: #dc2626; color: white; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- Loading screen -->
+<div id="loadingScreen">
+  <div class="spinner"></div>
+  <p>Loading…</p>
+</div>
+
+<!-- Login screen -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-icon">📢</div>
+    <h2>Announcements</h2>
+    <p>Sign in to view and comment on announcements</p>
+    <button class="login-google" id="googleLoginBtn">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 002.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 01-7.18-2.54H1.83v2.07A8 8 0 008.98 17z"/><path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 010-3.04V5.41H1.83a8 8 0 000 7.18l2.67-2.07z"/><path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 001.83 5.4L4.5 7.49a4.77 4.77 0 014.48-3.3z"/></svg>
+      Sign in with Google
+    </button>
+    <div class="login-or">— or —</div>
+    <form class="login-email" id="loginForm">
+      <input type="email" id="emailInput" placeholder="Email address" required autocomplete="email">
+      <input type="password" id="passwordInput" placeholder="Password" required autocomplete="current-password">
+      <button type="submit">Sign In</button>
+    </form>
+    <div class="login-error" id="errorMsg"></div>
+  </div>
+</div>
+
+<!-- Main content -->
+<div id="mainContent">
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <a href="index.html" class="back-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Hub
+      </a>
+      <div class="topbar-title">
+        <span>📢</span>
+        Announcements
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="new-btn" id="newAnnBtn" style="display:none;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Announcement
+      </button>
+      <div class="user-chip" id="userChip" style="display:none;">
+        <div class="user-avatar" id="userAvatar"></div>
+        <span id="userNameShort">User</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page content -->
+  <div class="page-wrap">
+    <div class="ann-list" id="annList">
+      <div class="ann-empty" id="annEmpty" style="display:none;">
+        <div class="ann-empty-icon">📭</div>
+        <p>No announcements yet. Check back soon!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Announcement Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <h3>📢 New Announcement</h3>
+    <div class="modal-field">
+      <label class="modal-label" for="annTitle">Title</label>
+      <input type="text" class="modal-input" id="annTitle" placeholder="e.g. IGCSE Mock Exam — March 2026" maxlength="120">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label" for="annBody">Body</label>
+      <textarea class="modal-textarea" id="annBody" placeholder="Write your announcement here…"></textarea>
+    </div>
+    <label class="modal-pin-row">
+      <input type="checkbox" id="annPin">
+      📌 Pin this announcement (appears at the top)
+    </label>
+    <div class="modal-err" id="modalErr"></div>
+    <div class="modal-footer">
+      <button class="modal-cancel" id="modalCancel">Cancel</button>
+      <button class="modal-publish" id="modalPublish">Publish</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete Dialog -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <h4>Delete Announcement?</h4>
+    <p>This will permanently delete the announcement and all its comments.</p>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" id="confirmCancel">Cancel</button>
+      <button class="confirm-delete" id="confirmDelete">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Home Button -->
+<a href="index.html" class="home-float" title="Back to Hub">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+    <polyline points="9 22 9 12 15 12 15 22"/>
+  </svg>
+</a>
+
+<script>
+  window.ENV = {
+    FIREBASE_API_KEY:            "__FIREBASE_API_KEY__",
+    FIREBASE_AUTH_DOMAIN:        "__FIREBASE_AUTH_DOMAIN__",
+    FIREBASE_PROJECT_ID:         "__FIREBASE_PROJECT_ID__",
+    FIREBASE_STORAGE_BUCKET:     "__FIREBASE_STORAGE_BUCKET__",
+    FIREBASE_MESSAGING_SENDER_ID:"__FIREBASE_MESSAGING_SENDER_ID__",
+    FIREBASE_APP_ID:             "__FIREBASE_APP_ID__",
+  };
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getAuth,
+    signInWithPopup,
+    signInWithEmailAndPassword,
+    GoogleAuthProvider,
+    onAuthStateChanged,
+    signOut,
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import {
+    getFirestore,
+    collection,
+    doc,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    getDoc,
+    setDoc,
+    getDocs,
+    onSnapshot,
+    query,
+    orderBy,
+    serverTimestamp,
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey:            window.ENV.FIREBASE_API_KEY,
+    authDomain:        window.ENV.FIREBASE_AUTH_DOMAIN,
+    projectId:         window.ENV.FIREBASE_PROJECT_ID,
+    storageBucket:     window.ENV.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
+    appId:             window.ENV.FIREBASE_APP_ID,
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+
+  let currentUser = null;
+  let isAdmin = false;
+  let unsubAnn = null;
+
+  const allowedDomains = [
+    "scr.sch.id","eibos.sch.id","fatih.sch.id","gcb.sch.id",
+    "kesatuanbangsa.sch.id","kbs.sch.id","mega.sch.id","pakarbelia.sch.id",
+    "prestigeschool.sch.id","pribadibandung.sch.id","pribadidepok.sch.id",
+    "pribadipremiere.sch.id","semesta.sch.id","tnafatih.sch.id","eduversal.org",
+  ];
+
+  // ── Helpers ─────────────────────────────────────────────────
+  const PALETTE = ['#6c5ce7','#00b894','#e17055','#0984e3','#a29bfe','#e84393','#00cec9','#f39c12'];
+  function avatarColor(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) h = str.charCodeAt(i) + ((h << 5) - h);
+    return PALETTE[Math.abs(h) % PALETTE.length];
+  }
+  function getInitials(name) {
+    return name.split(' ').filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0,2) || '?';
+  }
+  function buildAvatarEl(el, user) {
+    if (user.photoURL) {
+      el.innerHTML = `<img src="${user.photoURL}" referrerpolicy="no-referrer" alt="">`;
+      el.style.background = 'transparent';
+    } else {
+      const n = user.displayName || user.email.split('@')[0];
+      el.style.background = avatarColor(n);
+      el.textContent = getInitials(n);
+    }
+  }
+  function buildAvatarFromName(el, name, photoURL) {
+    if (photoURL) {
+      el.innerHTML = `<img src="${photoURL}" referrerpolicy="no-referrer" alt="">`;
+      el.style.background = 'transparent';
+    } else {
+      el.style.background = avatarColor(name);
+      el.textContent = getInitials(name);
+    }
+  }
+
+  function relativeTime(ts) {
+    if (!ts) return '';
+    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    const diff = (Date.now() - d.getTime()) / 1000;
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+    if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+    if (diff < 604800) return `${Math.floor(diff/86400)}d ago`;
+    return d.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg; el.style.display = 'block';
+    setTimeout(() => el.style.display = 'none', 4000);
+  }
+
+  // ── Auth ─────────────────────────────────────────────────────
+  onAuthStateChanged(auth, async (user) => {
+    document.getElementById('loadingScreen').style.display = 'none';
+    if (user) {
+      const domain = user.email.split('@')[1];
+      const isPwUser = user.providerData.some(p => p.providerId === 'password');
+      if (!allowedDomains.includes(domain) && !isPwUser) {
+        await signOut(auth);
+        showError('Access denied. Only authorized school emails are allowed.');
+        return;
+      }
+
+      currentUser = user;
+
+      // Check admin
+      try {
+        const snap = await getDoc(doc(db, 'users', user.uid));
+        isAdmin = snap.exists() && snap.data().isAdmin === true;
+      } catch { isAdmin = false; }
+
+      // Update lastReadAnnouncements
+      setDoc(doc(db, 'users', user.uid), { lastReadAnnouncements: serverTimestamp() }, { merge: true }).catch(() => {});
+
+      // Show UI
+      const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+      document.getElementById('userNameShort').textContent = nameShort;
+      buildAvatarEl(document.getElementById('userAvatar'), user);
+      document.getElementById('userChip').style.display = 'flex';
+      if (isAdmin) document.getElementById('newAnnBtn').style.display = 'flex';
+
+      document.getElementById('loginScreen').classList.remove('visible');
+      document.getElementById('mainContent').style.display = 'block';
+
+      initAnnouncements();
+    } else {
+      currentUser = null; isAdmin = false;
+      if (unsubAnn) { unsubAnn(); unsubAnn = null; }
+      document.getElementById('loginScreen').classList.add('visible');
+      document.getElementById('mainContent').style.display = 'none';
+    }
+  });
+
+  document.getElementById('googleLoginBtn').addEventListener('click', () => {
+    signInWithPopup(auth, provider).catch(e => showError(e.message));
+  });
+  document.getElementById('loginForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = document.getElementById('emailInput').value.trim();
+    const pw = document.getElementById('passwordInput').value;
+    try { await signInWithEmailAndPassword(auth, email, pw); }
+    catch { showError('Invalid email or password'); }
+  });
+
+  // ── Announcements List ───────────────────────────────────────
+  function initAnnouncements() {
+    const q = query(collection(db, 'announcements'), orderBy('pinned', 'desc'), orderBy('timestamp', 'desc'));
+    unsubAnn = onSnapshot(q, async (snap) => {
+      const annList = document.getElementById('annList');
+      const annEmpty = document.getElementById('annEmpty');
+
+      if (snap.empty) {
+        annEmpty.style.display = 'block';
+        // Remove cards but keep empty msg
+        [...annList.children].forEach(c => { if (c !== annEmpty) c.remove(); });
+        return;
+      }
+      annEmpty.style.display = 'none';
+
+      // Build set of current IDs in DOM
+      const existingIds = new Set([...annList.querySelectorAll('.ann-card')].map(c => c.dataset.id));
+      const incomingIds = new Set(snap.docs.map(d => d.id));
+
+      // Remove stale cards
+      existingIds.forEach(id => {
+        if (!incomingIds.has(id)) {
+          const el = annList.querySelector(`.ann-card[data-id="${id}"]`);
+          if (el) el.remove();
+        }
+      });
+
+      // Add/update cards
+      for (const docSnap of snap.docs) {
+        const id = docSnap.id;
+        const d = docSnap.data();
+        let card = annList.querySelector(`.ann-card[data-id="${id}"]`);
+        if (!card) {
+          card = buildCard(id, d);
+          annList.appendChild(card);
+        } else {
+          updateCardData(card, id, d);
+        }
+      }
+
+      // Re-sort DOM to match Firestore order (pinned first, then newest)
+      const cards = [...annList.querySelectorAll('.ann-card')];
+      const order = snap.docs.map(d => d.id);
+      order.forEach((id, i) => {
+        const card = annList.querySelector(`.ann-card[data-id="${id}"]`);
+        if (card) annList.appendChild(card); // move to end in order
+      });
+    }, (err) => console.error('Announcements listener error:', err));
+  }
+
+  function buildCard(id, d) {
+    const card = document.createElement('div');
+    card.className = 'ann-card' + (d.pinned ? ' pinned' : '');
+    card.dataset.id = id;
+    card.innerHTML = cardInnerHTML(id, d);
+    attachCardEvents(card, id, d);
+    return card;
+  }
+
+  function updateCardData(card, id, d) {
+    card.className = 'ann-card' + (d.pinned ? ' pinned' : '') + (card.classList.contains('expanded') ? ' expanded' : '');
+    card.innerHTML = cardInnerHTML(id, d);
+    attachCardEvents(card, id, d);
+  }
+
+  function cardInnerHTML(id, d) {
+    const adminBtns = isAdmin ? `
+      <div class="ann-admin-btns">
+        <button class="ann-admin-btn ${d.pinned ? 'pin-active' : ''}" data-action="pin" title="${d.pinned ? 'Unpin' : 'Pin'}">📌</button>
+        <button class="ann-admin-btn del" data-action="delete" title="Delete">🗑️</button>
+      </div>` : '';
+
+    const preview = (d.body || '').slice(0, 200) + ((d.body || '').length > 200 ? '…' : '');
+    const commentCount = d.commentCount || 0;
+
+    return `
+      <div class="ann-card-header" data-action="toggle">
+        <span class="ann-pin-icon">📌</span>
+        <div class="ann-card-body">
+          <div class="ann-title">${escHtml(d.title || '')}</div>
+          <div class="ann-meta">
+            <span>${escHtml(d.authorName || 'Admin')}</span>
+            <span class="ann-meta-sep">·</span>
+            <span>${relativeTime(d.timestamp)}</span>
+            <span class="ann-comment-chip">💬 ${commentCount}</span>
+          </div>
+        </div>
+        ${adminBtns}
+      </div>
+      <div class="ann-preview">${escHtml(preview)}</div>
+      <div class="ann-full-body">${escHtml(d.body || '')}</div>
+      <div class="ann-expand-row" data-action="toggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        <span class="expand-label">Show more</span>
+      </div>
+      <div class="ann-comments">
+        <div class="comments-list" id="comments-${id}">
+          <div class="no-comments" id="no-comments-${id}">Loading comments…</div>
+        </div>
+        <div class="comment-input-row">
+          <textarea class="comment-input" id="comment-input-${id}" placeholder="Write a comment…" rows="1"></textarea>
+          <button class="comment-post-btn" id="comment-post-${id}">Post</button>
+        </div>
+      </div>`;
+  }
+
+  function attachCardEvents(card, id, d) {
+    // Toggle expand
+    card.querySelectorAll('[data-action="toggle"]').forEach(el => {
+      el.addEventListener('click', () => {
+        const wasExpanded = card.classList.contains('expanded');
+        card.classList.toggle('expanded');
+        const label = card.querySelector('.expand-label');
+        if (label) label.textContent = card.classList.contains('expanded') ? 'Show less' : 'Show more';
+        if (!wasExpanded) loadComments(card, id);
+      });
+    });
+
+    // Admin: pin
+    const pinBtn = card.querySelector('[data-action="pin"]');
+    if (pinBtn) {
+      pinBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        if (!isAdmin) return;
+        try { await updateDoc(doc(db, 'announcements', id), { pinned: !d.pinned }); }
+        catch (err) { console.error(err); }
+      });
+    }
+
+    // Admin: delete
+    const delBtn = card.querySelector('[data-action="delete"]');
+    if (delBtn) {
+      delBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showConfirm(`Delete "${d.title}"?`, 'This will permanently remove the announcement and all its comments.', async () => {
+          try {
+            // Delete all comments first
+            const commSnap = await getDocs(collection(db, 'announcements', id, 'comments'));
+            await Promise.all(commSnap.docs.map(c => deleteDoc(c.ref)));
+            await deleteDoc(doc(db, 'announcements', id));
+          } catch (err) { console.error(err); }
+        });
+      });
+    }
+
+    // Comment post
+    const postBtn = card.querySelector(`#comment-post-${id}`);
+    const commentInput = card.querySelector(`#comment-input-${id}`);
+    if (postBtn && commentInput) {
+      // Auto-resize textarea
+      commentInput.addEventListener('input', () => {
+        commentInput.style.height = 'auto';
+        commentInput.style.height = Math.min(commentInput.scrollHeight, 120) + 'px';
+      });
+      postBtn.addEventListener('click', () => postComment(id, commentInput, postBtn));
+      commentInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); postComment(id, commentInput, postBtn); }
+      });
+    }
+  }
+
+  // ── Comments ─────────────────────────────────────────────────
+  const commentUnsubs = {};
+
+  function loadComments(card, annId) {
+    if (commentUnsubs[annId]) return; // already listening
+    const commList = card.querySelector(`#comments-${annId}`);
+    const noComm = card.querySelector(`#no-comments-${annId}`);
+
+    const q = query(collection(db, 'announcements', annId, 'comments'), orderBy('timestamp', 'asc'));
+    commentUnsubs[annId] = onSnapshot(q, (snap) => {
+      // Remove old comment items (keep no-comments msg)
+      [...commList.querySelectorAll('.comment-item')].forEach(c => c.remove());
+
+      if (snap.empty) {
+        if (noComm) { noComm.textContent = 'No comments yet. Be the first!'; noComm.style.display = 'block'; }
+        return;
+      }
+      if (noComm) noComm.style.display = 'none';
+
+      snap.docs.forEach(docSnap => {
+        const c = docSnap.data();
+        const item = document.createElement('div');
+        item.className = 'comment-item';
+        item.dataset.id = docSnap.id;
+        const canDelete = isAdmin || (currentUser && c.authorId === currentUser.uid);
+        const avatarDiv = document.createElement('div');
+        avatarDiv.className = 'comment-avatar';
+        buildAvatarFromName(avatarDiv, c.authorName || '', c.authorPhotoURL || '');
+        item.innerHTML = `
+          <div class="comment-body">
+            <div class="comment-author">${escHtml(c.authorName || 'Unknown')}</div>
+            <div class="comment-text">${escHtml(c.body || '')}</div>
+            <div class="comment-time">${relativeTime(c.timestamp)}</div>
+          </div>
+          ${canDelete ? `<button class="comment-del-btn" title="Delete comment">✕</button>` : ''}`;
+        item.prepend(avatarDiv);
+
+        if (canDelete) {
+          item.querySelector('.comment-del-btn').addEventListener('click', async () => {
+            try {
+              await deleteDoc(doc(db, 'announcements', annId, 'comments', docSnap.id));
+              // Decrement count
+              const annRef = doc(db, 'announcements', annId);
+              const annSnap = await getDoc(annRef);
+              if (annSnap.exists()) {
+                const cur = annSnap.data().commentCount || 0;
+                await updateDoc(annRef, { commentCount: Math.max(0, cur - 1) });
+              }
+            } catch (err) { console.error(err); }
+          });
+        }
+        commList.appendChild(item);
+      });
+    });
+  }
+
+  async function postComment(annId, inputEl, btn) {
+    if (!currentUser) return;
+    const body = inputEl.value.trim();
+    if (!body) return;
+    btn.disabled = true;
+    try {
+      await addDoc(collection(db, 'announcements', annId, 'comments'), {
+        body,
+        authorName: currentUser.displayName || currentUser.email.split('@')[0],
+        authorId: currentUser.uid,
+        authorPhotoURL: currentUser.photoURL || '',
+        timestamp: serverTimestamp(),
+      });
+      // Increment count
+      const annRef = doc(db, 'announcements', annId);
+      const annSnap = await getDoc(annRef);
+      if (annSnap.exists()) {
+        await updateDoc(annRef, { commentCount: (annSnap.data().commentCount || 0) + 1 });
+      }
+      inputEl.value = '';
+      inputEl.style.height = 'auto';
+    } catch (err) { console.error(err); }
+    btn.disabled = false;
+  }
+
+  // ── New Announcement Modal ───────────────────────────────────
+  const modalOverlay = document.getElementById('modalOverlay');
+  document.getElementById('newAnnBtn').addEventListener('click', () => {
+    document.getElementById('annTitle').value = '';
+    document.getElementById('annBody').value = '';
+    document.getElementById('annPin').checked = false;
+    document.getElementById('modalErr').textContent = '';
+    modalOverlay.classList.add('open');
+  });
+  document.getElementById('modalCancel').addEventListener('click', () => modalOverlay.classList.remove('open'));
+  modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) modalOverlay.classList.remove('open'); });
+
+  document.getElementById('modalPublish').addEventListener('click', async () => {
+    if (!isAdmin || !currentUser) return;
+    const title = document.getElementById('annTitle').value.trim();
+    const body = document.getElementById('annBody').value.trim();
+    const pinned = document.getElementById('annPin').checked;
+    const errEl = document.getElementById('modalErr');
+    const btn = document.getElementById('modalPublish');
+
+    if (!title) { errEl.textContent = 'Please enter a title.'; return; }
+    if (!body)  { errEl.textContent = 'Please enter a body text.'; return; }
+
+    btn.disabled = true; btn.textContent = 'Publishing…';
+    try {
+      await addDoc(collection(db, 'announcements'), {
+        title, body, pinned,
+        authorName: currentUser.displayName || currentUser.email.split('@')[0],
+        authorId: currentUser.uid,
+        commentCount: 0,
+        timestamp: serverTimestamp(),
+      });
+      modalOverlay.classList.remove('open');
+    } catch (err) {
+      errEl.textContent = 'Failed to publish. Try again.';
+      console.error(err);
+    }
+    btn.disabled = false; btn.textContent = 'Publish';
+  });
+
+  // ── Confirm Dialog ───────────────────────────────────────────
+  let confirmCallback = null;
+  function showConfirm(title, msg, cb) {
+    document.querySelector('#confirmOverlay .confirm-box h4').textContent = title;
+    document.querySelector('#confirmOverlay .confirm-box p').textContent = msg;
+    confirmCallback = cb;
+    document.getElementById('confirmOverlay').classList.add('open');
+  }
+  document.getElementById('confirmCancel').addEventListener('click', () => {
+    document.getElementById('confirmOverlay').classList.remove('open');
+    confirmCallback = null;
+  });
+  document.getElementById('confirmDelete').addEventListener('click', async () => {
+    document.getElementById('confirmOverlay').classList.remove('open');
+    if (confirmCallback) await confirmCallback();
+    confirmCallback = null;
+  });
+
+  // ── Util ─────────────────────────────────────────────────────
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+</script>
+</body>
+</html>
