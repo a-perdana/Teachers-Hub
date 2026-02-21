@@ -1,6 +1,9 @@
 # Firebase Admin SDK service account — never commit this
 serviceAccountKey.json
 
+# Local Firebase config with real API keys — use Vercel env vars in production
+firebase-config.js
+
 # Environment variables
 .env
 .env.local

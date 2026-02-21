@@ -37,5 +37,6 @@ function processFile(filename) {
 
 processFile('index.html');
 processFile('messageboard.html');
+processFile('igcse-math-pacing.html');
 
 console.log('Build completed successfully!');
