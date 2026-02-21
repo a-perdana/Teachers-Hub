@@ -1,5 +1,4 @@
-# Firebase credentials — never commit these
-firebase-config.js
+# Firebase Admin SDK service account — never commit this
 serviceAccountKey.json
 
 # Environment variables
