@@ -1,18 +1,18 @@
-// firebase-config.example.js
+// firebase-config.example.js — Teachers Hub
 // ─────────────────────────────────────────────────────────────────
-// Template for firebase-config.js (which is gitignored).
+// Copy this file to firebase-config.js and fill in YOUR_API_KEY
+// and YOUR_APP_ID from:
+//   Firebase Console → centralhub-8727b → Project Settings → Your apps
 //
-// Setup:
-//   1. Copy this file → firebase-config.js
-//   2. Replace the placeholder values with your Firebase project
-//      credentials from:
-//      Firebase Console → Project Settings → Your apps → SDK config
+// firebase-config.js is GITIGNORED — never commit it.
+//
+// All three apps share the centralhub-8727b Firebase project.
 // ─────────────────────────────────────────────────────────────────
 window.ENV = {
-  FIREBASE_API_KEY:             "__FIREBASE_API_KEY__",
-  FIREBASE_AUTH_DOMAIN:         "__FIREBASE_AUTH_DOMAIN__",
-  FIREBASE_PROJECT_ID:          "__FIREBASE_PROJECT_ID__",
-  FIREBASE_STORAGE_BUCKET:      "__FIREBASE_STORAGE_BUCKET__",
-  FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
-  FIREBASE_APP_ID:              "__FIREBASE_APP_ID__",
+  FIREBASE_API_KEY:             "YOUR_API_KEY",
+  FIREBASE_AUTH_DOMAIN:         "centralhub-8727b.firebaseapp.com",
+  FIREBASE_PROJECT_ID:          "centralhub-8727b",
+  FIREBASE_STORAGE_BUCKET:      "centralhub-8727b.firebasestorage.app",
+  FIREBASE_MESSAGING_SENDER_ID: "244951050014",
+  FIREBASE_APP_ID:              "YOUR_APP_ID",
 };

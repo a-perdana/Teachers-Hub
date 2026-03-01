@@ -2023,8 +2023,9 @@
         }
       }
     </style>
+    <script src="firebase-config.js"></script>
     <script>
-      window.ENV = {
+      if (!window.ENV) window.ENV = {
         FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
         FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
         FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
@@ -2986,7 +2987,7 @@
 
         // Live badge for Message Board
         onSnapshot(
-          query(collection(db, 'topics'), where('timestamp', '>', lastMsgTime)),
+          query(collection(db, 'topics'), where('createdAt', '>', lastMsgTime)),
           (snap) => {
             const n = snap.size;
             const el = document.getElementById('msgBoardBadge');
@@ -2996,7 +2997,7 @@
 
         // Live badge for Announcements
         onSnapshot(
-          query(collection(db, 'announcements'), where('timestamp', '>', lastAnnTime)),
+          query(collection(db, 'announcements'), where('createdAt', '>', lastAnnTime)),
           (snap) => {
             const n = snap.size;
             const el = document.getElementById('announcementsBadge');

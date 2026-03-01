@@ -601,8 +601,9 @@
         .mb-user-name { max-width: 80px; }
       }
     </style>
+    <script src="firebase-config.js"></script>
     <script>
-      window.ENV = {
+      if (!window.ENV) window.ENV = {
         FIREBASE_API_KEY:             "__FIREBASE_API_KEY__",
         FIREBASE_AUTH_DOMAIN:         "__FIREBASE_AUTH_DOMAIN__",
         FIREBASE_PROJECT_ID:          "__FIREBASE_PROJECT_ID__",
@@ -1052,7 +1053,7 @@
                 <div class="topic-card-meta">
                   <span>${escHtml(data.displayName)}</span>
                   <span class="topic-sep">·</span>
-                  <span>${formatDate(data.timestamp)}</span>
+                  <span>${formatDate(data.createdAt)}</span>
                   <span class="topic-replies-badge">${cnt} ${cnt === 1 ? "reply" : "replies"}</span>
                 </div>
               </div>`;
@@ -1149,7 +1150,7 @@
               <div class="post-meta">
                 <span>${escHtml(d.displayName)}</span>
                 <span class="topic-sep">·</span>
-                <span>${formatDate(d.timestamp)}</span>
+                <span>${formatDate(d.createdAt)}</span>
                 ${editedBadge}
               </div>
             </div>`;
@@ -1197,7 +1198,7 @@
                     <div class="reply-meta" style="margin-top: 10px;">
                       <span>${escHtml(data.displayName)}</span>
                       <span class="topic-sep">·</span>
-                      <span>${formatDate(data.timestamp)}</span>
+                      <span>${formatDate(data.createdAt)}</span>
                       ${editedBadge}
                     </div>
                   </div>`;
@@ -1209,7 +1210,7 @@
                   <div class="reply-meta">
                     <span>${escHtml(data.displayName)}</span>
                     <span class="topic-sep">·</span>
-                    <span>${formatDate(data.timestamp)}</span>
+                    <span>${formatDate(data.createdAt)}</span>
                     ${editedBadge}
                     ${canEdit
                       ? `<div class="reply-actions">
@@ -1320,7 +1321,7 @@
             body,
             uid: currentUser.uid,
             displayName: getDisplayName(currentUser),
-            timestamp: serverTimestamp(),
+            createdAt: serverTimestamp(),
           });
           await updateDoc(doc(db, "topics", currentTopicId), {
             replyCount: increment(1),
@@ -1406,7 +1407,7 @@
             body,
             uid: currentUser.uid,
             displayName: getDisplayName(currentUser),
-            timestamp: serverTimestamp(),
+            createdAt: serverTimestamp(),
             replyCount: 0,
           });
           closeModal();

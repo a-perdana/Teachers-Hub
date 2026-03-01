@@ -1,5 +1,9 @@
-# Firebase Admin SDK service account — never commit this
+# Claude Code local settings
+.claude/
+
+# Firebase Admin SDK service account and migration keys — never commit
 serviceAccountKey.json
+keys/
 
 # Local Firebase config with real API keys — use Vercel env vars in production
 firebase-config.js

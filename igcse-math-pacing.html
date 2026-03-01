@@ -509,8 +509,9 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 .login-submit:disabled { opacity: .6; cursor: not-allowed; }
 </style>
 
+<script src="firebase-config.js"></script>
 <script>
-window.ENV = {
+if (!window.ENV) window.ENV = {
   FIREBASE_API_KEY:             "__FIREBASE_API_KEY__",
   FIREBASE_AUTH_DOMAIN:         "__FIREBASE_AUTH_DOMAIN__",
   FIREBASE_PROJECT_ID:          "__FIREBASE_PROJECT_ID__",
@@ -1238,7 +1239,7 @@ onAuthStateChanged(auth, async (user) => {
         email: user.email || '',
       }, { merge: true });
       const userSnap = await getDoc(userRef);
-      if (userSnap.exists() && userSnap.data().role === 'coordinator') {
+      if (userSnap.exists() && userSnap.data().role === 'academic_coordinator') {
         appRole = 'coord';
       }
     } catch(e) { /* role stays 'teacher' */ }

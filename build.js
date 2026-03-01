@@ -31,6 +31,9 @@ function processFile(filename) {
     html = html.replace(new RegExp(placeholder, 'g'), value);
   });
 
+  // Remove local-dev-only firebase-config.js script tag (not needed in dist)
+  html = html.replace(/<script src="firebase-config\.js"><\/script>\n?/g, '');
+
   fs.writeFileSync(path.join(distDir, filename), html);
   console.log(`Output: dist/${filename}`);
 }

@@ -509,8 +509,9 @@ body {
   Add Resource
 </button>
 
+<script src="firebase-config.js"></script>
 <script>
-  window.ENV = {
+  if (!window.ENV) window.ENV = {
     FIREBASE_API_KEY:            "__FIREBASE_API_KEY__",
     FIREBASE_AUTH_DOMAIN:        "__FIREBASE_AUTH_DOMAIN__",
     FIREBASE_PROJECT_ID:         "__FIREBASE_PROJECT_ID__",
@@ -628,7 +629,7 @@ body {
       // Check admin
       try {
         const snap = await getDoc(doc(db, 'users', user.uid));
-        isAdmin = snap.exists() && snap.data().isAdmin === true;
+        isAdmin = snap.exists() && (snap.data().role === 'central_admin' || snap.data().role === 'academic_coordinator');
       } catch { isAdmin = false; }
 
       // Show UI
@@ -663,7 +664,7 @@ body {
 
   // ── Library ──────────────────────────────────────────────────
   function initLibrary() {
-    const q = query(collection(db, 'library'), orderBy('timestamp', 'desc'));
+    const q = query(collection(db, 'library'), orderBy('createdAt', 'desc'));
     unsubLib = onSnapshot(q, (snap) => {
       allResources = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       renderGrid();
@@ -706,7 +707,7 @@ body {
           </div>
           <p class="res-desc">${escHtml(r.description || '')}</p>
           <div class="res-footer">
-            <span class="res-meta">by ${escHtml(authorShort)} · ${relativeTime(r.timestamp)}</span>
+            <span class="res-meta">by ${escHtml(authorShort)} · ${relativeTime(r.createdAt)}</span>
             <a href="${escHtml(r.url || '')}" target="_blank" rel="noopener noreferrer" class="res-open-btn">
               Open <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
@@ -787,7 +788,7 @@ body {
         title, url, description: desc, type, subject,
         authorName: currentUser.displayName || currentUser.email.split('@')[0],
         authorId: currentUser.uid,
-        timestamp: serverTimestamp(),
+        createdAt: serverTimestamp(),
       });
       document.getElementById('modalOverlay').classList.remove('open');
     } catch (err) {
