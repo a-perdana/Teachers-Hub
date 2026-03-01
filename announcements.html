@@ -671,7 +671,13 @@ body {
       const annList = document.getElementById('annList');
       const annEmpty = document.getElementById('annEmpty');
 
-      if (snap.empty) {
+      // Only show announcements published to teachershub (or legacy ones with no platforms field)
+      const filteredDocs = snap.docs.filter(d => {
+        const plats = d.data().platforms;
+        return !plats || plats.includes('teachershub');
+      });
+
+      if (!filteredDocs.length) {
         annEmpty.style.display = 'block';
         [...annList.children].forEach(c => { if (c !== annEmpty) c.remove(); });
         return;
@@ -679,7 +685,7 @@ body {
       annEmpty.style.display = 'none';
 
       // Sort client-side: pinned first, then by timestamp desc
-      const sorted = [...snap.docs].sort((a, b) => {
+      const sorted = [...filteredDocs].sort((a, b) => {
         const ap = a.data().pinned ? 1 : 0;
         const bp = b.data().pinned ? 1 : 0;
         if (bp !== ap) return bp - ap;
