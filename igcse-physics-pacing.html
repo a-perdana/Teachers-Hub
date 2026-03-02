@@ -856,7 +856,9 @@ function renderPacing() {
   const container = document.getElementById('chBlocks');
 
   if (!DATA.length) {
-    container.innerHTML = `<div class="empty"><div class="empty-icon">⚛️</div><p>No chapters yet. Data will appear here once the Physics curriculum is loaded.</p></div>`;
+    container.innerHTML = `
+      <div class="empty"><div class="empty-icon">⚛️</div><p>No chapters yet. Add the first chapter to get started.</p></div>
+      <div class="add-chapter-wrap"><button class="add-chapter-btn" onclick="addChapter()">+ Add Chapter</button></div>`;
     return;
   }
 
