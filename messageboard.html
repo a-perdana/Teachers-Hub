@@ -925,7 +925,7 @@
       }
 
       function canModify(uid) {
-        return currentUser && (currentUser.uid === uid || currentUserRole === "moderator");
+        return currentUser && (currentUser.uid === uid || currentUserRole === "teachers_admin");
       }
 
       // SVG snippets
@@ -962,7 +962,7 @@
           try {
             const userSnap = await getDoc(doc(db, "users", user.uid));
             currentUserRole = userSnap.exists()
-              ? userSnap.data().role || null
+              ? userSnap.data().role_teachershub || null
               : null;
           } catch {
             currentUserRole = null;
