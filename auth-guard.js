@@ -23,6 +23,10 @@ import { getAuth, onAuthStateChanged, signOut }
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+// ── Platform identity ─────────────────────────────────────────────
+const PLATFORM_KEY  = 'role_teachershub';  // per-user Firestore field
+const DEFAULT_ROLE  = 'teachers_user';
+
 // Roles permitted to use Teachers Hub
 const ALLOWED_ROLES = ['teachers_admin', 'teachers_user'];
 
@@ -97,20 +101,26 @@ onAuthStateChanged(auth, async (user) => {
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
-      // First sign-in: auto-assign teachers_user. teachers_admin is set manually.
+      // First sign-in: assign default Teachers Hub role.
       const newProfile = {
-        uid:         user.uid,
-        email:       user.email,
-        displayName: user.displayName || '',
-        photoURL:    user.photoURL    || '',
-        role:        'teachers_user',
-        platform:    'teachershub',
-        createdAt:   serverTimestamp(),
+        uid:            user.uid,
+        email:          user.email,
+        displayName:    user.displayName || '',
+        photoURL:       user.photoURL    || '',
+        [PLATFORM_KEY]: DEFAULT_ROLE,
+        createdAt:      serverTimestamp(),
       };
       await setDoc(userRef, newProfile);
       profile = newProfile;
     } else {
       profile = userSnap.data();
+      // Legacy migration: if Teachers Hub role field is absent, derive from old `role` field
+      if (profile[PLATFORM_KEY] == null) {
+        const legacy     = profile.role;
+        const assignRole = ALLOWED_ROLES.includes(legacy) ? legacy : DEFAULT_ROLE;
+        await setDoc(userRef, { [PLATFORM_KEY]: assignRole }, { merge: true });
+        profile = { ...profile, [PLATFORM_KEY]: assignRole };
+      }
     }
   } catch (err) {
     console.error('auth-guard: could not fetch user profile', err);
@@ -120,11 +130,14 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   // 3. Role check
-  if (!ALLOWED_ROLES.includes(profile.role)) {
+  const platformRole = profile[PLATFORM_KEY];
+  if (!ALLOWED_ROLES.includes(platformRole)) {
     await signOut(auth);
     window.location.replace('index.html?error=access');
     return;
   }
+  // Set profile.role for backward compat with page-level checks
+  profile.role = platformRole;
 
   // 4. Name prompt if missing
   if (!profile.displayName) {
