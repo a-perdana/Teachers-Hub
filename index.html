@@ -2878,6 +2878,29 @@
             return;
           }
           currentUser = user;
+
+          // Ensure Firestore profile exists with role_teachershub
+          try {
+            const userRef = doc(db, 'users', user.uid);
+            const snap    = await getDoc(userRef);
+            if (!snap.exists()) {
+              await setDoc(userRef, {
+                uid:              user.uid,
+                email:            user.email,
+                displayName:      user.displayName || '',
+                photoURL:         user.photoURL    || '',
+                role_teachershub: 'teachers_user',
+                createdAt:        serverTimestamp(),
+              });
+            } else if (snap.data().role_teachershub == null) {
+              // Legacy migration from old `role` field
+              const legacy     = snap.data().role;
+              const assignRole = ['teachers_admin', 'teachers_user'].includes(legacy)
+                ? legacy : 'teachers_user';
+              await setDoc(userRef, { role_teachershub: assignRole }, { merge: true });
+            }
+          } catch (_) {}
+
           document.getElementById("loginScreen").classList.remove("visible");
           document.getElementById("mainContent").style.display = "block";
           showProfileUI(user);
