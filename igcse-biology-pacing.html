@@ -1196,7 +1196,7 @@ onAuthStateChanged(auth, async (user) => {
         email: user.email || '',
       }, { merge: true });
       const userSnap = await getDoc(userRef);
-      if (userSnap.exists() && userSnap.data().role === 'academic_coordinator') {
+      if (userSnap.exists() && userSnap.data().role === 'teachers_admin') {
         appRole = 'coord';
       }
     } catch(e) { /* role stays 'teacher' */ }
