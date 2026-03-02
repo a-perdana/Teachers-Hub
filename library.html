@@ -629,7 +629,7 @@ body {
       // Check admin
       try {
         const snap = await getDoc(doc(db, 'users', user.uid));
-        isAdmin = snap.exists() && (snap.data().role === 'teachers_admin');
+        isAdmin = snap.exists() && (snap.data().role_teachershub === 'teachers_admin');
       } catch { isAdmin = false; }
 
       // Show UI
