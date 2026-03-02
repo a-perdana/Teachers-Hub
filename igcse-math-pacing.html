@@ -1356,12 +1356,13 @@ onAuthStateChanged(auth, async (user) => {
       await setDoc(userRef, {
         displayName,
         email: user.email || '',
-        role_teachershub: 'teachers_user',
       }, { merge: true });
       const userSnap = await getDoc(userRef);
       const r = userSnap.exists() ? userSnap.data().role_teachershub : null;
       if (r === 'teachers_admin') {
         appRole = 'coord';
+      } else if (!r) {
+        await setDoc(userRef, { role_teachershub: 'teachers_user' }, { merge: true });
       }
     } catch(e) { /* role stays 'teacher' */ }
 
