@@ -855,6 +855,14 @@ function renderProgress() {
 function renderPacing() {
   const container = document.getElementById('chBlocks');
 
+  if (role === 'coord') {
+    document.body.classList.add('coord-mode');
+    document.getElementById('editHint').style.display = 'block';
+  } else {
+    document.body.classList.remove('coord-mode');
+    document.getElementById('editHint').style.display = 'none';
+  }
+
   if (!DATA.length) {
     container.innerHTML = `
       <div class="empty"><div class="empty-icon">🧪</div><p>No chapters yet. Add the first chapter to get started.</p></div>
