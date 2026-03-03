@@ -1,4 +1,4 @@
-const fs = require('fs');
+﻿const fs = require('fs');
 const path = require('path');
 
 // Create dist directory if it doesn't exist
@@ -17,31 +17,45 @@ const envVars = [
   'FIREBASE_APP_ID'
 ];
 
-// Map: source filename → clean URL path (relative to dist root)
+// Map: source filename -> clean URL path (relative to dist root)
 // index.html stays at root; everything else gets a named subfolder
 const ROUTES = {
-  'index.html':                 '',               // dist/index.html         → /
-  'pacing-hub.html':            'pacing',         // dist/pacing/index.html  → /pacing
-  'igcse-math-pacing.html':     'math',           // dist/math/index.html    → /math
-  'igcse-physics-pacing.html':  'physics',        // dist/physics/index.html → /physics
-  'igcse-chemistry-pacing.html':'chemistry',      // dist/chemistry/index.html → /chemistry
-  'igcse-biology-pacing.html':  'biology',        // dist/biology/index.html → /biology
-  'announcements.html':         'announcements',  // dist/announcements/index.html → /announcements
-  'messageboard.html':          'messageboard',   // dist/messageboard/index.html → /messageboard
-  'library.html':               'library',        // dist/library/index.html → /library
+  'index.html': '',
+  'pacing-hub.html': 'pacing',
+  'igcse-math-pacing.html': 'math',
+  'igcse-physics-pacing.html': 'physics',
+  'igcse-chemistry-pacing.html': 'chemistry',
+  'igcse-biology-pacing.html': 'biology',
+  'checkpoint-math-pacing.html': 'checkpoint-math',
+  'checkpoint-english-pacing.html': 'checkpoint-english',
+  'checkpoint-science-pacing.html': 'checkpoint-science',
+  'asalevel-math-pacing.html': 'asalevel-math',
+  'asalevel-biology-pacing.html': 'asalevel-biology',
+  'asalevel-chemistry-pacing.html': 'asalevel-chemistry',
+  'asalevel-physics-pacing.html': 'asalevel-physics',
+  'announcements.html': 'announcements',
+  'messageboard.html': 'messageboard',
+  'library.html': 'library',
 };
 
-// Internal href replacements: old link → clean URL
+// Internal href replacements: old link -> clean URL
 const LINK_REWRITES = [
-  [/href="index\.html"/g,                   'href="/"'],
-  [/href="pacing-hub\.html"/g,              'href="/pacing"'],
-  [/href="igcse-math-pacing\.html"/g,       'href="/math"'],
-  [/href="igcse-physics-pacing\.html"/g,    'href="/physics"'],
-  [/href="igcse-chemistry-pacing\.html"/g,  'href="/chemistry"'],
-  [/href="igcse-biology-pacing\.html"/g,    'href="/biology"'],
-  [/href="announcements\.html"/g,           'href="/announcements"'],
-  [/href="messageboard\.html"/g,            'href="/messageboard"'],
-  [/href="library\.html"/g,                 'href="/library"'],
+  [/href="index\.html"/g, 'href="/"'],
+  [/href="pacing-hub\.html"/g, 'href="/pacing"'],
+  [/href="igcse-math-pacing\.html"/g, 'href="/math"'],
+  [/href="igcse-physics-pacing\.html"/g, 'href="/physics"'],
+  [/href="igcse-chemistry-pacing\.html"/g, 'href="/chemistry"'],
+  [/href="igcse-biology-pacing\.html"/g, 'href="/biology"'],
+  [/href="checkpoint-math-pacing\.html"/g, 'href="/checkpoint-math"'],
+  [/href="checkpoint-english-pacing\.html"/g, 'href="/checkpoint-english"'],
+  [/href="checkpoint-science-pacing\.html"/g, 'href="/checkpoint-science"'],
+  [/href="asalevel-math-pacing\.html"/g, 'href="/asalevel-math"'],
+  [/href="asalevel-biology-pacing\.html"/g, 'href="/asalevel-biology"'],
+  [/href="asalevel-chemistry-pacing\.html"/g, 'href="/asalevel-chemistry"'],
+  [/href="asalevel-physics-pacing\.html"/g, 'href="/asalevel-physics"'],
+  [/href="announcements\.html"/g, 'href="/announcements"'],
+  [/href="messageboard\.html"/g, 'href="/messageboard"'],
+  [/href="library\.html"/g, 'href="/library"'],
 ];
 
 function processFile(filename) {
@@ -69,7 +83,6 @@ function processFile(filename) {
   const slug = ROUTES[filename];
   let outPath;
   if (slug === '') {
-    // Root page
     outPath = path.join(distDir, 'index.html');
   } else {
     const dir = path.join(distDir, slug);
