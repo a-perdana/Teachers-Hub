@@ -184,14 +184,53 @@
         to   { opacity: 1; transform: translateY(0); }
       }
 
-      /* ── Cards Grid ── */
+      /* -- Program Groups -- */
+      .groups-wrap {
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both;
+      }
+
+      .program-group {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.10);
+        border-radius: 18px;
+        overflow: hidden;
+      }
+
+      .group-toggle {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        background: rgba(255,255,255,0.03);
+        color: #fff;
+        border: none;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        padding: 16px 18px;
+        font-family: 'Space Grotesk', sans-serif;
+        cursor: pointer;
+      }
+
+      .group-title-wrap { display: flex; align-items: baseline; gap: 10px; }
+      .group-title { font-size: 15px; font-weight: 700; letter-spacing: 0.2px; }
+      .group-sub { font-size: 12px; color: rgba(255,255,255,0.55); }
+      .group-caret { font-size: 15px; color: rgba(255,255,255,0.75); transition: transform 0.2s ease; }
+      .program-group.collapsed .group-caret { transform: rotate(-90deg); }
+      .group-content { padding: 18px; }
+      .program-group.collapsed .group-content { display: none; }
+
+      /* -- Cards Grid -- */
       .cards-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 24px;
         width: 100%;
-        max-width: 820px;
-        animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.12s both;
+        max-width: 860px;
       }
 
       @media (max-width: 600px) {
@@ -418,217 +457,139 @@
       </div>
 
       <!-- Subject Cards -->
-      <div class="cards-grid">
+      <div class="groups-wrap">
 
-        <!-- Mathematics -->
-        <a href="igcse-math-pacing.html" class="subject-card card-math">
-          <span class="card-badge badge-live">Live</span>
-          <div class="card-icon">📐</div>
-          <div class="card-subject">Mathematics</div>
-          <div class="card-title">IGCSE Mathematics 0580</div>
-          <div class="card-desc">Core &amp; Extended. 24 chapters, Year 9–10. Cambridge-aligned objectives with weekly planning.</div>
-          <div class="card-meta">
-            <span class="meta-item">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="12" height="11" rx="1"/><line x1="2" y1="7" x2="14" y2="7"/><line x1="6" y1="3" x2="6" y2="1"/><line x1="10" y1="3" x2="10" y2="1"/></svg>
-              Year 9 – 10
+        <section class="program-group" data-group>
+          <button class="group-toggle" type="button" aria-expanded="true">
+            <span class="group-title-wrap">
+              <span class="group-title">Secondary Checkpoint</span>
+              <span class="group-sub">3 subjects ? Year 7-8</span>
             </span>
-            <span class="meta-item">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6"/><polyline points="8 5 8 8 10.5 10.5"/></svg>
-              24 chapters
-            </span>
+            <span class="group-caret">?</span>
+          </button>
+          <div class="group-content">
+            <div class="cards-grid">
+              <a href="checkpoint-math-pacing.html" class="subject-card card-math">
+                <span class="card-badge badge-live">Live</span>
+                <div class="card-icon">M</div>
+                <div class="card-subject">Secondary Checkpoint</div>
+                <div class="card-title">Mathematics 1112</div>
+                <div class="card-desc">Year 7-8 pacing guide for Secondary Checkpoint Mathematics.</div>
+                <span class="card-cta cta-live">Open Pacing Guide</span>
+              </a>
+              <a href="checkpoint-english-pacing.html" class="subject-card card-biology">
+                <span class="card-badge badge-live">Live</span>
+                <div class="card-icon">E</div>
+                <div class="card-subject">Secondary Checkpoint</div>
+                <div class="card-title">English 1111</div>
+                <div class="card-desc">Year 7-8 pacing guide for Secondary Checkpoint English.</div>
+                <span class="card-cta cta-live">Open Pacing Guide</span>
+              </a>
+              <a href="checkpoint-science-pacing.html" class="subject-card card-physics">
+                <span class="card-badge badge-live">Live</span>
+                <div class="card-icon">S</div>
+                <div class="card-subject">Secondary Checkpoint</div>
+                <div class="card-title">Science 1113</div>
+                <div class="card-desc">Year 7-8 pacing guide for Secondary Checkpoint Science.</div>
+                <span class="card-cta cta-live">Open Pacing Guide</span>
+              </a>
+            </div>
           </div>
-          <span class="card-cta cta-live">
-            Open Pacing Guide
-            <svg class="cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 12 10 8 6 4"/></svg>
-          </span>
-        </a>
+        </section>
 
-        <!-- Physics -->
-        <a href="igcse-physics-pacing.html" class="subject-card card-physics">
-          <span class="card-badge badge-live">Live</span>
-          <div class="card-icon">⚛️</div>
-          <div class="card-subject">Physics</div>
-          <div class="card-title">IGCSE Physics 0625</div>
-          <div class="card-desc">Forces, energy, waves, electricity and more. Full Year 9–10 pacing with topic objectives.</div>
-          <div class="card-meta">
-            <span class="meta-item">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="12" height="11" rx="1"/><line x1="2" y1="7" x2="14" y2="7"/><line x1="6" y1="3" x2="6" y2="1"/><line x1="10" y1="3" x2="10" y2="1"/></svg>
-              Year 9 – 10
+        <section class="program-group collapsed" data-group>
+          <button class="group-toggle" type="button" aria-expanded="false">
+            <span class="group-title-wrap">
+              <span class="group-title">IGCSE</span>
+              <span class="group-sub">4 subjects ? Year 9-10</span>
             </span>
+            <span class="group-caret">?</span>
+          </button>
+          <div class="group-content">
+            <div class="cards-grid">
+              <a href="igcse-math-pacing.html" class="subject-card card-math">
+                <span class="card-badge badge-live">Live</span>
+                <div class="card-icon">M</div>
+                <div class="card-subject">IGCSE</div>
+                <div class="card-title">Mathematics 0580</div>
+                <div class="card-desc">Core and Extended pacing guide for Year 9-10.</div>
+                <span class="card-cta cta-live">Open Pacing Guide</span>
+              </a>
+              <a href="igcse-physics-pacing.html" class="subject-card card-physics">
+                <span class="card-badge badge-live">Live</span>
+                <div class="card-icon">P</div>
+                <div class="card-subject">IGCSE</div>
+                <div class="card-title">Physics 0625</div>
+                <div class="card-desc">Topic pacing guide for IGCSE Physics, Year 9-10.</div>
+                <span class="card-cta cta-live">Open Pacing Guide</span>
+              </a>
+              <a href="igcse-chemistry-pacing.html" class="subject-card card-chemistry">
+                <span class="card-badge badge-live">Live</span>
+                <div class="card-icon">C</div>
+                <div class="card-subject">IGCSE</div>
+                <div class="card-title">Chemistry 0620</div>
+                <div class="card-desc">Topic pacing guide for IGCSE Chemistry, Year 9-10.</div>
+                <span class="card-cta cta-live">Open Pacing Guide</span>
+              </a>
+              <a href="igcse-biology-pacing.html" class="subject-card card-biology">
+                <span class="card-badge badge-live">Live</span>
+                <div class="card-icon">B</div>
+                <div class="card-subject">IGCSE</div>
+                <div class="card-title">Biology 0610</div>
+                <div class="card-desc">Topic pacing guide for IGCSE Biology, Year 9-10.</div>
+                <span class="card-cta cta-live">Open Pacing Guide</span>
+              </a>
+            </div>
           </div>
-          <span class="card-cta cta-live">
-            Open Pacing Guide
-            <svg class="cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 12 10 8 6 4"/></svg>
-          </span>
-        </a>
+        </section>
 
-        <!-- Chemistry -->
-        <a href="igcse-chemistry-pacing.html" class="subject-card card-chemistry">
-          <span class="card-badge badge-live">Live</span>
-          <div class="card-icon">🧪</div>
-          <div class="card-subject">Chemistry</div>
-          <div class="card-title">IGCSE Chemistry 0620</div>
-          <div class="card-desc">Atoms, bonding, reactions, organic chemistry. Year 9–10 structured pacing guide.</div>
-          <div class="card-meta">
-            <span class="meta-item">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="12" height="11" rx="1"/><line x1="2" y1="7" x2="14" y2="7"/><line x1="6" y1="3" x2="6" y2="1"/><line x1="10" y1="3" x2="10" y2="1"/></svg>
-              Year 9 – 10
+        <section class="program-group collapsed" data-group>
+          <button class="group-toggle" type="button" aria-expanded="false">
+            <span class="group-title-wrap">
+              <span class="group-title">AS/A Level</span>
+              <span class="group-sub">4 subjects ? Year 11-12</span>
             </span>
+            <span class="group-caret">?</span>
+          </button>
+          <div class="group-content">
+            <div class="cards-grid">
+              <a href="asalevel-math-pacing.html" class="subject-card card-math">
+                <span class="card-badge badge-live">Live</span>
+                <div class="card-icon">M</div>
+                <div class="card-subject">AS/A Level</div>
+                <div class="card-title">Mathematics 9709</div>
+                <div class="card-desc">Year 11-12 pacing guide for AS/A Level Mathematics.</div>
+                <span class="card-cta cta-live">Open Pacing Guide</span>
+              </a>
+              <a href="asalevel-physics-pacing.html" class="subject-card card-physics">
+                <span class="card-badge badge-live">Live</span>
+                <div class="card-icon">P</div>
+                <div class="card-subject">AS/A Level</div>
+                <div class="card-title">Physics 9702</div>
+                <div class="card-desc">Year 11-12 pacing guide for AS/A Level Physics.</div>
+                <span class="card-cta cta-live">Open Pacing Guide</span>
+              </a>
+              <a href="asalevel-chemistry-pacing.html" class="subject-card card-chemistry">
+                <span class="card-badge badge-live">Live</span>
+                <div class="card-icon">C</div>
+                <div class="card-subject">AS/A Level</div>
+                <div class="card-title">Chemistry 9701</div>
+                <div class="card-desc">Year 11-12 pacing guide for AS/A Level Chemistry.</div>
+                <span class="card-cta cta-live">Open Pacing Guide</span>
+              </a>
+              <a href="asalevel-biology-pacing.html" class="subject-card card-biology">
+                <span class="card-badge badge-live">Live</span>
+                <div class="card-icon">B</div>
+                <div class="card-subject">AS/A Level</div>
+                <div class="card-title">Biology 9700</div>
+                <div class="card-desc">Year 11-12 pacing guide for AS/A Level Biology.</div>
+                <span class="card-cta cta-live">Open Pacing Guide</span>
+              </a>
+            </div>
           </div>
-          <span class="card-cta cta-live">
-            Open Pacing Guide
-            <svg class="cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 12 10 8 6 4"/></svg>
-          </span>
-        </a>
+        </section>
 
-        <!-- Biology -->
-        <a href="igcse-biology-pacing.html" class="subject-card card-biology">
-          <span class="card-badge badge-live">Live</span>
-          <div class="card-icon">🧬</div>
-          <div class="card-subject">Biology</div>
-          <div class="card-title">IGCSE Biology 0610</div>
-          <div class="card-desc">Cells, genetics, ecology, human biology. Year 9–10 pacing aligned with Cambridge syllabus.</div>
-          <div class="card-meta">
-            <span class="meta-item">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="12" height="11" rx="1"/><line x1="2" y1="7" x2="14" y2="7"/><line x1="6" y1="3" x2="6" y2="1"/><line x1="10" y1="3" x2="10" y2="1"/></svg>
-              Year 9 – 10
-            </span>
-          </div>
-          <span class="card-cta ctu-live cta-live">
-            Open Pacing Guide
-            <svg class="cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 12 10 8 6 4"/></svg>
-          </span>
-        </a>
-
-        <!-- Secondary Checkpoint -->
-        <a href="checkpoint-math-pacing.html" class="subject-card card-math">
-          <span class="card-badge badge-live">Live</span>
-          <div class="card-icon">📐</div>
-          <div class="card-subject">Secondary Checkpoint</div>
-          <div class="card-title">Mathematics 1112</div>
-          <div class="card-desc">Year 7–8 pacing guide for Secondary Checkpoint Mathematics.</div>
-          <div class="card-meta">
-            <span class="meta-item">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="12" height="11" rx="1"/><line x1="2" y1="7" x2="14" y2="7"/><line x1="6" y1="3" x2="6" y2="1"/><line x1="10" y1="3" x2="10" y2="1"/></svg>
-              Year 7 – 8
-            </span>
-          </div>
-          <span class="card-cta cta-live">
-            Open Pacing Guide
-            <svg class="cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 12 10 8 6 4"/></svg>
-          </span>
-        </a>
-
-        <a href="checkpoint-english-pacing.html" class="subject-card card-biology">
-          <span class="card-badge badge-live">Live</span>
-          <div class="card-icon">✍️</div>
-          <div class="card-subject">Secondary Checkpoint</div>
-          <div class="card-title">English 1111</div>
-          <div class="card-desc">Year 7–8 pacing guide for Secondary Checkpoint English.</div>
-          <div class="card-meta">
-            <span class="meta-item">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="12" height="11" rx="1"/><line x1="2" y1="7" x2="14" y2="7"/><line x1="6" y1="3" x2="6" y2="1"/><line x1="10" y1="3" x2="10" y2="1"/></svg>
-              Year 7 – 8
-            </span>
-          </div>
-          <span class="card-cta cta-live">
-            Open Pacing Guide
-            <svg class="cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 12 10 8 6 4"/></svg>
-          </span>
-        </a>
-
-        <a href="checkpoint-science-pacing.html" class="subject-card card-physics">
-          <span class="card-badge badge-live">Live</span>
-          <div class="card-icon">🔬</div>
-          <div class="card-subject">Secondary Checkpoint</div>
-          <div class="card-title">Science 1113</div>
-          <div class="card-desc">Year 7–8 pacing guide for Secondary Checkpoint Science.</div>
-          <div class="card-meta">
-            <span class="meta-item">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="12" height="11" rx="1"/><line x1="2" y1="7" x2="14" y2="7"/><line x1="6" y1="3" x2="6" y2="1"/><line x1="10" y1="3" x2="10" y2="1"/></svg>
-              Year 7 – 8
-            </span>
-          </div>
-          <span class="card-cta cta-live">
-            Open Pacing Guide
-            <svg class="cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 12 10 8 6 4"/></svg>
-          </span>
-        </a>
-
-        <!-- AS/A Level -->
-        <a href="asalevel-math-pacing.html" class="subject-card card-math">
-          <span class="card-badge badge-live">Live</span>
-          <div class="card-icon">📐</div>
-          <div class="card-subject">AS/A Level</div>
-          <div class="card-title">Mathematics 9709</div>
-          <div class="card-desc">Year 11–12 pacing guide for AS/A Level Mathematics.</div>
-          <div class="card-meta">
-            <span class="meta-item">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="12" height="11" rx="1"/><line x1="2" y1="7" x2="14" y2="7"/><line x1="6" y1="3" x2="6" y2="1"/><line x1="10" y1="3" x2="10" y2="1"/></svg>
-              Year 11 – 12
-            </span>
-          </div>
-          <span class="card-cta cta-live">
-            Open Pacing Guide
-            <svg class="cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 12 10 8 6 4"/></svg>
-          </span>
-        </a>
-
-        <a href="asalevel-biology-pacing.html" class="subject-card card-biology">
-          <span class="card-badge badge-live">Live</span>
-          <div class="card-icon">🧬</div>
-          <div class="card-subject">AS/A Level</div>
-          <div class="card-title">Biology 9700</div>
-          <div class="card-desc">Year 11–12 pacing guide for AS/A Level Biology.</div>
-          <div class="card-meta">
-            <span class="meta-item">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="12" height="11" rx="1"/><line x1="2" y1="7" x2="14" y2="7"/><line x1="6" y1="3" x2="6" y2="1"/><line x1="10" y1="3" x2="10" y2="1"/></svg>
-              Year 11 – 12
-            </span>
-          </div>
-          <span class="card-cta cta-live">
-            Open Pacing Guide
-            <svg class="cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 12 10 8 6 4"/></svg>
-          </span>
-        </a>
-
-        <a href="asalevel-chemistry-pacing.html" class="subject-card card-chemistry">
-          <span class="card-badge badge-live">Live</span>
-          <div class="card-icon">🧪</div>
-          <div class="card-subject">AS/A Level</div>
-          <div class="card-title">Chemistry 9701</div>
-          <div class="card-desc">Year 11–12 pacing guide for AS/A Level Chemistry.</div>
-          <div class="card-meta">
-            <span class="meta-item">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="12" height="11" rx="1"/><line x1="2" y1="7" x2="14" y2="7"/><line x1="6" y1="3" x2="6" y2="1"/><line x1="10" y1="3" x2="10" y2="1"/></svg>
-              Year 11 – 12
-            </span>
-          </div>
-          <span class="card-cta cta-live">
-            Open Pacing Guide
-            <svg class="cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 12 10 8 6 4"/></svg>
-          </span>
-        </a>
-
-        <a href="asalevel-physics-pacing.html" class="subject-card card-physics">
-          <span class="card-badge badge-live">Live</span>
-          <div class="card-icon">⚛️</div>
-          <div class="card-subject">AS/A Level</div>
-          <div class="card-title">Physics 9702</div>
-          <div class="card-desc">Year 11–12 pacing guide for AS/A Level Physics.</div>
-          <div class="card-meta">
-            <span class="meta-item">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="12" height="11" rx="1"/><line x1="2" y1="7" x2="14" y2="7"/><line x1="6" y1="3" x2="6" y2="1"/><line x1="10" y1="3" x2="10" y2="1"/></svg>
-              Year 11 – 12
-            </span>
-          </div>
-          <span class="card-cta cta-live">
-            Open Pacing Guide
-            <svg class="cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 12 10 8 6 4"/></svg>
-          </span>
-        </a>
-
-      </div><!-- /cards-grid -->
+      </div><!-- /groups-wrap -->
 
       <div class="hub-footer">Eduversal Teachers Hub &mdash; Cambridge Pacing Tools</div>
     </div>

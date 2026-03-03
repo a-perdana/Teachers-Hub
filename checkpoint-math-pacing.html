@@ -790,7 +790,7 @@ function saveState() {
 function parseObjCodes(objStr) {
   if (!objStr) return [];
   const matches = objStr.match(/[CE]\d+\.\d+/g);
-  return matches  [...new Set(matches)] : [];
+  return matches ? [...new Set(matches)] : [];
 }
 
 function allTopics() {
@@ -1353,7 +1353,7 @@ onAuthStateChanged(auth, async (user) => {
         email: user.email || '',
       }, { merge: true });
       const userSnap = await getDoc(userRef);
-      const r = userSnap.exists()  userSnap.data().role_teachershub : null;
+      const r = userSnap.exists() ? userSnap.data().role_teachershub : null;
       if (r === 'teachers_admin') {
         appRole = 'coord';
       } else if (!r) {
