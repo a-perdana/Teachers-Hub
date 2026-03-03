@@ -818,7 +818,7 @@ function renderNav() {
     return arr.map(ch => {
       const ci   = DATA.indexOf(ch);
       const done = ch.topics.filter(t => t.status === 'done').length;
-      const pct  = ch.topics.length  Math.round(done / ch.topics.length * 100) : 0;
+      const pct  = ch.topics.length ? Math.round(done / ch.topics.length * 100) : 0;
       return `<div class="ch-nav-item" onclick="scrollToChapter(${ci})" id="nav-${ci}">
         <span class="ch-nav-num">${ci+1}</span>
         <span class="ch-nav-title">${ch.chapter.replace(/^\d+\.\s*/, '')}</span>
@@ -887,7 +887,7 @@ function renderPacing() {
     if (!filteredTopics.length) return;
 
     const done      = ch.topics.filter(t => t.status === 'done').length;
-    const pct       = ch.topics.length  Math.round(done / ch.topics.length * 100) : 0;
+    const pct       = ch.topics.length ? Math.round(done / ch.topics.length * 100) : 0;
     const yearClass = ch.year === 'Year 7'  ? 'yr9' : 'yr10';
 
     html += `
@@ -1418,7 +1418,7 @@ function _startSnapshot(appRole) {
 
   unsubUserProg = onSnapshot(userProgRef, (snap) => {
     userStatuses  = snap.exists() && snap.data().checkpoint_science_statuses
-       snap.data().checkpoint_science_statuses : {};
+       ? snap.data().checkpoint_science_statuses : {};
     progressReady = true;
     tryRender();
   }, (err) => {
@@ -1513,6 +1513,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 </script>
 </body>
 </html>
+
 
 
 
