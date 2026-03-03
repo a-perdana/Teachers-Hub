@@ -294,7 +294,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 }
 .tcheck:hover { border-color: var(--green); }
 .tcheck.on { background: var(--green); border-color: var(--green); }
-.tcheck.on::after { content: 'âœ“'; color: white; font-size: .65rem; font-weight: 800; }
+.tcheck.on::after { content: 'v'; color: white; font-size: .65rem; font-weight: 800; }
 
 /* Topic cell */
 .topic-cell { }
@@ -1424,7 +1424,7 @@ function _startSnapshot(appRole) {
     document.getElementById('loadingScreen').style.display = 'none';
     document.getElementById('loginScreen').style.display  = 'none';
     applyRole(appRole);
-    showToast('âš  Firestore connection error');
+    showToast('Firestore connection error');
   });
 
   // â”€â”€ Per-user progress listener â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -1482,7 +1482,7 @@ window.__fbSaveState = async function(data) {
       );
     } catch(e) {
       console.error('Structure save error:', e);
-      showToast('âš  Structure save failed');
+      showToast('Structure save failed');
     }
   }
 };
@@ -1532,5 +1532,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 </script>
 </body>
 </html>
+
+
+
 
 

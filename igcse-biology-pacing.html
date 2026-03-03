@@ -295,7 +295,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 }
 .tcheck:hover { border-color: var(--green); }
 .tcheck.on { background: var(--green); border-color: var(--green); }
-.tcheck.on::after { content: 'âœ“'; color: white; font-size: .65rem; font-weight: 800; }
+.tcheck.on::after { content: 'v'; color: white; font-size: .65rem; font-weight: 800; }
 
 /* Topic cell */
 .topic-cell { min-width: 200px; }
@@ -609,7 +609,7 @@ if (!window.ENV) window.ENV = {
         width:50px;height:50px;background:var(--accent);border-radius:12px;
         display:inline-flex;align-items:center;justify-content:center;
         font-family:'Lora',serif;font-size:1.5rem;color:white;margin-bottom:14px;
-      ">ðŸ§¬</div>
+      ">IB</div>
       <h2 style="font-family:'Lora',serif;font-size:1.1rem;color:var(--ink);margin-bottom:4px;">IGCSE Biology</h2>
       <p style="font-size:.72rem;color:var(--ink-3);">0610 - Year 9-10 Pacing Guide</p>
     </div>
@@ -865,7 +865,7 @@ function renderPacing() {
 
   if (!DATA.length) {
     container.innerHTML = `
-      <div class="empty"><div class="empty-icon">ðŸ§¬</div><p>No chapters yet. Add the first chapter to get started.</p></div>
+      <div class="empty"><div class="empty-icon">-</div><p>No chapters yet. Add the first chapter to get started.</p></div>
       <div class="add-chapter-wrap"><button class="add-chapter-btn" onclick="addChapter()">+ Add Chapter</button></div>`;
     return;
   }
@@ -1413,7 +1413,7 @@ function _startSnapshot(appRole) {
     document.getElementById('loadingScreen').style.display = 'none';
     document.getElementById('loginScreen').style.display  = 'none';
     applyRole(appRole);
-    showToast('âš  Firestore connection error');
+    showToast('Firestore connection error');
   });
 
   unsubUserProg = onSnapshot(userProgRef, (snap) => {
@@ -1467,7 +1467,7 @@ window.__fbSaveState = async function(data) {
       );
     } catch(e) {
       console.error('Structure save error:', e);
-      showToast('âš  Structure save failed');
+      showToast('Structure save failed');
     }
   }
 };
@@ -1513,5 +1513,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 </script>
 </body>
 </html>
+
+
+
 
 
