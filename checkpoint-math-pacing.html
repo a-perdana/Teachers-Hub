@@ -1189,7 +1189,7 @@ function showObj(ci, ti) {
     const code = colonIdx > -1 ? p.substring(0, colonIdx) : '';
     const desc = colonIdx > -1 ? p.substring(colonIdx+1).trim() : p;
     return `<div class="obj-entry">
-      ${code  `<div class="obj-entry-code">${escHtml(code)}</div>` : ''}
+      ${code ? `<div class="obj-entry-code">${escHtml(code)}</div>` : ''}
       <div class="obj-entry-text">${escHtml(desc)}</div>
     </div>`;
   }).join('') || '<p style="color:var(--ink-3);font-size:.8rem">No objectives listed for this topic.</p>';
@@ -1532,6 +1532,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 </script>
 </body>
 </html>
+
 
 
 
