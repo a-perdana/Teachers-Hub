@@ -463,9 +463,9 @@
           <button class="group-toggle" type="button" aria-expanded="true">
             <span class="group-title-wrap">
               <span class="group-title">Secondary Checkpoint</span>
-              <span class="group-sub">3 subjects ? Year 7-8</span>
+              <span class="group-sub">3 subjects - Year 7-8</span>
             </span>
-            <span class="group-caret">?</span>
+            <span class="group-caret">▾</span>
           </button>
           <div class="group-content">
             <div class="cards-grid">
@@ -501,9 +501,9 @@
           <button class="group-toggle" type="button" aria-expanded="false">
             <span class="group-title-wrap">
               <span class="group-title">IGCSE</span>
-              <span class="group-sub">4 subjects ? Year 9-10</span>
+              <span class="group-sub">4 subjects - Year 9-10</span>
             </span>
-            <span class="group-caret">?</span>
+            <span class="group-caret">▾</span>
           </button>
           <div class="group-content">
             <div class="cards-grid">
@@ -547,9 +547,9 @@
           <button class="group-toggle" type="button" aria-expanded="false">
             <span class="group-title-wrap">
               <span class="group-title">AS/A Level</span>
-              <span class="group-sub">4 subjects ? Year 11-12</span>
+              <span class="group-sub">4 subjects - Year 11-12</span>
             </span>
-            <span class="group-caret">?</span>
+            <span class="group-caret">▾</span>
           </button>
           <div class="group-content">
             <div class="cards-grid">
@@ -618,5 +618,16 @@
       </svg>
     </a>
 
-  </body>
+  
+    <script>
+      document.querySelectorAll('[data-group] .group-toggle').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const group = btn.closest('[data-group]');
+          const collapsed = group.classList.toggle('collapsed');
+          btn.setAttribute('aria-expanded', String(!collapsed));
+        });
+      });
+    </script>
+
+</body>
 </html>
