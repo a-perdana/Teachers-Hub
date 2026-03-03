@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cambridge Secondary Checkpoint Mathematics â€” Pacing Guide</title>
+<title>Cambridge Secondary Checkpoint Mathematics - Pacing Guide</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -589,7 +589,7 @@ if (!window.ENV) window.ENV = {
       animation:spin .8s linear infinite;
       margin:0 auto 14px;
     "></div>
-    <p style="font-size:.75rem;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif;">Loading pacing guideâ€¦</p>
+    <p style="font-size:.75rem;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif;">Loading pacing guide...</p>
   </div>
 </div>
 
@@ -610,7 +610,7 @@ if (!window.ENV) window.ENV = {
         font-family:'Lora',serif;font-size:1.5rem;color:white;margin-bottom:14px;
       ">âˆ«</div>
       <h2 style="font-family:'Lora',serif;font-size:1.1rem;color:var(--ink);margin-bottom:4px;">Secondary Checkpoint Mathematics</h2>
-      <p style="font-size:.72rem;color:var(--ink-3);">1112 Â· Year 7â€“8 Pacing Guide</p>
+      <p style="font-size:.72rem;color:var(--ink-3);">1112 - Year 7-8 Pacing Guide</p>
     </div>
     <div id="loginError" style="
       display:none;background:var(--accent-2);color:var(--accent);
@@ -642,10 +642,10 @@ if (!window.ENV) window.ENV = {
 <!-- â”€â”€ TOPBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
 <header class="topbar">
   <div class="brand">
-    <div class="brand-mark">âˆ«</div>
+    <div class="brand-mark">MA</div>
     <div class="brand-text">
       <h1>Cambridge Secondary Checkpoint Mathematics</h1>
-      <p>1112 Â· Core & Extended Â· Year 7â€“8 Pacing Guide</p>
+      <p>1112 - Core & Extended - Year 7-8 Pacing Guide</p>
     </div>
   </div>
   <div class="topbar-right">
@@ -676,7 +676,7 @@ if (!window.ENV) window.ENV = {
           <circle cx="5.5" cy="5.5" r="4" stroke="#888" stroke-width="1.4"/>
           <path d="M9 9l3 3" stroke="#888" stroke-width="1.4" stroke-linecap="round"/>
         </svg>
-        <input class="search-input" id="searchInput" placeholder="Search topics, objectivesâ€¦" oninput="handleSearch(this.value)">
+        <input class="search-input" id="searchInput" placeholder="Search topics, objectives..." oninput="handleSearch(this.value)">
       </div>
     </div>
     <div class="sidebar-section">
@@ -703,8 +703,8 @@ if (!window.ENV) window.ENV = {
   <main class="main">
     <div class="view-bar">
       <div class="tab-group">
-        <button class="tab-btn on" onclick="switchView('pacing',this)">ðŸ“‹ Pacing Guide</button>
-        <button class="tab-btn" onclick="switchView('weekly',this)">ðŸ“… Weekly View</button>
+        <button class="tab-btn on" onclick="switchView('pacing',this)">Pacing Guide</button>
+        <button class="tab-btn" onclick="switchView('weekly',this)">Weekly View</button>
       </div>
       <div class="view-actions">
         <button class="btn" onclick="expandAll()">Expand All</button>
@@ -715,7 +715,7 @@ if (!window.ENV) window.ENV = {
 
     <!-- PACING PANEL -->
     <div class="panel on" id="panel-pacing">
-      <div class="edit-hint" id="editHint">âœï¸ Coordinator mode â€” click any topic name, objective, or duration to edit inline.</div>
+      <div class="edit-hint" id="editHint">Coordinator mode - click any topic name, objective, or duration to edit inline.</div>
       <div id="chBlocks"></div>
     </div>
 
@@ -734,7 +734,7 @@ if (!window.ENV) window.ENV = {
         <h3 id="objModalTitle">Cambridge Objectives</h3>
         <p id="objModalSub"></p>
       </div>
-      <button class="modal-close" onclick="document.getElementById('objModal').classList.remove('open')">âœ•</button>
+      <button class="modal-close" onclick="document.getElementById('objModal').classList.remove('open')">x</button>
     </div>
     <div class="modal-body" id="objModalBody"></div>
   </div>
@@ -778,7 +778,7 @@ let filterStatus = 'all';
 let searchQ      = '';
 
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// PERSIST â€” delegates to Firebase module
+// PERSIST - delegates to Firebase module
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function saveState() {
   if (window.__fbSaveState) window.__fbSaveState(DATA);
@@ -802,7 +802,7 @@ function escHtml(str) {
 }
 
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// RENDER â€” SIDEBAR NAV
+// RENDER - SIDEBAR NAV
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function renderNav() {
   const y9  = DATA.filter(ch => ch.year === 'Year 7');
@@ -822,12 +822,12 @@ function renderNav() {
   }
 
   document.getElementById('chNav').innerHTML = `
-    <div class="ch-nav-group"><div class="ch-nav-group-label">Year 7 â€” Chapters 1â€“13</div>${buildItems(y9)}</div>
-    <div class="ch-nav-group"><div class="ch-nav-group-label">Year 8 â€” Chapters 14â€“24</div>${buildItems(y10)}</div>`;
+    <div class="ch-nav-group"><div class="ch-nav-group-label">Year 7 - Chapters 1-13</div>${buildItems(y9)}</div>
+    <div class="ch-nav-group"><div class="ch-nav-group-label">Year 8 - Chapters 14-24</div>${buildItems(y10)}</div>`;
 }
 
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// RENDER â€” TOP PROGRESS
+// RENDER - TOP PROGRESS
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function renderProgress() {
   const all  = allTopics();
@@ -839,7 +839,7 @@ function renderProgress() {
 }
 
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// RENDER â€” PACING GUIDE
+// RENDER - PACING GUIDE
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function renderPacing() {
   const container = document.getElementById('chBlocks');
@@ -874,8 +874,8 @@ function renderPacing() {
           <span class="ch-pct">${pct}%</span>
           <span class="ch-topic-count">${ch.topics.length} topics</span>
         </div>
-        <button class="del-ch-btn" onclick="event.stopPropagation();deleteChapter(${ci})" title="Delete chapter">âœ•</button>
-        <span class="ch-caret">?</span>
+        <button class="del-ch-btn" onclick="event.stopPropagation();deleteChapter(${ci})" title="Delete chapter">x</button>
+        <span class="ch-caret">v</span>
       </div>
       <div class="topics-wrap">
         <table class="topics-tbl">
@@ -896,7 +896,7 @@ function renderPacing() {
               <tr class="${rowClass}" id="row-${ci}-${ti}">
                 <td>
                   <div class="tcheck ${t.status==='done'?'on':''}" onclick="toggleDone(${ci},${ti})"></div>
-                  <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">âœ•</button>
+                  <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">x</button>
                 </td>
                 <td class="topic-cell">
                   <div class="topic-name ${t.status==='done'?'struck':''} editable"
@@ -912,7 +912,7 @@ function renderPacing() {
                     contenteditable="${isCoord}"
                     data-field="objective" data-ci="${ci}" data-ti="${ti}"
                     onblur="saveEdit(this,${ci},${ti},'objective')"
-                  >${escHtml(t.objective ? t.objective.substring(0,120) + (t.objective.length>120?'â€¦':'') : 'â€”')}</div>
+                  >${escHtml(t.objective ? t.objective.substring(0,120) + (t.objective.length>120?'...':'') : '-')}</div>
                   ${t.objective && t.objective.length > 120 ? `<span class="obj-code" style="margin-top:4px;display:inline-block" onclick="showObj(${ci},${ti})">see full</span>` : ''}
                 </td>
                 <td>
@@ -925,9 +925,9 @@ function renderPacing() {
                 </td>
                 <td>
                   <select class="status-select" onchange="setStatus(${ci},${ti},this.value)">
-                    <option value="pending"    ${t.status==='pending'   ?'selected':''}>ðŸ“Œ Pending</option>
-                    <option value="inprogress" ${t.status==='inprogress'?'selected':''}>ðŸ”„ In Progress</option>
-                    <option value="done"       ${t.status==='done'      ?'selected':''}>âœ… Done</option>
+                    <option value="pending"    ${t.status==='pending'   ?'selected':''}>Pending</option>
+                    <option value="inprogress" ${t.status==='inprogress'?'selected':''}>In Progress</option>
+                    <option value="done"       ${t.status==='done'      ?'selected':''}>Done</option>
                   </select>
                 </td>
               </tr>
@@ -946,7 +946,7 @@ function renderPacing() {
     </div>`;
   });
 
-  if (!html) html = `<div class="empty"><div class="empty-icon">ðŸ”</div><p>No topics match your filters.</p></div>`;
+  if (!html) html = `<div class="empty"><div class="empty-icon">-</div><p>No topics match your filters.</p></div>`;
   html += `<div class="add-chapter-wrap"><button class="add-chapter-btn" onclick="addChapter()">+ Add Chapter</button></div>`;
   container.innerHTML = html;
 
@@ -960,7 +960,7 @@ function renderPacing() {
 }
 
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// RENDER â€” WEEKLY VIEW
+// RENDER - WEEKLY VIEW
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function renderWeekly() {
   const weekMap = {};
@@ -1017,7 +1017,7 @@ function saveEdit(el, ci, ti, field) {
   if (field === 'hour') val = parseInt(val) || DATA[ci].topics[ti].hour;
   DATA[ci].topics[ti][field] = val;
   saveState();
-  showToast('Saved âœ“');
+  showToast('Saved');
   setTimeout(render, 200);
 }
 
@@ -1025,7 +1025,7 @@ function addTopic(ci) {
   if (role !== 'coord') return;
   DATA[ci].topics.push({ topic: 'New Topic', objective: '', week: null, hour: 1, status: 'pending', resources: [] });
   saveState(); render();
-  showToast('Topic added âœ“');
+  showToast('Topic added');
 }
 
 function deleteTopic(ci, ti) {
@@ -1043,7 +1043,7 @@ function addChapter() {
   const year = prompt('Year (Year 7 or Year 8):', 'Year 8');
   DATA.push({ chapter: name.trim(), year: (year || 'Year 8').trim(), topics: [] });
   saveState(); render();
-  showToast('Chapter added âœ“');
+  showToast('Chapter added');
 }
 
 function deleteChapter(ci) {
@@ -1064,7 +1064,7 @@ function renderResourcesHtml(ci, ti, t) {
   const chips = res.map((r, ri) => `
     <a class="res-link" href="${escHtml(r.url)}" target="_blank" rel="noopener">
       ${linkIcon}${escHtml(r.name || r.url)}
-      <button class="del-res-btn" onclick="event.preventDefault();deleteResource(${ci},${ti},${ri})" title="Remove">âœ•</button>
+      <button class="del-res-btn" onclick="event.preventDefault();deleteResource(${ci},${ti},${ri})" title="Remove">x</button>
     </a>`).join('');
   return `<div class="res-chips">
       ${chips}
@@ -1101,7 +1101,7 @@ function confirmAddResource(ci, ti) {
   if (!DATA[ci].topics[ti].resources) DATA[ci].topics[ti].resources = [];
   DATA[ci].topics[ti].resources.push({ name, url });
   saveState();
-  showToast('Resource added âœ“');
+  showToast('Resource added');
   cancelResource(ci, ti);
   render();
 }
@@ -1202,7 +1202,7 @@ function closeObjModal(e) {
 }
 
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// ROLE â€” set by Firebase module after auth
+// ROLE - set by Firebase module after auth
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function applyRole(r) {
   role = r;
@@ -1243,7 +1243,7 @@ function render() {
   renderWeekly();
 }
 
-// NOTE: render() is NOT called here â€” Firebase module calls it
+// NOTE: render() is NOT called here - Firebase module calls it
 // after data is loaded from Firestore.
 </script>
 
@@ -1257,21 +1257,21 @@ function render() {
  * service cloud.firestore {
  *   match /databases/{database}/documents {
  *
- *     // User profiles & roles â€” set role manually via Firebase Console
+ *     // User profiles & roles - set role manually via Firebase Console
  *     // Set users/{uid}.role = "coordinator" for coordinators
  *     match /users/{uid} {
  *       allow read: if request.auth != null && request.auth.uid == uid;
  *       allow write: if false;
  *     }
  *
- *     // Shared pacing structure â€” all authenticated users can read;
+ *     // Shared pacing structure - all authenticated users can read;
  *     // coordinators write chapter/topic structure (no checkpoint_math_statuses stored here)
  *     match /igcse_pacing/{docId} {
  *       allow read:  if request.auth != null;
  *       allow write: if request.auth != null;
  *     }
  *
- *     // Per-user progress â€” each teacher reads/writes only their own doc
+ *     // Per-user progress - each teacher reads/writes only their own doc
  *     match /userProgress/{uid} {
  *       allow read, write: if request.auth != null && request.auth.uid == uid;
  *     }
@@ -1362,13 +1362,13 @@ onAuthStateChanged(auth, async (user) => {
     } catch(e) { /* role stays 'teacher' */ }
 
     const nameEl = document.getElementById('userDisplayName');
-    if (nameEl) nameEl.textContent = 'Â· ' + displayName;
+    if (nameEl) nameEl.textContent = '- ' + displayName;
     document.getElementById('logoutBtn').style.display = '';
 
     _startSnapshot(appRole);
 
   } else {
-    // Signed out â€” tear down listeners & reset state
+    // Signed out - tear down listeners & reset state
     if (unsubStructure) { unsubStructure(); unsubStructure = null; }
     if (unsubUserProg)  { unsubUserProg();  unsubUserProg  = null; }
     currentUID      = null;
@@ -1495,7 +1495,7 @@ document.getElementById('googleBtn').addEventListener('click', async () => {
   const btn   = document.getElementById('googleBtn');
   const errEl = document.getElementById('loginError');
   btn.disabled = true;
-  btn.textContent = 'Signing inâ€¦';
+  btn.textContent = 'Signing in...';
   errEl.style.display = 'none';
   try {
     await signInWithPopup(auth, new GoogleAuthProvider());
@@ -1515,7 +1515,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   const btn      = document.getElementById('loginBtn');
   const errEl    = document.getElementById('loginError');
 
-  btn.textContent = 'Signing inâ€¦';
+  btn.textContent = 'Signing in...';
   btn.disabled    = true;
   errEl.style.display = 'none';
 
@@ -1532,6 +1532,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 </script>
 </body>
 </html>
+
+
 
 
 
