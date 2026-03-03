@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cambridge AS/A Level Chemistry â€” Pacing Guide</title>
+<title>Cambridge AS/A Level Chemistry — Pacing Guide</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -43,7 +43,7 @@ body {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* â”€â”€â”€ TOPBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── TOPBAR ─────────────────────────────────── */
 .topbar {
   background: var(--ink);
   color: white;
@@ -103,10 +103,10 @@ body {
 .prog-text { font-size: .7rem; color: #ccc; white-space: nowrap; }
 .prog-text strong { color: white; }
 
-/* â”€â”€â”€ LAYOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── LAYOUT ─────────────────────────────────── */
 .layout { display: grid; grid-template-columns: 260px 1fr; height: calc(100vh - 60px); }
 
-/* â”€â”€â”€ SIDEBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── SIDEBAR ─────────────────────────────────── */
 .sidebar {
   background: var(--white);
   border-right: 1px solid var(--border);
@@ -187,7 +187,7 @@ body {
 .ch-nav-mini { width: 28px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
 .ch-nav-mini-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width .4s; }
 
-/* â”€â”€â”€ MAIN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── MAIN ────────────────────────────────────── */
 .main { overflow-y: auto; display: flex; flex-direction: column; }
 
 /* View bar */
@@ -220,11 +220,11 @@ body {
 .btn.primary:hover { background: #c96a1a; }
 .btn:disabled { opacity: .4; cursor: not-allowed; }
 
-/* â”€â”€â”€ PANELS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── PANELS ──────────────────────────────────── */
 .panel { display: none; flex: 1; padding: 20px 24px; }
 .panel.on { display: block; }
 
-/* â”€â”€â”€ PACING VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── PACING VIEW ─────────────────────────────── */
 .ch-block {
   background: white; border: 1px solid var(--border);
   border-radius: var(--radius); margin-bottom: 14px;
@@ -295,7 +295,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 }
 .tcheck:hover { border-color: var(--green); }
 .tcheck.on { background: var(--green); border-color: var(--green); }
-.tcheck.on::after { content: 'âœ“'; color: white; font-size: .65rem; font-weight: 800; }
+.tcheck.on::after { content: '✓'; color: white; font-size: .65rem; font-weight: 800; }
 
 /* Topic cell */
 .topic-cell { min-width: 200px; }
@@ -358,7 +358,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 }
 .coord-mode .edit-hint { display: block; }
 
-/* â”€â”€â”€ WEEKLY VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── WEEKLY VIEW ─────────────────────────────── */
 .week-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
 
 .week-card {
@@ -392,7 +392,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 .dot-y9  { background: var(--blue); }
 .dot-y10 { background: var(--purple); }
 
-/* â”€â”€â”€ MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── MODAL ───────────────────────────────────── */
 .modal-bg {
   position: fixed; inset: 0;
   background: rgba(28,28,46,.55);
@@ -449,7 +449,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 }
 .toast.show { transform: translateY(0); opacity: 1; }
 
-/* â”€â”€â”€ COORD ADD / DELETE CONTROLS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── COORD ADD / DELETE CONTROLS ─────────────── */
 .del-topic-btn {
   display: none; background: none; border: none; cursor: pointer;
   color: var(--ink-3); font-size: .85rem; padding: 2px 4px;
@@ -490,7 +490,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 .add-chapter-btn:hover { border-color: var(--accent); color: var(--accent); }
 .coord-mode .add-chapter-wrap { display: block; }
 
-/* â”€â”€â”€ RESOURCES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── RESOURCES ─────────────────────────────────── */
 .res-row td { padding: 3px 16px 10px 42px !important; }
 .res-chips { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; min-height: 22px; }
 .res-link {
@@ -542,7 +542,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 .res-row.empty-res { display: none; }
 .coord-mode .res-row.empty-res { display: table-row; }
 
-/* â”€â”€â”€ LOGIN SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── LOGIN SCREEN ────────────────────────────── */
 .login-input {
   width: 100%; padding: 10px 13px;
   border: 1px solid var(--border); border-radius: 8px;
@@ -576,7 +576,7 @@ if (!window.ENV) window.ENV = {
 </head>
 <body>
 
-<!-- â”€â”€ LOADING SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── LOADING SCREEN ──────────────────────────── -->
 <div id="loadingScreen" style="
   position:fixed;inset:0;background:var(--ink);
   display:flex;align-items:center;justify-content:center;z-index:99999;
@@ -590,11 +590,11 @@ if (!window.ENV) window.ENV = {
       animation:spin .8s linear infinite;
       margin:0 auto 14px;
     "></div>
-    <p style="font-size:.75rem;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif;">Loading pacing guideâ€¦</p>
+    <p style="font-size:.75rem;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif;">Loading pacing guide…</p>
   </div>
 </div>
 
-<!-- â”€â”€ LOGIN SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── LOGIN SCREEN ────────────────────────────── -->
 <div id="loginScreen" style="
   position:fixed;inset:0;background:rgba(28,28,46,.96);
   display:none;align-items:center;justify-content:center;
@@ -609,9 +609,9 @@ if (!window.ENV) window.ENV = {
         width:50px;height:50px;background:var(--accent);border-radius:12px;
         display:inline-flex;align-items:center;justify-content:center;
         font-family:'Lora',serif;font-size:1.5rem;color:white;margin-bottom:14px;
-      ">ðŸ§ª</div>
+      ">🧪</div>
       <h2 style="font-family:'Lora',serif;font-size:1.1rem;color:var(--ink);margin-bottom:4px;">AS/A Level Chemistry</h2>
-      <p style="font-size:.72rem;color:var(--ink-3);">9701 Â· Year 11â€“12 Pacing Guide</p>
+      <p style="font-size:.72rem;color:var(--ink-3);">9701 · Year 11–12 Pacing Guide</p>
     </div>
     <div id="loginError" style="
       display:none;background:var(--accent-2);color:var(--accent);
@@ -640,13 +640,13 @@ if (!window.ENV) window.ENV = {
   </div>
 </div>
 
-<!-- â”€â”€ TOPBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── TOPBAR ──────────────────────────────────── -->
 <header class="topbar">
   <div class="brand">
-    <div class="brand-mark">ðŸ§ª</div>
+    <div class="brand-mark">🧪</div>
     <div class="brand-text">
       <h1>Cambridge AS/A Level Chemistry</h1>
-      <p>9701 Â· Core & Extended Â· Year 11â€“12 Pacing Guide</p>
+      <p>9701 · Core & Extended · Year 11–12 Pacing Guide</p>
     </div>
   </div>
   <div class="topbar-right">
@@ -666,7 +666,7 @@ if (!window.ENV) window.ENV = {
   </div>
 </header>
 
-<!-- â”€â”€ LAYOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── LAYOUT ──────────────────────────────────── -->
 <div class="layout">
 
   <!-- SIDEBAR -->
@@ -677,7 +677,7 @@ if (!window.ENV) window.ENV = {
           <circle cx="5.5" cy="5.5" r="4" stroke="#888" stroke-width="1.4"/>
           <path d="M9 9l3 3" stroke="#888" stroke-width="1.4" stroke-linecap="round"/>
         </svg>
-        <input class="search-input" id="searchInput" placeholder="Search topics, objectivesâ€¦" oninput="handleSearch(this.value)">
+        <input class="search-input" id="searchInput" placeholder="Search topics, objectives…" oninput="handleSearch(this.value)">
       </div>
     </div>
     <div class="sidebar-section">
@@ -704,8 +704,8 @@ if (!window.ENV) window.ENV = {
   <main class="main">
     <div class="view-bar">
       <div class="tab-group">
-        <button class="tab-btn on" onclick="switchView('pacing',this)">ðŸ“‹ Pacing Guide</button>
-        <button class="tab-btn" onclick="switchView('weekly',this)">ðŸ“… Weekly View</button>
+        <button class="tab-btn on" onclick="switchView('pacing',this)">📋 Pacing Guide</button>
+        <button class="tab-btn" onclick="switchView('weekly',this)">📅 Weekly View</button>
       </div>
       <div class="view-actions">
         <button class="btn" onclick="expandAll()">Expand All</button>
@@ -716,7 +716,7 @@ if (!window.ENV) window.ENV = {
 
     <!-- PACING PANEL -->
     <div class="panel on" id="panel-pacing">
-      <div class="edit-hint" id="editHint">âœï¸ Coordinator mode â€” click any topic name, objective, or duration to edit inline.</div>
+      <div class="edit-hint" id="editHint">✏️ Coordinator mode — click any topic name, objective, or duration to edit inline.</div>
       <div id="chBlocks"></div>
     </div>
 
@@ -727,7 +727,7 @@ if (!window.ENV) window.ENV = {
   </main>
 </div>
 
-<!-- â”€â”€ OBJECTIVES MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── OBJECTIVES MODAL ────────────────────────── -->
 <div class="modal-bg" id="objModal" onclick="closeObjModal(event)">
   <div class="modal">
     <div class="modal-head">
@@ -735,7 +735,7 @@ if (!window.ENV) window.ENV = {
         <h3 id="objModalTitle">Objectives</h3>
         <p id="objModalSub"></p>
       </div>
-      <button class="modal-close" onclick="document.getElementById('objModal').classList.remove('open')">âœ•</button>
+      <button class="modal-close" onclick="document.getElementById('objModal').classList.remove('open')">✕</button>
     </div>
     <div class="modal-body" id="objModalBody"></div>
   </div>
@@ -743,7 +743,7 @@ if (!window.ENV) window.ENV = {
 
 <div class="toast" id="toast"></div>
 
-<!-- â”€â”€ HOME BUTTON â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── HOME BUTTON ─────────────────────────────── -->
 <style>
 .home-float {
   position: fixed; bottom: 22px; left: 22px;
@@ -768,14 +768,14 @@ if (!window.ENV) window.ENV = {
 </a>
 
 <script>
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// SEED DATA â€” empty until seeded from Excel via seedFirestore
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
+// SEED DATA — empty until seeded from Excel via seedFirestore
+// ═══════════════════════════════════════════════════════════
 var RAW_DATA = [];
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // STATE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 var DATA = [];
 var role = 'teacher';
 
@@ -783,20 +783,20 @@ let filterYear   = 'all';
 let filterStatus = 'all';
 let searchQ      = '';
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // PERSIST
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 function saveState() {
   if (window.__fbSaveState) window.__fbSaveState(DATA);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // HELPERS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 function parseObjCodes(objStr) {
   if (!objStr) return [];
   const matches = objStr.match(/[CE]\d+\.\d+/g);
-  return matches ? [...new Set(matches)] : [];
+  return matches  [...new Set(matches)] : [];
 }
 
 function allTopics() {
@@ -807,9 +807,9 @@ function escHtml(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// RENDER â€” SIDEBAR NAV
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
+// RENDER — SIDEBAR NAV
+// ═══════════════════════════════════════════════════════════
 function renderNav() {
   const y9  = DATA.filter(ch => ch.year === 'Year 11');
   const y10 = DATA.filter(ch => ch.year === 'Year 12');
@@ -818,7 +818,7 @@ function renderNav() {
     return arr.map(ch => {
       const ci   = DATA.indexOf(ch);
       const done = ch.topics.filter(t => t.status === 'done').length;
-      const pct  = ch.topics.length ? Math.round(done / ch.topics.length * 100) : 0;
+      const pct  = ch.topics.length  Math.round(done / ch.topics.length * 100) : 0;
       return `<div class="ch-nav-item" onclick="scrollToChapter(${ci})" id="nav-${ci}">
         <span class="ch-nav-num">${ci+1}</span>
         <span class="ch-nav-title">${ch.chapter.replace(/^\d+\.\s*/, '')}</span>
@@ -837,21 +837,21 @@ function renderNav() {
     <div class="ch-nav-group"><div class="ch-nav-group-label">Year 12</div>${buildItems(y10)}</div>`;
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// RENDER â€” TOP PROGRESS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
+// RENDER — TOP PROGRESS
+// ═══════════════════════════════════════════════════════════
 function renderProgress() {
   const all  = allTopics();
   const done = all.filter(t => t.status === 'done').length;
-  const pct  = all.length ? Math.round(done / all.length * 100) : 0;
+  const pct  = all.length  Math.round(done / all.length * 100) : 0;
   document.getElementById('topProgBar').style.width  = pct + '%';
   document.getElementById('topProgDone').textContent  = done;
   document.getElementById('topProgTotal').textContent = all.length;
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// RENDER â€” PACING GUIDE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
+// RENDER — PACING GUIDE
+// ═══════════════════════════════════════════════════════════
 function renderPacing() {
   const container = document.getElementById('chBlocks');
 
@@ -865,7 +865,7 @@ function renderPacing() {
 
   if (!DATA.length) {
     container.innerHTML = `
-      <div class="empty"><div class="empty-icon">ðŸ§ª</div><p>No chapters yet. Add the first chapter to get started.</p></div>
+      <div class="empty"><div class="empty-icon">🧪</div><p>No chapters yet. Add the first chapter to get started.</p></div>
       <div class="add-chapter-wrap"><button class="add-chapter-btn" onclick="addChapter()">+ Add Chapter</button></div>`;
     return;
   }
@@ -887,8 +887,8 @@ function renderPacing() {
     if (!filteredTopics.length) return;
 
     const done      = ch.topics.filter(t => t.status === 'done').length;
-    const pct       = ch.topics.length ? Math.round(done / ch.topics.length * 100) : 0;
-    const yearClass = ch.year === 'Year 11' ? 'yr9' : 'yr10';
+    const pct       = ch.topics.length  Math.round(done / ch.topics.length * 100) : 0;
+    const yearClass = ch.year === 'Year 11'  'yr9' : 'yr10';
 
     html += `
     <div class="ch-block" id="ch-${ci}">
@@ -901,8 +901,8 @@ function renderPacing() {
           <span class="ch-pct">${pct}%</span>
           <span class="ch-topic-count">${ch.topics.length} topics</span>
         </div>
-        <button class="del-ch-btn" onclick="event.stopPropagation();deleteChapter(${ci})" title="Delete chapter">âœ•</button>
-        <span class="ch-caret">â–¾</span>
+        <button class="del-ch-btn" onclick="event.stopPropagation();deleteChapter(${ci})" title="Delete chapter">✕</button>
+        <span class="ch-caret">?</span>
       </div>
       <div class="topics-wrap">
         <table class="topics-tbl">
@@ -916,14 +916,14 @@ function renderPacing() {
           <tbody>
             ${filteredTopics.map(({t, ti}) => {
               const codes    = parseObjCodes(t.objective);
-              const rowClass = t.status === 'done' ? 'done-row' : t.status === 'inprogress' ? 'inprogress-row' : '';
+              const rowClass = t.status === 'done'  'done-row' : t.status === 'inprogress'  'inprogress-row' : '';
               const isCoord  = role === 'coord';
               const hasRes   = (t.resources || []).length > 0;
               return `
               <tr class="${rowClass}" id="row-${ci}-${ti}">
                 <td>
                   <div class="tcheck ${t.status==='done'?'on':''}" onclick="toggleDone(${ci},${ti})"></div>
-                  <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">âœ•</button>
+                  <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">✕</button>
                 </td>
                 <td class="topic-cell">
                   <div class="topic-name ${t.status==='done'?'struck':''} editable"
@@ -932,15 +932,15 @@ function renderPacing() {
                     onblur="saveEdit(this,${ci},${ti},'topic')"
                     onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
                   >${escHtml(t.topic)}</div>
-                  ${codes.length ? `<div class="obj-codes">${codes.map(c => `<span class="obj-code" onclick="showObj(${ci},${ti})">${c}</span>`).join('')}</div>` : ''}
+                  ${codes.length  `<div class="obj-codes">${codes.map(c => `<span class="obj-code" onclick="showObj(${ci},${ti})">${c}</span>`).join('')}</div>` : ''}
                 </td>
                 <td>
                   <div class="editable" style="font-size:.75rem;color:var(--ink-2);line-height:1.5;"
                     contenteditable="${isCoord}"
                     data-field="objective" data-ci="${ci}" data-ti="${ti}"
                     onblur="saveEdit(this,${ci},${ti},'objective')"
-                  >${escHtml(t.objective ? t.objective.substring(0,120) + (t.objective.length>120?'â€¦':'') : 'â€”')}</div>
-                  ${t.objective && t.objective.length > 120 ? `<span class="obj-code" style="margin-top:4px;display:inline-block" onclick="showObj(${ci},${ti})">see full</span>` : ''}
+                  >${escHtml(t.objective ? t.objective.substring(0,120) + (t.objective.length>120?'…':'') : '—')}</div>
+                  ${t.objective && t.objective.length > 120  `<span class="obj-code" style="margin-top:4px;display:inline-block" onclick="showObj(${ci},${ti})">see full</span>` : ''}
                 </td>
                 <td>
                   <span class="dur-badge editable"
@@ -952,13 +952,13 @@ function renderPacing() {
                 </td>
                 <td>
                   <select class="status-select" onchange="setStatus(${ci},${ti},this.value)">
-                    <option value="pending"    ${t.status==='pending'   ?'selected':''}>ðŸ“Œ Pending</option>
-                    <option value="inprogress" ${t.status==='inprogress'?'selected':''}>ðŸ”„ In Progress</option>
-                    <option value="done"       ${t.status==='done'      ?'selected':''}>âœ… Done</option>
+                    <option value="pending"    ${t.status==='pending'   ?'selected':''}>📌 Pending</option>
+                    <option value="inprogress" ${t.status==='inprogress'?'selected':''}>🔄 In Progress</option>
+                    <option value="done"       ${t.status==='done'      ?'selected':''}>✅ Done</option>
                   </select>
                 </td>
               </tr>
-              <tr class="res-row${!hasRes ? ' empty-res' : ''}" id="res-row-${ci}-${ti}">
+              <tr class="res-row${!hasRes  ' empty-res' : ''}" id="res-row-${ci}-${ti}">
                 <td colspan="5">${renderResourcesHtml(ci, ti, t)}</td>
               </tr>`;
             }).join('')}
@@ -973,7 +973,7 @@ function renderPacing() {
     </div>`;
   });
 
-  if (!html) html = `<div class="empty"><div class="empty-icon">ðŸ”</div><p>No topics match your filters.</p></div>`;
+  if (!html) html = `<div class="empty"><div class="empty-icon">🔍</div><p>No topics match your filters.</p></div>`;
   html += `<div class="add-chapter-wrap"><button class="add-chapter-btn" onclick="addChapter()">+ Add Chapter</button></div>`;
   container.innerHTML = html;
 
@@ -986,14 +986,14 @@ function renderPacing() {
   }
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// RENDER â€” WEEKLY VIEW
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
+// RENDER — WEEKLY VIEW
+// ═══════════════════════════════════════════════════════════
 function renderWeekly() {
   const weekMap = {};
   DATA.forEach(ch => {
     ch.topics.forEach(t => {
-      const w = t.week ? String(t.week) : null;
+      const w = t.week  String(t.week) : null;
       if (!w) return;
       if (!weekMap[w]) weekMap[w] = { topics: [], totalHours: 0 };
       weekMap[w].topics.push({ name: t.topic, chapter: ch.chapter, year: ch.year, hour: t.hour });
@@ -1007,7 +1007,7 @@ function renderWeekly() {
 
   const grid = document.getElementById('weekGrid');
   if (!weeks.length) {
-    grid.innerHTML = '<div class="empty"><div class="empty-icon">ðŸ“…</div><p>No weeks assigned yet.</p></div>';
+    grid.innerHTML = '<div class="empty"><div class="empty-icon">📅</div><p>No weeks assigned yet.</p></div>';
     return;
   }
 
@@ -1031,11 +1031,11 @@ function renderWeekly() {
   }).join('');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // INTERACTIONS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 function toggleDone(ci, ti) {
-  DATA[ci].topics[ti].status = DATA[ci].topics[ti].status === 'done' ? 'pending' : 'done';
+  DATA[ci].topics[ti].status = DATA[ci].topics[ti].status === 'done'  'pending' : 'done';
   saveState(); render();
 }
 
@@ -1050,7 +1050,7 @@ function saveEdit(el, ci, ti, field) {
   if (field === 'hour') val = parseInt(val) || DATA[ci].topics[ti].hour;
   DATA[ci].topics[ti][field] = val;
   saveState();
-  showToast('Saved âœ“');
+  showToast('Saved ✓');
   setTimeout(render, 200);
 }
 
@@ -1058,7 +1058,7 @@ function addTopic(ci) {
   if (role !== 'coord') return;
   DATA[ci].topics.push({ topic: 'New Topic', objective: '', week: null, hour: 1, status: 'pending', resources: [] });
   saveState(); render();
-  showToast('Topic added âœ“');
+  showToast('Topic added ✓');
 }
 
 function deleteTopic(ci, ti) {
@@ -1076,7 +1076,7 @@ function addChapter() {
   const year = prompt('Year (Year 11 or Year 12):', 'Year 12');
   DATA.push({ chapter: name.trim(), year: (year || 'Year 12').trim(), topics: [] });
   saveState(); render();
-  showToast('Chapter added âœ“');
+  showToast('Chapter added ✓');
 }
 
 function deleteChapter(ci) {
@@ -1087,9 +1087,9 @@ function deleteChapter(ci) {
   showToast('Chapter deleted');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // RESOURCES
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 function renderResourcesHtml(ci, ti, t) {
   const res = t.resources || [];
   const linkIcon = `<svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4v4"/><path d="M14 2l-6 6"/><path d="M8 4H4a2 2 0 00-2 2v6a2 2 0 002 2h6a2 2 0 002-2v-4"/></svg>`;
@@ -1097,7 +1097,7 @@ function renderResourcesHtml(ci, ti, t) {
   const chips = res.map((r, ri) => `
     <a class="res-link" href="${escHtml(r.url)}" target="_blank" rel="noopener">
       ${linkIcon}${escHtml(r.name || r.url)}
-      <button class="del-res-btn" onclick="event.preventDefault();deleteResource(${ci},${ti},${ri})" title="Remove">âœ•</button>
+      <button class="del-res-btn" onclick="event.preventDefault();deleteResource(${ci},${ti},${ri})" title="Remove">✕</button>
     </a>`).join('');
   return `<div class="res-chips">
       ${chips}
@@ -1134,7 +1134,7 @@ function confirmAddResource(ci, ti) {
   if (!DATA[ci].topics[ti].resources) DATA[ci].topics[ti].resources = [];
   DATA[ci].topics[ti].resources.push({ name, url });
   saveState();
-  showToast('Resource added âœ“');
+  showToast('Resource added ✓');
   cancelResource(ci, ti);
   render();
 }
@@ -1167,7 +1167,7 @@ function scrollToChapter(ci) {
 }
 
 function resetProgress() {
-  if (!confirm('Reset all topic statuses to Pending? This will update Firestore for all users.')) return;
+  if (!confirm('Reset all topic statuses to Pending This will update Firestore for all users.')) return;
   DATA.forEach(ch => ch.topics.forEach(t => t.status = 'pending'));
   saveState(); render(); showToast('Progress reset');
 }
@@ -1194,9 +1194,9 @@ document.getElementById('statusChips').addEventListener('click', e => {
   renderPacing();
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // VIEWS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 function switchView(view, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
@@ -1207,9 +1207,9 @@ function switchViewById(view) {
   document.getElementById('panel-' + view).classList.add('on');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // OBJECTIVES MODAL
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 function showObj(ci, ti) {
   const ch    = DATA[ci];
   const t     = ch.topics[ti];
@@ -1219,10 +1219,10 @@ function showObj(ci, ti) {
   document.getElementById('objModalSub').textContent   = ch.chapter;
   document.getElementById('objModalBody').innerHTML    = parts.map(p => {
     const colonIdx = p.indexOf(':');
-    const code = colonIdx > -1 ? p.substring(0, colonIdx) : '';
-    const desc = colonIdx > -1 ? p.substring(colonIdx+1).trim() : p;
+    const code = colonIdx > -1  p.substring(0, colonIdx) : '';
+    const desc = colonIdx > -1  p.substring(colonIdx+1).trim() : p;
     return `<div class="obj-entry">
-      ${code ? `<div class="obj-entry-code">${escHtml(code)}</div>` : ''}
+      ${code  `<div class="obj-entry-code">${escHtml(code)}</div>` : ''}
       <div class="obj-entry-text">${escHtml(desc)}</div>
     </div>`;
   }).join('') || '<p style="color:var(--ink-3);font-size:.8rem">No objectives listed for this topic.</p>';
@@ -1234,9 +1234,9 @@ function closeObjModal(e) {
   if (e.target === document.getElementById('objModal')) document.getElementById('objModal').classList.remove('open');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // ROLE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 function applyRole(r) {
   role = r;
   const dot      = document.getElementById('roleDot');
@@ -1254,9 +1254,9 @@ function applyRole(r) {
   render();
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // TOAST
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 let toastTimer;
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -1266,9 +1266,9 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 // MAIN RENDER
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════
 function render() {
   renderProgress();
   renderNav();
@@ -1277,7 +1277,7 @@ function render() {
 }
 </script>
 
-<!-- â”€â”€ FIREBASE MODULE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── FIREBASE MODULE ─────────────────────────── -->
 <script type="module">
 import { initializeApp }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -1331,7 +1331,7 @@ onAuthStateChanged(auth, async (user) => {
         email: user.email || '',
       }, { merge: true });
       const userSnap = await getDoc(userRef);
-      const r = userSnap.exists() ? userSnap.data().role_teachershub : null;
+      const r = userSnap.exists()  userSnap.data().role_teachershub : null;
       if (r === 'teachers_admin') {
         appRole = 'coord';
       } else if (!r) {
@@ -1340,7 +1340,7 @@ onAuthStateChanged(auth, async (user) => {
     } catch(e) { /* role stays 'teacher' */ }
 
     const nameEl = document.getElementById('userDisplayName');
-    if (nameEl) nameEl.textContent = 'Â· ' + displayName;
+    if (nameEl) nameEl.textContent = '· ' + displayName;
     document.getElementById('logoutBtn').style.display = '';
 
     _startSnapshot(appRole);
@@ -1403,7 +1403,7 @@ function _startSnapshot(appRole) {
 
   unsubStructure = onSnapshot(structureRef, (snap) => {
     sharedStructure = snap.exists() && Array.isArray(snap.data().chapters)
-      ? snap.data().chapters : [];
+       snap.data().chapters : [];
     structureReady = true;
     tryRender();
   }, (err) => {
@@ -1413,12 +1413,12 @@ function _startSnapshot(appRole) {
     document.getElementById('loadingScreen').style.display = 'none';
     document.getElementById('loginScreen').style.display  = 'none';
     applyRole(appRole);
-    showToast('âš  Firestore connection error');
+    showToast('? Firestore connection error');
   });
 
   unsubUserProg = onSnapshot(userProgRef, (snap) => {
     userStatuses  = snap.exists() && snap.data().aschem_statuses
-      ? snap.data().aschem_statuses : {};
+       snap.data().aschem_statuses : {};
     progressReady = true;
     tryRender();
   }, (err) => {
@@ -1449,7 +1449,7 @@ window.__fbSaveState = async function(data) {
     );
   } catch(e) {
     console.error('User progress save error:', e);
-    showToast('âš  Save failed â€” check connection');
+    showToast('⚠ Save failed — check connection');
     return;
   }
 
@@ -1467,7 +1467,7 @@ window.__fbSaveState = async function(data) {
       );
     } catch(e) {
       console.error('Structure save error:', e);
-      showToast('âš  Structure save failed');
+      showToast('? Structure save failed');
     }
   }
 };
@@ -1478,7 +1478,7 @@ document.getElementById('googleBtn').addEventListener('click', async () => {
   const btn   = document.getElementById('googleBtn');
   const errEl = document.getElementById('loginError');
   btn.disabled = true;
-  btn.textContent = 'Signing inâ€¦';
+  btn.textContent = 'Signing in…';
   errEl.style.display = 'none';
   try {
     await signInWithPopup(auth, new GoogleAuthProvider());
@@ -1497,7 +1497,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   const btn      = document.getElementById('loginBtn');
   const errEl    = document.getElementById('loginError');
 
-  btn.textContent = 'Signing inâ€¦';
+  btn.textContent = 'Signing in…';
   btn.disabled    = true;
   errEl.style.display = 'none';
 
