@@ -966,7 +966,7 @@ function renderWeekly() {
   const weekMap = {};
   DATA.forEach(ch => {
     ch.topics.forEach(t => {
-      const w = t.week  String(t.week) : null;
+      const w = t.week ? String(t.week) : null;
       if (!w) return;
       if (!weekMap[w]) weekMap[w] = { topics: [], totalHours: 0 };
       weekMap[w].topics.push({ name: t.topic, chapter: ch.chapter, year: ch.year, hour: t.hour });
@@ -1532,6 +1532,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 </script>
 </body>
 </html>
+
 
 
 
