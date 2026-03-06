@@ -1242,7 +1242,10 @@
           </div>`;
 
         // Attach reply-area event listeners via delegation
-        area.addEventListener("click", handleReplyAreaClick, { once: true });
+        if (!area.dataset.replyDelegationBound) {
+          area.addEventListener("click", handleReplyAreaClick);
+          area.dataset.replyDelegationBound = "1";
+        }
         document.getElementById("replySendBtn").addEventListener("click", submitReply);
       }
 
