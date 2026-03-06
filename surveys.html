@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surveys - Teachers Hub</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1c1c2e;
+      --ink-2: #44445a;
+      --ink-3: #8888a8;
+      --paper: #f7f6f3;
+      --paper-2: #efede8;
+      --white: #ffffff;
+      --border: #e0ddd6;
+      --accent: #d97706;
+      --accent-2: #fff7ed;
+      --shadow-sm: 0 1px 4px rgba(28, 28, 46, 0.07);
+      --shadow: 0 3px 14px rgba(28, 28, 46, 0.10);
+      --radius: 10px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: 62px;
+      padding: 0 20px;
+      background: rgba(5, 5, 16, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      backdrop-filter: blur(18px);
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 6px 11px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: 0.18s ease;
+    }
+    .nav-link:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.30);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .nav-title {
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .nav-user-name {
+      font-size: 0.84rem;
+      color: rgba(255, 255, 255, 0.68);
+    }
+    .nav-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f59e0b, #b45309);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #fff;
+      user-select: none;
+    }
+    .btn-logout {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: transparent;
+      border-radius: 8px;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+    .btn-logout:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.32);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .page-wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 26px 16px 48px;
+    }
+    .hero {
+      background: linear-gradient(145deg, #ffffff 0%, #fff8f0 100%);
+      border: 1px solid #fde6cb;
+      border-radius: 14px;
+      box-shadow: var(--shadow-sm);
+      padding: 20px 22px;
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: 7px;
+      color: var(--ink);
+    }
+    .hero p {
+      font-size: 0.9rem;
+      color: var(--ink-2);
+      line-height: 1.6;
+    }
+    .hero-note {
+      margin-top: 12px;
+      background: var(--accent-2);
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+      border-radius: 9px;
+      padding: 9px 11px;
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 170px;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .input,
+    .select {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 9px;
+      padding: 9px 11px;
+      font-size: 0.88rem;
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+    }
+    .input:focus,
+    .select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+    }
+
+    .survey-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .survey-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+      padding: 17px 18px;
+      transition: box-shadow 0.2s ease;
+    }
+    .survey-card:hover { box-shadow: var(--shadow); }
+    .survey-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 9px;
+    }
+    .survey-title {
+      font-size: 1.02rem;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--ink);
+    }
+    .badge-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 2px 9px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .badge-open { background: #dcfce7; color: #166534; }
+    .badge-closed { background: #fee2e2; color: #991b1b; }
+    .badge-status { background: #ffedd5; color: #9a3412; }
+
+    .survey-body {
+      color: var(--ink-2);
+      font-size: 0.89rem;
+      line-height: 1.62;
+      margin-bottom: 12px;
+      word-break: break-word;
+    }
+    .questions-wrap {
+      background: #fffaf3;
+      border: 1px solid #feebc8;
+      border-radius: 9px;
+      padding: 10px 12px;
+      margin-bottom: 11px;
+    }
+    .questions-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #b45309;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+    .questions-list {
+      margin-left: 18px;
+      color: var(--ink-2);
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+    .questions-list li + li {
+      margin-top: 5px;
+    }
+
+    .platforms {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .chip {
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
+    .chip-on-academic { background: #e0e7ff; color: #3730a3; border-color: #c7d2fe; }
+    .chip-on-central { background: #ede9fe; color: #5b21b6; border-color: #c4b5fd; }
+    .chip-on-teachers { background: #dcfce7; color: #166534; border-color: #86efac; }
+    .chip-off { background: #f3f4f6; color: #9ca3af; border-color: #e5e7eb; }
+
+    .survey-meta {
+      font-size: 0.8rem;
+      color: var(--ink-3);
+      border-top: 1px dashed #ece9e3;
+      padding-top: 10px;
+    }
+    .response-wrap {
+      border-top: 1px solid #fde7cc;
+      margin-top: 12px;
+      padding-top: 12px;
+      display: grid;
+      gap: 9px;
+    }
+    .response-title {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #b45309;
+      font-weight: 700;
+    }
+    .response-item {
+      display: grid;
+      gap: 5px;
+    }
+    .response-label {
+      font-size: 0.79rem;
+      color: var(--ink-2);
+      font-weight: 600;
+    }
+    .response-input {
+      width: 100%;
+      min-height: 66px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 0.84rem;
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      line-height: 1.5;
+    }
+    .response-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+    }
+    .response-input:disabled {
+      background: #faf7f2;
+      color: #8a7f71;
+    }
+    .response-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .response-btn {
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      background: linear-gradient(135deg, #d97706, #b45309);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: opacity 0.15s ease;
+    }
+    .response-btn:hover { opacity: 0.9; }
+    .response-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .response-note {
+      font-size: 0.78rem;
+      color: var(--ink-3);
+    }
+    .response-note.ok { color: #166534; }
+    .response-note.err { color: #b91c1c; }
+    .empty {
+      background: #fff;
+      border: 1px dashed var(--border);
+      border-radius: 11px;
+      padding: 34px 16px;
+      text-align: center;
+      color: var(--ink-3);
+      font-size: 0.9rem;
+    }
+    .loading-line {
+      height: 12px;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #efede8 25%, #f7f6f3 50%, #efede8 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    @media (max-width: 760px) {
+      .controls { grid-template-columns: 1fr; }
+      .nav-user-name, .btn-logout { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <div class="nav-left">
+      <a class="nav-link" href="index.html">Back</a>
+      <a class="nav-link" href="announcements.html">Announcements</a>
+      <span class="nav-title">Teachers Hub Surveys</span>
+    </div>
+    <div class="nav-right">
+      <span class="nav-user-name"></span>
+      <div class="nav-avatar" id="navAvatar" aria-hidden="true"></div>
+      <button class="btn-logout" id="logoutBtn">Sign Out</button>
+    </div>
+  </nav>
+
+  <main class="page-wrap">
+    <section class="hero">
+      <h1>Shared Surveys</h1>
+      <p>Surveys created in CentralHub appear here when Teachers Hub is selected during publishing.</p>
+      <div class="hero-note">Only surveys shared to Teachers Hub are listed.</div>
+    </section>
+
+    <section class="controls" aria-label="Survey filters">
+      <input id="searchInput" class="input" type="text" placeholder="Search surveys, descriptions, or questions...">
+      <select id="statusFilter" class="select">
+        <option value="all">All</option>
+        <option value="open">Open</option>
+        <option value="closed">Closed</option>
+      </select>
+    </section>
+
+    <section id="surveyList" class="survey-list" aria-live="polite">
+      <article class="survey-card" aria-hidden="true">
+        <div class="loading-line" style="width: 52%; margin-bottom: 10px;"></div>
+        <div class="loading-line" style="width: 100%; margin-bottom: 8px;"></div>
+        <div class="loading-line" style="width: 78%;"></div>
+      </article>
+    </section>
+  </main>
+
+  <script src="firebase-config.js"></script>
+  <script>
+    if (!window.ENV) window.ENV = {
+      FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+      FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+      FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+      FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+      FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+      FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+    };
+  </script>
+  <script type="module" src="auth-guard.js"></script>
+  <script type="module">
+    import {
+      collection, getDocs, query, where,
+      doc, getDoc, setDoc, serverTimestamp,
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const PLATFORM_KEY = "teachershub";
+
+    let db;
+    let currentUser = null;
+    let allSurveys = [];
+    let myResponses = {};
+    let responseUiState = {};
+    let savingSurveyId = null;
+    let searchText = "";
+    let statusFilter = "all";
+    let controlsBound = false;
+
+    document.addEventListener("authReady", async ({ detail: { user } }) => {
+      db = window.db;
+      currentUser = user;
+      bindControls();
+      await loadSurveys();
+    });
+
+    function bindControls() {
+      if (controlsBound) return;
+      controlsBound = true;
+
+      document.getElementById("searchInput").addEventListener("input", (e) => {
+        searchText = e.target.value.trim().toLowerCase();
+        renderSurveys();
+      });
+
+      document.getElementById("statusFilter").addEventListener("change", (e) => {
+        statusFilter = e.target.value;
+        renderSurveys();
+      });
+
+      document.getElementById("surveyList").addEventListener("click", async (e) => {
+        const btn = e.target.closest(".response-btn");
+        if (!btn) return;
+
+        const surveyId = btn.dataset.surveyId;
+        const survey = allSurveys.find((s) => s.id === surveyId);
+        if (!survey) return;
+
+        const status = normalizeStatus(survey.status);
+        const isOpen = status === "published" && survey.allowResponses !== false;
+        if (!isOpen || savingSurveyId) return;
+
+        const card = btn.closest(".survey-card");
+        if (!card) return;
+
+        const inputs = [...card.querySelectorAll(`.response-input[data-survey-id="${surveyId}"]`)];
+        const answers = inputs.map((x) => x.value.trim());
+        if (!answers.length || answers.some((x) => !x)) {
+          setResponseUi(surveyId, "Please answer all questions before submitting.", true);
+          renderSurveys();
+          return;
+        }
+
+        await saveResponse(survey, answers);
+      });
+    }
+
+    async function loadSurveys() {
+      const listEl = document.getElementById("surveyList");
+      try {
+        const snap = await getDocs(query(
+          collection(db, "surveys"),
+          where("platforms", "array-contains", PLATFORM_KEY),
+        ));
+        allSurveys = snap.docs
+          .map((d) => ({ id: d.id, ...d.data() }))
+          .filter((s) => {
+            const status = normalizeStatus(s.status);
+            return status !== "draft";
+          })
+          .sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+        await loadMyResponses();
+        renderSurveys();
+      } catch (err) {
+        console.error("Failed to load surveys:", err);
+        listEl.innerHTML = '<div class="empty">Could not load surveys.</div>';
+      }
+    }
+
+    async function loadMyResponses() {
+      myResponses = {};
+      if (!currentUser || !allSurveys.length) return;
+
+      const tasks = allSurveys.map(async (survey) => {
+        const responseRef = doc(db, "survey_responses", buildResponseDocId(survey.id, currentUser.uid));
+        const snap = await getDoc(responseRef);
+        if (snap.exists()) myResponses[survey.id] = snap.data();
+      });
+      await Promise.all(tasks);
+    }
+
+    async function saveResponse(survey, answers) {
+      const surveyId = survey.id;
+      savingSurveyId = surveyId;
+      setResponseUi(surveyId, "", false);
+      renderSurveys();
+
+      try {
+        const responseRef = doc(db, "survey_responses", buildResponseDocId(surveyId, currentUser.uid));
+        const alreadyExists = !!myResponses[surveyId];
+        const payload = {
+          surveyId,
+          userId: currentUser.uid,
+          platform: PLATFORM_KEY,
+          answers,
+          authorName: window.userProfile?.displayName || currentUser.displayName || "",
+          authorEmail: currentUser.email || "",
+          updatedAt: serverTimestamp(),
+        };
+        if (!alreadyExists) payload.createdAt = serverTimestamp();
+
+        await setDoc(responseRef, payload, { merge: true });
+
+        const savedSnap = await getDoc(responseRef);
+        if (savedSnap.exists()) {
+          myResponses[surveyId] = savedSnap.data();
+        } else {
+          myResponses[surveyId] = { ...payload, updatedAt: new Date() };
+        }
+        setResponseUi(surveyId, "Response saved successfully.", false);
+      } catch (err) {
+        console.error("Failed to save response:", err);
+        setResponseUi(surveyId, "Could not save your response. Please try again.", true);
+      } finally {
+        savingSurveyId = null;
+        renderSurveys();
+      }
+    }
+
+    function renderSurveys() {
+      const listEl = document.getElementById("surveyList");
+      const filtered = allSurveys.filter((s) => {
+        const status = normalizeStatus(s.status);
+        const isOpen = status === "published" && s.allowResponses !== false;
+
+        if (statusFilter === "open" && !isOpen) return false;
+        if (statusFilter === "closed" && isOpen) return false;
+
+        if (!searchText) return true;
+
+        const questions = parseQuestions(s.questionsRaw, s.questions).join(" ");
+        const haystack = [
+          s.title || "",
+          stripHtml(s.body || ""),
+          s.questionsRaw || "",
+          questions,
+        ].join(" ").toLowerCase();
+
+        return haystack.includes(searchText);
+      });
+
+      if (!filtered.length) {
+        listEl.innerHTML = '<div class="empty">No shared surveys found.</div>';
+        return;
+      }
+
+      listEl.innerHTML = filtered.map((s) => {
+        const status = normalizeStatus(s.status);
+        const isOpen = status === "published" && s.allowResponses !== false;
+        const statusLabel = status === "closed" ? "Closed" : "Published";
+        const badges = `
+          <span class="badge ${isOpen ? "badge-open" : "badge-closed"}">${isOpen ? "Open for Response" : "Closed"}</span>
+          <span class="badge badge-status">${statusLabel}</span>
+        `;
+
+        const questions = parseQuestions(s.questionsRaw, s.questions);
+        const questionsHtml = questions.length
+          ? `<div class="questions-wrap">
+              <div class="questions-title">Questions</div>
+              <ol class="questions-list">${questions.map((q) => `<li>${esc(q)}</li>`).join("")}</ol>
+            </div>`
+          : "";
+
+        const plats = Array.isArray(s.platforms) ? s.platforms : [];
+        const chip = (enabled, cls, label) => `<span class="chip ${enabled ? cls : "chip-off"}">${label}</span>`;
+        const platformChips = `
+          ${chip(plats.includes("centralhub"), "chip-on-central", "CentralHub")}
+          ${chip(plats.includes("academichub"), "chip-on-academic", "Academic Hub")}
+          ${chip(plats.includes("teachershub"), "chip-on-teachers", "Teachers Hub")}
+        `;
+
+        const response = myResponses[s.id] || null;
+        const responseAnswers = normalizeAnswers(response?.answers, questions.length);
+        const responseUi = responseUiState[s.id];
+        const noteClass = responseUi ? (responseUi.isError ? "response-note err" : "response-note ok") : "response-note";
+        const defaultNote = response
+          ? `Last saved: ${formatDateTime(response.updatedAt || response.createdAt)}`
+          : (isOpen ? "You have not submitted a response yet." : "This survey is closed for responses.");
+
+        const responseInputs = questions.map((q, idx) => `
+          <div class="response-item">
+            <label class="response-label" for="resp-${s.id}-${idx}">Q${idx + 1}: ${esc(q)}</label>
+            <textarea
+              id="resp-${s.id}-${idx}"
+              class="response-input"
+              data-survey-id="${s.id}"
+              placeholder="Write your response..."
+              ${isOpen ? "" : "disabled"}
+            >${esc(responseAnswers[idx] || "")}</textarea>
+          </div>
+        `).join("");
+
+        const responseSection = questions.length ? `
+          <div class="response-wrap">
+            <div class="response-title">Your Response</div>
+            ${responseInputs}
+            <div class="response-actions">
+              <button
+                type="button"
+                class="response-btn"
+                data-survey-id="${s.id}"
+                ${!isOpen || savingSurveyId === s.id ? "disabled" : ""}
+              >${savingSurveyId === s.id ? "Saving..." : (response ? "Update Response" : "Submit Response")}</button>
+              <span class="${noteClass}">${esc(responseUi?.text || defaultNote)}</span>
+            </div>
+          </div>
+        ` : "";
+
+        return `
+          <article class="survey-card">
+            <div class="survey-head">
+              <h2 class="survey-title">${esc(s.title || "Untitled Survey")}</h2>
+              <div class="badge-row">${badges}</div>
+            </div>
+            <div class="survey-body">${renderBody(s.body || "")}</div>
+            ${questionsHtml}
+            <div class="platforms">${platformChips}</div>
+            ${responseSection}
+            <div class="survey-meta">${esc(s.author || "Admin")} &middot; ${formatDate(s.createdAt)}</div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function buildResponseDocId(surveyId, uid) {
+      return `${surveyId}__${uid}__${PLATFORM_KEY}`;
+    }
+
+    function setResponseUi(surveyId, text, isError) {
+      if (!text) {
+        delete responseUiState[surveyId];
+        return;
+      }
+      responseUiState[surveyId] = { text, isError };
+    }
+
+    function normalizeStatus(value) {
+      const status = String(value || "published").toLowerCase();
+      if (status === "closed") return "closed";
+      if (status === "draft") return "draft";
+      return "published";
+    }
+
+    function parseQuestions(raw, arr) {
+      if (Array.isArray(arr) && arr.length) {
+        return arr.map((q) => String(q || "").trim()).filter(Boolean);
+      }
+      return String(raw || "")
+        .split(/\r?\n/)
+        .map((q) => q.trim())
+        .filter(Boolean);
+    }
+
+    function sanitizeHtml(html) {
+      const tmp = document.createElement("div");
+      tmp.innerHTML = html;
+      tmp.querySelectorAll("script,style,iframe,object,embed,form,input,textarea,button,link,meta").forEach((el) => el.remove());
+      tmp.querySelectorAll("*").forEach((el) => {
+        [...el.attributes].forEach((attr) => {
+          if (attr.name.startsWith("on") || attr.name === "action") el.removeAttribute(attr.name);
+          if ((attr.name === "href" || attr.name === "src") && /^javascript:/i.test(attr.value)) el.removeAttribute(attr.name);
+        });
+      });
+      return tmp.innerHTML;
+    }
+
+    function stripHtml(html) {
+      const tmp = document.createElement("div");
+      tmp.innerHTML = html;
+      return tmp.textContent || "";
+    }
+
+    function renderBody(body) {
+      if (!body) return "";
+      if (/<[a-z][\s\S]*>/i.test(body)) return sanitizeHtml(body);
+      return esc(body).replace(/\n/g, "<br>");
+    }
+
+    function formatDate(timestamp) {
+      const d = timestamp?.toDate?.();
+      if (!d) return "Unknown date";
+      return d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+    }
+
+    function formatDateTime(timestamp) {
+      const d = timestamp?.toDate?.();
+      if (!d) return "just now";
+      return d.toLocaleString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    }
+
+    function normalizeAnswers(answers, expectedLength) {
+      const arr = Array.isArray(answers) ? answers : [];
+      return Array.from({ length: expectedLength }, (_, idx) => String(arr[idx] || "").trim());
+    }
+
+    function esc(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+  </script>
+</body>
+</html>

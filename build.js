@@ -34,6 +34,7 @@ const ROUTES = {
   'asalevel-chemistry-pacing.html': 'asalevel-chemistry',
   'asalevel-physics-pacing.html': 'asalevel-physics',
   'announcements.html': 'announcements',
+  'surveys.html': 'surveys',
   'messageboard.html': 'messageboard',
   'library.html': 'library',
 };
@@ -54,6 +55,7 @@ const LINK_REWRITES = [
   [/href="asalevel-chemistry-pacing\.html"/g, 'href="/asalevel-chemistry"'],
   [/href="asalevel-physics-pacing\.html"/g, 'href="/asalevel-physics"'],
   [/href="announcements\.html"/g, 'href="/announcements"'],
+  [/href="surveys\.html"/g, 'href="/surveys"'],
   [/href="messageboard\.html"/g, 'href="/messageboard"'],
   [/href="library\.html"/g, 'href="/library"'],
 ];
