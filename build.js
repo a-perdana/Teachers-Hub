@@ -76,6 +76,9 @@ function processFile(filename) {
   // Remove local-dev-only firebase-config.js script tag
   html = html.replace(/<script src="firebase-config\.js"><\/script>\n?/g, '');
 
+  // Use absolute path for auth-guard.js so subdirectory pages resolve it correctly
+  html = html.replace(/src="auth-guard\.js"/g, 'src="/auth-guard.js"');
+
   // Rewrite internal .html links to clean URLs
   LINK_REWRITES.forEach(([pattern, replacement]) => {
     html = html.replace(pattern, replacement);
@@ -98,5 +101,9 @@ function processFile(filename) {
 }
 
 Object.keys(ROUTES).forEach(processFile);
+
+// Copy auth-guard.js to dist root (referenced as relative URL from clean URL pages)
+fs.copyFileSync(path.join(__dirname, 'auth-guard.js'), path.join(distDir, 'auth-guard.js'));
+console.log('Copied: dist/auth-guard.js');
 
 console.log('Build completed successfully!');
