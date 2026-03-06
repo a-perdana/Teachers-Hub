@@ -367,9 +367,40 @@
       100% { background-position: -200% 0; }
     }
 
+    /* Multi-type response inputs */
+    .response-mc { display: flex; flex-direction: column; gap: 7px; }
+    .response-mc label { display: flex; align-items: center; gap: 8px; font-size: 0.86rem; color: var(--ink-2); cursor: pointer; padding: 7px 10px; border: 1px solid var(--border); border-radius: 7px; background: var(--white); transition: border-color 0.15s, background 0.15s; }
+    .response-mc label:hover { border-color: var(--accent); background: var(--accent-2); }
+    .response-mc label:has(input:checked) { border-color: var(--accent); background: var(--accent-2); font-weight: 700; color: var(--ink); }
+    .response-mc input[type="radio"] { accent-color: var(--accent); flex-shrink: 0; }
+    .response-mc label.disabled-label { cursor: not-allowed; opacity: 0.6; }
+    .response-rating { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 2px; margin: 2px 0; }
+    .response-rating input[type="radio"] { display: none; }
+    .response-rating label { font-size: 1.75rem; cursor: pointer; color: #d1d5db; transition: color 0.1s; line-height: 1; }
+    .response-rating label:hover { color: #f59e0b; }
+    .response-rating label:hover ~ label { color: #f59e0b; }
+    .response-rating input:checked + label { color: #f59e0b; }
+    .response-rating input:checked + label ~ label { color: #f59e0b; }
+    .rating-disabled label { cursor: not-allowed; pointer-events: none; opacity: 0.7; }
+    .response-likert { display: flex; gap: 4px; flex-wrap: wrap; }
+    .likert-opt { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 78px; }
+    .likert-opt input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+    .likert-opt label { width: 100%; text-align: center; font-size: 0.7rem; padding: 8px 5px; border: 1.5px solid var(--border); border-radius: 7px; cursor: pointer; color: var(--ink-2); background: var(--white); transition: all 0.15s; line-height: 1.35; }
+    .likert-opt label:hover { border-color: var(--accent); background: var(--accent-2); }
+    .likert-opt:has(input:checked) label { border-color: var(--accent); background: var(--accent-2); font-weight: 700; color: var(--ink); }
+    .likert-disabled .likert-opt label { cursor: not-allowed; opacity: 0.65; pointer-events: none; }
+    .response-section-header { font-size: 0.72rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.07em; padding: 10px 0 4px; border-top: 1.5px dashed #ece9e3; margin-top: 6px; }
+    .q-type-chip { display: inline-flex; align-items: center; font-size: 0.65rem; font-weight: 700; padding: 1px 6px; border-radius: 10px; margin-left: 6px; vertical-align: middle; }
+    .q-type-chip-mc { background: #ede9fe; color: #5b21b6; }
+    .q-type-chip-rating { background: #fef3c7; color: #92400e; }
+    .q-type-chip-likert { background: #dcfce7; color: #166534; }
+
     @media (max-width: 760px) {
       .controls { grid-template-columns: 1fr; }
       .nav-user-name, .btn-logout { display: none; }
+      .response-likert { flex-direction: column; }
+      .likert-opt { min-width: unset; flex-direction: row; }
+      .likert-opt label { text-align: left; padding: 7px 10px; }
     }
   </style>
 </head>
@@ -431,6 +462,7 @@
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const PLATFORM_KEY = "teachershub";
+    const LIKERT_LABELS = ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
 
     let db;
     let currentUser = null;
@@ -478,8 +510,15 @@
         const card = btn.closest(".survey-card");
         if (!card) return;
 
-        const inputs = [...card.querySelectorAll(`.response-input[data-survey-id="${surveyId}"]`)];
-        const answers = inputs.map((x) => x.value.trim());
+        const questions = getQuestions(survey.questionsRaw, survey.questions);
+        const answers = questions.map((q, idx) => {
+          if (!q.type || q.type === "text") {
+            const el = card.querySelector(`textarea.response-input[data-survey-id="${surveyId}"][data-qidx="${idx}"]`);
+            return el ? el.value.trim() : "";
+          }
+          const checked = card.querySelector(`input[name="resp-${surveyId}-${idx}"]:checked`);
+          return checked ? checked.value : "";
+        });
         if (!answers.length || answers.some((x) => !x)) {
           setResponseUi(surveyId, "Please answer all questions before submitting.", true);
           renderSurveys();
@@ -573,12 +612,12 @@
 
         if (!searchText) return true;
 
-        const questions = parseQuestions(s.questionsRaw, s.questions).join(" ");
+        const qTexts = getQuestions(s.questionsRaw, s.questions).map((q) => q.text).join(" ");
         const haystack = [
           s.title || "",
           stripHtml(s.body || ""),
           s.questionsRaw || "",
-          questions,
+          qTexts,
         ].join(" ").toLowerCase();
 
         return haystack.includes(searchText);
@@ -598,11 +637,17 @@
           <span class="badge badge-status">${statusLabel}</span>
         `;
 
-        const questions = parseQuestions(s.questionsRaw, s.questions);
+        const questions = getQuestions(s.questionsRaw, s.questions);
+        const typeChip = (type) => {
+          if (type === "multiple_choice") return `<span class="q-type-chip q-type-chip-mc">MC</span>`;
+          if (type === "rating") return `<span class="q-type-chip q-type-chip-rating">Rating</span>`;
+          if (type === "likert") return `<span class="q-type-chip q-type-chip-likert">Likert</span>`;
+          return "";
+        };
         const questionsHtml = questions.length
           ? `<div class="questions-wrap">
               <div class="questions-title">Questions</div>
-              <ol class="questions-list">${questions.map((q) => `<li>${esc(q)}</li>`).join("")}</ol>
+              <ol class="questions-list">${questions.map((q) => `<li>${esc(q.text)}${typeChip(q.type)}</li>`).join("")}</ol>
             </div>`
           : "";
 
@@ -622,18 +667,66 @@
           ? `Last saved: ${formatDateTime(response.updatedAt || response.createdAt)}`
           : (isOpen ? "You have not submitted a response yet." : "This survey is closed for responses.");
 
-        const responseInputs = questions.map((q, idx) => `
-          <div class="response-item">
-            <label class="response-label" for="resp-${s.id}-${idx}">Q${idx + 1}: ${esc(q)}</label>
-            <textarea
+        let lastGroup = null;
+        const responseInputs = questions.map((q, idx) => {
+          let sectionHeader = "";
+          if (q.group && q.group !== lastGroup) {
+            lastGroup = q.group;
+            sectionHeader = `<div class="response-section-header">${esc(q.group)}</div>`;
+          }
+
+          let inputHtml;
+          if (q.type === "multiple_choice" && q.options?.length) {
+            const opts = q.options.map((opt, oi) => {
+              const optId = `resp-${s.id}-${idx}-${oi}`;
+              const checked = responseAnswers[idx] === opt ? "checked" : "";
+              const disabled = isOpen ? "" : "disabled";
+              return `<label ${!isOpen ? 'class="disabled-label"' : ""}>
+                <input type="radio" id="${optId}" name="resp-${s.id}-${idx}" value="${esc(opt)}" ${checked} ${disabled}>
+                ${esc(opt)}
+              </label>`;
+            }).join("");
+            inputHtml = `<div class="response-mc ${!isOpen ? "rating-disabled" : ""}">${opts}</div>`;
+          } else if (q.type === "rating") {
+            const scale = q.scale || 5;
+            const currentVal = parseInt(responseAnswers[idx]) || 0;
+            const stars = Array.from({ length: scale }, (_, i) => {
+              const val = scale - i;
+              const checked = currentVal === val ? "checked" : "";
+              const disabled = isOpen ? "" : "disabled";
+              return `<input type="radio" id="resp-${s.id}-${idx}-${val}" name="resp-${s.id}-${idx}" value="${val}" ${checked} ${disabled}>
+                <label for="resp-${s.id}-${idx}-${val}">&#9733;</label>`;
+            }).join("");
+            inputHtml = `<div class="response-rating ${!isOpen ? "rating-disabled" : ""}">${stars}</div>`;
+          } else if (q.type === "likert") {
+            const labels = q.likertLabels?.length ? q.likertLabels : LIKERT_LABELS;
+            const opts = labels.map((lbl, li) => {
+              const val = String(li + 1);
+              const checked = responseAnswers[idx] === val ? "checked" : "";
+              const disabled = isOpen ? "" : "disabled";
+              const optId = `resp-${s.id}-${idx}-${li}`;
+              return `<div class="likert-opt">
+                <input type="radio" id="${optId}" name="resp-${s.id}-${idx}" value="${val}" ${checked} ${disabled}>
+                <label for="${optId}">${esc(lbl)}</label>
+              </div>`;
+            }).join("");
+            inputHtml = `<div class="response-likert ${!isOpen ? "likert-disabled" : ""}">${opts}</div>`;
+          } else {
+            inputHtml = `<textarea
               id="resp-${s.id}-${idx}"
               class="response-input"
               data-survey-id="${s.id}"
+              data-qidx="${idx}"
               placeholder="Write your response..."
               ${isOpen ? "" : "disabled"}
-            >${esc(responseAnswers[idx] || "")}</textarea>
-          </div>
-        `).join("");
+            >${esc(responseAnswers[idx] || "")}</textarea>`;
+          }
+
+          return `${sectionHeader}<div class="response-item">
+            <label class="response-label">Q${idx + 1}: ${esc(q.text)}</label>
+            ${inputHtml}
+          </div>`;
+        }).join("");
 
         const responseSection = questions.length ? `
           <div class="response-wrap">
@@ -686,14 +779,15 @@
       return "published";
     }
 
-    function parseQuestions(raw, arr) {
+    function getQuestions(raw, arr) {
       if (Array.isArray(arr) && arr.length) {
-        return arr.map((q) => String(q || "").trim()).filter(Boolean);
+        return arr.map((q) => {
+          if (typeof q === "string") return { type: "text", text: q.trim(), options: [], scale: 5, group: null };
+          return { type: q.type || "text", text: (q.text || "").trim(), options: q.options || [], scale: q.scale || 5, group: q.group || null, likertLabels: q.likertLabels || null };
+        }).filter((q) => q.text);
       }
-      return String(raw || "")
-        .split(/\r?\n/)
-        .map((q) => q.trim())
-        .filter(Boolean);
+      return String(raw || "").split(/\r?\n/).map((t) => t.trim()).filter(Boolean)
+        .map((t) => ({ type: "text", text: t, options: [], scale: 5, group: null, likertLabels: null }));
     }
 
     function sanitizeHtml(html) {
