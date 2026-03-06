@@ -1039,11 +1039,12 @@
 
       function renderTopicList(docs) {
         const container = document.getElementById("topicList");
-        if (!docs.length) {
+        const filtered = docs.filter(d => { const s = d.data().source; return !s || s === 'teachers_hub'; });
+        if (!filtered.length) {
           container.innerHTML = '<div class="empty-state">No topics yet. Be the first to post!</div>';
           return;
         }
-        container.innerHTML = docs
+        container.innerHTML = filtered
           .map((d) => {
             const data = d.data();
             const cnt = data.replyCount || 0;
@@ -1412,6 +1413,7 @@
             displayName: getDisplayName(currentUser),
             createdAt: serverTimestamp(),
             replyCount: 0,
+            source: 'teachers_hub',
           });
           closeModal();
           openTopic(ref.id);
