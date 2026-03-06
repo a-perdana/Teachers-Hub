@@ -334,6 +334,38 @@
         color: var(--text-secondary); font-size: 15px;
       }
 
+      /* -- CATEGORY BADGES ---------------------------------------- */
+      .cat-badge {
+        display: inline-flex; align-items: center;
+        font-size: 10.5px; font-weight: 700; padding: 2px 9px;
+        border-radius: 10px; white-space: nowrap; flex-shrink: 0;
+        text-transform: uppercase; letter-spacing: 0.04em;
+      }
+      .cat-general   { background: rgba(0,217,255,0.12);  color: #00d9ff; border: 1px solid rgba(0,217,255,0.25); }
+      .cat-academic  { background: rgba(108,92,231,0.18); color: #a78bfa; border: 1px solid rgba(108,92,231,0.3); }
+      .cat-resources { background: rgba(52,211,153,0.12); color: #34d399; border: 1px solid rgba(52,211,153,0.25); }
+      .cat-events    { background: rgba(251,146,60,0.12); color: #fb923c; border: 1px solid rgba(251,146,60,0.25); }
+      .cat-technical { background: rgba(148,163,184,0.1); color: #94a3b8; border: 1px solid rgba(148,163,184,0.2); }
+
+      /* -- CATEGORY FILTER CHIPS ---------------------------------- */
+      .cat-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+      .cat-chip {
+        padding: 6px 14px; border-radius: 20px;
+        background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+        color: var(--text-secondary); font-family: "Sora", sans-serif;
+        font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;
+      }
+      .cat-chip:hover { background: rgba(255,255,255,0.09); color: var(--text-primary); }
+      .cat-chip.active { background: rgba(108,92,231,0.2); border-color: rgba(108,92,231,0.5); color: #a78bfa; font-weight: 600; }
+
+      /* -- MODAL SELECT ------------------------------------------- */
+      select.modal-input {
+        appearance: none; -webkit-appearance: none; cursor: pointer;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ffffff60' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+        background-repeat: no-repeat; background-position: right 14px center;
+      }
+      select.modal-input option { background: #0a0a1a; color: #fff; }
+
       /* â”€â”€ TOPIC DETAIL VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
       .back-btn {
         display: inline-flex; align-items: center; gap: 6px;
@@ -747,6 +779,14 @@
                 New Topic
               </button>
             </div>
+            <div class="cat-filter" id="catFilter">
+              <button class="cat-chip active" data-cat="all" onclick="window.__mb_setCategory('all')">All</button>
+              <button class="cat-chip" data-cat="general"   onclick="window.__mb_setCategory('general')">💬 General</button>
+              <button class="cat-chip" data-cat="academic"  onclick="window.__mb_setCategory('academic')">📚 Academic</button>
+              <button class="cat-chip" data-cat="resources" onclick="window.__mb_setCategory('resources')">📂 Resources</button>
+              <button class="cat-chip" data-cat="events"    onclick="window.__mb_setCategory('events')">📅 Events</button>
+              <button class="cat-chip" data-cat="technical" onclick="window.__mb_setCategory('technical')">⚙️ Technical</button>
+            </div>
             <div id="topicList" class="topic-list">
               <div class="empty-state">Loading topics...</div>
             </div>
@@ -776,6 +816,17 @@
           <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
         </div>
         <form id="newTopicForm" novalidate>
+          <div class="modal-field">
+            <label class="modal-label" for="topicCat">Category</label>
+            <select class="modal-input" id="topicCat" required>
+              <option value="">Select a category...</option>
+              <option value="general">💬 General</option>
+              <option value="academic">📚 Academic</option>
+              <option value="resources">📂 Resources</option>
+              <option value="events">📅 Events</option>
+              <option value="technical">⚙️ Technical</option>
+            </select>
+          </div>
           <div class="modal-field">
             <label class="modal-label" for="topicTitle">Title</label>
             <input class="modal-input" id="topicTitle" type="text" placeholder="What do you want to discuss?" required />
@@ -886,8 +937,23 @@
       let unsubTopics = null;
       let unsubReplies = null;
       let cachedReplyDocs = [];
-      // editingTarget: null | { type: 'topic' } | { type: 'reply', replyId: string }
       let editingTarget = null;
+      let currentCategory = 'all';
+      let allTopicDocs = [];
+
+      const CAT_CONFIG = {
+        general:   { label: 'General',   emoji: '💬' },
+        academic:  { label: 'Academic',  emoji: '📚' },
+        resources: { label: 'Resources', emoji: '📂' },
+        events:    { label: 'Events',    emoji: '📅' },
+        technical: { label: 'Technical', emoji: '⚙️' },
+      };
+
+      window.__mb_setCategory = function(cat) {
+        currentCategory = cat;
+        document.querySelectorAll('.cat-chip').forEach(c => c.classList.toggle('active', c.dataset.cat === cat));
+        if (allTopicDocs.length) renderTopicList(allTopicDocs);
+      };
 
       const allowedDomains = [
         "scr.sch.id", "eibos.sch.id", "fatih.sch.id", "gcb.sch.id",
@@ -1038,8 +1104,12 @@
       }
 
       function renderTopicList(docs) {
+        allTopicDocs = docs;
         const container = document.getElementById("topicList");
-        const filtered = docs.filter(d => { const s = d.data().source; return !s || s === 'teachers_hub'; });
+        let filtered = docs.filter(d => { const s = d.data().source; return !s || s === 'teachers_hub'; });
+        if (currentCategory !== 'all') {
+          filtered = filtered.filter(d => (d.data().category || 'general') === currentCategory);
+        }
         if (!filtered.length) {
           container.innerHTML = '<div class="empty-state">No topics yet. Be the first to post!</div>';
           return;
@@ -1048,9 +1118,14 @@
           .map((d) => {
             const data = d.data();
             const cnt = data.replyCount || 0;
+            const cat = data.category || 'general';
+            const cfg = CAT_CONFIG[cat] || CAT_CONFIG.general;
             return `
               <div class="topic-card" onclick="window.__mb_openTopic('${d.id}')">
-                <div class="topic-card-title">${escHtml(data.title)}</div>
+                <div class="topic-card-title">
+                  <span class="cat-badge cat-${escHtml(cat)}">${cfg.emoji} ${cfg.label}</span>
+                  ${escHtml(data.title)}
+                </div>
                 <div class="topic-card-meta">
                   <span>${escHtml(data.displayName)}</span>
                   <span class="topic-sep">·</span>
@@ -1394,9 +1469,10 @@
         e.preventDefault();
         if (!currentUser) return;
 
+        const category = document.getElementById("topicCat").value;
         const title = document.getElementById("topicTitle").value.trim();
         const body = document.getElementById("topicBody").value.trim();
-        if (!title || !body) return;
+        if (!category || !title || !body) return;
 
         const btn = document.getElementById("topicSubmitBtn");
         const statusEl = document.getElementById("topicStatus");
@@ -1409,6 +1485,7 @@
           const ref = await addDoc(collection(db, "topics"), {
             title,
             body,
+            category,
             uid: currentUser.uid,
             displayName: getDisplayName(currentUser),
             createdAt: serverTimestamp(),
