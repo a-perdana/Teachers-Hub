@@ -151,6 +151,25 @@ body {
   padding: 32px 20px 100px;
 }
 
+/* ─── PAGE HEADER ────────────────────────────── */
+.ann-page-header {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 24px;
+}
+.ann-page-header-icon {
+  width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--accent), #b45309);
+  box-shadow: 0 4px 14px rgba(217,119,6,.30);
+}
+.ann-page-header-icon svg { width: 24px; height: 24px; color: #fff; }
+.ann-page-title {
+  font-size: 22px; font-weight: 800; color: var(--ink); line-height: 1.2;
+}
+.ann-page-sub {
+  font-size: 12.5px; color: var(--ink-3); margin-top: 3px;
+}
+
 /* ─── ANNOUNCEMENTS LIST ─────────────────────── */
 .ann-list { display: flex; flex-direction: column; gap: 16px; }
 
@@ -163,39 +182,62 @@ body {
 .ann-card {
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 16px;
   box-shadow: var(--shadow-sm);
   overflow: hidden;
-  transition: box-shadow .2s;
+  transition: box-shadow .22s ease, transform .22s ease;
 }
-.ann-card:hover { box-shadow: var(--shadow); }
+.ann-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+}
 .ann-card.pinned {
   border-color: var(--accent);
   border-left: 4px solid var(--accent);
+  background: linear-gradient(to bottom, #fffbf3 0%, var(--white) 80px);
 }
 
 .ann-card-header {
-  display: flex; align-items: flex-start; gap: 12px;
+  display: flex; align-items: flex-start; gap: 14px;
   padding: 18px 20px 14px;
   cursor: pointer;
 }
-.ann-pin-icon {
-  font-size: 14px; color: var(--pin-color);
-  flex-shrink: 0; margin-top: 2px; opacity: 0;
-  transition: opacity .15s;
+.ann-type-icon {
+  width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 1px solid rgba(217,119,6,.18);
+  margin-top: 1px;
+  transition: transform .18s ease;
 }
-.ann-card.pinned .ann-pin-icon { opacity: 1; }
+.ann-type-icon svg { width: 17px; height: 17px; color: var(--accent); flex-shrink: 0; }
+.ann-card.pinned .ann-type-icon {
+  background: linear-gradient(135deg, var(--accent), #b45309);
+  border-color: transparent;
+}
+.ann-card.pinned .ann-type-icon svg { color: #fff; }
+.ann-card:hover .ann-type-icon { transform: scale(1.08); }
+.ann-pin-icon {
+  display: none;
+}
 .ann-card-body { flex: 1; min-width: 0; }
 .ann-title {
-  font-size: 15.5px; font-weight: 700; color: var(--ink);
-  line-height: 1.35; margin-bottom: 5px;
+  font-size: 15px; font-weight: 700; color: var(--ink);
+  line-height: 1.4; margin-bottom: 6px;
 }
 .ann-meta {
-  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  font-size: 12px; color: var(--ink-3);
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  font-size: 11.5px; color: var(--ink-3);
 }
 .ann-meta-sep { opacity: .4; }
 .ann-edited-tag { font-style: italic; opacity: .6; }
+.ann-pinned-badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  background: var(--accent-2); border: 1px solid rgba(217,119,6,.25);
+  border-radius: 20px; padding: 1px 7px;
+  font-size: 10.5px; font-weight: 600; color: var(--accent);
+  letter-spacing: .01em;
+}
 .ann-comment-chip {
   display: inline-flex; align-items: center; gap: 4px;
   background: var(--paper-2); border-radius: 20px;
@@ -203,30 +245,31 @@ body {
   font-weight: 500;
 }
 .ann-admin-btns {
-  display: flex; gap: 6px; flex-shrink: 0; align-items: center;
-  margin-left: auto;
+  display: flex; gap: 5px; flex-shrink: 0; align-items: center;
+  margin-left: auto; padding-left: 4px;
 }
 .ann-admin-btn {
   display: flex; align-items: center; justify-content: center;
-  width: 28px; height: 28px; border-radius: 7px; border: 1px solid var(--border);
+  width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border);
   background: transparent; cursor: pointer; font-size: 13px;
   color: var(--ink-3); transition: all .15s;
 }
-.ann-admin-btn:hover { background: var(--paper-2); color: var(--ink); }
+.ann-admin-btn:hover { background: var(--paper-2); color: var(--ink); border-color: var(--ink-3); }
 .ann-admin-btn.pin-active { background: var(--accent-2); border-color: var(--accent); color: var(--accent); }
 .ann-admin-btn.del:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
 
 .ann-preview {
-  padding: 0 20px 14px;
+  padding: 0 20px 14px 72px;
   font-size: 13.5px; color: var(--ink-2); line-height: 1.6;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
   overflow: hidden;
 }
 .ann-expand-row {
-  padding: 0 20px 14px;
-  display: flex; align-items: center; gap: 6px;
+  padding: 8px 20px 14px 72px;
+  display: flex; align-items: center; gap: 5px;
   font-size: 12px; color: var(--accent); font-weight: 600;
   cursor: pointer; user-select: none;
+  border-top: 1px solid var(--paper-2);
 }
 .ann-expand-row svg { width: 13px; height: 13px; transition: transform .2s; }
 .ann-card.expanded .ann-expand-row svg { transform: rotate(180deg); }
@@ -235,7 +278,7 @@ body {
 /* ─── EXPANDED BODY ───────────────────────────── */
 .ann-full-body {
   display: none;
-  padding: 4px 20px 16px;
+  padding: 4px 20px 16px 72px;
   font-size: 14px; color: var(--ink-2); line-height: 1.75;
   animation: annFadeIn .22s ease;
 }
@@ -527,6 +570,17 @@ body {
 
   <!-- Page content -->
   <div class="page-wrap">
+    <div class="ann-page-header">
+      <div class="ann-page-header-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 3L9.218 10.083M11.698 20.334C12.573 21.209 14 20.561 14 19.307V4.693C14 3.439 12.573 2.791 11.698 3.666L7 8H4C2.895 8 2 8.895 2 10v4c0 1.105.895 2 2 2h3l4.698 4.334z"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="ann-page-title">Announcements</h1>
+        <p class="ann-page-sub" id="annPageSub">Loading…</p>
+      </div>
+    </div>
     <div class="ann-list" id="annList">
       <div class="ann-empty" id="annEmpty" style="display:none;">
         <div class="ann-empty-icon">📭</div>
@@ -765,12 +819,18 @@ body {
         return !plats || plats.includes('teachershub');
       });
 
+      const subEl = document.getElementById('annPageSub');
       if (!filteredDocs.length) {
         annEmpty.style.display = 'block';
         [...annList.children].forEach(c => { if (c !== annEmpty) c.remove(); });
+        if (subEl) subEl.textContent = 'No announcements yet';
         return;
       }
       annEmpty.style.display = 'none';
+      if (subEl) {
+        const pinned = filteredDocs.filter(d => d.data().pinned).length;
+        subEl.textContent = `${filteredDocs.length} announcement${filteredDocs.length !== 1 ? 's' : ''}${pinned ? ` · ${pinned} pinned` : ''}`;
+      }
 
       // Sort client-side: pinned first, then by timestamp desc
       const sorted = [...filteredDocs].sort((a, b) => {
@@ -848,10 +908,15 @@ body {
 
     return `
       <div class="ann-card-header" data-action="toggle">
-        <span class="ann-pin-icon">📌</span>
+        <div class="ann-type-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 3L9.218 10.083M11.698 20.334C12.573 21.209 14 20.561 14 19.307V4.693C14 3.439 12.573 2.791 11.698 3.666L7 8H4C2.895 8 2 8.895 2 10v4c0 1.105.895 2 2 2h3l4.698 4.334z"/>
+          </svg>
+        </div>
         <div class="ann-card-body">
           <div class="ann-title">${escHtml(d.title || '')}</div>
           <div class="ann-meta">
+            ${d.pinned ? `<span class="ann-pinned-badge">📌 Pinned</span>` : ''}
             <span>${escHtml(d.authorName || 'Admin')}</span>
             <span class="ann-meta-sep">·</span>
             <span>${relativeTime(d.createdAt)}</span>
