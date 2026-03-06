@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Message Board â€” Eduversal Indonesia</title>
+    <title>Message Board – Eduversal Indonesia</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -748,7 +748,7 @@
               </button>
             </div>
             <div id="topicList" class="topic-list">
-              <div class="empty-state">Loading topicsâ€¦</div>
+              <div class="empty-state">Loading topics...</div>
             </div>
           </div>
 
@@ -782,7 +782,7 @@
           </div>
           <div class="modal-field">
             <label class="modal-label" for="topicBody">Message</label>
-            <textarea class="modal-textarea" id="topicBody" placeholder="Share your thoughts, questions, or resourcesâ€¦" required></textarea>
+            <textarea class="modal-textarea" id="topicBody" placeholder="Share your thoughts, questions, or resources..." required></textarea>
           </div>
           <button type="submit" class="modal-submit-btn" id="topicSubmitBtn">Post Topic</button>
           <div class="modal-status" id="topicStatus"></div>
@@ -1074,7 +1074,7 @@
         document.getElementById("topicListView").style.display = "none";
         document.getElementById("topicDetailView").style.display = "block";
         document.getElementById("topicPost").innerHTML =
-          '<div class="empty-state">Loadingâ€¦</div>';
+          '<div class="empty-state">Loading...</div>';
         document.getElementById("repliesArea").innerHTML = "";
 
         const topicSnap = await getDoc(doc(db, "topics", topicId));
@@ -1232,7 +1232,7 @@
             <textarea
               class="reply-textarea"
               id="replyTextarea"
-              placeholder="Write your replyâ€¦"
+              placeholder="Write your reply..."
             ></textarea>
             <div class="reply-form-footer">
               <button class="reply-send-btn" id="replySendBtn">
@@ -1279,7 +1279,7 @@
         if (!title || !body) return;
 
         const saveBtn = document.getElementById("saveTopicEditBtn");
-        if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = "Savingâ€¦"; }
+        if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = "Saving..."; }
 
         try {
           await updateDoc(doc(db, "topics", currentTopicId), {
@@ -1317,7 +1317,7 @@
 
         const btn = document.getElementById("replySendBtn");
         btn.disabled = true;
-        btn.innerHTML = `<span class="btn-spinner"></span> Sendingâ€¦`;
+        btn.innerHTML = `<span class="btn-spinner"></span> Sending...`;
 
         try {
           await addDoc(collection(db, "topics", currentTopicId, "replies"), {
@@ -1400,7 +1400,7 @@
         const btn = document.getElementById("topicSubmitBtn");
         const statusEl = document.getElementById("topicStatus");
         btn.disabled = true;
-        btn.textContent = "Postingâ€¦";
+        btn.textContent = "Posting...";
         statusEl.className = "modal-status";
         statusEl.textContent = "";
 
