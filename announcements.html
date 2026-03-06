@@ -195,6 +195,7 @@ body {
   font-size: 12px; color: var(--ink-3);
 }
 .ann-meta-sep { opacity: .4; }
+.ann-edited-tag { font-style: italic; opacity: .6; }
 .ann-comment-chip {
   display: inline-flex; align-items: center; gap: 4px;
   background: var(--paper-2); border-radius: 20px;
@@ -236,9 +237,88 @@ body {
   display: none;
   padding: 4px 20px 16px;
   font-size: 14px; color: var(--ink-2); line-height: 1.75;
-  white-space: pre-wrap;
+  animation: annFadeIn .22s ease;
 }
 .ann-card.expanded .ann-full-body { display: block; }
+@keyframes annFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── ANNOUNCEMENT IMAGE ─────────────────────── */
+.ann-media {
+  margin: 0 20px 14px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 16px rgba(28,28,46,.08);
+  background: var(--paper);
+}
+.ann-media img {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  cursor: zoom-in;
+  transition: transform .24s ease, filter .24s ease;
+}
+.ann-media:hover img {
+  transform: scale(1.015);
+  filter: saturate(1.05);
+}
+
+/* ─── LIGHTBOX ────────────────────────────────── */
+.ann-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(7, 7, 17, .86);
+  backdrop-filter: blur(6px);
+}
+.ann-lightbox.open { display: flex; }
+.ann-lightbox-dialog {
+  position: relative;
+  width: min(1100px, 96vw);
+  max-height: 90vh;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.2);
+  box-shadow: 0 24px 80px rgba(0,0,0,.45);
+  background: #0f0f1f;
+}
+.ann-lightbox-img {
+  display: block;
+  width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  background: #0f0f1f;
+}
+.ann-lightbox-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(12,12,24,.75);
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s ease, transform .2s ease;
+}
+.ann-lightbox-close:hover {
+  background: rgba(217,119,6,.92);
+  transform: scale(1.06);
+}
 
 /* ─── COMMENTS ────────────────────────────────── */
 .ann-comments {
@@ -492,6 +572,14 @@ body {
   </div>
 </div>
 
+<!-- Lightbox -->
+<div class="ann-lightbox" id="annLightbox" aria-hidden="true">
+  <div class="ann-lightbox-dialog">
+    <button class="ann-lightbox-close" id="annLightboxClose" aria-label="Close image preview">&times;</button>
+    <img class="ann-lightbox-img" id="annLightboxImg" alt="Announcement image enlarged view">
+  </div>
+</div>
+
 <!-- Floating Home Button -->
 <a href="index.html" class="home-float" title="Back to Hub">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -732,6 +820,8 @@ body {
     card.className = 'ann-card' + (d.pinned ? ' pinned' : '');
     card.dataset.id = id;
     card.innerHTML = cardInnerHTML(id, d);
+    const fullBody = card.querySelector('.ann-full-body');
+    if (fullBody) fullBody.innerHTML = renderBody(d.body || '');
     attachCardEvents(card, id, d);
     return card;
   }
@@ -739,6 +829,8 @@ body {
   function updateCardData(card, id, d) {
     card.className = 'ann-card' + (d.pinned ? ' pinned' : '') + (card.classList.contains('expanded') ? ' expanded' : '');
     card.innerHTML = cardInnerHTML(id, d);
+    const fullBody = card.querySelector('.ann-full-body');
+    if (fullBody) fullBody.innerHTML = renderBody(d.body || '');
     attachCardEvents(card, id, d);
   }
 
@@ -749,8 +841,10 @@ body {
         <button class="ann-admin-btn del" data-action="delete" title="Delete">🗑️</button>
       </div>` : '';
 
-    const preview = (d.body || '').slice(0, 200) + ((d.body || '').length > 200 ? '…' : '');
+    const plainText = stripHtml(d.body || '');
+    const preview = plainText.slice(0, 200) + (plainText.length > 200 ? '…' : '');
     const commentCount = d.commentCount || 0;
+    const mediaHtml = d.imageUrl ? `<div class="ann-media"><img src="${escHtml(d.imageUrl)}" alt="Announcement image" loading="lazy"></div>` : '';
 
     return `
       <div class="ann-card-header" data-action="toggle">
@@ -761,13 +855,15 @@ body {
             <span>${escHtml(d.authorName || 'Admin')}</span>
             <span class="ann-meta-sep">·</span>
             <span>${relativeTime(d.createdAt)}</span>
+            ${d.editedAt ? `<span class="ann-edited-tag">(edited)</span>` : ''}
             <span class="ann-comment-chip">💬 ${commentCount}</span>
           </div>
         </div>
         ${adminBtns}
       </div>
+      ${mediaHtml}
       <div class="ann-preview">${escHtml(preview)}</div>
-      <div class="ann-full-body">${escHtml(d.body || '')}</div>
+      <div class="ann-full-body"></div>
       <div class="ann-expand-row" data-action="toggle">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         <span class="expand-label">Show more</span>
@@ -794,6 +890,15 @@ body {
         if (!wasExpanded) loadComments(card, id);
       });
     });
+
+    // Lightbox for media image
+    const mediaImg = card.querySelector('.ann-media img');
+    if (mediaImg) {
+      mediaImg.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openImageLightbox(mediaImg.src, mediaImg.alt);
+      });
+    }
 
     // Admin: pin
     const pinBtn = card.querySelector('[data-action="pin"]');
@@ -977,9 +1082,62 @@ body {
     confirmCallback = null;
   });
 
+  // ── Lightbox ──────────────────────────────────────────────────
+  function openImageLightbox(src, altText) {
+    const overlay = document.getElementById('annLightbox');
+    const img = document.getElementById('annLightboxImg');
+    img.src = src;
+    img.alt = altText || 'Announcement image enlarged view';
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeImageLightbox() {
+    const overlay = document.getElementById('annLightbox');
+    const img = document.getElementById('annLightboxImg');
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    img.src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('annLightboxClose').addEventListener('click', closeImageLightbox);
+  document.getElementById('annLightbox').addEventListener('click', (e) => {
+    if (e.target.id === 'annLightbox') closeImageLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeImageLightbox();
+  });
+
   // ── Util ─────────────────────────────────────────────────────
   function escHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function sanitizeHtml(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    tmp.querySelectorAll('script,style,iframe,object,embed,form,input,textarea,button,link,meta').forEach(el => el.remove());
+    tmp.querySelectorAll('*').forEach(el => {
+      [...el.attributes].forEach(attr => {
+        if (attr.name.startsWith('on') || attr.name === 'action') el.removeAttribute(attr.name);
+        if ((attr.name === 'href' || attr.name === 'src') && /^javascript:/i.test(attr.value)) el.removeAttribute(attr.name);
+      });
+    });
+    return tmp.innerHTML;
+  }
+
+  function stripHtml(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp.textContent || '';
+  }
+
+  function renderBody(body) {
+    if (!body) return '';
+    if (/<[a-z][\s\S]*>/i.test(body)) return sanitizeHtml(body);
+    return escHtml(body).replace(/\n/g, '<br>');
   }
 </script>
 </body>
