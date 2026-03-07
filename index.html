@@ -2941,6 +2941,7 @@
           document.getElementById('navbar-container').innerHTML = html;
           initNavbar();
           window.authSignOut = () => signOut(auth);
+          document.getElementById('feedbackBtn').addEventListener('click', openFeedback);
 
           // Phone save
           document.getElementById('pdPhoneBtn').addEventListener('click', async () => {
@@ -2998,7 +2999,6 @@
 
       // ── Feedback Modal ──────────────────────────────────────────
       const feedbackOverlay = document.getElementById("feedbackOverlay");
-      const feedbackBtn = document.getElementById("feedbackBtn");
       const feedbackCloseBtn = document.getElementById("feedbackCloseBtn");
       const feedbackForm = document.getElementById("feedbackForm");
       const feedbackStatus = document.getElementById("feedbackStatus");
@@ -3013,7 +3013,7 @@
         feedbackOverlay.classList.remove("open");
       }
 
-      feedbackBtn.addEventListener("click", openFeedback);
+      // feedbackBtn lives in the navbar partial — wired in the fetch callback below
       feedbackCloseBtn.addEventListener("click", closeFeedback);
       feedbackOverlay.addEventListener("click", (e) => {
         if (e.target === feedbackOverlay) closeFeedback();
