@@ -672,8 +672,8 @@
           } else if (q.type === "likert") {
             const labels = q.likertLabels?.length ? q.likertLabels : LIKERT_LABELS;
             const opts = labels.map((lbl, li) => {
-              const val = String(li + 1);
-              const checked = responseAnswers[idx] === val ? "checked" : "";
+              const val = lbl;
+              const checked = (responseAnswers[idx] === val || responseAnswers[idx] === String(li + 1)) ? "checked" : "";
               const disabled = isOpen ? "" : "disabled";
               const optId = `resp-${s.id}-${idx}-${li}`;
               return `<div class="likert-opt">
