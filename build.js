@@ -106,4 +106,21 @@ Object.keys(ROUTES).forEach(processFile);
 fs.copyFileSync(path.join(__dirname, 'auth-guard.js'), path.join(distDir, 'auth-guard.js'));
 console.log('Copied: dist/auth-guard.js');
 
+// Copy partials folder to dist root
+const partialsSrcDir = path.join(__dirname, 'partials');
+const partialsDistDir = path.join(distDir, 'partials');
+if (fs.existsSync(partialsSrcDir)) {
+  if (!fs.existsSync(partialsDistDir)) {
+    fs.mkdirSync(partialsDistDir, { recursive: true });
+  }
+  fs.readdirSync(partialsSrcDir).forEach(file => {
+    const srcFile = path.join(partialsSrcDir, file);
+    const destFile = path.join(partialsDistDir, file);
+    fs.copyFileSync(srcFile, destFile);
+    console.log(`Copied: dist/partials/${file}`);
+  });
+} else {
+  console.warn('Warning: partials directory not found');
+}
+
 console.log('Build completed successfully!');
