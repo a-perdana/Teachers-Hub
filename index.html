@@ -2023,6 +2023,7 @@
         }
       }
     </style>
+    <script src="partials/navbar.js"></script>
     <script src="firebase-config.js"></script>
     <script>
       if (!window.ENV) window.ENV = {
@@ -2545,7 +2546,8 @@
           return matchesCategory && matchesSearch;
         });
 
-        document.getElementById("resource-count").textContent = filtered.length;
+        const countEl = document.getElementById("resource-count");
+        if (countEl) countEl.textContent = filtered.length;
 
         if (filtered.length === 0) {
           grid.style.display = "none";
@@ -2671,20 +2673,9 @@
       // Nav Scroll Effect
       window.addEventListener("scroll", () => {
         const nav = document.getElementById("nav");
-        if (window.scrollY > 50) {
-          nav.classList.add("scrolled");
-        } else {
-          nav.classList.remove("scrolled");
-        }
+        if (!nav) return;
+        nav.classList.toggle("scrolled", window.scrollY > 50);
       });
-
-      // Load navbar
-      fetch('partials/navbar.html')
-        .then(response => response.text())
-        .then(html => {
-          document.getElementById('navbar-container').innerHTML = html;
-        })
-        .catch(error => console.error('Error loading navbar:', error));
 
       // Initialize
       window.addEventListener("load", () => {
@@ -2873,25 +2864,29 @@
 
       async function showProfileUI(user) {
         const displayName = user.displayName || user.email.split('@')[0];
-        // Small avatar + name in nav
-        buildAvatar(document.getElementById('profileAvatar'), user);
-        document.getElementById('profileNameShort').textContent = displayName.split(' ')[0];
-        // Large avatar + info in dropdown
-        buildAvatar(document.getElementById('pdAvatarLg'), user);
-        document.getElementById('pdName').textContent = displayName;
-        document.getElementById('pdEmail').textContent = user.email;
-        // Load phone from Firestore
+        const isEmailUser = user.providerData.some(p => p.providerId === 'password');
+        let phone = '';
         try {
           const snap = await getDoc(doc(db, 'users', user.uid));
-          if (snap.exists() && snap.data().phone) {
-            document.getElementById('pdPhone').value = snap.data().phone;
-          }
+          if (snap.exists() && snap.data().phone) phone = snap.data().phone;
         } catch(_) {}
-        // Show password section only for email/password users
-        const isEmailUser = user.providerData.some(p => p.providerId === 'password');
-        document.getElementById('pdPwSection').style.display = isEmailUser ? 'block' : 'none';
-        // Show profile wrap
-        document.getElementById('profileWrap').style.display = 'flex';
+
+        function applyToNavbar() {
+          buildAvatar(document.getElementById('profileAvatar'), user);
+          document.getElementById('profileNameShort').textContent = displayName.split(' ')[0];
+          buildAvatar(document.getElementById('pdAvatarLg'), user);
+          document.getElementById('pdName').textContent = displayName;
+          document.getElementById('pdEmail').textContent = user.email;
+          if (phone) document.getElementById('pdPhone').value = phone;
+          document.getElementById('pdPwSection').style.display = isEmailUser ? 'block' : 'none';
+          document.getElementById('profileWrap').style.display = 'flex';
+        }
+
+        if (document.getElementById('profileAvatar')) {
+          applyToNavbar();
+        } else {
+          window._pendingNavbarUpdate = applyToNavbar;
+        }
       }
 
       // ── Unread Badges ───────────────────────────────────────────
@@ -2939,75 +2934,67 @@
         });
       }
 
-      // Dropdown toggle
-      const profileWrap = document.getElementById('profileWrap');
-      document.getElementById('profileBtn').addEventListener('click', e => {
-        e.stopPropagation();
-        profileWrap.classList.toggle('open');
-      });
-      document.addEventListener('click', () => profileWrap.classList.remove('open'));
-      document.getElementById('profileDropdown').addEventListener('click', e => e.stopPropagation());
+      // Navbar dropdown + phone/password/signout wired after navbar partial loads
+      fetch('partials/navbar.html')
+        .then(r => r.text())
+        .then(html => {
+          document.getElementById('navbar-container').innerHTML = html;
+          initNavbar();
+          window.authSignOut = () => signOut(auth);
 
-      // Phone save
-      document.getElementById('pdPhoneBtn').addEventListener('click', async () => {
-        if (!currentUser) return;
-        const phone = document.getElementById('pdPhone').value.trim();
-        const msg = document.getElementById('pdPhoneMsg');
-        const btn = document.getElementById('pdPhoneBtn');
-        btn.disabled = true; btn.textContent = 'Saving…';
-        try {
-          await setDoc(doc(db, 'users', currentUser.uid), { phone }, { merge: true });
-          msg.textContent = 'Phone number saved ✓';
-          msg.className = 'pd-msg ok';
-        } catch(e) {
-          msg.textContent = 'Failed to save. Try again.';
-          msg.className = 'pd-msg err';
-        } finally {
-          btn.disabled = false; btn.textContent = 'Save Phone Number';
-          setTimeout(() => { msg.className = 'pd-msg'; }, 3000);
-        }
-      });
+          // Phone save
+          document.getElementById('pdPhoneBtn').addEventListener('click', async () => {
+            if (!currentUser) return;
+            const phone = document.getElementById('pdPhone').value.trim();
+            const msg = document.getElementById('pdPhoneMsg');
+            const btn = document.getElementById('pdPhoneBtn');
+            btn.disabled = true; btn.textContent = 'Saving…';
+            try {
+              await setDoc(doc(db, 'users', currentUser.uid), { phone }, { merge: true });
+              msg.textContent = 'Phone number saved ✓';
+              msg.className = 'pd-msg ok';
+            } catch(e) {
+              msg.textContent = 'Failed to save. Try again.';
+              msg.className = 'pd-msg err';
+            } finally {
+              btn.disabled = false; btn.textContent = 'Save Phone Number';
+              setTimeout(() => { msg.className = 'pd-msg'; }, 3000);
+            }
+          });
 
-      // Password change toggle
-      document.getElementById('pdPwToggle').addEventListener('click', () => {
-        const fields = document.getElementById('pdPwFields');
-        const toggle = document.getElementById('pdPwToggle');
-        const isOpen = fields.classList.toggle('open');
-        toggle.textContent = isOpen ? '▾ Hide' : '▸ Change password';
-      });
+          // Password update
+          document.getElementById('pdPwBtn').addEventListener('click', async () => {
+            if (!currentUser) return;
+            const current = document.getElementById('pdPwCurrent').value;
+            const newPw   = document.getElementById('pdPwNew').value;
+            const confirm = document.getElementById('pdPwConfirm').value;
+            const msg = document.getElementById('pdPwMsg');
+            const btn = document.getElementById('pdPwBtn');
+            msg.className = 'pd-msg';
+            if (newPw.length < 6) { msg.textContent = 'Password must be at least 6 characters.'; msg.className = 'pd-msg err'; return; }
+            if (newPw !== confirm) { msg.textContent = 'Passwords do not match.'; msg.className = 'pd-msg err'; return; }
+            btn.disabled = true; btn.textContent = 'Updating…';
+            try {
+              const credential = EmailAuthProvider.credential(currentUser.email, current);
+              await reauthenticateWithCredential(currentUser, credential);
+              await updatePassword(currentUser, newPw);
+              msg.textContent = 'Password updated successfully ✓';
+              msg.className = 'pd-msg ok';
+              ['pdPwCurrent','pdPwNew','pdPwConfirm'].forEach(id => document.getElementById(id).value = '');
+              document.getElementById('pdPwFields').classList.remove('open');
+              document.getElementById('pdPwToggle').textContent = '▸ Change password';
+            } catch(e) {
+              msg.textContent = e.code === 'auth/wrong-password' ? 'Current password is incorrect.' : 'Failed to update. Try again.';
+              msg.className = 'pd-msg err';
+            } finally {
+              btn.disabled = false; btn.textContent = 'Update Password';
+              setTimeout(() => { msg.className = 'pd-msg'; }, 4000);
+            }
+          });
 
-      // Password update
-      document.getElementById('pdPwBtn').addEventListener('click', async () => {
-        if (!currentUser) return;
-        const current = document.getElementById('pdPwCurrent').value;
-        const newPw   = document.getElementById('pdPwNew').value;
-        const confirm = document.getElementById('pdPwConfirm').value;
-        const msg = document.getElementById('pdPwMsg');
-        const btn = document.getElementById('pdPwBtn');
-        msg.className = 'pd-msg';
-        if (newPw.length < 6) { msg.textContent = 'Password must be at least 6 characters.'; msg.className = 'pd-msg err'; return; }
-        if (newPw !== confirm) { msg.textContent = 'Passwords do not match.'; msg.className = 'pd-msg err'; return; }
-        btn.disabled = true; btn.textContent = 'Updating…';
-        try {
-          const credential = EmailAuthProvider.credential(currentUser.email, current);
-          await reauthenticateWithCredential(currentUser, credential);
-          await updatePassword(currentUser, newPw);
-          msg.textContent = 'Password updated successfully ✓';
-          msg.className = 'pd-msg ok';
-          ['pdPwCurrent','pdPwNew','pdPwConfirm'].forEach(id => document.getElementById(id).value = '');
-          document.getElementById('pdPwFields').classList.remove('open');
-          document.getElementById('pdPwToggle').textContent = '▸ Change password';
-        } catch(e) {
-          msg.textContent = e.code === 'auth/wrong-password' ? 'Current password is incorrect.' : 'Failed to update. Try again.';
-          msg.className = 'pd-msg err';
-        } finally {
-          btn.disabled = false; btn.textContent = 'Update Password';
-          setTimeout(() => { msg.className = 'pd-msg'; }, 4000);
-        }
-      });
-
-      // Sign out
-      document.getElementById('pdSignOut').addEventListener('click', () => signOut(auth));
+          if (window._pendingNavbarUpdate) { window._pendingNavbarUpdate(); window._pendingNavbarUpdate = null; }
+        })
+        .catch(error => console.error('Error loading navbar:', error));
 
       // ── Feedback Modal ──────────────────────────────────────────
       const feedbackOverlay = document.getElementById("feedbackOverlay");
