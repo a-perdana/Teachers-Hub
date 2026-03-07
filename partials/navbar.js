@@ -119,50 +119,17 @@ function initFeedback(db, helpers) {
   });
 }
 
-// Sets up live unread badges for Announcements and Message Board nav buttons.
-// Call after both auth is confirmed and the navbar partial is in the DOM.
-// helpers: { onSnapshot, collection, query, where, doc, getDoc, setDoc, serverTimestamp }
-async function setupNavBadges(db, user, helpers) {
-  const { onSnapshot, collection, query, where, doc, getDoc, setDoc, serverTimestamp } = helpers;
-  const userRef = doc(db, 'users', user.uid);
-  const snap = await getDoc(userRef);
-  const data = snap.exists() ? snap.data() : {};
+// Sets up live total-count badges for Announcements and Message Board nav buttons.
+// Call after the navbar partial is in the DOM.
+// helpers: { onSnapshot, collection }
+function setupNavBadges(db, helpers) {
+  const { onSnapshot, collection } = helpers;
 
-  let lastMsgTime = data.lastReadMessageboard ? data.lastReadMessageboard.toDate() : null;
-  let lastAnnTime = data.lastReadAnnouncements ? data.lastReadAnnouncements.toDate() : null;
+  function setBadge(id, n) {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = n > 99 ? '99+' : String(n); el.style.display = n > 0 ? 'flex' : 'none'; }
+  }
 
-  // First login: initialise lastRead to now so no badge shows on fresh account
-  const updates = {};
-  const now = new Date();
-  if (!lastMsgTime) { updates.lastReadMessageboard = serverTimestamp(); lastMsgTime = now; }
-  if (!lastAnnTime) { updates.lastReadAnnouncements = serverTimestamp(); lastAnnTime = now; }
-  if (Object.keys(updates).length) setDoc(userRef, updates, { merge: true });
-
-  // Live badge — Message Board
-  onSnapshot(
-    query(collection(db, 'topics'), where('createdAt', '>', lastMsgTime)),
-    (snap) => {
-      const n = snap.size;
-      const el = document.getElementById('msgBoardBadge');
-      if (el) { el.textContent = n > 9 ? '9+' : String(n); el.style.display = n > 0 ? 'flex' : 'none'; }
-    }
-  );
-
-  // Live badge — Announcements
-  onSnapshot(
-    query(collection(db, 'announcements'), where('createdAt', '>', lastAnnTime)),
-    (snap) => {
-      const n = snap.size;
-      const el = document.getElementById('announcementsBadge');
-      if (el) { el.textContent = n > 9 ? '9+' : String(n); el.style.display = n > 0 ? 'flex' : 'none'; }
-    }
-  );
-
-  // Mark as read on nav click
-  document.getElementById('msgBoardBtn')?.addEventListener('click', () => {
-    setDoc(userRef, { lastReadMessageboard: serverTimestamp() }, { merge: true });
-  });
-  document.getElementById('announcementsBtn')?.addEventListener('click', () => {
-    setDoc(userRef, { lastReadAnnouncements: serverTimestamp() }, { merge: true });
-  });
+  onSnapshot(collection(db, 'announcements'), (snap) => setBadge('announcementsBadge', snap.size));
+  onSnapshot(collection(db, 'topics'),        (snap) => setBadge('msgBoardBadge',       snap.size));
 }

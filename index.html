@@ -2767,7 +2767,7 @@
           showProfileUI(user);
 
           // Badge setup — deferred until navbar partial is in the DOM
-          const doBadgeSetup = () => setupNavBadges(db, user, { onSnapshot, collection, query, where, doc, getDoc, setDoc, serverTimestamp });
+          const doBadgeSetup = () => setupNavBadges(db, { onSnapshot, collection });
           if (document.getElementById('msgBoardBadge')) {
             doBadgeSetup();
           } else {

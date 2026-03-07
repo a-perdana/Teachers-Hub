@@ -432,7 +432,7 @@
       }
 
       // Badge setup
-      const doBadgeSetup = () => setupNavBadges(window.db, user, { onSnapshot, collection, query, where, doc, getDoc, setDoc, serverTimestamp });
+      const doBadgeSetup = () => setupNavBadges(window.db, { onSnapshot, collection });
       if (document.getElementById('msgBoardBadge')) {
         doBadgeSetup();
       } else {
