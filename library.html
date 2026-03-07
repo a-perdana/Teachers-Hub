@@ -622,11 +622,30 @@ body {
         isAdmin = snap.exists() && (snap.data().role_teachershub === 'teachers_admin');
       } catch { isAdmin = false; }
 
-      // Show UI
+      // Show UI - Update navbar elements
       const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
-      document.getElementById('userNameShort').textContent = nameShort;
-      buildAvatarEl(document.getElementById('userAvatar'), user);
-      document.getElementById('userChip').style.display = 'flex';
+      
+      // Wait for navbar to load before updating elements
+      const updateNavbarElements = () => {
+        const profileNameShort = document.getElementById('profileNameShort');
+        const profileAvatar = document.getElementById('profileAvatar');
+        const profileWrap = document.getElementById('profileWrap');
+        
+        if (profileNameShort) profileNameShort.textContent = nameShort;
+        if (profileAvatar) buildAvatarEl(profileAvatar, user);
+        if (profileWrap) profileWrap.style.display = 'flex';
+      };
+      
+      // Update immediately if navbar is loaded, otherwise wait
+      if (document.getElementById('profileNameShort')) {
+        updateNavbarElements();
+      } else {
+        // Wait for navbar to load
+        setTimeout(() => {
+          updateNavbarElements();
+        }, 100);
+      }
+      
       document.getElementById('addFab').style.display = 'flex';
 
       document.getElementById('loginScreen').classList.remove('visible');

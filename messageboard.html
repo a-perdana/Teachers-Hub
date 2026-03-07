@@ -1026,7 +1026,27 @@
             currentUserRole = null;
           }
 
-          document.getElementById("navUserName").textContent = getDisplayName(user);
+          // Update navbar elements
+          const updateNavbarElements = () => {
+            const profileNameShort = document.getElementById('profileNameShort');
+            const profileAvatar = document.getElementById('profileAvatar');
+            const profileWrap = document.getElementById('profileWrap');
+            
+            if (profileNameShort) profileNameShort.textContent = getDisplayName(user).split(' ')[0];
+            if (profileAvatar) buildAvatarEl(profileAvatar, user);
+            if (profileWrap) profileWrap.style.display = 'flex';
+          };
+          
+          // Update immediately if navbar is loaded, otherwise wait
+          if (document.getElementById('profileNameShort')) {
+            updateNavbarElements();
+          } else {
+            // Wait for navbar to load
+            setTimeout(() => {
+              updateNavbarElements();
+            }, 100);
+          }
+          
           document.getElementById("loginScreen").classList.remove("visible");
           document.getElementById("mainContent").style.display = "block";
           document.getElementById("logoutBtn").style.display = "block";
