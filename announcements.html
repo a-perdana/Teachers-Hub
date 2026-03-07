@@ -626,6 +626,7 @@ body {
   </svg>
 </a>
 
+<script src="partials/navbar.js"></script>
 <script src="firebase-config.js"></script>
 <script>
   // Load navbar
@@ -633,6 +634,11 @@ body {
     .then(response => response.text())
     .then(html => {
       document.getElementById('navbar-container').innerHTML = html;
+      initNavbar();
+      if (typeof window._pendingNavbarUpdate === 'function') {
+        window._pendingNavbarUpdate();
+        window._pendingNavbarUpdate = null;
+      }
     })
     .catch(error => console.error('Error loading navbar:', error));
 
@@ -684,6 +690,8 @@ body {
   const auth = getAuth(app);
   const db   = getFirestore(app);
   const provider = new GoogleAuthProvider();
+
+  window.authSignOut = () => signOut(auth);
 
   let currentUser = null;
   let isAdmin = false;
@@ -782,16 +790,13 @@ body {
         if (profileWrap) profileWrap.style.display = 'flex';
       };
       
-      // Update immediately if navbar is loaded, otherwise wait
+      // Update immediately if navbar is loaded, otherwise defer until navbar fetch resolves
       if (document.getElementById('profileNameShort')) {
         updateNavbarElements();
       } else {
-        // Wait for navbar to load
-        setTimeout(() => {
-          updateNavbarElements();
-        }, 200);
+        window._pendingNavbarUpdate = updateNavbarElements;
       }
-      
+
       if (isAdmin) document.getElementById('newAnnBtn').style.display = 'flex';
 
       document.getElementById('loginScreen').classList.remove('visible');

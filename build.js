@@ -79,6 +79,10 @@ function processFile(filename) {
   // Use absolute path for auth-guard.js so subdirectory pages resolve it correctly
   html = html.replace(/src="auth-guard\.js"/g, 'src="/auth-guard.js"');
 
+  // Use absolute paths for partials so subdirectory pages resolve them correctly
+  html = html.replace(/src="partials\/navbar\.js"/g, 'src="/partials/navbar.js"');
+  html = html.replace(/fetch\('partials\/navbar\.html'\)/g, "fetch('/partials/navbar.html')");
+
   // Rewrite internal .html links to clean URLs
   LINK_REWRITES.forEach(([pattern, replacement]) => {
     html = html.replace(pattern, replacement);
@@ -116,7 +120,16 @@ if (fs.existsSync(partialsSrcDir)) {
   fs.readdirSync(partialsSrcDir).forEach(file => {
     const srcFile = path.join(partialsSrcDir, file);
     const destFile = path.join(partialsDistDir, file);
-    fs.copyFileSync(srcFile, destFile);
+    if (file.endsWith('.html')) {
+      // Apply the same internal link rewrites so navbar links work in production
+      let content = fs.readFileSync(srcFile, 'utf8');
+      LINK_REWRITES.forEach(([pattern, replacement]) => {
+        content = content.replace(pattern, replacement);
+      });
+      fs.writeFileSync(destFile, content);
+    } else {
+      fs.copyFileSync(srcFile, destFile);
+    }
     console.log(`Copied: dist/partials/${file}`);
   });
 } else {

@@ -30,90 +30,6 @@
       color: var(--ink);
       min-height: 100vh;
     }
-    .top-nav {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      height: 62px;
-      padding: 0 20px;
-      background: rgba(5, 5, 16, 0.95);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      backdrop-filter: blur(18px);
-    }
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      min-width: 0;
-    }
-    .nav-link {
-      text-decoration: none;
-      color: rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      padding: 6px 11px;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-weight: 500;
-      white-space: nowrap;
-      transition: 0.18s ease;
-    }
-    .nav-link:hover {
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.30);
-      background: rgba(255, 255, 255, 0.08);
-    }
-    .nav-title {
-      color: #fff;
-      font-size: 0.95rem;
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-shrink: 0;
-    }
-    .nav-user-name {
-      font-size: 0.84rem;
-      color: rgba(255, 255, 255, 0.68);
-    }
-    .nav-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #f59e0b, #b45309);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: #fff;
-      user-select: none;
-    }
-    .btn-logout {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      background: transparent;
-      border-radius: 8px;
-      padding: 6px 12px;
-      cursor: pointer;
-      transition: 0.18s ease;
-    }
-    .btn-logout:hover {
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.32);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
     .page-wrap {
       max-width: 980px;
       margin: 0 auto;
@@ -437,6 +353,7 @@
     </section>
   </main>
 
+  <script src="partials/navbar.js"></script>
   <script src="firebase-config.js"></script>
   <script>
     if (!window.ENV) window.ENV = {
@@ -455,6 +372,11 @@
       .then(response => response.text())
       .then(html => {
         document.getElementById('navbar-container').innerHTML = html;
+        initNavbar();
+        if (typeof window._pendingNavbarUpdate === 'function') {
+          window._pendingNavbarUpdate();
+          window._pendingNavbarUpdate = null;
+        }
       })
       .catch(error => console.error('Error loading navbar:', error));
   </script>
@@ -463,6 +385,7 @@
       collection, getDocs, query, where,
       doc, getDoc, setDoc, serverTimestamp,
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
     const PLATFORM_KEY = "teachershub";
     const LIKERT_LABELS = ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
@@ -480,6 +403,26 @@
     document.addEventListener("authReady", async ({ detail: { user } }) => {
       db = window.db;
       currentUser = user;
+
+      // Wire sign-out button in the shared navbar
+      window.authSignOut = () => signOut(window.auth);
+
+      // Populate navbar profile
+      const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+      const updateNavbarElements = () => {
+        const profileNameShort = document.getElementById('profileNameShort');
+        const profileAvatar = document.getElementById('profileAvatar');
+        const profileWrap = document.getElementById('profileWrap');
+        if (profileNameShort) profileNameShort.textContent = nameShort;
+        if (profileAvatar && typeof buildAvatarEl === 'function') buildAvatarEl(profileAvatar, user);
+        if (profileWrap) profileWrap.style.display = 'flex';
+      };
+      if (document.getElementById('profileNameShort')) {
+        updateNavbarElements();
+      } else {
+        window._pendingNavbarUpdate = updateNavbarElements;
+      }
+
       bindControls();
       await loadSurveys();
     });
