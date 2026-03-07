@@ -646,6 +646,14 @@
             window._pendingNavbarUpdate();
             window._pendingNavbarUpdate = null;
           }
+          if (typeof window._pendingBadgeSetup === 'function') {
+            window._pendingBadgeSetup();
+            window._pendingBadgeSetup = null;
+          }
+          if (typeof window._pendingFeedbackSetup === 'function') {
+            window._pendingFeedbackSetup();
+            window._pendingFeedbackSetup = null;
+          }
         })
         .catch(error => console.error('Error loading navbar:', error));
 
@@ -881,6 +889,7 @@
         setDoc,
         onSnapshot,
         query,
+        where,
         orderBy,
         serverTimestamp,
         increment,
@@ -1053,7 +1062,24 @@
           } else {
             window._pendingNavbarUpdate = updateNavbarElements;
           }
-          
+
+          // Badge setup
+          const doBadgeSetup = () => setupNavBadges(db, user, { onSnapshot, collection, query, where, doc, getDoc, setDoc, serverTimestamp });
+          if (document.getElementById('msgBoardBadge')) {
+            doBadgeSetup();
+          } else {
+            window._pendingBadgeSetup = doBadgeSetup;
+          }
+
+          // Feedback setup
+          window.currentUser = user;
+          const doFeedbackSetup = () => initFeedback(db, { addDoc, collection, serverTimestamp });
+          if (document.getElementById('feedbackOverlay')) {
+            doFeedbackSetup();
+          } else {
+            window._pendingFeedbackSetup = doFeedbackSetup;
+          }
+
           document.getElementById("loginScreen").classList.remove("visible");
           document.getElementById("mainContent").style.display = "block";
           document.getElementById("logoutBtn").style.display = "block";

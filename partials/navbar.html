@@ -400,3 +400,109 @@
 
   </div>
 </nav>
+
+<style>
+  /* ── Feedback Modal ──────────────────────────────────────────── */
+  .feedback-overlay {
+    position: fixed; inset: 0;
+    background: rgba(5, 5, 16, 0.82);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .feedback-overlay.open { opacity: 1; visibility: visible; }
+  .feedback-modal {
+    position: relative; width: 100%; max-width: 480px; margin: 20px;
+    background: linear-gradient(135deg, rgba(15,15,35,0.97), rgba(10,10,25,0.99));
+    border: 1px solid rgba(108,92,231,0.3); border-radius: 24px; padding: 36px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.65), 0 0 45px rgba(108,92,231,0.12);
+    transform: translateY(22px) scale(0.97);
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .feedback-overlay.open .feedback-modal { transform: translateY(0) scale(1); }
+  .feedback-modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+  .feedback-modal-title {
+    font-size: 20px; font-weight: 700;
+    background: linear-gradient(135deg, #fff 40%, rgba(108,92,231,0.85));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .feedback-close-btn {
+    width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 50%; color: rgba(255,255,255,0.7); cursor: pointer;
+    font-size: 20px; line-height: 1; transition: all 0.2s ease;
+  }
+  .feedback-close-btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
+  .feedback-field { margin-bottom: 20px; }
+  .feedback-field label {
+    display: block; font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.09em;
+    color: rgba(255,255,255,0.5); margin-bottom: 8px;
+  }
+  .feedback-select, .feedback-textarea {
+    width: 100%; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.11); border-radius: 12px;
+    color: #fff; font-family: "Sora", sans-serif; font-size: 14px;
+    outline: none; transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .feedback-select {
+    padding: 12px 16px; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; cursor: pointer;
+  }
+  .feedback-select option { background: #0f0f23; color: #fff; }
+  .feedback-textarea { padding: 13px 16px; resize: vertical; min-height: 120px; line-height: 1.65; }
+  .feedback-select:focus, .feedback-textarea:focus {
+    border-color: rgba(108,92,231,0.6); box-shadow: 0 0 0 3px rgba(108,92,231,0.13);
+  }
+  .feedback-submit-btn {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, #6c5ce7, #4a3ab0);
+    border: none; border-radius: 12px; color: #fff;
+    font-family: "Sora", sans-serif; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: all 0.3s ease; margin-top: 4px;
+  }
+  .feedback-submit-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #7c6cf0, #6c5ce7);
+    box-shadow: 0 0 28px rgba(108,92,231,0.5); transform: translateY(-1px);
+  }
+  .feedback-submit-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+  .feedback-status {
+    margin-top: 16px; padding: 12px 16px; border-radius: 10px;
+    font-size: 13px; font-weight: 500; display: none; text-align: center;
+  }
+  .feedback-status.success { background: rgba(0,200,120,0.13); border: 1px solid rgba(0,200,120,0.38); color: #00e090; display: block; }
+  .feedback-status.error   { background: rgba(255,80,100,0.13); border: 1px solid rgba(255,80,100,0.38); color: #ff6b6b; display: block; }
+</style>
+
+<!-- Feedback Modal -->
+<div class="feedback-overlay" id="feedbackOverlay">
+  <div class="feedback-modal">
+    <div class="feedback-modal-header">
+      <span class="feedback-modal-title">Send Feedback</span>
+      <button class="feedback-close-btn" id="feedbackCloseBtn">&times;</button>
+    </div>
+    <form id="feedbackForm" novalidate>
+      <div class="feedback-field">
+        <label for="feedbackSubject">Subject</label>
+        <select class="feedback-select" id="feedbackSubject" required>
+          <option value="" disabled selected>Select a topic…</option>
+          <option value="General Feedback">General Feedback</option>
+          <option value="Technical Issue">Technical Issue</option>
+          <option value="Content Request">Content Request</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="feedback-field">
+        <label for="feedbackMessage">Message</label>
+        <textarea class="feedback-textarea" id="feedbackMessage"
+          placeholder="Share your thoughts, report a problem, or request new content…"
+          required></textarea>
+      </div>
+      <button type="submit" class="feedback-submit-btn" id="feedbackSubmitBtn">Send Feedback</button>
+      <div class="feedback-status" id="feedbackStatus"></div>
+    </form>
+  </div>
+</div>

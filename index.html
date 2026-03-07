@@ -2146,40 +2146,7 @@
       })();
     </script>
 
-    <!-- Feedback Modal -->
-    <div class="feedback-overlay" id="feedbackOverlay">
-      <div class="feedback-modal">
-        <div class="feedback-modal-header">
-          <span class="feedback-modal-title">Send Feedback</span>
-          <button class="feedback-close-btn" id="feedbackCloseBtn">&times;</button>
-        </div>
-        <form id="feedbackForm" novalidate>
-          <div class="feedback-field">
-            <label for="feedbackSubject">Subject</label>
-            <select class="feedback-select" id="feedbackSubject" required>
-              <option value="" disabled selected>Select a topic…</option>
-              <option value="General Feedback">General Feedback</option>
-              <option value="Technical Issue">Technical Issue</option>
-              <option value="Content Request">Content Request</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div class="feedback-field">
-            <label for="feedbackMessage">Message</label>
-            <textarea
-              class="feedback-textarea"
-              id="feedbackMessage"
-              placeholder="Share your thoughts, report a problem, or request new content…"
-              required
-            ></textarea>
-          </div>
-          <button type="submit" class="feedback-submit-btn" id="feedbackSubmitBtn">
-            Send Feedback
-          </button>
-          <div class="feedback-status" id="feedbackStatus"></div>
-        </form>
-      </div>
-    </div>
+    <!-- Feedback Modal injected by partials/navbar.html -->
 
     <div id="mainContent" class="main-content" style="display: none">
       <!-- Loading Overlay -->
@@ -2771,6 +2738,7 @@
             return;
           }
           currentUser = user;
+          window.currentUser = user;
 
           // Ensure Firestore profile exists with role_teachershub
           try {
@@ -2798,8 +2766,17 @@
           document.getElementById("mainContent").style.display = "block";
           showProfileUI(user);
           setupUnreadBadges(user);
+
+          // Feedback setup
+          const doFeedbackSetup = () => initFeedback(db, { addDoc, collection, serverTimestamp });
+          if (document.getElementById('feedbackOverlay')) {
+            doFeedbackSetup();
+          } else {
+            window._pendingFeedbackSetup = doFeedbackSetup;
+          }
         } else {
           currentUser = null;
+          window.currentUser = null;
           document.getElementById("loginScreen").classList.add("visible");
           document.getElementById("mainContent").style.display = "none";
           document.getElementById("profileWrap").style.display = "none";
@@ -2941,7 +2918,10 @@
           document.getElementById('navbar-container').innerHTML = html;
           initNavbar();
           window.authSignOut = () => signOut(auth);
-          document.getElementById('feedbackBtn').addEventListener('click', openFeedback);
+          if (typeof window._pendingFeedbackSetup === 'function') {
+            window._pendingFeedbackSetup();
+            window._pendingFeedbackSetup = null;
+          }
 
           // Phone save
           document.getElementById('pdPhoneBtn').addEventListener('click', async () => {
@@ -2997,68 +2977,6 @@
         })
         .catch(error => console.error('Error loading navbar:', error));
 
-      // ── Feedback Modal ──────────────────────────────────────────
-      const feedbackOverlay = document.getElementById("feedbackOverlay");
-      const feedbackCloseBtn = document.getElementById("feedbackCloseBtn");
-      const feedbackForm = document.getElementById("feedbackForm");
-      const feedbackStatus = document.getElementById("feedbackStatus");
-      const feedbackSubmitBtn = document.getElementById("feedbackSubmitBtn");
-
-      function openFeedback() {
-        feedbackStatus.className = "feedback-status";
-        feedbackStatus.textContent = "";
-        feedbackOverlay.classList.add("open");
-      }
-      function closeFeedback() {
-        feedbackOverlay.classList.remove("open");
-      }
-
-      // feedbackBtn lives in the navbar partial — wired in the fetch callback below
-      feedbackCloseBtn.addEventListener("click", closeFeedback);
-      feedbackOverlay.addEventListener("click", (e) => {
-        if (e.target === feedbackOverlay) closeFeedback();
-      });
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeFeedback();
-      });
-
-      feedbackForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        if (!currentUser) return;
-
-        const subject = document.getElementById("feedbackSubject").value;
-        const message = document.getElementById("feedbackMessage").value.trim();
-
-        if (!subject || !message) return;
-
-        feedbackSubmitBtn.disabled = true;
-        feedbackSubmitBtn.textContent = "Sending…";
-        feedbackStatus.className = "feedback-status";
-
-        try {
-          await addDoc(collection(db, "feedbacks"), {
-            uid: currentUser.uid,
-            displayName: currentUser.displayName || currentUser.email.split("@")[0],
-            email: currentUser.email,
-            subject,
-            message,
-            createdAt: serverTimestamp(),
-          });
-
-          feedbackStatus.textContent = "Feedback sent successfully! Thank you.";
-          feedbackStatus.className = "feedback-status success";
-          feedbackForm.reset();
-
-          setTimeout(closeFeedback, 2500);
-        } catch (err) {
-          console.error("Feedback error:", err);
-          feedbackStatus.textContent = "Failed to send. Please try again.";
-          feedbackStatus.className = "feedback-status error";
-        } finally {
-          feedbackSubmitBtn.disabled = false;
-          feedbackSubmitBtn.textContent = "Send Feedback";
-        }
-      });
     </script>
   </body>
 </html>
