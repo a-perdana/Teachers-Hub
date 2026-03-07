@@ -756,7 +756,7 @@
       <div id="navbar-container"></div>
 
       <!-- Forum -->
-      <div class="mb-main">
+      <div class="mb-main" style="padding-top: 80px;">
         <div class="mb-page">
 
           <!-- Topic List View -->
@@ -1026,14 +1026,16 @@
             currentUserRole = null;
           }
 
-          // Update navbar elements
+          // Update navbar elements - wait for navbar to load
           const updateNavbarElements = () => {
             const profileNameShort = document.getElementById('profileNameShort');
             const profileAvatar = document.getElementById('profileAvatar');
             const profileWrap = document.getElementById('profileWrap');
             
             if (profileNameShort) profileNameShort.textContent = getDisplayName(user).split(' ')[0];
-            if (profileAvatar) buildAvatarEl(profileAvatar, user);
+            if (profileAvatar && typeof buildAvatarEl === 'function') {
+              buildAvatarEl(profileAvatar, user);
+            }
             if (profileWrap) profileWrap.style.display = 'flex';
           };
           
@@ -1044,7 +1046,7 @@
             // Wait for navbar to load
             setTimeout(() => {
               updateNavbarElements();
-            }, 100);
+            }, 200);
           }
           
           document.getElementById("loginScreen").classList.remove("visible");

@@ -389,7 +389,7 @@ body {
   <div id="navbar-container"></div>
 
   <!-- Filters -->
-  <div class="filter-bar">
+  <div class="filter-bar" style="padding-top: 80px;">
     <div class="filter-row">
       <span class="filter-label">Type</span>
       <div class="filter-pills" id="typeFilters">
@@ -632,7 +632,9 @@ body {
         const profileWrap = document.getElementById('profileWrap');
         
         if (profileNameShort) profileNameShort.textContent = nameShort;
-        if (profileAvatar) buildAvatarEl(profileAvatar, user);
+        if (profileAvatar && typeof buildAvatarEl === 'function') {
+          buildAvatarEl(profileAvatar, user);
+        }
         if (profileWrap) profileWrap.style.display = 'flex';
       };
       
@@ -643,7 +645,7 @@ body {
         // Wait for navbar to load
         setTimeout(() => {
           updateNavbarElements();
-        }, 100);
+        }, 200);
       }
       
       document.getElementById('addFab').style.display = 'flex';

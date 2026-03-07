@@ -553,7 +553,7 @@ body {
   </button>
 
   <!-- Page content -->
-  <div class="page-wrap">
+  <div class="page-wrap" style="padding-top: 80px;">
     <div class="ann-page-header">
       <div class="ann-page-header-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -776,7 +776,9 @@ body {
         const profileWrap = document.getElementById('profileWrap');
         
         if (profileNameShort) profileNameShort.textContent = nameShort;
-        if (profileAvatar) buildAvatarEl(profileAvatar, user);
+        if (profileAvatar && typeof buildAvatarEl === 'function') {
+          buildAvatarEl(profileAvatar, user);
+        }
         if (profileWrap) profileWrap.style.display = 'flex';
       };
       
@@ -787,7 +789,7 @@ body {
         // Wait for navbar to load
         setTimeout(() => {
           updateNavbarElements();
-        }, 100);
+        }, 200);
       }
       
       if (isAdmin) document.getElementById('newAnnBtn').style.display = 'flex';
