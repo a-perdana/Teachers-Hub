@@ -143,34 +143,53 @@ body {
 /* ─── MAIN CONTENT ────────────────────────────── */
 #mainContent { display: none; }
 
-/* ─── FILTER BAR ─────────────────────────────── */
-.filter-bar {
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  padding: 14px 28px;
-  display: flex; flex-direction: column; gap: 10px;
-  position: sticky; top: 60px; z-index: 100;
-  box-shadow: var(--shadow-sm);
+/* ─── LAYOUT ─────────────────────────────────── */
+.content-layout {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 24px 100px;
+  gap: 28px;
+  align-items: flex-start;
 }
-.filter-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.filter-label { font-size: 11.5px; font-weight: 600; color: var(--ink-3); min-width: 52px; }
-.filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
-.pill {
-  padding: 5px 13px; border-radius: 20px;
-  border: 1px solid var(--border); background: var(--paper);
-  font-size: 12.5px; font-weight: 500; color: var(--ink-2);
-  cursor: pointer; transition: all .15s; white-space: nowrap;
+
+/* ─── SIDEBAR ─────────────────────────────────── */
+.sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.sidebar-section { display: flex; flex-direction: column; gap: 6px; }
+.sidebar-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--ink-3);
+  padding-bottom: 6px; border-bottom: 1px solid var(--border);
+  margin-bottom: 2px;
+}
+.sf-btn {
+  display: block; width: 100%; text-align: left;
+  padding: 6px 10px; border-radius: 7px;
+  border: none; background: transparent;
+  font-size: 13px; font-weight: 500; color: var(--ink-2);
+  cursor: pointer; transition: all .15s;
   font-family: 'DM Sans', sans-serif;
 }
-.pill:hover { border-color: var(--accent); color: var(--accent); }
-.pill.active { background: var(--accent); border-color: var(--accent); color: white; }
+.sf-btn:hover { background: var(--paper-2); color: var(--ink); }
+.sf-btn.active { background: var(--accent-2); color: var(--accent); font-weight: 600; }
+.stat-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 2px; font-size: 13px; color: var(--ink-2);
+}
+.stat-row .stat-val { font-weight: 700; color: var(--ink); }
+
+/* ─── MAIN AREA ───────────────────────────────── */
+.main-area { flex: 1; min-width: 0; }
 
 /* ─── RESOURCES GRID ─────────────────────────── */
-.page-wrap {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 28px 20px 100px;
-}
 .resource-count {
   font-size: 12.5px; color: var(--ink-3); margin-bottom: 18px;
   font-weight: 500;
@@ -388,36 +407,43 @@ body {
 <div id="mainContent">
   <div id="navbar-container"></div>
 
-  <!-- Filters -->
-  <div class="filter-bar" style="padding-top: 80px;">
-    <div class="filter-row">
-      <span class="filter-label">Type</span>
-      <div class="filter-pills" id="typeFilters">
-        <button class="pill active" data-type="All">All</button>
-        <button class="pill" data-type="video">🎬 Video</button>
-        <button class="pill" data-type="pdf">📄 PDF</button>
-        <button class="pill" data-type="website">🌐 Website</button>
-        <button class="pill" data-type="other">📦 Other</button>
+  <div class="content-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Type</div>
+        <div id="typeFilters">
+          <button class="sf-btn active" data-type="All">All</button>
+          <button class="sf-btn" data-type="video">🎬 Video</button>
+          <button class="sf-btn" data-type="pdf">📄 PDF</button>
+          <button class="sf-btn" data-type="website">🌐 Website</button>
+          <button class="sf-btn" data-type="other">📦 Other</button>
+        </div>
       </div>
-    </div>
-    <div class="filter-row">
-      <span class="filter-label">Subject</span>
-      <div class="filter-pills" id="subjectFilters">
-        <button class="pill active" data-subject="All">All</button>
-        <button class="pill" data-subject="Math">Math</button>
-        <button class="pill" data-subject="Physics">Physics</button>
-        <button class="pill" data-subject="Chemistry">Chemistry</button>
-        <button class="pill" data-subject="Biology">Biology</button>
-        <button class="pill" data-subject="General">General</button>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Subject</div>
+        <div id="subjectFilters">
+          <button class="sf-btn active" data-subject="All">All</button>
+          <button class="sf-btn" data-subject="Math">Math</button>
+          <button class="sf-btn" data-subject="Physics">Physics</button>
+          <button class="sf-btn" data-subject="Chemistry">Chemistry</button>
+          <button class="sf-btn" data-subject="Biology">Biology</button>
+          <button class="sf-btn" data-subject="General">General</button>
+        </div>
       </div>
-    </div>
-  </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Stats</div>
+        <div class="stat-row"><span>Total</span><span class="stat-val" id="statTotal">—</span></div>
+        <div class="stat-row"><span>Showing</span><span class="stat-val" id="statShowing">—</span></div>
+      </div>
+    </aside>
 
-  <!-- Grid -->
-  <div class="page-wrap">
-    <div class="resource-count" id="resCount"></div>
-    <div class="res-grid" id="resGrid">
-      <!-- cards injected here -->
+    <!-- Main content -->
+    <div class="main-area">
+      <div class="resource-count" id="resCount"></div>
+      <div class="res-grid" id="resGrid">
+        <!-- cards injected here -->
+      </div>
     </div>
   </div>
 </div>
@@ -697,6 +723,10 @@ body {
     });
 
     countEl.textContent = `${filtered.length} resource${filtered.length !== 1 ? 's' : ''}`;
+    const statTotal = document.getElementById('statTotal');
+    const statShowing = document.getElementById('statShowing');
+    if (statTotal) statTotal.textContent = allResources.length;
+    if (statShowing) statShowing.textContent = filtered.length;
 
     if (filtered.length === 0) {
       grid.innerHTML = `<div class="res-empty"><div class="res-empty-icon">📭</div><p>No resources found. Be the first to add one!</p></div>`;
@@ -746,19 +776,19 @@ body {
 
   // ── Filters ──────────────────────────────────────────────────
   document.getElementById('typeFilters').addEventListener('click', e => {
-    const pill = e.target.closest('.pill');
-    if (!pill) return;
-    document.querySelectorAll('#typeFilters .pill').forEach(p => p.classList.remove('active'));
-    pill.classList.add('active');
-    activeType = pill.dataset.type;
+    const btn = e.target.closest('.sf-btn');
+    if (!btn) return;
+    document.querySelectorAll('#typeFilters .sf-btn').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    activeType = btn.dataset.type;
     renderGrid();
   });
   document.getElementById('subjectFilters').addEventListener('click', e => {
-    const pill = e.target.closest('.pill');
-    if (!pill) return;
-    document.querySelectorAll('#subjectFilters .pill').forEach(p => p.classList.remove('active'));
-    pill.classList.add('active');
-    activeSubject = pill.dataset.subject;
+    const btn = e.target.closest('.sf-btn');
+    if (!btn) return;
+    document.querySelectorAll('#subjectFilters .sf-btn').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    activeSubject = btn.dataset.subject;
     renderGrid();
   });
 
