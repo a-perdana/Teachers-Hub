@@ -2765,7 +2765,14 @@
           document.getElementById("loginScreen").classList.remove("visible");
           document.getElementById("mainContent").style.display = "block";
           showProfileUI(user);
-          setupUnreadBadges(user);
+
+          // Badge setup — deferred until navbar partial is in the DOM
+          const doBadgeSetup = () => setupNavBadges(db, user, { onSnapshot, collection, query, where, doc, getDoc, setDoc, serverTimestamp });
+          if (document.getElementById('msgBoardBadge')) {
+            doBadgeSetup();
+          } else {
+            window._pendingBadgeSetup = doBadgeSetup;
+          }
 
           // Feedback setup
           const doFeedbackSetup = () => initFeedback(db, { addDoc, collection, serverTimestamp });
@@ -2866,51 +2873,6 @@
         }
       }
 
-      // ── Unread Badges ───────────────────────────────────────────
-      async function setupUnreadBadges(user) {
-        const userRef = doc(db, 'users', user.uid);
-        const snap = await getDoc(userRef);
-        const data = snap.exists() ? snap.data() : {};
-
-        let lastMsgTime = data.lastReadMessageboard ? data.lastReadMessageboard.toDate() : null;
-        let lastAnnTime = data.lastReadAnnouncements ? data.lastReadAnnouncements.toDate() : null;
-
-        // First login: set lastRead to now → no badge on fresh account
-        const updates = {};
-        const now = new Date();
-        if (!lastMsgTime) { updates.lastReadMessageboard = serverTimestamp(); lastMsgTime = now; }
-        if (!lastAnnTime) { updates.lastReadAnnouncements = serverTimestamp(); lastAnnTime = now; }
-        if (Object.keys(updates).length) setDoc(userRef, updates, { merge: true });
-
-        // Live badge for Message Board
-        onSnapshot(
-          query(collection(db, 'topics'), where('createdAt', '>', lastMsgTime)),
-          (snap) => {
-            const n = snap.size;
-            const el = document.getElementById('msgBoardBadge');
-            if (el) { el.textContent = n > 9 ? '9+' : String(n); el.style.display = n > 0 ? 'flex' : 'none'; }
-          }
-        );
-
-        // Live badge for Announcements
-        onSnapshot(
-          query(collection(db, 'announcements'), where('createdAt', '>', lastAnnTime)),
-          (snap) => {
-            const n = snap.size;
-            const el = document.getElementById('announcementsBadge');
-            if (el) { el.textContent = n > 9 ? '9+' : String(n); el.style.display = n > 0 ? 'flex' : 'none'; }
-          }
-        );
-
-        // Mark as read on click (clear badge)
-        document.getElementById('msgBoardBtn')?.addEventListener('click', () => {
-          setDoc(userRef, { lastReadMessageboard: serverTimestamp() }, { merge: true });
-        });
-        document.getElementById('announcementsBtn')?.addEventListener('click', () => {
-          setDoc(userRef, { lastReadAnnouncements: serverTimestamp() }, { merge: true });
-        });
-      }
-
       // Navbar dropdown + phone/password/signout wired after navbar partial loads
       fetch('partials/navbar.html')
         .then(r => r.text())
@@ -2974,6 +2936,7 @@
           });
 
           if (window._pendingNavbarUpdate) { window._pendingNavbarUpdate(); window._pendingNavbarUpdate = null; }
+          if (typeof window._pendingBadgeSetup === 'function') { window._pendingBadgeSetup(); window._pendingBadgeSetup = null; }
         })
         .catch(error => console.error('Error loading navbar:', error));
 
