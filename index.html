@@ -2199,122 +2199,7 @@
       <!-- Main Content -->
       <div class="main-content">
         <!-- Navigation -->
-        <nav class="nav" id="nav">
-          <a href="#" class="logo">
-            <div class="logo-icon">🎓</div>
-            <span class="logo-text">Eduversal Indonesia</span>
-          </a>
-          <div class="nav-stats">
-            <div class="stat-item">
-              <div class="stat-number" id="resource-count">7</div>
-              <div class="stat-label">Resources</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number">15+</div>
-              <div class="stat-label">Schools</div>
-            </div>
-          </div>
-          <div style="display: flex; gap: 10px; align-items: center;">
-            <!-- Announcements -->
-            <div class="nav-btn-wrap">
-              <a href="announcements.html" class="feedback-btn" id="announcementsBtn" style="text-decoration: none;" title="Announcements">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-                </svg>
-                Announcements
-              </a>
-              <span class="nav-badge" id="announcementsBadge" style="display:none;"></span>
-            </div>
-            <div class="nav-btn-wrap">
-              <a href="surveys.html" class="feedback-btn" style="text-decoration: none;" title="Surveys">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M9 11l3 3L22 4"/>
-                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-                </svg>
-                Surveys
-              </a>
-            </div>
-            <!-- Message Board -->
-            <div class="nav-btn-wrap">
-              <a href="messageboard.html" class="feedback-btn" id="msgBoardBtn" style="text-decoration: none;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                  <line x1="9" y1="10" x2="15" y2="10"/>
-                  <line x1="9" y1="14" x2="13" y2="14"/>
-                </svg>
-                Message Board
-              </a>
-              <span class="nav-badge" id="msgBoardBadge" style="display:none;"></span>
-            </div>
-            <button class="feedback-btn" id="feedbackBtn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              </svg>
-              Feedback
-            </button>
-
-            <!-- Profile Button -->
-            <div class="profile-wrap" id="profileWrap" style="display:none;">
-              <button class="profile-btn" id="profileBtn">
-                <div class="profile-avatar" id="profileAvatar"></div>
-                <span class="profile-name-short" id="profileNameShort">User</span>
-                <svg class="profile-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="4 6 8 10 12 6"/>
-                </svg>
-              </button>
-
-              <!-- Dropdown Panel -->
-              <div class="profile-dropdown" id="profileDropdown">
-
-                <!-- Header -->
-                <div class="pd-header">
-                  <div class="pd-avatar-lg" id="pdAvatarLg"></div>
-                  <div>
-                    <div class="pd-info-name" id="pdName"></div>
-                    <div class="pd-info-email" id="pdEmail"></div>
-                  </div>
-                </div>
-
-                <!-- Phone -->
-                <div class="pd-section">
-                  <div class="pd-label">Phone Number</div>
-                  <input type="tel" class="pd-input" id="pdPhone" placeholder="+62 xxx xxx xxxx">
-                  <button class="pd-save-btn" id="pdPhoneBtn">Save Phone Number</button>
-                  <div class="pd-msg" id="pdPhoneMsg"></div>
-                </div>
-
-                <!-- Password (email users only) -->
-                <div class="pd-section" id="pdPwSection" style="display:none;">
-                  <div class="pd-label">Password</div>
-                  <div class="pd-pw-toggle" id="pdPwToggle">▸ Change password</div>
-                  <div class="pd-pw-fields" id="pdPwFields">
-                    <input type="password" class="pd-input" id="pdPwCurrent" placeholder="Current password">
-                    <input type="password" class="pd-input" id="pdPwNew" placeholder="New password (min. 6 chars)">
-                    <input type="password" class="pd-input" id="pdPwConfirm" placeholder="Confirm new password">
-                    <button class="pd-save-btn" id="pdPwBtn">Update Password</button>
-                    <div class="pd-msg" id="pdPwMsg"></div>
-                  </div>
-                </div>
-
-                <!-- Sign Out -->
-                <div class="pd-section">
-                  <button class="pd-signout-btn" id="pdSignOut">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                      <polyline points="16 17 21 12 16 7"/>
-                      <line x1="21" y1="12" x2="9" y2="12"/>
-                    </svg>
-                    Sign Out
-                  </button>
-                </div>
-
-              </div><!-- /profile-dropdown -->
-            </div><!-- /profile-wrap -->
-
-          </div>
-        </nav>
+        <div id="navbar-container"></div>
 
         <!-- Hero Section -->
         <section class="hero">
@@ -2792,6 +2677,14 @@
           nav.classList.remove("scrolled");
         }
       });
+
+      // Load navbar
+      fetch('partials/navbar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('navbar-container').innerHTML = html;
+        })
+        .catch(error => console.error('Error loading navbar:', error));
 
       // Initialize
       window.addEventListener("load", () => {

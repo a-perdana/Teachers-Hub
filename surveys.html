@@ -410,18 +410,7 @@
   </style>
 </head>
 <body>
-  <nav class="top-nav">
-    <div class="nav-left">
-      <a class="nav-link" href="index.html">Back</a>
-      <a class="nav-link" href="announcements.html">Announcements</a>
-      <span class="nav-title">Teachers Hub Surveys</span>
-    </div>
-    <div class="nav-right">
-      <span class="nav-user-name"></span>
-      <div class="nav-avatar" id="navAvatar" aria-hidden="true"></div>
-      <button class="btn-logout" id="logoutBtn">Sign Out</button>
-    </div>
-  </nav>
+  <div id="navbar-container"></div>
 
   <main class="page-wrap">
     <section class="hero">
@@ -460,6 +449,15 @@
     };
   </script>
   <script type="module" src="auth-guard.js"></script>
+  <script>
+    // Load navbar
+    fetch('partials/navbar.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+      })
+      .catch(error => console.error('Error loading navbar:', error));
+  </script>
   <script type="module">
     import {
       collection, getDocs, query, where,

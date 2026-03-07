@@ -635,6 +635,14 @@
     </style>
     <script src="firebase-config.js"></script>
     <script>
+      // Load navbar
+      fetch('partials/navbar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('navbar-container').innerHTML = html;
+        })
+        .catch(error => console.error('Error loading navbar:', error));
+
       if (!window.ENV) window.ENV = {
         FIREBASE_API_KEY:             "__FIREBASE_API_KEY__",
         FIREBASE_AUTH_DOMAIN:         "__FIREBASE_AUTH_DOMAIN__",
@@ -745,23 +753,7 @@
         <div class="grid-overlay"></div>
       </div>
 
-      <!-- Nav Bar -->
-      <nav class="mb-nav">
-        <div class="mb-nav-left">
-          <a href="index.html" class="back-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"/>
-            </svg>
-            <span class="back-link-text">Back to Portal</span>
-          </a>
-        </div>
-        <div class="mb-nav-center">
-          <span class="mb-nav-title">Message Board</span>
-        </div>
-        <div class="mb-nav-right">
-          <span class="mb-user-name" id="navUserName"></span>
-        </div>
-      </nav>
+      <div id="navbar-container"></div>
 
       <!-- Forum -->
       <div class="mb-main">
