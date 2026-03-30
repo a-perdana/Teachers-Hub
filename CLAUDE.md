@@ -82,9 +82,15 @@ Every protected page loads `auth-guard.js` as a module:
 1. Hides `document.body` immediately (prevents flash of content).
 2. Initialises Firebase (guards against double-init with `getApps()`).
 3. Listens on `onAuthStateChanged`. If no user → redirects to `index.html`.
-4. Fetches `users/{uid}` from Firestore. If missing, creates a profile stub with no role.
-5. Role-checks against `ALLOWED_ROLES`. If not allowed → signs out and redirects to `index.html?error=access`.
-6. Exposes globals and dispatches `authReady`.
+4. Fetches (or creates) Firestore profile. If missing, creates it and assigns `role_teachershub: 'teachers_user'` automatically.
+5. **Domain check** — Google SSO users must have an email from `window.TEACHERS_ALLOWED_DOMAINS` (15 school domains). Email/password accounts bypass this check. Fails → `index.html?error=domain`.
+6. Role check — `role_teachershub` must be in `['teachers_admin', 'teachers_user']`. Fails → `index.html?error=access`.
+7. Name prompt if `displayName` is missing.
+8. Exposes globals and dispatches `authReady`.
+
+**Allowed domains** are defined centrally in `auth-guard.js` as `window.TEACHERS_ALLOWED_DOMAINS` (15 entries: 14 partner school `.sch.id` domains + `eduversal.org`). Individual pages reference this via `const allowedDomains = window.TEACHERS_ALLOWED_DOMAINS` — do NOT redefine the list inline.
+
+**`index.html`** (login page) handles auth inline and does NOT use `auth-guard.js`. It has its own copy of the domain list for the login-time check.
 
 **Globals exposed after `authReady`:**
 | Global               | Value                                |
@@ -102,23 +108,26 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
 });
 ```
 
-**`index.html`** handles login inline — it does NOT use `auth-guard.js`.
-
 ---
 
 ## Role System
 
-Roles are stored in Firestore at `users/{uid}.role` (string field).
+Each platform has its own Firestore role field. Teachers Hub uses `role_teachershub`.
 
-| Role                  | Description                          | CentralHub | Academic Hub | Teachers Hub |
-|-----------------------|--------------------------------------|:----------:|:------------:|:------------:|
-| `central_admin`       | Super-admin, created manually only   | ✓          | ✓            | ✓            |
-| `academic_coordinator`| Academic management staff            | ✗          | ✓            | ✓            |
-| `teacher`             | Classroom teacher                    | ✗          | ✗            | ✓            |
+| Field              | Values                                          |
+|--------------------|-------------------------------------------------|
+| `role_teachershub` | `'teachers_user'` (default) \| `'teachers_admin'` |
 
-**Teachers Hub allowed roles:** `['central_admin', 'academic_coordinator', 'teacher']` — the most permissive app, all platform roles can access it.
+**Teachers Hub allowed roles:** `['teachers_user', 'teachers_admin']`
 
-`central_admin` accounts are created **manually** in the Firebase Console (email/password), never via self-registration. New users who sign in for the first time get a Firestore profile with **no role**; a `central_admin` must assign a role before they can access protected pages.
+First login automatically assigns `teachers_user` via `setDoc` with `{ merge: true }`. No manual intervention needed for basic access. `teachers_admin` must be set manually via CentralHub's `console.html`.
+
+**isAdmin check pattern (pacing pages map this to internal `'coord'` state):**
+```js
+const isAdmin = profile?.role_teachershub === 'teachers_admin';
+```
+
+Legacy migration: if `role_teachershub` is absent on an existing user doc, `auth-guard.js` derives the role from the old `role` field and writes the new field.
 
 ---
 

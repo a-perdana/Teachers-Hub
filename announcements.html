@@ -706,12 +706,7 @@ body {
   let isAdmin = false;
   let unsubAnn = null;
 
-  const allowedDomains = [
-    "scr.sch.id","eibos.sch.id","fatih.sch.id","gcb.sch.id",
-    "kesatuanbangsa.sch.id","kbs.sch.id","mega.sch.id","pakarbelia.sch.id",
-    "prestigeschool.sch.id","pribadibandung.sch.id","pribadidepok.sch.id",
-    "pribadipremiere.sch.id","semesta.sch.id","tnafatih.sch.id","eduversal.org",
-  ];
+  const allowedDomains = window.TEACHERS_ALLOWED_DOMAINS;
 
   // ── Helpers ─────────────────────────────────────────────────
   const PALETTE = ['#6c5ce7','#00b894','#e17055','#0984e3','#a29bfe','#e84393','#00cec9','#f39c12'];

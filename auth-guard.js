@@ -30,6 +30,14 @@ const DEFAULT_ROLE  = 'teachers_user';
 // Roles permitted to use Teachers Hub
 const ALLOWED_ROLES = ['teachers_admin', 'teachers_user'];
 
+// ── Allowed email domains (centralised — used by all pages) ───────
+window.TEACHERS_ALLOWED_DOMAINS = [
+  "scr.sch.id", "eibos.sch.id", "fatih.sch.id", "gcb.sch.id",
+  "kesatuanbangsa.sch.id", "kbs.sch.id", "mega.sch.id", "pakarbelia.sch.id",
+  "prestigeschool.sch.id", "pribadibandung.sch.id", "pribadidepok.sch.id",
+  "pribadipremiere.sch.id", "semesta.sch.id", "tnafatih.sch.id", "eduversal.org",
+];
+
 // Hide page content until auth is confirmed (prevents flash of content)
 document.body.style.visibility = 'hidden';
 
@@ -129,7 +137,16 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
-  // 3. Role check
+  // 3. Domain check (Google SSO users must be from an allowed school domain)
+  const isPasswordUser = user.providerData.some(p => p.providerId === 'password');
+  const emailDomain    = user.email.split('@')[1];
+  if (!isPasswordUser && !window.TEACHERS_ALLOWED_DOMAINS.includes(emailDomain)) {
+    await signOut(auth);
+    window.location.replace('index.html?error=domain');
+    return;
+  }
+
+  // 4. Role check
   const platformRole = profile[PLATFORM_KEY];
   if (!ALLOWED_ROLES.includes(platformRole)) {
     await signOut(auth);
@@ -139,14 +156,14 @@ onAuthStateChanged(auth, async (user) => {
   // Set profile.role for backward compat with page-level checks
   profile.role = platformRole;
 
-  // 4. Name prompt if missing
+  // 5. Name prompt if missing
   if (!profile.displayName) {
     const name = await promptForName();
     await setDoc(userRef, { displayName: name }, { merge: true });
     profile.displayName = name;
   }
 
-  // 5. All checks passed — expose globals
+  // 6. All checks passed — expose globals
   window.currentUser = user;
   window.userProfile = profile;
 
@@ -176,7 +193,7 @@ onAuthStateChanged(auth, async (user) => {
     });
   }
 
-  // 6. Show page and notify
+  // 7. Show page and notify
   document.body.style.visibility = 'visible';
   document.dispatchEvent(new CustomEvent('authReady', {
     detail: { user, profile },
