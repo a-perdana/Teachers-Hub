@@ -106,6 +106,61 @@ body {
 /* â”€â”€â”€ LAYOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .layout { display: grid; grid-template-columns: 260px 1fr; height: calc(100vh - 60px); }
 
+/* Sidebar overlay for mobile */
+.sidebar-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(28,28,46,.45);
+  z-index: 190;
+  backdrop-filter: blur(2px);
+}
+.sidebar-overlay.open { display: block; }
+
+/* Mobile sidebar toggle button */
+.sidebar-toggle {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,.7); padding: 6px;
+  border-radius: 7px; flex-shrink: 0;
+  transition: background .15s;
+}
+.sidebar-toggle:hover { background: rgba(255,255,255,.1); }
+.sidebar-toggle svg { display: block; }
+
+/* ─── RESPONSIVE BREAKPOINTS ─── */
+@media (max-width: 768px) {
+  .layout { grid-template-columns: 1fr; height: auto; min-height: calc(100vh - 60px); }
+
+  .sidebar {
+    position: fixed; top: 60px; left: 0; bottom: 0;
+    width: 280px; z-index: 195;
+    transform: translateX(-100%);
+    transition: transform .25s cubic-bezier(0.16,1,0.3,1);
+    box-shadow: var(--shadow-lg);
+  }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-toggle { display: flex; align-items: center; justify-content: center; }
+
+  .brand-text p { display: none; }
+  .prog-pill { display: none; }
+
+  .view-bar { flex-wrap: wrap; gap: 8px; padding: 8px 14px; }
+  .view-actions { width: 100%; justify-content: flex-end; }
+
+  .panel { padding: 12px 14px; }
+
+  table.topics-tbl { table-layout: auto; }
+  table.topics-tbl th:nth-child(3),
+  table.topics-tbl td:nth-child(3) { display: none; }
+
+  .ch-stats { display: none; }
+}
+
+@media (max-width: 480px) {
+  .topbar { padding: 0 14px; gap: 8px; }
+  .role-badge { display: none; }
+}
+
 /* â”€â”€â”€ SIDEBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .sidebar {
   background: var(--white);
@@ -143,6 +198,7 @@ body {
 }
 .chip:hover { border-color: var(--accent); color: var(--accent); }
 .chip.on { background: var(--accent); border-color: var(--accent); color: white; }
+.chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .search-wrap { position: relative; }
 .search-wrap svg { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); opacity: .4; }
@@ -184,8 +240,8 @@ body {
 }
 .ch-nav-item.active .ch-nav-num { background: var(--accent); border-color: var(--accent); color: white; }
 .ch-nav-title { font-size: .75rem; font-weight: 500; flex: 1; line-height: 1.3; color: var(--ink); }
-.ch-nav-mini { width: 28px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
-.ch-nav-mini-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width .4s; }
+.ch-nav-count { font-size: .6rem; color: var(--ink-3); font-family: 'DM Mono', monospace; flex-shrink: 0; white-space: nowrap; }
+.ch-nav-item.active .ch-nav-count { color: var(--accent); font-weight: 600; }
 
 /* â”€â”€â”€ MAIN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .main { overflow-y: auto; display: flex; flex-direction: column; }
@@ -285,16 +341,7 @@ table.topics-tbl tr:last-child td { border-bottom: none; }
 table.topics-tbl tr.done-row { background: var(--green-2); }
 table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 
-/* Checkbox */
-.tcheck {
-  width: 17px; height: 17px;
-  border: 2px solid var(--border); border-radius: 4px;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: all .15s; flex-shrink: 0;
-}
-.tcheck:hover { border-color: var(--green); }
-.tcheck.on { background: var(--green); border-color: var(--green); }
-.tcheck.on::after { content: 'v'; color: white; font-size: .65rem; font-weight: 800; }
+
 
 /* Topic cell */
 .topic-cell { }
@@ -355,7 +402,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
   padding: 4px 16px; background: var(--accent-2);
   border-bottom: 1px solid #f5c6c1;
 }
-.coord-mode .edit-hint { display: block; }
+.coord-mode .edit-hint { display: flex; align-items: center; gap: 10px; }
 
 /* â”€â”€â”€ WEEKLY VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .week-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
@@ -541,24 +588,6 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 .res-row.empty-res { display: none; }
 .coord-mode .res-row.empty-res { display: table-row; }
 
-/* â”€â”€â”€ LOGIN SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-.login-input {
-  width: 100%; padding: 10px 13px;
-  border: 1px solid var(--border); border-radius: 8px;
-  font-family: 'DM Sans', sans-serif; font-size: .83rem;
-  outline: none; color: var(--ink); margin-bottom: 10px;
-  transition: border-color .15s;
-}
-.login-input:focus { border-color: var(--accent); }
-.login-submit {
-  width: 100%; padding: 11px;
-  background: var(--accent); color: white;
-  border: none; border-radius: 8px;
-  font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 600;
-  cursor: pointer; transition: background .15s;
-}
-.login-submit:hover { background: #a93224; }
-.login-submit:disabled { opacity: .6; cursor: not-allowed; }
 </style>
 
 <script src="firebase-config.js"></script>
@@ -572,75 +601,19 @@ if (!window.ENV) window.ENV = {
   FIREBASE_APP_ID:              "__FIREBASE_APP_ID__",
 };
 </script>
+<script type="module" src="auth-guard.js"></script>
 </head>
 <body>
 
-<!-- â”€â”€ LOADING SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
-<div id="loadingScreen" style="
-  position:fixed;inset:0;background:var(--ink);
-  display:flex;align-items:center;justify-content:center;z-index:99999;
-">
-  <div style="text-align:center;">
-    <div style="
-      width:36px;height:36px;
-      border:3px solid rgba(255,255,255,.15);
-      border-top-color:var(--accent);
-      border-radius:50%;
-      animation:spin .8s linear infinite;
-      margin:0 auto 14px;
-    "></div>
-    <p style="font-size:.75rem;color:rgba(255,255,255,.4);font-family:'DM Sans',sans-serif;">Loading pacing guide...</p>
-  </div>
-</div>
-
-<!-- â”€â”€ LOGIN SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
-<div id="loginScreen" style="
-  position:fixed;inset:0;background:rgba(28,28,46,.96);
-  display:none;align-items:center;justify-content:center;
-  z-index:99998;backdrop-filter:blur(4px);
-">
-  <div style="
-    background:white;border-radius:16px;width:360px;max-width:92vw;
-    padding:36px 32px;box-shadow:var(--shadow-lg);
-  ">
-    <div style="text-align:center;margin-bottom:28px;">
-      <div style="
-        width:50px;height:50px;background:var(--accent);border-radius:12px;
-        display:inline-flex;align-items:center;justify-content:center;
-        font-family:'Lora',serif;font-size:1.5rem;color:white;margin-bottom:14px;
-      ">âˆ«</div>
-      <h2 style="font-family:'Lora',serif;font-size:1.1rem;color:var(--ink);margin-bottom:4px;">IGCSE Mathematics</h2>
-      <p style="font-size:.72rem;color:var(--ink-3);">0580 - Year 9-10 Pacing Guide</p>
-    </div>
-    <div id="loginError" style="
-      display:none;background:var(--accent-2);color:var(--accent);
-      font-size:.72rem;padding:8px 12px;border-radius:7px;
-      border:1px solid #f5c6c1;margin-bottom:14px;
-    "></div>
-    <button id="googleBtn" type="button" style="
-      width:100%;padding:11px;border-radius:8px;border:1.5px solid #dadce0;
-      background:white;cursor:pointer;font-size:.85rem;font-weight:500;
-      display:flex;align-items:center;justify-content:center;gap:10px;
-      margin-bottom:16px;transition:background .15s;
-    " onmouseover="this.style.background='#f8f8f8'" onmouseout="this.style.background='white'">
-      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-      Continue with Google
-    </button>
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-      <div style="flex:1;height:1px;background:#e8e8e8;"></div>
-      <span style="font-size:.72rem;color:var(--ink-3);">or</span>
-      <div style="flex:1;height:1px;background:#e8e8e8;"></div>
-    </div>
-    <form id="loginForm" novalidate>
-      <input type="email" id="loginEmail" placeholder="Email address" class="login-input" required>
-      <input type="password" id="loginPassword" placeholder="Password" class="login-input" style="margin-bottom:16px;" required>
-      <button type="submit" id="loginBtn" class="login-submit">Sign In</button>
-    </form>
-  </div>
-</div>
 
 <!-- â”€â”€ TOPBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 <header class="topbar">
+  <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
   <div class="brand">
     <div class="brand-mark">IG</div>
     <div class="brand-text">
@@ -659,8 +632,7 @@ if (!window.ENV) window.ENV = {
       <span id="userDisplayName" style="opacity:.6;font-weight:400;margin-left:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;"></span>
     </div>
     <button class="btn" id="logoutBtn"
-      style="display:none;color:rgba(255,255,255,.65);border-color:rgba(255,255,255,.2);background:transparent;font-size:.68rem;"
-      onclick="window.__fbLogout && window.__fbLogout()"
+      style="color:rgba(255,255,255,.65);border-color:rgba(255,255,255,.2);background:transparent;font-size:.68rem;"
     >Sign Out</button>
   </div>
 </header>
@@ -682,18 +654,18 @@ if (!window.ENV) window.ENV = {
     <div class="sidebar-section">
       <div class="sidebar-label">Year</div>
       <div class="chips" id="yearChips">
-        <div class="chip on" data-year="all">All</div>
-        <div class="chip" data-year="Year 9">Year 9</div>
-        <div class="chip" data-year="Year 10">Year 10</div>
+        <div class="chip on" data-year="all" tabindex="0" role="button">All</div>
+        <div class="chip" data-year="Year 9" tabindex="0" role="button">Year 9</div>
+        <div class="chip" data-year="Year 10" tabindex="0" role="button">Year 10</div>
       </div>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-label">Status</div>
       <div class="chips" id="statusChips">
-        <div class="chip on" data-status="all">All</div>
-        <div class="chip" data-status="pending">Pending</div>
-        <div class="chip" data-status="inprogress">In Progress</div>
-        <div class="chip" data-status="done">Done</div>
+        <div class="chip on" data-status="all" tabindex="0" role="button">All</div>
+        <div class="chip" data-status="pending" tabindex="0" role="button">Pending</div>
+        <div class="chip" data-status="inprogress" tabindex="0" role="button">In Progress</div>
+        <div class="chip" data-status="done" tabindex="0" role="button">Done</div>
       </div>
     </div>
     <div class="ch-nav" id="chNav"></div>
@@ -709,13 +681,15 @@ if (!window.ENV) window.ENV = {
       <div class="view-actions">
         <button class="btn" onclick="expandAll()">Expand All</button>
         <button class="btn" onclick="collapseAll()">Collapse All</button>
-        <button class="btn primary" id="resetBtn" onclick="resetProgress()" style="display:none">Reset All</button>
       </div>
     </div>
 
     <!-- PACING PANEL -->
     <div class="panel on" id="panel-pacing">
-      <div class="edit-hint" id="editHint">Coordinator mode - click any topic name, objective, or duration to edit inline.</div>
+      <div class="edit-hint" id="editHint">
+        <span>Coordinator mode — click any topic name, objective, or duration to edit inline.</span>
+        <button id="resetBtn" style="display:none;margin-left:auto;font-size:.65rem;padding:3px 10px;border-radius:6px;border:1px solid rgba(192,57,43,.35);color:var(--accent);background:none;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;" onclick="resetProgress()">Reset Progress</button>
+      </div>
       <div id="chBlocks"></div>
     </div>
 
@@ -816,7 +790,7 @@ function renderNav() {
       return `<div class="ch-nav-item" onclick="scrollToChapter(${ci})" id="nav-${ci}">
         <span class="ch-nav-num">${ci+1}</span>
         <span class="ch-nav-title">${ch.chapter.replace(/^\d+\.\s*/, '')}</span>
-        <div class="ch-nav-mini"><div class="ch-nav-mini-fill" style="width:${pct}%"></div></div>
+        <span class="ch-nav-count">${done}/${ch.topics.length}</span>
       </div>`;
     }).join('');
   }
@@ -895,8 +869,7 @@ function renderPacing() {
               return `
               <tr class="${rowClass}" id="row-${ci}-${ti}">
                 <td>
-                  <div class="tcheck ${t.status==='done'?'on':''}" onclick="toggleDone(${ci},${ti})"></div>
-                  <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">x</button>
+                  <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">&#215;</button>
                 </td>
                 <td class="topic-cell">
                   <div class="topic-name ${t.status==='done'?'struck':''} editable"
@@ -946,7 +919,19 @@ function renderPacing() {
     </div>`;
   });
 
-  if (!html) html = `<div class="empty"><div class="empty-icon">-</div><p>No topics match your filters.</p></div>`;
+  if (!html) {
+    if (DATA.length === 0) {
+      html = `<div class="empty">
+        <div class="empty-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="opacity:.35"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+        </div>
+        <p style="font-weight:500;color:var(--ink-2);margin-bottom:6px;">No topics yet</p>
+        <p style="font-size:.75rem;line-height:1.6;">The coordinator hasn't added any content yet.<br>Please check back later.</p>
+      </div>`;
+    } else {
+      html = `<div class="empty"><div class="empty-icon"></div><p>No topics match your filters.</p></div>`;
+    }
+  }
   html += `<div class="add-chapter-wrap"><button class="add-chapter-btn" onclick="addChapter()">+ Add Chapter</button></div>`;
   container.innerHTML = html;
 
@@ -1001,11 +986,6 @@ function renderWeekly() {
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // INTERACTIONS
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-function toggleDone(ci, ti) {
-  DATA[ci].topics[ti].status = DATA[ci].topics[ti].status === 'done' ? 'pending' : 'done';
-  saveState(); render();
-}
-
 function setStatus(ci, ti, val) {
   DATA[ci].topics[ti].status = val;
   saveState(); render();
@@ -1018,7 +998,7 @@ function saveEdit(el, ci, ti, field) {
   DATA[ci].topics[ti][field] = val;
   saveState();
   showToast('Saved');
-  setTimeout(render, 200);
+  // render() is triggered by the Firestore snapshot after saveState() writes
 }
 
 function addTopic(ci) {
@@ -1133,32 +1113,81 @@ function scrollToChapter(ci) {
   }, 50);
 }
 
+let _resetTimer = null;
 function resetProgress() {
-  if (!confirm('Reset your progress? All topics will return to Pending.')) return;
-  DATA.forEach(ch => ch.topics.forEach(t => t.status = 'pending'));
-  saveState(); render(); showToast('Your progress has been reset');
+  const btn = document.getElementById('resetBtn');
+  if (!btn) return;
+  if (btn.dataset.confirming === '1') {
+    clearTimeout(_resetTimer);
+    btn.dataset.confirming = '';
+    btn.textContent = 'Reset Progress';
+    btn.style.background = 'none';
+    btn.style.borderColor = 'rgba(192,57,43,.35)';
+    DATA.forEach(ch => ch.topics.forEach(t => t.status = 'pending'));
+    saveState(); render(); showToast('Progress has been reset');
+  } else {
+    btn.dataset.confirming = '1';
+    btn.textContent = 'Click again to confirm';
+    btn.style.background = 'var(--accent-2)';
+    btn.style.borderColor = 'var(--accent)';
+    _resetTimer = setTimeout(() => {
+      btn.dataset.confirming = '';
+      btn.textContent = 'Reset Progress';
+      btn.style.background = 'none';
+      btn.style.borderColor = 'rgba(192,57,43,.35)';
+    }, 3000);
+  }
 }
 
 function handleSearch(val) { searchQ = val; renderPacing(); renderNav(); }
 
-// Year chips
-document.getElementById('yearChips').addEventListener('click', e => {
-  const chip = e.target.closest('[data-year]');
-  if (!chip) return;
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+
+function closeSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  if (sidebar) sidebar.classList.remove('open');
+  if (overlay) overlay.classList.remove('open');
+}
+
+// Close sidebar on mobile when a chapter nav item is clicked
+document.getElementById('chNav').addEventListener('click', () => {
+  if (window.innerWidth <= 768) closeSidebar();
+});
+
+// Year chips — click + keyboard
+function activateYearChip(chip) {
   document.querySelectorAll('[data-year]').forEach(c => c.classList.remove('on'));
   chip.classList.add('on');
   filterYear = chip.dataset.year;
   renderPacing();
+}
+document.getElementById('yearChips').addEventListener('click', e => {
+  const chip = e.target.closest('[data-year]'); if (chip) activateYearChip(chip);
+});
+document.getElementById('yearChips').addEventListener('keydown', e => {
+  const chip = e.target.closest('[data-year]');
+  if (chip && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); activateYearChip(chip); }
 });
 
-// Status chips
-document.getElementById('statusChips').addEventListener('click', e => {
-  const chip = e.target.closest('[data-status]');
-  if (!chip) return;
+// Status chips — click + keyboard
+function activateStatusChip(chip) {
   document.querySelectorAll('[data-status]').forEach(c => c.classList.remove('on'));
   chip.classList.add('on');
   filterStatus = chip.dataset.status;
   renderPacing();
+}
+document.getElementById('statusChips').addEventListener('click', e => {
+  const chip = e.target.closest('[data-status]'); if (chip) activateStatusChip(chip);
+});
+document.getElementById('statusChips').addEventListener('keydown', e => {
+  const chip = e.target.closest('[data-status]');
+  if (chip && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); activateStatusChip(chip); }
 });
 
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
@@ -1201,6 +1230,13 @@ function closeObjModal(e) {
   if (e.target === document.getElementById('objModal')) document.getElementById('objModal').classList.remove('open');
 }
 
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('objModal').classList.remove('open');
+    closeSidebar();
+  }
+});
+
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // ROLE - set by Firebase module after auth
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
@@ -1212,7 +1248,7 @@ function applyRole(r) {
   if (r === 'coord') {
     dot.className     = 'role-dot coord';
     label.textContent = 'Coordinator';
-    if (resetBtn) resetBtn.style.display = '';
+    if (resetBtn) resetBtn.style.display = 'inline-block';
   } else {
     dot.className     = 'role-dot teacher';
     label.textContent = 'Teacher';
@@ -1247,72 +1283,17 @@ function render() {
 // after data is loaded from Firestore.
 </script>
 
-<!-- â”€â”€ FIREBASE MODULE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── FIREBASE MODULE ──────────────────────────────────────── -->
 <script type="module">
-/*
- * â”€â”€ Firestore Security Rules â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
- * Paste these into Firebase Console â†’ Firestore â†’ Rules:
- *
- * rules_version = '2';
- * service cloud.firestore {
- *   match /databases/{database}/documents {
- *
- *     // User profiles & roles - set role manually via Firebase Console
- *     // Set users/{uid}.role = "coordinator" for coordinators
- *     match /users/{uid} {
- *       allow read: if request.auth != null && request.auth.uid == uid;
- *       allow write: if false;
- *     }
- *
- *     // Shared pacing structure - all authenticated users can read;
- *     // coordinators write chapter/topic structure (no statuses stored here)
- *     match /igcse_pacing/{docId} {
- *       allow read:  if request.auth != null;
- *       allow write: if request.auth != null;
- *     }
- *
- *     // Per-user progress - each teacher reads/writes only their own doc
- *     match /userProgress/{uid} {
- *       allow read, write: if request.auth != null && request.auth.uid == uid;
- *     }
- *   }
- * }
- */
-
-import { initializeApp }
-  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signOut,
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
   getFirestore,
   doc,
-  getDoc,
   setDoc,
   onSnapshot,
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// â”€â”€ Firebase Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-const firebaseConfig = {
-  apiKey:            window.ENV.FIREBASE_API_KEY,
-  authDomain:        window.ENV.FIREBASE_AUTH_DOMAIN,
-  projectId:         window.ENV.FIREBASE_PROJECT_ID,
-  storageBucket:     window.ENV.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
-  appId:             window.ENV.FIREBASE_APP_ID,
-};
-
-const app  = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getFirestore(app);
-
-// â”€â”€ Module-level state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Module-level state ────────────────────────────────────────────
 let unsubStructure  = null;   // listener for shared chapter structure
 let unsubUserProg   = null;   // listener for this user's own progress
 let currentUID      = null;
@@ -1320,7 +1301,7 @@ let currentRole     = 'teacher';
 let sharedStructure = null;   // chapters/topics without statuses
 let userStatuses    = {};     // { "ci-ti": "pending"|"inprogress"|"done" }
 
-// â”€â”€ Merge shared structure + per-user statuses â†’ window.DATA â”€â”€
+// ── Merge shared structure + per-user statuses → window.DATA ──────
 function _mergeAndRender(isFirstLoad, appRole) {
   if (!sharedStructure) return;
   window.DATA = sharedStructure.map((ch, ci) => ({
@@ -1331,74 +1312,23 @@ function _mergeAndRender(isFirstLoad, appRole) {
     })),
   }));
   if (isFirstLoad) {
-    document.getElementById('loadingScreen').style.display = 'none';
-    document.getElementById('loginScreen').style.display  = 'none';
     applyRole(appRole);   // sets role var, updates badge, calls render()
   } else {
     render();
   }
 }
 
-// â”€â”€ Auth State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    currentUID = user.uid;
-    let appRole     = 'teacher';
-    let displayName = user.displayName || user.email.split('@')[0];
-
-    try {
-      const userRef = doc(db, 'users', user.uid);
-      await setDoc(userRef, {
-        displayName,
-        email: user.email || '',
-      }, { merge: true });
-      const userSnap = await getDoc(userRef);
-      const r = userSnap.exists() ? userSnap.data().role_teachershub : null;
-      if (r === 'teachers_admin') {
-        appRole = 'coord';
-      } else if (!r) {
-        await setDoc(userRef, { role_teachershub: 'teachers_user' }, { merge: true });
-      }
-    } catch(e) { /* role stays 'teacher' */ }
-
-    const nameEl = document.getElementById('userDisplayName');
-    if (nameEl) nameEl.textContent = '- ' + displayName;
-    document.getElementById('logoutBtn').style.display = '';
-
-    _startSnapshot(appRole);
-
-  } else {
-    // Signed out - tear down listeners & reset state
-    if (unsubStructure) { unsubStructure(); unsubStructure = null; }
-    if (unsubUserProg)  { unsubUserProg();  unsubUserProg  = null; }
-    currentUID      = null;
-    sharedStructure = null;
-    userStatuses    = {};
-
-    document.getElementById('loadingScreen').style.display = 'none';
-    document.getElementById('loginScreen').style.display  = 'flex';
-    document.getElementById('logoutBtn').style.display    = 'none';
-
-    const nameEl = document.getElementById('userDisplayName');
-    if (nameEl) nameEl.textContent = '';
-
-    const gBtn = document.getElementById('googleBtn');
-    if (gBtn) {
-      gBtn.disabled = false;
-      gBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continue with Google`;
-    }
-  }
-});
-
-// â”€â”€ Start real-time listeners â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-function _startSnapshot(appRole) {
+// ── Start real-time listeners ─────────────────────────────────────
+function _startSnapshot(uid, appRole) {
   if (unsubStructure) unsubStructure();
   if (unsubUserProg)  unsubUserProg();
 
+  currentUID  = uid;
   currentRole = appRole;
 
+  const db           = window.db;
   const structureRef = doc(db, 'igcse_pacing', 'year9-10');
-  const userProgRef  = doc(db, 'userProgress', currentUID);
+  const userProgRef  = doc(db, 'userProgress', uid);
 
   let firstLoad      = true;
   let structureReady = false;
@@ -1411,7 +1341,7 @@ function _startSnapshot(appRole) {
     _mergeAndRender(fl, appRole);
   }
 
-  // â”€â”€ Shared structure listener â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Shared structure listener ─────────────────────────────────
   unsubStructure = onSnapshot(structureRef, (snap) => {
     sharedStructure = snap.exists() && Array.isArray(snap.data().chapters)
       ? snap.data().chapters : [];
@@ -1421,13 +1351,11 @@ function _startSnapshot(appRole) {
     console.error('Structure snapshot error:', err);
     sharedStructure = [];
     structureReady  = true;
-    document.getElementById('loadingScreen').style.display = 'none';
-    document.getElementById('loginScreen').style.display  = 'none';
     applyRole(appRole);
     showToast('Firestore connection error');
   });
 
-  // â”€â”€ Per-user progress listener â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Per-user progress listener ────────────────────────────────
   unsubUserProg = onSnapshot(userProgRef, (snap) => {
     userStatuses  = (snap.exists() && snap.data().statuses)
       ? snap.data().statuses
@@ -1442,7 +1370,7 @@ function _startSnapshot(appRole) {
   });
 }
 
-// â”€â”€ Save to Firestore â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Save to Firestore ─────────────────────────────────────────────
 window.__fbSaveState = async function(data) {
   if (!currentUID) return;
 
@@ -1459,7 +1387,7 @@ window.__fbSaveState = async function(data) {
   // 2. Save user's own progress
   try {
     await setDoc(
-      doc(db, 'userProgress', currentUID),
+      doc(window.db, 'userProgress', currentUID),
       { statuses: newStatuses, updatedAt: serverTimestamp() }
     );
   } catch(e) {
@@ -1476,7 +1404,7 @@ window.__fbSaveState = async function(data) {
     }));
     try {
       await setDoc(
-        doc(db, 'igcse_pacing', 'year9-10'),
+        doc(window.db, 'igcse_pacing', 'year9-10'),
         { chapters: structureOnly, updatedAt: serverTimestamp() },
         { merge: true }
       );
@@ -1487,53 +1415,15 @@ window.__fbSaveState = async function(data) {
   }
 };
 
-// â”€â”€ Logout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-window.__fbLogout = () => signOut(auth);
+// ── auth-guard.js dispatches authReady when auth + role confirmed ─
+document.addEventListener('authReady', ({ detail: { user, profile } }) => {
+  const appRole = profile.role_teachershub === 'teachers_admin' ? 'coord' : 'teacher';
 
-// â”€â”€ Google Sign-In â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-document.getElementById('googleBtn').addEventListener('click', async () => {
-  const btn   = document.getElementById('googleBtn');
-  const errEl = document.getElementById('loginError');
-  btn.disabled = true;
-  btn.textContent = 'Signing in...';
-  errEl.style.display = 'none';
-  try {
-    await signInWithPopup(auth, new GoogleAuthProvider());
-  } catch(err) {
-    errEl.textContent   = 'Google sign-in failed. Please try again.';
-    errEl.style.display = 'block';
-    btn.disabled = false;
-    btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continue with Google`;
-  }
-});
+  const nameEl = document.getElementById('userDisplayName');
+  if (nameEl) nameEl.textContent = '- ' + (profile.displayName || user.email.split('@')[0]);
 
-// â”€â”€ Login Form â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const email    = document.getElementById('loginEmail').value.trim();
-  const password = document.getElementById('loginPassword').value;
-  const btn      = document.getElementById('loginBtn');
-  const errEl    = document.getElementById('loginError');
-
-  btn.textContent = 'Signing in...';
-  btn.disabled    = true;
-  errEl.style.display = 'none';
-
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-    // onAuthStateChanged handles the rest
-  } catch(err) {
-    errEl.textContent   = 'Invalid email or password.';
-    errEl.style.display = 'block';
-    btn.textContent     = 'Sign In';
-    btn.disabled        = false;
-  }
+  _startSnapshot(user.uid, appRole);
 });
 </script>
 </body>
 </html>
-
-
-
-
-
