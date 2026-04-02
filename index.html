@@ -900,60 +900,13 @@
         }
       }
 
-      /* Category Filter Section */
-      .filter-section {
-        padding: 0 40px 60px;
+      /* ══════════════════════════════════════════════════════════
+         RESOURCE SECTIONS AREA
+         ══════════════════════════════════════════════════════════ */
+      .resources-section {
+        padding: 0 40px 120px;
         position: relative;
         z-index: 10;
-      }
-
-      .filter-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 16px;
-      }
-
-      .filter-btn {
-        padding: 16px 32px;
-        font-family: "Sora", sans-serif;
-        font-size: 15px;
-        font-weight: 600;
-        border: none;
-        border-radius: 16px;
-        background: var(--glass);
-        border: 1px solid var(--glass-border);
-        color: var(--text-secondary);
-        cursor: pointer;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .filter-btn:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateY(-4px);
-        border-color: rgba(255, 255, 255, 0.2);
-      }
-
-      .filter-btn.active {
-        background: linear-gradient(135deg, var(--primary), var(--accent));
-        color: white;
-        border-color: transparent;
-        box-shadow: var(--glow-primary);
-        transform: translateY(-4px);
-      }
-
-      .filter-icon {
-        font-size: 20px;
-      }
-
-      /* Resources Grid */
-      .resources-section {
-        padding: 40px 40px 120px;
       }
 
       .resources-container {
@@ -961,24 +914,473 @@
         margin: 0 auto;
       }
 
-      .section-header {
+      /* ══════════════════════════════════════════════════════════
+         CATEGORY ACCORDION SYSTEM
+         ══════════════════════════════════════════════════════════ */
+
+      .category-section {
+        margin-bottom: 1.5rem;
+        border-radius: 18px;
+        border: 1px solid var(--glass-border);
+        background: rgba(255,255,255,0.04);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+      }
+
+      .category-header {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        margin-bottom: 48px;
+        gap: 1rem;
+        padding: 1.1rem 1.5rem;
+        cursor: pointer;
+        user-select: none;
+        transition: background 0.2s ease;
+        position: relative;
       }
 
-      .section-title {
+      .category-header:hover {
+        background: rgba(255,255,255,0.04);
+      }
+
+      .category-color-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        box-shadow: 0 0 8px currentColor;
+      }
+
+      .category-name {
         font-family: "Outfit", sans-serif;
-        font-size: 32px;
-        font-weight: 800;
+        font-size: 1.1rem;
+        font-weight: 700;
+        flex: 1;
+        color: var(--text-primary);
       }
 
-      .resources-grid {
+      .category-count {
+        font-size: 0.78rem;
+        color: var(--text-secondary);
+        background: rgba(255,255,255,0.06);
+        border: 1px solid var(--glass-border);
+        padding: 0.2rem 0.6rem;
+        border-radius: 20px;
+      }
+
+      .category-chevron {
+        width: 20px;
+        height: 20px;
+        fill: var(--text-secondary);
+        transition: transform 0.3s cubic-bezier(0.23,1,0.32,1);
+        flex-shrink: 0;
+      }
+
+      .category-section.collapsed .category-chevron {
+        transform: rotate(-90deg);
+      }
+
+      .category-admin-actions {
+        display: none;
+        align-items: center;
+        gap: 0.5rem;
+        margin-right: 0.5rem;
+      }
+
+      body.is-admin .category-admin-actions {
+        display: flex;
+      }
+
+      .cat-action-btn {
+        width: 28px;
+        height: 28px;
+        border: none;
+        background: rgba(255,255,255,0.06);
+        border-radius: 7px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.6;
+        transition: opacity 0.2s, background 0.2s;
+        color: white;
+      }
+
+      .cat-action-btn:hover {
+        opacity: 1;
+        background: rgba(255,255,255,0.15);
+      }
+
+      .cat-action-btn svg {
+        width: 14px;
+        height: 14px;
+        fill: white;
+      }
+
+      .cat-action-btn.delete-btn:hover {
+        background: rgba(239,68,68,0.3);
+      }
+
+      .cat-action-btn:disabled {
+        opacity: 0.2;
+        cursor: not-allowed;
+      }
+
+      .category-body {
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.23,1,0.32,1);
+        max-height: 5000px;
+      }
+
+      .category-section.collapsed .category-body {
+        max-height: 0;
+      }
+
+      .category-cards-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
         gap: 32px;
+        padding: 0 1.5rem 1.5rem;
       }
+
+      /* Uncategorized section */
+      .uncategorized-section {
+        margin-bottom: 1.5rem;
+      }
+
+      /* Rename inline input */
+      .category-name-input {
+        font-family: "Outfit", sans-serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(108,92,231,0.5);
+        border-radius: 8px;
+        color: white;
+        padding: 0.2rem 0.5rem;
+        outline: none;
+        width: 200px;
+      }
+
+      /* ══════════════════════════════════════════════════════════
+         ADMIN PANEL — Category Manager
+         ══════════════════════════════════════════════════════════ */
+
+      #adminCatPanel {
+        display: none;
+        max-width: 1400px;
+        margin: 0 auto 2rem;
+      }
+
+      body.is-admin #adminCatPanel {
+        display: block;
+      }
+
+      .admin-cat-card {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(108,92,231,0.3);
+        border-radius: 18px;
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .admin-cat-card .label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--accent);
+        white-space: nowrap;
+      }
+
+      .admin-cat-input {
+        flex: 1;
+        min-width: 160px;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: 10px;
+        padding: 0.55rem 1rem;
+        color: white;
+        font-family: "Sora", sans-serif;
+        font-size: 0.9rem;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      .admin-cat-input:focus {
+        border-color: rgba(108,92,231,0.6);
+      }
+
+      .color-swatches {
+        display: flex;
+        gap: 0.4rem;
+        flex-shrink: 0;
+      }
+
+      .color-swatch {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: transform 0.15s, border-color 0.15s;
+      }
+
+      .color-swatch:hover,
+      .color-swatch.selected {
+        transform: scale(1.2);
+        border-color: white;
+      }
+
+      .admin-cat-btn {
+        padding: 0.55rem 1.25rem;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-family: "Sora", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: opacity 0.2s, transform 0.2s;
+      }
+
+      .admin-cat-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+
+      .admin-cat-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .admin-cat-status {
+        font-size: 0.82rem;
+        min-width: 80px;
+        transition: color 0.2s;
+      }
+
+      .admin-cat-status.ok  { color: #10b981; }
+      .admin-cat-status.err { color: #f87171; }
+
+      /* ── Manage Cards Modal ─────────────────────────────────── */
+      #manageCatModal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9000;
+        background: rgba(0,0,0,0.65);
+        backdrop-filter: blur(6px);
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+
+      #manageCatModal.open {
+        display: flex;
+      }
+
+      .manage-modal-box {
+        background: #0d0d1f;
+        border: 1px solid rgba(108,92,231,0.35);
+        border-radius: 22px;
+        width: 100%;
+        max-width: 520px;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+        overflow: hidden;
+      }
+
+      .manage-modal-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1.2rem 1.5rem;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        flex-shrink: 0;
+      }
+
+      .manage-modal-color {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      .manage-modal-title {
+        font-family: "Outfit", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        flex: 1;
+      }
+
+      .manage-modal-close {
+        width: 30px;
+        height: 30px;
+        border: none;
+        background: rgba(255,255,255,0.08);
+        border-radius: 8px;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        line-height: 1;
+        transition: background 0.2s;
+      }
+
+      .manage-modal-close:hover { background: rgba(255,255,255,0.16); }
+
+      .manage-modal-search {
+        margin: 1rem 1.5rem 0.5rem;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+        padding: 0.55rem 1rem;
+        color: white;
+        font-family: "Sora", sans-serif;
+        font-size: 0.88rem;
+        outline: none;
+        width: calc(100% - 3rem);
+        transition: border-color 0.2s;
+      }
+
+      .manage-modal-search:focus {
+        border-color: rgba(108,92,231,0.6);
+      }
+
+      .manage-modal-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0.5rem 1rem 1rem;
+      }
+
+      .manage-modal-list::-webkit-scrollbar { width: 4px; }
+      .manage-modal-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+      .modal-card-row {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        padding: 0.65rem 0.5rem;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.15s;
+        user-select: none;
+      }
+
+      .modal-card-row:hover { background: rgba(255,255,255,0.06); }
+
+      .modal-card-row input[type="checkbox"] {
+        width: 17px;
+        height: 17px;
+        accent-color: var(--primary);
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      .modal-card-thumb {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        flex-shrink: 0;
+      }
+
+      .modal-card-label {
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.88);
+        flex: 1;
+        line-height: 1.3;
+      }
+
+      .modal-card-label small {
+        display: block;
+        font-size: 0.75rem;
+        color: rgba(255,255,255,0.4);
+        margin-top: 1px;
+      }
+
+      .manage-modal-footer {
+        padding: 1rem 1.5rem;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-shrink: 0;
+      }
+
+      .manage-modal-save {
+        flex: 1;
+        padding: 0.6rem 1.25rem;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-family: "Sora", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.2s;
+      }
+
+      .manage-modal-save:hover { opacity: 0.88; }
+      .manage-modal-save:disabled { opacity: 0.5; cursor: not-allowed; }
+
+      .manage-modal-cancel {
+        padding: 0.6rem 1rem;
+        background: rgba(255,255,255,0.07);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 10px;
+        color: rgba(255,255,255,0.7);
+        font-family: "Sora", sans-serif;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .manage-modal-cancel:hover { background: rgba(255,255,255,0.12); }
+
+      .manage-modal-status {
+        font-size: 0.8rem;
+        min-height: 1em;
+        transition: color 0.2s;
+      }
+
+      .manage-modal-status.ok  { color: #10b981; }
+      .manage-modal-status.err { color: #f87171; }
+
+      .modal-reorder-btns {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        flex-shrink: 0;
+        margin-left: auto;
+      }
+
+      .modal-reorder-btn {
+        width: 22px;
+        height: 22px;
+        border: none;
+        background: rgba(255,255,255,0.08);
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        transition: background 0.15s;
+      }
+
+      .modal-reorder-btn:hover { background: rgba(255,255,255,0.18); }
+      .modal-reorder-btn svg { width: 14px; height: 14px; fill: rgba(255,255,255,0.7); }
 
       /* Resource Card */
       .resource-card {
@@ -1316,13 +1718,12 @@
           padding: 48px 24px 80px;
         }
 
-        .filter-section,
         .resources-section {
           padding-left: 24px;
           padding-right: 24px;
         }
 
-        .resources-grid {
+        .category-cards-grid {
           grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
           gap: 24px;
         }
@@ -1333,9 +1734,17 @@
           font-size: 42px;
         }
 
-        .resources-grid {
+        .category-cards-grid {
           grid-template-columns: 1fr;
+          padding: 0 1rem 1rem;
         }
+
+        .admin-cat-card {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .admin-cat-input { width: 100%; }
 
         .footer-content {
           flex-direction: column;
@@ -2191,7 +2600,7 @@
                 id="search-input"
                 class="search-input"
                 placeholder="Search handbooks, policies, frameworks..."
-                onkeyup="filterResources()"
+                onkeyup="filterBySearch(this.value)"
               />
               <div class="search-icon">🔍</div>
             </div>
@@ -2271,72 +2680,61 @@
           </div>
         </section>
 
-        <!-- Category Filter -->
-        <section class="filter-section">
-          <div class="filter-container">
-            <a
-              href="pacing-hub.html"
-              class="filter-btn"
-              style="text-decoration:none;"
-            >
-              <span class="filter-icon">📐</span>
-              Topic Pacing
-            </a>
-            <a
-              href="library.html"
-              class="filter-btn"
-              style="text-decoration:none;"
-            >
-              <span class="filter-icon">🔗</span>
-              Library
-            </a>
-            <button
-              class="filter-btn active"
-              onclick="filterByCategory('All', this)"
-            >
-              <span class="filter-icon">📚</span>
-              All Resources
-            </button>
-            <button
-              class="filter-btn"
-              onclick="filterByCategory('Academic', this)"
-            >
-              <span class="filter-icon">🎓</span>
-              Academic
-            </button>
-            <button
-              class="filter-btn"
-              onclick="filterByCategory('Technology', this)"
-            >
-              <span class="filter-icon">💻</span>
-              Technology
-            </button>
-            <button
-              class="filter-btn"
-              onclick="filterByCategory('Curriculum', this)"
-            >
-              <span class="filter-icon">📖</span>
-              Curriculum
-            </button>
-          </div>
-        </section>
-
         <!-- Resources Section -->
         <section class="resources-section">
           <div class="resources-container">
-            <div id="resources-grid" class="resources-grid">
-              <!-- Cards will be inserted here -->
+
+            <!-- Admin: Category Manager Panel (visible to teachers_admin only) -->
+            <div id="adminCatPanel">
+              <div class="admin-cat-card">
+                <span class="label">New Section</span>
+                <input id="newCatName" class="admin-cat-input" type="text" placeholder="Section name…" maxlength="40">
+                <div class="color-swatches" id="colorSwatches"></div>
+                <button id="addCatBtn" class="admin-cat-btn">+ Add</button>
+                <span class="admin-cat-status" id="catStatus"></span>
+              </div>
             </div>
 
-            <div class="no-results" id="no-results">
-              <div class="no-results-icon">📭</div>
-              <h3 class="no-results-title">No resources found</h3>
-              <p class="no-results-text">
-                Try adjusting your search or filter criteria
-              </p>
+            <!-- Category sections rendered by JS -->
+            <div id="categorySections"></div>
+
+            <!-- Uncategorized cards (always visible at bottom) -->
+            <div class="uncategorized-section" id="uncategorizedSection">
+              <div class="category-section collapsed" id="uncategorizedAccordion" data-cat-id="__uncategorized__">
+                <div class="category-header" data-cat-id="__uncategorized__">
+                  <span class="category-color-dot" style="background:#6b7280; color:#6b7280;"></span>
+                  <span class="category-name">Uncategorized</span>
+                  <span class="category-count" id="uncategorizedCount">0</span>
+                  <svg class="category-chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                </div>
+                <div class="category-body">
+                  <div class="category-cards-grid" id="uncategorizedGrid">
+                    <!-- Cards injected by JS -->
+                  </div>
+                </div>
+              </div>
             </div>
+
           </div>
         </section>
+
+        <!-- Manage Cards Modal -->
+        <div id="manageCatModal" role="dialog" aria-modal="true" aria-labelledby="manageCatModalTitle">
+          <div class="manage-modal-box">
+            <div class="manage-modal-header">
+              <span class="manage-modal-color" id="manageCatColor"></span>
+              <span class="manage-modal-title" id="manageCatModalTitle">Manage Cards</span>
+              <button class="manage-modal-close" id="manageCatClose" aria-label="Close">&#x2715;</button>
+            </div>
+            <input class="manage-modal-search" id="manageCatSearch" type="search" placeholder="Search resources…">
+            <div class="manage-modal-list" id="manageCatList"></div>
+            <div class="manage-modal-footer">
+              <span class="manage-modal-status" id="manageCatStatus"></span>
+              <button class="manage-modal-cancel" id="manageCatCancel">Cancel</button>
+              <button class="manage-modal-save" id="manageCatSave">Save</button>
+            </div>
+          </div>
+        </div>
 
         <!-- Footer -->
         <footer class="footer">
@@ -2496,78 +2894,334 @@
         },
       ];
 
-      let currentCategory = "All";
-      let currentSearch = "";
+      // ── Search across all accordion sections ─────────────────────
+      function filterBySearch(query) {
+        const q = query.toLowerCase().trim();
+        getAllCards().forEach(card => {
+          if (!q) {
+            card.style.display = '';
+          } else {
+            const title = card.querySelector('.card-title')?.textContent?.toLowerCase() || '';
+            const desc  = card.querySelector('.card-description')?.textContent?.toLowerCase() || '';
+            card.style.display = (title.includes(q) || desc.includes(q)) ? '' : 'none';
+          }
+        });
+        // Auto-expand all sections when searching, restore collapse when cleared
+        document.querySelectorAll('.category-section').forEach(sec => {
+          if (q) sec.classList.remove('collapsed');
+        });
+      }
 
-      // Render Resources
-      function renderResources() {
-        const grid = document.getElementById("resources-grid");
-        const noResults = document.getElementById("no-results");
+      // ── Build resource card element from data ────────────────────
+      function buildResourceCard(resource) {
+        const a = document.createElement('a');
+        a.href = resource.url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.className = 'resource-card card-appear';
+        a.style.cssText = `--card-color-1:${resource.color1};--card-color-2:${resource.color2};--card-glow:${resource.color1}40;`;
+        a.setAttribute('data-card-id', `res_${resource.id}`);
+        a.innerHTML = `
+          <div class="card-content">
+            <div class="card-header">
+              <div class="card-icon">${resource.icon}</div>
+              <span class="card-badge">${escHtml(resource.category)}</span>
+            </div>
+            <h3 class="card-title">${escHtml(resource.title)}</h3>
+            <p class="card-description">${escHtml(resource.description)}</p>
+            <div class="card-footer">
+              <span class="card-link">View Resource</span>
+              <div class="card-arrow">→</div>
+            </div>
+          </div>`;
+        return a;
+      }
 
-        const filtered = resources.filter((r) => {
-          const matchesCategory =
-            currentCategory === "All" || r.category === currentCategory;
-          const matchesSearch =
-            r.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
-            r.description.toLowerCase().includes(currentSearch.toLowerCase());
-          return matchesCategory && matchesSearch;
+      function escHtml(str) {
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+
+      // ── Populate uncategorized grid with all cards on startup ─────
+      function initResourceCards() {
+        const grid = document.getElementById('uncategorizedGrid');
+        resources.forEach(r => grid.appendChild(buildResourceCard(r)));
+        document.getElementById('uncategorizedCount').textContent = resources.length;
+      }
+
+      // ── Card cache (like AH getAllCards) ──────────────────────────
+      let _allCardCache = null;
+      function getAllCards() {
+        if (_allCardCache) return _allCardCache;
+        _allCardCache = Array.from(document.querySelectorAll('.resource-card[data-card-id]'));
+        return _allCardCache;
+      }
+
+      const CAT_COLORS = [
+        '#6c5ce7','#0984e3','#00b894','#e17055',
+        '#e84393','#f39c12','#00cec9','#a29bfe',
+      ];
+
+      // ── Render category accordions ────────────────────────────────
+      function renderCategories(cats, db, isAdmin) {
+        const container = document.getElementById('categorySections');
+        const allCards  = getAllCards();
+
+        const cardMap = new Map();
+        allCards.forEach(c => cardMap.set(c.getAttribute('data-card-id'), c));
+
+        const assignedIds = new Set();
+        cats.forEach(cat => (cat.cardIds || []).forEach(id => assignedIds.add(id)));
+
+        const isFirstRender = container.children.length === 0;
+        const collapsedState = {};
+        container.querySelectorAll('.category-section[data-cat-id]').forEach(sec => {
+          collapsedState[sec.dataset.catId] = sec.classList.contains('collapsed');
         });
 
-        const countEl = document.getElementById("resource-count");
-        if (countEl) countEl.textContent = filtered.length;
+        container.innerHTML = '';
 
-        if (filtered.length === 0) {
-          grid.style.display = "none";
-          noResults.style.display = "block";
-          return;
+        cats.forEach((cat, idx) => {
+          const catCards = (cat.cardIds || []).map(id => cardMap.get(id)).filter(Boolean);
+
+          const sec = document.createElement('div');
+          sec.className = 'category-section';
+          sec.dataset.catId = cat.id;
+
+          const defaultCollapsed = isFirstRender ? idx > 0 : (collapsedState[cat.id] ?? idx > 0);
+          if (defaultCollapsed) sec.classList.add('collapsed');
+
+          const isFirst = idx === 0;
+          const isLast  = idx === cats.length - 1;
+
+          const adminHtml = isAdmin ? `
+            <div class="category-admin-actions">
+              <button class="cat-action-btn move-up-btn" title="Move up" data-cat-id="${cat.id}" ${isFirst ? 'disabled' : ''}>
+                <svg viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"/></svg>
+              </button>
+              <button class="cat-action-btn move-down-btn" title="Move down" data-cat-id="${cat.id}" ${isLast ? 'disabled' : ''}>
+                <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+              </button>
+              <button class="cat-action-btn manage-btn" title="Manage cards" data-cat-id="${cat.id}">
+                <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+              </button>
+              <button class="cat-action-btn rename-btn" title="Rename" data-cat-id="${cat.id}">
+                <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+              </button>
+              <button class="cat-action-btn delete-btn" title="Delete section" data-cat-id="${cat.id}">
+                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+              </button>
+            </div>` : '';
+
+          sec.innerHTML = `
+            <div class="category-header" data-cat-id="${cat.id}">
+              <span class="category-color-dot" style="background:${cat.color}; color:${cat.color};"></span>
+              <span class="category-name">${escHtml(cat.name)}</span>
+              <span class="category-count">${catCards.length}</span>
+              ${adminHtml}
+              <svg class="category-chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+            </div>
+            <div class="category-body">
+              <div class="category-cards-grid" data-cat-id="${cat.id}"></div>
+            </div>`;
+
+          const grid = sec.querySelector('.category-cards-grid');
+          catCards.forEach(card => grid.appendChild(card));
+          container.appendChild(sec);
+        });
+
+        // Update uncategorized grid
+        const uncatGrid = document.getElementById('uncategorizedGrid');
+        allCards.forEach(card => {
+          const id = card.getAttribute('data-card-id');
+          if (!assignedIds.has(id)) uncatGrid.appendChild(card);
+        });
+
+        const uncatCount = uncatGrid.querySelectorAll('.resource-card').length;
+        document.getElementById('uncategorizedCount').textContent = uncatCount;
+
+        if (!isAdmin && uncatCount === 0) {
+          document.getElementById('uncategorizedSection').style.display = 'none';
+        } else {
+          document.getElementById('uncategorizedSection').style.display = '';
+        }
+      }
+
+      // ── Swap category order ───────────────────────────────────────
+      async function swapCatOrder(db, catA, catB, { setDoc: sd, doc: d }) {
+        const [oA, oB] = [catA.order ?? 0, catB.order ?? 0];
+        await Promise.all([
+          sd(d(db, 'th_resource_sections', catA.id), { order: oB }, { merge: true }),
+          sd(d(db, 'th_resource_sections', catB.id), { order: oA }, { merge: true }),
+        ]);
+      }
+
+      // ── Inline rename ─────────────────────────────────────────────
+      function startRename(sec, cat, db, { setDoc: sd, doc: d }) {
+        const nameEl = sec.querySelector('.category-name');
+        const input  = document.createElement('input');
+        input.className = 'category-name-input';
+        input.value = cat.name;
+        nameEl.replaceWith(input);
+        input.focus(); input.select();
+
+        async function save() {
+          const newName = input.value.trim();
+          if (newName && newName !== cat.name) {
+            try { await sd(d(db, 'th_resource_sections', cat.id), { name: newName }, { merge: true }); } catch(_) {}
+          }
+          const span = document.createElement('span');
+          span.className = 'category-name';
+          span.textContent = newName || cat.name;
+          input.replaceWith(span);
         }
 
-        grid.style.display = "grid";
-        noResults.style.display = "none";
-
-        grid.innerHTML = filtered
-          .map(
-            (resource, index) => `
-          <a href="${resource.url}" target="_blank" rel="noopener noreferrer" 
-             class="resource-card card-appear" 
-             style="--card-color-1: ${resource.color1}; --card-color-2: ${
-               resource.color2
-             }; --card-glow: ${resource.color1}40; animation-delay: ${
-               index * 0.1
-             }s;">
-            <div class="card-content">
-              <div class="card-header">
-                <div class="card-icon">${resource.icon}</div>
-                <span class="card-badge">${resource.category}</span>
-              </div>
-              <h3 class="card-title">${resource.title}</h3>
-              <p class="card-description">${resource.description}</p>
-              <div class="card-footer">
-                <span class="card-link">View Resource</span>
-                <div class="card-arrow">→</div>
-              </div>
-            </div>
-          </a>
-        `,
-          )
-          .join("");
-      }
-
-      // Filter Functions
-      function filterByCategory(category, button) {
-        currentCategory = category;
-
-        document.querySelectorAll(".filter-btn").forEach((btn) => {
-          btn.classList.remove("active");
+        input.addEventListener('blur', save);
+        input.addEventListener('keydown', e => {
+          if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+          if (e.key === 'Escape') { input.value = cat.name; input.blur(); }
         });
-        button.classList.add("active");
-
-        renderResources();
       }
 
-      function filterResources() {
-        currentSearch = document.getElementById("search-input").value;
-        renderResources();
+      // ── Manage Cards Modal ────────────────────────────────────────
+      function buildCardMeta() {
+        const meta = [];
+        getAllCards().forEach(card => {
+          const id    = card.getAttribute('data-card-id') || '';
+          const title = card.querySelector('.card-title')?.textContent?.trim() || id;
+          const desc  = card.querySelector('.card-description')?.textContent?.trim() || '';
+          const color = card.style.getPropertyValue('--card-color-1') || '#6c5ce7';
+          if (id) meta.push({ id, title, desc, color });
+        });
+        return meta;
+      }
+
+      let cardMeta = null;
+
+      function openManageModal(cat, allCats, db, { setDoc: sd, doc: d }) {
+        if (!cardMeta) cardMeta = buildCardMeta();
+
+        const otherCatIds = new Set();
+        allCats.forEach(c => {
+          if (c.id !== cat.id) (c.cardIds || []).forEach(id => otherCatIds.add(id));
+        });
+
+        const modal    = document.getElementById('manageCatModal');
+        const listEl   = document.getElementById('manageCatList');
+        const titleEl  = document.getElementById('manageCatModalTitle');
+        const colorEl  = document.getElementById('manageCatColor');
+        const searchEl = document.getElementById('manageCatSearch');
+        const statusEl = document.getElementById('manageCatStatus');
+        const saveBtn  = document.getElementById('manageCatSave');
+
+        titleEl.textContent = `Cards in "${cat.name}"`;
+        colorEl.style.background = cat.color;
+        searchEl.value = '';
+        statusEl.textContent = '';
+        statusEl.className = 'manage-modal-status';
+
+        let selectedOrder = [...(cat.cardIds || [])];
+
+        function renderList(filter) {
+          listEl.innerHTML = '';
+          const q = (filter || '').toLowerCase();
+
+          const selectedMeta   = selectedOrder.map(id => cardMeta.find(m => m.id === id)).filter(Boolean)
+            .filter(m => !q || m.title.toLowerCase().includes(q) || m.desc.toLowerCase().includes(q));
+          const unselectedMeta = cardMeta.filter(m => !selectedOrder.includes(m.id) && !otherCatIds.has(m.id)
+            && (!q || m.title.toLowerCase().includes(q) || m.desc.toLowerCase().includes(q)));
+          const inOtherMeta    = cardMeta.filter(m => otherCatIds.has(m.id)
+            && (!q || m.title.toLowerCase().includes(q) || m.desc.toLowerCase().includes(q)));
+
+          function makeRow(m, isChecked, isOther) {
+            const row = document.createElement('div');
+            row.className = 'modal-card-row';
+            row.dataset.cardId = m.id;
+
+            const reorderHtml = (isChecked && !isOther) ? `
+              <div class="modal-reorder-btns">
+                <button class="modal-reorder-btn move-card-up" data-id="${m.id}"><svg viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"/></svg></button>
+                <button class="modal-reorder-btn move-card-down" data-id="${m.id}"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></button>
+              </div>` : '<div class="modal-reorder-btns" style="visibility:hidden"><button class="modal-reorder-btn" style="pointer-events:none"><svg viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"/></svg></button><button class="modal-reorder-btn" style="pointer-events:none"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></button></div>';
+
+            row.innerHTML = `
+              <input type="checkbox" value="${m.id}" ${isChecked ? 'checked' : ''} ${isOther ? 'disabled' : ''}>
+              <span class="modal-card-thumb" style="background:${m.color}"></span>
+              <span class="modal-card-label">
+                ${escHtml(m.title)}
+                ${isOther ? '<small>Already in another section</small>' : ''}
+              </span>
+              ${reorderHtml}`;
+
+            const checkbox = row.querySelector('input[type="checkbox"]');
+            if (!isOther) {
+              checkbox.addEventListener('change', () => {
+                if (checkbox.checked) { if (!selectedOrder.includes(m.id)) selectedOrder.push(m.id); }
+                else { selectedOrder = selectedOrder.filter(id => id !== m.id); }
+                renderList(searchEl.value);
+              });
+            }
+
+            if (isChecked && !isOther) {
+              row.querySelector('.move-card-up')?.addEventListener('click', e => {
+                e.stopPropagation();
+                const idx = selectedOrder.indexOf(m.id);
+                if (idx > 0) { [selectedOrder[idx-1], selectedOrder[idx]] = [selectedOrder[idx], selectedOrder[idx-1]]; renderList(searchEl.value); }
+              });
+              row.querySelector('.move-card-down')?.addEventListener('click', e => {
+                e.stopPropagation();
+                const idx = selectedOrder.indexOf(m.id);
+                if (idx < selectedOrder.length-1) { [selectedOrder[idx], selectedOrder[idx+1]] = [selectedOrder[idx+1], selectedOrder[idx]]; renderList(searchEl.value); }
+              });
+            }
+            return row;
+          }
+
+          selectedMeta.forEach(m => listEl.appendChild(makeRow(m, true, false)));
+          if (selectedMeta.length && (unselectedMeta.length || inOtherMeta.length)) {
+            const div = document.createElement('div');
+            div.style.cssText = 'height:1px;background:rgba(255,255,255,0.07);margin:0.4rem 0.5rem';
+            listEl.appendChild(div);
+          }
+          unselectedMeta.forEach(m => listEl.appendChild(makeRow(m, false, false)));
+          inOtherMeta.forEach(m => listEl.appendChild(makeRow(m, false, true)));
+        }
+
+        const abortCtrl = new AbortController();
+
+        function closeModal() { modal.classList.remove('open'); abortCtrl.abort(); }
+
+        async function save() {
+          saveBtn.disabled = true;
+          statusEl.textContent = 'Saving…';
+          statusEl.className = 'manage-modal-status';
+          try {
+            await sd(d(db, 'th_resource_sections', cat.id), { cardIds: [...selectedOrder] }, { merge: true });
+            statusEl.textContent = 'Saved!';
+            statusEl.className = 'manage-modal-status ok';
+            setTimeout(closeModal, 700);
+          } catch {
+            statusEl.textContent = 'Failed to save.';
+            statusEl.className = 'manage-modal-status err';
+            saveBtn.disabled = false;
+          }
+        }
+
+        renderList('');
+        let searchDebounce = null;
+        searchEl.addEventListener('input', () => {
+          clearTimeout(searchDebounce);
+          searchDebounce = setTimeout(() => renderList(searchEl.value), 300);
+        }, { signal: abortCtrl.signal });
+
+        saveBtn.disabled = false;
+        saveBtn.addEventListener('click', save, { signal: abortCtrl.signal });
+        document.getElementById('manageCatCancel').addEventListener('click', closeModal, { signal: abortCtrl.signal });
+        document.getElementById('manageCatClose').addEventListener('click', closeModal, { signal: abortCtrl.signal });
+        modal.addEventListener('click', e => { if (e.target === modal) closeModal(); }, { signal: abortCtrl.signal });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); }, { signal: abortCtrl.signal });
+
+        modal.classList.add('open');
+        requestAnimationFrame(() => searchEl.focus());
       }
 
       // Particles Animation
@@ -2646,7 +3300,7 @@
 
       // Initialize
       window.addEventListener("load", () => {
-        renderResources();
+        initResourceCards();
         initParticles();
 
         setTimeout(() => {
@@ -2671,11 +3325,13 @@
         getFirestore,
         collection,
         addDoc,
+        deleteDoc,
         doc,
         getDoc,
         setDoc,
         serverTimestamp,
         query,
+        orderBy,
         onSnapshot,
         where,
       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -2765,6 +3421,17 @@
           document.getElementById("loginScreen").classList.remove("visible");
           document.getElementById("mainContent").style.display = "block";
           showProfileUI(user);
+
+          // Category system — init after profile is loaded
+          try {
+            const userRef = doc(db, 'users', user.uid);
+            const snap = await getDoc(userRef);
+            const isAdmin = snap.exists() && snap.data().role_teachershub === 'teachers_admin';
+            if (isAdmin) document.body.classList.add('is-admin');
+            initCategorySystem(db, isAdmin, { onSnapshot, collection, query, orderBy, setDoc, doc, addDoc, deleteDoc, serverTimestamp });
+          } catch(_) {
+            initCategorySystem(db, false, { onSnapshot, collection, query, orderBy, setDoc, doc, addDoc, deleteDoc, serverTimestamp });
+          }
 
           // Badge setup — deferred until navbar partial is in the DOM
           const doBadgeSetup = () => setupNavBadges(db, { onSnapshot, collection });
@@ -2939,6 +3606,112 @@
           if (typeof window._pendingBadgeSetup === 'function') { window._pendingBadgeSetup(); window._pendingBadgeSetup = null; }
         })
         .catch(error => console.error('Error loading navbar:', error));
+
+      // ════════════════════════════════════════════════════════════
+      // CATEGORY SYSTEM
+      // ════════════════════════════════════════════════════════════
+
+      function initCategorySystem(db, isAdmin, { onSnapshot: ons, collection: col, query: q, orderBy: ob, setDoc: sd, doc: d, addDoc: ad, deleteDoc: dd, serverTimestamp: sts }) {
+
+        // ── Accordion toggle (delegated) ──────────────────────────
+        document.addEventListener('click', e => {
+          const header = e.target.closest('.category-header');
+          if (!header) return;
+          if (e.target.closest('.category-admin-actions')) return;
+          const section = header.closest('.category-section');
+          if (section) section.classList.toggle('collapsed');
+        });
+
+        // ── Admin: delegated action handler ───────────────────────
+        if (isAdmin) {
+          document.getElementById('categorySections').addEventListener('click', async e => {
+            e.stopPropagation();
+            const btn = e.target.closest('.cat-action-btn');
+            if (!btn) return;
+            const catId = btn.dataset.catId;
+            const cats  = window.__thCatsSnapshot || [];
+            const cat   = cats.find(c => c.id === catId);
+            if (!cat) return;
+
+            if (btn.classList.contains('move-up-btn')) {
+              const idx = cats.indexOf(cat);
+              if (idx > 0) await swapCatOrder(db, cats[idx], cats[idx-1], { setDoc: sd, doc: d });
+            } else if (btn.classList.contains('move-down-btn')) {
+              const idx = cats.indexOf(cat);
+              if (idx < cats.length-1) await swapCatOrder(db, cats[idx], cats[idx+1], { setDoc: sd, doc: d });
+            } else if (btn.classList.contains('manage-btn')) {
+              openManageModal(cat, cats, db, { setDoc: sd, doc: d });
+            } else if (btn.classList.contains('rename-btn')) {
+              const sec = btn.closest('.category-section');
+              if (sec) startRename(sec, cat, db, { setDoc: sd, doc: d });
+            } else if (btn.classList.contains('delete-btn')) {
+              if (!confirm(`Delete section "${cat.name}"? Cards will move to Uncategorized.`)) return;
+              await dd(d(db, 'th_resource_sections', cat.id));
+            }
+          });
+
+          // ── Build color swatches ──────────────────────────────
+          const swatchContainer = document.getElementById('colorSwatches');
+          let selectedColor = CAT_COLORS[0];
+          CAT_COLORS.forEach((color, i) => {
+            const sw = document.createElement('div');
+            sw.className = 'color-swatch' + (i === 0 ? ' selected' : '');
+            sw.style.background = color;
+            sw.title = color;
+            sw.addEventListener('click', () => {
+              swatchContainer.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+              sw.classList.add('selected');
+              selectedColor = color;
+            });
+            swatchContainer.appendChild(sw);
+          });
+
+          // ── Add section ───────────────────────────────────────
+          document.getElementById('addCatBtn').addEventListener('click', async () => {
+            const nameInput = document.getElementById('newCatName');
+            const statusEl  = document.getElementById('catStatus');
+            const name = nameInput.value.trim();
+            if (!name) {
+              statusEl.textContent = 'Enter a name.';
+              statusEl.className = 'admin-cat-status err';
+              setTimeout(() => { statusEl.className = 'admin-cat-status'; }, 2500);
+              return;
+            }
+            document.getElementById('addCatBtn').disabled = true;
+            try {
+              await ad(col(db, 'th_resource_sections'), {
+                name,
+                color: selectedColor,
+                cardIds: [],
+                order: Date.now(),
+                createdAt: sts(),
+              });
+              nameInput.value = '';
+              statusEl.textContent = 'Added!';
+              statusEl.className = 'admin-cat-status ok';
+            } catch {
+              statusEl.textContent = 'Failed.';
+              statusEl.className = 'admin-cat-status err';
+            } finally {
+              document.getElementById('addCatBtn').disabled = false;
+              setTimeout(() => { statusEl.className = 'admin-cat-status'; }, 2500);
+            }
+          });
+
+          document.getElementById('newCatName').addEventListener('keydown', e => {
+            if (e.key === 'Enter') document.getElementById('addCatBtn').click();
+          });
+        }
+
+        // ── Firestore: listen to sections ─────────────────────────
+        const catQuery = q(col(db, 'th_resource_sections'), ob('order', 'asc'));
+        ons(catQuery, snap => {
+          const cats = [];
+          snap.forEach(docSnap => cats.push({ id: docSnap.id, ...docSnap.data() }));
+          window.__thCatsSnapshot = cats;
+          renderCategories(cats, db, isAdmin);
+        });
+      }
 
     </script>
   </body>
