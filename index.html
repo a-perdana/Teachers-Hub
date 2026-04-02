@@ -701,12 +701,11 @@
 
       /* Hero Section */
       .hero {
-        min-height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        padding: 120px 40px 100px;
+        padding: 130px 40px 80px;
         text-align: center;
         position: relative;
       }
@@ -872,6 +871,12 @@
         align-items: center;
         gap: 10px;
         animation: fadeInUp 0.8s ease-out 0.5s both;
+        transition: opacity 0.4s ease;
+      }
+
+      .scroll-indicator.hidden {
+        opacity: 0;
+        pointer-events: none;
       }
 
       .scroll-text {
@@ -1710,10 +1715,6 @@
           padding: 16px 24px;
         }
 
-        .nav-stats {
-          display: none;
-        }
-
         .hero {
           padding: 48px 24px 80px;
         }
@@ -2028,10 +2029,8 @@
         <canvas id="particles"></canvas>
       </div>
 
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Navigation -->
-        <div id="navbar-container"></div>
+      <!-- Navigation -->
+      <div id="navbar-container"></div>
 
         <!-- Hero Section -->
         <section class="hero">
@@ -2489,23 +2488,36 @@
           if (!q) {
             card.style.display = '';
           } else {
-            const title = card.querySelector('.card-title')?.textContent?.toLowerCase() || '';
-            const desc  = card.querySelector('.card-description')?.textContent?.toLowerCase() || '';
-            card.style.display = (title.includes(q) || desc.includes(q)) ? '' : 'none';
+            const title    = card.querySelector('.card-title')?.textContent?.toLowerCase() || '';
+            const desc     = card.querySelector('.card-description')?.textContent?.toLowerCase() || '';
+            const badge    = card.querySelector('.card-badge')?.textContent?.toLowerCase() || '';
+            card.style.display = (title.includes(q) || desc.includes(q) || badge.includes(q)) ? '' : 'none';
           }
         });
-        // Auto-expand all sections when searching, restore collapse when cleared
+        // Auto-expand / collapse sections based on query
         document.querySelectorAll('.category-section').forEach(sec => {
-          if (q) sec.classList.remove('collapsed');
+          if (!q) return;
+          const catName = sec.querySelector('.category-name')?.textContent?.toLowerCase() || '';
+          const hasMatch = catName.includes(q) || sec.querySelector('.resource-card:not([style*="display: none"])');
+          if (hasMatch) {
+            sec.classList.remove('collapsed');
+          }
         });
+        if (!q) {
+          // Restore default: only first named section open, uncategorized collapsed
+          document.querySelectorAll('#categorySections .category-section').forEach((sec, idx) => {
+            sec.classList.toggle('collapsed', idx > 0);
+          });
+        }
       }
 
       // ── Build resource card element from data ────────────────────
       function buildResourceCard(resource) {
         const a = document.createElement('a');
         a.href = resource.url;
-        a.target = resource.target || '_blank';
-        if (a.target === '_blank') a.rel = 'noopener noreferrer';
+        const isInternal = resource.target === '_self' || /^\//.test(resource.url);
+        a.target = isInternal ? '_self' : '_blank';
+        if (!isInternal) a.rel = 'noopener noreferrer';
         a.className = 'resource-card card-appear';
         a.style.cssText = `--card-color-1:${resource.color1};--card-color-2:${resource.color2};--card-glow:${resource.color1}40;`;
         a.setAttribute('data-card-id', `res_${resource.id}`);
@@ -2551,6 +2563,7 @@
 
       // ── Render category accordions ────────────────────────────────
       function renderCategories(cats, db, isAdmin) {
+        _allCardCache = null; // invalidate cache before re-reading DOM
         const container = document.getElementById('categorySections');
         const allCards  = getAllCards();
 
@@ -2631,6 +2644,10 @@
           document.getElementById('uncategorizedSection').style.display = 'none';
         } else {
           document.getElementById('uncategorizedSection').style.display = '';
+          // Open uncategorized by default when there are no named sections
+          if (cats.length === 0) {
+            document.getElementById('uncategorizedAccordion').classList.remove('collapsed');
+          }
         }
       }
 
@@ -2683,10 +2700,8 @@
         return meta;
       }
 
-      let cardMeta = null;
-
       function openManageModal(cat, allCats, db, { setDoc: sd, doc: d }) {
-        if (!cardMeta) cardMeta = buildCardMeta();
+        const cardMeta = buildCardMeta();
 
         const otherCatIds = new Set();
         allCats.forEach(c => {
@@ -2825,7 +2840,7 @@
         window.addEventListener("resize", resize);
 
         const particles = [];
-        const particleCount = 80;
+        const particleCount = 40;
 
         for (let i = 0; i < particleCount; i++) {
           particles.push({
@@ -2861,7 +2876,7 @@
               const dy = p1.y - p2.y;
               const dist = Math.sqrt(dx * dx + dy * dy);
 
-              if (dist < 120) {
+              if (dist < 100) {
                 ctx.beginPath();
                 ctx.moveTo(p1.x, p1.y);
                 ctx.lineTo(p2.x, p2.y);
@@ -2879,21 +2894,17 @@
         animate();
       }
 
-      // Nav Scroll Effect
+      // Nav Scroll Effect + hide scroll indicator
       window.addEventListener("scroll", () => {
-        const nav = document.getElementById("nav");
-        if (!nav) return;
-        nav.classList.toggle("scrolled", window.scrollY > 50);
-      });
+        const scrolled = window.scrollY > 50;
+        document.querySelector('.nav')?.classList.toggle("scrolled", scrolled);
+        document.querySelector('.scroll-indicator')?.classList.toggle("hidden", scrolled);
+      }, { passive: true });
 
       // Initialize
       window.addEventListener("load", () => {
         initResourceCards();
         initParticles();
-
-        setTimeout(() => {
-          document.getElementById("loading").classList.add("hidden");
-        }, 800);
       });
     </script>
     <script type="module">
@@ -2966,6 +2977,7 @@
       }
 
       document.addEventListener('authReady', ({ detail: { user, profile } }) => {
+        document.getElementById('loading').classList.add('hidden');
         const db = window.db;
         const isAdmin = profile?.role_teachershub === 'teachers_admin';
         if (isAdmin) document.body.classList.add('is-admin');
@@ -3071,7 +3083,17 @@
           if (!header) return;
           if (e.target.closest('.category-admin-actions')) return;
           const section = header.closest('.category-section');
-          if (section) section.classList.toggle('collapsed');
+          if (!section) return;
+          const wasCollapsed = section.classList.contains('collapsed');
+          section.classList.toggle('collapsed');
+          // Re-trigger card-appear animation on open
+          if (wasCollapsed) {
+            section.querySelectorAll('.resource-card').forEach((card, i) => {
+              card.style.animation = 'none';
+              card.offsetHeight; // reflow
+              card.style.animation = `cardAppear 0.5s cubic-bezier(0.4,0,0.2,1) ${i * 40}ms both`;
+            });
+          }
         });
 
         // ── Admin: delegated action handler ───────────────────────
@@ -3097,7 +3119,20 @@
               const sec = btn.closest('.category-section');
               if (sec) startRename(sec, cat, db, { setDoc: sd, doc: d });
             } else if (btn.classList.contains('delete-btn')) {
-              if (!confirm(`Delete section "${cat.name}"? Cards will move to Uncategorized.`)) return;
+              if (!btn.dataset.confirming) {
+                btn.dataset.confirming = '1';
+                btn.title = 'Click again to confirm delete';
+                btn.style.background = 'rgba(239,68,68,0.35)';
+                btn.style.opacity = '1';
+                setTimeout(() => {
+                  delete btn.dataset.confirming;
+                  btn.title = 'Delete section';
+                  btn.style.background = '';
+                  btn.style.opacity = '';
+                }, 3000);
+                return;
+              }
+              delete btn.dataset.confirming;
               await dd(d(db, 'th_resource_sections', cat.id));
             }
           });
