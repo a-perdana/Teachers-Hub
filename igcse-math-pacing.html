@@ -106,65 +106,9 @@ body {
 /* --- LAYOUT ----------------------------------- */
 .layout { display: grid; grid-template-columns: 280px 1fr; height: calc(100vh - 60px); transition: grid-template-columns .25s ease; }
 
-/* Sidebar overlay for mobile */
-.sidebar-overlay {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(28,28,46,.45);
-  z-index: 190;
-  backdrop-filter: blur(2px);
-}
-.sidebar-overlay.open { display: block; }
 
-/* Mobile sidebar toggle button */
-.sidebar-toggle {
-  display: none;
-  background: none; border: none; cursor: pointer;
-  color: rgba(255,255,255,.7); padding: 6px;
-  border-radius: 7px; flex-shrink: 0;
-  transition: background .15s;
-}
-.sidebar-toggle:hover { background: rgba(255,255,255,.1); }
-.sidebar-toggle svg { display: block; }
-
-/* --- RESPONSIVE BREAKPOINTS --- */
-@media (max-width: 768px) {
-  .layout { grid-template-columns: 1fr; height: auto; min-height: calc(100vh - 60px); }
-
-  .sidebar {
-    position: fixed; top: 60px; left: 0; bottom: 0;
-    width: 280px; z-index: 195;
-    transform: translateX(-100%);
-    transition: transform .25s cubic-bezier(0.16,1,0.3,1);
-    box-shadow: var(--shadow-lg);
-  }
-  .sidebar.open { transform: translateX(0); }
-  .sidebar-toggle { display: flex; align-items: center; justify-content: center; }
-
-  .brand-text p { display: none; }
-  .prog-pill { display: none; }
-
-  .view-bar { flex-wrap: wrap; gap: 8px; padding: 8px 14px; }
-  .view-actions { width: 100%; justify-content: flex-end; }
-
-  .panel { padding: 12px 14px; }
-
-  table.topics-tbl { table-layout: auto; }
-  table.topics-tbl th:nth-child(3),
-  table.topics-tbl td:nth-child(3) { display: none; }
-
-  .ch-stats { display: none; }
-}
-
-@media (max-width: 480px) {
-  .topbar { padding: 0 14px; gap: 8px; }
-  .role-badge { display: none; }
-}
 
 /* --- SIDEBAR ----------------------------------- */
-.layout.sidebar-collapsed { grid-template-columns: 0px 1fr; }
-
-
 /* Sidebar toggle button */
 .layout { position: relative; }
 .sidebar-toggle {
@@ -641,13 +585,7 @@ if (!window.ENV) window.ENV = {
 
 
 <!-- -- TOPBAR ------------------------------------ -->
-<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 <header class="topbar">
-  <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Toggle menu">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-    </svg>
-  </button>
   <div class="brand">
     <div class="brand-mark">IG</div>
     <div class="brand-text">
@@ -673,6 +611,11 @@ if (!window.ENV) window.ENV = {
 
 <!-- -- LAYOUT ------------------------------------ -->
 <div class="layout sidebar-collapsed" id="appLayout">
+<button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle sidebar" aria-label="Toggle sidebar">
+  <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
+    <polyline points="7,2 2,7 7,12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
 
   <!-- SIDEBAR -->
   <aside class="sidebar"><div class="sidebar-inner">
@@ -1178,24 +1121,6 @@ function resetProgress() {
 
 function handleSearch(val) { searchQ = val; renderPacing(); renderNav(); }
 
-function toggleSidebar() {
-  const sidebar = document.querySelector('.sidebar');
-  const overlay = document.getElementById('sidebarOverlay');
-  sidebar.classList.toggle('open');
-  overlay.classList.toggle('open');
-}
-
-function closeSidebar() {
-  const sidebar = document.querySelector('.sidebar');
-  const overlay = document.getElementById('sidebarOverlay');
-  if (sidebar) sidebar.classList.remove('open');
-  if (overlay) overlay.classList.remove('open');
-}
-
-// Close sidebar on mobile when a chapter nav item is clicked
-document.getElementById('chNav').addEventListener('click', () => {
-  if (window.innerWidth <= 768) closeSidebar();
-});
 
 // Year chips — click + keyboard
 function activateYearChip(chip) {
