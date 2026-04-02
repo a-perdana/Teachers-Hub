@@ -964,7 +964,7 @@
         if (allTopicDocs.length) renderTopicList(allTopicDocs);
       };
 
-      const allowedDomains = window.TEACHERS_ALLOWED_DOMAINS;
+      const allowedDomains = window.TEACHERS_ALLOWED_DOMAINS || ["scr.sch.id","eibos.sch.id","fatih.sch.id","gcb.sch.id","kesatuanbangsa.sch.id","kbs.sch.id","mega.sch.id","pakarbelia.sch.id","permata.sch.id","primagama.sch.id","sinarmas.sch.id","tni.sch.id","tiara.sch.id","trinitas.sch.id","eduversal.org"];
 
       // â”€â”€ Utility Functions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       function escHtml(str) {
