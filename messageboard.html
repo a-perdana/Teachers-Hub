@@ -38,7 +38,6 @@
         overflow-x: hidden;
       }
 
-      /* â”€â”€ LOADING SPINNER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
       @keyframes spin { to { transform: rotate(360deg); } }
 
       /* â”€â”€ ANIMATED BACKGROUND â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -99,135 +98,6 @@
       @keyframes gridMove {
         0% { transform: translate(0, 0); }
         100% { transform: translate(80px, 80px); }
-      }
-
-      /* â”€â”€ LOGIN SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-      .login-screen {
-        position: fixed; inset: 0;
-        display: none; justify-content: center; align-items: center;
-        z-index: 99998; background: #0a0a1a; overflow: hidden;
-      }
-      .login-screen.visible { display: flex; }
-
-      .login-bg { position: absolute; inset: 0; overflow: hidden; }
-      .login-bg::before {
-        content: ''; position: absolute; width: 150%; height: 150%; top: -25%; left: -25%;
-        background:
-          radial-gradient(ellipse at 20% 50%, rgba(108, 92, 231, 0.4) 0%, transparent 50%),
-          radial-gradient(ellipse at 80% 20%, rgba(0, 217, 255, 0.3) 0%, transparent 50%),
-          radial-gradient(ellipse at 40% 80%, rgba(255, 107, 157, 0.25) 0%, transparent 50%),
-          radial-gradient(ellipse at 70% 60%, rgba(255, 217, 61, 0.15) 0%, transparent 40%);
-        animation: loginBgMove 20s ease-in-out infinite;
-      }
-      @keyframes loginBgMove {
-        0%, 100% { transform: translate(0, 0) rotate(0deg); }
-        25%  { transform: translate(3%, -3%) rotate(1deg); }
-        50%  { transform: translate(-2%, 4%) rotate(-1deg); }
-        75%  { transform: translate(4%, 2%) rotate(0.5deg); }
-      }
-
-      .login-orb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.5; animation: loginOrbFloat 15s ease-in-out infinite; }
-      .login-orb:nth-child(1) { width: 300px; height: 300px; background: rgba(108, 92, 231, 0.5); top: -10%; left: -5%; animation-duration: 18s; }
-      .login-orb:nth-child(2) { width: 250px; height: 250px; background: rgba(0, 217, 255, 0.4); top: 60%; right: -8%; animation-delay: -5s; animation-duration: 22s; }
-      .login-orb:nth-child(3) { width: 200px; height: 200px; background: rgba(255, 107, 157, 0.35); bottom: -5%; left: 30%; animation-delay: -10s; animation-duration: 20s; }
-      .login-orb:nth-child(4) { width: 180px; height: 180px; background: rgba(255, 217, 61, 0.25); top: 20%; right: 20%; animation-delay: -7s; animation-duration: 16s; }
-      @keyframes loginOrbFloat {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        25%  { transform: translate(40px, -30px) scale(1.1); }
-        50%  { transform: translate(-20px, 50px) scale(0.9); }
-        75%  { transform: translate(30px, 20px) scale(1.05); }
-      }
-
-      .login-particles { position: absolute; inset: 0; overflow: hidden; }
-      .login-particle { position: absolute; background: rgba(255, 255, 255, 0.6); border-radius: 50%; animation: loginParticleRise linear infinite; }
-      @keyframes loginParticleRise {
-        0%   { transform: translateY(100vh) scale(0); opacity: 0; }
-        10%  { opacity: 1; }
-        90%  { opacity: 1; }
-        100% { transform: translateY(-20vh) scale(1); opacity: 0; }
-      }
-
-      .login-grid {
-        position: absolute; inset: 0;
-        background-image:
-          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-        background-size: 60px 60px;
-        animation: loginGridDrift 30s linear infinite;
-      }
-      @keyframes loginGridDrift { 0% { transform: translate(0, 0); } 100% { transform: translate(60px, 60px); } }
-
-      .login-card {
-        position: relative; width: 90%; max-width: 440px;
-        padding: 48px 40px; border-radius: 28px;
-        background: rgba(255, 255, 255, 0.07);
-        backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05) inset, 0 0 80px rgba(108, 92, 231, 0.15);
-        text-align: center;
-        animation: loginCardEnter 1s cubic-bezier(0.16, 1, 0.3, 1) both;
-        z-index: 2;
-      }
-      .login-card::before {
-        content: ''; position: absolute; inset: -1px; border-radius: 29px; padding: 1px;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05), rgba(108, 92, 231, 0.3));
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
-      }
-      @keyframes loginCardEnter {
-        from { opacity: 0; transform: translateY(60px) scale(0.9); filter: blur(10px); }
-        to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-      }
-
-      .login-logo {
-        width: 72px; height: 72px; margin: 0 auto 24px; border-radius: 20px;
-        background: linear-gradient(135deg, #6c5ce7, #00d9ff);
-        display: flex; align-items: center; justify-content: center;
-        font-size: 36px; box-shadow: 0 12px 40px rgba(108, 92, 231, 0.4);
-        animation: loginLogoEnter 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; position: relative;
-      }
-      .login-logo::after {
-        content: ''; position: absolute; inset: -3px; border-radius: 23px;
-        background: linear-gradient(135deg, #6c5ce7, #00d9ff, #ff6b9d);
-        z-index: -1; opacity: 0.5; filter: blur(12px);
-        animation: loginLogoPulse 3s ease-in-out infinite;
-      }
-      @keyframes loginLogoEnter { from { opacity: 0; transform: translateY(30px) scale(0.5) rotate(-10deg); } to { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); } }
-      @keyframes loginLogoPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.1); } }
-
-      .login-title { font-family: "Space Grotesk", sans-serif; font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 4px; letter-spacing: -0.5px; animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both; }
-      .login-title span { background: linear-gradient(135deg, #00d9ff, #6c5ce7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-      .login-subtitle { font-family: "Sora", sans-serif; font-size: 14px; color: rgba(255, 255, 255, 0.45); margin-bottom: 36px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both; }
-      @keyframes loginFadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-      .login-error { display: none; background: rgba(255, 85, 85, 0.15); color: #ff6b6b; padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; font-size: 13px; border: 1px solid rgba(255, 85, 85, 0.2); backdrop-filter: blur(10px); }
-
-      .login-form { animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both; }
-      .login-input-group { position: relative; margin-bottom: 14px; }
-      .login-input-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: rgba(255, 255, 255, 0.35); transition: color 0.3s; pointer-events: none; z-index: 1; display: flex; }
-      .login-input { width: 100%; padding: 16px 20px 16px 48px; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; font-size: 15px; font-family: "Sora", sans-serif; background: rgba(255, 255, 255, 0.06); color: #fff; outline: none; transition: all 0.3s ease; }
-      .login-input::placeholder { color: rgba(255, 255, 255, 0.3); }
-      .login-input:focus { border-color: rgba(108, 92, 231, 0.6); background: rgba(255, 255, 255, 0.1); box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.15), 0 0 30px rgba(108, 92, 231, 0.1); }
-      .login-input-group:focus-within .login-input-icon { color: #6c5ce7; }
-
-      .login-btn { width: 100%; padding: 16px; margin-top: 6px; background: linear-gradient(135deg, #6c5ce7 0%, #00d9ff 100%); color: white; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; font-family: "Sora", sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s ease; box-shadow: 0 8px 30px rgba(108, 92, 231, 0.35); position: relative; overflow: hidden; }
-      .login-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent); transition: left 0.5s; }
-      .login-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(108, 92, 231, 0.5); }
-      .login-btn:hover::before { left: 100%; }
-
-      .login-divider { display: flex; align-items: center; margin: 24px 0; gap: 12px; animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both; }
-      .login-divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent); }
-      .login-divider-text { color: rgba(255, 255, 255, 0.3); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; }
-
-      .login-google-btn { width: 100%; padding: 14px; background: rgba(255, 255, 255, 0.08); color: rgba(255, 255, 255, 0.8); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px; font-size: 15px; font-family: "Sora", sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s ease; animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both; }
-      .login-google-btn:hover { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.25); transform: translateY(-1px); }
-
-      .login-footer { margin-top: 28px; font-size: 11px; color: rgba(255, 255, 255, 0.25); letter-spacing: 0.5px; animation: loginFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both; }
-
-      @media (max-width: 480px) {
-        .login-card { padding: 36px 24px; margin: 16px; border-radius: 24px; }
-        .login-title { font-size: 26px; }
-        .login-logo { width: 60px; height: 60px; font-size: 28px; }
       }
 
       /* â”€â”€ NAV BAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -635,6 +505,7 @@
     </style>
     <script src="partials/navbar.js"></script>
     <script src="firebase-config.js"></script>
+    <script type="module" src="auth-guard.js"></script>
     <script>
       // Load navbar
       fetch('partials/navbar.html')
@@ -668,81 +539,6 @@
     </script>
   </head>
   <body>
-    <!-- Loading Screen -->
-    <div
-      id="loadingScreen"
-      style="
-        position: fixed; inset: 0; background: #0a0a1a;
-        display: flex; justify-content: center; align-items: center; z-index: 99999;
-      "
-    >
-      <div
-        style="
-          width: 48px; height: 48px;
-          border: 3px solid rgba(255, 255, 255, 0.15);
-          border-top-color: #6c5ce7; border-radius: 50%;
-          animation: spin 0.8s linear infinite;
-        "
-      ></div>
-    </div>
-
-    <!-- Login Screen -->
-    <div id="loginScreen" class="login-screen">
-      <div class="login-bg">
-        <div class="login-orb"></div>
-        <div class="login-orb"></div>
-        <div class="login-orb"></div>
-        <div class="login-orb"></div>
-      </div>
-      <div class="login-grid"></div>
-      <div class="login-particles" id="loginParticles"></div>
-
-      <div class="login-card">
-        <div class="login-logo">ðŸŽ“</div>
-        <h1 class="login-title">Eduversal <span>Indonesia</span></h1>
-        <p class="login-subtitle">Message Board</p>
-
-        <div id="errorMsg" class="login-error"></div>
-
-        <form id="loginForm" class="login-form">
-          <div class="login-input-group">
-            <input id="emailInput" type="email" placeholder="Email address" required class="login-input" />
-            <span class="login-input-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
-            </span>
-          </div>
-          <div class="login-input-group">
-            <input id="passwordInput" type="password" placeholder="Password" required class="login-input" />
-            <span class="login-input-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            </span>
-          </div>
-          <button type="submit" class="login-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-            Sign In
-          </button>
-        </form>
-
-        <div class="login-divider">
-          <div class="login-divider-line"></div>
-          <span class="login-divider-text">or</span>
-          <div class="login-divider-line"></div>
-        </div>
-
-        <button id="googleLoginBtn" class="login-google-btn">
-          <svg width="18" height="18" viewBox="0 0 48 48">
-            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-          </svg>
-          Sign in with Google
-        </button>
-
-        <p class="login-footer">Secure access for authorized educators only</p>
-      </div>
-    </div>
-
     <!-- Sign Out Button -->
     <button
       id="logoutBtn"
@@ -756,9 +552,7 @@
       Sign Out
     </button>
 
-    <!-- Main Content -->
-    <div id="mainContent" style="display: none;">
-      <!-- Animated Background -->
+    <!-- Animated Background -->
       <div class="bg-container">
         <div class="bg-gradient"></div>
         <div class="orb orb-1"></div>
@@ -812,7 +606,6 @@
 
         </div>
       </div>
-    </div>
 
     <!-- New Topic Modal -->
     <div class="modal-overlay" id="newTopicModal">
@@ -847,37 +640,8 @@
       </div>
     </div>
 
-    <!-- Login Particles -->
-    <script>
-      (function () {
-        const container = document.getElementById("loginParticles");
-        if (!container) return;
-        for (let i = 0; i < 30; i++) {
-          const p = document.createElement("div");
-          p.className = "login-particle";
-          p.style.left = Math.random() * 100 + "%";
-          p.style.animationDuration = (6 + Math.random() * 10) + "s";
-          p.style.animationDelay = (Math.random() * 10) + "s";
-          const size = (2 + Math.random() * 3) + "px";
-          p.style.width = size;
-          p.style.height = size;
-          p.style.opacity = (0.2 + Math.random() * 0.5).toString();
-          container.appendChild(p);
-        }
-      })();
-    </script>
-
     <!-- Firebase Module Script -->
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-      import {
-        getAuth,
-        signInWithPopup,
-        signInWithEmailAndPassword,
-        GoogleAuthProvider,
-        onAuthStateChanged,
-        signOut,
-      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
       import {
         getFirestore,
         collection,
@@ -921,24 +685,8 @@
        * }
        */
 
-      // â”€â”€ Firebase Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-      const firebaseConfig = {
-        apiKey: window.ENV.FIREBASE_API_KEY,
-        authDomain: window.ENV.FIREBASE_AUTH_DOMAIN,
-        projectId: window.ENV.FIREBASE_PROJECT_ID,
-        storageBucket: window.ENV.FIREBASE_STORAGE_BUCKET,
-        messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
-        appId: window.ENV.FIREBASE_APP_ID,
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-      const db = getFirestore(app);
-      const provider = new GoogleAuthProvider();
-
-      window.authSignOut = () => signOut(auth);
-
       // ── App State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+      let db = null;
       let currentUser = null;
       let currentUserRole = null;
       let currentTopicId = null;
@@ -963,8 +711,6 @@
         document.querySelectorAll('.cat-chip').forEach(c => c.classList.toggle('active', c.dataset.cat === cat));
         if (allTopicDocs.length) renderTopicList(allTopicDocs);
       };
-
-      const allowedDomains = window.TEACHERS_ALLOWED_DOMAINS || ["scr.sch.id","eibos.sch.id","fatih.sch.id","gcb.sch.id","kesatuanbangsa.sch.id","kbs.sch.id","mega.sch.id","pakarbelia.sch.id","permata.sch.id","primagama.sch.id","sinarmas.sch.id","tni.sch.id","tiara.sch.id","trinitas.sch.id","eduversal.org"];
 
       // â”€â”€ Utility Functions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       function escHtml(str) {
@@ -1002,121 +748,58 @@
       const DELETE_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
       const SEND_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`;
 
-      // â”€â”€ Auth Error Display â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-      function showError(msg) {
-        const el = document.getElementById("errorMsg");
-        el.textContent = msg;
-        el.style.display = "block";
-        setTimeout(() => (el.style.display = "none"), 4000);
-      }
-
       // â”€â”€ Auth State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-      onAuthStateChanged(auth, async (user) => {
-        document.getElementById("loadingScreen").style.display = "none";
+      document.addEventListener('authReady', ({ detail: { user, profile } }) => {
+        const isAdmin = profile?.role_teachershub === 'teachers_admin';
+        currentUser = user;
+        currentUserRole = profile?.role_teachershub || null;
+        db = window.db;
 
-        if (user) {
-          const domain = user.email.split("@")[1];
-          const isPasswordUser = user.providerData.some(
-            (p) => p.providerId === "password"
-          );
-          if (!allowedDomains.includes(domain) && !isPasswordUser) {
-            await signOut(auth);
-            showError("Access denied. Only authorized school emails are allowed.");
-            return;
+        // Update navbar elements - wait for navbar to load
+        const updateNavbarElements = () => {
+          const profileNameShort = document.getElementById('profileNameShort');
+          const profileAvatar = document.getElementById('profileAvatar');
+          const profileWrap = document.getElementById('profileWrap');
+
+          if (profileNameShort) profileNameShort.textContent = getDisplayName(user).split(' ')[0];
+          if (profileAvatar && typeof buildAvatarEl === 'function') {
+            buildAvatarEl(profileAvatar, user);
           }
+          if (profileWrap) profileWrap.style.display = 'flex';
+        };
 
-          currentUser = user;
-
-          // Load role from users/{uid}
-          try {
-            const userSnap = await getDoc(doc(db, "users", user.uid));
-            currentUserRole = userSnap.exists()
-              ? userSnap.data().role_teachershub || null
-              : null;
-          } catch {
-            currentUserRole = null;
-          }
-
-          // Update navbar elements - wait for navbar to load
-          const updateNavbarElements = () => {
-            const profileNameShort = document.getElementById('profileNameShort');
-            const profileAvatar = document.getElementById('profileAvatar');
-            const profileWrap = document.getElementById('profileWrap');
-            
-            if (profileNameShort) profileNameShort.textContent = getDisplayName(user).split(' ')[0];
-            if (profileAvatar && typeof buildAvatarEl === 'function') {
-              buildAvatarEl(profileAvatar, user);
-            }
-            if (profileWrap) profileWrap.style.display = 'flex';
-          };
-          
-          // Update immediately if navbar is loaded, otherwise defer until navbar fetch resolves
-          if (document.getElementById('profileNameShort')) {
-            updateNavbarElements();
-          } else {
-            window._pendingNavbarUpdate = updateNavbarElements;
-          }
-
-          // Badge setup
-          const doBadgeSetup = () => setupNavBadges(db, { onSnapshot, collection });
-          if (document.getElementById('msgBoardBadge')) {
-            doBadgeSetup();
-          } else {
-            window._pendingBadgeSetup = doBadgeSetup;
-          }
-
-          // Feedback setup
-          window.currentUser = user;
-          const doFeedbackSetup = () => initFeedback(db, { addDoc, collection, serverTimestamp });
-          if (document.getElementById('feedbackOverlay')) {
-            doFeedbackSetup();
-          } else {
-            window._pendingFeedbackSetup = doFeedbackSetup;
-          }
-
-          document.getElementById("loginScreen").classList.remove("visible");
-          document.getElementById("mainContent").style.display = "block";
-          document.getElementById("logoutBtn").style.display = "block";
-
-          // Mark messageboard as read (clears badge on index.html)
-          setDoc(doc(db, 'users', user.uid), { lastReadMessageboard: serverTimestamp() }, { merge: true }).catch(() => {});
-
-          initForum();
+        // Update immediately if navbar is loaded, otherwise defer until navbar fetch resolves
+        if (document.getElementById('profileNameShort')) {
+          updateNavbarElements();
         } else {
-          currentUser = null;
-          currentUserRole = null;
-          if (unsubTopics) { unsubTopics(); unsubTopics = null; }
-          if (unsubReplies) { unsubReplies(); unsubReplies = null; }
-          document.getElementById("loginScreen").classList.add("visible");
-          document.getElementById("mainContent").style.display = "none";
-          document.getElementById("logoutBtn").style.display = "none";
+          window._pendingNavbarUpdate = updateNavbarElements;
         }
-      });
 
-      document.getElementById("googleLoginBtn").addEventListener("click", () => {
-        signInWithPopup(auth, provider)
-          .then((result) => {
-            const domain = result.user.email.split("@")[1];
-            if (!allowedDomains.includes(domain)) {
-              signOut(auth);
-              showError("Access denied. Only authorized school emails are allowed.");
-            }
-          })
-          .catch((err) => showError(err.message));
-      });
-
-      document.getElementById("loginForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email = document.getElementById("emailInput").value.trim();
-        const password = document.getElementById("passwordInput").value;
-        try {
-          await signInWithEmailAndPassword(auth, email, password);
-        } catch {
-          showError("Invalid email or password");
+        // Badge setup
+        const doBadgeSetup = () => setupNavBadges(db, { onSnapshot, collection });
+        if (document.getElementById('msgBoardBadge')) {
+          doBadgeSetup();
+        } else {
+          window._pendingBadgeSetup = doBadgeSetup;
         }
-      });
 
-      document.getElementById("logoutBtn").addEventListener("click", () => signOut(auth));
+        // Feedback setup
+        window.currentUser = user;
+        const doFeedbackSetup = () => initFeedback(db, { addDoc, collection, serverTimestamp });
+        if (document.getElementById('feedbackOverlay')) {
+          doFeedbackSetup();
+        } else {
+          window._pendingFeedbackSetup = doFeedbackSetup;
+        }
+
+        document.getElementById(“logoutBtn”).style.display = “block”;
+        document.getElementById(“logoutBtn”).addEventListener(“click”, () => window.authSignOut && window.authSignOut());
+
+        // Mark messageboard as read (clears badge on index.html)
+        setDoc(doc(db, 'users', user.uid), { lastReadMessageboard: serverTimestamp() }, { merge: true }).catch(() => {});
+
+        initForum();
+      });
 
       // â”€â”€ Forum Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       function initForum() {
