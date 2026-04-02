@@ -3077,9 +3077,9 @@
         // ── Admin: delegated action handler ───────────────────────
         if (isAdmin) {
           document.getElementById('categorySections').addEventListener('click', async e => {
-            e.stopPropagation();
             const btn = e.target.closest('.cat-action-btn');
             if (!btn) return;
+            e.stopPropagation();
             const catId = btn.dataset.catId;
             const cats  = window.__thCatsSnapshot || [];
             const cat   = cats.find(c => c.id === catId);
