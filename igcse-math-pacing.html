@@ -43,7 +43,7 @@ body {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* â”€â”€â”€ TOPBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- TOPBAR ----------------------------------- */
 .topbar {
   background: var(--ink);
   color: white;
@@ -103,8 +103,8 @@ body {
 .prog-text { font-size: .7rem; color: #ccc; white-space: nowrap; }
 .prog-text strong { color: white; }
 
-/* â”€â”€â”€ LAYOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-.layout { display: grid; grid-template-columns: 260px 1fr; height: calc(100vh - 60px); }
+/* --- LAYOUT ----------------------------------- */
+.layout { display: grid; grid-template-columns: 280px 1fr; height: calc(100vh - 60px); transition: grid-template-columns .25s ease; }
 
 /* Sidebar overlay for mobile */
 .sidebar-overlay {
@@ -127,7 +127,7 @@ body {
 .sidebar-toggle:hover { background: rgba(255,255,255,.1); }
 .sidebar-toggle svg { display: block; }
 
-/* ─── RESPONSIVE BREAKPOINTS ─── */
+/* --- RESPONSIVE BREAKPOINTS --- */
 @media (max-width: 768px) {
   .layout { grid-template-columns: 1fr; height: auto; min-height: calc(100vh - 60px); }
 
@@ -161,7 +161,41 @@ body {
   .role-badge { display: none; }
 }
 
-/* â”€â”€â”€ SIDEBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- SIDEBAR ----------------------------------- */
+.layout.sidebar-collapsed { grid-template-columns: 0px 1fr; }
+
+.sidebar {
+  overflow-x: hidden;
+  transition: min-width .25s ease;
+  min-width: 280px;
+}
+.layout.sidebar-collapsed .sidebar {
+  min-width: 0;
+  border-right: none;
+}
+.layout.sidebar-collapsed .sidebar > * { opacity: 0; pointer-events: none; transition: opacity .15s; }
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+  position: fixed;
+  top: 72px;
+  left: 268px;
+  z-index: 100;
+  width: 22px; height: 38px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: none;
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-3);
+  box-shadow: 2px 0 6px rgba(28,28,46,.08);
+  transition: left .25s ease, background .15s, color .15s;
+}
+.sidebar-toggle:hover { background: var(--paper); color: var(--ink); }
+.sidebar-toggle svg { transition: transform .25s; }
+.layout.sidebar-collapsed .sidebar-toggle { left: 0px; border-left: 1px solid var(--border); border-radius: 0 6px 6px 0; }
+.layout.sidebar-collapsed .sidebar-toggle svg { transform: rotate(180deg); }
 .sidebar {
   background: var(--white);
   border-right: 1px solid var(--border);
@@ -243,7 +277,7 @@ body {
 .ch-nav-count { font-size: .6rem; color: var(--ink-3); font-family: 'DM Mono', monospace; flex-shrink: 0; white-space: nowrap; }
 .ch-nav-item.active .ch-nav-count { color: var(--accent); font-weight: 600; }
 
-/* â”€â”€â”€ MAIN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- MAIN -------------------------------------- */
 .main { overflow-y: auto; display: flex; flex-direction: column; }
 
 /* View bar */
@@ -276,11 +310,11 @@ body {
 .btn.primary:hover { background: #a93224; }
 .btn:disabled { opacity: .4; cursor: not-allowed; }
 
-/* â”€â”€â”€ PANELS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- PANELS ------------------------------------ */
 .panel { display: none; flex: 1; padding: 20px 24px; }
 .panel.on { display: block; }
 
-/* â”€â”€â”€ PACING VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- PACING VIEW ------------------------------- */
 .ch-block {
   background: white; border: 1px solid var(--border);
   border-radius: var(--radius); margin-bottom: 14px;
@@ -404,7 +438,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 }
 .coord-mode .edit-hint { display: flex; align-items: center; gap: 10px; }
 
-/* â”€â”€â”€ WEEKLY VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- WEEKLY VIEW ------------------------------- */
 .week-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
 
 .week-card {
@@ -438,7 +472,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 .dot-y9  { background: var(--blue); }
 .dot-y10 { background: var(--purple); }
 
-/* â”€â”€â”€ MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- MODAL ------------------------------------- */
 .modal-bg {
   position: fixed; inset: 0;
   background: rgba(28,28,46,.55);
@@ -495,7 +529,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 }
 .toast.show { transform: translateY(0); opacity: 1; }
 
-/* â”€â”€â”€ COORD ADD / DELETE CONTROLS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- COORD ADD / DELETE CONTROLS --------------- */
 .del-topic-btn {
   display: none; background: none; border: none; cursor: pointer;
   color: var(--ink-3); font-size: .85rem; padding: 2px 4px;
@@ -536,7 +570,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 .add-chapter-btn:hover { border-color: var(--accent); color: var(--accent); }
 .coord-mode .add-chapter-wrap { display: block; }
 
-/* â”€â”€â”€ RESOURCES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- RESOURCES ----------------------------------- */
 .res-row td { padding: 3px 16px 10px 42px !important; }
 .res-chips { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; min-height: 22px; }
 .res-link {
@@ -606,7 +640,7 @@ if (!window.ENV) window.ENV = {
 <body>
 
 
-<!-- â”€â”€ TOPBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- -- TOPBAR ------------------------------------ -->
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 <header class="topbar">
   <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Toggle menu">
@@ -637,8 +671,13 @@ if (!window.ENV) window.ENV = {
   </div>
 </header>
 
-<!-- â”€â”€ LAYOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
-<div class="layout">
+<!-- -- LAYOUT ------------------------------------ -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle sidebar" aria-label="Toggle sidebar">
+  <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
+    <polyline points="7,2 2,7 7,12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+<div class="layout sidebar-collapsed" id="appLayout">
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
@@ -700,7 +739,7 @@ if (!window.ENV) window.ENV = {
   </main>
 </div>
 
-<!-- â”€â”€ OBJECTIVES MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- -- OBJECTIVES MODAL -------------------------- -->
 <div class="modal-bg" id="objModal" onclick="closeObjModal(event)">
   <div class="modal">
     <div class="modal-head">
@@ -716,7 +755,7 @@ if (!window.ENV) window.ENV = {
 
 <div class="toast" id="toast"></div>
 
-<!-- â”€â”€ HOME BUTTON â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- -- HOME BUTTON ------------------------------- -->
 <style>
 .home-float {
   position: fixed; bottom: 22px; left: 22px;
@@ -741,9 +780,9 @@ if (!window.ENV) window.ENV = {
 </a>
 
 <script>
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // STATE  (var so the Firebase module can write window.DATA)
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 var DATA = [];
 var role = 'teacher'; // 'teacher' | 'coord'
 
@@ -751,16 +790,16 @@ let filterYear   = 'all';
 let filterStatus = 'all';
 let searchQ      = '';
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // PERSIST - delegates to Firebase module
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function saveState() {
   if (window.__fbSaveState) window.__fbSaveState(DATA);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // HELPERS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function parseObjCodes(objStr) {
   if (!objStr) return [];
   const matches = objStr.match(/[CE]\d+\.\d+/g);
@@ -775,9 +814,9 @@ function escHtml(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // RENDER - SIDEBAR NAV
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function renderNav() {
   const y9  = DATA.filter(ch => ch.year === 'Year 9');
   const y10 = DATA.filter(ch => ch.year === 'Year 10');
@@ -800,9 +839,9 @@ function renderNav() {
     <div class="ch-nav-group"><div class="ch-nav-group-label">Year 10 - Chapters 14-24</div>${buildItems(y10)}</div>`;
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // RENDER - TOP PROGRESS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function renderProgress() {
   const all  = allTopics();
   const done = all.filter(t => t.status === 'done').length;
@@ -812,9 +851,9 @@ function renderProgress() {
   document.getElementById('topProgTotal').textContent = all.length;
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // RENDER - PACING GUIDE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function renderPacing() {
   const container = document.getElementById('chBlocks');
   let html = '';
@@ -849,7 +888,7 @@ function renderPacing() {
           <span class="ch-topic-count">${ch.topics.length} topics</span>
         </div>
         <button class="del-ch-btn" onclick="event.stopPropagation();deleteChapter(${ci})" title="Delete chapter">x</button>
-        <span class="ch-caret">â–¾</span>
+        <span class="ch-caret">▾</span>
       </div>
       <div class="topics-wrap">
         <table class="topics-tbl">
@@ -858,7 +897,7 @@ function renderPacing() {
             <th style="width:25%">Topic</th>
             <th style="width:55%">Cambridge Objectives</th>
             <th style="width:5%">Hours</th>
-            <th style="width:10%">Status</th>
+            <th style="width:14%">Status</th>
           </tr></thead>
           <tbody>
             ${filteredTopics.map(({t, ti}) => {
@@ -944,9 +983,9 @@ function renderPacing() {
   }
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // RENDER - WEEKLY VIEW
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function renderWeekly() {
   const weekMap = {};
   DATA.forEach(ch => {
@@ -983,9 +1022,9 @@ function renderWeekly() {
   }).join('');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // INTERACTIONS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function setStatus(ci, ti, val) {
   DATA[ci].topics[ti].status = val;
   saveState(); render();
@@ -1034,9 +1073,9 @@ function deleteChapter(ci) {
   showToast('Chapter deleted');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // RESOURCES
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function renderResourcesHtml(ci, ti, t) {
   const res = t.resources || [];
   const linkIcon = `<svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4v4"/><path d="M14 2l-6 6"/><path d="M8 4H4a2 2 0 00-2 2v6a2 2 0 002 2h6a2 2 0 002-2v-4"/></svg>`;
@@ -1104,6 +1143,13 @@ function toggleChapter(ci) {
 
 function expandAll()   { document.querySelectorAll('.ch-block').forEach(el => el.classList.remove('collapsed')); }
 function collapseAll() { document.querySelectorAll('.ch-block').forEach(el => el.classList.add('collapsed')); }
+function toggleSidebar() {
+  const layout = document.getElementById('appLayout');
+  const toggle = document.getElementById('sidebarToggle');
+  layout.classList.toggle('sidebar-collapsed');
+  const collapsed = layout.classList.contains('sidebar-collapsed');
+  toggle.style.left = collapsed ? '0px' : '268px';
+}
 
 function scrollToChapter(ci) {
   switchViewById('pacing');
@@ -1190,9 +1236,9 @@ document.getElementById('statusChips').addEventListener('keydown', e => {
   if (chip && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); activateStatusChip(chip); }
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // VIEWS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function switchView(view, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
@@ -1203,9 +1249,9 @@ function switchViewById(view) {
   document.getElementById('panel-' + view).classList.add('on');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // OBJECTIVES MODAL
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function showObj(ci, ti) {
   const ch    = DATA[ci];
   const t     = ch.topics[ti];
@@ -1237,9 +1283,9 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // ROLE - set by Firebase module after auth
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function applyRole(r) {
   role = r;
   const dot      = document.getElementById('roleDot');
@@ -1257,9 +1303,9 @@ function applyRole(r) {
   render();
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // TOAST
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 let toastTimer;
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -1269,9 +1315,9 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // MAIN RENDER
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function render() {
   renderProgress();
   renderNav();
@@ -1283,7 +1329,7 @@ function render() {
 // after data is loaded from Firestore.
 </script>
 
-<!-- ── FIREBASE MODULE ──────────────────────────────────────── -->
+<!-- -- FIREBASE MODULE ---------------------------------------- -->
 <script type="module">
 import {
   getFirestore,
@@ -1293,7 +1339,7 @@ import {
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// ── Module-level state ────────────────────────────────────────────
+// -- Module-level state --------------------------------------------
 let unsubStructure  = null;   // listener for shared chapter structure
 let unsubUserProg   = null;   // listener for this user's own progress
 let currentUID      = null;
@@ -1301,7 +1347,7 @@ let currentRole     = 'teacher';
 let sharedStructure = null;   // chapters/topics without statuses
 let userStatuses    = {};     // { "ci-ti": "pending"|"inprogress"|"done" }
 
-// ── Merge shared structure + per-user statuses → window.DATA ──────
+// -- Merge shared structure + per-user statuses → window.DATA ------
 function _mergeAndRender(isFirstLoad, appRole) {
   if (!sharedStructure) return;
   window.DATA = sharedStructure.map((ch, ci) => ({
@@ -1318,7 +1364,7 @@ function _mergeAndRender(isFirstLoad, appRole) {
   }
 }
 
-// ── Start real-time listeners ─────────────────────────────────────
+// -- Start real-time listeners -------------------------------------
 function _startSnapshot(uid, appRole) {
   if (unsubStructure) unsubStructure();
   if (unsubUserProg)  unsubUserProg();
@@ -1341,7 +1387,7 @@ function _startSnapshot(uid, appRole) {
     _mergeAndRender(fl, appRole);
   }
 
-  // ── Shared structure listener ─────────────────────────────────
+  // -- Shared structure listener ---------------------------------
   unsubStructure = onSnapshot(structureRef, (snap) => {
     sharedStructure = snap.exists() && Array.isArray(snap.data().chapters)
       ? snap.data().chapters : [];
@@ -1355,7 +1401,7 @@ function _startSnapshot(uid, appRole) {
     showToast('Firestore connection error');
   });
 
-  // ── Per-user progress listener ────────────────────────────────
+  // -- Per-user progress listener --------------------------------
   unsubUserProg = onSnapshot(userProgRef, (snap) => {
     userStatuses  = (snap.exists() && snap.data().statuses)
       ? snap.data().statuses
@@ -1370,7 +1416,7 @@ function _startSnapshot(uid, appRole) {
   });
 }
 
-// ── Save to Firestore ─────────────────────────────────────────────
+// -- Save to Firestore ---------------------------------------------
 window.__fbSaveState = async function(data) {
   if (!currentUID) return;
 
@@ -1415,7 +1461,7 @@ window.__fbSaveState = async function(data) {
   }
 };
 
-// ── auth-guard.js dispatches authReady when auth + role confirmed ─
+// -- auth-guard.js dispatches authReady when auth + role confirmed -
 document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   const appRole = profile.role_teachershub === 'teachers_admin' ? 'coord' : 'teacher';
 

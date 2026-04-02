@@ -43,7 +43,7 @@ body {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* â”€â”€â”€ TOPBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- TOPBAR ----------------------------------- */
 .topbar {
   background: var(--ink);
   color: white;
@@ -103,10 +103,44 @@ body {
 .prog-text { font-size: .7rem; color: #ccc; white-space: nowrap; }
 .prog-text strong { color: white; }
 
-/* â”€â”€â”€ LAYOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-.layout { display: grid; grid-template-columns: 260px 1fr; height: calc(100vh - 60px); }
+/* --- LAYOUT ----------------------------------- */
+.layout { display: grid; grid-template-columns: 280px 1fr; height: calc(100vh - 60px); transition: grid-template-columns .25s ease; }
 
-/* â”€â”€â”€ SIDEBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- SIDEBAR ----------------------------------- */
+.layout.sidebar-collapsed { grid-template-columns: 0px 1fr; }
+
+.sidebar {
+  overflow-x: hidden;
+  transition: min-width .25s ease;
+  min-width: 280px;
+}
+.layout.sidebar-collapsed .sidebar {
+  min-width: 0;
+  border-right: none;
+}
+.layout.sidebar-collapsed .sidebar > * { opacity: 0; pointer-events: none; transition: opacity .15s; }
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+  position: fixed;
+  top: 72px;
+  left: 268px;
+  z-index: 100;
+  width: 22px; height: 38px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: none;
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-3);
+  box-shadow: 2px 0 6px rgba(28,28,46,.08);
+  transition: left .25s ease, background .15s, color .15s;
+}
+.sidebar-toggle:hover { background: var(--paper); color: var(--ink); }
+.sidebar-toggle svg { transition: transform .25s; }
+.layout.sidebar-collapsed .sidebar-toggle { left: 0px; border-left: 1px solid var(--border); border-radius: 0 6px 6px 0; }
+.layout.sidebar-collapsed .sidebar-toggle svg { transform: rotate(180deg); }
 .sidebar {
   background: var(--white);
   border-right: 1px solid var(--border);
@@ -187,7 +221,7 @@ body {
 .ch-nav-mini { width: 28px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
 .ch-nav-mini-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width .4s; }
 
-/* â”€â”€â”€ MAIN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- MAIN -------------------------------------- */
 .main { overflow-y: auto; display: flex; flex-direction: column; }
 
 /* View bar */
@@ -220,11 +254,11 @@ body {
 .btn.primary:hover { background: #c96a1a; }
 .btn:disabled { opacity: .4; cursor: not-allowed; }
 
-/* â”€â”€â”€ PANELS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- PANELS ------------------------------------ */
 .panel { display: none; flex: 1; padding: 20px 24px; }
 .panel.on { display: block; }
 
-/* â”€â”€â”€ PACING VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- PACING VIEW ------------------------------- */
 .ch-block {
   background: white; border: 1px solid var(--border);
   border-radius: var(--radius); margin-bottom: 14px;
@@ -358,7 +392,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 }
 .coord-mode .edit-hint { display: block; }
 
-/* â”€â”€â”€ WEEKLY VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- WEEKLY VIEW ------------------------------- */
 .week-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
 
 .week-card {
@@ -392,7 +426,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 .dot-y9  { background: var(--blue); }
 .dot-y10 { background: var(--purple); }
 
-/* â”€â”€â”€ MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- MODAL ------------------------------------- */
 .modal-bg {
   position: fixed; inset: 0;
   background: rgba(28,28,46,.55);
@@ -449,7 +483,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 }
 .toast.show { transform: translateY(0); opacity: 1; }
 
-/* â”€â”€â”€ COORD ADD / DELETE CONTROLS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- COORD ADD / DELETE CONTROLS --------------- */
 .del-topic-btn {
   display: none; background: none; border: none; cursor: pointer;
   color: var(--ink-3); font-size: .85rem; padding: 2px 4px;
@@ -490,7 +524,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 .add-chapter-btn:hover { border-color: var(--accent); color: var(--accent); }
 .coord-mode .add-chapter-wrap { display: block; }
 
-/* â”€â”€â”€ RESOURCES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- RESOURCES ----------------------------------- */
 .res-row td { padding: 3px 16px 10px 42px !important; }
 .res-chips { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; min-height: 22px; }
 .res-link {
@@ -542,7 +576,7 @@ table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
 .res-row.empty-res { display: none; }
 .coord-mode .res-row.empty-res { display: table-row; }
 
-/* â”€â”€â”€ LOGIN SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* --- LOGIN SCREEN ------------------------------ */
 .login-input {
   width: 100%; padding: 10px 13px;
   border: 1px solid var(--border); border-radius: 8px;
@@ -576,7 +610,7 @@ if (!window.ENV) window.ENV = {
 </head>
 <body>
 
-<!-- â”€â”€ LOADING SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- -- LOADING SCREEN ---------------------------- -->
 <div id="loadingScreen" style="
   position:fixed;inset:0;background:var(--ink);
   display:flex;align-items:center;justify-content:center;z-index:99999;
@@ -594,7 +628,7 @@ if (!window.ENV) window.ENV = {
   </div>
 </div>
 
-<!-- â”€â”€ LOGIN SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- -- LOGIN SCREEN ------------------------------ -->
 <div id="loginScreen" style="
   position:fixed;inset:0;background:rgba(28,28,46,.96);
   display:none;align-items:center;justify-content:center;
@@ -640,7 +674,7 @@ if (!window.ENV) window.ENV = {
   </div>
 </div>
 
-<!-- â”€â”€ TOPBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- -- TOPBAR ------------------------------------ -->
 <header class="topbar">
   <div class="brand">
     <div class="brand-mark">IG</div>
@@ -666,8 +700,13 @@ if (!window.ENV) window.ENV = {
   </div>
 </header>
 
-<!-- â”€â”€ LAYOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
-<div class="layout">
+<!-- -- LAYOUT ------------------------------------ -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle sidebar" aria-label="Toggle sidebar">
+  <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
+    <polyline points="7,2 2,7 7,12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+<div class="layout sidebar-collapsed" id="appLayout">
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
@@ -727,7 +766,7 @@ if (!window.ENV) window.ENV = {
   </main>
 </div>
 
-<!-- â”€â”€ OBJECTIVES MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- -- OBJECTIVES MODAL -------------------------- -->
 <div class="modal-bg" id="objModal" onclick="closeObjModal(event)">
   <div class="modal">
     <div class="modal-head">
@@ -743,7 +782,7 @@ if (!window.ENV) window.ENV = {
 
 <div class="toast" id="toast"></div>
 
-<!-- â”€â”€ HOME BUTTON â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- -- HOME BUTTON ------------------------------- -->
 <style>
 .home-float {
   position: fixed; bottom: 22px; left: 22px;
@@ -768,14 +807,14 @@ if (!window.ENV) window.ENV = {
 </a>
 
 <script>
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // SEED DATA - empty until seeded from Excel via seedFirestore
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 var RAW_DATA = [];
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // STATE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 var DATA = [];
 var role = 'teacher';
 
@@ -783,16 +822,16 @@ let filterYear   = 'all';
 let filterStatus = 'all';
 let searchQ      = '';
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // PERSIST
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function saveState() {
   if (window.__fbSaveState) window.__fbSaveState(DATA);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // HELPERS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function parseObjCodes(objStr) {
   if (!objStr) return [];
   const matches = objStr.match(/[CE]\d+\.\d+/g);
@@ -807,9 +846,9 @@ function escHtml(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // RENDER - SIDEBAR NAV
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function renderNav() {
   const y9  = DATA.filter(ch => ch.year === 'Year 9');
   const y10 = DATA.filter(ch => ch.year === 'Year 10');
@@ -837,9 +876,9 @@ function renderNav() {
     <div class="ch-nav-group"><div class="ch-nav-group-label">Year 10</div>${buildItems(y10)}</div>`;
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // RENDER - TOP PROGRESS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function renderProgress() {
   const all  = allTopics();
   const done = all.filter(t => t.status === 'done').length;
@@ -849,9 +888,9 @@ function renderProgress() {
   document.getElementById('topProgTotal').textContent = all.length;
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // RENDER - PACING GUIDE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function renderPacing() {
   const container = document.getElementById('chBlocks');
 
@@ -902,7 +941,7 @@ function renderPacing() {
           <span class="ch-topic-count">${ch.topics.length} topics</span>
         </div>
         <button class="del-ch-btn" onclick="event.stopPropagation();deleteChapter(${ci})" title="Delete chapter">x</button>
-        <span class="ch-caret">â–¾</span>
+        <span class="ch-caret">▾</span>
       </div>
       <div class="topics-wrap">
         <table class="topics-tbl">
@@ -911,7 +950,7 @@ function renderPacing() {
             <th style="width:25%">Topic</th>
             <th>Objectives</th>
             <th style="width:70px">Hours</th>
-            <th style="width:110px">Status</th>
+            <th style="width:150px">Status</th>
           </tr></thead>
           <tbody>
             ${filteredTopics.map(({t, ti}) => {
@@ -986,9 +1025,9 @@ function renderPacing() {
   }
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // RENDER - WEEKLY VIEW
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function renderWeekly() {
   const weekMap = {};
   DATA.forEach(ch => {
@@ -1031,9 +1070,9 @@ function renderWeekly() {
   }).join('');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // INTERACTIONS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function toggleDone(ci, ti) {
   DATA[ci].topics[ti].status = DATA[ci].topics[ti].status === 'done' ? 'pending' : 'done';
   saveState(); render();
@@ -1087,9 +1126,9 @@ function deleteChapter(ci) {
   showToast('Chapter deleted');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // RESOURCES
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function renderResourcesHtml(ci, ti, t) {
   const res = t.resources || [];
   const linkIcon = `<svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4v4"/><path d="M14 2l-6 6"/><path d="M8 4H4a2 2 0 00-2 2v6a2 2 0 002 2h6a2 2 0 002-2v-4"/></svg>`;
@@ -1157,6 +1196,13 @@ function toggleChapter(ci) {
 
 function expandAll()   { document.querySelectorAll('.ch-block').forEach(el => el.classList.remove('collapsed')); }
 function collapseAll() { document.querySelectorAll('.ch-block').forEach(el => el.classList.add('collapsed')); }
+function toggleSidebar() {
+  const layout = document.getElementById('appLayout');
+  const toggle = document.getElementById('sidebarToggle');
+  layout.classList.toggle('sidebar-collapsed');
+  const collapsed = layout.classList.contains('sidebar-collapsed');
+  toggle.style.left = collapsed ? '0px' : '268px';
+}
 
 function scrollToChapter(ci) {
   switchViewById('pacing');
@@ -1194,9 +1240,9 @@ document.getElementById('statusChips').addEventListener('click', e => {
   renderPacing();
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // VIEWS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function switchView(view, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
@@ -1207,9 +1253,9 @@ function switchViewById(view) {
   document.getElementById('panel-' + view).classList.add('on');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // OBJECTIVES MODAL
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function showObj(ci, ti) {
   const ch    = DATA[ci];
   const t     = ch.topics[ti];
@@ -1234,9 +1280,9 @@ function closeObjModal(e) {
   if (e.target === document.getElementById('objModal')) document.getElementById('objModal').classList.remove('open');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // ROLE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function applyRole(r) {
   role = r;
   const dot      = document.getElementById('roleDot');
@@ -1254,9 +1300,9 @@ function applyRole(r) {
   render();
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // TOAST
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 let toastTimer;
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -1266,9 +1312,9 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 // MAIN RENDER
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// -----------------------------------------------------------
 function render() {
   renderProgress();
   renderNav();
@@ -1277,7 +1323,7 @@ function render() {
 }
 </script>
 
-<!-- â”€â”€ FIREBASE MODULE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- -- FIREBASE MODULE --------------------------- -->
 <script type="module">
 import { initializeApp }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
