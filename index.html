@@ -2347,6 +2347,139 @@
           color1: "#ef4444",
           color2: "#f87171",
         },
+        // ── Pacing Guide Cards ──────────────────────────────────
+        {
+          id: 13,
+          title: "IGCSE Mathematics Pacing",
+          description: "Structured term-by-term pacing guide for IGCSE Mathematics (Year 9–10)",
+          icon: "📐",
+          url: "igcse-math-pacing.html",
+          target: "_self",
+          linkLabel: "Open Pacing Guide",
+          category: "Pacing",
+          color1: "#7c3aed",
+          color2: "#a78bfa",
+        },
+        {
+          id: 14,
+          title: "IGCSE Biology Pacing",
+          description: "Structured term-by-term pacing guide for IGCSE Biology (Year 9–10)",
+          icon: "🧬",
+          url: "igcse-biology-pacing.html",
+          target: "_self",
+          linkLabel: "Open Pacing Guide",
+          category: "Pacing",
+          color1: "#059669",
+          color2: "#34d399",
+        },
+        {
+          id: 15,
+          title: "IGCSE Chemistry Pacing",
+          description: "Structured term-by-term pacing guide for IGCSE Chemistry (Year 9–10)",
+          icon: "⚗️",
+          url: "igcse-chemistry-pacing.html",
+          target: "_self",
+          linkLabel: "Open Pacing Guide",
+          category: "Pacing",
+          color1: "#0ea5e9",
+          color2: "#38bdf8",
+        },
+        {
+          id: 16,
+          title: "IGCSE Physics Pacing",
+          description: "Structured term-by-term pacing guide for IGCSE Physics (Year 9–10)",
+          icon: "⚛️",
+          url: "igcse-physics-pacing.html",
+          target: "_self",
+          linkLabel: "Open Pacing Guide",
+          category: "Pacing",
+          color1: "#f97316",
+          color2: "#fb923c",
+        },
+        {
+          id: 17,
+          title: "AS & A Level Mathematics Pacing",
+          description: "Structured term-by-term pacing guide for AS & A Level Mathematics",
+          icon: "📏",
+          url: "asalevel-math-pacing.html",
+          target: "_self",
+          linkLabel: "Open Pacing Guide",
+          category: "Pacing",
+          color1: "#6c5ce7",
+          color2: "#a29bfe",
+        },
+        {
+          id: 18,
+          title: "AS & A Level Biology Pacing",
+          description: "Structured term-by-term pacing guide for AS & A Level Biology",
+          icon: "🔬",
+          url: "asalevel-biology-pacing.html",
+          target: "_self",
+          linkLabel: "Open Pacing Guide",
+          category: "Pacing",
+          color1: "#10b981",
+          color2: "#6ee7b7",
+        },
+        {
+          id: 19,
+          title: "AS & A Level Chemistry Pacing",
+          description: "Structured term-by-term pacing guide for AS & A Level Chemistry",
+          icon: "🧪",
+          url: "asalevel-chemistry-pacing.html",
+          target: "_self",
+          linkLabel: "Open Pacing Guide",
+          category: "Pacing",
+          color1: "#0891b2",
+          color2: "#22d3ee",
+        },
+        {
+          id: 20,
+          title: "AS & A Level Physics Pacing",
+          description: "Structured term-by-term pacing guide for AS & A Level Physics",
+          icon: "🌌",
+          url: "asalevel-physics-pacing.html",
+          target: "_self",
+          linkLabel: "Open Pacing Guide",
+          category: "Pacing",
+          color1: "#db2777",
+          color2: "#f472b6",
+        },
+        {
+          id: 21,
+          title: "Checkpoint Mathematics Pacing",
+          description: "Structured term-by-term pacing guide for Cambridge Checkpoint Mathematics",
+          icon: "🔢",
+          url: "checkpoint-math-pacing.html",
+          target: "_self",
+          linkLabel: "Open Pacing Guide",
+          category: "Pacing",
+          color1: "#7c3aed",
+          color2: "#c4b5fd",
+        },
+        {
+          id: 22,
+          title: "Checkpoint English Pacing",
+          description: "Structured term-by-term pacing guide for Cambridge Checkpoint English",
+          icon: "📖",
+          url: "checkpoint-english-pacing.html",
+          target: "_self",
+          linkLabel: "Open Pacing Guide",
+          category: "Pacing",
+          color1: "#b45309",
+          color2: "#fbbf24",
+        },
+        {
+          id: 23,
+          title: "Checkpoint Science Pacing",
+          description: "Structured term-by-term pacing guide for Cambridge Checkpoint Science",
+          icon: "🧫",
+          url: "checkpoint-science-pacing.html",
+          target: "_self",
+          linkLabel: "Open Pacing Guide",
+          category: "Pacing",
+          color1: "#047857",
+          color2: "#34d399",
+        },
       ];
 
       // ── Search across all accordion sections ─────────────────────
@@ -2371,8 +2504,8 @@
       function buildResourceCard(resource) {
         const a = document.createElement('a');
         a.href = resource.url;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
+        a.target = resource.target || '_blank';
+        if (a.target === '_blank') a.rel = 'noopener noreferrer';
         a.className = 'resource-card card-appear';
         a.style.cssText = `--card-color-1:${resource.color1};--card-color-2:${resource.color2};--card-glow:${resource.color1}40;`;
         a.setAttribute('data-card-id', `res_${resource.id}`);
@@ -2385,7 +2518,7 @@
             <h3 class="card-title">${escHtml(resource.title)}</h3>
             <p class="card-description">${escHtml(resource.description)}</p>
             <div class="card-footer">
-              <span class="card-link">View Resource</span>
+              <span class="card-link">${escHtml(resource.linkLabel || 'View Resource')}</span>
               <div class="card-arrow">→</div>
             </div>
           </div>`;
