@@ -111,10 +111,11 @@ body {
 
 
 /* Sidebar toggle button */
+.layout { position: relative; }
 .sidebar-toggle {
-  position: fixed;
-  top: 72px;
-  left: 268px;
+  position: absolute;
+  top: 10px;
+  left: 280px;
   z-index: 100;
   width: 22px; height: 38px;
   background: var(--white);
@@ -129,7 +130,7 @@ body {
 }
 .sidebar-toggle:hover { background: var(--paper); color: var(--ink); }
 .sidebar-toggle svg { transition: transform .25s; }
-.layout.sidebar-collapsed .sidebar-toggle { left: 0px; border-left: 1px solid var(--border); border-radius: 0 6px 6px 0; }
+.layout.sidebar-collapsed .sidebar-toggle { left: 0px; border-left: 1px solid var(--border); }
 .layout.sidebar-collapsed .sidebar-toggle svg { transform: rotate(180deg); }
 .sidebar {
   background: var(--white);
@@ -700,12 +701,12 @@ if (!window.ENV) window.ENV = {
 </header>
 
 <!-- -- LAYOUT ------------------------------------ -->
+<div class="layout sidebar-collapsed" id="appLayout">
 <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle sidebar" aria-label="Toggle sidebar">
   <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
     <polyline points="7,2 2,7 7,12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 </button>
-<div class="layout sidebar-collapsed" id="appLayout">
 
   <!-- SIDEBAR -->
   <aside class="sidebar"><div class="sidebar-inner">
@@ -1196,11 +1197,7 @@ function toggleChapter(ci) {
 function expandAll()   { document.querySelectorAll('.ch-block').forEach(el => el.classList.remove('collapsed')); }
 function collapseAll() { document.querySelectorAll('.ch-block').forEach(el => el.classList.add('collapsed')); }
 function toggleSidebar() {
-  const layout = document.getElementById('appLayout');
-  const toggle = document.getElementById('sidebarToggle');
-  layout.classList.toggle('sidebar-collapsed');
-  const collapsed = layout.classList.contains('sidebar-collapsed');
-  toggle.style.left = collapsed ? '0px' : '268px';
+  document.getElementById('appLayout').classList.toggle('sidebar-collapsed');
 }
 
 function scrollToChapter(ci) {
