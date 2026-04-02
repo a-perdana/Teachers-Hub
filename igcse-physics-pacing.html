@@ -109,16 +109,6 @@ body {
 /* --- SIDEBAR ----------------------------------- */
 .layout.sidebar-collapsed { grid-template-columns: 0px 1fr; }
 
-.sidebar {
-  overflow-x: hidden;
-  transition: min-width .25s ease;
-  min-width: 280px;
-}
-.layout.sidebar-collapsed .sidebar {
-  min-width: 0;
-  border-right: none;
-}
-.layout.sidebar-collapsed .sidebar > * { opacity: 0; pointer-events: none; transition: opacity .15s; }
 
 /* Sidebar toggle button */
 .sidebar-toggle {
@@ -144,10 +134,19 @@ body {
 .sidebar {
   background: var(--white);
   border-right: 1px solid var(--border);
-  overflow-y: auto;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
+.sidebar-inner {
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+}
+.layout.sidebar-collapsed .sidebar { border-right: none; }
+.layout.sidebar-collapsed .sidebar-inner { visibility: hidden; }
 
 .sidebar-section {
   padding: 14px 16px 12px;
@@ -709,7 +708,7 @@ if (!window.ENV) window.ENV = {
 <div class="layout sidebar-collapsed" id="appLayout">
 
   <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <aside class="sidebar"><div class="sidebar-inner">
     <div class="sidebar-section">
       <div class="search-wrap">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -737,7 +736,7 @@ if (!window.ENV) window.ENV = {
       </div>
     </div>
     <div class="ch-nav" id="chNav"></div>
-  </aside>
+  </div></aside>
 
   <!-- MAIN -->
   <main class="main">
