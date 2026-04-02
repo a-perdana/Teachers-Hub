@@ -21,6 +21,7 @@ const envVars = [
 // index.html stays at root; everything else gets a named subfolder
 const ROUTES = {
   'index.html': '',
+  'login.html': 'login',
   'pacing-hub.html': 'pacing',
   'igcse-math-pacing.html': 'math',
   'igcse-physics-pacing.html': 'physics',
@@ -42,6 +43,7 @@ const ROUTES = {
 // Internal href replacements: old link -> clean URL
 const LINK_REWRITES = [
   [/href="index\.html"/g, 'href="/"'],
+  [/href="login\.html"/g, 'href="/login"'],
   [/href="pacing-hub\.html"/g, 'href="/pacing"'],
   [/href="igcse-math-pacing\.html"/g, 'href="/math"'],
   [/href="igcse-physics-pacing\.html"/g, 'href="/physics"'],
