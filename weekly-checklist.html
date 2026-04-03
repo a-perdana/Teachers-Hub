@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Checklist — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:       #1c1c2e;
+  --ink-2:     #44445a;
+  --ink-3:     #8888a8;
+  --paper:     #f7f6f3;
+  --paper-2:   #efede8;
+  --white:     #ffffff;
+  --border:    #e0ddd6;
+  --accent:    #6c5ce7;
+  --accent-2:  #ede9fe;
+  --green:     #059669;
+  --green-2:   #d1fae5;
+  --shadow-sm: 0 1px 4px rgba(28,28,46,.07);
+  --shadow:    0 3px 14px rgba(28,28,46,.10);
+  --shadow-lg: 0 10px 40px rgba(28,28,46,.16);
+  --radius:    10px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* ─── TOPBAR ─────────────────────────────────── */
+.topbar {
+  background: var(--ink);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  border-bottom: 3px solid var(--accent);
+  gap: 16px;
+}
+.topbar-left { display: flex; align-items: center; gap: 14px; }
+.back-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 8px;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14);
+  color: rgba(255,255,255,.75); font-size: 12.5px; font-weight: 500;
+  cursor: pointer; text-decoration: none;
+  transition: all .18s ease;
+}
+.back-btn:hover { background: rgba(255,255,255,.14); color: #fff; }
+.topbar-title {
+  font-family: 'Lora', serif;
+  font-size: 1rem; font-weight: 600; color: #fff;
+}
+.topbar-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.role-badge {
+  font-size: 11px; font-weight: 700; padding: 3px 10px;
+  border-radius: 20px; background: rgba(108,92,231,.3);
+  color: #c4b5fd; border: 1px solid rgba(108,92,231,.4);
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.role-badge.admin { background: rgba(245,158,11,.25); color: #fcd34d; border-color: rgba(245,158,11,.4); }
+.btn-logout-top {
+  font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500;
+  color: rgba(255,255,255,.5); background: none;
+  border: 1px solid rgba(255,255,255,.14); border-radius: 6px; padding: 5px 12px;
+  cursor: pointer; transition: all .18s;
+}
+.btn-logout-top:hover { color: #fff; border-color: rgba(255,255,255,.3); }
+
+/* ─── HERO ───────────────────────────────────── */
+.hero {
+  background: linear-gradient(140deg, #1e0a4e 0%, #2d1175 50%, #6c5ce7 100%);
+  padding: 36px 40px 32px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 15% 60%, rgba(255,255,255,0.06) 0%, transparent 45%),
+    radial-gradient(circle at 80% 20%, rgba(0,0,0,0.15) 0%, transparent 45%);
+}
+.hero-inner {
+  position: relative; z-index: 1;
+  max-width: 900px; margin: 0 auto;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 24px;
+}
+.hero-text .eyebrow {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 8px;
+}
+.hero-text h1 {
+  font-family: 'Lora', serif;
+  font-size: 1.7rem; font-weight: 600; color: #fff; line-height: 1.2;
+  margin-bottom: 6px;
+}
+.hero-text .sub {
+  font-size: 0.875rem; color: rgba(255,255,255,0.65); line-height: 1.6;
+}
+
+/* Progress ring */
+.progress-ring-wrap {
+  flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.progress-ring-wrap .ring-label {
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.55);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.ring-svg { transform: rotate(-90deg); }
+.ring-bg   { fill: none; stroke: rgba(255,255,255,0.12); stroke-width: 6; }
+.ring-fill { fill: none; stroke: #a78bfa; stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease; }
+.ring-text { font-size: 18px; font-weight: 800; fill: #fff; dominant-baseline: middle; text-anchor: middle; }
+.ring-sub  { font-size: 9px;  font-weight: 600; fill: rgba(255,255,255,0.55); dominant-baseline: middle; text-anchor: middle; }
+
+/* ─── PAGE WRAP ──────────────────────────────── */
+.page-wrap { max-width: 900px; margin: 0 auto; padding: 28px 40px 72px; }
+
+/* ─── WEEK NAV ───────────────────────────────── */
+.week-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 14px 20px; margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+.week-nav-center { text-align: center; }
+.week-num {
+  font-size: 1.1rem; font-weight: 700; color: var(--ink);
+}
+.week-dates { font-size: 0.78rem; color: var(--ink-3); margin-top: 2px; }
+.week-this { font-size: 11px; font-weight: 700; color: var(--green); margin-top: 2px; }
+.btn-nav {
+  padding: 8px 16px; background: var(--paper); border: 1px solid var(--border);
+  border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600;
+  color: var(--ink-2); transition: all 0.15s; font-family: 'DM Sans', sans-serif;
+}
+.btn-nav:hover:not(:disabled) { background: var(--paper-2); color: var(--ink); }
+.btn-nav:disabled { opacity: 0.35; cursor: default; }
+
+/* ─── ADMIN BAR ──────────────────────────────── */
+.admin-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #fef9ee; border: 1px solid #fde68a; border-radius: var(--radius);
+  padding: 12px 18px; margin-bottom: 20px; gap: 12px;
+}
+.admin-bar-label { font-size: 12px; font-weight: 700; color: #92400e; }
+.admin-bar-actions { display: flex; gap: 8px; }
+
+/* ─── TASK CATEGORY FILTER ───────────────────── */
+.cat-filter {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px;
+}
+.cat-btn {
+  padding: 5px 14px; border-radius: 20px; border: 1.5px solid var(--border);
+  background: var(--white); font-size: 12px; font-weight: 600; color: var(--ink-3);
+  cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif;
+}
+.cat-btn:hover { border-color: var(--accent); color: var(--accent); }
+.cat-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* ─── TASK GROUPS ────────────────────────────── */
+.task-group { margin-bottom: 28px; }
+.task-group-title {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-3);
+  margin-bottom: 10px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.group-count {
+  font-size: 11px; font-weight: 700;
+  background: var(--paper-2); color: var(--ink-2);
+  padding: 1px 8px; border-radius: 10px;
+}
+
+/* ─── TASK CARD ──────────────────────────────── */
+.task-list { display: flex; flex-direction: column; gap: 8px; }
+.task-card {
+  display: flex; align-items: flex-start; gap: 14px;
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 14px 16px;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  cursor: pointer;
+}
+.task-card:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
+.task-card.checked {
+  background: var(--green-2); border-color: #6ee7b7;
+}
+.task-card.checked .task-title { text-decoration: line-through; color: var(--ink-3); }
+
+.checkbox-wrap {
+  width: 22px; height: 22px; border-radius: 6px;
+  border: 2px solid var(--border); background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px; transition: all 0.18s;
+}
+.task-card.checked .checkbox-wrap {
+  background: var(--green); border-color: var(--green);
+}
+.checkmark {
+  width: 12px; height: 12px; display: none;
+}
+.task-card.checked .checkmark { display: block; }
+.task-card.checked .checkmark path { stroke: #fff; }
+
+.task-body { flex: 1; min-width: 0; }
+.task-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); line-height: 1.4; }
+.task-meta { display: flex; gap: 6px; margin-top: 5px; flex-wrap: wrap; align-items: center; }
+.task-cat {
+  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.task-note-indicator { font-size: 11px; color: var(--ink-3); }
+
+/* Admin task actions */
+.task-admin-actions {
+  display: flex; gap: 4px; flex-shrink: 0; opacity: 0;
+  transition: opacity 0.15s;
+}
+.task-card:hover .task-admin-actions { opacity: 1; }
+.btn-icon {
+  padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border);
+  background: var(--white); cursor: pointer; font-size: 11px; font-weight: 600;
+  color: var(--ink-3); transition: all 0.15s; font-family: 'DM Sans', sans-serif;
+  line-height: 1;
+}
+.btn-icon:hover { background: var(--paper-2); color: var(--ink); }
+.btn-icon.danger:hover { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
+
+/* ─── NOTES INLINE ───────────────────────────── */
+.task-note-area {
+  margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px;
+}
+.task-note-textarea {
+  width: 100%; padding: 8px 10px;
+  border: 1px solid var(--border); border-radius: 7px;
+  font-family: 'DM Sans', sans-serif; font-size: 12.5px; color: var(--ink);
+  background: var(--paper); outline: none; resize: vertical; min-height: 60px;
+  transition: border-color 0.15s;
+}
+.task-note-textarea:focus { border-color: var(--accent); }
+.note-save-btn {
+  margin-top: 6px; padding: 5px 14px;
+  background: var(--accent-2); color: var(--accent); border: 1px solid #c4b5fd;
+  border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all 0.15s;
+}
+.note-save-btn:hover { background: #ddd6fe; }
+
+/* ─── EMPTY STATE ────────────────────────────── */
+.empty-state {
+  text-align: center; padding: 64px 24px;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.empty-state h3 { font-size: 1rem; font-weight: 600; color: var(--ink-2); margin-bottom: 8px; }
+.empty-state p  { font-size: 0.875rem; color: var(--ink-3); margin-bottom: 20px; }
+
+/* ─── LOADING ────────────────────────────────── */
+.loading-state { text-align: center; padding: 56px; color: var(--ink-3); }
+.spinner {
+  width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--accent);
+  border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── MODAL ──────────────────────────────────── */
+.modal-bg {
+  position: fixed; inset: 0; background: rgba(28,28,46,0.55);
+  backdrop-filter: blur(4px); z-index: 9000;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.modal-bg.open { display: flex; }
+.modal-box {
+  background: var(--white); border-radius: 14px; width: 100%; max-width: 460px;
+  box-shadow: var(--shadow-lg);
+}
+.modal-head {
+  padding: 20px 24px 16px; border-bottom: 1px solid var(--border);
+}
+.modal-head h3 { font-size: 1rem; font-weight: 600; color: var(--ink); }
+.modal-body { padding: 20px 24px; }
+.modal-footer {
+  padding: 14px 24px; border-top: 1px solid var(--border);
+  display: flex; justify-content: flex-end; gap: 10px;
+  background: var(--paper); border-radius: 0 0 14px 14px;
+}
+.form-group { margin-bottom: 16px; }
+.form-group:last-child { margin-bottom: 0; }
+.form-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--ink-2); margin-bottom: 6px; }
+.form-input, .form-select {
+  width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: var(--ink);
+  outline: none; transition: border-color 0.15s; background: var(--white);
+}
+.form-input:focus, .form-select:focus { border-color: var(--accent); }
+.field-error { font-size: 0.75rem; color: #dc2626; margin-top: 4px; display: none; }
+.form-input.invalid { border-color: #dc2626; }
+
+/* ─── BUTTONS ────────────────────────────────── */
+.btn {
+  font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500;
+  padding: 9px 18px; border-radius: 8px; border: 1px solid transparent;
+  cursor: pointer; transition: all 0.18s;
+  display: inline-flex; align-items: center; gap: 6px; line-height: 1;
+}
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: #5a4bd1; border-color: #5a4bd1; }
+.btn-secondary { background: var(--white); color: var(--ink-2); border-color: var(--border); }
+.btn-secondary:hover { background: var(--paper); }
+
+/* ─── TOAST ──────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 24px; right: 24px; font-size: 0.875rem;
+  padding: 12px 20px; border-radius: 10px; z-index: 9999;
+  opacity: 0; transform: translateY(8px); transition: all 0.28s;
+  pointer-events: none; max-width: 320px; background: var(--ink); color: #fff;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.error { background: #dc2626; }
+
+/* ─── RESPONSIVE ─────────────────────────────── */
+@media (max-width: 640px) {
+  .hero { padding: 28px 20px; }
+  .hero-inner { flex-direction: column; align-items: flex-start; }
+  .page-wrap { padding: 20px 16px 56px; }
+  .topbar { padding: 0 16px; }
+  .week-nav { flex-wrap: wrap; justify-content: center; gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── TOPBAR ─────────────────────────────────────────────────── -->
+<header class="topbar">
+  <div class="topbar-left">
+    <a href="index.html" class="back-btn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Home
+    </a>
+    <span class="topbar-title">Weekly Checklist</span>
+  </div>
+  <div class="topbar-right">
+    <span class="role-badge" id="roleBadge">Staff</span>
+    <button class="btn-logout-top" id="logoutBtn">Sign out</button>
+  </div>
+</header>
+
+<!-- ─── HERO ────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="eyebrow">Teachers Hub · 2025–2026</p>
+      <h1 id="heroTitle">Week — Weekly Checklist</h1>
+      <p class="sub" id="heroSub">Track your weekly professional tasks and responsibilities.</p>
+    </div>
+    <div class="progress-ring-wrap">
+      <svg class="ring-svg" width="84" height="84" viewBox="0 0 84 84">
+        <circle class="ring-bg"   cx="42" cy="42" r="36"/>
+        <circle class="ring-fill" id="ringFill" cx="42" cy="42" r="36"
+          stroke-dasharray="226.2" stroke-dashoffset="226.2"/>
+        <text class="ring-text" x="42" y="40" transform="rotate(90 42 42)" id="ringPct">0%</text>
+        <text class="ring-sub"  x="42" y="52" transform="rotate(90 42 42)" id="ringFrac">0/0</text>
+      </svg>
+      <span class="ring-label">Progress</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MAIN ─────────────────────────────────────────────────────── -->
+<div class="page-wrap">
+
+  <!-- Week Navigator -->
+  <div class="week-nav">
+    <button class="btn-nav" id="prevWeekBtn">← Prev</button>
+    <div class="week-nav-center">
+      <div class="week-num" id="weekLabel">Week —</div>
+      <div class="week-dates" id="weekDates"></div>
+      <div class="week-this" id="weekThisIndicator" style="display:none">This week</div>
+    </div>
+    <button class="btn-nav" id="nextWeekBtn">Next →</button>
+  </div>
+
+  <!-- Admin Bar (admin only) -->
+  <div class="admin-bar" id="adminBar" style="display:none">
+    <span class="admin-bar-label">Admin — manage tasks for this week</span>
+    <div class="admin-bar-actions">
+      <button class="btn btn-secondary" style="font-size:13px;padding:7px 14px" onclick="openTaskModal(null)">
+        + Add Task
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-state" id="loadingState">
+    <div class="spinner"></div>
+    Loading tasks…
+  </div>
+
+  <!-- Empty state (no tasks this week) -->
+  <div class="empty-state" id="emptyState" style="display:none">
+    <h3 id="emptyTitle">No tasks for this week</h3>
+    <p id="emptyMsg">Check back later, or ask your coordinator to add tasks for this week.</p>
+    <button class="btn btn-primary" id="emptyAddBtn" style="display:none" onclick="openTaskModal(null)">
+      Add First Task
+    </button>
+  </div>
+
+  <!-- Task list -->
+  <div id="taskArea" style="display:none"></div>
+
+</div><!-- /page-wrap -->
+
+<!-- ─── TASK MODAL (admin) ────────────────────────────────────────── -->
+<div class="modal-bg" id="taskModal">
+  <div class="modal-box">
+    <div class="modal-head"><h3 id="taskModalTitle">Add Task</h3></div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label" for="taskTitleInput">Task</label>
+        <input class="form-input" id="taskTitleInput" type="text" placeholder="e.g. Submit lesson plans"
+          onkeydown="if(event.key==='Enter')saveTask()" oninput="this.classList.remove('invalid');document.getElementById('taskTitleError').style.display='none'">
+        <p class="field-error" id="taskTitleError">Task description is required.</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="taskCatInput">Category</label>
+        <select class="form-select" id="taskCatInput">
+          <option value="Planning">Planning</option>
+          <option value="Assessment">Assessment</option>
+          <option value="Communication">Communication</option>
+          <option value="Professional Development">Professional Development</option>
+          <option value="Administration">Administration</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeTaskModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTask()">Save Task</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="firebase-config.js"></script>
+<script type="module" src="auth-guard.js"></script>
+<script type="module">
+import {
+  collection, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc,
+  onSnapshot, serverTimestamp, query, where
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+// ── Constants ─────────────────────────────────────────────────────
+const ACADEMIC_YEAR  = '2025-26';
+const PLATFORM       = 'teachers';
+const TOTAL_WEEKS    = 40;
+// Academic year starts Week 1 on 2025-07-21 (first day of school)
+const WEEK1_START    = new Date(2025, 6, 21); // July 21 2025
+
+const CAT_COLORS = {
+  'Planning':                { color: '#2563eb', bg: '#eff6ff' },
+  'Assessment':              { color: '#7c3aed', bg: '#f5f3ff' },
+  'Communication':           { color: '#d97706', bg: '#fffbeb' },
+  'Professional Development':{ color: '#059669', bg: '#ecfdf5' },
+  'Administration':          { color: '#0891b2', bg: '#f0f9ff' },
+  'Other':                   { color: '#6b7280', bg: '#f9fafb' },
+};
+
+// ── State ─────────────────────────────────────────────────────────
+let currentWeek  = 1;
+let isAdmin      = false;
+let currentUid   = null;
+let tasks        = [];        // [{id, title, category}]
+let myProgress   = {};        // {taskId: {checked, note}}
+let openNoteId   = null;      // which task has note expanded
+let editTaskId   = null;      // modal edit mode
+let unsubTasks   = null;
+let unsubProgress= null;
+let activeFilter = 'All';
+
+// ── Auth Ready ────────────────────────────────────────────────────
+document.addEventListener('authReady', ({ detail: { user, profile } }) => {
+  currentUid = user.uid;
+  isAdmin = profile?.role_teachershub === 'teachers_admin';
+
+  const roleBadge = document.getElementById('roleBadge');
+  roleBadge.textContent = isAdmin ? 'Admin' : 'Staff';
+  if (isAdmin) roleBadge.classList.add('admin');
+
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    signOut(window.auth).then(() => { window.location.href = 'login.html'; });
+  });
+
+  if (isAdmin) {
+    document.getElementById('adminBar').style.display = 'flex';
+    document.getElementById('emptyAddBtn').style.display = '';
+  }
+
+  // Determine current week
+  currentWeek = getWeekNumber(new Date());
+  if (currentWeek < 1) currentWeek = 1;
+  if (currentWeek > TOTAL_WEEKS) currentWeek = TOTAL_WEEKS;
+
+  setupWeekNav();
+  loadWeek(currentWeek);
+});
+
+// ── Week helpers ──────────────────────────────────────────────────
+function getWeekNumber(date) {
+  const diff = date - WEEK1_START;
+  const week = Math.floor(diff / (7 * 24 * 60 * 60 * 1000)) + 1;
+  return Math.max(1, Math.min(TOTAL_WEEKS, week));
+}
+
+function getWeekDates(weekNum) {
+  const start = new Date(WEEK1_START);
+  start.setDate(start.getDate() + (weekNum - 1) * 7);
+  const end = new Date(start);
+  end.setDate(end.getDate() + 4); // Mon–Fri
+  const fmt = d => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  return `${fmt(start)} – ${fmt(end)}`;
+}
+
+function isCurrentWeek(w) {
+  return w === getWeekNumber(new Date());
+}
+
+function setupWeekNav() {
+  document.getElementById('prevWeekBtn').addEventListener('click', () => {
+    if (currentWeek > 1) loadWeek(currentWeek - 1);
+  });
+  document.getElementById('nextWeekBtn').addEventListener('click', () => {
+    if (currentWeek < TOTAL_WEEKS) loadWeek(currentWeek + 1);
+  });
+}
+
+function updateWeekUI() {
+  document.getElementById('weekLabel').textContent = `Week ${currentWeek}`;
+  document.getElementById('weekDates').textContent  = getWeekDates(currentWeek);
+  document.getElementById('heroTitle').textContent  = `Week ${currentWeek} — Weekly Checklist`;
+  document.getElementById('prevWeekBtn').disabled   = currentWeek <= 1;
+  document.getElementById('nextWeekBtn').disabled   = currentWeek >= TOTAL_WEEKS;
+  const ind = document.getElementById('weekThisIndicator');
+  ind.style.display = isCurrentWeek(currentWeek) ? '' : 'none';
+}
+
+// ── Load week data ────────────────────────────────────────────────
+function loadWeek(week) {
+  currentWeek = week;
+  updateWeekUI();
+
+  // Unsubscribe old listeners
+  if (unsubTasks)    { unsubTasks();    unsubTasks = null; }
+  if (unsubProgress) { unsubProgress(); unsubProgress = null; }
+
+  tasks      = [];
+  myProgress = {};
+  openNoteId = null;
+
+  document.getElementById('loadingState').style.display = '';
+  document.getElementById('emptyState').style.display   = 'none';
+  document.getElementById('taskArea').style.display     = 'none';
+
+  const templateId = `${ACADEMIC_YEAR}_w${String(week).padStart(2,'0')}_${PLATFORM}`;
+  const progressId = `${currentUid}_${ACADEMIC_YEAR}_w${String(week).padStart(2,'0')}_${PLATFORM}`;
+  const db = window.db;
+
+  // 1. Subscribe to task template
+  unsubTasks = onSnapshot(doc(db, 'weekly_templates', templateId), snap => {
+    tasks = [];
+    if (snap.exists() && Array.isArray(snap.data().tasks)) {
+      tasks = snap.data().tasks;
+    }
+    render();
+  }, err => {
+    console.error('Template snapshot error:', err);
+    showToast('Failed to load tasks.', true);
+    document.getElementById('loadingState').style.display = 'none';
+  });
+
+  // 2. Subscribe to user progress
+  unsubProgress = onSnapshot(doc(db, 'weekly_progress', progressId), snap => {
+    myProgress = {};
+    if (snap.exists()) {
+      const data = snap.data();
+      if (data.items && typeof data.items === 'object') {
+        myProgress = data.items; // {taskId: {checked, note}}
+      }
+    }
+    render();
+  }, err => {
+    console.error('Progress snapshot error:', err);
+  });
+}
+
+// ── Save progress ─────────────────────────────────────────────────
+async function saveProgress() {
+  const db = window.db;
+  const progressId = `${currentUid}_${ACADEMIC_YEAR}_w${String(currentWeek).padStart(2,'0')}_${PLATFORM}`;
+  await setDoc(doc(db, 'weekly_progress', progressId), {
+    uid:          currentUid,
+    weekNumber:   currentWeek,
+    academicYear: ACADEMIC_YEAR,
+    platform:     PLATFORM,
+    items:        myProgress,
+    updatedAt:    serverTimestamp(),
+  }, { merge: true });
+}
+
+// ── Toggle task check ─────────────────────────────────────────────
+async function toggleTask(taskId) {
+  const prev    = myProgress[taskId] || {};
+  const checked = !prev.checked;
+  myProgress[taskId] = { ...prev, checked };
+  render();
+  await saveProgress();
+}
+
+// ── Save note ─────────────────────────────────────────────────────
+async function saveNote(taskId, note) {
+  const prev = myProgress[taskId] || {};
+  myProgress[taskId] = { ...prev, note };
+  await saveProgress();
+  showToast('Note saved.');
+}
+
+// ── Render ────────────────────────────────────────────────────────
+function render() {
+  document.getElementById('loadingState').style.display = 'none';
+
+  const filtered = activeFilter === 'All'
+    ? tasks
+    : tasks.filter(t => t.category === activeFilter);
+
+  updateProgressRing();
+
+  if (tasks.length === 0) {
+    document.getElementById('emptyState').style.display = '';
+    document.getElementById('taskArea').style.display   = 'none';
+    document.getElementById('emptyTitle').textContent =
+      isAdmin ? 'No tasks for this week' : 'No tasks set for this week';
+    document.getElementById('emptyMsg').textContent =
+      isAdmin ? 'Add tasks for staff to complete this week.' : 'Check back later.';
+    return;
+  }
+
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('taskArea').style.display   = '';
+
+  // Build category filter
+  renderCatFilter();
+
+  // Group by category
+  const groups = {};
+  filtered.forEach(t => {
+    if (!groups[t.category]) groups[t.category] = [];
+    groups[t.category].push(t);
+  });
+
+  const taskArea = document.getElementById('taskArea');
+  taskArea.innerHTML = '';
+
+  // Cat filter row
+  const filterDiv = document.createElement('div');
+  filterDiv.id = 'catFilterRow';
+  filterDiv.className = 'cat-filter';
+  taskArea.appendChild(filterDiv);
+  renderCatFilter();
+
+  Object.entries(groups).forEach(([cat, catTasks]) => {
+    const catColor = CAT_COLORS[cat] || CAT_COLORS['Other'];
+    const doneCount = catTasks.filter(t => myProgress[t.id]?.checked).length;
+
+    const groupEl = document.createElement('div');
+    groupEl.className = 'task-group';
+    groupEl.innerHTML = `
+      <div class="task-group-title">
+        <span style="color:${catColor.color}">${escHtml(cat)}</span>
+        <span class="group-count">${doneCount}/${catTasks.length}</span>
+      </div>
+      <div class="task-list" id="group-${escAttr(cat)}"></div>
+    `;
+    taskArea.appendChild(groupEl);
+
+    const listEl = groupEl.querySelector('.task-list');
+    catTasks.forEach(task => {
+      listEl.appendChild(buildTaskCard(task, catColor));
+    });
+  });
+}
+
+function buildTaskCard(task, catColor) {
+  const prog    = myProgress[task.id] || {};
+  const checked = !!prog.checked;
+  const note    = prog.note || '';
+  const noteOpen = openNoteId === task.id;
+
+  const card = document.createElement('div');
+  card.className = 'task-card' + (checked ? ' checked' : '');
+  card.dataset.taskId = task.id;
+
+  card.innerHTML = `
+    <div class="checkbox-wrap">
+      <svg class="checkmark" viewBox="0 0 12 12" fill="none">
+        <path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="task-body">
+      <div class="task-title">${escHtml(task.title)}</div>
+      <div class="task-meta">
+        <span class="task-cat" style="color:${catColor.color};background:${catColor.bg}">${escHtml(task.category)}</span>
+        ${note ? `<span class="task-note-indicator">📝 Has note</span>` : ''}
+      </div>
+      ${noteOpen ? `
+        <div class="task-note-area">
+          <textarea class="task-note-textarea" id="note-${escAttr(task.id)}" placeholder="Add a personal note…">${escHtml(note)}</textarea>
+          <button class="note-save-btn" data-task-id="${escAttr(task.id)}">Save note</button>
+        </div>` : ''}
+    </div>
+    ${isAdmin ? `
+      <div class="task-admin-actions">
+        <button class="btn-icon" data-edit="${escAttr(task.id)}">Edit</button>
+        <button class="btn-icon danger" data-delete="${escAttr(task.id)}">Del</button>
+      </div>` : ''}
+  `;
+
+  // Toggle check
+  card.addEventListener('click', e => {
+    if (e.target.closest('.task-admin-actions')) return;
+    if (e.target.closest('.task-note-area')) return;
+    if (e.target.closest('.task-meta')) {
+      // Toggle note
+      openNoteId = openNoteId === task.id ? null : task.id;
+      render();
+      return;
+    }
+    toggleTask(task.id);
+  });
+
+  // Note save
+  const noteSaveBtn = card.querySelector('.note-save-btn');
+  if (noteSaveBtn) {
+    noteSaveBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      const ta = document.getElementById(`note-${task.id}`);
+      saveNote(task.id, ta ? ta.value.trim() : '');
+    });
+  }
+
+  // Admin edit/delete
+  const editBtn   = card.querySelector('[data-edit]');
+  const deleteBtn = card.querySelector('[data-delete]');
+  if (editBtn)   editBtn.addEventListener('click',   e => { e.stopPropagation(); openTaskModal(task.id); });
+  if (deleteBtn) deleteBtn.addEventListener('click',  e => {
+    e.stopPropagation();
+    if (deleteBtn.dataset.confirming === 'true') {
+      deleteTask(task.id);
+    } else {
+      deleteBtn.dataset.confirming = 'true';
+      deleteBtn.textContent = '?';
+      setTimeout(() => { deleteBtn.dataset.confirming = 'false'; deleteBtn.textContent = 'Del'; }, 2500);
+    }
+  });
+
+  return card;
+}
+
+function renderCatFilter() {
+  const row = document.getElementById('catFilterRow');
+  if (!row) return;
+  const cats = ['All', ...Object.keys(CAT_COLORS).filter(c => tasks.some(t => t.category === c))];
+  row.innerHTML = cats.map(c => `
+    <button class="cat-btn${activeFilter === c ? ' active' : ''}" data-cat="${escAttr(c)}">${escHtml(c)}</button>
+  `).join('');
+  row.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeFilter = btn.dataset.cat;
+      render();
+    });
+  });
+}
+
+function updateProgressRing() {
+  const total   = tasks.length;
+  const done    = tasks.filter(t => myProgress[t.id]?.checked).length;
+  const pct     = total > 0 ? Math.round(done / total * 100) : 0;
+  const circ    = 2 * Math.PI * 36; // 226.2
+  const offset  = circ - (pct / 100) * circ;
+
+  const fill    = document.getElementById('ringFill');
+  const pctEl   = document.getElementById('ringPct');
+  const fracEl  = document.getElementById('ringFrac');
+  if (fill)   fill.style.strokeDashoffset = offset;
+  if (pctEl)  pctEl.textContent = pct + '%';
+  if (fracEl) fracEl.textContent = `${done}/${total}`;
+
+  // Hero subtitle
+  document.getElementById('heroSub').textContent =
+    done === total && total > 0
+      ? `All ${total} tasks completed this week!`
+      : `${done} of ${total} tasks completed.`;
+}
+
+// ── Admin: save task template ─────────────────────────────────────
+async function saveTaskTemplate() {
+  const db = window.db;
+  const templateId = `${ACADEMIC_YEAR}_w${String(currentWeek).padStart(2,'0')}_${PLATFORM}`;
+  await setDoc(doc(db, 'weekly_templates', templateId), {
+    weekNumber:   currentWeek,
+    academicYear: ACADEMIC_YEAR,
+    platform:     PLATFORM,
+    tasks,
+    updatedAt: serverTimestamp(),
+  }, { merge: true });
+}
+
+// ── Admin: task modal ─────────────────────────────────────────────
+function openTaskModal(taskId) {
+  editTaskId = taskId;
+  const task = taskId ? tasks.find(t => t.id === taskId) : null;
+  document.getElementById('taskModalTitle').textContent = task ? 'Edit Task' : 'Add Task';
+  document.getElementById('taskTitleInput').value       = task?.title    || '';
+  document.getElementById('taskCatInput').value         = task?.category || 'Planning';
+  document.getElementById('taskModal').classList.add('open');
+  document.getElementById('taskTitleInput').focus();
+}
+
+function closeTaskModal() {
+  document.getElementById('taskModal').classList.remove('open');
+  editTaskId = null;
+}
+
+async function saveTask() {
+  const title = document.getElementById('taskTitleInput').value.trim();
+  const cat   = document.getElementById('taskCatInput').value;
+  if (!title) {
+    document.getElementById('taskTitleInput').classList.add('invalid');
+    document.getElementById('taskTitleError').style.display = 'block';
+    return;
+  }
+
+  if (editTaskId) {
+    const idx = tasks.findIndex(t => t.id === editTaskId);
+    if (idx >= 0) tasks[idx] = { ...tasks[idx], title, category: cat };
+  } else {
+    tasks.push({ id: genId(), title, category: cat });
+  }
+
+  closeTaskModal();
+  await saveTaskTemplate();
+  showToast(editTaskId ? 'Task updated.' : 'Task added.');
+}
+
+async function deleteTask(taskId) {
+  tasks = tasks.filter(t => t.id !== taskId);
+  await saveTaskTemplate();
+  showToast('Task deleted.');
+}
+
+// ── Helpers ───────────────────────────────────────────────────────
+function genId() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+}
+
+function escHtml(str) {
+  return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function escAttr(str) {
+  return String(str ?? '').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// ── Toast ─────────────────────────────────────────────────────────
+let _toastTimer;
+function showToast(msg, isError = false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (isError ? ' error' : '');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ── Expose to HTML ────────────────────────────────────────────────
+Object.assign(window, { openTaskModal, closeTaskModal, saveTask });
+
+// Modal close on backdrop
+document.getElementById('taskModal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeTaskModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeTaskModal();
+});
+</script>
+</body>
+</html>

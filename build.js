@@ -38,6 +38,7 @@ const ROUTES = {
   'surveys.html': 'surveys',
   'messageboard.html': 'messageboard',
   'library.html': 'library',
+  'weekly-checklist.html': 'weekly-checklist',
 };
 
 // Internal href replacements: old link -> clean URL
