@@ -321,6 +321,10 @@ table.topics-tbl th {
   white-space: nowrap;
   position: sticky; top: 49px; z-index: 2;
 }
+table.topics-tbl th:nth-child(1),
+table.topics-tbl td:nth-child(1) { padding-left: 18px; padding-right: 0; }
+table.topics-tbl th:nth-child(2),
+table.topics-tbl td:nth-child(2) { padding-left: 8px; }
 
 table.topics-tbl td {
   padding: 10px 16px; border-bottom: 1px solid var(--border);
@@ -1165,11 +1169,11 @@ function renderPacing() {
       <div class="topics-wrap">
         <table class="topics-tbl">
           <thead><tr>
-            <th style="width:38px"></th>
-            <th style="width:25%">Topic</th>
+            <th style="width:18px"></th>
+            <th style="width:220px">Topic</th>
             <th>Objectives</th>
-            <th style="width:70px">Hours</th>
-            <th style="width:110px">Status</th>
+            <th style="width:60px">Hours</th>
+            <th style="width:210px">Status</th>
           </tr></thead>
           <tbody>
             ${filteredTopics.map(({t, ti}) => {
