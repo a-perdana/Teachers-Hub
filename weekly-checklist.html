@@ -749,16 +749,6 @@ function render() {
   document.getElementById('emptyState').style.display = 'none';
   document.getElementById('taskArea').style.display   = '';
 
-  // Build category filter
-  renderCatFilter();
-
-  // Group by category
-  const groups = {};
-  filtered.forEach(t => {
-    if (!groups[t.category]) groups[t.category] = [];
-    groups[t.category].push(t);
-  });
-
   const taskArea = document.getElementById('taskArea');
   taskArea.innerHTML = '';
 
@@ -769,25 +759,14 @@ function render() {
   taskArea.appendChild(filterDiv);
   renderCatFilter();
 
-  Object.entries(groups).forEach(([cat, catTasks]) => {
-    const catColor = CAT_COLORS[cat] || CAT_COLORS['Other'];
-    const doneCount = catTasks.filter(t => myProgress[t.id]?.checked).length;
+  // Flat task list
+  const listEl = document.createElement('div');
+  listEl.className = 'task-list';
+  taskArea.appendChild(listEl);
 
-    const groupEl = document.createElement('div');
-    groupEl.className = 'task-group';
-    groupEl.innerHTML = `
-      <div class="task-group-title">
-        <span style="color:${catColor.color}">${escHtml(cat)}</span>
-        <span class="group-count">${doneCount}/${catTasks.length}</span>
-      </div>
-      <div class="task-list" id="group-${escAttr(cat)}"></div>
-    `;
-    taskArea.appendChild(groupEl);
-
-    const listEl = groupEl.querySelector('.task-list');
-    catTasks.forEach(task => {
-      listEl.appendChild(buildTaskCard(task, catColor));
-    });
+  filtered.forEach(task => {
+    const catColor = CAT_COLORS[task.category] || CAT_COLORS['Other'];
+    listEl.appendChild(buildTaskCard(task, catColor));
   });
 }
 
