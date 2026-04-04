@@ -981,6 +981,15 @@ function allTopics() {
   return DATA.flatMap((ch, ci) => ch.topics.map((t, ti) => ({ch: ci, ti, ...t})));
 }
 
+function _renderObjCell(obj) {
+  if (!obj) return '-';
+  var isHtml = obj.indexOf('<') !== -1 && obj.indexOf('>') !== -1;
+  return isHtml ? obj : escHtml(obj.substring(0,120)) + (obj.length>120?'...':'');
+}
+function _objNeedsSeeMore(obj) {
+  var isHtml = obj && obj.indexOf('<') !== -1 && obj.indexOf('>') !== -1;
+  return obj && obj.length > 120 && !isHtml;
+}
 function escHtml(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
@@ -1097,8 +1106,8 @@ function renderPacing() {
                     contenteditable="${isCoord}"
                     data-field="objective" data-ci="${ci}" data-ti="${ti}"
                     onblur="saveEdit(this,${ci},${ti},'objective')"
-                  >${(() => { const o = t.objective||''; if (!o) return '-'; return /<[a-z]/i.test(o) ? o : escHtml(o.substring(0,120)) + (o.length>120?'...':''); })()}</div>
-                  ${t.objective && t.objective.length > 120 && !/<[a-z]/i.test(t.objective) ? `<span class="obj-code" style="margin-top:4px;display:inline-block" onclick="showObj(${ci},${ti})">see full</span>` : ''}
+                  >${_renderObjCell(t.objective)}</div>
+                  ${_objNeedsSeeMore(t.objective) ? `<span class="obj-code" style="margin-top:4px;display:inline-block" onclick="showObj(${ci},${ti})">see full</span>` : ''}
                 </td>
                 <td>
                   <span class="dur-badge editable"
