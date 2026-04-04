@@ -1435,6 +1435,9 @@ function toggleChapter(ci) {
 
 function expandAll()   { document.querySelectorAll('.ch-block').forEach(el => el.classList.remove('collapsed')); }
 function collapseAll() { document.querySelectorAll('.ch-block').forEach(el => el.classList.add('collapsed')); }
+function toggleSidebar() {
+  document.getElementById('appLayout').classList.toggle('sidebar-collapsed');
+}
 
 function scrollToChapter(ci) {
   switchViewById('pacing');
