@@ -311,7 +311,7 @@ body {
 
 /* Topics table */
 .topics-wrap { overflow-x: clip; }
-table.topics-tbl { width: 100%; border-collapse: collapse; table-layout: fixed; }
+table.topics-tbl { width: 100%; border-collapse: collapse; table-layout: auto; }
 
 table.topics-tbl th {
   font-size: .62rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
@@ -369,6 +369,7 @@ table.topics-tbl tbody tr.inprogress-row:hover { background: #d6e6f8; }
 }
 
 /* Status pill */
+table.topics-tbl td:last-child { white-space: nowrap; }
 .status-pill {
   display: inline-flex; gap: 2px;
   background: var(--paper-2); border: 1px solid var(--border);
@@ -1059,11 +1060,11 @@ function renderPacing() {
       <div class="topics-wrap">
         <table class="topics-tbl">
           <thead><tr>
-            <th style="width:5%"></th>
-            <th style="width:25%">Topic</th>
-            <th style="width:55%">Cambridge Objectives</th>
-            <th style="width:5%">Hours</th>
-            <th style="width:14%">Status</th>
+            <th style="width:36px"></th>
+            <th style="width:220px">Topic</th>
+            <th>Cambridge Objectives</th>
+            <th style="width:60px">Hours</th>
+            <th style="width:210px">Status</th>
           </tr></thead>
           <tbody>
             ${filteredTopics.map(({t, ti}) => {

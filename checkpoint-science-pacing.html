@@ -312,7 +312,7 @@ body {
 
 /* Topics table */
 .topics-wrap { overflow-x: clip; }
-table.topics-tbl { width: 100%; border-collapse: collapse; table-layout: fixed; }
+table.topics-tbl { width: 100%; border-collapse: collapse; table-layout: auto; }
 
 table.topics-tbl th {
   font-size: .62rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
@@ -371,6 +371,7 @@ table.topics-tbl tbody tr.inprogress-row:hover { background: #d6e6f8; }
 }
 
 /* Status pill */
+table.topics-tbl td:last-child { white-space: nowrap; }
 .status-pill {
   display: inline-flex; gap: 2px;
   background: var(--paper-2); border: 1px solid var(--border);
