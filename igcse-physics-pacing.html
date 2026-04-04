@@ -1122,6 +1122,7 @@ function renderProgress() {
 // -----------------------------------------------------------
 function renderPacing() {
   const container = document.getElementById('chBlocks');
+  const collapsed = new Set([...document.querySelectorAll('.ch-block.collapsed')].map(el=>el.id));
 
   if (role === 'coord') {
     document.body.classList.add('coord-mode');
