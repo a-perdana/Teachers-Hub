@@ -1097,8 +1097,8 @@ function renderPacing() {
                     contenteditable="${isCoord}"
                     data-field="objective" data-ci="${ci}" data-ti="${ti}"
                     onblur="saveEdit(this,${ci},${ti},'objective')"
-                  >${escHtml(t.objective ? t.objective.substring(0,120) + (t.objective.length>120?'...':'') : '-')}</div>
-                  ${t.objective && t.objective.length > 120 ? `<span class="obj-code" style="margin-top:4px;display:inline-block" onclick="showObj(${ci},${ti})">see full</span>` : ''}
+                  >${(() => { const o = t.objective||''; if (!o) return '-'; return /<[a-z]/i.test(o) ? o : escHtml(o.substring(0,120)) + (o.length>120?'...':''); })()}</div>
+                  ${t.objective && t.objective.length > 120 && !/<[a-z]/i.test(t.objective) ? `<span class="obj-code" style="margin-top:4px;display:inline-block" onclick="showObj(${ci},${ti})">see full</span>` : ''}
                 </td>
                 <td>
                   <span class="dur-badge editable"
@@ -1466,19 +1466,24 @@ function showObj(ci, ti) {
   _objCi=ci; _objTi=ti;
   const ch    = DATA[ci];
   const t     = ch.topics[ti];
-  const parts = t.objective.split(/\n\n+/).filter(Boolean);
-
+  const objRaw = t.objective || '';
   document.getElementById('objModalTitle').textContent = t.topic;
   document.getElementById('objModalSub').textContent   = ch.chapter;
-  document.getElementById('objModalBody').innerHTML    = parts.map(p => {
-    const colonIdx = p.indexOf(':');
-    const code = colonIdx > -1 ? p.substring(0, colonIdx) : '';
-    const desc = colonIdx > -1 ? p.substring(colonIdx+1).trim() : p;
-    return `<div class="obj-entry">
-      ${code ? `<div class="obj-entry-code">${escHtml(code)}</div>` : ''}
-      <div class="obj-entry-text">${escHtml(desc)}</div>
-    </div>`;
-  }).join('') || '<p style="color:var(--ink-3);font-size:.8rem">No objectives listed for this topic.</p>';
+  if (/<[a-z]/i.test(objRaw)) {
+    document.getElementById('objModalBody').innerHTML = objRaw ||
+      '<p style="color:var(--ink-3);font-size:.8rem">No objectives listed for this topic.</p>';
+  } else {
+    const parts = objRaw.split(/\n\n+/).filter(Boolean);
+    document.getElementById('objModalBody').innerHTML = parts.map(p => {
+      const colonIdx = p.indexOf(':');
+      const code = colonIdx > -1 ? p.substring(0, colonIdx) : '';
+      const desc = colonIdx > -1 ? p.substring(colonIdx+1).trim() : p;
+      return `<div class="obj-entry">
+        ${code ? `<div class="obj-entry-code">${escHtml(code)}</div>` : ''}
+        <div class="obj-entry-text">${escHtml(desc)}</div>
+      </div>`;
+    }).join('') || '<p style="color:var(--ink-3);font-size:.8rem">No objectives listed for this topic.</p>';
+  }
 
   // nav state
   const flat = allTopics();

@@ -1202,8 +1202,8 @@ function renderPacing() {
                     contenteditable="${isCoord}"
                     data-field="objective" data-ci="${ci}" data-ti="${ti}"
                     onblur="saveEdit(this,${ci},${ti},'objective')"
-                  >${escHtml(t.objective ? t.objective.substring(0,120) + (t.objective.length>120?'...':'') : '-')}</div>
-                  ${t.objective && t.objective.length > 120 ? `<span class="obj-code" style="margin-top:4px;display:inline-block" onclick="showObj(${ci},${ti})">see full</span>` : ''}
+                  >${(() => { const o = t.objective||''; if (!o) return '-'; return /<[a-z]/i.test(o) ? o : escHtml(o.substring(0,120)) + (o.length>120?'...':''); })()}</div>
+                  ${t.objective && t.objective.length > 120 && !/<[a-z]/i.test(t.objective) ? `<span class="obj-code" style="margin-top:4px;display:inline-block" onclick="showObj(${ci},${ti})">see full</span>` : ''}
                 </td>
                 <td>
                   <span class="dur-badge editable"
