@@ -149,6 +149,13 @@ body {
 }
 .btn-nav:hover:not(:disabled) { background: var(--paper-2); color: var(--ink); }
 .btn-nav:disabled { opacity: 0.35; cursor: default; }
+.week-jump-select {
+  padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: var(--ink);
+  background: var(--paper); cursor: pointer; outline: none; flex-shrink: 0;
+  transition: border-color 0.15s;
+}
+.week-jump-select:focus { border-color: var(--accent); }
 
 /* ─── ADMIN BAR ──────────────────────────────── */
 .admin-bar {
@@ -384,13 +391,14 @@ body {
 <div class="page-wrap">
 
   <!-- Week Navigator -->
-  <div class="week-nav">
+  <div class="week-nav" style="gap:12px">
     <button class="btn-nav" id="prevWeekBtn">← Prev</button>
-    <div class="week-nav-center">
+    <div class="week-nav-center" style="flex:1">
       <div class="week-num" id="weekLabel">Week —</div>
       <div class="week-dates" id="weekDates"></div>
       <div class="week-this" id="weekThisIndicator" style="display:none">This week</div>
     </div>
+    <select class="week-jump-select" id="weekJumpSelect" title="Jump to week"></select>
     <button class="btn-nav" id="nextWeekBtn">Next →</button>
   </div>
 
@@ -557,6 +565,14 @@ function setupWeekNav() {
   document.getElementById('nextWeekBtn').addEventListener('click', () => {
     if (currentWeek < TOTAL_WEEKS) loadWeek(currentWeek + 1);
   });
+  const jumpSel = document.getElementById('weekJumpSelect');
+  for (let w = 1; w <= TOTAL_WEEKS; w++) {
+    const opt = document.createElement('option');
+    opt.value = w;
+    opt.textContent = `Wk ${w}  (${getWeekDates(w)})`;
+    jumpSel.appendChild(opt);
+  }
+  jumpSel.addEventListener('change', () => loadWeek(Number(jumpSel.value)));
 }
 
 function updateWeekUI() {
@@ -567,6 +583,8 @@ function updateWeekUI() {
   document.getElementById('nextWeekBtn').disabled   = currentWeek >= TOTAL_WEEKS;
   const ind = document.getElementById('weekThisIndicator');
   ind.style.display = isCurrentWeek(currentWeek) ? '' : 'none';
+  const jumpSel = document.getElementById('weekJumpSelect');
+  if (jumpSel) jumpSel.value = currentWeek;
 }
 
 // ── Load week data ────────────────────────────────────────────────
