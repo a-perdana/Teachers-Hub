@@ -320,6 +320,9 @@ table.topics-tbl td {
 table.topics-tbl tr:last-child td { border-bottom: none; }
 table.topics-tbl tr.done-row { background: var(--green-2); }
 table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
+table.topics-tbl tbody tr:not(.add-topic-row):not(.res-row):hover { background: var(--paper-2); transition: background .12s; }
+table.topics-tbl tbody tr.done-row:hover { background: #d4eddf; }
+table.topics-tbl tbody tr.inprogress-row:hover { background: #d6e6f8; }
 
 /* Checkbox */
 .tcheck {

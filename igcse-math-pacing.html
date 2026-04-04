@@ -317,8 +317,20 @@ table.topics-tbl td {
 table.topics-tbl tr:last-child td { border-bottom: none; }
 table.topics-tbl tr.done-row { background: var(--green-2); }
 table.topics-tbl tr.inprogress-row { background: var(--blue-2); }
+table.topics-tbl tbody tr:not(.add-topic-row):not(.res-row):hover { background: var(--paper-2); transition: background .12s; }
+table.topics-tbl tbody tr.done-row:hover { background: #d4eddf; }
+table.topics-tbl tbody tr.inprogress-row:hover { background: #d6e6f8; }
 
-
+/* Checkbox */
+.tcheck {
+  width: 17px; height: 17px;
+  border: 2px solid var(--border); border-radius: 4px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all .15s; flex-shrink: 0;
+}
+.tcheck:hover { border-color: var(--green); }
+.tcheck.on { background: var(--green); border-color: var(--green); }
+.tcheck.on::after { content: 'v'; color: white; font-size: .65rem; font-weight: 800; }
 
 /* Topic cell */
 .topic-cell { }
@@ -845,6 +857,7 @@ function renderPacing() {
               return `
               <tr class="${rowClass}" id="row-${ci}-${ti}">
                 <td>
+                  <div class="tcheck ${t.status==='done'?'on':''}" onclick="toggleDone(${ci},${ti})"></div>
                   <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">&#215;</button>
                 </td>
                 <td class="topic-cell">
