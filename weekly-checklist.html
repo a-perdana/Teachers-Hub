@@ -149,6 +149,46 @@ body {
 }
 .btn-nav:hover:not(:disabled) { background: var(--paper-2); color: var(--ink); }
 .btn-nav:disabled { opacity: 0.35; cursor: default; }
+
+/* ─── WEEKLY ESSENTIALS ───────────────────────── */
+.essentials-section {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow-sm);
+  margin-bottom: 16px; overflow: hidden;
+}
+.essentials-header {
+  padding: 12px 18px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+.essentials-header h4 {
+  font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--ink-3); margin: 0;
+}
+.essentials-list {
+  display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 18px;
+}
+.ess-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 12px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--paper);
+  cursor: pointer; transition: all 0.15s; user-select: none;
+}
+.ess-item:hover { border-color: var(--accent); background: var(--accent-2); }
+.ess-item.checked { border-color: var(--green); background: var(--green-2); }
+.ess-checkbox {
+  width: 18px; height: 18px; border-radius: 5px;
+  border: 2px solid var(--border); background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.15s;
+}
+.ess-item.checked .ess-checkbox {
+  background: var(--green); border-color: var(--green);
+}
+.ess-checkbox svg { display: none; }
+.ess-item.checked .ess-checkbox svg { display: block; }
+.ess-title { font-size: 0.82rem; font-weight: 500; color: var(--ink); }
+.ess-item.checked .ess-title { color: var(--green); }
+
 .week-jump-select {
   padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px;
   font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: var(--ink);
@@ -402,6 +442,14 @@ body {
     <button class="btn-nav" id="nextWeekBtn">Next →</button>
   </div>
 
+  <!-- Weekly Essentials -->
+  <div class="essentials-section" id="essentialsSection" style="display:none">
+    <div class="essentials-header">
+      <h4>Weekly Essentials</h4>
+    </div>
+    <div class="essentials-list" id="essentialsList"></div>
+  </div>
+
   <!-- Admin Bar (admin only) -->
   <div class="admin-bar" id="adminBar" style="display:none">
     <span class="admin-bar-label">Admin — manage tasks for this week</span>
@@ -510,6 +558,9 @@ let editTaskId   = null;      // modal edit mode
 let unsubTasks   = null;
 let unsubProgress= null;
 let activeFilter = 'All';
+let essentials = [];      // [{id, title}]
+let unsubEssentials = null;
+let myEssProgress = {};   // { essentialId: { checked: bool } }
 
 // ── Auth Ready ────────────────────────────────────────────────────
 document.addEventListener('authReady', ({ detail: { user, profile } }) => {
@@ -536,6 +587,7 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
 
   setupWeekNav();
   loadWeek(currentWeek);
+  loadEssentials();
 });
 
 // ── Week helpers ──────────────────────────────────────────────────
@@ -596,9 +648,10 @@ function loadWeek(week) {
   if (unsubTasks)    { unsubTasks();    unsubTasks = null; }
   if (unsubProgress) { unsubProgress(); unsubProgress = null; }
 
-  tasks      = [];
-  myProgress = {};
-  openNoteId = null;
+  tasks        = [];
+  myProgress   = {};
+  myEssProgress = {};
+  openNoteId   = null;
 
   document.getElementById('loadingState').style.display = '';
   document.getElementById('emptyState').style.display   = 'none';
@@ -629,6 +682,12 @@ function loadWeek(week) {
       if (data.items && typeof data.items === 'object') {
         myProgress = data.items; // {taskId: {checked, note}}
       }
+      if (data.essentials && typeof data.essentials === 'object') {
+        myEssProgress = data.essentials;
+      } else {
+        myEssProgress = {};
+      }
+      renderEssentials();
     }
     render();
   }, err => {
@@ -898,6 +957,52 @@ async function deleteTask(taskId) {
   tasks = tasks.filter(t => t.id !== taskId);
   await saveTaskTemplate();
   showToast('Task deleted.');
+}
+
+// ── Weekly Essentials ─────────────────────────────────────────────
+function loadEssentials() {
+  if (unsubEssentials) { unsubEssentials(); unsubEssentials = null; }
+  const db = window.db;
+  unsubEssentials = onSnapshot(doc(db, 'weekly_essentials', PLATFORM), snap => {
+    essentials = (snap.exists() && Array.isArray(snap.data().items)) ? snap.data().items : [];
+    renderEssentials();
+  }, err => console.error('Essentials error:', err));
+}
+
+function renderEssentials() {
+  const section = document.getElementById('essentialsSection');
+  const list = document.getElementById('essentialsList');
+  if (!section || !list) return;
+  if (essentials.length === 0) { section.style.display = 'none'; return; }
+  section.style.display = '';
+  list.innerHTML = essentials.map(e => {
+    const checked = !!myEssProgress[e.id]?.checked;
+    return `
+      <div class="ess-item${checked ? ' checked' : ''}" data-ess-id="${escAttr(e.id)}">
+        <div class="ess-checkbox">
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+            <path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="ess-title">${escHtml(e.title)}</span>
+      </div>`;
+  }).join('');
+  list.querySelectorAll('.ess-item').forEach(el => {
+    el.addEventListener('click', () => toggleEssential(el.dataset.essId));
+  });
+}
+
+async function toggleEssential(id) {
+  const prev = myEssProgress[id] || {};
+  myEssProgress[id] = { checked: !prev.checked };
+  renderEssentials();
+  const db = window.db;
+  const progressId = `${currentUid}_${ACADEMIC_YEAR}_w${String(currentWeek).padStart(2,'0')}_${PLATFORM}`;
+  await setDoc(doc(db, 'weekly_progress', progressId), {
+    uid: currentUid, weekNumber: currentWeek,
+    academicYear: ACADEMIC_YEAR, platform: PLATFORM,
+    essentials: myEssProgress, updatedAt: serverTimestamp(),
+  }, { merge: true });
 }
 
 // ── Helpers ───────────────────────────────────────────────────────
