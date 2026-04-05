@@ -901,6 +901,21 @@ if (!window.ENV) window.ENV = {
   .home-float { bottom: 14px; left: 14px; }
 }
 
+/* ===== ASSESSMENT ===== */
+.ch-assessment { display:flex; align-items:center; gap:10px; padding:10px 16px; border-top:1px solid var(--paper-2); background:var(--paper); flex-wrap:wrap; }
+.ch-assessment-label { font-size:0.7rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-3); flex-shrink:0; }
+.asmnt-badge { font-size:0.68rem; font-weight:600; padding:2px 8px; border-radius:100px; flex-shrink:0; }
+.asmnt-badge.igcsetools { background:#f2ecfb; color:#6c3fa0; border:1px solid #d5c3f0; }
+.asmnt-badge.external   { background:#e8f0fb; color:#1a5fa8; border:1px solid #c2d8f5; }
+.asmnt-badge.pdf        { background:#fff1f0; color:#dc2626; border:1px solid #fecaca; }
+.asmnt-title { font-size:0.82rem; font-weight:500; color:var(--ink); flex:1; min-width:0; }
+.asmnt-duration { font-size:0.72rem; color:var(--ink-3); flex-shrink:0; }
+.asmnt-open-link { font-size:0.72rem; color:var(--blue); text-decoration:none; flex-shrink:0; }
+.activity-chip { display:inline-flex; align-items:center; gap:4px; font-size:0.68rem; font-weight:500; padding:2px 8px; border-radius:100px; text-decoration:none; border:1px solid; flex-shrink:0; }
+.activity-chip.igcsetools { background:#f2ecfb; color:#6c3fa0; border-color:#d5c3f0; }
+.activity-chip.external   { background:#e8f0fb; color:#1a5fa8; border-color:#c2d8f5; }
+.activity-chip.pdf        { background:#fff1f0; color:#dc2626; border-color:#fecaca; }
+
 </style>
 <a href="index.html" class="home-float" title="Back to Hub">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -992,6 +1007,9 @@ function _objNeedsSeeMore(obj) {
 }
 function escHtml(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function safeUrl(url) {
+  return /^https?:\/\//i.test(url) ? url : '#';
 }
 
 // -----------------------------------------------------------
@@ -1129,7 +1147,7 @@ function renderPacing() {
                   </div>
                 </td>
               </tr>
-              <tr class="res-row${!hasRes ? ' empty-res' : ''}" id="res-row-${ci}-${ti}">
+              <tr class="res-row${!hasRes && !t.activity ? ' empty-res' : ''}" id="res-row-${ci}-${ti}">
                 <td colspan="6">${renderResourcesHtml(ci, ti, t)}</td>
               </tr>`;
             }).join('')}
@@ -1141,6 +1159,7 @@ function renderPacing() {
           </tbody>
         </table>
       </div>
+      ${renderChapterAssessmentCard(ch)}
     </div>`;
   });
 
@@ -1274,6 +1293,21 @@ async function deleteChapter(ci) {
 }
 
 // -----------------------------------------------------------
+// CHAPTER ASSESSMENT CARD (read-only)
+// -----------------------------------------------------------
+function renderChapterAssessmentCard(ch) {
+  const a = ch.assessment;
+  if (!a) return '';
+  const typeLabel = a.type === 'igcsetools' ? 'IGCSE Tools' : a.type === 'pdf' ? 'PDF' : 'External';
+  return `<div class="ch-assessment">
+    <span class="ch-assessment-label">Chapter Assessment</span>
+    <span class="asmnt-badge ${escHtml(a.type)}">${typeLabel}</span>
+    <span class="asmnt-title">${escHtml(a.title)}</span>
+    ${a.duration ? `<span class="asmnt-duration">${escHtml(a.duration)}</span>` : ''}
+    <a href="${safeUrl(a.url)}" target="_blank" rel="noopener noreferrer" class="asmnt-open-link">Open ↗</a>
+  </div>`;
+}
+
 // RESOURCES
 // -----------------------------------------------------------
 function renderResourcesHtml(ci, ti, t) {
@@ -1285,8 +1319,12 @@ function renderResourcesHtml(ci, ti, t) {
       ${linkIcon}${escHtml(r.name || r.url)}
       <button class="del-res-btn" onclick="event.preventDefault();deleteResource(${ci},${ti},${ri})" title="Remove">x</button>
     </a>`).join('');
+  const activityChip = t.activity
+    ? `<a href="${safeUrl(t.activity.url)}" target="_blank" rel="noopener noreferrer" class="activity-chip ${escHtml(t.activity.type)}" style="margin-left:4px;">${escHtml(t.activity.title || 'Activity')}</a>`
+    : '';
   return `<div class="res-chips">
       ${chips}
+      ${activityChip}
       <button class="add-res-btn" onclick="addResource(${ci},${ti})">${addIcon} Resource</button>
     </div>
     <div class="res-form" id="res-form-${ci}-${ti}">
