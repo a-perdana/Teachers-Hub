@@ -1183,6 +1183,7 @@ function renderPacing() {
             <th style="width:290px">Topic</th>
             <th>Cambridge Objectives</th>
             <th style="width:60px">Hours</th>
+            <th style="width:60px">Week</th>
             <th style="width:210px">Status</th>
           </tr></thead>
           <tbody>
@@ -1222,6 +1223,9 @@ function renderPacing() {
                     onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
                   >${t.hour}h</span>
                 </td>
+                <td style="font-size:.75rem;color:var(--ink-3);">
+                  ${t.week ? '<span style="font-weight:500;color:var(--ink-2);">Wk ' + t.week + '</span>' : '—'}
+                </td>
                 <td>
                   <div class="status-pill">
                     <button class="sp-btn sp-pending   ${t.status==='pending'   ?'sp-on':''}" onclick="setStatus(${ci},${ti},'pending')">Pending</button>
@@ -1231,11 +1235,11 @@ function renderPacing() {
                 </td>
               </tr>
               <tr class="res-row${!hasRes ? ' empty-res' : ''}" id="res-row-${ci}-${ti}">
-                <td colspan="5">${renderResourcesHtml(ci, ti, t)}</td>
+                <td colspan="6">${renderResourcesHtml(ci, ti, t)}</td>
               </tr>`;
             }).join('')}
             <tr class="add-topic-row">
-              <td colspan="5">
+              <td colspan="6">
                 <button class="add-topic-btn" onclick="addTopic(${ci})">+ Add Topic</button>
               </td>
             </tr>
