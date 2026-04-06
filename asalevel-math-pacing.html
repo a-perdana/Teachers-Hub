@@ -1657,11 +1657,9 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
 
   const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
   fetch('partials/navbar.html')
-    .then(r => r.text())
+    .then(r => { if (!r.ok) throw new Error('navbar fetch failed: ' + r.status); return r.text(); })
     .then(html => {
-      const nc = document.getElementById('navbar-container');
-      if (!nc) return;
-      nc.innerHTML = html;
+      document.getElementById('navbar-container').innerHTML = html;
       initNavbar();
       const nEl = document.getElementById('profileNameShort');
       const aEl = document.getElementById('profileAvatar');
@@ -1669,7 +1667,8 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
       if (nEl) nEl.textContent = nameShort;
       if (aEl && typeof buildAvatarEl === 'function') buildAvatarEl(aEl, user);
       if (wEl) wEl.style.display = 'flex';
-    });
+    })
+    .catch(err => console.error('[asalevel-math] navbar load error:', err));
 
   _startSnapshot(user.uid, appRole);
 });
