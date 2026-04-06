@@ -636,7 +636,7 @@ if (!window.ENV) window.ENV = {
 </head>
 <body>
 
-<!-- â”€â”€ LOADING SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- â"€â"€ LOADING SCREEN â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
 <div id="loadingScreen" style="
   position:fixed;inset:0;background:var(--ink);
   display:flex;align-items:center;justify-content:center;z-index:99999;
@@ -654,30 +654,30 @@ if (!window.ENV) window.ENV = {
   </div>
 </div>
 
-<div id=”navbar-container”></div>
+<div id="navbar-container"></div>
 
 <!-- -- PACING TOPBAR ------------------------------------ -->
-<header class=”pacing-topbar”>
-  <div class=”pacing-brand”>
-    <div class=”pacing-brand-mark”>CP</div>
-    <div class=”pacing-brand-text”>
+<header class="pacing-topbar">
+  <div class="pacing-brand">
+    <div class="pacing-brand-mark">CP</div>
+    <div class="pacing-brand-text">
       <h1>Cambridge Checkpoint English</h1>
       <p>1111 · Year 7–8</p>
     </div>
   </div>
-  <div class=”pacing-topbar-right”>
-    <div class=”prog-pill”>
-      <div class=”prog-bar-wrap”><div class=”prog-bar-fill” id=”topProgBar”></div></div>
-      <div class=”prog-text”><strong id=”topProgDone”>0</strong> / <span id=”topProgTotal”>0</span> topics</div>
+  <div class="pacing-topbar-right">
+    <div class="prog-pill">
+      <div class="prog-bar-wrap"><div class="prog-bar-fill" id="topProgBar"></div></div>
+      <div class="prog-text"><strong id="topProgDone">0</strong> / <span id="topProgTotal">0</span> topics</div>
     </div>
-    <div class=”role-badge” id=”roleBadge”>
-      <span class=”role-dot” id=”roleDot”></span>
-      <span id=”roleLabel”>Teacher</span>
+    <div class="role-badge" id="roleBadge">
+      <span class="role-dot" id="roleDot"></span>
+      <span id="roleLabel">Teacher</span>
     </div>
   </div>
 </header>
 
-<!-- â”€â”€ LAYOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- â"€â"€ LAYOUT â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
 <div class="layout sidebar-collapsed" id="appLayout">
 <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle sidebar" aria-label="Toggle sidebar">
   <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
@@ -745,7 +745,7 @@ if (!window.ENV) window.ENV = {
   </main>
 </div>
 
-<!-- â”€â”€ OBJECTIVES MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- â"€â"€ OBJECTIVES MODAL â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
 <div class="modal-bg" id="objModal" onclick="closeObjModal(event)">
   <div class="modal">
     <div class="modal-head">
@@ -779,7 +779,7 @@ if (!window.ENV) window.ENV = {
 </div>
 <div class="toast" id="toast"></div>
 
-<!-- â”€â”€ HOME BUTTON â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- â"€â"€ HOME BUTTON â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
 <style>
 .home-float {
   position: fixed; bottom: 22px; left: 22px;
@@ -1498,7 +1498,7 @@ function render() {
 </script>
 
 <!-- -- FIREBASE MODULE --------------------------------- -->
-<script type=”module”>
+<script type="module">
 import {
   getFirestore,
   doc,

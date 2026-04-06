@@ -632,7 +632,7 @@ if (!window.ENV) window.ENV = {
 </head>
 <body>
 
-<!-- â”€â”€ LOADING SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- â"€â"€ LOADING SCREEN â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
 <div id="loadingScreen" style="
   position:fixed;inset:0;background:var(--ink);
   display:flex;align-items:center;justify-content:center;z-index:99999;
@@ -650,30 +650,30 @@ if (!window.ENV) window.ENV = {
   </div>
 </div>
 
-<div id=”navbar-container”></div>
+<div id="navbar-container"></div>
 
 <!-- -- PACING TOPBAR ------------------------------------ -->
-<header class=”pacing-topbar”>
-  <div class=”pacing-brand”>
-    <div class=”pacing-brand-mark”>CP</div>
-    <div class=”pacing-brand-text”>
+<header class="pacing-topbar">
+  <div class="pacing-brand">
+    <div class="pacing-brand-mark">CP</div>
+    <div class="pacing-brand-text">
       <h1>Cambridge Checkpoint Mathematics</h1>
       <p>1112 · Year 7–8</p>
     </div>
   </div>
-  <div class=”pacing-topbar-right”>
-    <div class=”prog-pill”>
-      <div class=”prog-bar-wrap”><div class=”prog-bar-fill” id=”topProgBar”></div></div>
-      <div class=”prog-text”><strong id=”topProgDone”>0</strong> / <span id=”topProgTotal”>0</span> topics</div>
+  <div class="pacing-topbar-right">
+    <div class="prog-pill">
+      <div class="prog-bar-wrap"><div class="prog-bar-fill" id="topProgBar"></div></div>
+      <div class="prog-text"><strong id="topProgDone">0</strong> / <span id="topProgTotal">0</span> topics</div>
     </div>
-    <div class=”role-badge” id=”roleBadge”>
-      <span class=”role-dot” id=”roleDot”></span>
-      <span id=”roleLabel”>Teacher</span>
+    <div class="role-badge" id="roleBadge">
+      <span class="role-dot" id="roleDot"></span>
+      <span id="roleLabel">Teacher</span>
     </div>
   </div>
 </header>
 
-<!-- â”€â”€ LAYOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- â"€â"€ LAYOUT â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
 <div class="layout sidebar-collapsed" id="appLayout">
 <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle sidebar" aria-label="Toggle sidebar">
   <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
@@ -741,7 +741,7 @@ if (!window.ENV) window.ENV = {
   </main>
 </div>
 
-<!-- â”€â”€ OBJECTIVES MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- â"€â"€ OBJECTIVES MODAL â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
 <div class="modal-bg" id="objModal" onclick="closeObjModal(event)">
   <div class="modal">
     <div class="modal-head">
@@ -775,7 +775,7 @@ if (!window.ENV) window.ENV = {
 </div>
 <div class="toast" id="toast"></div>
 
-<!-- â”€â”€ HOME BUTTON â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- â"€â"€ HOME BUTTON â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
 <style>
 .home-float {
   position: fixed; bottom: 22px; left: 22px;
@@ -1474,20 +1474,20 @@ function render() {
 </script>
 
 <!-- -- FIREBASE MODULE --------------------------------- -->
-<script type=”module”>
+<script type="module">
 import {
   getFirestore,
   doc,
   setDoc,
   onSnapshot,
   serverTimestamp,
-} from “https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js”;
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // -- Module-level state --
 let unsubStructure  = null;
 let unsubUserProg   = null;
 let currentUID      = null;
-let currentRole     = ‘teacher’;
+let currentRole     = 'teacher';
 let sharedStructure = null;
 let userStatuses    = {};
 
@@ -1498,11 +1498,11 @@ function _mergeAndRender(isFirstLoad, appRole) {
     ...ch,
     topics: ch.topics.map((t, ti) => ({
       ...t,
-      status: userStatuses[`${ci}-${ti}`] || ‘pending’,
+      status: userStatuses[`${ci}-${ti}`] || 'pending',
     })),
   }));
   if (isFirstLoad) {
-    document.getElementById(‘loadingScreen’).style.display = ‘none’;
+    document.getElementById('loadingScreen').style.display = 'none';
     applyRole(appRole);   // sets role var, updates badge, calls render()
   } else {
     render();
@@ -1518,8 +1518,8 @@ function _startSnapshot(uid, appRole) {
   currentRole = appRole;
 
   const db           = window.db;
-  const structureRef = doc(db, ‘checkpoint_math_pacing’, ‘year7-8’);
-  const userProgRef  = doc(db, ‘userProgress’, currentUID);
+  const structureRef = doc(db, 'checkpoint_math_pacing', 'year7-8');
+  const userProgRef  = doc(db, 'userProgress', currentUID);
 
   let firstLoad      = true;
   let structureReady = false;
@@ -1540,12 +1540,12 @@ function _startSnapshot(uid, appRole) {
     structureReady = true;
     tryRender();
   }, (err) => {
-    console.error(‘Structure snapshot error:’, err);
+    console.error('Structure snapshot error:', err);
     sharedStructure = [];
     structureReady  = true;
-    document.getElementById(‘loadingScreen’).style.display = ‘none’;
+    document.getElementById('loadingScreen').style.display = 'none';
     applyRole(appRole);
-    showToast(‘Firestore connection error’);
+    showToast('Firestore connection error');
   });
 
   // Per-user progress listener
@@ -1556,20 +1556,20 @@ function _startSnapshot(uid, appRole) {
     progressReady = true;
     tryRender();
   }, (err) => {
-    console.error(‘User progress snapshot error:’, err);
+    console.error('User progress snapshot error:', err);
     userStatuses  = {};
     progressReady = true;
     tryRender();
   });
 
-  // Fallback: if Firestore snapshots don’t return within 8s, unblock the UI
+  // Fallback: if Firestore snapshots don't return within 8s, unblock the UI
   const _loadTimeout = setTimeout(() => {
     if (!structureReady || !progressReady) {
       sharedStructure = sharedStructure || [];
       userStatuses    = userStatuses    || {};
       structureReady  = true;
       progressReady   = true;
-      document.getElementById(‘loadingScreen’).style.display = ‘none’;
+      document.getElementById('loadingScreen').style.display = 'none';
       applyRole(appRole);
     }
   }, 8000);
@@ -1581,77 +1581,74 @@ window.__fbSaveState = async function(data) {
 
   const db = window.db;
 
-  // 1. Build this user’s status map (skip ‘pending’ to keep doc lean)
+  // 1. Build this user's status map (skip 'pending' to keep doc lean)
   const newStatuses = {};
   data.forEach((ch, ci) => {
     ch.topics.forEach((t, ti) => {
-      if (t.status && t.status !== ‘pending’) {
+      if (t.status && t.status !== 'pending') {
         newStatuses[`${ci}-${ti}`] = t.status;
       }
     });
   });
 
-  // 2. Save user’s own progress
+  // 2. Save user's own progress
   try {
     await setDoc(
-      doc(db, ‘userProgress’, currentUID),
+      doc(db, 'userProgress', currentUID),
       { checkpoint_math_statuses: newStatuses, updatedAt: serverTimestamp() }
     );
   } catch(e) {
-    console.error(‘User progress save error:’, e);
-    showToast(‘Save failed - check connection’);
+    console.error('User progress save error:', e);
+    showToast('Save failed - check connection');
     return;
   }
 
   // 3. Coordinators also save structure changes
-  if (currentRole === ‘coord’) {
+  if (currentRole === 'coord') {
     const structureOnly = data.map(ch => ({
       ...ch,
       topics: ch.topics.map(({ status, ...rest }) => rest),
     }));
     try {
       await setDoc(
-        doc(db, ‘checkpoint_math_pacing’, ‘year7-8’),
+        doc(db, 'checkpoint_math_pacing', 'year7-8'),
         { chapters: structureOnly, updatedAt: serverTimestamp() },
         { merge: true }
       );
     } catch(e) {
-      console.error(‘Structure save error:’, e);
-      showToast(‘Structure save failed’);
+      console.error('Structure save error:', e);
+      showToast('Structure save failed');
     }
   }
 };
 
 // -- auth-guard dispatches authReady when auth + role confirmed --
-console.log(‘[CP-Math] module loaded, waiting for authReady’);
-document.addEventListener(‘authReady’, ({ detail: { user, profile } }) => {
-  console.log(‘[CP-Math] authReady fired, user:’, user.email);
-  const appRole = profile.role_teachershub === ‘teachers_admin’ ? ‘coord’ : ‘teacher’;
+document.addEventListener('authReady', ({ detail: { user, profile } }) => {
+  const appRole = profile.role_teachershub === 'teachers_admin' ? 'coord' : 'teacher';
 
-  const roleDot   = document.getElementById(‘roleDot’);
-  const roleLabel = document.getElementById(‘roleLabel’);
-  if (roleDot)   { roleDot.className = ‘role-dot ‘ + (appRole === ‘coord’ ? ‘role-dot-coord’ : ‘role-dot-teacher’); }
-  if (roleLabel) { roleLabel.textContent = appRole === ‘coord’ ? ‘Coordinator’ : ‘Teacher’; }
+  const roleDot   = document.getElementById('roleDot');
+  const roleLabel = document.getElementById('roleLabel');
+  if (roleDot)   { roleDot.className = 'role-dot ' + (appRole === 'coord' ? 'role-dot-coord' : 'role-dot-teacher'); }
+  if (roleLabel) { roleLabel.textContent = appRole === 'coord' ? 'Coordinator' : 'Teacher'; }
 
-  import(‘https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js’).then(({ signOut }) => {
-    window.authSignOut = () => signOut(window.auth).then(() => { window.location.href = ‘/login’; });
+  import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js').then(({ signOut }) => {
+    window.authSignOut = () => signOut(window.auth).then(() => { window.location.href = '/login'; });
   });
 
-  const nameShort = (user.displayName || user.email.split(‘@’)[0]).split(‘ ‘)[0];
-  fetch(‘partials/navbar.html’)
+  const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+  fetch('partials/navbar.html')
     .then(r => r.text())
     .then(html => {
-      document.getElementById(‘navbar-container’).innerHTML = html;
+      document.getElementById('navbar-container').innerHTML = html;
       initNavbar();
-      const nEl = document.getElementById(‘profileNameShort’);
-      const aEl = document.getElementById(‘profileAvatar’);
-      const wEl = document.getElementById(‘profileWrap’);
+      const nEl = document.getElementById('profileNameShort');
+      const aEl = document.getElementById('profileAvatar');
+      const wEl = document.getElementById('profileWrap');
       if (nEl) nEl.textContent = nameShort;
-      if (aEl && typeof buildAvatarEl === ‘function’) buildAvatarEl(aEl, user);
-      if (wEl) wEl.style.display = ‘flex’;
+      if (aEl && typeof buildAvatarEl === 'function') buildAvatarEl(aEl, user);
+      if (wEl) wEl.style.display = 'flex';
     });
 
-  console.log('[CP-Math] calling _startSnapshot, window.db:', !!window.db);
   _startSnapshot(user.uid, appRole);
 });
 </script>
