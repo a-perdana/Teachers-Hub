@@ -633,7 +633,7 @@ if (!window.ENV) window.ENV = {
 </head>
 <body>
 
-<!-- â”€â”€ LOADING SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- â"€â"€ LOADING SCREEN â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
 <div id="loadingScreen" style="
   position:fixed;inset:0;background:var(--ink);
   display:flex;align-items:center;justify-content:center;z-index:99999;
@@ -651,30 +651,30 @@ if (!window.ENV) window.ENV = {
   </div>
 </div>
 
-<div id=”navbar-container”></div>
+<div id="navbar-container"></div>
 
 <!-- -- PACING TOPBAR ------------------------------------ -->
-<header class=”pacing-topbar”>
-  <div class=”pacing-brand”>
-    <div class=”pacing-brand-mark”>AS</div>
-    <div class=”pacing-brand-text”>
+<header class="pacing-topbar">
+  <div class="pacing-brand">
+    <div class="pacing-brand-mark">AS</div>
+    <div class="pacing-brand-text">
       <h1>Cambridge AS &amp; A Level Mathematics</h1>
       <p>9709 · Year 11–12</p>
     </div>
   </div>
-  <div class=”pacing-topbar-right”>
-    <div class=”prog-pill”>
-      <div class=”prog-bar-wrap”><div class=”prog-bar-fill” id=”topProgBar”></div></div>
-      <div class=”prog-text”><strong id=”topProgDone”>0</strong> / <span id=”topProgTotal”>0</span> topics</div>
+  <div class="pacing-topbar-right">
+    <div class="prog-pill">
+      <div class="prog-bar-wrap"><div class="prog-bar-fill" id="topProgBar"></div></div>
+      <div class="prog-text"><strong id="topProgDone">0</strong> / <span id="topProgTotal">0</span> topics</div>
     </div>
-    <div class=”role-badge” id=”roleBadge”>
-      <span class=”role-dot” id=”roleDot”></span>
-      <span id=”roleLabel”>Teacher</span>
+    <div class="role-badge" id="roleBadge">
+      <span class="role-dot" id="roleDot"></span>
+      <span id="roleLabel">Teacher</span>
     </div>
   </div>
 </header>
 
-<!-- â”€â”€ LAYOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- â"€â"€ LAYOUT â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
 <div class="layout sidebar-collapsed" id="appLayout">
 <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle sidebar" aria-label="Toggle sidebar">
   <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
@@ -742,7 +742,7 @@ if (!window.ENV) window.ENV = {
   </main>
 </div>
 
-<!-- â”€â”€ OBJECTIVES MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- â"€â"€ OBJECTIVES MODAL â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
 <div class="modal-bg" id="objModal" onclick="closeObjModal(event)">
   <div class="modal">
     <div class="modal-head">
@@ -776,7 +776,7 @@ if (!window.ENV) window.ENV = {
 </div>
 <div class="toast" id="toast"></div>
 
-<!-- â”€â”€ HOME BUTTON â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- â"€â"€ HOME BUTTON â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
 <style>
 .home-float {
   position: fixed; bottom: 22px; left: 22px;
@@ -1477,49 +1477,19 @@ function render() {
 // after data is loaded from Firestore.
 </script>
 
-<!-- â”€â”€ FIREBASE MODULE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- â"€â"€ FIREBASE MODULE â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
 <script type="module">
-/*
- * â”€â”€ Firestore Security Rules â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
- * Paste these into Firebase Console â†’ Firestore â†’ Rules:
- *
- * rules_version = '2';
- * service cloud.firestore {
- *   match /databases/{database}/documents {
- *
- *     // User profiles & roles - set role manually via Firebase Console
- *     // Set users/{uid}.role = "coordinator" for coordinators
- *     match /users/{uid} {
- *       allow read: if request.auth != null && request.auth.uid == uid;
- *       allow write: if false;
- *     }
- *
- *     // Shared pacing structure - all authenticated users can read;
- *     // coordinators write chapter/topic structure (no statuses stored here)
- *     match /igcse_pacing/{docId} {
- *       allow read:  if request.auth != null;
- *       allow write: if request.auth != null;
- *     }
- *
- *     // Per-user progress - each teacher reads/writes only their own doc
- *     match /userProgress/{uid} {
- *       allow read, write: if request.auth != null && request.auth.uid == uid;
- *     }
- *   }
- * }
- */
-
 import {
   getFirestore,
   doc,
   setDoc,
   onSnapshot,
   serverTimestamp,
-} from “https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js”;
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const db = getFirestore(window.firebaseApp);
 
-// â”€â”€ Module-level state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Module-level state â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 let unsubStructure  = null;   // listener for shared chapter structure
 let unsubUserProg   = null;   // listener for this user's own progress
 let currentUID      = null;
@@ -1527,7 +1497,7 @@ let currentRole     = 'teacher';
 let sharedStructure = null;   // chapters/topics without statuses
 let userStatuses    = {};     // { "ci-ti": "pending"|"inprogress"|"done" }
 
-// â”€â”€ Merge shared structure + per-user statuses â†’ window.DATA â”€â”€
+// â"€â"€ Merge shared structure + per-user statuses â†' window.DATA â"€â"€
 function _mergeAndRender(isFirstLoad, appRole) {
   if (!sharedStructure) return;
   window.DATA = sharedStructure.map((ch, ci) => ({
@@ -1545,7 +1515,7 @@ function _mergeAndRender(isFirstLoad, appRole) {
   }
 }
 
-// â”€â”€ Start real-time listeners â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Start real-time listeners â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 function _startSnapshot(uid, appRole) {
   if (unsubStructure) unsubStructure();
   if (unsubUserProg)  unsubUserProg();
@@ -1567,7 +1537,7 @@ function _startSnapshot(uid, appRole) {
     _mergeAndRender(fl, appRole);
   }
 
-  // â”€â”€ Shared structure listener â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â"€â"€ Shared structure listener â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   unsubStructure = onSnapshot(structureRef, (snap) => {
     sharedStructure = snap.exists() && Array.isArray(snap.data().chapters)
        ? snap.data().chapters : [];
@@ -1582,7 +1552,7 @@ function _startSnapshot(uid, appRole) {
     showToast('Firestore connection error');
   });
 
-  // â”€â”€ Per-user progress listener â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â"€â"€ Per-user progress listener â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   unsubUserProg = onSnapshot(userProgRef, (snap) => {
     userStatuses  = (snap.exists() && snap.data().asmath_statuses)
        ? snap.data().asmath_statuses
@@ -1597,7 +1567,7 @@ function _startSnapshot(uid, appRole) {
   });
 }
 
-// â”€â”€ Save to Firestore â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Save to Firestore â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 window.__fbSaveState = async function(data) {
   if (!currentUID) return;
 
