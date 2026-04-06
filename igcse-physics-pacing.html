@@ -1560,6 +1560,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
   getFirestore,
+  collection,
   doc,
   getDoc,
   setDoc,
@@ -1623,6 +1624,7 @@ onAuthStateChanged(auth, async (user) => {
       .then(html => {
         document.getElementById('navbar-container').innerHTML = html;
         initNavbar();
+        setupNavBadges(db, { onSnapshot, collection });
         const nEl = document.getElementById('profileNameShort');
         const aEl = document.getElementById('profileAvatar');
         const wEl = document.getElementById('profileWrap');

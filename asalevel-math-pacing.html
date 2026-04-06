@@ -1517,6 +1517,7 @@ function render() {
 <script type="module">
 import {
   getFirestore,
+  collection,
   doc,
   setDoc,
   onSnapshot,
@@ -1670,6 +1671,7 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     .then(html => {
       nc.innerHTML = html;
       initNavbar();
+      setupNavBadges(db, { onSnapshot, collection });
       const nEl = document.getElementById('profileNameShort');
       const aEl = document.getElementById('profileAvatar');
       const wEl = document.getElementById('profileWrap');
