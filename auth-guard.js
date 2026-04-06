@@ -195,7 +195,13 @@ onAuthStateChanged(auth, async (user) => {
 
   // 7. Show page and notify
   document.body.style.visibility = 'visible';
-  document.dispatchEvent(new CustomEvent('authReady', {
-    detail: { user, profile },
-  }));
+  // Store detail so late listeners can read window.__authReadyDetail if the event already fired
+  window.__authReadyDetail = { user, profile };
+  // setTimeout(0) ensures page module scripts have registered their authReady listeners
+  // before dispatch (ES modules execute in declaration order but auth-guard is in <head>)
+  setTimeout(() => {
+    document.dispatchEvent(new CustomEvent('authReady', {
+      detail: { user, profile },
+    }));
+  }, 0);
 });
