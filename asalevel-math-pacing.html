@@ -1437,12 +1437,12 @@ function applyRole(r) {
   const label    = document.getElementById('roleLabel');
   const resetBtn = document.getElementById('resetBtn');
   if (r === 'coord') {
-    dot.className     = 'role-dot coord';
-    label.textContent = 'Coordinator';
+    if (dot)   dot.className     = 'role-dot coord';
+    if (label) label.textContent = 'Coordinator';
     if (resetBtn) resetBtn.style.display = '';
   } else {
-    dot.className     = 'role-dot teacher';
-    label.textContent = 'Teacher';
+    if (dot)   dot.className     = 'role-dot teacher';
+    if (label) label.textContent = 'Teacher';
     if (resetBtn) resetBtn.style.display = 'none';
   }
   render();
@@ -1656,7 +1656,9 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   fetch('partials/navbar.html')
     .then(r => r.text())
     .then(html => {
-      document.getElementById('navbar-container').innerHTML = html;
+      const nc = document.getElementById('navbar-container');
+      if (!nc) return;
+      nc.innerHTML = html;
       initNavbar();
       const nEl = document.getElementById('profileNameShort');
       const aEl = document.getElementById('profileAvatar');
