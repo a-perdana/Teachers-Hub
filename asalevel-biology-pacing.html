@@ -1522,7 +1522,8 @@ let userStatuses    = {};
 
 
 function _mergeAndRender(isFirstLoad, appRole) {
-  window.DATA = (sharedStructure || []).map((ch, ci) => ({
+  if (!sharedStructure) return;
+  window.DATA = sharedStructure.map((ch, ci) => ({
     ...ch,
     topics: (ch.topics || []).map((t, ti) => ({
       ...t,
