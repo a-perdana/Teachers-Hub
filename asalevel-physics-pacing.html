@@ -1638,10 +1638,12 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   });
 
   const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+  let nc = document.getElementById('navbar-container');
+  if (!nc) { nc = document.createElement('div'); nc.id = 'navbar-container'; document.body.insertBefore(nc, document.body.firstChild); }
   fetch('partials/navbar.html')
     .then(r => { if (!r.ok) throw new Error('navbar fetch failed: ' + r.status); return r.text(); })
     .then(html => {
-      document.getElementById('navbar-container').innerHTML = html;
+      nc.innerHTML = html;
       initNavbar();
       const nEl = document.getElementById('profileNameShort');
       const aEl = document.getElementById('profileAvatar');
