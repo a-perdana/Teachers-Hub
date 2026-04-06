@@ -1534,6 +1534,7 @@ function _startSnapshot(uid, appRole) {
 
   // Shared structure listener
   unsubStructure = onSnapshot(structureRef, (snap) => {
+    clearTimeout(_loadTimeout);
     sharedStructure = snap.exists() && Array.isArray(snap.data().chapters)
        ? snap.data().chapters : [];
     structureReady = true;
@@ -1549,6 +1550,7 @@ function _startSnapshot(uid, appRole) {
 
   // Per-user progress listener
   unsubUserProg = onSnapshot(userProgRef, (snap) => {
+    clearTimeout(_loadTimeout);
     userStatuses  = (snap.exists() && snap.data().checkpoint_math_statuses)
        ? snap.data().checkpoint_math_statuses : {};
     progressReady = true;
@@ -1559,6 +1561,18 @@ function _startSnapshot(uid, appRole) {
     progressReady = true;
     tryRender();
   });
+
+  // Fallback: if Firestore snapshots don’t return within 8s, unblock the UI
+  const _loadTimeout = setTimeout(() => {
+    if (!structureReady || !progressReady) {
+      sharedStructure = sharedStructure || [];
+      userStatuses    = userStatuses    || {};
+      structureReady  = true;
+      progressReady   = true;
+      document.getElementById(‘loadingScreen’).style.display = ‘none’;
+      applyRole(appRole);
+    }
+  }, 8000);
 }
 
 // -- Save to Firestore --
@@ -1618,7 +1632,7 @@ document.addEventListener(‘authReady’, ({ detail: { user, profile } }) => {
   if (roleLabel) { roleLabel.textContent = appRole === ‘coord’ ? ‘Coordinator’ : ‘Teacher’; }
 
   import(‘https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js’).then(({ signOut }) => {
-    window.authSignOut = () => signOut(window.auth).then(() => { window.location.href = ‘login.html’; });
+    window.authSignOut = () => signOut(window.auth).then(() => { window.location.href = ‘/login’; });
   });
 
   const nameShort = (user.displayName || user.email.split(‘@’)[0]).split(‘ ‘)[0];
