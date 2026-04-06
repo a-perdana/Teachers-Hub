@@ -1623,7 +1623,9 @@ window.__fbSaveState = async function(data) {
 };
 
 // -- auth-guard dispatches authReady when auth + role confirmed --
+console.log(‘[CP-Math] module loaded, waiting for authReady’);
 document.addEventListener(‘authReady’, ({ detail: { user, profile } }) => {
+  console.log(‘[CP-Math] authReady fired, user:’, user.email);
   const appRole = profile.role_teachershub === ‘teachers_admin’ ? ‘coord’ : ‘teacher’;
 
   const roleDot   = document.getElementById(‘roleDot’);
@@ -1649,6 +1651,7 @@ document.addEventListener(‘authReady’, ({ detail: { user, profile } }) => {
       if (wEl) wEl.style.display = ‘flex’;
     });
 
+  console.log('[CP-Math] calling _startSnapshot, window.db:', !!window.db);
   _startSnapshot(user.uid, appRole);
 });
 </script>
