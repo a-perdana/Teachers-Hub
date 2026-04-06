@@ -619,6 +619,42 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .activity-chip.external   { background:#e8f0fb; color:#1a5fa8; border-color:#c2d8f5; }
 .activity-chip.pdf        { background:#fff1f0; color:#dc2626; border-color:#fecaca; }
 
+/* ── Pacing topbar (fallback if base.css not loaded) ── */
+.pacing-topbar {
+  background: #fff; border-bottom: 1px solid #e8e5de;
+  border-left: 4px solid var(--accent, #27ae60);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px; height: 60px; position: sticky; top: 60px; z-index: 200; gap: 12px;
+}
+.pacing-brand { display: flex; align-items: center; gap: 12px; }
+.pacing-brand-mark {
+  width: 36px; height: 36px; background: var(--accent, #27ae60); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700;
+  color: #fff; flex-shrink: 0; letter-spacing: .02em;
+}
+.pacing-brand-text h1 { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; color: #1c1c2e; }
+.pacing-brand-text p  { font-size: 11px; color: #8888a8; margin-top: 1px; }
+.pacing-topbar-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.prog-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: #f5f4f0; border: 1px solid #e8e5de; border-radius: 8px; padding: 6px 12px;
+}
+.prog-bar-wrap { width: 90px; height: 5px; background: #e8e5de; border-radius: 3px; overflow: hidden; }
+.prog-bar-fill { height: 100%; background: var(--accent, #27ae60); border-radius: 3px; transition: width .5s ease; }
+.prog-text { font-size: 11px; color: #8888a8; white-space: nowrap; }
+.prog-text strong { color: #1c1c2e; }
+.role-badge {
+  display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 100px; text-transform: uppercase; letter-spacing: .04em;
+  border: 1px solid #e8e5de; background: #f5f4f0; color: #6e6d7a;
+}
+.role-badge .role-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.role-dot-coord   { background: #f5a623; }
+.role-dot-teacher { background: #059669; }
+.role-dot.coord   { background: #f5a623; }
+.role-dot.teacher { background: #059669; }
+
 </style>
 
 <script src="partials/navbar.js"></script>
