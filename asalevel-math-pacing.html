@@ -1585,7 +1585,8 @@ window.__fbSaveState = async function(data) {
   try {
     await setDoc(
       doc(db, 'userProgress', currentUID),
-      { asmath_statuses: newStatuses, updatedAt: serverTimestamp() }
+      { asmath_statuses: newStatuses, updatedAt: serverTimestamp() },
+      { merge: true }
     );
   } catch(e) {
     console.error('User progress save error:', e);
