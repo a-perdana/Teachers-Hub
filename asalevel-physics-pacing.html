@@ -5,106 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cambridge International AS & A Level Physics - Pacing Guide</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
 <style>
 :root {
-  --ink: #1c1c2e;
-  --ink-2: #44445a;
-  --ink-3: #8888a8;
-  --paper: #f7f6f3;
-  --paper-2: #efede8;
-  --white: #ffffff;
-  --border: #e0ddd6;
   --accent: #2980b9;
-  --accent-2: #e8f2fb;
-  --green: #1e7a4a;
-  --green-2: #e6f5ed;
-  --blue: #1a5fa8;
-  --blue-2: #e8f0fb;
-  --amber: #b07800;
-  --amber-2: #fef8e7;
-  --purple: #6c3fa0;
-  --purple-2: #f2ecfb;
-  --shadow-sm: 0 1px 4px rgba(28,28,46,.07);
-  --shadow: 0 3px 14px rgba(28,28,46,.10);
-  --shadow-lg: 0 10px 40px rgba(28,28,46,.16);
-  --radius: 10px;
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--paper);
-  color: var(--ink);
-  min-height: 100vh;
-  font-size: 14px;
+  --accent-2: #e8f4fd;
+  /* keep semantic colors if used: --green, --green-2, --blue, --blue-2, --amber, --amber-2, --purple, --purple-2 */
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* --- TOPBAR -----------------------------*/
-.topbar {
-  background: var(--ink);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 28px;
-  height: 60px;
-  position: sticky;
-  top: 0;
-  z-index: 200;
-  border-bottom: 3px solid var(--accent);
-}
-
-.brand { display: flex; align-items: center; gap: 12px; }
-.brand-mark {
-  width: 36px; height: 36px;
-  background: var(--accent);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Lora', serif;
-  font-size: 1.1rem;
-  color: white;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-.brand-text h1 { font-family: 'Lora', serif; font-size: .95rem; font-weight: 600; }
-.brand-text p  { font-size: .68rem; color: #9999bb; margin-top: 1px; }
-
-.topbar-right { display: flex; align-items: center; gap: 14px; }
-
-/* Role badge */
-.role-badge {
-  display: flex; align-items: center; gap: 6px;
-  font-size: .7rem; font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 100px;
-  border: 1px solid rgba(255,255,255,.18);
-  background: rgba(255,255,255,.08);
-  letter-spacing: .03em;
-  max-width: 260px;
-}
-.role-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.role-dot.coord { background: #f5a623; }
-.role-dot.teacher { background: #4cd98a; }
-
-/* Progress pill */
-.prog-pill {
-  display: flex; align-items: center; gap: 8px;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 8px;
-  padding: 6px 12px;
-}
-.prog-bar-wrap { width: 90px; height: 5px; background: rgba(255,255,255,.15); border-radius: 3px; overflow: hidden; }
-.prog-bar-fill  { height: 100%; background: var(--accent); border-radius: 3px; transition: width .5s ease; }
-.prog-text { font-size: .7rem; color: #ccc; white-space: nowrap; }
-.prog-text strong { color: white; }
-
-/* --- LAYOUT -----------------------------*/
-.layout { display: grid; grid-template-columns: 280px 1fr; height: calc(100vh - 60px); transition: grid-template-columns .25s ease; }
+.layout { display: grid; grid-template-columns: 280px 1fr; height: calc(100vh - 120px); transition: grid-template-columns .25s ease; position: relative; }
 .layout.sidebar-collapsed { grid-template-columns: 0px 1fr; }
 
 /* --- SIDEBAR ----------------------------*/
@@ -683,9 +594,9 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   .ch-prog-bar { width: 48px; }
   .status-pill { flex-direction: column; }
   .sp-btn { padding: 2px 5px; font-size: .6rem; }
-  .topbar { padding: 0 12px; }
+  .pacing-topbar { padding: 0 12px; }
   .prog-pill { display: none; }
-  .brand-text p { display: none; }
+  .pacing-brand-text p { display: none; }
   .panel { padding: 12px 14px; }
   .home-float { bottom: 14px; left: 14px; }
 }
@@ -707,6 +618,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 
 </style>
 
+<script src="partials/navbar.js"></script>
 <script src="firebase-config.js"></script>
 <script>
 if (!window.ENV) window.ENV = {
@@ -718,6 +630,7 @@ if (!window.ENV) window.ENV = {
   FIREBASE_APP_ID:              "__FIREBASE_APP_ID__",
 };
 </script>
+<script type="module" src="auth-guard.js"></script>
 </head>
 <body>
 
@@ -740,74 +653,26 @@ if (!window.ENV) window.ENV = {
 </div>
 
 <!-- â”€â”€ LOGIN SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
-<div id="loginScreen" style="
-  position:fixed;inset:0;background:rgba(28,28,46,.96);
-  display:none;align-items:center;justify-content:center;
-  z-index:99998;backdrop-filter:blur(4px);
-">
-  <div style="
-    background:white;border-radius:16px;width:360px;max-width:92vw;
-    padding:36px 32px;box-shadow:var(--shadow-lg);
-  ">
-    <div style="text-align:center;margin-bottom:28px;">
-      <div style="
-        width:50px;height:50px;background:var(--accent);border-radius:12px;
-        display:inline-flex;align-items:center;justify-content:center;
-        font-family:'Lora',serif;font-size:1.5rem;color:white;margin-bottom:14px;
-      ">??</div>
-      <h2 style="font-family:'Lora',serif;font-size:1.1rem;color:var(--ink);margin-bottom:4px;">AS/A Level Physics</h2>
-      <p style="font-size:.72rem;color:var(--ink-3);">9702 - Year 11-12 Pacing Guide</p>
-    </div>
-    <div id="loginError" style="
-      display:none;background:var(--accent-2);color:var(--accent);
-      font-size:.72rem;padding:8px 12px;border-radius:7px;
-      border:1px solid #b8d4ec;margin-bottom:14px;
-    "></div>
-    <button id="googleBtn" type="button" style="
-      width:100%;padding:11px;border-radius:8px;border:1.5px solid #dadce0;
-      background:white;cursor:pointer;font-size:.85rem;font-weight:500;
-      display:flex;align-items:center;justify-content:center;gap:10px;
-      margin-bottom:16px;transition:background .15s;
-    " onmouseover="this.style.background='#f8f8f8'" onmouseout="this.style.background='white'">
-      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-      Continue with Google
-    </button>
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-      <div style="flex:1;height:1px;background:#e8e8e8;"></div>
-      <span style="font-size:.72rem;color:var(--ink-3);">or</span>
-      <div style="flex:1;height:1px;background:#e8e8e8;"></div>
-    </div>
-    <form id="loginForm" novalidate>
-      <input type="email" id="loginEmail" placeholder="Email address" class="login-input" required>
-      <input type="password" id="loginPassword" placeholder="Password" class="login-input" style="margin-bottom:16px;" required>
-      <button type="submit" id="loginBtn" class="login-submit">Sign In</button>
-    </form>
-  </div>
-</div>
+<div id=”navbar-container”></div>
 
-<!-- â”€â”€ TOPBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
-<header class="topbar">
-  <div class="brand">
-    <div class="brand-mark">AS</div>
-    <div class="brand-text">
-      <h1>Cambridge International AS & A Level Physics</h1>
-      <p>9702 - Core & Extended - Year 11-12 Pacing Guide</p>
+<!-- -- PACING TOPBAR ------------------------------------ -->
+<header class=”pacing-topbar”>
+  <div class=”pacing-brand”>
+    <div class=”pacing-brand-mark”>AS</div>
+    <div class=”pacing-brand-text”>
+      <h1>Cambridge AS &amp; A Level Physics</h1>
+      <p>9702 · Year 11–12</p>
     </div>
   </div>
-  <div class="topbar-right">
-    <div class="prog-pill">
-      <div class="prog-bar-wrap"><div class="prog-bar-fill" id="topProgBar"></div></div>
-      <div class="prog-text"><strong id="topProgDone">0</strong> / <span id="topProgTotal">0</span> topics</div>
+  <div class=”pacing-topbar-right”>
+    <div class=”prog-pill”>
+      <div class=”prog-bar-wrap”><div class=”prog-bar-fill” id=”topProgBar”></div></div>
+      <div class=”prog-text”><strong id=”topProgDone”>0</strong> / <span id=”topProgTotal”>0</span> topics</div>
     </div>
-    <div class="role-badge" id="roleBadge">
-      <span class="role-dot teacher" id="roleDot"></span>
-      <span id="roleLabel">Teacher</span>
-      <span id="userDisplayName" style="opacity:.6;font-weight:400;margin-left:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;"></span>
+    <div class=”role-badge” id=”roleBadge”>
+      <span class=”role-dot” id=”roleDot”></span>
+      <span id=”roleLabel”>Teacher</span>
     </div>
-    <button class="btn" id="logoutBtn"
-      style="display:none;color:rgba(255,255,255,.65);border-color:rgba(255,255,255,.2);background:transparent;font-size:.68rem;"
-      onclick="window.__fbLogout && window.__fbLogout()"
-    >Sign Out</button>
   </div>
 </header>
 
@@ -985,9 +850,9 @@ if (!window.ENV) window.ENV = {
   .ch-prog-bar { width: 48px; }
   .status-pill { flex-direction: column; }
   .sp-btn { padding: 2px 5px; font-size: .6rem; }
-  .topbar { padding: 0 12px; }
+  .pacing-topbar { padding: 0 12px; }
   .prog-pill { display: none; }
-  .brand-text p { display: none; }
+  .pacing-brand-text p { display: none; }
   .panel { padding: 12px 14px; }
   .home-float { bottom: 14px; left: 14px; }
 }
@@ -1633,37 +1498,15 @@ function render() {
 
 <!-- â”€â”€ FIREBASE MODULE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
 <script type="module">
-import { initializeApp }
-  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signOut,
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
   getFirestore,
   doc,
-  getDoc,
   setDoc,
   onSnapshot,
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey:            window.ENV.FIREBASE_API_KEY,
-  authDomain:        window.ENV.FIREBASE_AUTH_DOMAIN,
-  projectId:         window.ENV.FIREBASE_PROJECT_ID,
-  storageBucket:     window.ENV.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
-  appId:             window.ENV.FIREBASE_APP_ID,
-};
-
-const app  = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getFirestore(app);
+const db = getFirestore(window.firebaseApp);
 
 let unsubStructure  = null;
 let unsubUserProg   = null;
@@ -1672,53 +1515,6 @@ let currentRole     = 'teacher';
 let sharedStructure = null;
 let userStatuses    = {};
 
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    currentUID = user.uid;
-    let appRole     = 'teacher';
-    let displayName = user.displayName || user.email.split('@')[0];
-
-    try {
-      const userRef  = doc(db, 'users', user.uid);
-      await setDoc(userRef, {
-        displayName: displayName,
-        email: user.email || '',
-      }, { merge: true });
-      const userSnap = await getDoc(userRef);
-      const r = userSnap.exists() ? userSnap.data().role_teachershub : null;
-      if (r === 'teachers_admin') {
-        appRole = 'coord';
-      } else if (!r) {
-        await setDoc(userRef, { role_teachershub: 'teachers_user' }, { merge: true });
-      }
-    } catch(e) { /* role stays 'teacher' */ }
-
-    const nameEl = document.getElementById('userDisplayName');
-    if (nameEl) nameEl.textContent = '- ' + displayName;
-    document.getElementById('logoutBtn').style.display = '';
-
-    _startSnapshot(appRole);
-
-  } else {
-    if (unsubStructure) { unsubStructure(); unsubStructure = null; }
-    if (unsubUserProg)  { unsubUserProg();  unsubUserProg  = null; }
-    currentUID      = null;
-    sharedStructure = null;
-    userStatuses    = {};
-    document.getElementById('loadingScreen').style.display = 'none';
-    document.getElementById('loginScreen').style.display  = 'flex';
-    document.getElementById('logoutBtn').style.display    = 'none';
-
-    const nameEl = document.getElementById('userDisplayName');
-    if (nameEl) nameEl.textContent = '';
-
-    const gBtn = document.getElementById('googleBtn');
-    if (gBtn) {
-      gBtn.disabled = false;
-      gBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continue with Google`;
-    }
-  }
-});
 
 function _mergeAndRender(isFirstLoad, appRole) {
   window.DATA = (sharedStructure || []).map((ch, ci) => ({
@@ -1730,16 +1526,16 @@ function _mergeAndRender(isFirstLoad, appRole) {
   }));
   if (isFirstLoad) {
     document.getElementById('loadingScreen').style.display = 'none';
-    document.getElementById('loginScreen').style.display  = 'none';
     applyRole(appRole);
   } else {
     render();
   }
 }
 
-function _startSnapshot(appRole) {
+function _startSnapshot(uid, appRole) {
   if (unsubStructure) unsubStructure();
   if (unsubUserProg)  unsubUserProg();
+  currentUID  = uid;
   currentRole = appRole;
 
   const structureRef = doc(db, 'asalevel_physics_pacing', 'year11-12');
@@ -1765,7 +1561,6 @@ function _startSnapshot(appRole) {
     sharedStructure = [];
     structureReady  = true;
     document.getElementById('loadingScreen').style.display = 'none';
-    document.getElementById('loginScreen').style.display  = 'none';
     applyRole(appRole);
     showToast('Firestore connection error');
   });
@@ -1826,43 +1621,34 @@ window.__fbSaveState = async function(data) {
   }
 };
 
-window.__fbLogout = () => signOut(auth);
+// -- auth-guard dispatches authReady when auth + role confirmed --
+document.addEventListener('authReady', ({ detail: { user, profile } }) => {
+  const appRole = profile.role_teachershub === 'teachers_admin' ? 'coord' : 'teacher';
 
-document.getElementById('googleBtn').addEventListener('click', async () => {
-  const btn   = document.getElementById('googleBtn');
-  const errEl = document.getElementById('loginError');
-  btn.disabled = true;
-  btn.textContent = 'Signing in...';
-  errEl.style.display = 'none';
-  try {
-    await signInWithPopup(auth, new GoogleAuthProvider());
-  } catch(err) {
-    errEl.textContent   = 'Google sign-in failed. Please try again.';
-    errEl.style.display = 'block';
-    btn.disabled = false;
-    btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continue with Google`;
-  }
-});
+  const roleDot   = document.getElementById('roleDot');
+  const roleLabel = document.getElementById('roleLabel');
+  if (roleDot)   { roleDot.className = 'role-dot ' + (appRole === 'coord' ? 'role-dot-coord' : 'role-dot-teacher'); }
+  if (roleLabel) { roleLabel.textContent = appRole === 'coord' ? 'Coordinator' : 'Teacher'; }
 
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const email    = document.getElementById('loginEmail').value.trim();
-  const password = document.getElementById('loginPassword').value;
-  const btn      = document.getElementById('loginBtn');
-  const errEl    = document.getElementById('loginError');
+  import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js').then(({ signOut }) => {
+    window.authSignOut = () => signOut(window.auth).then(() => { window.location.href = 'login.html'; });
+  });
 
-  btn.textContent = 'Signing in...';
-  btn.disabled    = true;
-  errEl.style.display = 'none';
+  const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+  fetch('partials/navbar.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('navbar-container').innerHTML = html;
+      initNavbar();
+      const nEl = document.getElementById('profileNameShort');
+      const aEl = document.getElementById('profileAvatar');
+      const wEl = document.getElementById('profileWrap');
+      if (nEl) nEl.textContent = nameShort;
+      if (aEl && typeof buildAvatarEl === 'function') buildAvatarEl(aEl, user);
+      if (wEl) wEl.style.display = 'flex';
+    });
 
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch(err) {
-    errEl.textContent   = 'Invalid email or password.';
-    errEl.style.display = 'block';
-    btn.textContent     = 'Sign In';
-    btn.disabled        = false;
-  }
+  _startSnapshot(user.uid, appRole);
 });
 </script>
 </body>

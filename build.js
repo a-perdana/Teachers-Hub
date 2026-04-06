@@ -22,7 +22,6 @@ const envVars = [
 const ROUTES = {
   'index.html': '',
   'login.html': 'login',
-  'pacing-hub.html': 'pacing',
   'igcse-math-pacing.html': 'math',
   'igcse-physics-pacing.html': 'physics',
   'igcse-chemistry-pacing.html': 'chemistry',
@@ -45,7 +44,6 @@ const ROUTES = {
 const LINK_REWRITES = [
   [/href="index\.html"/g, 'href="/"'],
   [/href="login\.html"/g, 'href="/login"'],
-  [/href="pacing-hub\.html"/g, 'href="/pacing"'],
   [/href="igcse-math-pacing\.html"/g, 'href="/math"'],
   [/href="igcse-physics-pacing\.html"/g, 'href="/physics"'],
   [/href="igcse-chemistry-pacing\.html"/g, 'href="/chemistry"'],
@@ -82,6 +80,9 @@ function processFile(filename) {
   // Use absolute path for auth-guard.js so subdirectory pages resolve it correctly
   html = html.replace(/src="auth-guard\.js"/g, 'src="/auth-guard.js"');
 
+  // Use absolute path for base.css so subdirectory pages resolve it correctly
+  html = html.replace(/href="base\.css"/g, 'href="/base.css"');
+
   // Use absolute paths for partials so subdirectory pages resolve them correctly
   html = html.replace(/src="partials\/navbar\.js"/g, 'src="/partials/navbar.js"');
   html = html.replace(/fetch\('partials\/navbar\.html'\)/g, "fetch('/partials/navbar.html')");
@@ -112,6 +113,10 @@ Object.keys(ROUTES).forEach(processFile);
 // Copy auth-guard.js to dist root (referenced as relative URL from clean URL pages)
 fs.copyFileSync(path.join(__dirname, 'auth-guard.js'), path.join(distDir, 'auth-guard.js'));
 console.log('Copied: dist/auth-guard.js');
+
+// Copy base.css to dist root
+fs.copyFileSync(path.join(__dirname, 'base.css'), path.join(distDir, 'base.css'));
+console.log('Copied: dist/base.css');
 
 // Copy partials folder to dist root
 const partialsSrcDir = path.join(__dirname, 'partials');

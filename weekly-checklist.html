@@ -5,80 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Weekly Checklist — Teachers Hub</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
 <style>
 :root {
-  --ink:       #1c1c2e;
-  --ink-2:     #44445a;
-  --ink-3:     #8888a8;
-  --paper:     #f7f6f3;
-  --paper-2:   #efede8;
-  --white:     #ffffff;
-  --border:    #e0ddd6;
-  --accent:    #6c5ce7;
-  --accent-2:  #ede9fe;
-  --green:     #059669;
-  --green-2:   #d1fae5;
-  --shadow-sm: 0 1px 4px rgba(28,28,46,.07);
-  --shadow:    0 3px 14px rgba(28,28,46,.10);
-  --shadow-lg: 0 10px 40px rgba(28,28,46,.16);
-  --radius:    10px;
+  --accent:   #6c5ce7;
+  --accent-2: #ede9fe;
 }
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--paper);
-  color: var(--ink);
-  min-height: 100vh;
-  font-size: 14px;
-}
-
-/* ─── TOPBAR ─────────────────────────────────── */
-.topbar {
-  background: var(--ink);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 28px;
-  height: 60px;
-  position: sticky;
-  top: 0;
-  z-index: 200;
-  border-bottom: 3px solid var(--accent);
-  gap: 16px;
-}
-.topbar-left { display: flex; align-items: center; gap: 14px; }
-.back-btn {
-  display: flex; align-items: center; gap: 6px;
-  padding: 6px 14px; border-radius: 8px;
-  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14);
-  color: rgba(255,255,255,.75); font-size: 12.5px; font-weight: 500;
-  cursor: pointer; text-decoration: none;
-  transition: all .18s ease;
-}
-.back-btn:hover { background: rgba(255,255,255,.14); color: #fff; }
-.topbar-title {
-  font-family: 'Lora', serif;
-  font-size: 1rem; font-weight: 600; color: #fff;
-}
-.topbar-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.role-badge {
-  font-size: 11px; font-weight: 700; padding: 3px 10px;
-  border-radius: 20px; background: rgba(108,92,231,.3);
-  color: #c4b5fd; border: 1px solid rgba(108,92,231,.4);
-  text-transform: uppercase; letter-spacing: 0.05em;
-}
-.role-badge.admin { background: rgba(245,158,11,.25); color: #fcd34d; border-color: rgba(245,158,11,.4); }
-.btn-logout-top {
-  font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500;
-  color: rgba(255,255,255,.5); background: none;
-  border: 1px solid rgba(255,255,255,.14); border-radius: 6px; padding: 5px 12px;
-  cursor: pointer; transition: all .18s;
-}
-.btn-logout-top:hover { color: #fff; border-color: rgba(255,255,255,.3); }
 
 /* ─── HERO ───────────────────────────────────── */
 .hero {
@@ -391,20 +323,7 @@ body {
 </head>
 <body>
 
-<!-- ─── TOPBAR ─────────────────────────────────────────────────── -->
-<header class="topbar">
-  <div class="topbar-left">
-    <a href="index.html" class="back-btn">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-      Home
-    </a>
-    <span class="topbar-title">Weekly Checklist</span>
-  </div>
-  <div class="topbar-right">
-    <span class="role-badge" id="roleBadge">Staff</span>
-    <button class="btn-logout-top" id="logoutBtn">Sign out</button>
-  </div>
-</header>
+<div id="navbar-container"></div>
 
 <!-- ─── HERO ────────────────────────────────────────────────────── -->
 <section class="hero">
@@ -512,6 +431,7 @@ body {
 
 <div class="toast" id="toast"></div>
 
+<script src="partials/navbar.js"></script>
 <script src="firebase-config.js"></script>
 <script>
   if (!window.ENV) window.ENV = {
@@ -567,13 +487,37 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   currentUid = user.uid;
   isAdmin = profile?.role_teachershub === 'teachers_admin';
 
-  const roleBadge = document.getElementById('roleBadge');
-  roleBadge.textContent = isAdmin ? 'Admin' : 'Staff';
-  if (isAdmin) roleBadge.classList.add('admin');
+  // Expose signOut for navbar dropdown
+  window.authSignOut = () => signOut(window.auth).then(() => { window.location.href = 'login.html'; });
 
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    signOut(window.auth).then(() => { window.location.href = 'login.html'; });
-  });
+  // Load navbar partial
+  const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+  const updateNavbarElements = () => {
+    const profileNameShort = document.getElementById('profileNameShort');
+    const profileAvatar    = document.getElementById('profileAvatar');
+    const profileWrap      = document.getElementById('profileWrap');
+    const pdName           = document.getElementById('pdName');
+    const pdEmail          = document.getElementById('pdEmail');
+    const pdAvatarLg       = document.getElementById('pdAvatarLg');
+    if (profileNameShort) profileNameShort.textContent = nameShort;
+    if (profileAvatar && typeof buildAvatarEl === 'function') buildAvatarEl(profileAvatar, user);
+    if (profileWrap) profileWrap.style.display = 'flex';
+    if (pdName)  pdName.textContent  = user.displayName || user.email.split('@')[0];
+    if (pdEmail) pdEmail.textContent = user.email;
+    if (pdAvatarLg && typeof buildAvatarEl === 'function') buildAvatarEl(pdAvatarLg, user);
+  };
+  fetch('partials/navbar.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('navbar-container').innerHTML = html;
+      initNavbar();
+      updateNavbarElements();
+      const db = window.db;
+      if (db) {
+        const { onSnapshot: _ons, collection: _col } = { onSnapshot, collection };
+        setupNavBadges(db, { onSnapshot: _ons, collection: _col });
+      }
+    });
 
   if (isAdmin) {
     document.getElementById('adminBar').style.display = 'flex';
