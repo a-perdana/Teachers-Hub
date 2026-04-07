@@ -2462,7 +2462,7 @@ function _mergeAndRender(isFirstLoad, appRole) {
     })),
   }));
   if (isFirstLoad) {
-    document.getElementById('loadingScreen').style.display = 'none';
+    const _ls = document.getElementById('loadingScreen'); if (_ls) _ls.style.display = 'none';
     applyRole(appRole);   // sets role var, updates badge, calls render()
   } else {
     render();
@@ -2525,7 +2525,7 @@ function _startSnapshot(uid, appRole) {
       userStatuses    = userStatuses    || {};
       structureReady  = true;
       progressReady   = true;
-      document.getElementById('loadingScreen').style.display = 'none';
+      const _ls = document.getElementById('loadingScreen'); if (_ls) _ls.style.display = 'none';
       applyRole(appRole);
     }
   }, 8000);
