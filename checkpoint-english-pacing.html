@@ -309,12 +309,12 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   outline: none;
   line-height: 1.5;
 }
-.coord-mode .editable {
+.admin-mode .editable {
   cursor: text;
   border: 1px dashed transparent;
 }
-.coord-mode .editable:hover { background: var(--paper-2); border-color: var(--border); }
-.coord-mode .editable:focus { background: white; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(39,174,96,.12); }
+.admin-mode .editable:hover { background: var(--paper-2); border-color: var(--border); }
+.admin-mode .editable:focus { background: white; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(39,174,96,.12); }
 
 /* Edit indicator */
 .edit-hint {
@@ -324,7 +324,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   border-bottom: 1px solid #b0dcc0;
   align-items: center; gap: 8px;
 }
-.coord-mode .edit-hint { display: flex; }
+.admin-mode .edit-hint { display: flex; }
 .edit-hint-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
@@ -374,7 +374,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   transition: color .15s, background .15s;
 }
 .del-topic-btn:hover { color: var(--accent); background: var(--accent-2); }
-.coord-mode .del-topic-btn { display: inline-flex; }
+.admin-mode .del-topic-btn { display: inline-flex; }
 
 .del-ch-btn {
   display: none; background: none; border: none; cursor: pointer;
@@ -383,7 +383,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   transition: color .15s;
 }
 .del-ch-btn:hover { color: white; }
-.coord-mode .del-ch-btn { display: inline-flex; }
+.admin-mode .del-ch-btn { display: inline-flex; }
 
 .add-topic-row td { padding: 6px 16px !important; border-bottom: none !important; }
 .add-topic-btn {
@@ -393,7 +393,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   transition: border-color .15s, color .15s;
 }
 .add-topic-btn:hover { border-color: var(--accent); color: var(--accent); }
-.coord-mode .add-topic-btn { display: block; }
+.admin-mode .add-topic-btn { display: block; }
 
 .add-chapter-wrap {
   display: none; text-align: center; padding: 16px 0 8px;
@@ -405,7 +405,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   transition: border-color .15s, color .15s;
 }
 .add-chapter-btn:hover { border-color: var(--accent); color: var(--accent); }
-.coord-mode .add-chapter-wrap { display: block; }
+.admin-mode .add-chapter-wrap { display: block; }
 
 /* ─── RESOURCES ────────────────────────────────*/
 .res-row td { padding: 3px 16px 10px 42px !important; }
@@ -425,7 +425,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   line-height: 1; margin-left: 2px; transition: color .12s;
 }
 .del-res-btn:hover { color: var(--accent); }
-.coord-mode .del-res-btn { display: inline; }
+.admin-mode .del-res-btn { display: inline; }
 .add-res-btn {
   display: none; background: none; border: 1px dashed var(--border);
   color: var(--ink-3); font-size: .63rem; padding: 2px 7px;
@@ -433,7 +433,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   transition: border-color .12s, color .12s;
 }
 .add-res-btn:hover { border-color: var(--accent); color: var(--accent); }
-.coord-mode .add-res-btn { display: inline-flex; }
+.admin-mode .add-res-btn { display: inline-flex; }
 .res-form { display: none; align-items: center; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
 .res-form.open { display: flex; }
 .res-form input {
@@ -457,7 +457,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 }
 .res-add-cancel:hover { border-color: var(--ink-2); color: var(--ink); }
 .res-row.empty-res { display: none; }
-.coord-mode .res-row.empty-res { display: table-row; }
+.admin-mode .res-row.empty-res { display: table-row; }
 .res-row td { border-bottom: none !important; }
 
 /* ─── LOGIN SCREEN ─────────────────────────────*/
@@ -614,7 +614,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .add-chapter-wrap {
   display: none; text-align: center; padding: 16px 0 20px;
 }
-.coord-mode .add-chapter-wrap { display: block; }
+.admin-mode .add-chapter-wrap { display: block; }
 
 /* ─── GALLERY VIEW ─────────────────────────── */
 #chBlocks.gallery-view {
@@ -677,6 +677,181 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 /* add-chapter button in gallery view */
 #chBlocks.gallery-view .add-chapter-wrap { grid-column: 1/-1; }
 
+
+/* ─── TEACHER NOTES ─────────────────────────── */
+.note-btn {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: .62rem; font-weight: 500;
+  padding: 2px 7px; border-radius: 4px;
+  border: 1px solid var(--border); background: var(--paper);
+  color: var(--ink-3); cursor: pointer; transition: all .12s;
+  flex-shrink: 0;
+}
+.note-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
+.note-btn.has-note { background: #fff8e6; border-color: #f0dea0; color: #b45309; }
+
+.note-panel {
+  display: none;
+  padding: 8px 12px 10px;
+  background: #fffef5;
+  border-top: 1px solid #f0dea0;
+  border-bottom: 1px dashed #f0dea0;
+}
+.note-panel.open { display: block; }
+.note-textarea {
+  width: 100%; min-height: 68px; resize: vertical;
+  font-family: 'DM Sans', sans-serif; font-size: .78rem;
+  line-height: 1.55; color: var(--ink);
+  border: 1px solid #f0dea0; border-radius: 6px;
+  padding: 7px 9px; background: white; outline: none;
+  transition: border-color .12s;
+}
+.note-textarea:focus { border-color: var(--amber, #d97706); }
+.note-actions { display: flex; gap: 6px; margin-top: 6px; align-items: center; }
+.note-save-btn {
+  font-family: 'DM Sans', sans-serif; font-size: .7rem;
+  padding: 4px 12px; border-radius: 5px;
+  background: var(--accent); color: white; border: none; cursor: pointer;
+}
+.note-save-btn:hover { background: #a93224; }
+.note-discard-btn {
+  font-family: 'DM Sans', sans-serif; font-size: .7rem;
+  padding: 4px 9px; border-radius: 5px;
+  background: none; border: 1px solid var(--border); color: var(--ink-3); cursor: pointer;
+}
+.note-discard-btn:hover { border-color: var(--ink-2); color: var(--ink); }
+.note-preview {
+  font-size: .72rem; color: #92400e;
+  line-height: 1.4; margin-top: 4px;
+  font-style: italic; white-space: pre-wrap;
+  max-height: 48px; overflow: hidden;
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
+/* ─── PACE ALERT BADGES ─────────────────────── */
+.pace-badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: .6rem; font-weight: 700; letter-spacing: .03em;
+  padding: 2px 7px; border-radius: 100px; white-space: nowrap;
+  flex-shrink: 0;
+}
+.pace-badge.overdue  { background: #fff0f0; color: #c0392b; border: 1px solid #f5c6c1; }
+.pace-badge.behind   { background: #fff8e6; color: #b45309; border: 1px solid #f0dea0; }
+.pace-badge.on-track { background: var(--green-2); color: var(--green); border: 1px solid #b6e4c8; }
+.pace-badge.upcoming { background: var(--blue-2); color: var(--blue); border: 1px solid #c2d8f5; }
+
+/* Topbar pace summary pill */
+.pace-summary-pill {
+  display: flex; align-items: center; gap: 6px;
+  font-size: .7rem; font-weight: 600;
+  padding: 4px 10px; border-radius: 100px;
+  background: #fff8e6; color: #b45309;
+  border: 1px solid #f0dea0;
+  cursor: default; white-space: nowrap;
+}
+.pace-summary-pill.ok { background: var(--green-2); color: var(--green); border-color: #b6e4c8; }
+.pace-summary-pill.danger { background: #fff0f0; color: #c0392b; border-color: #f5c6c1; }
+
+/* ─── CLASS SELECTOR ────────────────────────── */
+.class-selector-wrap {
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+}
+.class-selector-label {
+  font-size: .68rem; font-weight: 700; color: var(--ink-3); white-space: nowrap;
+}
+.class-select {
+  font-family: 'DM Sans', sans-serif; font-size: .75rem;
+  padding: 5px 10px; border-radius: 7px;
+  border: 1px solid var(--border); background: white; color: var(--ink);
+  cursor: pointer; outline: none; transition: border-color .15s;
+  max-width: 160px;
+}
+.class-select:focus { border-color: var(--accent); }
+.class-manage-btn {
+  background: none; border: 1px solid var(--border); border-radius: 6px;
+  padding: 4px 8px; cursor: pointer; color: var(--ink-3);
+  font-size: .82rem; transition: all .12s;
+}
+.class-manage-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
+
+/* ─── OBJECTIVE COVERAGE PANEL ─────────────── */
+#panel-coverage { padding: 20px 24px; }
+
+.coverage-summary {
+  display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;
+}
+.cov-stat {
+  flex: 1; min-width: 120px;
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px 18px;
+  box-shadow: var(--shadow-sm);
+}
+.cov-stat-num { font-size: 1.6rem; font-weight: 700; line-height: 1; color: var(--ink); }
+.cov-stat-label { font-size: .68rem; color: var(--ink-3); margin-top: 4px; font-weight: 500; }
+.cov-stat.danger .cov-stat-num { color: var(--accent); }
+.cov-stat.ok    .cov-stat-num { color: var(--green); }
+
+.coverage-table {
+  width: 100%; border-collapse: collapse;
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.coverage-table th {
+  font-size: .62rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--ink-3); padding: 9px 14px; text-align: left;
+  border-bottom: 1px solid var(--border); background: #fafaf8;
+}
+.coverage-table td {
+  padding: 9px 14px; border-bottom: 1px solid var(--border);
+  font-size: .8rem; vertical-align: middle;
+}
+.coverage-table tr:last-child td { border-bottom: none; }
+.coverage-table tr.cov-covered   { }
+.coverage-table tr.cov-partial   { background: #fff8e6; }
+.coverage-table tr.cov-uncovered { background: #fff0f0; }
+.coverage-table tr:hover td { background: var(--paper-2); }
+.coverage-table tr.cov-uncovered:hover td { background: #ffe5e5; }
+
+.cov-code {
+  font-family: 'DM Mono', monospace; font-size: .7rem;
+  padding: 2px 7px; border-radius: 4px;
+  background: var(--blue-2); color: var(--blue);
+  border: 1px solid #c0d4f0; white-space: nowrap;
+}
+.cov-status-badge {
+  font-size: .62rem; font-weight: 700; padding: 2px 8px;
+  border-radius: 100px; white-space: nowrap;
+}
+.cov-status-badge.covered   { background: var(--green-2);  color: var(--green);  border: 1px solid #b6e4c8; }
+.cov-status-badge.partial   { background: #fff8e6; color: #b45309; border: 1px solid #f0dea0; }
+.cov-status-badge.uncovered { background: #fff0f0; color: var(--accent); border: 1px solid #f5c6c1; }
+
+.cov-topic-links { display: flex; flex-wrap: wrap; gap: 4px; }
+.cov-topic-link {
+  font-size: .65rem; padding: 1px 7px; border-radius: 4px;
+  background: var(--paper); border: 1px solid var(--border);
+  color: var(--ink-2); cursor: pointer; transition: all .12s;
+  text-decoration: none; white-space: nowrap;
+}
+.cov-topic-link:hover { background: var(--blue-2); color: var(--blue); border-color: #c0d4f0; }
+.cov-topic-link.done { background: var(--green-2); border-color: #b6e4c8; color: var(--green); }
+.cov-topic-link.inprogress { background: var(--blue-2); border-color: #c0d4f0; color: var(--blue); }
+
+.cov-group-heading {
+  font-size: .62rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--ink-3); padding: 10px 14px 4px;
+  border-bottom: 1px solid var(--border); background: #f7f7f5;
+}
+.cov-filter-bar { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.cov-filter-chip {
+  font-size: .7rem; font-weight: 500; padding: 4px 12px; border-radius: 100px;
+  border: 1px solid var(--border); background: var(--paper); color: var(--ink-2);
+  cursor: pointer; transition: all .12s;
+}
+.cov-filter-chip:hover { border-color: var(--ink-2); color: var(--ink); }
+.cov-filter-chip.on { background: var(--ink); border-color: var(--ink); color: white; }
+
 </style>
 
 <script src="partials/navbar.js"></script>
@@ -732,7 +907,24 @@ table.topics-tbl td:last-child { white-space: nowrap; }
       <div class="prog-bar-wrap"><div class="prog-bar-fill" id="topProgBar"></div></div>
       <div class="prog-text"><strong id="topProgDone">0</strong> / <span id="topProgTotal">0</span> topics</div>
     </div>
-    <div class="role-badge" id="roleBadge">
+
+    <div id="paceSummaryPill" class="pace-summary-pill" style="display:none" title="Pace status based on current school week"></div>
+
+    <div class="class-selector-wrap" id="classSelectorWrap" style="display:none">
+
+      <label class="class-selector-label" for="classSelect">Class:</label>
+
+      <select class="class-select" id="classSelect" onchange="switchClass(this.value)">
+
+        <option value="default">All Classes</option>
+
+      </select>
+
+      <button class="class-manage-btn" id="classManageBtn" onclick="manageClasses()" style="display:none" title="Add/remove class groups">⚙</button>
+
+    </div>
+
+        <div class="role-badge" id="roleBadge">
       <span class="role-dot" id="roleDot"></span>
       <span id="roleLabel">Teacher</span>
     </div>
@@ -785,6 +977,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
       <div class="tab-group">
         <button class="tab-btn on" onclick="switchView('pacing',this)">Pacing Guide</button>
         <button class="tab-btn" onclick="switchView('weekly',this)">Weekly View</button>
+        <button class="tab-btn" onclick="switchView('coverage',this)">Obj Coverage</button>
       </div>
       <div class="view-actions">
         <div class="view-mode-toggle" id="viewModeToggle" title="Switch chapter view">
@@ -815,9 +1008,28 @@ table.topics-tbl td:last-child { white-space: nowrap; }
       </div>
       <div id="chapterPaginatorMount"></div>
     </div>
+    <!-- COVERAGE PANEL -->
+    <div class="panel" id="panel-coverage">
+      <div id="coverageReport"></div>
+    </div>
+
+
 
     <!-- WEEKLY PANEL -->
     <div class="panel" id="panel-weekly">
+            <div class="cross-subj-bar">
+        <span class="cross-subj-label">Show subjects:</span>
+        <button class="cross-chip on" data-subj="english" onclick="toggleCrossSubj('english',this)">
+          <span class="cross-chip-dot" style="background:var(--accent)"></span>English
+        </button>
+        <button class="cross-chip" data-subj="math" onclick="toggleCrossSubj('math',this)">
+          <span class="cross-chip-dot" style="background:var(--accent)"></span>Mathematics
+        </button>
+        <button class="cross-chip" data-subj="science" onclick="toggleCrossSubj('science',this)">
+          <span class="cross-chip-dot" style="background:#1a5fa8"></span>Science
+        </button>
+        <span id="crossSubjLoadingNote" style="font-size:.65rem;color:var(--ink-3);display:none">Loading other subjects…</span>
+      </div>
       <div class="week-grid" id="weekGrid"></div>
     </div>
   </main>
@@ -954,7 +1166,28 @@ var RAW_DATA = [];
 // STATE  (var so the Firebase module can write window.DATA)
 // -----------------------------------------------------------
 var DATA = [];
-var role = 'teacher'; // 'teacher' | 'coord'
+var role = 'teacher'; // 'teacher' | 'admin'
+
+// Class-based progress
+var currentClass = 'default'; // 'default' = shared / all classes
+var classList    = [];        // populated from Firestore meta doc (admin-managed)
+
+// Cross-subject weekly data cache
+var crossSubjData = {
+  math: null, 
+  science: null
+};
+var crossSubjActive = {
+  english: true,
+  math: false,
+  science: false
+};
+
+// Cross-subject Firestore collection map
+const CROSS_SUBJ_COLLECTIONS = {
+  math: { col: 'checkpoint_math_pacing', doc: 'year7-8', label: 'Mathematics' },
+  science: { col: 'checkpoint_science_pacing', doc: 'year7-8', label: 'Science' }
+};
 
 let filterYear   = 'all';
 let filterStatus = 'all';
@@ -982,6 +1215,84 @@ function getGalleryCols() {
 function getChapterPageSize() {
   if (chapterViewMode === 'gallery') return getGalleryCols() * 2;
   return 5;
+}
+
+// -----------------------------------------------------------
+// PACE ALERT HELPERS
+// -----------------------------------------------------------
+// School term start date — admin can set this via Central Hub settings
+// Default: first Monday of September of current year
+var TERM_START_DATE = null; // set by admin; falls back to auto-detect
+
+function getTermStartDate() {
+  if (TERM_START_DATE) return new Date(TERM_START_DATE);
+  // Auto-detect: first Monday of September this year (or last year if before Sep)
+  const now = new Date();
+  const year = now.getMonth() >= 8 ? now.getFullYear() : now.getFullYear() - 1;
+  const sep1 = new Date(year, 8, 1);
+  const day = sep1.getDay(); // 0=Sun
+  const offset = day === 1 ? 0 : day === 0 ? 1 : 8 - day;
+  return new Date(year, 8, 1 + offset);
+}
+
+function getCurrentSchoolWeek() {
+  const start = getTermStartDate();
+  const now   = new Date();
+  const diffMs = now - start;
+  if (diffMs < 0) return 0; // term hasn't started
+  return Math.ceil(diffMs / (7 * 24 * 60 * 60 * 1000));
+}
+
+// Returns: 'overdue' | 'behind' | 'on-track' | 'upcoming' | null
+function getPaceStatus(topic) {
+  if (!topic.week) return null;
+  const topicWeek = parseInt(String(topic.week).replace(/\D/g, '')) || 0;
+  if (!topicWeek) return null;
+  const currentWeek = getCurrentSchoolWeek();
+  if (topic.status === 'done') return null; // done = no alert
+  if (currentWeek > topicWeek + 1) return 'overdue';
+  if (currentWeek > topicWeek)     return 'behind';
+  if (currentWeek === topicWeek)   return 'on-track';
+  return 'upcoming';
+}
+
+const PACE_LABELS = {
+  overdue:  'Overdue',
+  behind:   'Behind',
+  'on-track': 'This week',
+  upcoming: 'Upcoming',
+};
+
+function renderPaceBadge(topic) {
+  const status = getPaceStatus(topic);
+  if (!status) return '';
+  return `<span class="pace-badge ${status}" title="School week ${topic.week} vs current week ${getCurrentSchoolWeek()}">${PACE_LABELS[status]}</span>`;
+}
+
+function renderPaceSummary() {
+  const pill = document.getElementById('paceSummaryPill');
+  if (!pill) return;
+  const currentWeek = getCurrentSchoolWeek();
+  if (currentWeek <= 0) { pill.style.display = 'none'; return; }
+
+  let overdue = 0, behind = 0;
+  DATA.forEach(ch => ch.topics.forEach(t => {
+    const s = getPaceStatus(t);
+    if (s === 'overdue') overdue++;
+    else if (s === 'behind') behind++;
+  }));
+
+  if (overdue === 0 && behind === 0) {
+    pill.className = 'pace-summary-pill ok';
+    pill.textContent = '✓ On track — Week ' + currentWeek;
+  } else if (overdue > 0) {
+    pill.className = 'pace-summary-pill danger';
+    pill.textContent = overdue + ' overdue · ' + behind + ' behind · Wk ' + currentWeek;
+  } else {
+    pill.className = 'pace-summary-pill';
+    pill.textContent = behind + ' behind schedule · Wk ' + currentWeek;
+  }
+  pill.style.display = 'flex';
 }
 
 // -----------------------------------------------------------
@@ -1183,7 +1494,7 @@ function renderPacing() {
               return pageTopics.map(({t, ti}) => {
                 const codes   = parseObjCodes(t.objective);
                 const rowClass = t.status === 'done' ? 'done-row' : t.status === 'inprogress' ? 'inprogress-row' : '';
-                const isCoord  = role === 'coord';
+                const isAdmin  = role === 'admin';
                 const hasRes   = (t.resources || []).length > 0;
                 return `
                 <tr class="${rowClass}" id="row-${ci}-${ti}">
@@ -1193,31 +1504,33 @@ function renderPacing() {
                   </td>
                   <td class="topic-cell">
                     <div class="topic-name ${t.status==='done'?'struck':''} editable"
-                      contenteditable="${isCoord}"
+                      contenteditable="${isAdmin}"
                       data-field="topic" data-ci="${ci}" data-ti="${ti}"
                       onblur="saveEdit(this,${ci},${ti},'topic')"
                       onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
                     >${escHtml(t.topic)}</div>
                     ${codes.length ? `<div class="obj-codes">${codes.map(c => `<span class="obj-code" onclick="showObj(${ci},${ti})">${c}</span>`).join('')}</div>` : ''}
                     <div class="editable" style="font-size:.75rem;color:var(--ink-2);line-height:1.5;"
-                      contenteditable="${isCoord}"
+                      contenteditable="${isAdmin}"
                       data-field="objective" data-ci="${ci}" data-ti="${ti}"
                       onblur="saveEdit(this,${ci},${ti},'objective')"
                     >${_renderObjCell(t.objective)}${_objNeedsSeeMore(t.objective) ? ` <span class="obj-code" style="cursor:pointer" onclick="event.stopPropagation();showObj(${ci},${ti})">see full</span>` : ''}</div>
                     <div style="display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap;">
                       <span class="dur-badge editable"
-                        contenteditable="${isCoord}"
+                        contenteditable="${isAdmin}"
                         data-field="hour" data-ci="${ci}" data-ti="${ti}"
                         onblur="saveEdit(this,${ci},${ti},'hour')"
                         onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
                         title="Hours"
                       >Lesson Hours: ${t.hour}</span>
                       ${t.week ? `<span style="font-size:.64rem;font-weight:600;padding:3px 8px;border-radius:100px;background:var(--blue-2);color:var(--blue);border:1px solid #c2d8f5;white-space:nowrap;">Week ${t.week}</span>` : ''}
+                      ${renderPaceBadge(t)}
                       <div class="status-pill">
                         <button class="sp-btn sp-pending   ${t.status==='pending'   ?'sp-on':''}" onclick="setStatus(${ci},${ti},'pending')">Pending</button>
                         <button class="sp-btn sp-inprogress ${t.status==='inprogress'?'sp-on':''}" onclick="setStatus(${ci},${ti},'inprogress')">In Progress</button>
                         <button class="sp-btn sp-done      ${t.status==='done'      ?'sp-on':''}" onclick="setStatus(${ci},${ti},'done')">Done</button>
                       </div>
+                      <button class="note-btn${t.note ? ' has-note' : ''}" onclick="toggleNote(${ci},${ti})" title="${t.note ? 'Edit note' : 'Add teacher note'}">&#9998; ${t.note ? 'Note' : 'Add note'}</button>
                     </div>
                   </td>
                   <td></td>
@@ -1227,7 +1540,20 @@ function renderPacing() {
                 </tr>
                 <tr class="res-row${!hasRes && !t.activity ? ' empty-res' : ''}" id="res-row-${ci}-${ti}">
                   <td colspan="6">${renderResourcesHtml(ci, ti, t)}</td>
-                </tr>`;
+                </tr>
+                <tr class="note-row" id="note-row-${ci}-${ti}">
+                  <td colspan="6" style="padding:0 !important; border-bottom: 1px solid var(--border) !important;">
+                    <div class="note-panel${t.note ? ' open' : ''}" id="note-panel-${ci}-${ti}">
+                      <textarea class="note-textarea" id="note-ta-${ci}-${ti}" placeholder="Write your observation, differentiation note, or class feedback here…">${escHtml(t.note||'')}</textarea>
+                      <div class="note-actions">
+                        <button class="note-save-btn" onclick="saveNote(${ci},${ti})">Save Note</button>
+                        <button class="note-discard-btn" onclick="discardNote(${ci},${ti})">Cancel</button>
+                        ${t.note ? `<button class="note-discard-btn" style="color:var(--accent)" onclick="deleteNote(${ci},${ti})">Delete</button>` : ''}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+`;
               }).join('');
             })()}
             <tr class="add-topic-row">
@@ -1320,11 +1646,11 @@ function renderPacing() {
 
   collapsed.forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('collapsed');});
 
-  if (role === 'coord') {
-    document.body.classList.add('coord-mode');
+  if (role === 'admin') {
+    document.body.classList.add('admin-mode');
     document.getElementById('editHint').style.display = 'block';
   } else {
-    document.body.classList.remove('coord-mode');
+    document.body.classList.remove('admin-mode');
     document.getElementById('editHint').style.display = 'none';
   }
 }
@@ -1412,48 +1738,236 @@ function chSetPage(ci, page) {
 }
 
 // -----------------------------------------------------------
+// CROSS-SUBJECT TOGGLE
+// -----------------------------------------------------------
+function toggleCrossSubj(subj, btn) {
+  crossSubjActive[subj] = !crossSubjActive[subj];
+  btn.classList.toggle('on', crossSubjActive[subj]);
+
+  // Lazy-load from Firestore if first activation
+  if (crossSubjActive[subj] && subj !== 'english' && crossSubjData[subj] === null) {
+    const note = document.getElementById('crossSubjLoadingNote');
+    if (note) note.style.display = 'inline';
+    const col = CROSS_SUBJ_COLLECTIONS[subj];
+    // Use window.__fbGetDoc exposed by Firebase module
+    if (window.__fbGetDoc) {
+      window.__fbGetDoc(col.col, col.doc).then(chapters => {
+        crossSubjData[subj] = chapters;
+        if (note) note.style.display = 'none';
+        renderWeekly();
+      }).catch(() => {
+        crossSubjData[subj] = [];
+        if (note) note.style.display = 'none';
+        showToast('Could not load ' + col.label + ' data');
+        renderWeekly();
+      });
+    } else {
+      crossSubjData[subj] = [];
+      if (note) note.style.display = 'none';
+      renderWeekly();
+    }
+    return; // will re-render after load
+  }
+  renderWeekly();
+}
+
+// -----------------------------------------------------------
 // RENDER - WEEKLY VIEW
 // -----------------------------------------------------------
 function renderWeekly() {
   const weekMap = {};
-  DATA.forEach(ch => {
-    ch.topics.forEach(t => {
-      const w = t.week ? String(t.week) : null;
-      if (!w) return;
-      if (!weekMap[w]) weekMap[w] = { topics: [], totalHours: 0 };
-      weekMap[w].topics.push({ name: t.topic, chapter: ch.chapter, year: ch.year, hour: t.hour });
-      weekMap[w].totalHours += t.hour;
+
+  // English topics (always active if crossSubjActive.english)
+  if (crossSubjActive.english) {
+    DATA.forEach(ch => {
+      ch.topics.forEach(t => {
+        const w = t.week ? String(t.week) : null;
+        if (!w) return;
+        if (!weekMap[w]) weekMap[w] = { mathHours: 0, subjTopics: {} };
+        if (!weekMap[w].subjTopics.english) weekMap[w].subjTopics.english = [];
+        weekMap[w].subjTopics.english.push({ name: t.topic, chapter: ch.chapter, year: ch.year, hour: t.hour });
+        weekMap[w].mathHours += t.hour;
+      });
+    });
+  }
+
+  // Other subjects
+  ['math', 'science'].forEach(subj => {
+    if (!crossSubjActive[subj] || !crossSubjData[subj]) return;
+    crossSubjData[subj].forEach(ch => {
+      (ch.topics || []).forEach(t => {
+        const w = t.week ? String(t.week) : null;
+        if (!w) return;
+        if (!weekMap[w]) weekMap[w] = { mathHours: 0, subjTopics: {} };
+        if (!weekMap[w].subjTopics[subj]) weekMap[w].subjTopics[subj] = [];
+        weekMap[w].subjTopics[subj].push({ name: t.topic, chapter: ch.chapter || '', year: ch.year || '', hour: t.hour || 0 });
+      });
     });
   });
 
-  const weeks = Object.keys(weekMap).sort((a, b) => {
-    return parseInt(a.replace(/\D/g,'')) - parseInt(b.replace(/\D/g,''));
-  });
+  const weeks = Object.keys(weekMap).sort((a, b) =>
+    parseInt(a.replace(/\D/g,'')) - parseInt(b.replace(/\D/g,''))
+  );
 
-  const grid = document.getElementById('weekGrid');
+  const subjColors = {
+  english: 'var(--accent)',
+  math: 'var(--accent)',
+  science: '#1a5fa8'
+};
+  const subjLabels = {
+  english: 'English',
+  math: 'Mathematics',
+  science: 'Science'
+};
+  const MAX_HOURS = 12; // max expected hours per week for load bar
+
   if (!weeks.length) {
-    grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="opacity:.35"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><p style="font-weight:500;color:var(--ink-2);margin-bottom:6px;">No weekly schedule yet</p><p style="font-size:.75rem;line-height:1.6;">Topics don\'t have week assignments yet.<br>Coordinators can add week numbers to topics.</p></div>';
+    document.getElementById('weekGrid').innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="opacity:.35"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><p style="font-weight:500;color:var(--ink-2);margin-bottom:6px;">No weekly schedule yet</p><p style="font-size:.75rem;line-height:1.6;">Topics don\'t have week assignments yet.<br>Coordinators can add week numbers to topics.</p></div>';
     return;
   }
 
-  grid.innerHTML = weeks.map(w => {
-    const data = weekMap[w];
+  document.getElementById('weekGrid').innerHTML = weeks.map(w => {
+    const wData = weekMap[w];
+    // Total hours across all active subjects for this week
+    let totalHours = 0;
+    Object.values(wData.subjTopics).forEach(topics => topics.forEach(t => totalHours += (t.hour || 0)));
+    const loadPct = Math.min(100, Math.round(totalHours / MAX_HOURS * 100));
+    const loadClass = loadPct >= 85 ? 'load-heavy' : loadPct >= 55 ? 'load-medium' : 'load-ok';
+    const currentWeek = getCurrentSchoolWeek();
+    const wNum = parseInt(w.replace(/\D/g,''));
+    const isCurrent = wNum === currentWeek;
+
+    let sectionsHtml = '';
+    ['english', 'math', 'science'].forEach(subj => {
+      const topics = wData.subjTopics[subj];
+      if (!topics || !topics.length) return;
+      const showSep = Object.keys(wData.subjTopics).length > 1;
+      if (showSep) sectionsHtml += `<div class="week-card-subj-sep">${subjLabels[subj]}</div>`;
+      sectionsHtml += topics.map(t => `
+        <div class="week-topic-row">
+          <div class="wt-dot" style="background:${subjColors[subj]}"></div>
+          <div class="wt-name">${escHtml(t.name)}</div>
+          <div class="wt-ch">${t.chapter ? (t.chapter.match(/^\d+/)?.[0]||'') : ''}</div>
+        </div>`).join('');
+    });
+
     return `
-    <div class="week-card">
-      <div class="week-card-head">
-        <div class="week-card-title">Week ${w.replace('Week ','')}</div>
-        <div class="week-hours-tag">${data.totalHours}h total</div>
+    <div class="week-card" style="${isCurrent ? 'border-color:var(--accent);box-shadow:0 0 0 2px rgba(192,57,43,.12)' : ''}">
+      <div class="week-load-bar"><div class="week-load-fill ${loadClass}" style="width:${loadPct}%"></div></div>
+      <div class="week-card-head" style="${isCurrent ? 'background:var(--accent)' : ''}">
+        <div class="week-card-title">Week ${w.replace('Week ','')}${isCurrent ? ' ◀ Now' : ''}</div>
+        <div class="week-hours-tag">${totalHours}h total</div>
       </div>
-      <div class="week-topics-list">
-        ${data.topics.map(t => `
-          <div class="week-topic-row">
-            <div class="wt-dot ${t.year==='Year 7'?'dot-y9':'dot-y10'}"></div>
-            <div class="wt-name">${t.name}</div>
-            <div class="wt-ch">${t.chapter.match(/^\d+/)?.[0]||''}</div>
-          </div>`).join('')}
-      </div>
+      <div class="week-topics-list">${sectionsHtml}</div>
     </div>`;
   }).join('');
+}
+
+
+
+// -----------------------------------------------------------
+// RENDER - OBJECTIVE COVERAGE REPORT
+// -----------------------------------------------------------
+let coverageFilter = 'all'; // 'all' | 'uncovered' | 'partial' | 'covered'
+
+function renderCoverage() {
+  const el = document.getElementById('coverageReport');
+  if (!el) return;
+
+  // Collect all obj codes from all topics
+  const codeMap = {}; // code -> [{ ci, ti, topic, status }]
+  DATA.forEach((ch, ci) => {
+    ch.topics.forEach((t, ti) => {
+      const codes = parseObjCodes(t.objective || '');
+      codes.forEach(code => {
+        if (!codeMap[code]) codeMap[code] = [];
+        codeMap[code].push({ ci, ti, topic: t.topic, status: t.status, chapter: ch.chapter });
+      });
+    });
+  });
+
+  const allCodes = Object.keys(codeMap).sort();
+  const total    = allCodes.length;
+  const covered  = allCodes.filter(c => codeMap[c].every(t => t.status === 'done')).length;
+  const partial  = allCodes.filter(c => codeMap[c].some(t => t.status === 'done') && !codeMap[c].every(t => t.status === 'done')).length;
+  const uncov    = allCodes.filter(c => codeMap[c].every(t => t.status === 'pending')).length;
+
+  if (!total) {
+    el.innerHTML = '<div class="empty"><p style="color:var(--ink-2);font-size:.8rem">No objective codes found. Coordinators can add Cambridge objective codes (e.g. C1.1, E2.3) to topic objectives.</p></div>';
+    return;
+  }
+
+  // Filter
+  const visible = coverageFilter === 'all' ? allCodes
+    : allCodes.filter(code => {
+        const topics = codeMap[code];
+        const allDone = topics.every(t => t.status === 'done');
+        const someDone = topics.some(t => t.status === 'done');
+        if (coverageFilter === 'covered')   return allDone;
+        if (coverageFilter === 'partial')   return someDone && !allDone;
+        if (coverageFilter === 'uncovered') return !someDone;
+        return true;
+      });
+
+  const pct = Math.round(covered / total * 100);
+
+  el.innerHTML = `
+    <div class="coverage-summary">
+      <div class="cov-stat"><div class="cov-stat-num">${total}</div><div class="cov-stat-label">Total objectives</div></div>
+      <div class="cov-stat ok"><div class="cov-stat-num">${covered}</div><div class="cov-stat-label">Fully covered (${pct}%)</div></div>
+      <div class="cov-stat"><div class="cov-stat-num" style="color:var(--amber,#d97706)">${partial}</div><div class="cov-stat-label">In progress</div></div>
+      <div class="cov-stat danger"><div class="cov-stat-num">${uncov}</div><div class="cov-stat-label">Not started</div></div>
+    </div>
+
+    <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;margin-bottom:16px;box-shadow:var(--shadow-sm)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+        <span style="font-size:.68rem;font-weight:700;color:var(--ink-3)">OVERALL COVERAGE</span>
+        <span style="font-size:.72rem;color:var(--ink-2)">${pct}% complete</span>
+      </div>
+      <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:var(--green);border-radius:4px;transition:width .5s"></div>
+      </div>
+    </div>
+
+    <div class="cov-filter-bar">
+      <button class="cov-filter-chip${coverageFilter==='all'?' on':''}" onclick="setCovFilter('all')">All (${total})</button>
+      <button class="cov-filter-chip${coverageFilter==='covered'?' on':''}" onclick="setCovFilter('covered')">Covered (${covered})</button>
+      <button class="cov-filter-chip${coverageFilter==='partial'?' on':''}" onclick="setCovFilter('partial')">In Progress (${partial})</button>
+      <button class="cov-filter-chip${coverageFilter==='uncovered'?' on':''}" onclick="setCovFilter('uncovered')" style="color:${coverageFilter==='uncovered'?'':'var(--accent)'}">Not Started (${uncov})</button>
+    </div>
+
+    ${visible.length === 0 ? '<p style="color:var(--ink-3);font-size:.8rem;padding:12px 0">No objectives match this filter.</p>' : ''}
+
+    <table class="coverage-table">
+      <thead><tr>
+        <th style="width:90px">Code</th>
+        <th style="width:100px">Status</th>
+        <th>Topics using this objective</th>
+      </tr></thead>
+      <tbody>
+        ${visible.map(code => {
+          const topics = codeMap[code];
+          const allDone  = topics.every(t => t.status === 'done');
+          const someDone = topics.some(t => t.status === 'done');
+          const rowClass = allDone ? 'cov-covered' : someDone ? 'cov-partial' : 'cov-uncovered';
+          const badge    = allDone ? 'covered' : someDone ? 'partial' : 'uncovered';
+          const badgeLabel = allDone ? 'Covered' : someDone ? 'In Progress' : 'Not Started';
+          const topicLinks = topics.map(t =>
+            `<span class="cov-topic-link ${t.status}" onclick="scrollToChapter(${t.ci})" title="Ch ${t.ci+1}: ${escHtml(t.chapter)}">${escHtml(t.topic.substring(0,40))}${t.topic.length>40?'…':''}</span>`
+          ).join('');
+          return `<tr class="${rowClass}">
+            <td><span class="cov-code">${escHtml(code)}</span></td>
+            <td><span class="cov-status-badge ${badge}">${badgeLabel}</span></td>
+            <td><div class="cov-topic-links">${topicLinks}</div></td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>`;
+}
+
+function setCovFilter(f) {
+  coverageFilter = f;
+  renderCoverage();
 }
 
 // -----------------------------------------------------------
@@ -1471,7 +1985,7 @@ function setStatus(ci, ti, val) {
 }
 
 function saveEdit(el, ci, ti, field) {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   let val = el.innerText.trim();
   if (field === 'hour') val = parseInt(val) || DATA[ci].topics[ti].hour;
   DATA[ci].topics[ti][field] = val;
@@ -1481,14 +1995,14 @@ function saveEdit(el, ci, ti, field) {
 }
 
 function addTopic(ci) {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   DATA[ci].topics.push({ topic: 'New Topic', objective: '', week: null, hour: 1, status: 'pending', resources: [] });
   saveState(); render();
   showToast('Topic added');
 }
 
 async function deleteTopic(ci, ti) {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   var ok = await _showCm({title:'Delete Topic',msg:'Delete "'+DATA[ci].topics[ti].topic+'"? This cannot be undone.',okLabel:'Delete',danger:true});
   if (!ok) return;
   DATA[ci].topics.splice(ti, 1);
@@ -1497,7 +2011,7 @@ async function deleteTopic(ci, ti) {
 }
 
 function addChapter() {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   const name = prompt('Chapter name:');
   if (!name || !name.trim()) return;
   const year = prompt('Year (Year 7 or Year 8):', 'Year 8');
@@ -1507,7 +2021,7 @@ function addChapter() {
 }
 
 async function deleteChapter(ci) {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   var ok = await _showCm({title:'Delete Chapter',msg:'Delete "'+DATA[ci].chapter+'" and all its topics? This cannot be undone.',okLabel:'Delete',danger:true});
   if (!ok) return;
   DATA.splice(ci, 1);
@@ -1559,7 +2073,7 @@ function renderResourcesHtml(ci, ti, t) {
 }
 
 function addResource(ci, ti) {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   const f = document.getElementById(`res-form-${ci}-${ti}`);
   if (f) { f.classList.add('open'); f.querySelector('.res-name-inp').focus(); }
 }
@@ -1574,7 +2088,7 @@ function cancelResource(ci, ti) {
 }
 
 function confirmAddResource(ci, ti) {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   const name = document.getElementById(`res-name-${ci}-${ti}`).value.trim();
   const url  = document.getElementById(`res-url-${ci}-${ti}`).value.trim();
   if (!name || !url) { showToast('Enter both name and URL'); return; }
@@ -1587,7 +2101,7 @@ function confirmAddResource(ci, ti) {
 }
 
 async function deleteResource(ci, ti, ri) {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   var res = DATA[ci].topics[ti].resources;
   if (!res) return;
   var ok = await _showCm({title:'Remove Resource',msg:'Remove "'+res[ri].name+'"?',okLabel:'Remove',danger:true});
@@ -1615,6 +2129,90 @@ function scrollToChapter(ci) {
     const el = document.getElementById(`ch-${ci}`);
     if (el) { el.classList.remove('collapsed'); el.scrollIntoView({behavior:'smooth', block:'start'}); }
   }, 50);
+}
+
+// -----------------------------------------------------------
+// TEACHER NOTES
+// -----------------------------------------------------------
+function toggleNote(ci, ti) {
+  const panel = document.getElementById(`note-panel-${ci}-${ti}`);
+  if (!panel) return;
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) {
+    const ta = document.getElementById(`note-ta-${ci}-${ti}`);
+    if (ta) setTimeout(() => ta.focus(), 50);
+  }
+}
+
+function saveNote(ci, ti) {
+  const ta = document.getElementById(`note-ta-${ci}-${ti}`);
+  if (!ta) return;
+  const note = ta.value.trim();
+  DATA[ci].topics[ti].note = note;
+  saveState();
+  showToast(note ? 'Note saved' : 'Note cleared');
+  render();
+}
+
+function discardNote(ci, ti) {
+  const panel = document.getElementById(`note-panel-${ci}-${ti}`);
+  if (panel) panel.classList.remove('open');
+  // Revert textarea to saved value
+  const ta = document.getElementById(`note-ta-${ci}-${ti}`);
+  if (ta) ta.value = DATA[ci].topics[ti].note || '';
+}
+
+function deleteNote(ci, ti) {
+  DATA[ci].topics[ti].note = '';
+  saveState();
+  showToast('Note deleted');
+  render();
+}
+
+// -----------------------------------------------------------
+// CLASS MANAGEMENT
+// -----------------------------------------------------------
+function buildClassSelector() {
+  const wrap   = document.getElementById('classSelectorWrap');
+  const select = document.getElementById('classSelect');
+  const manBtn = document.getElementById('classManageBtn');
+  if (!wrap || !select) return;
+
+  // Always show selector (teachers can switch between All / class views)
+  wrap.style.display = 'flex';
+  if (manBtn) manBtn.style.display = role === 'admin' ? '' : 'none';
+
+  // Rebuild options
+  select.innerHTML = '<option value="default">All Classes</option>';
+  classList.forEach(cls => {
+    const opt = document.createElement('option');
+    opt.value = cls;
+    opt.textContent = cls;
+    if (cls === currentClass) opt.selected = true;
+    select.appendChild(opt);
+  });
+  if (currentClass === 'default') select.value = 'default';
+}
+
+function switchClass(cls) {
+  currentClass = cls;
+  // Notify Firebase module to switch progress path
+  if (window.__fbSwitchClass) window.__fbSwitchClass(cls);
+}
+
+async function manageClasses() {
+  const res = await _showCm({
+    title: 'Manage Class Groups',
+    msg: 'Enter class names separated by commas (e.g. 7A, 7B, 8A). These define separate progress paths per class.',
+    fields: [{ id: 'classes', label: 'Class groups', ph: '7A, 7B, 8A', val: classList.join(', ') }]
+  });
+  if (!res) return;
+  const raw = (res.classes || '').split(',').map(s => s.trim()).filter(Boolean);
+  classList = [...new Set(raw)];
+  buildClassSelector();
+  // Save class list to Firestore structure meta
+  if (window.__fbSaveClassList) window.__fbSaveClassList(classList);
+  showToast('Class groups saved');
 }
 
 function resetProgress() {
@@ -1727,15 +2325,16 @@ function applyRole(r) {
   const dot      = document.getElementById('roleDot');
   const label    = document.getElementById('roleLabel');
   const resetBtn = document.getElementById('resetBtn');
-  if (r === 'coord') {
-    dot.className     = 'role-dot coord';
-    label.textContent = 'Coordinator';
+  if (r === 'admin') {
+    dot.className     = 'role-dot role-dot-admin';
+    label.textContent = 'Admin';
     if (resetBtn) resetBtn.style.display = '';
   } else {
-    dot.className     = 'role-dot teacher';
+    dot.className     = 'role-dot role-dot-teacher';
     label.textContent = 'Teacher';
     if (resetBtn) resetBtn.style.display = 'none';
   }
+  buildClassSelector();
   render();
 }
 
@@ -1756,9 +2355,11 @@ function showToast(msg) {
 // -----------------------------------------------------------
 function render() {
   renderProgress();
+  renderPaceSummary();
   renderNav();
   renderPacing();
   renderWeekly();
+  renderCoverage();
 }
 
 // Re-render on resize so gallery cols and page size stay correct
@@ -1780,6 +2381,7 @@ import {
   getFirestore,
   collection,
   doc,
+  getDoc,
   setDoc,
   onSnapshot,
   serverTimestamp,
@@ -1789,7 +2391,7 @@ import {
 let unsubStructure  = null;
 let unsubUserProg   = null;
 let currentUID      = null;
-let currentRole     = 'teacher';
+let currentRole = 'teacher';
 let sharedStructure = null;
 let userStatuses    = {};
 
@@ -1800,6 +2402,7 @@ function _mergeAndRender(isFirstLoad, appRole) {
     topics: (ch.topics || []).map((t, ti) => ({
       ...t,
       status: userStatuses[`${ci}-${ti}`] || 'pending',
+      note:   userStatuses[`note-${ci}-${ti}`]  || '',
     })),
   }));
   if (isFirstLoad) {
@@ -1836,6 +2439,10 @@ function _startSnapshot(uid, appRole) {
     clearTimeout(_loadTimeout);
     sharedStructure = snap.exists() && Array.isArray(snap.data().chapters)
        ? snap.data().chapters : [];
+    // Load class list from structure meta
+    if (snap.exists() && Array.isArray(snap.data().classes)) {
+      classList = snap.data().classes;
+    }
     structureReady = true;
     tryRender();
   }, (err) => {
@@ -1847,10 +2454,18 @@ function _startSnapshot(uid, appRole) {
     showToast('Firestore connection error');
   });
 
+
+  // Per-user progress listener - key is class-scoped
+  function _progressKey() {
+    return currentClass && currentClass !== 'default'
+      ? `checkpoint_english_statuses_${currentClass.replace(/\s/g,'_')}`
+      : 'checkpoint_english_statuses';
+  }
+
   unsubUserProg = onSnapshot(userProgRef, (snap) => {
     clearTimeout(_loadTimeout);
-    userStatuses  = snap.exists() && snap.data().checkpoint_english_statuses
-       ? snap.data().checkpoint_english_statuses : {};
+    userStatuses  = (snap.exists() && snap.data()[_progressKey()])
+       ? snap.data()[_progressKey()] : {};
     progressReady = true;
     tryRender();
   }, (err) => {
@@ -1886,12 +2501,19 @@ window.__fbSaveState = async function(data) {
       if (t.status && t.status !== 'pending') {
         newStatuses[`${ci}-${ti}`] = t.status;
       }
+      if (t.note && t.note.trim()) {
+        newStatuses[`note-${ci}-${ti}`] = t.note.trim();
+      }
     });
   });
+  // 2. Save user's own progress (class-scoped key)
+  const progressKey = currentClass && currentClass !== 'default'
+    ? `checkpoint_english_statuses_${currentClass.replace(/\s/g,'_')}`
+    : 'checkpoint_english_statuses';
   try {
     await setDoc(
       doc(db, 'userProgress', currentUID),
-      { checkpoint_english_statuses: newStatuses, updatedAt: serverTimestamp() },
+      { [progressKey]: newStatuses, updatedAt: serverTimestamp() },
       { merge: true }
     );
   } catch(e) {
@@ -1901,7 +2523,7 @@ window.__fbSaveState = async function(data) {
   }
 
   // 2. Coordinators also update shared structure (without statuses)
-  if (currentRole === 'coord') {
+  if (currentRole === 'admin') {
     const structureOnly = data.map(ch => ({
       ...ch,
       topics: (ch.topics || []).map(({ status, ...rest }) => rest),
@@ -1919,14 +2541,44 @@ window.__fbSaveState = async function(data) {
   }
 };
 
+
+// -- One-shot document fetch for cross-subject data --
+window.__fbGetDoc = async function(colName, docName) {
+  const db = window.db;
+  const snap = await getDoc(doc(db, colName, docName));
+  if (snap.exists() && Array.isArray(snap.data().chapters)) {
+    return snap.data().chapters;
+  }
+  return [];
+};
+
+// -- Class switching: reload user progress from class-specific sub-key --
+window.__fbSwitchClass = function(cls) {
+  if (!sharedStructure) return;
+  currentClass = cls;
+  _startSnapshot(currentUID, currentRole);
+};
+
+// -- Save class list into the shared structure meta --
+window.__fbSaveClassList = async function(list) {
+  const db = window.db;
+  try {
+    await setDoc(
+      doc(db, 'checkpoint_english_pacing', 'year7-8'),
+      { classes: list, updatedAt: serverTimestamp() },
+      { merge: true }
+    );
+  } catch(e) { console.error('Class list save error:', e); }
+};
+
 // -- auth-guard dispatches authReady when auth + role confirmed --
 document.addEventListener('authReady', ({ detail: { user, profile } }) => {
-  const appRole = profile.role_teachershub === 'teachers_admin' ? 'coord' : 'teacher';
+  const appRole = profile.role_teachershub === 'teachers_admin' ? 'admin' : 'teacher';
 
   const roleDot   = document.getElementById('roleDot');
   const roleLabel = document.getElementById('roleLabel');
-  if (roleDot)   { roleDot.className = 'role-dot ' + (appRole === 'coord' ? 'role-dot-coord' : 'role-dot-teacher'); }
-  if (roleLabel) { roleLabel.textContent = appRole === 'coord' ? 'Coordinator' : 'Teacher'; }
+  if (roleDot)   { roleDot.className = 'role-dot ' + (appRole === 'admin' ? 'role-dot-admin' : 'role-dot-teacher'); }
+  if (roleLabel) { roleLabel.textContent = appRole === 'admin' ? 'Admin' : 'Teacher'; }
 
   import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js').then(({ signOut }) => {
     window.authSignOut = () => signOut(window.auth).then(() => { window.location.href = '/login'; });
