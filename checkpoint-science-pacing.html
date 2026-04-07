@@ -653,11 +653,14 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .vmt-btn.on { background: white; color: var(--ink); box-shadow: var(--shadow-sm); }
 
 /* --- PACING PANEL flex column so paginator sticks to bottom ---------- */
-#panel-pacing {
-  display: none; flex-direction: column; flex: 1;
-  padding: 0; overflow: hidden;
+/* Override .panel and .panel.on with higher specificity */
+#panel-pacing,
+#panel-pacing.on {
+  display: none !important;
+  flex-direction: column; flex: 1;
+  padding: 0 !important; overflow: hidden;
 }
-#panel-pacing.on { display: flex; }
+#panel-pacing.on { display: flex !important; }
 #panel-pacing .edit-hint { flex-shrink: 0; }
 
 /* scrollable chapter area */
