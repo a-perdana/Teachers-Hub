@@ -254,8 +254,6 @@
   width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--accent);
   border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
-
 /* ─── MODAL ──────────────────────────────────── */
 .modal-bg {
   position: fixed; inset: 0; background: rgba(28,28,46,0.55);
@@ -347,7 +345,7 @@
 </section>
 
 <!-- ─── MAIN ─────────────────────────────────────────────────────── -->
-<div class="page-wrap">
+<main class="page-wrap">
 
   <!-- Week Navigator -->
   <div class="week-nav" style="gap:12px">
@@ -397,7 +395,7 @@
   <!-- Task list -->
   <div id="taskArea" style="display:none"></div>
 
-</div><!-- /page-wrap -->
+</main><!-- /page-wrap -->
 
 <!-- ─── TASK MODAL (admin) ────────────────────────────────────────── -->
 <div class="modal-bg" id="taskModal">
@@ -432,17 +430,7 @@
 <div class="toast" id="toast"></div>
 
 <script src="partials/navbar.js"></script>
-<script src="firebase-config.js"></script>
-<script>
-  if (!window.ENV) window.ENV = {
-    FIREBASE_API_KEY:            "__FIREBASE_API_KEY__",
-    FIREBASE_AUTH_DOMAIN:        "__FIREBASE_AUTH_DOMAIN__",
-    FIREBASE_PROJECT_ID:         "__FIREBASE_PROJECT_ID__",
-    FIREBASE_STORAGE_BUCKET:     "__FIREBASE_STORAGE_BUCKET__",
-    FIREBASE_MESSAGING_SENDER_ID:"__FIREBASE_MESSAGING_SENDER_ID__",
-    FIREBASE_APP_ID:             "__FIREBASE_APP_ID__",
-  };
-</script>
+<!-- FIREBASE_ENV -->
 <script type="module" src="auth-guard.js"></script>
 <script type="module">
 import {

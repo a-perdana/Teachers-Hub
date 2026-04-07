@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cambridge IGCSE Mathematics - Pacing Guide</title>
+<title>Cambridge IGCSE Mathematics — Pacing Guide</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
 <link rel="stylesheet" href="base.css">
 <style>
@@ -19,8 +19,6 @@
   --purple:  #6c3fa0;
   --purple-2:#f2ecfb;
 }
-
-@keyframes spin { to { transform: rotate(360deg); } }
 
 /* ── Pacing layout aliases (base.css uses .pacing-layout/.pacing-main) ── */
 .layout { display: grid; grid-template-columns: 280px 1fr; height: calc(100vh - 120px); transition: grid-template-columns .25s ease; position: relative; }
@@ -139,7 +137,7 @@
 .ch-nav-count { font-size: .6rem; color: var(--ink-3); font-family: 'DM Mono', monospace; flex-shrink: 0; white-space: nowrap; }
 .ch-nav-item.active .ch-nav-count { color: var(--accent); font-weight: 600; }
 
-/* --- MAIN -------------------------------------- */
+/* ─── MAIN ──────────────────────────────────── */
 .main { overflow-y: auto; display: flex; flex-direction: column; }
 
 /* View bar */
@@ -172,11 +170,11 @@
 .btn.primary:hover { background: #a93224; }
 .btn:disabled { opacity: .4; cursor: not-allowed; }
 
-/* --- PANELS ------------------------------------ */
+/* ─── PANELS ────────────────────────────────── */
 .panel { display: none; flex: 1; padding: 20px 24px; }
 .panel.on { display: block; }
 
-/* --- PACING VIEW ------------------------------- */
+/* ─── PACING VIEW ──────────────────────────────*/
 .ch-block {
   background: white; border: 1px solid var(--border);
   border-radius: var(--radius); margin-bottom: 14px;
@@ -330,7 +328,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .edit-hint-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
-/* --- WEEKLY VIEW ------------------------------- */
+/* ─── WEEKLY VIEW ──────────────────────────────*/
 .week-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
 
 .week-card {
@@ -364,71 +362,11 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .dot-y9  { background: var(--blue); }
 .dot-y10 { background: var(--purple); }
 
-/* --- MODAL ------------------------------------- */
-.modal-bg {
-  position: fixed; inset: 0;
-  background: rgba(28,28,46,.55);
-  display: none; align-items: center; justify-content: center;
-  z-index: 1000; backdrop-filter: blur(4px);
-}
-.modal-bg.open { display: flex; }
-
-.modal {
-  background: white; border-radius: 14px;
-  width: 500px; max-width: 92vw; max-height: 82vh;
-  overflow: hidden; display: flex; flex-direction: column;
-  box-shadow: var(--shadow-lg);
-  animation: popIn .18s ease;
-}
-@keyframes popIn { from { transform: scale(.93); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-.modal-head {
-  padding: 18px 22px 14px;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: flex-start; justify-content: space-between;
-  flex-shrink: 0;
-}
-.modal-head-text h3 { font-family: 'Lora', serif; font-size: 1.05rem; }
-.modal-head-text p  { font-size: .72rem; color: var(--ink-3); margin-top: 3px; }
-.modal-close { background: none; border: none; cursor: pointer; font-size: 1.1rem; color: var(--ink-3); padding: 0 2px; line-height: 1; }
-.modal-close:hover { color: var(--ink); }
-.modal-nav-btn {
-  background: none; border: 1px solid var(--border); cursor: pointer;
-  font-size: .8rem; color: var(--ink-3); padding: 3px 9px;
-  border-radius: 5px; line-height: 1; transition: all .12s;
-}
-.modal-nav-btn:hover { border-color: var(--ink-2); color: var(--ink); }
-.modal-nav-btn:disabled { opacity: .3; cursor: not-allowed; }
-
-.modal-body { padding: 16px 22px 22px; overflow-y: auto; flex: 1; }
-
-.obj-entry { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
-.obj-entry:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-.obj-entry-code { font-family: 'DM Mono', monospace; font-size: .72rem; color: var(--blue); font-weight: 500; margin-bottom: 4px; }
-.obj-entry-text { font-size: .82rem; line-height: 1.65; color: var(--ink); }
-
 /* Scrollbar */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-/* Empty state */
-.empty { text-align: center; padding: 48px 20px; color: var(--ink-3); }
-.empty-icon { font-size: 2rem; margin-bottom: 8px; }
-
-/* Toast */
-.toast {
-  position: fixed; bottom: 24px; right: 24px;
-  background: var(--ink); color: white;
-  padding: 10px 18px; border-radius: 8px;
-  font-size: .78rem; font-weight: 500;
-  box-shadow: var(--shadow-lg);
-  transform: translateY(60px); opacity: 0;
-  transition: all .25s ease;
-  z-index: 2000;
-}
-.toast.show { transform: translateY(0); opacity: 1; }
-
-/* --- COORD ADD / DELETE CONTROLS --------------- */
+/* ─── COORD ADD / DELETE CONTROLS ─────────────*/
 .del-topic-btn {
   display: none; background: none; border: none; cursor: pointer;
   color: var(--ink-3); font-size: .85rem; padding: 2px 4px;
@@ -469,7 +407,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .add-chapter-btn:hover { border-color: var(--accent); color: var(--accent); }
 .coord-mode .add-chapter-wrap { display: block; }
 
-/* --- RESOURCES ----------------------------------- */
+/* ─── RESOURCES ────────────────────────────────*/
 .res-row td { padding: 3px 16px 10px 42px !important; }
 .res-chips { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; min-height: 22px; }
 .res-link {
@@ -522,7 +460,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .coord-mode .res-row.empty-res { display: table-row; }
 .res-row td { border-bottom: none !important; }
 
-/* --- CONFIRM MODAL ─────────────────────────────── */
+/* ─── CONFIRM MODAL ──────────────────────────── */
 .cm-bg {
   position: fixed; inset: 0;
   background: rgba(28,28,46,.55);
@@ -558,7 +496,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .cm-ok:hover { filter: brightness(.9); }
 .cm-ok.danger { background: #c0392b; }
 
-/* --- MOBILE ---------------------------------------- */
+/* ─── MOBILE ────────────────────────────────── */
 @media (max-width: 768px) {
   .layout { grid-template-columns: 1fr !important; }
   .sidebar {
@@ -585,7 +523,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   .home-float { bottom: 14px; left: 14px; }
 }
 
-/* --- MULTI-LINE ROW -------------------------------- */
+/* ─── MULTI-LINE ROW ────────────────────────── */
 .topic-obj-line {
   font-size: .72rem; color: var(--ink-2); line-height: 1.5;
   margin-top: 5px;
@@ -617,7 +555,7 @@ table.topics-tbl td.col-week,
 table.topics-tbl th.col-status,
 table.topics-tbl td.col-status { display: none; }
 
-/* --- TOPIC PAGINATION ------------------------------------ */
+/* ─── TOPIC PAGINATION ──────────────────────── */
 .ch-pagination {
   display: flex; align-items: center; justify-content: space-between;
   padding: 8px 18px; border-top: 1px solid var(--border);
@@ -636,7 +574,7 @@ table.topics-tbl td.col-status { display: none; }
 .pg-btn.pg-active { background: var(--accent); border-color: var(--accent); color: white; }
 .pg-info { color: var(--ink-3); font-size: .7rem; white-space: nowrap; }
 
-/* --- CHAPTER PAGINATION ---------------------------------- */
+/* ─── CHAPTER PAGINATION ────────────────────── */
 /* Paginator lives outside the grid, always at the bottom of the panel */
 .chapter-paginator {
   display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -657,7 +595,7 @@ table.topics-tbl td.col-status { display: none; }
 .ch-pg-btn.ch-pg-active { background: var(--accent); border-color: var(--accent); color: white; }
 .ch-pg-info { font-size: .72rem; color: var(--ink-3); white-space: nowrap; }
 
-/* --- GALLERY / LIST VIEW TOGGLE ---------------------------------- */
+/* ─── GALLERY / LIST VIEW TOGGLE ────────────── */
 .view-mode-toggle {
   display: flex; gap: 2px;
   background: var(--paper); border-radius: 7px; padding: 2px;
@@ -672,7 +610,7 @@ table.topics-tbl td.col-status { display: none; }
 .vmt-btn:hover { color: var(--ink); }
 .vmt-btn.on { background: white; color: var(--ink); box-shadow: var(--shadow-sm); }
 
-/* --- PACING PANEL flex column so paginator sticks to bottom ---------- */
+/* ─── PACING PANEL ──────────────────────────── */
 /* Override .panel and .panel.on with higher specificity */
 #panel-pacing,
 #panel-pacing.on {
@@ -695,7 +633,7 @@ table.topics-tbl td.col-status { display: none; }
 }
 .coord-mode .add-chapter-wrap { display: block; }
 
-/* --- GALLERY VIEW ---------------------------------------- */
+/* ─── GALLERY VIEW ─────────────────────────── */
 #chBlocks.gallery-view {
   display: grid;
   /* columns injected dynamically via JS — see getGalleryCols() */
@@ -760,17 +698,7 @@ table.topics-tbl td.col-status { display: none; }
 </style>
 
 <script src="partials/navbar.js"></script>
-<script src="firebase-config.js"></script>
-<script>
-if (!window.ENV) window.ENV = {
-  FIREBASE_API_KEY:             "__FIREBASE_API_KEY__",
-  FIREBASE_AUTH_DOMAIN:         "__FIREBASE_AUTH_DOMAIN__",
-  FIREBASE_PROJECT_ID:          "__FIREBASE_PROJECT_ID__",
-  FIREBASE_STORAGE_BUCKET:      "__FIREBASE_STORAGE_BUCKET__",
-  FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
-  FIREBASE_APP_ID:              "__FIREBASE_APP_ID__",
-};
-</script>
+<!-- FIREBASE_ENV -->
 <script type="module" src="auth-guard.js"></script>
 </head>
 <body>
@@ -936,7 +864,7 @@ if (!window.ENV) window.ENV = {
   box-shadow: 0 6px 24px rgba(192,57,43,0.4); transform: translateY(-2px);
 }
 .home-float svg { width: 18px; height: 18px; }
-/* --- CONFIRM MODAL ─────────────────────────────── */
+/* ─── CONFIRM MODAL ──────────────────────────── */
 .cm-bg {
   position: fixed; inset: 0;
   background: rgba(28,28,46,.55);
@@ -972,7 +900,7 @@ if (!window.ENV) window.ENV = {
 .cm-ok:hover { filter: brightness(.9); }
 .cm-ok.danger { background: #c0392b; }
 
-/* --- MOBILE ---------------------------------------- */
+/* ─── MOBILE ────────────────────────────────── */
 @media (max-width: 768px) {
   .layout { grid-template-columns: 1fr !important; }
   .sidebar {

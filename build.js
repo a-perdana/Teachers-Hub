@@ -61,8 +61,14 @@ const LINK_REWRITES = [
   [/href="library\.html"/g, 'href="/library"'],
 ];
 
+// Read firebase-env partial once (used for placeholder injection)
+const firebaseEnvPartial = fs.readFileSync(path.join(__dirname, 'partials', 'firebase-env.html'), 'utf8');
+
 function processFile(filename) {
   let html = fs.readFileSync(path.join(__dirname, filename), 'utf8');
+
+  // Inject firebase-env partial where placeholder comment exists
+  html = html.replace(/<!-- FIREBASE_ENV -->/g, firebaseEnvPartial);
 
   // Replace Firebase config placeholders
   envVars.forEach(varName => {
@@ -126,6 +132,9 @@ if (fs.existsSync(partialsSrcDir)) {
     fs.mkdirSync(partialsDistDir, { recursive: true });
   }
   fs.readdirSync(partialsSrcDir).forEach(file => {
+    // firebase-env.html is injected inline via <!-- FIREBASE_ENV --> — no need to serve it
+    if (file === 'firebase-env.html') return;
+
     const srcFile = path.join(partialsSrcDir, file);
     const destFile = path.join(partialsDistDir, file);
     if (file.endsWith('.html')) {

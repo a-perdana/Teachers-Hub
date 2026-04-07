@@ -68,12 +68,6 @@
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 18px;
 }
-.res-empty {
-  text-align: center; padding: 60px 20px;
-  color: var(--ink-3); font-size: 15px; grid-column: 1/-1;
-}
-.res-empty-icon { font-size: 48px; margin-bottom: 12px; }
-
 /* ─── RESOURCE CARD ──────────────────────────── */
 .res-card {
   background: var(--white);
@@ -248,7 +242,7 @@
 
 <div id="navbar-container"></div>
 
-  <div class="content-layout">
+  <main class="content-layout">
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-section">
@@ -286,7 +280,7 @@
         <!-- cards injected here -->
       </div>
     </div>
-  </div>
+  </main>
 
 <!-- Add Resource Modal -->
 <div class="modal-overlay" id="modalOverlay">
@@ -358,7 +352,7 @@
 </button>
 
 <script src="partials/navbar.js"></script>
-<script src="firebase-config.js"></script>
+<!-- FIREBASE_ENV -->
 <script type="module" src="auth-guard.js"></script>
 <script>
   // Load navbar
@@ -525,7 +519,7 @@
     if (statShowing) statShowing.textContent = filtered.length;
 
     if (filtered.length === 0) {
-      grid.innerHTML = `<div class="res-empty"><div class="res-empty-icon">📭</div><p>No resources found. Be the first to add one!</p></div>`;
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">📭</div><p>No resources found. Be the first to add one!</p></div>`;
       return;
     }
 

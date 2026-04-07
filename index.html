@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eduversal Teachers Hub | Indonesia</title>
+    <title>Teachers Hub — Eduversal</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1788,12 +1788,6 @@
         animation: spin 1s linear infinite;
       }
 
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
       /* Accreditation Celebration Banner */
       .celebration-banner {
         position: relative;
@@ -1997,17 +1991,7 @@
       }
     </style>
     <script src="partials/navbar.js"></script>
-    <script src="firebase-config.js"></script>
-    <script>
-      if (!window.ENV) window.ENV = {
-        FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
-        FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
-        FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
-        FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
-        FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
-        FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
-      };
-    </script>
+<!-- FIREBASE_ENV -->
     <script type="module" src="auth-guard.js"></script>
   </head>
   <body>

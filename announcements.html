@@ -21,33 +21,8 @@
   padding: 32px 20px 100px;
 }
 
-/* ─── PAGE HEADER ────────────────────────────── */
-.ann-page-header {
-  display: flex; align-items: center; gap: 16px;
-  margin-bottom: 24px;
-}
-.ann-page-header-icon {
-  width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--accent), #b45309);
-  box-shadow: 0 4px 14px rgba(217,119,6,.30);
-}
-.ann-page-header-icon svg { width: 24px; height: 24px; color: #fff; }
-.ann-page-title {
-  font-size: 22px; font-weight: 800; color: var(--ink); line-height: 1.2;
-}
-.ann-page-sub {
-  font-size: 12.5px; color: var(--ink-3); margin-top: 3px;
-}
-
 /* ─── ANNOUNCEMENTS LIST ─────────────────────── */
 .ann-list { display: flex; flex-direction: column; gap: 16px; }
-
-.ann-empty {
-  text-align: center; padding: 60px 20px;
-  color: var(--ink-3); font-size: 15px;
-}
-.ann-empty-icon { font-size: 48px; margin-bottom: 12px; }
 
 .ann-card {
   background: var(--white);
@@ -395,25 +370,25 @@
   </button>
 
   <!-- Page content -->
-  <div class="page-wrap" style="padding-top: 80px;">
-    <div class="ann-page-header">
-      <div class="ann-page-header-icon">
+  <main class="page-wrap" style="padding-top: 80px;">
+    <div class="page-header">
+      <div class="page-header-icon" style="background:linear-gradient(135deg,var(--accent),#b45309);box-shadow:0 4px 14px rgba(217,119,6,.30);">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 3L9.218 10.083M11.698 20.334C12.573 21.209 14 20.561 14 19.307V4.693C14 3.439 12.573 2.791 11.698 3.666L7 8H4C2.895 8 2 8.895 2 10v4c0 1.105.895 2 2 2h3l4.698 4.334z"/>
         </svg>
       </div>
       <div>
-        <h1 class="ann-page-title">Announcements</h1>
-        <p class="ann-page-sub" id="annPageSub">Loading…</p>
+        <h1 class="page-header-title">Announcements</h1>
+        <p class="page-header-sub" id="annPageSub">Loading…</p>
       </div>
     </div>
     <div class="ann-list" id="annList">
-      <div class="ann-empty" id="annEmpty" style="display:none;">
-        <div class="ann-empty-icon">📭</div>
+      <div class="empty-state" id="annEmpty" style="display:none;">
+        <div class="empty-state-icon">📭</div>
         <p>No announcements yet. Check back soon!</p>
       </div>
     </div>
-  </div>
+  </main>
 
 <!-- New Announcement Modal -->
 <div class="modal-overlay" id="modalOverlay">
@@ -468,7 +443,7 @@
 </a>
 
 <script src="partials/navbar.js"></script>
-<script src="firebase-config.js"></script>
+<!-- FIREBASE_ENV -->
 <script>
   // Load navbar
   fetch('partials/navbar.html')
@@ -490,15 +465,6 @@
       }
     })
     .catch(error => console.error('Error loading navbar:', error));
-
-  if (!window.ENV) window.ENV = {
-    FIREBASE_API_KEY:            "__FIREBASE_API_KEY__",
-    FIREBASE_AUTH_DOMAIN:        "__FIREBASE_AUTH_DOMAIN__",
-    FIREBASE_PROJECT_ID:         "__FIREBASE_PROJECT_ID__",
-    FIREBASE_STORAGE_BUCKET:     "__FIREBASE_STORAGE_BUCKET__",
-    FIREBASE_MESSAGING_SENDER_ID:"__FIREBASE_MESSAGING_SENDER_ID__",
-    FIREBASE_APP_ID:             "__FIREBASE_APP_ID__",
-  };
 </script>
 <script type="module" src="auth-guard.js"></script>
 <script type="module">

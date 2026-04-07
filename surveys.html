@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Surveys - Teachers Hub</title>
+  <title>Surveys — Teachers Hub</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
   <link rel="stylesheet" href="base.css">
   <style>
+    /* ─── VARIABLES ─────────────────────────────────── */
     :root {
       --accent: #d97706;
       --accent-2: #fff7ed;
     }
+
+    /* ─── LAYOUT ─────────────────────────────────────── */
     body {
       min-height: 100vh;
     }
@@ -19,6 +22,7 @@
       margin: 0 auto;
       padding: 26px 16px 48px;
     }
+    /* ─── HERO ───────────────────────────────────────── */
     .hero {
       background: linear-gradient(145deg, #ffffff 0%, #fff8f0 100%);
       border: 1px solid #fde6cb;
@@ -49,6 +53,7 @@
       font-weight: 500;
     }
 
+    /* ─── CONTROLS ───────────────────────────────────── */
     .controls {
       display: grid;
       grid-template-columns: 1fr 170px;
@@ -73,6 +78,7 @@
       box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
     }
 
+    /* ─── SURVEY CARDS ───────────────────────────────── */
     .survey-list {
       display: flex;
       flex-direction: column;
@@ -118,6 +124,7 @@
     .badge-closed { background: #fee2e2; color: #991b1b; }
     .badge-status { background: #ffedd5; color: #9a3412; }
 
+    /* ─── CARD BODY & QUESTIONS ──────────────────────── */
     .survey-body {
       color: var(--ink-2);
       font-size: 0.89rem;
@@ -150,6 +157,7 @@
       margin-top: 5px;
     }
 
+    /* ─── PLATFORM CHIPS ─────────────────────────────── */
     .platforms {
       display: flex;
       gap: 6px;
@@ -168,6 +176,7 @@
     .chip-on-teachers { background: #dcfce7; color: #166534; border-color: #86efac; }
     .chip-off { background: #f3f4f6; color: #9ca3af; border-color: #e5e7eb; }
 
+    /* ─── RESPONSE SECTION ───────────────────────────── */
     .survey-meta {
       font-size: 0.8rem;
       color: var(--ink-3);
@@ -272,7 +281,7 @@
       100% { background-position: -200% 0; }
     }
 
-    /* Multi-type response inputs */
+    /* ─── MULTI-TYPE RESPONSE INPUTS ─────────────────── */
     .response-mc { display: flex; flex-direction: column; gap: 7px; }
     .response-mc label { display: flex; align-items: center; gap: 8px; font-size: 0.86rem; color: var(--ink-2); cursor: pointer; padding: 7px 10px; border: 1px solid var(--border); border-radius: 7px; background: var(--white); transition: border-color 0.15s, background 0.15s; }
     .response-mc label:hover { border-color: var(--accent); background: var(--accent-2); }
@@ -300,6 +309,7 @@
     .q-type-chip-rating { background: #fef3c7; color: #92400e; }
     .q-type-chip-likert { background: #dcfce7; color: #166534; }
 
+    /* ─── RESPONSIVE ─────────────────────────────────── */
     @media (max-width: 760px) {
       .controls { grid-template-columns: 1fr; }
       .nav-user-name, .btn-logout { display: none; }
@@ -338,17 +348,7 @@
   </main>
 
   <script src="partials/navbar.js"></script>
-  <script src="firebase-config.js"></script>
-  <script>
-    if (!window.ENV) window.ENV = {
-      FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
-      FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
-      FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
-      FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
-      FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
-      FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
-    };
-  </script>
+<!-- FIREBASE_ENV -->
   <script type="module" src="auth-guard.js"></script>
   <script>
     // Load navbar
