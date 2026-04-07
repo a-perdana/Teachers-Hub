@@ -27,7 +27,7 @@
 }
 .hero-inner {
   position: relative; z-index: 1;
-  max-width: 900px; margin: 0 auto;
+  max-width: 980px; margin: 0 auto;
   display: flex; align-items: flex-start; justify-content: space-between; gap: 24px;
 }
 .hero-text .eyebrow {
@@ -59,7 +59,7 @@
 .ring-sub  { font-size: 9px;  font-weight: 600; fill: rgba(255,255,255,0.55); dominant-baseline: middle; text-anchor: middle; }
 
 /* ─── PAGE WRAP ──────────────────────────────── */
-.page-wrap { max-width: 900px; margin: 0 auto; padding: 28px 40px 72px; }
+.page-wrap { max-width: 980px; margin: 0 auto; padding: 28px 40px 72px; }
 
 /* ─── WEEK NAV ───────────────────────────────── */
 .week-nav {
@@ -323,12 +323,6 @@
 
 <div id="navbar-container"></div>
 
-<nav class="page-breadcrumb" aria-label="Breadcrumb">
-  <a href="index.html">Teachers Hub</a>
-  <span class="page-breadcrumb-sep">›</span>
-  <span class="page-breadcrumb-current">Weekly Checklist</span>
-</nav>
-
 <!-- ─── HERO ────────────────────────────────────────────────────── -->
 <section class="hero">
   <div class="hero-inner">
@@ -352,6 +346,13 @@
 
 <!-- ─── MAIN ─────────────────────────────────────────────────────── -->
 <main class="page-wrap">
+
+  <!-- Breadcrumb -->
+  <nav class="page-breadcrumb" aria-label="Breadcrumb" style="max-width:none;margin-left:0;margin-right:0;margin-bottom:16px;">
+    <a href="index.html">Teachers Hub</a>
+    <span class="page-breadcrumb-sep">›</span>
+    <span class="page-breadcrumb-current">Weekly Checklist</span>
+  </nav>
 
   <!-- Week Navigator -->
   <div class="week-nav" style="gap:12px">

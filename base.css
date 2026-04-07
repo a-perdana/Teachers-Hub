@@ -442,8 +442,11 @@ body {
 /* ── Page breadcrumb (content pages: announcements, library, etc.) ── */
 .page-breadcrumb {
   display: flex; align-items: center; gap: 6px;
-  max-width: 900px; margin: 0 auto 12px;
-  padding: 16px 20px 0;
+  max-width: 980px; margin: 0 auto 10px;
+  padding: 14px 20px;
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
 }
 .page-breadcrumb a {
   font-family: 'DM Sans', sans-serif; font-size: 12px;
