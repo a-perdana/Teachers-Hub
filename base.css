@@ -441,11 +441,9 @@ body {
 
 /* ── Page breadcrumb (content pages: announcements, library, etc.) ── */
 .page-breadcrumb {
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  padding: 8px 28px;
   display: flex; align-items: center; gap: 6px;
-  position: sticky; top: 60px; z-index: 150;
+  max-width: 900px; margin: 0 auto 12px;
+  padding: 16px 20px 0;
 }
 .page-breadcrumb a {
   font-family: 'DM Sans', sans-serif; font-size: 12px;
@@ -458,7 +456,6 @@ body {
   font-family: 'DM Sans', sans-serif; font-size: 12px;
   color: var(--accent); font-weight: 600;
 }
-@media (max-width: 480px) { .page-breadcrumb { padding: 8px 16px; } }
 
 /* ── Pacing layout grid ───────────────────────────────────────── */
 .pacing-layout {
