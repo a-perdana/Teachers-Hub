@@ -585,6 +585,43 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   .home-float { bottom: 14px; left: 14px; }
 }
 
+/* --- MULTI-LINE ROW -------------------------------- */
+.topic-obj-line {
+  font-size: .72rem; color: var(--ink-2); line-height: 1.5;
+  margin-top: 5px;
+}
+.topic-meta-line {
+  display: flex; align-items: center; gap: 8px; margin-top: 6px; flex-wrap: wrap;
+}
+/* hide separate Hours, Week, Status, Objectives columns — merged into topic cell */
+table.topics-tbl th.col-obj,
+table.topics-tbl td.col-obj,
+table.topics-tbl th.col-hours,
+table.topics-tbl td.col-hours,
+table.topics-tbl th.col-week,
+table.topics-tbl td.col-week,
+table.topics-tbl th.col-status,
+table.topics-tbl td.col-status { display: none; }
+
+/* --- PAGINATION ------------------------------------ */
+.ch-pagination {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 18px; border-top: 1px solid var(--border);
+  background: var(--paper); font-size: .72rem; color: var(--ink-3);
+  gap: 12px;
+}
+.pg-btns { display: flex; gap: 4px; flex-wrap: wrap; }
+.pg-btn {
+  font-family: 'DM Sans', sans-serif; font-size: .7rem;
+  padding: 3px 9px; border-radius: 5px;
+  border: 1px solid var(--border); background: white; color: var(--ink-2);
+  cursor: pointer; transition: all .12s;
+}
+.pg-btn:hover:not([disabled]) { border-color: var(--ink-2); color: var(--ink); }
+.pg-btn[disabled] { opacity: .35; cursor: not-allowed; }
+.pg-btn.pg-active { background: var(--accent); border-color: var(--accent); color: white; }
+.pg-info { color: var(--ink-3); font-size: .7rem; white-space: nowrap; }
+
 </style>
 
 <script src="partials/navbar.js"></script>
@@ -845,6 +882,9 @@ let filterYear   = 'all';
 let filterStatus = 'all';
 let searchQ      = '';
 
+const PAGE_SIZE = 5;
+const chPageMap = {}; // ci -> current 0-based page index
+
 // -----------------------------------------------------------
 // PERSIST - delegates to Firebase module
 // -----------------------------------------------------------
@@ -1002,65 +1042,67 @@ function renderPacing() {
       <div class="topics-wrap">
         <table class="topics-tbl">
           <thead><tr>
-            <th style="width:64px"></th>
-            <th style="width:290px">Topic</th>
-            <th>Cambridge Objectives</th>
-            <th style="width:60px">Hours</th>
-            <th style="width:60px">Week</th>
-            <th style="width:210px">Status</th>
+            <th style="width:42px"></th>
+            <th>Topic</th>
+            <th class="col-obj">Cambridge Objectives</th>
+            <th class="col-hours" style="width:60px">Hours</th>
+            <th class="col-week" style="width:60px">Week</th>
+            <th class="col-status" style="width:210px">Status</th>
           </tr></thead>
           <tbody>
-            ${filteredTopics.map(({t, ti}) => {
-              const codes   = parseObjCodes(t.objective);
-              const rowClass = t.status === 'done' ? 'done-row' : t.status === 'inprogress' ? 'inprogress-row' : '';
-              const isCoord  = role === 'coord';
-              const hasRes   = (t.resources || []).length > 0;
-              return `
-              <tr class="${rowClass}" id="row-${ci}-${ti}">
-                <td>
-                  <div class="tcheck ${t.status==='done'?'on':t.status==='inprogress'?'mid':''}" onclick="toggleDone(${ci},${ti})" title="${t.status==='pending'?'Mark in progress':t.status==='inprogress'?'Mark done':'Mark pending'}"></div>
-                  <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">&#215;</button>
-                </td>
-                <td class="topic-cell">
-                  <div class="topic-name ${t.status==='done'?'struck':''} editable"
-                    contenteditable="${isCoord}"
-                    data-field="topic" data-ci="${ci}" data-ti="${ti}"
-                    onblur="saveEdit(this,${ci},${ti},'topic')"
-                    onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
-                  >${escHtml(t.topic)}</div>
-                  ${codes.length ? `<div class="obj-codes">${codes.map(c => `<span class="obj-code" onclick="showObj(${ci},${ti})">${c}</span>`).join('')}</div>` : ''}
-                </td>
-                <td>
-                  <div class="editable" style="font-size:.75rem;color:var(--ink-2);line-height:1.5;"
-                    contenteditable="${isCoord}"
-                    data-field="objective" data-ci="${ci}" data-ti="${ti}"
-                    onblur="saveEdit(this,${ci},${ti},'objective')"
-                  >${_renderObjCell(t.objective)}</div>
-                  ${_objNeedsSeeMore(t.objective) ? `<span class="obj-code" style="margin-top:4px;display:inline-block" onclick="showObj(${ci},${ti})">see full</span>` : ''}
-                </td>
-                <td>
-                  <span class="dur-badge editable"
-                    contenteditable="${isCoord}"
-                    data-field="hour" data-ci="${ci}" data-ti="${ti}"
-                    onblur="saveEdit(this,${ci},${ti},'hour')"
-                    onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
-                  >${t.hour}h</span>
-                </td>
-                <td style="font-size:.75rem;color:var(--ink-3);">
-                  ${t.week ? '<span style="font-weight:500;color:var(--ink-2);">Wk ' + t.week + '</span>' : '—'}
-                </td>
-                <td>
-                  <div class="status-pill">
-                    <button class="sp-btn sp-pending   ${t.status==='pending'   ?'sp-on':''}" onclick="setStatus(${ci},${ti},'pending')">Pending</button>
-                    <button class="sp-btn sp-inprogress ${t.status==='inprogress'?'sp-on':''}" onclick="setStatus(${ci},${ti},'inprogress')">In Progress</button>
-                    <button class="sp-btn sp-done      ${t.status==='done'      ?'sp-on':''}" onclick="setStatus(${ci},${ti},'done')">Done</button>
-                  </div>
-                </td>
-              </tr>
-              <tr class="res-row${!hasRes && !t.activity ? ' empty-res' : ''}" id="res-row-${ci}-${ti}">
-                <td colspan="6">${renderResourcesHtml(ci, ti, t)}</td>
-              </tr>`;
-            }).join('')}
+            ${(()=>{
+              const page = chPageMap[ci] || 0;
+              const start = page * PAGE_SIZE;
+              const pageTopics = filteredTopics.slice(start, start + PAGE_SIZE);
+              return pageTopics.map(({t, ti}) => {
+                const codes   = parseObjCodes(t.objective);
+                const rowClass = t.status === 'done' ? 'done-row' : t.status === 'inprogress' ? 'inprogress-row' : '';
+                const isCoord  = role === 'coord';
+                const hasRes   = (t.resources || []).length > 0;
+                return `
+                <tr class="${rowClass}" id="row-${ci}-${ti}">
+                  <td>
+                    <div class="tcheck ${t.status==='done'?'on':t.status==='inprogress'?'mid':''}" onclick="toggleDone(${ci},${ti})" title="${t.status==='pending'?'Mark in progress':t.status==='inprogress'?'Mark done':'Mark pending'}"></div>
+                    <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">&#215;</button>
+                  </td>
+                  <td class="topic-cell">
+                    <div class="topic-name ${t.status==='done'?'struck':''} editable"
+                      contenteditable="${isCoord}"
+                      data-field="topic" data-ci="${ci}" data-ti="${ti}"
+                      onblur="saveEdit(this,${ci},${ti},'topic')"
+                      onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+                    >${escHtml(t.topic)}</div>
+                    ${codes.length ? `<div class="obj-codes">${codes.map(c => `<span class="obj-code" onclick="showObj(${ci},${ti})">${c}</span>`).join('')}</div>` : ''}
+                    <div class="topic-obj-line editable"
+                      contenteditable="${isCoord}"
+                      data-field="objective" data-ci="${ci}" data-ti="${ti}"
+                      onblur="saveEdit(this,${ci},${ti},'objective')"
+                    >${_renderObjCell(t.objective)}${_objNeedsSeeMore(t.objective) ? ` <span class="obj-code" style="cursor:pointer" onclick="event.stopPropagation();showObj(${ci},${ti})">see full</span>` : ''}</div>
+                    <div class="topic-meta-line">
+                      <span class="dur-badge editable"
+                        contenteditable="${isCoord}"
+                        data-field="hour" data-ci="${ci}" data-ti="${ti}"
+                        onblur="saveEdit(this,${ci},${ti},'hour')"
+                        onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+                      >${t.hour}h</span>
+                      ${t.week ? `<span style="font-size:.72rem;font-weight:500;color:var(--ink-2);">Wk ${t.week}</span>` : ''}
+                      <div class="status-pill">
+                        <button class="sp-btn sp-pending   ${t.status==='pending'   ?'sp-on':''}" onclick="setStatus(${ci},${ti},'pending')">Pending</button>
+                        <button class="sp-btn sp-inprogress ${t.status==='inprogress'?'sp-on':''}" onclick="setStatus(${ci},${ti},'inprogress')">In Progress</button>
+                        <button class="sp-btn sp-done      ${t.status==='done'      ?'sp-on':''}" onclick="setStatus(${ci},${ti},'done')">Done</button>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="col-obj"></td>
+                  <td class="col-hours"></td>
+                  <td class="col-week"></td>
+                  <td class="col-status"></td>
+                </tr>
+                <tr class="res-row${!hasRes && !t.activity ? ' empty-res' : ''}" id="res-row-${ci}-${ti}">
+                  <td colspan="6">${renderResourcesHtml(ci, ti, t)}</td>
+                </tr>`;
+              }).join('');
+            })()}
             <tr class="add-topic-row">
               <td colspan="6">
                 <button class="add-topic-btn" onclick="addTopic(${ci})">+ Add Topic</button>
@@ -1068,6 +1110,24 @@ function renderPacing() {
             </tr>
           </tbody>
         </table>
+        ${(()=>{
+          const totalPages = Math.ceil(filteredTopics.length / PAGE_SIZE);
+          if (totalPages <= 1) return '';
+          const page = chPageMap[ci] || 0;
+          const start = page * PAGE_SIZE + 1;
+          const end   = Math.min((page + 1) * PAGE_SIZE, filteredTopics.length);
+          let pgHtml = `<div class="ch-pagination">
+            <span class="pg-info">${start}–${end} of ${filteredTopics.length} topics</span>
+            <div class="pg-btns">
+              <button class="pg-btn" onclick="chSetPage(${ci},${page-1})" ${page===0?'disabled':''}>‹ Prev</button>`;
+          for (let p = 0; p < totalPages; p++) {
+            pgHtml += `<button class="pg-btn ${p===page?'pg-active':''}" onclick="chSetPage(${ci},${p})">${p+1}</button>`;
+          }
+          pgHtml += `<button class="pg-btn" onclick="chSetPage(${ci},${page+1})" ${page===totalPages-1?'disabled':''}>Next ›</button>
+            </div>
+          </div>`;
+          return pgHtml;
+        })()}
       </div>
       ${renderChapterAssessmentCard(ch)}
     </div>`;
@@ -1098,6 +1158,29 @@ function renderPacing() {
     document.body.classList.remove('coord-mode');
     document.getElementById('editHint').style.display = 'none';
   }
+}
+
+// -----------------------------------------------------------
+// PAGINATION
+// -----------------------------------------------------------
+function chSetPage(ci, page) {
+  const ch = DATA[ci];
+  if (!ch) return;
+  const filteredTopics = ch.topics.map((t, ti) => ({t, ti})).filter(({t}) => {
+    if (filterStatus !== 'all' && t.status !== filterStatus) return false;
+    if (searchQ) {
+      const q = searchQ.toLowerCase();
+      return t.topic.toLowerCase().includes(q) || t.objective.toLowerCase().includes(q);
+    }
+    return true;
+  });
+  const totalPages = Math.ceil(filteredTopics.length / PAGE_SIZE);
+  if (page < 0 || page >= totalPages) return;
+  chPageMap[ci] = page;
+  renderPacing();
+  // scroll chapter into view
+  const el = document.getElementById('ch-' + ci);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // -----------------------------------------------------------
@@ -1168,6 +1251,8 @@ function saveEdit(el, ci, ti, field) {
 function addTopic(ci) {
   if (role !== 'coord') return;
   DATA[ci].topics.push({ topic: 'New Topic', objective: '', week: null, hour: 1, status: 'pending', resources: [] });
+  // jump to last page so new topic is visible
+  chPageMap[ci] = Math.floor((DATA[ci].topics.length - 1) / PAGE_SIZE);
   saveState(); render();
   showToast('Topic added');
 }
@@ -1363,6 +1448,7 @@ function clearSearch(){
 let _searchDebounce;
 function handleSearch(val) {
   searchQ = val;
+  Object.keys(chPageMap).forEach(k => { chPageMap[k] = 0; });
   const clrBtn = document.getElementById('searchClear');
   if (clrBtn) clrBtn.classList.toggle('visible', val.length > 0);
   clearTimeout(_searchDebounce);
@@ -1381,6 +1467,7 @@ function activateYearChip(chip) {
   document.querySelectorAll('[data-year]').forEach(c => c.classList.remove('on'));
   chip.classList.add('on');
   filterYear = chip.dataset.year;
+  Object.keys(chPageMap).forEach(k => { chPageMap[k] = 0; });
   renderPacing();
 }
 document.getElementById('yearChips').addEventListener('click', e => {
@@ -1396,6 +1483,7 @@ function activateStatusChip(chip) {
   document.querySelectorAll('[data-status]').forEach(c => c.classList.remove('on'));
   chip.classList.add('on');
   filterStatus = chip.dataset.status;
+  Object.keys(chPageMap).forEach(k => { chPageMap[k] = 0; });
   renderPacing();
 }
 document.getElementById('statusChips').addEventListener('click', e => {
