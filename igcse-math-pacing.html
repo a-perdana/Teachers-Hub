@@ -591,7 +591,21 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   margin-top: 5px;
 }
 .topic-meta-line {
-  display: flex; align-items: center; gap: 8px; margin-top: 6px; flex-wrap: wrap;
+  display: flex; align-items: center; gap: 6px; margin-top: 7px; flex-wrap: wrap;
+}
+.meta-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: .64rem; font-weight: 600; padding: 3px 8px;
+  border-radius: 100px; white-space: nowrap;
+}
+.meta-pill svg { flex-shrink: 0; }
+.meta-pill-hours {
+  background: var(--amber-2); color: var(--amber);
+  border: 1px solid #f0dea0;
+}
+.meta-pill-week {
+  background: var(--blue-2); color: var(--blue);
+  border: 1px solid #c2d8f5;
 }
 /* hide separate Hours, Week, Status, Objectives columns — merged into topic cell */
 table.topics-tbl th.col-obj,
@@ -1079,13 +1093,14 @@ function renderPacing() {
                       onblur="saveEdit(this,${ci},${ti},'objective')"
                     >${_renderObjCell(t.objective)}${_objNeedsSeeMore(t.objective) ? ` <span class="obj-code" style="cursor:pointer" onclick="event.stopPropagation();showObj(${ci},${ti})">see full</span>` : ''}</div>
                     <div class="topic-meta-line">
-                      <span class="dur-badge editable"
+                      <span class="meta-pill meta-pill-hours editable"
                         contenteditable="${isCoord}"
                         data-field="hour" data-ci="${ci}" data-ti="${ti}"
                         onblur="saveEdit(this,${ci},${ti},'hour')"
                         onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
-                      >${t.hour}h</span>
-                      ${t.week ? `<span style="font-size:.72rem;font-weight:500;color:var(--ink-2);">Wk ${t.week}</span>` : ''}
+                        title="Hours"
+                      ><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${t.hour}h</span>
+                      ${t.week ? `<span class="meta-pill meta-pill-week"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Wk ${t.week}</span>` : ''}
                       <div class="status-pill">
                         <button class="sp-btn sp-pending   ${t.status==='pending'   ?'sp-on':''}" onclick="setStatus(${ci},${ti},'pending')">Pending</button>
                         <button class="sp-btn sp-inprogress ${t.status==='inprogress'?'sp-on':''}" onclick="setStatus(${ci},${ti},'inprogress')">In Progress</button>
@@ -1233,6 +1248,13 @@ function renderWeekly() {
 // -----------------------------------------------------------
 // INTERACTIONS
 // -----------------------------------------------------------
+function toggleDone(ci, ti) {
+  const cur = DATA[ci].topics[ti].status;
+  const next = cur === 'pending' ? 'inprogress' : cur === 'inprogress' ? 'done' : 'pending';
+  DATA[ci].topics[ti].status = next;
+  saveState(); render();
+}
+
 function setStatus(ci, ti, val) {
   DATA[ci].topics[ti].status = val;
   saveState(); render();
