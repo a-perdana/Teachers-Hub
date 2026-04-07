@@ -628,6 +628,124 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .activity-chip.external   { background:#e8f0fb; color:#1a5fa8; border-color:#c2d8f5; }
 .activity-chip.pdf        { background:#fff1f0; color:#dc2626; border-color:#fecaca; }
 
+
+/* --- CHAPTER PAGINATION ---------------------------------- */
+/* Paginator lives outside the grid, always at the bottom of the panel */
+.chapter-paginator {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 24px 16px;
+  border-top: 1px solid var(--border);
+  background: white;
+  flex-shrink: 0;
+}
+.ch-pg-btns { display: flex; gap: 4px; align-items: center; }
+.ch-pg-btn {
+  font-family: 'DM Sans', sans-serif; font-size: .72rem;
+  padding: 4px 11px; border-radius: 6px;
+  border: 1px solid var(--border); background: white; color: var(--ink-2);
+  cursor: pointer; transition: all .12s;
+}
+.ch-pg-btn:hover:not([disabled]) { border-color: var(--ink-2); color: var(--ink); }
+.ch-pg-btn[disabled] { opacity: .35; cursor: not-allowed; }
+.ch-pg-btn.ch-pg-active { background: var(--accent); border-color: var(--accent); color: white; }
+.ch-pg-info { font-size: .72rem; color: var(--ink-3); white-space: nowrap; }
+
+/* --- GALLERY / LIST VIEW TOGGLE ---------------------------------- */
+.view-mode-toggle {
+  display: flex; gap: 2px;
+  background: var(--paper); border-radius: 7px; padding: 2px;
+  border: 1px solid var(--border);
+}
+.vmt-btn {
+  width: 28px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; background: none; border-radius: 5px;
+  cursor: pointer; color: var(--ink-3); transition: all .12s;
+}
+.vmt-btn:hover { color: var(--ink); }
+.vmt-btn.on { background: white; color: var(--ink); box-shadow: var(--shadow-sm); }
+
+/* --- PACING PANEL flex column so paginator sticks to bottom ---------- */
+#panel-pacing {
+  display: none; flex-direction: column; flex: 1;
+  padding: 0; overflow: hidden;
+}
+#panel-pacing.on { display: flex; }
+#panel-pacing .edit-hint { flex-shrink: 0; }
+
+/* scrollable chapter area */
+#chBlocksWrap {
+  flex: 1; overflow-y: auto;
+  padding: 20px 24px 0;
+}
+
+/* add-chapter wrap lives inside scrollable area */
+.add-chapter-wrap {
+  display: none; text-align: center; padding: 16px 0 20px;
+}
+.coord-mode .add-chapter-wrap { display: block; }
+
+/* --- GALLERY VIEW ---------------------------------------- */
+#chBlocks.gallery-view {
+  display: grid;
+  /* columns injected dynamically via JS -- see getGalleryCols() */
+  gap: 14px;
+  align-items: stretch; /* equal height rows */
+}
+/* In gallery mode each chapter card shows summary only, no expanded topics table */
+#chBlocks.gallery-view .ch-block {
+  margin-bottom: 0;
+  display: flex; flex-direction: column;
+  min-height: 220px;
+}
+#chBlocks.gallery-view .ch-block .topics-wrap { display: none !important; }
+#chBlocks.gallery-view .ch-block .ch-assessment { display: none !important; }
+#chBlocks.gallery-view .ch-block .ch-header {
+  border-bottom: none;
+  cursor: default;
+  padding: 16px 18px;
+  flex-shrink: 0;
+}
+#chBlocks.gallery-view .ch-block .ch-caret { display: none; }
+#chBlocks.gallery-view .ch-block .del-ch-btn { display: none; }
+
+/* Gallery card body below header */
+.gallery-card-body {
+  padding: 12px 18px 16px;
+  border-top: 1px solid var(--border);
+  background: white;
+  flex: 1; /* fill remaining card height */
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#chBlocks.gallery-view .gallery-card-body { display: flex; }
+
+.gcb-topics-preview { display: flex; flex-direction: column; gap: 6px; }
+.gcb-topic-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .8rem; color: var(--ink); line-height: 1.35;
+}
+.gcb-topic-dot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+}
+.gcb-topic-dot.done       { background: var(--green); }
+.gcb-topic-dot.inprogress { background: var(--blue); }
+.gcb-topic-dot.pending    { background: var(--border); }
+.gcb-topic-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gcb-more { font-size: .72rem; color: var(--ink-3); padding-top: 3px; }
+.gcb-open-btn {
+  display: block; width: 100%; margin-top: 14px;
+  font-family: 'DM Sans', sans-serif; font-size: .73rem; font-weight: 500;
+  padding: 7px 0; border-radius: 7px;
+  border: 1px solid var(--border); background: var(--paper); color: var(--ink-2);
+  cursor: pointer; transition: all .14s; text-align: center; flex-shrink: 0;
+}
+.gcb-open-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
+
+/* add-chapter button in gallery view */
+#chBlocks.gallery-view .add-chapter-wrap { grid-column: 1/-1; }
+
 </style>
 
 <script src="partials/navbar.js"></script>
@@ -780,8 +898,21 @@ if (!window.ENV) window.ENV = {
         <button class="tab-btn" onclick="switchView('weekly',this)">Weekly View</button>
       </div>
       <div class="view-actions">
-        <button class="btn" onclick="expandAll()">Expand All</button>
-        <button class="btn" onclick="collapseAll()">Collapse All</button>
+        <div class="view-mode-toggle" id="viewModeToggle" title="Switch chapter view">
+          <button class="vmt-btn" id="vmtList" onclick="setChapterView('list')" title="List view" aria-label="List view">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <line x1="3" y1="4" x2="13" y2="4"/><line x1="3" y1="8" x2="13" y2="8"/><line x1="3" y1="12" x2="13" y2="12"/>
+            </svg>
+          </button>
+          <button class="vmt-btn" id="vmtGallery" onclick="setChapterView('gallery')" title="Gallery view" aria-label="Gallery view">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/>
+              <rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/>
+            </svg>
+          </button>
+        </div>
+        <button class="btn" id="expandAllBtn" onclick="expandAll()">Expand All</button>
+        <button class="btn" id="collapseAllBtn" onclick="collapseAll()">Collapse All</button>
         <button class="btn primary" id="resetBtn" onclick="resetProgress()" style="display:none">Reset All</button>
         <button class="btn" id="teacherResetBtn" onclick="resetMyProgress()" style="display:none" title="Reset your own progress">Reset My Progress</button>
       </div>
@@ -790,7 +921,10 @@ if (!window.ENV) window.ENV = {
     <!-- PACING PANEL -->
     <div class="panel on" id="panel-pacing">
       <div class="edit-hint" id="editHint"><span class="edit-hint-dot"></span><span>Coordinator mode — click any topic, objective, or duration to edit inline.</span></div>
-      <div id="chBlocks"></div>
+      <div id="chBlocksWrap">
+        <div id="chBlocks"></div>
+      </div>
+      <div id="chapterPaginatorMount"></div>
     </div>
 
     <!-- WEEKLY PANEL -->
@@ -928,14 +1062,38 @@ if (!window.ENV) window.ENV = {
 var RAW_DATA = [];
 
 // -----------------------------------------------------------
-// STATE
+// STATE  (var so the Firebase module can write window.DATA)
 // -----------------------------------------------------------
 var DATA = [];
-var role = 'teacher';
+var role = 'teacher'; // 'teacher' | 'coord'
 
 let filterYear   = 'all';
 let filterStatus = 'all';
 let searchQ      = '';
+
+const PAGE_SIZE = 5;
+const chPageMap = {}; // ci -> current 0-based page index (topic pagination)
+
+// Chapter-level pagination -- page size is dynamic in gallery mode (2 rows x cols)
+let chapterPage = 0;
+
+// Gallery / List view
+let chapterViewMode = window.innerWidth >= 960 ? 'gallery' : 'list';
+
+function getGalleryCols() {
+  const wrap = document.getElementById('chBlocksWrap');
+  const w = wrap ? wrap.clientWidth : window.innerWidth - 280;
+  if (w >= 1400) return 5;
+  if (w >= 1100) return 4;
+  if (w >= 800)  return 3;
+  if (w >= 520)  return 2;
+  return 1;
+}
+
+function getChapterPageSize() {
+  if (chapterViewMode === 'gallery') return getGalleryCols() * 2;
+  return 5;
+}
 
 // -----------------------------------------------------------
 // PERSIST
@@ -1062,25 +1220,31 @@ function renderProgress() {
 function renderPacing() {
   const container = document.getElementById('chBlocks');
   const collapsed = new Set([...document.querySelectorAll('.ch-block.collapsed')].map(el=>el.id));
-
-  if (role === 'coord') {
-    document.body.classList.add('coord-mode');
-    document.getElementById('editHint').style.display = 'block';
-  } else {
-    document.body.classList.remove('coord-mode');
-    document.getElementById('editHint').style.display = 'none';
-  }
-
-  if (!DATA.length) {
-    container.innerHTML = `
-      <div class="empty"><div class="empty-icon">-</div><p>No chapters yet. Add the first chapter to get started.</p></div>
-      <div class="add-chapter-wrap"><button class="add-chapter-btn" onclick="addChapter()">+ Add Chapter</button></div>`;
-    return;
-  }
-
   let html = '';
 
-  DATA.forEach((ch, ci) => {
+  // Apply chapter-level pagination
+  const CPS = getChapterPageSize(); // dynamic: 2xcols in gallery, 5 in list
+  // First collect filtered chapter indices
+  const filteredChIndices = DATA.map((ch, ci) => ci).filter(ci => {
+    const ch = DATA[ci];
+    if (filterYear !== 'all' && ch.year !== filterYear) return false;
+    // skip chapters with no matching topics
+    const hasTopics = ch.topics.some(t => {
+      if (filterStatus !== 'all' && t.status !== filterStatus) return false;
+      if (searchQ) {
+        const q = searchQ.toLowerCase();
+        return t.topic.toLowerCase().includes(q) || (t.objective||'').toLowerCase().includes(q);
+      }
+      return true;
+    });
+    return hasTopics;
+  });
+  const totalChapterPages = Math.ceil(filteredChIndices.length / CPS);
+  if (chapterPage >= totalChapterPages) chapterPage = Math.max(0, totalChapterPages - 1);
+  const pageChIndices = filteredChIndices.slice(chapterPage * CPS, (chapterPage + 1) * CPS);
+
+  pageChIndices.forEach(ci => {
+    const ch = DATA[ci];
     if (filterYear !== 'all' && ch.year !== filterYear) return;
 
     const filteredTopics = ch.topics.map((t, ti) => ({t, ti})).filter(({t}) => {
@@ -1096,7 +1260,7 @@ function renderPacing() {
 
     const done      = ch.topics.filter(t => t.status === 'done').length;
     const pct       = ch.topics.length ? Math.round(done / ch.topics.length * 100) : 0;
-    const yearClass = ch.year === 'Year 9' ? 'yr9' : 'yr10';
+    const yearClass = ch.year === 'Year 9' ? 'yr9' : ch.year === 'Year 10' ? 'yr10' : ch.year === 'Year 11' ? 'yr9' : ch.year === 'Year 12' ? 'yr10' : ch.year === 'Year 7' ? 'yr9' : 'yr10';
 
     html += `
     <div class="ch-block" id="ch-${ci}">
@@ -1110,70 +1274,73 @@ function renderPacing() {
           <span class="ch-topic-count">${ch.topics.length} topics</span>
         </div>
         <button class="del-ch-btn" onclick="event.stopPropagation();deleteChapter(${ci})" title="Delete chapter">x</button>
-        <span class="ch-caret">▾</span>
+        <span class="ch-caret">&#9662;</span>
       </div>
       <div class="topics-wrap">
         <table class="topics-tbl">
           <thead><tr>
-            <th style="width:64px"></th>
-            <th style="width:290px">Topic</th>
+            <th style="width:42px"></th>
+            <th>Topic</th>
             <th>Cambridge Objectives</th>
             <th style="width:60px">Hours</th>
             <th style="width:60px">Week</th>
             <th style="width:210px">Status</th>
           </tr></thead>
           <tbody>
-            ${filteredTopics.map(({t, ti}) => {
-              const codes    = parseObjCodes(t.objective);
-              const rowClass = t.status === 'done' ? 'done-row' : t.status === 'inprogress' ? 'inprogress-row' : '';
-              const isCoord  = role === 'coord';
-              const hasRes   = (t.resources || []).length > 0;
-              return `
-              <tr class="${rowClass}" id="row-${ci}-${ti}">
-                <td>
-                  <div class="tcheck ${t.status==='done'?'on':t.status==='inprogress'?'mid':''}" onclick="toggleDone(${ci},${ti})" title="${t.status==='pending'?'Mark in progress':t.status==='inprogress'?'Mark done':'Mark pending'}"></div>
-                  <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">x</button>
-                </td>
-                <td class="topic-cell">
-                  <div class="topic-name ${t.status==='done'?'struck':''} editable"
-                    contenteditable="${isCoord}"
-                    data-field="topic" data-ci="${ci}" data-ti="${ti}"
-                    onblur="saveEdit(this,${ci},${ti},'topic')"
-                    onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
-                  >${escHtml(t.topic)}</div>
-                  ${codes.length ? `<div class="obj-codes">${codes.map(c => `<span class="obj-code" onclick="showObj(${ci},${ti})">${c}</span>`).join('')}</div>` : ''}
-                </td>
-                <td>
-                  <div class="editable" style="font-size:.75rem;color:var(--ink-2);line-height:1.5;"
-                    contenteditable="${isCoord}"
-                    data-field="objective" data-ci="${ci}" data-ti="${ti}"
-                    onblur="saveEdit(this,${ci},${ti},'objective')"
-                  >${_renderObjCell(t.objective)}</div>
-                  ${_objNeedsSeeMore(t.objective) ? `<span class="obj-code" style="margin-top:4px;display:inline-block" onclick="showObj(${ci},${ti})">see full</span>` : ''}
-                </td>
-                <td>
-                  <span class="dur-badge editable"
-                    contenteditable="${isCoord}"
-                    data-field="hour" data-ci="${ci}" data-ti="${ti}"
-                    onblur="saveEdit(this,${ci},${ti},'hour')"
-                    onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
-                  >${t.hour}h</span>
-                </td>
-                <td style="font-size:.75rem;color:var(--ink-3);">
-                  ${t.week ? '<span style="font-weight:500;color:var(--ink-2);">Wk ' + t.week + '</span>' : '—'}
-                </td>
-                <td>
-                  <div class="status-pill">
-                    <button class="sp-btn sp-pending   ${t.status==='pending'   ?'sp-on':''}" onclick="setStatus(${ci},${ti},'pending')">Pending</button>
-                    <button class="sp-btn sp-inprogress ${t.status==='inprogress'?'sp-on':''}" onclick="setStatus(${ci},${ti},'inprogress')">In Progress</button>
-                    <button class="sp-btn sp-done      ${t.status==='done'      ?'sp-on':''}" onclick="setStatus(${ci},${ti},'done')">Done</button>
-                  </div>
-                </td>
-              </tr>
-              <tr class="res-row${!hasRes && !t.activity ? ' empty-res' : ''}" id="res-row-${ci}-${ti}">
-                <td colspan="6">${renderResourcesHtml(ci, ti, t)}</td>
-              </tr>`;
-            }).join('')}
+            ${(()=>{
+              const page = chPageMap[ci] || 0;
+              const start = page * PAGE_SIZE;
+              const pageTopics = filteredTopics.slice(start, start + PAGE_SIZE);
+              return pageTopics.map(({t, ti}) => {
+                const codes   = parseObjCodes(t.objective);
+                const rowClass = t.status === 'done' ? 'done-row' : t.status === 'inprogress' ? 'inprogress-row' : '';
+                const isCoord  = role === 'coord';
+                const hasRes   = (t.resources || []).length > 0;
+                return `
+                <tr class="${rowClass}" id="row-${ci}-${ti}">
+                  <td>
+                    <div class="tcheck ${t.status==='done'?'on':t.status==='inprogress'?'mid':''}" onclick="toggleDone(${ci},${ti})" title="${t.status==='pending'?'Mark in progress':t.status==='inprogress'?'Mark done':'Mark pending'}"></div>
+                    <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">&#215;</button>
+                  </td>
+                  <td class="topic-cell">
+                    <div class="topic-name ${t.status==='done'?'struck':''} editable"
+                      contenteditable="${isCoord}"
+                      data-field="topic" data-ci="${ci}" data-ti="${ti}"
+                      onblur="saveEdit(this,${ci},${ti},'topic')"
+                      onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+                    >${escHtml(t.topic)}</div>
+                    ${codes.length ? `<div class="obj-codes">${codes.map(c => `<span class="obj-code" onclick="showObj(${ci},${ti})">${c}</span>`).join('')}</div>` : ''}
+                    <div class="editable" style="font-size:.75rem;color:var(--ink-2);line-height:1.5;"
+                      contenteditable="${isCoord}"
+                      data-field="objective" data-ci="${ci}" data-ti="${ti}"
+                      onblur="saveEdit(this,${ci},${ti},'objective')"
+                    >${_renderObjCell(t.objective)}${_objNeedsSeeMore(t.objective) ? ` <span class="obj-code" style="cursor:pointer" onclick="event.stopPropagation();showObj(${ci},${ti})">see full</span>` : ''}</div>
+                    <div style="display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap;">
+                      <span class="dur-badge editable"
+                        contenteditable="${isCoord}"
+                        data-field="hour" data-ci="${ci}" data-ti="${ti}"
+                        onblur="saveEdit(this,${ci},${ti},'hour')"
+                        onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+                        title="Hours"
+                      >${t.hour}h</span>
+                      ${t.week ? `<span style="font-size:.64rem;font-weight:600;padding:3px 8px;border-radius:100px;background:var(--blue-2);color:var(--blue);border:1px solid #c2d8f5;white-space:nowrap;">Wk ${t.week}</span>` : ''}
+                      <div class="status-pill">
+                        <button class="sp-btn sp-pending   ${t.status==='pending'   ?'sp-on':''}" onclick="setStatus(${ci},${ti},'pending')">Pending</button>
+                        <button class="sp-btn sp-inprogress ${t.status==='inprogress'?'sp-on':''}" onclick="setStatus(${ci},${ti},'inprogress')">In Progress</button>
+                        <button class="sp-btn sp-done      ${t.status==='done'      ?'sp-on':''}" onclick="setStatus(${ci},${ti},'done')">Done</button>
+                      </div>
+                    </div>
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr class="res-row${!hasRes && !t.activity ? ' empty-res' : ''}" id="res-row-${ci}-${ti}">
+                  <td colspan="6">${renderResourcesHtml(ci, ti, t)}</td>
+                </tr>`;
+              }).join('');
+            })()}
             <tr class="add-topic-row">
               <td colspan="6">
                 <button class="add-topic-btn" onclick="addTopic(${ci})">+ Add Topic</button>
@@ -1181,14 +1348,86 @@ function renderPacing() {
             </tr>
           </tbody>
         </table>
+        ${(()=>{
+          const totalPages = Math.ceil(filteredTopics.length / PAGE_SIZE);
+          if (totalPages <= 1) return '';
+          const page = chPageMap[ci] || 0;
+          const start = page * PAGE_SIZE + 1;
+          const end   = Math.min((page + 1) * PAGE_SIZE, filteredTopics.length);
+          let pgHtml = `<div class="ch-pagination">
+            <span class="pg-info">${start}–${end} of ${filteredTopics.length} topics</span>
+            <div class="pg-btns">
+              <button class="pg-btn" onclick="chSetPage(${ci},${page-1})" ${page===0?'disabled':''}>&#8249; Prev</button>`;
+          for (let p = 0; p < totalPages; p++) {
+            pgHtml += `<button class="pg-btn ${p===page?'pg-active':''}" onclick="chSetPage(${ci},${p})">${p+1}</button>`;
+          }
+          pgHtml += `<button class="pg-btn" onclick="chSetPage(${ci},${page+1})" ${page===totalPages-1?'disabled':''}>Next &#8250;</button>
+            </div>
+          </div>`;
+          return pgHtml;
+        })()}
       </div>
       ${renderChapterAssessmentCard(ch)}
+      ${renderGalleryCardBody(ch, ci)}
     </div>`;
   });
 
-  if (!html) html = `<div class="empty"><div class="empty-icon">-</div><p>No topics match your filters.</p></div>`;
+  // Chapter paginator -- rendered into the mount point outside the grid
+  let chPaginatorHtml = '';
+  if (totalChapterPages > 1) {
+    const start = chapterPage * CPS + 1;
+    const end   = Math.min((chapterPage + 1) * CPS, filteredChIndices.length);
+    chPaginatorHtml = `<div class="chapter-paginator">
+      <span class="ch-pg-info">Chapters ${start}–${end} of ${filteredChIndices.length}</span>
+      <div class="ch-pg-btns">
+        <button class="ch-pg-btn" onclick="chapterSetPage(${chapterPage - 1})" ${chapterPage === 0 ? 'disabled' : ''}>&#8249; Prev</button>`;
+    for (let p = 0; p < totalChapterPages; p++) {
+      chPaginatorHtml += `<button class="ch-pg-btn ${p === chapterPage ? 'ch-pg-active' : ''}" onclick="chapterSetPage(${p})">${p + 1}</button>`;
+    }
+    chPaginatorHtml += `<button class="ch-pg-btn" onclick="chapterSetPage(${chapterPage + 1})" ${chapterPage === totalChapterPages - 1 ? 'disabled' : ''}>Next &#8250;</button>
+      </div>
+    </div>`;
+  }
+
+  if (!html) {
+    if (DATA.length === 0) {
+      html = `<div class="empty">
+        <div class="empty-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="opacity:.35"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+        </div>
+        <p style="font-weight:500;color:var(--ink-2);margin-bottom:6px;">No topics yet</p>
+        <p style="font-size:.75rem;line-height:1.6;">The coordinator hasn't added any content yet.<br>Please check back later.</p>
+      </div>`;
+    } else {
+      html = `<div class="empty"><div class="empty-icon"></div><p>No topics match your filters.</p></div>`;
+    }
+  }
   html += `<div class="add-chapter-wrap"><button class="add-chapter-btn" onclick="addChapter()">+ Add Chapter</button></div>`;
   container.innerHTML = html;
+
+  // Paginator goes into the mount point (outside the grid, always at bottom)
+  const mountEl = document.getElementById('chapterPaginatorMount');
+  if (mountEl) mountEl.innerHTML = chPaginatorHtml;
+
+  // Apply view mode class + dynamic grid columns
+  const cols = getGalleryCols();
+  container.classList.toggle('gallery-view', chapterViewMode === 'gallery');
+  if (chapterViewMode === 'gallery') {
+    container.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+  } else {
+    container.style.gridTemplateColumns = '';
+  }
+
+  // Sync toggle buttons
+  const vmtList    = document.getElementById('vmtList');
+  const vmtGallery = document.getElementById('vmtGallery');
+  const expandBtn  = document.getElementById('expandAllBtn');
+  const collapseBtn = document.getElementById('collapseAllBtn');
+  if (vmtList)    vmtList.classList.toggle('on', chapterViewMode === 'list');
+  if (vmtGallery) vmtGallery.classList.toggle('on', chapterViewMode === 'gallery');
+  // Expand/Collapse All only make sense in list mode
+  if (expandBtn)   expandBtn.style.display   = chapterViewMode === 'list' ? '' : 'none';
+  if (collapseBtn) collapseBtn.style.display = chapterViewMode === 'list' ? '' : 'none';
 
   collapsed.forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('collapsed');});
 
@@ -1199,6 +1438,66 @@ function renderPacing() {
     document.body.classList.remove('coord-mode');
     document.getElementById('editHint').style.display = 'none';
   }
+}
+
+// -----------------------------------------------------------
+// GALLERY CARD BODY
+// -----------------------------------------------------------
+function renderGalleryCardBody(ch, ci) {
+  const preview = ch.topics.slice(0, 4);
+  const more    = ch.topics.length - preview.length;
+  const rows = preview.map(t => {
+    const dotClass = t.status === 'done' ? 'done' : t.status === 'inprogress' ? 'inprogress' : 'pending';
+    return `<div class="gcb-topic-row">
+      <div class="gcb-topic-dot ${dotClass}"></div>
+      <div class="gcb-topic-name">${escHtml(t.topic)}</div>
+    </div>`;
+  }).join('');
+  const moreHtml = more > 0 ? `<div class="gcb-more">+${more} more topics</div>` : '';
+  return `<div class="gallery-card-body">
+    <div class="gcb-topics-preview">${rows}${moreHtml}</div>
+    <button class="gcb-open-btn" onclick="openChapterInList(${ci})">Open chapter →</button>
+  </div>`;
+}
+
+// -----------------------------------------------------------
+// CHAPTER VIEW MODE
+// -----------------------------------------------------------
+function setChapterView(mode) {
+  chapterViewMode = mode;
+  renderPacing();
+}
+
+function openChapterInList(ci) {
+  chapterViewMode = 'list';
+  const filteredChIndices = DATA.map((ch, idx) => idx).filter(idx => {
+    const ch = DATA[idx];
+    if (filterYear !== 'all' && ch.year !== filterYear) return false;
+    return ch.topics.length > 0;
+  });
+  const pos = filteredChIndices.indexOf(ci);
+  if (pos >= 0) chapterPage = Math.floor(pos / getChapterPageSize());
+  renderPacing();
+  setTimeout(() => {
+    const el = document.getElementById('ch-' + ci);
+    if (el) { el.classList.remove('collapsed'); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  }, 60);
+}
+
+// -----------------------------------------------------------
+// CHAPTER PAGINATION
+// -----------------------------------------------------------
+function chapterSetPage(page) {
+  const filteredCount = DATA.filter(ch => {
+    if (filterYear !== 'all' && ch.year !== filterYear) return false;
+    return ch.topics.length > 0;
+  }).length;
+  const totalPages = Math.ceil(filteredCount / getChapterPageSize());
+  if (page < 0 || page >= totalPages) return;
+  chapterPage = page;
+  renderPacing();
+  const wrap = document.getElementById('chBlocksWrap');
+  if (wrap) wrap.scrollTop = 0;
 }
 
 // -----------------------------------------------------------
@@ -1553,6 +1852,18 @@ function render() {
   renderPacing();
   renderWeekly();
 }
+
+// Re-render on resize so gallery cols and page size stay correct
+let _resizeDebounce;
+window.addEventListener('resize', () => {
+  clearTimeout(_resizeDebounce);
+  _resizeDebounce = setTimeout(() => {
+    if (DATA.length) renderPacing();
+  }, 200);
+});
+
+// NOTE: render() is NOT called here - Firebase module calls it
+// after data is loaded from Firestore.
 </script>
 
 <!-- -- FIREBASE MODULE --------------------------- -->
