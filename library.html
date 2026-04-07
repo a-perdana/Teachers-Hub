@@ -17,7 +17,7 @@
   display: flex;
   max-width: 980px;
   margin: 0 auto;
-  padding: 16px 24px 100px;
+  padding: 20px 24px 100px;
   gap: 28px;
   align-items: flex-start;
 }
@@ -242,14 +242,6 @@
 
 <div id="navbar-container"></div>
 
-  <div style="max-width:980px;margin:0 auto;padding:20px 24px 0;">
-    <nav class="page-breadcrumb" aria-label="Breadcrumb">
-      <a href="index.html">Teachers Hub</a>
-      <span class="page-breadcrumb-sep">›</span>
-      <span class="page-breadcrumb-current">Library</span>
-    </nav>
-  </div>
-
   <main class="content-layout">
     <!-- Sidebar -->
     <aside class="sidebar">
@@ -283,6 +275,11 @@
 
     <!-- Main content -->
     <div class="main-area">
+      <nav class="page-breadcrumb" aria-label="Breadcrumb" style="margin-bottom:20px;">
+        <a href="index.html">Teachers Hub</a>
+        <span class="page-breadcrumb-sep">›</span>
+        <span class="page-breadcrumb-current">Library</span>
+      </nav>
       <div class="resource-count" id="resCount"></div>
       <div class="res-grid" id="resGrid">
         <!-- cards injected here -->

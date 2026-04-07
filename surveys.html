@@ -22,37 +22,6 @@
       margin: 0 auto;
       padding: 26px 16px 48px;
     }
-    /* ─── HERO ───────────────────────────────────────── */
-    .hero {
-      background: linear-gradient(145deg, #ffffff 0%, #fff8f0 100%);
-      border: 1px solid #fde6cb;
-      border-radius: 14px;
-      box-shadow: var(--shadow-sm);
-      padding: 20px 22px;
-      margin-bottom: 18px;
-    }
-    .hero h1 {
-      font-size: 1.45rem;
-      font-weight: 700;
-      margin-bottom: 7px;
-      color: var(--ink);
-    }
-    .hero p {
-      font-size: 0.9rem;
-      color: var(--ink-2);
-      line-height: 1.6;
-    }
-    .hero-note {
-      margin-top: 12px;
-      background: var(--accent-2);
-      border: 1px solid #fed7aa;
-      color: #9a3412;
-      border-radius: 9px;
-      padding: 9px 11px;
-      font-size: 0.82rem;
-      font-weight: 500;
-    }
-
     /* ─── CONTROLS ───────────────────────────────────── */
     .controls {
       display: grid;
@@ -328,11 +297,17 @@
       <span class="page-breadcrumb-sep">›</span>
       <span class="page-breadcrumb-current">Surveys</span>
     </nav>
-    <section class="hero">
-      <h1>Shared Surveys</h1>
-      <p>Surveys created in CentralHub appear here when Teachers Hub is selected during publishing.</p>
-      <div class="hero-note">Only surveys shared to Teachers Hub are listed.</div>
-    </section>
+    <div class="page-header">
+      <div class="page-header-icon" style="background:linear-gradient(135deg,var(--accent),#b45309);box-shadow:0 4px 14px rgba(217,119,6,.30);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="page-header-title">Surveys</h1>
+        <p class="page-header-sub">Surveys shared to Teachers Hub from CentralHub</p>
+      </div>
+    </div>
 
     <section class="controls" aria-label="Survey filters">
       <input id="searchInput" class="input" type="text" placeholder="Search surveys, descriptions, or questions...">
