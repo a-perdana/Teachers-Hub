@@ -555,46 +555,6 @@ table.topics-tbl td.col-week,
 table.topics-tbl th.col-status,
 table.topics-tbl td.col-status { display: none; }
 
-/* ─── TOPIC PAGINATION ──────────────────────── */
-.ch-pagination {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 8px 18px; border-top: 1px solid var(--border);
-  background: var(--paper); font-size: .72rem; color: var(--ink-3);
-  gap: 12px;
-}
-.pg-btns { display: flex; gap: 4px; flex-wrap: wrap; }
-.pg-btn {
-  font-family: 'DM Sans', sans-serif; font-size: .7rem;
-  padding: 3px 9px; border-radius: 5px;
-  border: 1px solid var(--border); background: white; color: var(--ink-2);
-  cursor: pointer; transition: all .12s;
-}
-.pg-btn:hover:not([disabled]) { border-color: var(--ink-2); color: var(--ink); }
-.pg-btn[disabled] { opacity: .35; cursor: not-allowed; }
-.pg-btn.pg-active { background: var(--accent); border-color: var(--accent); color: white; }
-.pg-info { color: var(--ink-3); font-size: .7rem; white-space: nowrap; }
-
-/* ─── CHAPTER PAGINATION ────────────────────── */
-/* Paginator lives outside the grid, always at the bottom of the panel */
-.chapter-paginator {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 14px 24px 16px;
-  border-top: 1px solid var(--border);
-  background: white;
-  flex-shrink: 0;
-}
-.ch-pg-btns { display: flex; gap: 4px; align-items: center; }
-.ch-pg-btn {
-  font-family: 'DM Sans', sans-serif; font-size: .72rem;
-  padding: 4px 11px; border-radius: 6px;
-  border: 1px solid var(--border); background: white; color: var(--ink-2);
-  cursor: pointer; transition: all .12s;
-}
-.ch-pg-btn:hover:not([disabled]) { border-color: var(--ink-2); color: var(--ink); }
-.ch-pg-btn[disabled] { opacity: .35; cursor: not-allowed; }
-.ch-pg-btn.ch-pg-active { background: var(--accent); border-color: var(--accent); color: white; }
-.ch-pg-info { font-size: .72rem; color: var(--ink-3); white-space: nowrap; }
-
 /* ─── GALLERY / LIST VIEW TOGGLE ────────────── */
 .view-mode-toggle {
   display: flex; gap: 2px;
