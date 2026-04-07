@@ -307,12 +307,12 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   outline: none;
   line-height: 1.5;
 }
-.coord-mode .editable {
+.admin-mode .editable {
   cursor: text;
   border: 1px dashed transparent;
 }
-.coord-mode .editable:hover { background: var(--paper-2); border-color: var(--border); }
-.coord-mode .editable:focus { background: white; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(192,57,43,.12); }
+.admin-mode .editable:hover { background: var(--paper-2); border-color: var(--border); }
+.admin-mode .editable:focus { background: white; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(192,57,43,.12); }
 
 /* Edit indicator */
 .edit-hint {
@@ -321,7 +321,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   padding: 4px 16px; background: var(--accent-2);
   border-bottom: 1px solid #f5c6c1;
 }
-.coord-mode .edit-hint { display: block; }
+.admin-mode .edit-hint { display: block; }
 
 /* ─── WEEKLY VIEW ──────────────────────────────*/
 /* Cross-subject toggle bar */
@@ -402,7 +402,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   transition: color .15s, background .15s;
 }
 .del-topic-btn:hover { color: var(--accent); background: var(--accent-2); }
-.coord-mode .del-topic-btn { display: inline-flex; }
+.admin-mode .del-topic-btn { display: inline-flex; }
 
 .del-ch-btn {
   display: none; background: none; border: none; cursor: pointer;
@@ -411,7 +411,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   transition: color .15s;
 }
 .del-ch-btn:hover { color: white; }
-.coord-mode .del-ch-btn { display: inline-flex; }
+.admin-mode .del-ch-btn { display: inline-flex; }
 
 .add-topic-row td { padding: 6px 16px !important; border-bottom: none !important; }
 .add-topic-btn {
@@ -421,7 +421,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   transition: border-color .15s, color .15s;
 }
 .add-topic-btn:hover { border-color: var(--accent); color: var(--accent); }
-.coord-mode .add-topic-btn { display: block; }
+.admin-mode .add-topic-btn { display: block; }
 
 .add-chapter-wrap {
   display: none; text-align: center; padding: 16px 0 8px;
@@ -433,7 +433,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   transition: border-color .15s, color .15s;
 }
 .add-chapter-btn:hover { border-color: var(--accent); color: var(--accent); }
-.coord-mode .add-chapter-wrap { display: block; }
+.admin-mode .add-chapter-wrap { display: block; }
 
 /* ─── RESOURCES ────────────────────────────────*/
 .res-row td { padding: 3px 16px 10px 42px !important; }
@@ -453,7 +453,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   line-height: 1; margin-left: 2px; transition: color .12s;
 }
 .del-res-btn:hover { color: var(--accent); }
-.coord-mode .del-res-btn { display: inline; }
+.admin-mode .del-res-btn { display: inline; }
 .add-res-btn {
   display: none; background: none; border: 1px dashed var(--border);
   color: var(--ink-3); font-size: .63rem; padding: 2px 7px;
@@ -461,7 +461,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   transition: border-color .12s, color .12s;
 }
 .add-res-btn:hover { border-color: var(--accent); color: var(--accent); }
-.coord-mode .add-res-btn { display: inline-flex; }
+.admin-mode .add-res-btn { display: inline-flex; }
 .res-form { display: none; align-items: center; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
 .res-form.open { display: flex; }
 .res-form input {
@@ -485,7 +485,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 }
 .res-add-cancel:hover { border-color: var(--ink-2); color: var(--ink); }
 .res-row.empty-res { display: none; }
-.coord-mode .res-row.empty-res { display: table-row; }
+.admin-mode .res-row.empty-res { display: table-row; }
 .res-row td { border-bottom: none !important; }
 
 /* ─── LOGIN SCREEN ─────────────────────────────*/
@@ -816,7 +816,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .add-chapter-wrap {
   display: none; text-align: center; padding: 16px 0 20px;
 }
-.coord-mode .add-chapter-wrap { display: block; }
+.admin-mode .add-chapter-wrap { display: block; }
 
 /* ─── GALLERY VIEW ─────────────────────────── */
 #chBlocks.gallery-view {
@@ -1178,7 +1178,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 // STATE  (var so the Firebase module can write window.DATA)
 // -----------------------------------------------------------
 var DATA = [];
-var role = 'teacher'; // 'teacher' | 'coord'
+var role = 'teacher'; // 'teacher' | 'admin'
 
 let filterYear   = 'all';
 let filterStatus = 'all';
@@ -1195,7 +1195,7 @@ let chapterViewMode = window.innerWidth >= 960 ? 'gallery' : 'list';
 
 // Class-based progress
 var currentClass = 'default'; // 'default' = shared / all classes
-var classList    = [];        // populated from Firestore meta doc (coord-managed)
+var classList    = [];        // populated from Firestore meta doc (admin-managed)
 
 // Cross-subject weekly data cache
 var crossSubjData = {
@@ -1228,9 +1228,9 @@ function getChapterPageSize() {
 // -----------------------------------------------------------
 // PACE ALERT HELPERS
 // -----------------------------------------------------------
-// School term start date — coordinator can set this via settings
+// School term start date — admin can set this via Central Hub settings
 // Default: first Monday of September of current year
-var TERM_START_DATE = null; // set by coordinator; falls back to auto-detect
+var TERM_START_DATE = null; // set by admin; falls back to auto-detect
 
 function getTermStartDate() {
   if (TERM_START_DATE) return new Date(TERM_START_DATE);
@@ -1497,7 +1497,7 @@ function renderPacing() {
               return pageTopics.map(({t, ti}) => {
                 const codes   = parseObjCodes(t.objective);
                 const rowClass = t.status === 'done' ? 'done-row' : t.status === 'inprogress' ? 'inprogress-row' : '';
-                const isCoord  = role === 'coord';
+                const isCoord  = role === 'admin';
                 const hasRes   = (t.resources || []).length > 0;
                 return `
                 <tr class="${rowClass}" id="row-${ci}-${ti}">
@@ -1613,7 +1613,7 @@ function renderPacing() {
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="opacity:.35"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
         </div>
         <p style="font-weight:500;color:var(--ink-2);margin-bottom:6px;">No topics yet</p>
-        <p style="font-size:.75rem;line-height:1.6;">The coordinator hasn't added any content yet.<br>Please check back later.</p>
+        <p style="font-size:.75rem;line-height:1.6;">No content added yet. An admin can add topics from this page.<br>Please check back later.</p>
       </div>`;
     } else {
       html = `<div class="empty"><div class="empty-icon"></div><p>No topics match your filters.</p></div>`;
@@ -1648,11 +1648,11 @@ function renderPacing() {
 
   collapsed.forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('collapsed');});
 
-  if (role === 'coord') {
-    document.body.classList.add('coord-mode');
+  if (role === 'admin') {
+    document.body.classList.add('admin-mode');
     document.getElementById('editHint').style.display = 'block';
   } else {
-    document.body.classList.remove('coord-mode');
+    document.body.classList.remove('admin-mode');
     document.getElementById('editHint').style.display = 'none';
   }
 }
@@ -1977,7 +1977,7 @@ function setStatus(ci, ti, val) {
 }
 
 function saveEdit(el, ci, ti, field) {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   let val = el.innerText.trim();
   if (field === 'hour') val = parseInt(val) || DATA[ci].topics[ti].hour;
   DATA[ci].topics[ti][field] = val;
@@ -1987,14 +1987,14 @@ function saveEdit(el, ci, ti, field) {
 }
 
 function addTopic(ci) {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   DATA[ci].topics.push({ topic: 'New Topic', objective: '', week: null, hour: 1, status: 'pending', resources: [] });
   saveState(); render();
   showToast('Topic added');
 }
 
 async function deleteTopic(ci, ti) {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   var ok = await _showCm({title:'Delete Topic',msg:'Delete "'+DATA[ci].topics[ti].topic+'"? This cannot be undone.',okLabel:'Delete',danger:true});
   if (!ok) return;
   DATA[ci].topics.splice(ti, 1);
@@ -2003,7 +2003,7 @@ async function deleteTopic(ci, ti) {
 }
 
 function addChapter() {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   const name = prompt('Chapter name:');
   if (!name || !name.trim()) return;
   const year = prompt('Year (Year 7 or Year 8):', 'Year 8');
@@ -2013,7 +2013,7 @@ function addChapter() {
 }
 
 async function deleteChapter(ci) {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   var ok = await _showCm({title:'Delete Chapter',msg:'Delete "'+DATA[ci].chapter+'" and all its topics? This cannot be undone.',okLabel:'Delete',danger:true});
   if (!ok) return;
   DATA.splice(ci, 1);
@@ -2065,7 +2065,7 @@ function renderResourcesHtml(ci, ti, t) {
 }
 
 function addResource(ci, ti) {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   const f = document.getElementById(`res-form-${ci}-${ti}`);
   if (f) { f.classList.add('open'); f.querySelector('.res-name-inp').focus(); }
 }
@@ -2080,7 +2080,7 @@ function cancelResource(ci, ti) {
 }
 
 function confirmAddResource(ci, ti) {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   const name = document.getElementById(`res-name-${ci}-${ti}`).value.trim();
   const url  = document.getElementById(`res-url-${ci}-${ti}`).value.trim();
   if (!name || !url) { showToast('Enter both name and URL'); return; }
@@ -2093,7 +2093,7 @@ function confirmAddResource(ci, ti) {
 }
 
 async function deleteResource(ci, ti, ri) {
-  if (role !== 'coord') return;
+  if (role !== 'admin') return;
   var res = DATA[ci].topics[ti].resources;
   if (!res) return;
   var ok = await _showCm({title:'Remove Resource',msg:'Remove "'+res[ri].name+'"?',okLabel:'Remove',danger:true});
@@ -2172,7 +2172,7 @@ function buildClassSelector() {
 
   // Always show selector (teachers can switch between All / class views)
   wrap.style.display = 'flex';
-  if (manBtn) manBtn.style.display = role === 'coord' ? '' : 'none';
+  if (manBtn) manBtn.style.display = role === 'admin' ? '' : 'none';
 
   // Rebuild options
   select.innerHTML = '<option value="default">All Classes</option>';
@@ -2323,12 +2323,12 @@ function applyRole(r) {
   const dot      = document.getElementById('roleDot');
   const label    = document.getElementById('roleLabel');
   const resetBtn = document.getElementById('resetBtn');
-  if (r === 'coord') {
-    dot.className     = 'role-dot coord';
-    label.textContent = 'Coordinator';
+  if (r === 'admin') {
+    dot.className     = 'role-dot role-dot-admin';
+    label.textContent = 'Admin';
     if (resetBtn) resetBtn.style.display = '';
   } else {
-    dot.className     = 'role-dot teacher';
+    dot.className     = 'role-dot role-dot-teacher';
     label.textContent = 'Teacher';
     if (resetBtn) resetBtn.style.display = 'none';
   }
@@ -2522,7 +2522,7 @@ window.__fbSaveState = async function(data) {
   }
 
   // 3. Coordinators also save structure changes
-  if (currentRole === 'coord') {
+  if (currentRole === 'admin') {
     const structureOnly = data.map(ch => ({
       ...ch,
       topics: ch.topics.map(({ status, note, ...rest }) => rest),
@@ -2575,12 +2575,12 @@ window.__fbGetDoc = async function(colName, docName) {
 
 // -- auth-guard dispatches authReady when auth + role confirmed --
 document.addEventListener('authReady', ({ detail: { user, profile } }) => {
-  const appRole = profile.role_teachershub === 'teachers_admin' ? 'coord' : 'teacher';
+  const appRole = profile.role_teachershub === 'teachers_admin' ? 'admin' : 'teacher';
 
   const roleDot   = document.getElementById('roleDot');
   const roleLabel = document.getElementById('roleLabel');
-  if (roleDot)   { roleDot.className = 'role-dot ' + (appRole === 'coord' ? 'role-dot-coord' : 'role-dot-teacher'); }
-  if (roleLabel) { roleLabel.textContent = appRole === 'coord' ? 'Coordinator' : 'Teacher'; }
+  if (roleDot)   { roleDot.className = 'role-dot ' + (appRole === 'admin' ? 'role-dot-admin' : 'role-dot-teacher'); }
+  if (roleLabel) { roleLabel.textContent = appRole === 'admin' ? 'Admin' : 'Teacher'; }
 
   import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js').then(({ signOut }) => {
     window.authSignOut = () => signOut(window.auth).then(() => { window.location.href = '/login'; });
