@@ -637,11 +637,15 @@ table.topics-tbl td.col-status { display: none; }
 .pg-info { color: var(--ink-3); font-size: .7rem; white-space: nowrap; }
 
 /* --- CHAPTER PAGINATION ---------------------------------- */
+/* Paginator lives outside the grid, always at the bottom of the panel */
 .chapter-paginator {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 0 4px; gap: 12px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 24px 16px;
+  border-top: 1px solid var(--border);
+  background: white;
+  flex-shrink: 0;
 }
-.ch-pg-btns { display: flex; gap: 4px; }
+.ch-pg-btns { display: flex; gap: 4px; align-items: center; }
 .ch-pg-btn {
   font-family: 'DM Sans', sans-serif; font-size: .72rem;
   padding: 4px 11px; border-radius: 6px;
@@ -668,51 +672,82 @@ table.topics-tbl td.col-status { display: none; }
 .vmt-btn:hover { color: var(--ink); }
 .vmt-btn.on { background: white; color: var(--ink); box-shadow: var(--shadow-sm); }
 
+/* --- PACING PANEL flex column so paginator sticks to bottom ---------- */
+#panel-pacing {
+  display: none; flex-direction: column; flex: 1;
+  padding: 0; overflow: hidden;
+}
+#panel-pacing.on { display: flex; }
+#panel-pacing .edit-hint { flex-shrink: 0; }
+
+/* scrollable chapter area */
+#chBlocksWrap {
+  flex: 1; overflow-y: auto;
+  padding: 20px 24px 0;
+}
+
+/* add-chapter wrap lives inside scrollable area */
+.add-chapter-wrap {
+  display: none; text-align: center; padding: 16px 0 20px;
+}
+.coord-mode .add-chapter-wrap { display: block; }
+
 /* --- GALLERY VIEW ---------------------------------------- */
 #chBlocks.gallery-view {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  /* columns injected dynamically via JS — see getGalleryCols() */
   gap: 14px;
-  align-items: start;
+  align-items: stretch; /* equal height rows */
 }
 /* In gallery mode each chapter card shows summary only, no expanded topics table */
-#chBlocks.gallery-view .ch-block { margin-bottom: 0; }
+#chBlocks.gallery-view .ch-block {
+  margin-bottom: 0;
+  display: flex; flex-direction: column;
+  min-height: 220px;
+}
 #chBlocks.gallery-view .ch-block .topics-wrap { display: none !important; }
 #chBlocks.gallery-view .ch-block .ch-assessment { display: none !important; }
 #chBlocks.gallery-view .ch-block .ch-header {
   border-bottom: none;
   cursor: default;
   padding: 16px 18px;
+  flex-shrink: 0;
 }
 #chBlocks.gallery-view .ch-block .ch-caret { display: none; }
 #chBlocks.gallery-view .ch-block .del-ch-btn { display: none; }
+
 /* Gallery card body below header */
 .gallery-card-body {
   display: none;
-  padding: 12px 18px 14px;
+  padding: 12px 18px 16px;
   border-top: 1px solid var(--border);
   background: white;
+  flex: 1; /* fill remaining card height */
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
 }
-#chBlocks.gallery-view .gallery-card-body { display: block; }
-.gcb-topics-preview { display: flex; flex-direction: column; gap: 5px; }
+#chBlocks.gallery-view .gallery-card-body { display: flex; }
+
+.gcb-topics-preview { display: flex; flex-direction: column; gap: 6px; }
 .gcb-topic-row {
   display: flex; align-items: center; gap: 8px;
-  font-size: .78rem; color: var(--ink);
+  font-size: .8rem; color: var(--ink); line-height: 1.35;
 }
 .gcb-topic-dot {
   width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
 }
-.gcb-topic-dot.done     { background: var(--green); }
+.gcb-topic-dot.done       { background: var(--green); }
 .gcb-topic-dot.inprogress { background: var(--blue); }
-.gcb-topic-dot.pending  { background: var(--border); }
-.gcb-topic-name { flex: 1; line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.gcb-more { font-size: .72rem; color: var(--ink-3); padding-top: 2px; }
+.gcb-topic-dot.pending    { background: var(--border); }
+.gcb-topic-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gcb-more { font-size: .72rem; color: var(--ink-3); padding-top: 3px; }
 .gcb-open-btn {
-  display: block; width: 100%; margin-top: 10px;
+  display: block; width: 100%; margin-top: 14px;
   font-family: 'DM Sans', sans-serif; font-size: .73rem; font-weight: 500;
-  padding: 6px 0; border-radius: 7px;
+  padding: 7px 0; border-radius: 7px;
   border: 1px solid var(--border); background: var(--paper); color: var(--ink-2);
-  cursor: pointer; transition: all .14s; text-align: center;
+  cursor: pointer; transition: all .14s; text-align: center; flex-shrink: 0;
 }
 .gcb-open-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
 
@@ -835,7 +870,10 @@ if (!window.ENV) window.ENV = {
         <span>Coordinator mode — click any topic, objective, or duration to edit inline.</span>
         <button id="resetBtn" style="display:none;margin-left:auto;font-size:.65rem;padding:3px 10px;border-radius:6px;border:1px solid rgba(192,57,43,.35);color:var(--accent);background:none;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;" onclick="resetProgress()">Reset Progress</button>
       </div>
-      <div id="chBlocks"></div>
+      <div id="chBlocksWrap">
+        <div id="chBlocks"></div>
+      </div>
+      <div id="chapterPaginatorMount"></div>
     </div>
 
     <!-- WEEKLY PANEL -->
@@ -995,12 +1033,27 @@ let searchQ      = '';
 const PAGE_SIZE = 5;
 const chPageMap = {}; // ci -> current 0-based page index (topic pagination)
 
-// Chapter-level pagination
-const CHAPTER_PAGE_SIZE = 5;
-let chapterPage = 0; // current chapter page (0-based)
+// Chapter-level pagination — page size is dynamic in gallery mode (2 rows × cols)
+let chapterPage = 0;
 
 // Gallery / List view
 let chapterViewMode = window.innerWidth >= 960 ? 'gallery' : 'list';
+
+function getGalleryCols() {
+  // Match the grid column count based on available panel width
+  const wrap = document.getElementById('chBlocksWrap');
+  const w = wrap ? wrap.clientWidth : window.innerWidth - 280;
+  if (w >= 1400) return 5;
+  if (w >= 1100) return 4;
+  if (w >= 800)  return 3;
+  if (w >= 520)  return 2;
+  return 1;
+}
+
+function getChapterPageSize() {
+  if (chapterViewMode === 'gallery') return getGalleryCols() * 2; // exactly 2 rows
+  return 5; // list mode: 5 chapters per page
+}
 
 // -----------------------------------------------------------
 // PERSIST - delegates to Firebase module
@@ -1125,6 +1178,7 @@ function renderPacing() {
   let html = '';
 
   // Apply chapter-level pagination
+  const CPS = getChapterPageSize(); // dynamic: 2×cols in gallery, 5 in list
   // First collect filtered chapter indices
   const filteredChIndices = DATA.map((ch, ci) => ci).filter(ci => {
     const ch = DATA[ci];
@@ -1140,9 +1194,9 @@ function renderPacing() {
     });
     return hasTopics;
   });
-  const totalChapterPages = Math.ceil(filteredChIndices.length / CHAPTER_PAGE_SIZE);
+  const totalChapterPages = Math.ceil(filteredChIndices.length / CPS);
   if (chapterPage >= totalChapterPages) chapterPage = Math.max(0, totalChapterPages - 1);
-  const pageChIndices = filteredChIndices.slice(chapterPage * CHAPTER_PAGE_SIZE, (chapterPage + 1) * CHAPTER_PAGE_SIZE);
+  const pageChIndices = filteredChIndices.slice(chapterPage * CPS, (chapterPage + 1) * CPS);
 
   pageChIndices.forEach(ci => {
     const ch = DATA[ci];
@@ -1273,12 +1327,12 @@ function renderPacing() {
     </div>`;
   });
 
-  // Chapter paginator HTML (shown below the chapter list)
+  // Chapter paginator — rendered into the mount point outside the grid
   let chPaginatorHtml = '';
   if (totalChapterPages > 1) {
-    const start = chapterPage * CHAPTER_PAGE_SIZE + 1;
-    const end   = Math.min((chapterPage + 1) * CHAPTER_PAGE_SIZE, filteredChIndices.length);
-    chPaginatorHtml = `<div class="chapter-paginator" id="chapterPaginator">
+    const start = chapterPage * CPS + 1;
+    const end   = Math.min((chapterPage + 1) * CPS, filteredChIndices.length);
+    chPaginatorHtml = `<div class="chapter-paginator">
       <span class="ch-pg-info">Chapters ${start}–${end} of ${filteredChIndices.length}</span>
       <div class="ch-pg-btns">
         <button class="ch-pg-btn" onclick="chapterSetPage(${chapterPage - 1})" ${chapterPage === 0 ? 'disabled' : ''}>‹ Prev</button>`;
@@ -1304,10 +1358,20 @@ function renderPacing() {
     }
   }
   html += `<div class="add-chapter-wrap"><button class="add-chapter-btn" onclick="addChapter()">+ Add Chapter</button></div>`;
-  container.innerHTML = html + chPaginatorHtml;
+  container.innerHTML = html;
 
-  // Apply view mode class
+  // Paginator goes into the mount point (outside the grid, always at bottom)
+  const mountEl = document.getElementById('chapterPaginatorMount');
+  if (mountEl) mountEl.innerHTML = chPaginatorHtml;
+
+  // Apply view mode class + dynamic grid columns
+  const cols = getGalleryCols();
   container.classList.toggle('gallery-view', chapterViewMode === 'gallery');
+  if (chapterViewMode === 'gallery') {
+    container.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+  } else {
+    container.style.gridTemplateColumns = '';
+  }
 
   // Sync toggle buttons
   const vmtList    = document.getElementById('vmtList');
@@ -1362,14 +1426,13 @@ function setChapterView(mode) {
 function openChapterInList(ci) {
   // Switch to list view, find which chapter page ci is on, scroll to it
   chapterViewMode = 'list';
-  // recalculate which page ci falls on among filtered chapters
   const filteredChIndices = DATA.map((ch, idx) => idx).filter(idx => {
     const ch = DATA[idx];
     if (filterYear !== 'all' && ch.year !== filterYear) return false;
     return ch.topics.length > 0;
   });
   const pos = filteredChIndices.indexOf(ci);
-  if (pos >= 0) chapterPage = Math.floor(pos / CHAPTER_PAGE_SIZE);
+  if (pos >= 0) chapterPage = Math.floor(pos / getChapterPageSize());
   renderPacing();
   setTimeout(() => {
     const el = document.getElementById('ch-' + ci);
@@ -1385,11 +1448,12 @@ function chapterSetPage(page) {
     if (filterYear !== 'all' && ch.year !== filterYear) return false;
     return ch.topics.length > 0;
   }).length;
-  const totalPages = Math.ceil(filteredCount / CHAPTER_PAGE_SIZE);
+  const totalPages = Math.ceil(filteredCount / getChapterPageSize());
   if (page < 0 || page >= totalPages) return;
   chapterPage = page;
   renderPacing();
-  document.getElementById('panel-pacing').scrollTop = 0;
+  const wrap = document.getElementById('chBlocksWrap');
+  if (wrap) wrap.scrollTop = 0;
 }
 
 // -----------------------------------------------------------
@@ -1849,6 +1913,15 @@ function render() {
   renderPacing();
   renderWeekly();
 }
+
+// Re-render on resize so gallery cols and page size stay correct
+let _resizeDebounce;
+window.addEventListener('resize', () => {
+  clearTimeout(_resizeDebounce);
+  _resizeDebounce = setTimeout(() => {
+    if (DATA.length) renderPacing();
+  }, 200);
+});
 
 // NOTE: render() is NOT called here - Firebase module calls it
 // after data is loaded from Firestore.
