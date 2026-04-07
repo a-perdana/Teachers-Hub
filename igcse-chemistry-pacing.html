@@ -1317,8 +1317,8 @@ function renderPacing() {
                         onblur="saveEdit(this,${ci},${ti},'hour')"
                         onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
                         title="Hours"
-                      >${t.hour}h</span>
-                      ${t.week ? `<span style="font-size:.64rem;font-weight:600;padding:3px 8px;border-radius:100px;background:var(--blue-2);color:var(--blue);border:1px solid #c2d8f5;white-space:nowrap;">Wk ${t.week}</span>` : ''}
+                      >Lesson Hours: ${t.hour}</span>
+                      ${t.week ? `<span style="font-size:.64rem;font-weight:600;padding:3px 8px;border-radius:100px;background:var(--blue-2);color:var(--blue);border:1px solid #c2d8f5;white-space:nowrap;">Week ${t.week}</span>` : ''}
                       <div class="status-pill">
                         <button class="sp-btn sp-pending   ${t.status==='pending'   ?'sp-on':''}" onclick="setStatus(${ci},${ti},'pending')">Pending</button>
                         <button class="sp-btn sp-inprogress ${t.status==='inprogress'?'sp-on':''}" onclick="setStatus(${ci},${ti},'inprogress')">In Progress</button>
@@ -1493,6 +1493,28 @@ function chapterSetPage(page) {
   renderPacing();
   const wrap = document.getElementById('chBlocksWrap');
   if (wrap) wrap.scrollTop = 0;
+}
+
+// -----------------------------------------------------------
+// PAGINATION (topics within a chapter)
+// -----------------------------------------------------------
+function chSetPage(ci, page) {
+  const ch = DATA[ci];
+  if (!ch) return;
+  const filteredTopics = ch.topics.map((t, ti) => ({t, ti})).filter(({t}) => {
+    if (filterStatus !== 'all' && t.status !== filterStatus) return false;
+    if (searchQ) {
+      const q = searchQ.toLowerCase();
+      return t.topic.toLowerCase().includes(q) || t.objective.toLowerCase().includes(q);
+    }
+    return true;
+  });
+  const totalPages = Math.ceil(filteredTopics.length / PAGE_SIZE);
+  if (page < 0 || page >= totalPages) return;
+  chPageMap[ci] = page;
+  renderPacing();
+  const el = document.getElementById('ch-' + ci);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // -----------------------------------------------------------
