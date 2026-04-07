@@ -617,7 +617,7 @@ table.topics-tbl td.col-week,
 table.topics-tbl th.col-status,
 table.topics-tbl td.col-status { display: none; }
 
-/* --- PAGINATION ------------------------------------ */
+/* --- TOPIC PAGINATION ------------------------------------ */
 .ch-pagination {
   display: flex; align-items: center; justify-content: space-between;
   padding: 8px 18px; border-top: 1px solid var(--border);
@@ -635,6 +635,89 @@ table.topics-tbl td.col-status { display: none; }
 .pg-btn[disabled] { opacity: .35; cursor: not-allowed; }
 .pg-btn.pg-active { background: var(--accent); border-color: var(--accent); color: white; }
 .pg-info { color: var(--ink-3); font-size: .7rem; white-space: nowrap; }
+
+/* --- CHAPTER PAGINATION ---------------------------------- */
+.chapter-paginator {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 0 4px; gap: 12px;
+}
+.ch-pg-btns { display: flex; gap: 4px; }
+.ch-pg-btn {
+  font-family: 'DM Sans', sans-serif; font-size: .72rem;
+  padding: 4px 11px; border-radius: 6px;
+  border: 1px solid var(--border); background: white; color: var(--ink-2);
+  cursor: pointer; transition: all .12s;
+}
+.ch-pg-btn:hover:not([disabled]) { border-color: var(--ink-2); color: var(--ink); }
+.ch-pg-btn[disabled] { opacity: .35; cursor: not-allowed; }
+.ch-pg-btn.ch-pg-active { background: var(--accent); border-color: var(--accent); color: white; }
+.ch-pg-info { font-size: .72rem; color: var(--ink-3); white-space: nowrap; }
+
+/* --- GALLERY / LIST VIEW TOGGLE ---------------------------------- */
+.view-mode-toggle {
+  display: flex; gap: 2px;
+  background: var(--paper); border-radius: 7px; padding: 2px;
+  border: 1px solid var(--border);
+}
+.vmt-btn {
+  width: 28px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; background: none; border-radius: 5px;
+  cursor: pointer; color: var(--ink-3); transition: all .12s;
+}
+.vmt-btn:hover { color: var(--ink); }
+.vmt-btn.on { background: white; color: var(--ink); box-shadow: var(--shadow-sm); }
+
+/* --- GALLERY VIEW ---------------------------------------- */
+#chBlocks.gallery-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+/* In gallery mode each chapter card shows summary only, no expanded topics table */
+#chBlocks.gallery-view .ch-block { margin-bottom: 0; }
+#chBlocks.gallery-view .ch-block .topics-wrap { display: none !important; }
+#chBlocks.gallery-view .ch-block .ch-assessment { display: none !important; }
+#chBlocks.gallery-view .ch-block .ch-header {
+  border-bottom: none;
+  cursor: default;
+  padding: 16px 18px;
+}
+#chBlocks.gallery-view .ch-block .ch-caret { display: none; }
+#chBlocks.gallery-view .ch-block .del-ch-btn { display: none; }
+/* Gallery card body below header */
+.gallery-card-body {
+  display: none;
+  padding: 12px 18px 14px;
+  border-top: 1px solid var(--border);
+  background: white;
+}
+#chBlocks.gallery-view .gallery-card-body { display: block; }
+.gcb-topics-preview { display: flex; flex-direction: column; gap: 5px; }
+.gcb-topic-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .78rem; color: var(--ink);
+}
+.gcb-topic-dot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+}
+.gcb-topic-dot.done     { background: var(--green); }
+.gcb-topic-dot.inprogress { background: var(--blue); }
+.gcb-topic-dot.pending  { background: var(--border); }
+.gcb-topic-name { flex: 1; line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gcb-more { font-size: .72rem; color: var(--ink-3); padding-top: 2px; }
+.gcb-open-btn {
+  display: block; width: 100%; margin-top: 10px;
+  font-family: 'DM Sans', sans-serif; font-size: .73rem; font-weight: 500;
+  padding: 6px 0; border-radius: 7px;
+  border: 1px solid var(--border); background: var(--paper); color: var(--ink-2);
+  cursor: pointer; transition: all .14s; text-align: center;
+}
+.gcb-open-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
+
+/* add-chapter button in gallery view */
+#chBlocks.gallery-view .add-chapter-wrap { grid-column: 1/-1; }
 
 </style>
 
@@ -726,8 +809,21 @@ if (!window.ENV) window.ENV = {
         <button class="tab-btn" onclick="switchView('weekly',this)">Weekly View</button>
       </div>
       <div class="view-actions">
-        <button class="btn" onclick="expandAll()">Expand All</button>
-        <button class="btn" onclick="collapseAll()">Collapse All</button>
+        <div class="view-mode-toggle" id="viewModeToggle" title="Switch chapter view">
+          <button class="vmt-btn" id="vmtList" onclick="setChapterView('list')" title="List view" aria-label="List view">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <line x1="3" y1="4" x2="13" y2="4"/><line x1="3" y1="8" x2="13" y2="8"/><line x1="3" y1="12" x2="13" y2="12"/>
+            </svg>
+          </button>
+          <button class="vmt-btn" id="vmtGallery" onclick="setChapterView('gallery')" title="Gallery view" aria-label="Gallery view">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/>
+              <rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/>
+            </svg>
+          </button>
+        </div>
+        <button class="btn" id="expandAllBtn" onclick="expandAll()">Expand All</button>
+        <button class="btn" id="collapseAllBtn" onclick="collapseAll()">Collapse All</button>
         <button class="btn" id="teacherResetBtn" onclick="resetMyProgress()" style="display:none" title="Reset your own progress">Reset My Progress</button>
       </div>
     </div>
@@ -897,7 +993,14 @@ let filterStatus = 'all';
 let searchQ      = '';
 
 const PAGE_SIZE = 5;
-const chPageMap = {}; // ci -> current 0-based page index
+const chPageMap = {}; // ci -> current 0-based page index (topic pagination)
+
+// Chapter-level pagination
+const CHAPTER_PAGE_SIZE = 5;
+let chapterPage = 0; // current chapter page (0-based)
+
+// Gallery / List view
+let chapterViewMode = window.innerWidth >= 960 ? 'gallery' : 'list';
 
 // -----------------------------------------------------------
 // PERSIST - delegates to Firebase module
@@ -1021,7 +1124,28 @@ function renderPacing() {
   const collapsed = new Set([...document.querySelectorAll('.ch-block.collapsed')].map(el=>el.id));
   let html = '';
 
-  DATA.forEach((ch, ci) => {
+  // Apply chapter-level pagination
+  // First collect filtered chapter indices
+  const filteredChIndices = DATA.map((ch, ci) => ci).filter(ci => {
+    const ch = DATA[ci];
+    if (filterYear !== 'all' && ch.year !== filterYear) return false;
+    // skip chapters with no matching topics
+    const hasTopics = ch.topics.some(t => {
+      if (filterStatus !== 'all' && t.status !== filterStatus) return false;
+      if (searchQ) {
+        const q = searchQ.toLowerCase();
+        return t.topic.toLowerCase().includes(q) || t.objective.toLowerCase().includes(q);
+      }
+      return true;
+    });
+    return hasTopics;
+  });
+  const totalChapterPages = Math.ceil(filteredChIndices.length / CHAPTER_PAGE_SIZE);
+  if (chapterPage >= totalChapterPages) chapterPage = Math.max(0, totalChapterPages - 1);
+  const pageChIndices = filteredChIndices.slice(chapterPage * CHAPTER_PAGE_SIZE, (chapterPage + 1) * CHAPTER_PAGE_SIZE);
+
+  pageChIndices.forEach(ci => {
+    const ch = DATA[ci];
     if (filterYear !== 'all' && ch.year !== filterYear) return;
 
     const filteredTopics = ch.topics.map((t, ti) => ({t, ti})).filter(({t}) => {
@@ -1145,8 +1269,26 @@ function renderPacing() {
         })()}
       </div>
       ${renderChapterAssessmentCard(ch)}
+      ${renderGalleryCardBody(ch, ci)}
     </div>`;
   });
+
+  // Chapter paginator HTML (shown below the chapter list)
+  let chPaginatorHtml = '';
+  if (totalChapterPages > 1) {
+    const start = chapterPage * CHAPTER_PAGE_SIZE + 1;
+    const end   = Math.min((chapterPage + 1) * CHAPTER_PAGE_SIZE, filteredChIndices.length);
+    chPaginatorHtml = `<div class="chapter-paginator" id="chapterPaginator">
+      <span class="ch-pg-info">Chapters ${start}–${end} of ${filteredChIndices.length}</span>
+      <div class="ch-pg-btns">
+        <button class="ch-pg-btn" onclick="chapterSetPage(${chapterPage - 1})" ${chapterPage === 0 ? 'disabled' : ''}>‹ Prev</button>`;
+    for (let p = 0; p < totalChapterPages; p++) {
+      chPaginatorHtml += `<button class="ch-pg-btn ${p === chapterPage ? 'ch-pg-active' : ''}" onclick="chapterSetPage(${p})">${p + 1}</button>`;
+    }
+    chPaginatorHtml += `<button class="ch-pg-btn" onclick="chapterSetPage(${chapterPage + 1})" ${chapterPage === totalChapterPages - 1 ? 'disabled' : ''}>Next ›</button>
+      </div>
+    </div>`;
+  }
 
   if (!html) {
     if (DATA.length === 0) {
@@ -1162,7 +1304,21 @@ function renderPacing() {
     }
   }
   html += `<div class="add-chapter-wrap"><button class="add-chapter-btn" onclick="addChapter()">+ Add Chapter</button></div>`;
-  container.innerHTML = html;
+  container.innerHTML = html + chPaginatorHtml;
+
+  // Apply view mode class
+  container.classList.toggle('gallery-view', chapterViewMode === 'gallery');
+
+  // Sync toggle buttons
+  const vmtList    = document.getElementById('vmtList');
+  const vmtGallery = document.getElementById('vmtGallery');
+  const expandBtn  = document.getElementById('expandAllBtn');
+  const collapseBtn = document.getElementById('collapseAllBtn');
+  if (vmtList)    vmtList.classList.toggle('on', chapterViewMode === 'list');
+  if (vmtGallery) vmtGallery.classList.toggle('on', chapterViewMode === 'gallery');
+  // Expand/Collapse All only make sense in list mode
+  if (expandBtn)   expandBtn.style.display   = chapterViewMode === 'list' ? '' : 'none';
+  if (collapseBtn) collapseBtn.style.display = chapterViewMode === 'list' ? '' : 'none';
 
   collapsed.forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('collapsed');});
 
@@ -1176,7 +1332,68 @@ function renderPacing() {
 }
 
 // -----------------------------------------------------------
-// PAGINATION
+// GALLERY CARD BODY
+// -----------------------------------------------------------
+function renderGalleryCardBody(ch, ci) {
+  const preview = ch.topics.slice(0, 4);
+  const more    = ch.topics.length - preview.length;
+  const rows = preview.map(t => {
+    const dotClass = t.status === 'done' ? 'done' : t.status === 'inprogress' ? 'inprogress' : 'pending';
+    return `<div class="gcb-topic-row">
+      <div class="gcb-topic-dot ${dotClass}"></div>
+      <div class="gcb-topic-name">${escHtml(t.topic)}</div>
+    </div>`;
+  }).join('');
+  const moreHtml = more > 0 ? `<div class="gcb-more">+${more} more topics</div>` : '';
+  return `<div class="gallery-card-body">
+    <div class="gcb-topics-preview">${rows}${moreHtml}</div>
+    <button class="gcb-open-btn" onclick="openChapterInList(${ci})">Open chapter →</button>
+  </div>`;
+}
+
+// -----------------------------------------------------------
+// CHAPTER VIEW MODE
+// -----------------------------------------------------------
+function setChapterView(mode) {
+  chapterViewMode = mode;
+  renderPacing();
+}
+
+function openChapterInList(ci) {
+  // Switch to list view, find which chapter page ci is on, scroll to it
+  chapterViewMode = 'list';
+  // recalculate which page ci falls on among filtered chapters
+  const filteredChIndices = DATA.map((ch, idx) => idx).filter(idx => {
+    const ch = DATA[idx];
+    if (filterYear !== 'all' && ch.year !== filterYear) return false;
+    return ch.topics.length > 0;
+  });
+  const pos = filteredChIndices.indexOf(ci);
+  if (pos >= 0) chapterPage = Math.floor(pos / CHAPTER_PAGE_SIZE);
+  renderPacing();
+  setTimeout(() => {
+    const el = document.getElementById('ch-' + ci);
+    if (el) { el.classList.remove('collapsed'); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  }, 60);
+}
+
+// -----------------------------------------------------------
+// CHAPTER PAGINATION
+// -----------------------------------------------------------
+function chapterSetPage(page) {
+  const filteredCount = DATA.filter(ch => {
+    if (filterYear !== 'all' && ch.year !== filterYear) return false;
+    return ch.topics.length > 0;
+  }).length;
+  const totalPages = Math.ceil(filteredCount / CHAPTER_PAGE_SIZE);
+  if (page < 0 || page >= totalPages) return;
+  chapterPage = page;
+  renderPacing();
+  document.getElementById('panel-pacing').scrollTop = 0;
+}
+
+// -----------------------------------------------------------
+// PAGINATION (topics within a chapter)
 // -----------------------------------------------------------
 function chSetPage(ci, page) {
   const ch = DATA[ci];
