@@ -2301,18 +2301,13 @@ function switchClass(cls) {
 }
 
 async function manageClasses() {
-  const res = await _showCm({
-    title: 'Manage Class Groups',
-    msg: 'Enter class names separated by commas (e.g. 7A, 7B, 8A). These define separate progress paths per class.',
-    fields: [{ id: 'classes', label: 'Class groups', ph: '7A, 7B, 8A', val: classList.join(', ') }]
+  // Class groups are managed in Central Hub → IGCSE Pacing → Settings → Class Groups.
+  // They appear here automatically once saved there.
+  await _showCm({
+    title: 'Class Groups — Read Only',
+    msg: 'Class groups are configured in Central Hub (IGCSE Pacing → Settings). Changes made there appear here automatically.',
+    okLabel: 'OK',
   });
-  if (!res) return;
-  const raw = (res.classes || '').split(',').map(s => s.trim()).filter(Boolean);
-  classList = [...new Set(raw)];
-  buildClassSelector();
-  // Save class list to Firestore structure meta
-  if (window.__fbSaveClassList) window.__fbSaveClassList(classList);
-  showToast('Class groups saved');
 }
 
 function resetProgress() {
@@ -2658,23 +2653,62 @@ let unsubUserProg   = null;   // listener for this user's own progress
 let currentUID      = null;
 let currentRole = 'teacher';
 let sharedStructure = null;   // chapters/topics without statuses
-let userStatuses    = {};     // { "ci-ti": "pending"|"inprogress"|"done" }
+let userStatuses    = {};     // { "chId.tId": status, "note.chId.tId": note, ... }
+
+// -- Stable key helpers --------------------------------------------
+// New format: "chId.tId"  (uses topic's stable id from Firestore structure)
+// Legacy fallback: "ci-ti" (index-based, kept for migration only)
+function _topicKey(chId, tId)      { return `${chId}.${tId}`; }
+function _prefixKey(pfx, chId, tId){ return `${pfx}.${chId}.${tId}`; }
+
+// Migrate a raw statuses map: rewrite any legacy "ci-ti" keys → "chId.tId"
+// using the current sharedStructure as the lookup table.
+function _migrateLegacyKeys(rawStatuses) {
+  const migrated = {};
+  const legacyPattern  = /^(\d+)-(\d+)$/;
+  const legacyPrefixed = /^(note|diag|actual)-(\d+)-(\d+)$/;
+
+  Object.entries(rawStatuses).forEach(([k, v]) => {
+    let m;
+    if ((m = k.match(legacyPattern))) {
+      const ci = parseInt(m[1]), ti = parseInt(m[2]);
+      const ch = sharedStructure[ci], t = ch?.topics?.[ti];
+      if (ch?.id && t?.id) migrated[_topicKey(ch.id, t.id)] = v;
+      // else discard — orphan from deleted chapter/topic
+    } else if ((m = k.match(legacyPrefixed))) {
+      const pfx = m[1], ci = parseInt(m[2]), ti = parseInt(m[3]);
+      const ch = sharedStructure[ci], t = ch?.topics?.[ti];
+      if (ch?.id && t?.id) migrated[_prefixKey(pfx, ch.id, t.id)] = v;
+    } else {
+      migrated[k] = v; // already new format or unknown — keep as-is
+    }
+  });
+  return migrated;
+}
 
 // -- Merge shared structure + per-user statuses → window.DATA ------
 function _mergeAndRender(isFirstLoad, appRole) {
   if (!sharedStructure) return;
-  window.DATA = sharedStructure.map((ch, ci) => ({
+
+  // Migrate legacy ci-ti keys on first load (no-op if already migrated)
+  const hasLegacy = Object.keys(userStatuses).some(k => /^\d+-\d+$/.test(k) || /^(note|diag|actual)-\d+-\d+$/.test(k));
+  if (hasLegacy) userStatuses = _migrateLegacyKeys(userStatuses);
+
+  window.DATA = sharedStructure.map((ch) => ({
     ...ch,
-    topics: ch.topics.map((t, ti) => ({
-      ...t,
-      status:     userStatuses[`${ci}-${ti}`]           || 'pending',
-      note:       userStatuses[`note-${ci}-${ti}`]       || '',
-      diag:       userStatuses[`diag-${ci}-${ti}`]       || '',
-      actualHour: userStatuses[`actual-${ci}-${ti}`] != null
-                    ? Number(userStatuses[`actual-${ci}-${ti}`]) : null,
-      // coordNote comes from sharedStructure (admin-written, same for all users)
-    })),
+    topics: (ch.topics || []).map((t) => {
+      const k = _topicKey(ch.id || '', t.id || '');
+      return {
+        ...t,
+        status:     userStatuses[k]                      || 'pending',
+        note:       userStatuses[`note.${k}`]            || '',
+        diag:       userStatuses[`diag.${k}`]            || '',
+        actualHour: userStatuses[`actual.${k}`] != null
+                      ? Number(userStatuses[`actual.${k}`]) : null,
+      };
+    }),
   }));
+
   if (isFirstLoad) {
     const _ls = document.getElementById('loadingScreen'); if (_ls) _ls.style.display = 'none';
     applyRole(appRole);   // sets role var, updates badge, calls render()
@@ -2761,33 +2795,42 @@ function _startSnapshot(uid, appRole) {
 window.__fbSaveState = async function(data) {
   if (!currentUID) return;
 
-  // 1. Build this user's status map (skip 'pending' to keep doc lean)
+  // 1. Build this user's status map keyed by stable chId.tId
+  //    Skip 'pending' to keep doc lean.
+  //    Only topics with valid IDs are saved (orphans from deleted topics are dropped).
   const newStatuses = {};
-  data.forEach((ch, ci) => {
-    ch.topics.forEach((t, ti) => {
+  data.forEach((ch) => {
+    if (!ch.id) return; // chapter has no stable id — skip
+    (ch.topics || []).forEach((t) => {
+      if (!t.id) return; // topic has no stable id — skip
+      const k = _topicKey(ch.id, t.id);
       if (t.status && t.status !== 'pending') {
-        newStatuses[`${ci}-${ti}`] = t.status;
+        newStatuses[k] = t.status;
       }
       if (t.note && t.note.trim()) {
-        newStatuses[`note-${ci}-${ti}`] = t.note.trim();
+        newStatuses[`note.${k}`] = t.note.trim();
       }
       if (t.diag && t.diag.trim()) {
-        newStatuses[`diag-${ci}-${ti}`] = t.diag.trim();
+        newStatuses[`diag.${k}`] = t.diag.trim();
       }
       if (t.actualHour !== null && t.actualHour !== undefined) {
-        newStatuses[`actual-${ci}-${ti}`] = t.actualHour;
+        newStatuses[`actual.${k}`] = t.actualHour;
       }
     });
   });
 
-  // 2. Save user's own progress (class-scoped key)
+  // 2. Save user's own progress (class-scoped key).
+  //    Use merge:true so other class keys in the same doc are preserved.
+  //    The active class key is fully replaced (no merge inside it) — this
+  //    clears orphan entries from deleted topics automatically.
   const progressKey = currentClass && currentClass !== 'default'
     ? `statuses_${currentClass.replace(/\s/g,'_')}`
     : 'statuses';
   try {
     await setDoc(
       doc(window.db, 'userProgress', currentUID),
-      { [progressKey]: newStatuses, updatedAt: serverTimestamp() }
+      { [progressKey]: newStatuses, updatedAt: serverTimestamp() },
+      { merge: true }
     );
   } catch(e) {
     console.error('User progress save error:', e);
@@ -2795,12 +2838,20 @@ window.__fbSaveState = async function(data) {
     return;
   }
 
-  // 3. Coordinators also save structure changes (no per-user statuses stored here)
+  // 3. Coordinators also save structure changes (no per-user statuses stored here).
+  //    Strip progress fields; ensure every chapter/topic has a stable id before writing.
   if (currentRole === 'admin') {
     const structureOnly = data.map(ch => ({
       ...ch,
       topics: ch.topics.map(({ status, note, diag, actualHour, ...rest }) => rest),
     }));
+    // Backfill any missing IDs (mirrors ensureIds() in Central Hub)
+    structureOnly.forEach(ch => {
+      if (!ch.id) ch.id = Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+      (ch.topics || []).forEach(t => {
+        if (!t.id) t.id = Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+      });
+    });
     try {
       await setDoc(
         doc(window.db, 'math_pacing', 'year9-10'),
@@ -2831,17 +2882,8 @@ window.__fbSwitchClass = function(cls) {
   _startSnapshot(currentUID, currentRole);
 };
 
-// -- Save class list into the shared structure meta --
-window.__fbSaveClassList = async function(list) {
-  const db = window.db;
-  try {
-    await setDoc(
-      doc(db, 'math_pacing', 'year9-10'),
-      { classes: list, updatedAt: serverTimestamp() },
-      { merge: true }
-    );
-  } catch(e) { console.error('Class list save error:', e); }
-};
+// Class groups are managed exclusively in Central Hub (igcse-pacing.html settings).
+// Teachers Hub reads classList from the math_pacing snapshot — do not write it here.
 
 // -- Syllabus loader ------------------------------------------------
 async function loadSyllabus() {
