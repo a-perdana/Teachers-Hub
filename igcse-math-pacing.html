@@ -1026,7 +1026,7 @@ let chapterPage = 0;
 
 // Gallery / List view
 const _pacingPrefix = (window.PACING_CONFIG.examLocalKey || 'pacing').replace('_exam_dates', '');
-let chapterViewMode = localStorage.getItem(_pacingPrefix + '_view') || (window.innerWidth >= 960 ? 'gallery' : 'list');
+let chapterViewMode = localStorage.getItem(_pacingPrefix + '_view') || 'list';
 // Apply saved sidebar preference (default: open)
 const _layoutEl = document.getElementById('appLayout');
 if (_layoutEl && localStorage.getItem(_pacingPrefix + '_sidebar') === 'collapsed') {
