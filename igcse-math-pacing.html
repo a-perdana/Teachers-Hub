@@ -259,7 +259,7 @@ table.topics-tbl tbody tr.inprogress-row:hover { background: #d6e6f8; }
 .tcheck.on::after { content: 'v'; color: white; font-size: .65rem; font-weight: 800; }
 
 /* Topic cell */
-.topic-cell { }
+
 .topic-name { font-weight: 500; line-height: 1.4; }
 .topic-name.struck { text-decoration: line-through; color: var(--ink-3); }
 
@@ -325,7 +325,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   align-items: center; gap: 8px;
 }
 .admin-mode .edit-hint { display: flex; }
-.edit-hint-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; animation: pulse 2s infinite; }
+
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
 /* ─── WEEKLY VIEW ──────────────────────────────*/
@@ -524,36 +524,11 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 }
 
 /* ─── GALLERY / LIST VIEW TOGGLE ────────────── */
-.view-mode-toggle {
-  display: flex; gap: 2px;
-  background: var(--paper); border-radius: 7px; padding: 2px;
-  border: 1px solid var(--border);
-}
-.vmt-btn {
-  width: 28px; height: 26px;
-  display: flex; align-items: center; justify-content: center;
-  border: none; background: none; border-radius: 5px;
-  cursor: pointer; color: var(--ink-3); transition: all .12s;
-}
-.vmt-btn:hover { color: var(--ink); }
-.vmt-btn.on { background: white; color: var(--ink); box-shadow: var(--shadow-sm); }
 
 /* ─── PACING PANEL ──────────────────────────── */
 /* Override .panel and .panel.on with higher specificity */
-#panel-pacing,
-#panel-pacing.on {
-  display: none !important;
-  flex-direction: column; flex: 1;
-  padding: 0 !important; overflow: hidden;
-}
-#panel-pacing.on { display: flex !important; }
-#panel-pacing .edit-hint { flex-shrink: 0; }
 
 /* scrollable chapter area */
-#chBlocksWrap {
-  flex: 1; overflow-y: auto;
-  padding: 20px 24px 0;
-}
 
 /* add-chapter wrap lives inside scrollable area */
 .add-chapter-wrap {
@@ -612,28 +587,8 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 }
 
 /* ─── PACE ALERT BADGES ─────────────────────── */
-.pace-badge {
-  display: inline-flex; align-items: center; gap: 3px;
-  font-size: .6rem; font-weight: 700; letter-spacing: .03em;
-  padding: 2px 7px; border-radius: 100px; white-space: nowrap;
-  flex-shrink: 0;
-}
-.pace-badge.overdue  { background: #fff0f0; color: #c0392b; border: 1px solid #f5c6c1; }
-.pace-badge.behind   { background: #fff8e6; color: #b45309; border: 1px solid #f0dea0; }
-.pace-badge.on-track { background: var(--green-2); color: var(--green); border: 1px solid #b6e4c8; }
-.pace-badge.upcoming { background: var(--blue-2); color: var(--blue); border: 1px solid #c2d8f5; }
 
 /* Topbar pace summary pill */
-.pace-summary-pill {
-  display: flex; align-items: center; gap: 6px;
-  font-size: .7rem; font-weight: 600;
-  padding: 4px 10px; border-radius: 100px;
-  background: #fff8e6; color: #b45309;
-  border: 1px solid #f0dea0;
-  cursor: default; white-space: nowrap;
-}
-.pace-summary-pill.ok { background: var(--green-2); color: var(--green); border-color: #b6e4c8; }
-.pace-summary-pill.danger { background: #fff0f0; color: #c0392b; border-color: #f5c6c1; }
 
 /* ─── CLASS SELECTOR ────────────────────────── */
 .class-selector-wrap {
@@ -658,82 +613,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .class-manage-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
 
 /* ─── OBJECTIVE COVERAGE PANEL ─────────────── */
-#panel-coverage { padding: 20px 24px; }
-
-.coverage-summary {
-  display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;
-}
-.cov-stat {
-  flex: 1; min-width: 120px;
-  background: white; border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 14px 18px;
-  box-shadow: var(--shadow-sm);
-}
-.cov-stat-num { font-size: 1.6rem; font-weight: 700; line-height: 1; color: var(--ink); }
-.cov-stat-label { font-size: .68rem; color: var(--ink-3); margin-top: 4px; font-weight: 500; }
-.cov-stat.danger .cov-stat-num { color: var(--accent); }
-.cov-stat.ok    .cov-stat-num { color: var(--green); }
-
-.coverage-table {
-  width: 100%; border-collapse: collapse;
-  background: white; border: 1px solid var(--border);
-  border-radius: var(--radius); overflow: hidden;
-  box-shadow: var(--shadow-sm);
-}
-.coverage-table th {
-  font-size: .62rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
-  color: var(--ink-3); padding: 9px 14px; text-align: left;
-  border-bottom: 1px solid var(--border); background: #fafaf8;
-}
-.coverage-table td {
-  padding: 9px 14px; border-bottom: 1px solid var(--border);
-  font-size: .8rem; vertical-align: middle;
-}
-.coverage-table tr:last-child td { border-bottom: none; }
-.coverage-table tr.cov-covered   { }
-.coverage-table tr.cov-partial   { background: #fff8e6; }
-.coverage-table tr.cov-uncovered { background: #fff0f0; }
-.coverage-table tr:hover td { background: var(--paper-2); }
-.coverage-table tr.cov-uncovered:hover td { background: #ffe5e5; }
-
-.cov-code {
-  font-family: 'DM Mono', monospace; font-size: .7rem;
-  padding: 2px 7px; border-radius: 4px;
-  background: var(--blue-2); color: var(--blue);
-  border: 1px solid #c0d4f0; white-space: nowrap;
-}
-.cov-status-badge {
-  font-size: .62rem; font-weight: 700; padding: 2px 8px;
-  border-radius: 100px; white-space: nowrap;
-}
-.cov-status-badge.covered   { background: var(--green-2);  color: var(--green);  border: 1px solid #b6e4c8; }
-.cov-status-badge.partial   { background: #fff8e6; color: #b45309; border: 1px solid #f0dea0; }
-.cov-status-badge.uncovered { background: #fff0f0; color: var(--accent); border: 1px solid #f5c6c1; }
-
-.cov-topic-links { display: flex; flex-wrap: wrap; gap: 4px; }
-.cov-topic-link {
-  font-size: .65rem; padding: 1px 7px; border-radius: 4px;
-  background: var(--paper); border: 1px solid var(--border);
-  color: var(--ink-2); cursor: pointer; transition: all .12s;
-  text-decoration: none; white-space: nowrap;
-}
-.cov-topic-link:hover { background: var(--blue-2); color: var(--blue); border-color: #c0d4f0; }
-.cov-topic-link.done { background: var(--green-2); border-color: #b6e4c8; color: var(--green); }
-.cov-topic-link.inprogress { background: var(--blue-2); border-color: #c0d4f0; color: var(--blue); }
-
-.cov-group-heading {
-  font-size: .62rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
-  color: var(--ink-3); padding: 10px 14px 4px;
-  border-bottom: 1px solid var(--border); background: #f7f7f5;
-}
-.cov-filter-bar { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-.cov-filter-chip {
-  font-size: .7rem; font-weight: 500; padding: 4px 12px; border-radius: 100px;
-  border: 1px solid var(--border); background: var(--paper); color: var(--ink-2);
-  cursor: pointer; transition: all .12s;
-}
-.cov-filter-chip:hover { border-color: var(--ink-2); color: var(--ink); }
-.cov-filter-chip.on { background: var(--ink); border-color: var(--ink); color: white; }
 
 /* ─── WEEKLY VIEW ──────────────────────────────*/
 /* Cross-subject toggle bar */
@@ -753,12 +632,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .cross-chip-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 
 /* Other-subject topic row colours in week card */
-.wt-dot.subj-english  { background: #6c3fa0; }
-.wt-dot.subj-science  { background: #1a5fa8; }
-.wt-dot.subj-math     { background: var(--accent); }
-.wt-dot.subj-biology  { background: #27ae60; }
-.wt-dot.subj-chemistry { background: #e67e22; }
-.wt-dot.subj-physics  { background: #2980b9; }
 
 .week-card-subj-sep {
   font-size: .58rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
