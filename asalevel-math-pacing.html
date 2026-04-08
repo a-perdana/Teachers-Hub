@@ -2343,23 +2343,6 @@ function handleSearch(val) {
   _searchDebounce = setTimeout(() => { renderPacing(); renderNav(); }, 180);
 }
 
-function updateSearchResultCount(topicCount, clear) {
-  const el = document.getElementById('searchResultCount');
-  if (!el) return;
-  if (clear || !searchQ) { el.textContent = ''; el.className = 'search-result-count'; return; }
-  const chCount = DATA.filter(ch => ch.topics.some(t => {
-    const q = searchQ.toLowerCase();
-    return t.topic.toLowerCase().includes(q) || t.objective.toLowerCase().includes(q);
-  })).length;
-  if (topicCount === 0) {
-    el.textContent = 'No results found';
-    el.className = 'search-result-count has-results';
-  } else {
-    el.textContent = `${topicCount} topic${topicCount!==1?'s':''} in ${chCount} chapter${chCount!==1?'s':''}`;
-    el.className = 'search-result-count has-results';
-  }
-}
-
 // Year chips
 document.addEventListener('keydown', function(e) {
   if (e.key==='Enter' && document.getElementById('cmModal').classList.contains('open')) {
@@ -2489,12 +2472,6 @@ function render() {
   renderWeekly();
   renderCoverage();
   renderVariance();
-}
-
-function closeSidebar() {
-  // close sidebar on mobile (called from Escape key handler)
-  const layout = document.getElementById('appLayout');
-  if (layout && window.innerWidth <= 768) layout.classList.add('sidebar-collapsed');
 }
 
 // Re-render on resize so gallery cols and page size stay correct
