@@ -274,6 +274,64 @@ table.topics-tbl tbody tr.inprogress-row:hover { background: #d6e6f8; }
 }
 .obj-code:hover { background: var(--blue); color: white; }
 
+/* Syllabus ref lines (shown in obj modal when igcse_syllabus data is loaded) */
+.syl-ref-line {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: baseline; column-gap: 7px;
+  font-size: .78rem; line-height: 1.5;
+  padding: 5px 0 6px;
+  border-bottom: 1px solid var(--border);
+}
+.syl-ref-line:last-child { border-bottom: none; }
+.srl-code {
+  font-size: .65rem; font-weight: 700;
+  padding: 1px 7px; border-radius: 100px;
+  background: var(--blue-2); color: var(--blue); border: 1px solid #c0d4f0;
+  cursor: pointer; transition: background .12s;
+  white-space: nowrap; align-self: center;
+}
+.srl-code:hover { background: var(--blue); color: white; }
+.srl-topic {
+  font-size: .65rem; color: var(--ink-3);
+  padding: 1px 6px; border-radius: 4px; background: var(--paper-2);
+  white-space: nowrap; align-self: center;
+}
+.srl-title { color: var(--ink-2); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.srl-desc  { grid-column: 2 / -1; color: var(--ink-3); font-size: .72rem; line-height: 1.55; padding-top: 1px; }
+
+/* Syllabus detail modal (read-only, Teachers Hub) */
+.syl-detail-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+.syl-detail-code {
+  font-size: .78rem; font-weight: 700; padding: 2px 9px; border-radius: 100px;
+  background: var(--blue-2); color: var(--blue); border: 1px solid #c0d4f0; flex-shrink: 0;
+}
+.syl-detail-meta { flex: 1; min-width: 0; }
+.syl-detail-title { font-size: .92rem; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.syl-detail-topic { font-size: .75rem; color: var(--ink-3); }
+.syl-detail-tier {
+  font-size: .62rem; font-weight: 600; padding: 2px 7px; border-radius: 100px;
+  background: var(--paper-2); color: var(--ink-2); border: 1px solid var(--border);
+  flex-shrink: 0; white-space: nowrap; align-self: start;
+}
+.syl-description {
+  font-size: .82rem; color: var(--ink-2); line-height: 1.6;
+  background: var(--paper); border-radius: 7px; padding: 9px 13px;
+  margin-bottom: 16px; border-left: 3px solid var(--accent);
+}
+.syl-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.syl-col { padding: 0 16px 0 0; }
+.syl-col + .syl-col { padding: 0 0 0 16px; border-left: 1px solid var(--border); }
+.syl-section-label {
+  font-size: .62rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--ink-3); margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid var(--paper-2);
+}
+.syl-content-list { padding-left: 17px; margin: 0; color: var(--ink-2); font-size: .82rem; line-height: 1.75; }
+.syl-content-list li { margin: 1px 0; }
+.syl-notes-list   { padding-left: 17px; margin: 0; color: var(--ink-3); font-size: .78rem; line-height: 1.7; }
+.syl-notes-list li { margin: 1px 0; }
+.syl-no-detail    { font-size: .82rem; color: var(--ink-3); }
+
 /* Duration badge */
 .dur-badge {
   font-size: .68rem; font-family: 'DM Mono', monospace;
@@ -849,6 +907,17 @@ table.topics-tbl td:last-child { white-space: nowrap; }
       </div>
     </div>
     <div class="modal-body" id="objModalBody"></div>
+  </div>
+</div>
+
+<!-- -- SYLLABUS DETAIL MODAL ─────────────────────── -->
+<div class="modal-bg" id="syllabusDetailModal" onclick="if(event.target===this)closeSyllabusDetail()">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-head">
+      <h3 style="font-size:.875rem;font-weight:600;color:var(--ink)">Syllabus Reference</h3>
+      <button class="modal-close" onclick="closeSyllabusDetail()">&#215;</button>
+    </div>
+    <div class="modal-body" id="syllabusDetailBody" style="padding:18px 20px"></div>
   </div>
 </div>
 
@@ -2229,6 +2298,67 @@ function switchViewById(view) {
 }
 
 // -----------------------------------------------------------
+// SYLLABUS INDEX (populated by Firebase module after auth)
+// -----------------------------------------------------------
+var syllabusIndex = {};
+
+function openSyllabusDetail(indexKey) {
+  const entry = syllabusIndex[indexKey];
+  const modal = document.getElementById('syllabusDetailModal');
+  const body  = document.getElementById('syllabusDetailBody');
+  if (!modal || !body) return;
+
+  if (!entry) {
+    body.innerHTML = `<p class="syl-no-detail">No syllabus data found for <strong>${escHtml(indexKey)}</strong>.</p>`;
+  } else {
+    const code        = entry.code || indexKey.split('_').slice(1).join('_');
+    const title       = entry.title || '';
+    const topic       = entry.topicArea || entry.topic || '';
+    const tier        = entry.tier || '';
+    const description = entry.description || '';
+    const content     = entry.content || [];
+    const notes       = entry.notes || entry.notesExamples || [];
+
+    const descHtml = description
+      ? `<p class="syl-description">${escHtml(description)}</p>`
+      : '';
+
+    const leftHtml = content.length
+      ? `<p class="syl-section-label">Learning Objectives</p>
+         <ul class="syl-content-list">${content.map(c => `<li>${escHtml(c)}</li>`).join('')}</ul>`
+      : `<p class="syl-no-detail">No objectives listed.</p>`;
+
+    const rightHtml = notes.length
+      ? `<p class="syl-section-label">Notes and Examples</p>
+         <ul class="syl-notes-list">${notes.map(n => `<li>${escHtml(n)}</li>`).join('')}</ul>`
+      : '';
+
+    const colsHtml = (content.length && notes.length)
+      ? `<div class="syl-cols"><div class="syl-col">${leftHtml}</div><div class="syl-col">${rightHtml}</div></div>`
+      : leftHtml + rightHtml || `<p class="syl-no-detail">No detailed content available.</p>`;
+
+    body.innerHTML = `
+      <div class="syl-detail-header">
+        <span class="syl-detail-code">${escHtml(code)}</span>
+        <div class="syl-detail-meta">
+          ${title ? `<div class="syl-detail-title">${escHtml(title)}</div>` : ''}
+          ${topic ? `<div class="syl-detail-topic">${escHtml(topic)}</div>` : ''}
+        </div>
+        ${tier ? `<span class="syl-detail-tier">${escHtml(tier)}</span>` : ''}
+      </div>
+      ${descHtml}
+      ${colsHtml}`;
+  }
+
+  modal.classList.add('open');
+}
+
+function closeSyllabusDetail() {
+  const modal = document.getElementById('syllabusDetailModal');
+  if (modal) modal.classList.remove('open');
+}
+
+// -----------------------------------------------------------
 // OBJECTIVES MODAL
 // -----------------------------------------------------------
 let _objCi=null,_objTi=null;
@@ -2239,7 +2369,34 @@ function showObj(ci, ti) {
   const objRaw = t.objective || '';
   document.getElementById('objModalTitle').textContent = t.topic;
   document.getElementById('objModalSub').textContent   = ch.chapter;
-  if (/<[a-z]/i.test(objRaw)) {
+
+  // Try to render rich syllabus data from igcse_syllabus index
+  const codes = parseObjCodes(objRaw);
+  if (codes.length && typeof syllabusIndex !== 'undefined' && Object.keys(syllabusIndex).length) {
+    const refLines = codes.map(code => {
+      const key   = '0580_' + code;
+      const entry = syllabusIndex[key];
+      const titleText = entry ? escHtml(entry.title || '') : '';
+      const topicText = entry ? escHtml(entry.topicArea || '') : '';
+      const content   = entry?.content || [];
+      const descText  = entry?.description
+        ? escHtml(entry.description)
+        : content.length
+          ? escHtml(content.slice(0, 3).join(' · ') + (content.length > 3 ? ' …' : ''))
+          : '';
+      return `<div class="syl-ref-line">
+        <span class="srl-code" onclick="openSyllabusDetail('${escHtml(key)}')" title="View full detail">${escHtml(code)}</span>
+        <span class="srl-topic">${topicText}</span>
+        <span class="srl-title">${titleText}</span>
+        ${descText ? `<span class="srl-desc">${descText}</span>` : ''}
+      </div>`;
+    }).join('');
+    // Also show raw text note if present (non-code part)
+    const noteText = objRaw.replace(/[CE]\d+\.\d+/g, '').replace(/[,;:\s]+/g, ' ').trim();
+    const noteHtml = noteText ? `<p style="font-size:.75rem;color:var(--ink-3);margin-top:10px;line-height:1.5">${escHtml(noteText)}</p>` : '';
+    document.getElementById('objModalBody').innerHTML = refLines + noteHtml ||
+      '<p style="color:var(--ink-3);font-size:.8rem">No objectives listed for this topic.</p>';
+  } else if (/<[a-z]/i.test(objRaw)) {
     document.getElementById('objModalBody').innerHTML = objRaw ||
       '<p style="color:var(--ink-3);font-size:.8rem">No objectives listed for this topic.</p>';
   } else {
@@ -2282,6 +2439,8 @@ function closeObjModal(e) {
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
+    const sylModal = document.getElementById('syllabusDetailModal');
+    if (sylModal && sylModal.classList.contains('open')) { closeSyllabusDetail(); return; }
     document.getElementById('objModal').classList.remove('open');
     if (document.getElementById('cmModal').classList.contains('open')) _cmDone(false);
     closeSidebar();
@@ -2357,6 +2516,7 @@ import {
   collection,
   doc,
   getDoc,
+  getDocs,
   setDoc,
   onSnapshot,
   serverTimestamp,
@@ -2553,9 +2713,20 @@ window.__fbSaveClassList = async function(list) {
   } catch(e) { console.error('Class list save error:', e); }
 };
 
+// -- Syllabus loader ------------------------------------------------
+async function loadSyllabus() {
+  try {
+    const snap = await getDocs(collection(window.db, 'igcse_syllabus'));
+    snap.forEach(d => { window.syllabusIndex[d.id] = d.data(); });
+  } catch (e) {
+    console.warn('Could not load igcse_syllabus:', e);
+  }
+}
+
 // -- auth-guard.js dispatches authReady when auth + role confirmed -
 document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   const appRole = profile.role_teachershub === 'teachers_admin' ? 'admin' : 'teacher';
+  loadSyllabus();
 
   // Update pacing topbar role badge
   const roleBadge = document.getElementById('roleBadge');
