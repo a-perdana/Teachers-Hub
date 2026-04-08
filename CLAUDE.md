@@ -142,6 +142,14 @@ Legacy migration: if `role_teachershub` is absent on an existing user doc, `auth
 | `central_documents/{docId}` | CentralHub-managed documents            | central_admin        |
 | `topics/{topicId}`      | Message board topics                         | any authorised user  |
 | `topics/{topicId}/replies/{replyId}` | Message board replies           | any authorised user  |
+| `calendar_settings/current` | **Read-only here.** Academic year config set by Central Hub: `academicYearStart`, `totalTeachingWeeks`, `terms[]`. Loaded at startup via `loadCalendarSettings()` to drive pace alerts. Never write to this from Teachers Hub. | central_admin (write) |
+| `calendar_events/{docId}` | **Read-only here.** Academic calendar events. Pacing pages read `category === 'Public Holiday'` entries to build `HOLIDAY_RANGES` for teaching-day calculations. | central_admin (write) |
+| `math_pacing/year9-10`  | IGCSE math pacing structure: `chapters[]`, `classes[]`, `objPrefixes[]`. Written by CH admin, read here via `onSnapshot`. | central_admin (write) |
+| `biology_pacing/year9-10` | IGCSE biology pacing — same structure as math_pacing. | central_admin (write) |
+| `chemistry_pacing/year9-10` | IGCSE chemistry pacing — same structure as math_pacing. | central_admin (write) |
+| `physics_pacing/year9-10` | IGCSE physics pacing — same structure as math_pacing. | central_admin (write) |
+| `igcse_syllabus/{docId}` | Syllabus reference items indexed by objective code (e.g. C1.1). Loaded once at startup. | read-only here |
+| `userProgress/{uid}`    | Per-teacher pacing progress. Each teacher writes only their own doc. Fields: `statuses`, `statuses_<class>` maps keyed by `ci-ti`. | owner (teacher) |
 
 **Timestamp field:** always `createdAt` (serverTimestamp). Do not use `timestamp` — that was the legacy name.
 
