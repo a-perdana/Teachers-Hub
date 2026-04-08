@@ -153,7 +153,7 @@ function renderCoordNoteRow(ci, ti, t) {
   const hasNote = !!(t.coordNote && t.coordNote.trim());
   if (!hasNote && role !== 'admin') return '';
   return `<tr class="coord-note-row" id="coord-row-${ci}-${ti}">
-    <td colspan="6">
+    <td colspan="2">
       <div class="coord-note-panel">
         <div class="coord-note-header">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="23" y1="11" x2="17" y2="11"/></svg>

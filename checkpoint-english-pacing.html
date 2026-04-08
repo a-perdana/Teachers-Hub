@@ -764,7 +764,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 </div>
 
 <!-- â"€â"€ LAYOUT â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
-<div class="layout sidebar-collapsed" id="appLayout">
+<div class="layout" id="appLayout">
 <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle sidebar" aria-label="Toggle sidebar">
   <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
     <polyline points="7,2 2,7 7,12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1049,7 +1049,13 @@ const chPageMap = {}; // ci -> current 0-based page index (topic pagination)
 let chapterPage = 0;
 
 // Gallery / List view
-let chapterViewMode = window.innerWidth >= 960 ? 'gallery' : 'list';
+const _pacingPrefix = (window.PACING_CONFIG.examLocalKey || 'pacing').replace('_exam_dates', '');
+let chapterViewMode = localStorage.getItem(_pacingPrefix + '_view') || (window.innerWidth >= 960 ? 'gallery' : 'list');
+// Apply saved sidebar preference (default: open)
+const _layoutEl = document.getElementById('appLayout');
+if (_layoutEl && localStorage.getItem(_pacingPrefix + '_sidebar') === 'collapsed') {
+  _layoutEl.classList.add('sidebar-collapsed');
+}
 
 function getGalleryCols() {
   const wrap = document.getElementById('chBlocksWrap');
@@ -1363,10 +1369,6 @@ function renderPacing() {
           <thead><tr>
             <th style="width:42px"></th>
             <th>Topic</th>
-            <th>Cambridge Objectives</th>
-            <th style="width:60px">Hours</th>
-            <th style="width:60px">Week</th>
-            <th style="width:210px">Status</th>
           </tr></thead>
           <tbody>
             ${(()=>{
@@ -1418,17 +1420,14 @@ function renderPacing() {
                       ${(t.coordNote || role === 'admin') ? `<button class="coord-btn${t.coordNote ? ' has-coord' : ''}" onclick="toggleCoordNote(${ci},${ti})" title="Coordinator shared note">&#9432; ${t.coordNote ? 'Coord Note' : 'Add Coord Note'}</button>` : ''}
                     </div>
                   </td>
-                  <td class="col-obj"></td>
-                  <td class="col-hours"></td>
-                  <td class="col-week"></td>
-                  <td class="col-status"></td>
+
                 </tr>
                 <tr class="res-row${!hasRes && !t.activity ? ' empty-res' : ''}" id="res-row-${ci}-${ti}">
-                  <td colspan="6">${renderResourcesHtml(ci, ti, t)}</td>
+                  <td colspan="2">${renderResourcesHtml(ci, ti, t)}</td>
                 </tr>
                 ${renderCoordNoteRow(ci, ti, t)}
                 <tr class="note-row" id="note-row-${ci}-${ti}">
-                  <td colspan="6" style="padding:0 !important; border-bottom: 1px solid var(--border) !important;">
+                  <td colspan="2" style="padding:0 !important; border-bottom: 1px solid var(--border) !important;">
                     <div class="note-panel${t.note ? ' open' : ''}" id="note-panel-${ci}-${ti}">
                       <textarea class="note-textarea" id="note-ta-${ci}-${ti}" placeholder="Write your observation, differentiation note, or class feedback here…">${escHtml(t.note||'')}</textarea>
                       <div class="note-actions">
@@ -1443,7 +1442,7 @@ function renderPacing() {
               }).join('');
             })()}
             <tr class="add-topic-row">
-              <td colspan="6">
+              <td colspan="2">
                 <button class="add-topic-btn" onclick="addTopic(${ci})">+ Add Topic</button>
               </td>
             </tr>
@@ -1577,6 +1576,7 @@ function renderGalleryCardBody(ch, ci) {
 // -----------------------------------------------------------
 function setChapterView(mode) {
   chapterViewMode = mode;
+  localStorage.setItem(_pacingPrefix + '_view', mode);
   renderPacing();
 }
 
@@ -2028,7 +2028,9 @@ function toggleChapter(ci) {
 function expandAll()   { document.querySelectorAll('.ch-block').forEach(el => el.classList.remove('collapsed')); }
 function collapseAll() { document.querySelectorAll('.ch-block').forEach(el => el.classList.add('collapsed')); }
 function toggleSidebar() {
-  document.getElementById('appLayout').classList.toggle('sidebar-collapsed');
+  const layout = document.getElementById('appLayout');
+  layout.classList.toggle('sidebar-collapsed');
+  localStorage.setItem(_pacingPrefix + '_sidebar', layout.classList.contains('sidebar-collapsed') ? 'collapsed' : 'open');
 }
 
 function scrollToChapter(ci) {
