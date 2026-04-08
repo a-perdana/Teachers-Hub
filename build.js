@@ -75,7 +75,9 @@ function processFile(filename) {
   html = html.replace(/<!-- FIREBASE_ENV -->/g, firebaseEnvPartial);
 
   // Inject pacing shared CSS/JS where placeholder comments exist
-  html = html.replace(/<!-- PACING_SHARED_CSS -->/g, pacingSharedCss);
+  // Also strip the local-dev <link> tag that precedes the CSS placeholder
+  html = html.replace(/<link rel="stylesheet" href="partials\/pacing-shared\.css"><!-- PACING_SHARED_CSS -->/g, pacingSharedCss);
+  html = html.replace(/<!-- PACING_SHARED_CSS -->/g, pacingSharedCss); // fallback if link tag absent
   html = html.replace(/<!-- PACING_SHARED_JS -->/g, pacingSharedJs);
 
   // Replace Firebase config placeholders
