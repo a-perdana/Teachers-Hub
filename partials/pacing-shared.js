@@ -105,7 +105,7 @@ function matchesSyllabusFilter(t) {
 }
 
 // ── Diagnostic Tag ───────────────────────────────────────────
-const DIAG_LABELS = { weak: '⚠ Weak', review: '↺ Review', good: '✓ Good', '': 'Diagnose' };
+var DIAG_LABELS = { weak: '⚠ Weak', review: '↺ Review', good: '✓ Good', '': 'Diagnose' };
 
 function renderDiagBtn(ci, ti, t) {
   const d = t.diag || '';
