@@ -390,7 +390,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 28px 0 20px;
+  padding: 0 28px 0 10px;
   height: var(--topbar-h);
   position: sticky;
   top: 60px;
