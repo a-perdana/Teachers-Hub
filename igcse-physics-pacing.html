@@ -1842,7 +1842,7 @@ function renderPacing() {
                         onblur="saveEdit(this,${ci},${ti},'hour')"
                         onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
                         title="Planned lesson hours — click to edit"
-                      >Planned: ${t.hour}h</span>
+                      >Planned: ${t.duration ?? t.hour}h</span>
                       ${renderActualHoursMeta(ci, ti, t)}
                       ${t.week ? `<span class="meta-pill meta-pill-week">Week ${t.week}</span>` : ''}
                       ${renderPaceBadge(t)}
@@ -2119,8 +2119,8 @@ function renderWeekly() {
         if (!w) return;
         if (!weekMap[w]) weekMap[w] = { mathHours: 0, subjTopics: {} };
         if (!weekMap[w].subjTopics.physics) weekMap[w].subjTopics.physics = [];
-        weekMap[w].subjTopics.physics.push({ name: t.topic, chapter: ch.chapter, year: ch.year, hour: t.hour });
-        weekMap[w].mathHours += t.hour;
+        weekMap[w].subjTopics.physics.push({ name: t.topic, chapter: ch.chapter, year: ch.year,  hour: t.duration ?? t.hour ?? 0 });
+        weekMap[w].mathHours += (t.duration ?? t.hour ?? 0);
       });
     });
   }
@@ -2134,7 +2134,7 @@ function renderWeekly() {
         if (!w) return;
         if (!weekMap[w]) weekMap[w] = { mathHours: 0, subjTopics: {} };
         if (!weekMap[w].subjTopics[subj]) weekMap[w].subjTopics[subj] = [];
-        weekMap[w].subjTopics[subj].push({ name: t.topic, chapter: ch.chapter || '', year: ch.year || '', hour: t.hour || 0 });
+        weekMap[w].subjTopics[subj].push({ name: t.topic, chapter: ch.chapter || '', year: ch.year || '', hour: t.duration ?? t.hour ?? 0 });
       });
     });
   });
@@ -2319,8 +2319,8 @@ function setStatus(ci, ti, val) {
 function saveEdit(el, ci, ti, field) {
   if (role !== 'admin') return;
   let val = el.innerText.trim();
-  if (field === 'hour') val = parseInt(val) || DATA[ci].topics[ti].hour;
-  DATA[ci].topics[ti][field] = val;
+  if (field === 'hour') val = parseInt(val) || DATA[ci].topics[ti].duration || DATA[ci].topics[ti].hour;
+  if (field === 'hour') { DATA[ci].topics[ti].duration = val; delete DATA[ci].topics[ti].hour; } else { DATA[ci].topics[ti][field] = val; }
   el.classList.remove('save-ok', 'save-fail');
   void el.offsetWidth;
   el.classList.add('save-ok');

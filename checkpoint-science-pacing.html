@@ -1562,7 +1562,7 @@ function renderPacing() {
                         onblur="saveEdit(this,${ci},${ti},'hour')"
                         onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
                         title="Planned lesson hours"
-                      ><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Planned: ${t.hour}h</span>
+                      ><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Planned: ${t.duration ?? t.hour}h</span>
                       ${renderActualHoursMeta(ci, ti, t)}
                       ${t.week ? `<span class="meta-pill meta-pill-week"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Week ${t.week}</span>` : ''}
                       ${renderPaceBadge(t)}
@@ -1838,8 +1838,8 @@ function renderWeekly() {
         if (!w) return;
         if (!weekMap[w]) weekMap[w] = { mathHours: 0, subjTopics: {} };
         if (!weekMap[w].subjTopics.science) weekMap[w].subjTopics.science = [];
-        weekMap[w].subjTopics.science.push({ name: t.topic, chapter: ch.chapter, year: ch.year, hour: t.hour });
-        weekMap[w].mathHours += t.hour;
+        weekMap[w].subjTopics.science.push({ name: t.topic, chapter: ch.chapter, year: ch.year,  hour: t.duration ?? t.hour ?? 0 });
+        weekMap[w].mathHours += (t.duration ?? t.hour ?? 0);
       });
     });
   }
@@ -1853,7 +1853,7 @@ function renderWeekly() {
         if (!w) return;
         if (!weekMap[w]) weekMap[w] = { mathHours: 0, subjTopics: {} };
         if (!weekMap[w].subjTopics[subj]) weekMap[w].subjTopics[subj] = [];
-        weekMap[w].subjTopics[subj].push({ name: t.topic, chapter: ch.chapter || '', year: ch.year || '', hour: t.hour || 0 });
+        weekMap[w].subjTopics[subj].push({ name: t.topic, chapter: ch.chapter || '', year: ch.year || '', hour: t.duration ?? t.hour ?? 0 });
       });
     });
   });
@@ -2038,8 +2038,8 @@ function setStatus(ci, ti, val) {
 function saveEdit(el, ci, ti, field) {
   if (role !== 'admin') return;
   let val = el.innerText.trim();
-  if (field === 'hour') val = parseInt(val) || DATA[ci].topics[ti].hour;
-  DATA[ci].topics[ti][field] = val;
+  if (field === 'hour') val = parseInt(val) || DATA[ci].topics[ti].duration || DATA[ci].topics[ti].hour;
+  if (field === 'hour') { DATA[ci].topics[ti].duration = val; delete DATA[ci].topics[ti].hour; } else { DATA[ci].topics[ti][field] = val; }
 
   // Visual save feedback — green flash on the edited element
   el.classList.remove('save-ok', 'save-fail');
