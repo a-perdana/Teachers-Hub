@@ -900,9 +900,12 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .week-load-fill.load-medium  { background: var(--amber, #d97706); }
 .week-load-fill.load-heavy   { background: var(--accent); }
 
+<!-- PACING_SHARED_CSS -->
 </style>
 
 <script src="partials/navbar.js"></script>
+<script src="partials/pacing-shared.js"></script>
+<!-- PACING_SHARED_JS -->
 <!-- FIREBASE_ENV -->
 <script type="module" src="auth-guard.js"></script>
 </head>
@@ -1004,7 +1007,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 
     <div id="paceSummaryPill" class="pace-summary-pill" style="display:none" title="Pace status based on current school week"></div>
 
-    <div class="class-selector-wrap" id="classSelectorWrap" style="display:none">
+    <div class="class-selector-wrap" id="classSelectorWrap">
 
       <label class="class-selector-label" for="classSelect">Class:</label>
 
@@ -1014,7 +1017,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 
       </select>
 
-      <button class="class-manage-btn" id="classManageBtn" onclick="manageClasses()" style="display:none" title="Add/remove class groups">⚙</button>
+      <button class="class-manage-btn" id="classManageBtn" onclick="manageClasses()" title="Add/remove class groups">&#9881;</button>
 
     </div>
 
@@ -1024,6 +1027,14 @@ table.topics-tbl td:last-child { white-space: nowrap; }
     </div>
   </div>
 </header>
+
+<!-- -- EXAM COUNTDOWN BANNER ---------------------- -->
+<div class="exam-countdown-bar" id="examCountdownBar" style="display:none">
+  <span class="exam-countdown-label">Cambridge Exams:</span>
+  <span id="examChipsWrap"></span>
+  <span class="exam-countdown-uncovered" id="examUncoveredWarn" style="display:none"></span>
+  <button class="exam-manage-btn" id="examManageBtn" onclick="manageExamDates()" title="Set Cambridge exam dates">&#9998; Set Dates</button>
+</div>
 
 <!-- -- LAYOUT ------------------------------------ -->
 <div class="layout sidebar-collapsed" id="appLayout">
@@ -1044,6 +1055,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
         <input class="search-input" id="searchInput" placeholder="Search topics, objectives..." oninput="handleSearch(this.value)">
         <button class="search-clear" id="searchClear" onclick="clearSearch()" title="Clear">&#215;</button>
       </div>
+      <div class="search-result-count" id="searchResultCount"></div>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-label">Year</div>
@@ -1072,8 +1084,17 @@ table.topics-tbl td:last-child { white-space: nowrap; }
         <button class="tab-btn on" onclick="switchView('pacing',this)">Pacing Guide</button>
         <button class="tab-btn" onclick="switchView('weekly',this)">Weekly View</button>
         <button class="tab-btn" onclick="switchView('coverage',this)">Obj Coverage</button>
+        <button class="tab-btn" onclick="switchView('variance',this)">Hours Report</button>
       </div>
       <div class="view-actions">
+        <div class="syllabus-toggle-wrap" id="syllabusToggleWrap" title="Filter by Core or Extended syllabus">
+          <span class="syllabus-toggle-label">Syllabus:</span>
+          <select class="syllabus-select" id="syllabusSelect" onchange="setSyllabusFilter(this.value)">
+            <option value="all">All</option>
+            <option value="core">Core (C)</option>
+            <option value="extended">Extended (E)</option>
+          </select>
+        </div>
         <div class="view-mode-toggle" id="viewModeToggle" title="Switch chapter view">
           <button class="vmt-btn" id="vmtList" onclick="setChapterView('list')" title="List view" aria-label="List view">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
@@ -1106,8 +1127,10 @@ table.topics-tbl td:last-child { white-space: nowrap; }
     <div class="panel" id="panel-coverage">
       <div id="coverageReport"></div>
     </div>
-
-
+    <!-- VARIANCE / HOURS REPORT PANEL -->
+    <div class="panel" id="panel-variance">
+      <div id="varianceReport"></div>
+    </div>
 
     <!-- WEEKLY PANEL -->
     <div class="panel" id="panel-weekly">
@@ -1256,6 +1279,16 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 // -----------------------------------------------------------
 var RAW_DATA = [];
 
+window.PACING_CONFIG = {
+  examLocalKey: 'igcse_biology_exam_dates',
+  examPapers: [
+    { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
+    { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
+    { key: 'paper4', label: 'Paper 4', cls: 'paper4' },
+  ],
+  hasSyllabusFilter: true,
+};
+
 // -----------------------------------------------------------
 // STATE  (var so the Firebase module can write window.DATA)
 // -----------------------------------------------------------
@@ -1283,9 +1316,14 @@ const CROSS_SUBJ_COLLECTIONS = {
   chemistry: { col: 'chemistry_pacing', doc: 'year9-10', label: 'Chemistry' }
 };
 
-let filterYear   = 'all';
-let filterStatus = 'all';
-let searchQ      = '';
+let filterYear     = 'all';
+let filterStatus   = 'all';
+let searchQ        = '';
+let syllabusFilter = 'all'; // 'all' | 'core' | 'extended'
+
+// Cambridge Exam Dates — stored in localStorage (per-browser, admin-set)
+// Format: { paper1: 'YYYY-MM-DD', paper2: 'YYYY-MM-DD', paper4: 'YYYY-MM-DD' }
+var examDates = JSON.parse(localStorage.getItem(window.PACING_CONFIG.examLocalKey) || 'null') || {};
 
 const PAGE_SIZE = 5;
 const chPageMap = {}; // ci -> current 0-based page index (topic pagination)
@@ -1390,10 +1428,337 @@ function renderPaceSummary() {
 }
 
 // -----------------------------------------------------------
+// ÖZELLIK 1: EXAM COUNTDOWN
+// -----------------------------------------------------------
+function renderExamCountdown() {
+  const bar = document.getElementById('examCountdownBar');
+  if (!bar) return;
+  const chips = document.getElementById('examChipsWrap');
+  const warn  = document.getElementById('examUncoveredWarn');
+  if (!chips) return;
+
+  const papers = [
+    { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
+    { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
+    { key: 'paper4', label: 'Paper 4', cls: 'paper4' },
+  ];
+  const now = new Date();
+  let anyDate = false;
+  let minDays = Infinity;
+
+  chips.innerHTML = papers.map(p => {
+    const d = examDates[p.key];
+    if (!d) return '';
+    anyDate = true;
+    const target = new Date(d);
+    const diffMs = target - now;
+    const days = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+    if (days < minDays) minDays = days;
+    const isDanger = days <= 30 && days >= 0;
+    const cls = isDanger ? 'danger' : p.cls;
+    const label = days < 0 ? 'Passed' : days === 0 ? 'TODAY' : days + 'd';
+    return `<span class="exam-chip ${cls}" title="${p.label}: ${d}"><span class="exam-chip-days">${label}</span><span class="exam-chip-label">${p.label}</span></span>`;
+  }).join('');
+
+  if (!anyDate) { bar.style.display = 'none'; return; }
+  bar.style.display = 'flex';
+  bar.classList.toggle('danger-zone', minDays <= 30 && minDays >= 0);
+
+  // Count uncovered topics for nearest exam
+  const uncovered = DATA.reduce((n, ch) => n + ch.topics.filter(t => t.status !== 'done').length, 0);
+  if (warn) {
+    if (uncovered > 0 && minDays > 0 && minDays <= 60) {
+      warn.textContent = '⚠ ' + uncovered + ' topics not yet done';
+      warn.style.display = 'flex';
+    } else {
+      warn.style.display = 'none';
+    }
+  }
+}
+
+async function manageExamDates() {
+  const res = await _showCm({
+    title: 'Set Cambridge Exam Dates',
+    msg: 'Enter Cambridge IGCSE Biology 0610 exam dates (leave blank to skip).',
+    fields: [
+      { id: 'paper1', label: 'Paper 1 date (YYYY-MM-DD)', type: 'date', val: examDates.paper1 || '' },
+      { id: 'paper2', label: 'Paper 2 date (YYYY-MM-DD)', type: 'date', val: examDates.paper2 || '' },
+      { id: 'paper4', label: 'Paper 4 date (YYYY-MM-DD)', type: 'date', val: examDates.paper4 || '' },
+    ],
+    okLabel: 'Save Dates',
+  });
+  if (!res) return;
+  if (res.paper1) examDates.paper1 = res.paper1;
+  if (res.paper2) examDates.paper2 = res.paper2;
+  if (res.paper4) examDates.paper4 = res.paper4;
+  localStorage.setItem('igcse_biology_exam_dates', JSON.stringify(examDates));
+  renderExamCountdown();
+  showToast('Exam dates saved');
+}
+
+// -----------------------------------------------------------
+// ÖZELLIK 2: SYLLABUS FILTER (Core / Extended)
+// -----------------------------------------------------------
+function setSyllabusFilter(val) {
+  syllabusFilter = val;
+  Object.keys(chPageMap).forEach(k => { chPageMap[k] = 0; });
+  chapterPage = 0;
+  renderPacing();
+  renderCoverage();
+}
+
+// Returns 'core'|'extended'|'both' based on objective codes
+function getTopicSyllabus(t) {
+  const codes = parseObjCodes(t.objective || '');
+  const hasC = codes.some(c => c.startsWith('C'));
+  const hasE = codes.some(c => c.startsWith('E'));
+  if (hasC && hasE) return 'both';
+  if (hasE) return 'extended';
+  if (hasC) return 'core';
+  return 'both'; // no codes = show in all filters
+}
+
+function matchesSyllabusFilter(t) {
+  if (syllabusFilter === 'all') return true;
+  const s = getTopicSyllabus(t);
+  if (s === 'both') return true;
+  return s === syllabusFilter;
+}
+
+// -----------------------------------------------------------
+// ÖZELLIK 3: DIAGNOSTIC TAG
+// -----------------------------------------------------------
+const DIAG_LABELS = { weak: '⚠ Weak', review: '↺ Review', good: '✓ Good', '': 'Diagnose' };
+const DIAG_COLORS = { weak: '#c0392b', review: '#d97706', good: '#1e7a4a', '': 'var(--border)' };
+
+function renderDiagBtn(ci, ti, t) {
+  const d = t.diag || '';
+  const cls = d ? 'diag-btn diag-' + d : 'diag-btn';
+  const label = DIAG_LABELS[d] || 'Diagnose';
+  return `<div style="position:relative;display:inline-block">
+    <button class="${cls}" id="diag-btn-${ci}-${ti}" onclick="toggleDiagMenu(${ci},${ti},event)" title="Set diagnostic tag for this topic">${label}</button>
+    <div class="diag-dropdown" id="diag-dd-${ci}-${ti}">
+      <div class="diag-dd-item" onclick="setDiag(${ci},${ti},'weak')"><span class="diag-dd-dot weak"></span>Weak — needs reteaching</div>
+      <div class="diag-dd-item" onclick="setDiag(${ci},${ti},'review')"><span class="diag-dd-dot review"></span>Review — revisit briefly</div>
+      <div class="diag-dd-item" onclick="setDiag(${ci},${ti},'good')"><span class="diag-dd-dot good"></span>Good — class mastered it</div>
+      <div class="diag-dd-item" onclick="setDiag(${ci},${ti},'')"><span class="diag-dd-dot clear"></span>Clear tag</div>
+    </div>
+  </div>`;
+}
+
+function toggleDiagMenu(ci, ti, e) {
+  e.stopPropagation();
+  // close all others first
+  document.querySelectorAll('.diag-dropdown.open').forEach(el => {
+    if (el.id !== `diag-dd-${ci}-${ti}`) el.classList.remove('open');
+  });
+  const dd = document.getElementById(`diag-dd-${ci}-${ti}`);
+  if (dd) dd.classList.toggle('open');
+}
+
+function setDiag(ci, ti, val) {
+  DATA[ci].topics[ti].diag = val;
+  // close dropdown
+  const dd = document.getElementById(`diag-dd-${ci}-${ti}`);
+  if (dd) dd.classList.remove('open');
+  saveState();
+  // Re-render just the button in place (avoid full re-render)
+  const btn = document.getElementById(`diag-btn-${ci}-${ti}`);
+  if (btn) {
+    btn.className = val ? 'diag-btn diag-' + val : 'diag-btn';
+    btn.textContent = DIAG_LABELS[val] || 'Diagnose';
+  }
+  showToast(val ? 'Diagnostic tag: ' + DIAG_LABELS[val] : 'Tag cleared');
+}
+
+// Close diag dropdown on outside click
+document.addEventListener('click', () => {
+  document.querySelectorAll('.diag-dropdown.open').forEach(el => el.classList.remove('open'));
+});
+
+// -----------------------------------------------------------
+// ÖZELLIK 4: COORDINATOR PUBLIC NOTE
+// -----------------------------------------------------------
+function renderCoordNoteRow(ci, ti, t) {
+  const hasNote = !!(t.coordNote && t.coordNote.trim());
+  if (!hasNote && role !== 'admin') return ''; // teachers only see if has note
+  return `<tr class="coord-note-row" id="coord-row-${ci}-${ti}">
+    <td colspan="6">
+      <div class="coord-note-panel">
+        <div class="coord-note-header">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          Coordinator Note
+        </div>
+        ${role === 'admin'
+          ? `<textarea class="coord-note-textarea" id="coord-ta-${ci}-${ti}" placeholder="Write a shared note visible to all teachers (e.g. 'Add 2 extra lessons — this topic was weak in 2024 exams')…">${escHtml(t.coordNote || '')}</textarea>
+             <div class="coord-note-actions">
+               <button class="coord-note-save" onclick="saveCoordNote(${ci},${ti})">Save Note</button>
+               <button class="coord-note-cancel" onclick="clearCoordNote(${ci},${ti})">Clear</button>
+             </div>`
+          : `<div class="coord-note-text">${escHtml(t.coordNote || '')}</div>`
+        }
+      </div>
+    </td>
+  </tr>`;
+}
+
+function saveCoordNote(ci, ti) {
+  const ta = document.getElementById(`coord-ta-${ci}-${ti}`);
+  if (!ta) return;
+  DATA[ci].topics[ti].coordNote = ta.value.trim();
+  saveState();
+  showToast('Coordinator note saved');
+  render();
+}
+
+function clearCoordNote(ci, ti) {
+  DATA[ci].topics[ti].coordNote = '';
+  saveState();
+  showToast('Coordinator note cleared');
+  render();
+}
+
+function toggleCoordNote(ci, ti) {
+  const row = document.getElementById(`coord-row-${ci}-${ti}`);
+  if (row) {
+    row.style.display = row.style.display === 'none' ? '' : 'none';
+  }
+}
+
+// -----------------------------------------------------------
+// ÖZELLIK 5: ACTUAL HOURS + VARIANCE REPORT
+// -----------------------------------------------------------
+function renderActualHoursMeta(ci, ti, t) {
+  const planned = t.hour || 1;
+  const actual  = t.actualHour || null;
+  let cls = '';
+  let diffLabel = '';
+  if (actual !== null) {
+    const diff = actual - planned;
+    if (diff > 0)       { cls = 'over';  diffLabel = '+' + diff + 'h'; }
+    else if (diff < 0)  { cls = 'under'; diffLabel = diff + 'h'; }
+    else                { cls = 'match'; diffLabel = '✓'; }
+  }
+  return `<span class="actual-hours-meta ${cls}" title="Actual lesson hours spent — click to edit">
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg>
+    Actual:
+    <input class="actual-inp" type="number" min="0" max="99" value="${actual !== null ? actual : ''}"
+      placeholder="—"
+      onchange="setActualHours(${ci},${ti},this.value)"
+      onclick="event.stopPropagation()"
+      title="Actual hours spent on this topic">h
+    ${diffLabel ? `<span style="font-size:.6rem;opacity:.8">(${diffLabel})</span>` : ''}
+  </span>`;
+}
+
+function setActualHours(ci, ti, val) {
+  const n = parseInt(val);
+  DATA[ci].topics[ti].actualHour = isNaN(n) || n < 0 ? null : n;
+  saveState();
+  // Re-render just this meta without full render
+  const wrap = document.querySelector(`#row-${ci}-${ti} .actual-hours-meta`);
+  if (wrap) {
+    const t = DATA[ci].topics[ti];
+    const planned = t.hour || 1;
+    const actual  = t.actualHour;
+    if (actual !== null) {
+      const diff = actual - planned;
+      wrap.className = 'actual-hours-meta ' + (diff > 0 ? 'over' : diff < 0 ? 'under' : 'match');
+    }
+  }
+  showToast('Actual hours updated');
+}
+
+function renderVariance() {
+  const el = document.getElementById('varianceReport');
+  if (!el) return;
+
+  const rows = [];
+  let totalPlanned = 0, totalActual = 0, overCount = 0, underCount = 0, matchCount = 0;
+
+  DATA.forEach((ch, ci) => {
+    ch.topics.forEach((t, ti) => {
+      if (t.actualHour === null || t.actualHour === undefined) return;
+      const planned = t.hour || 1;
+      const actual  = t.actualHour;
+      const diff    = actual - planned;
+      totalPlanned += planned;
+      totalActual  += actual;
+      if (diff > 0) overCount++;
+      else if (diff < 0) underCount++;
+      else matchCount++;
+      rows.push({ ch: ch.chapter, topic: t.topic, planned, actual, diff, ci, ti });
+    });
+  });
+
+  if (!rows.length) {
+    el.innerHTML = `<div class="empty" style="padding:40px 0">
+      <div class="empty-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="opacity:.35"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <p style="font-weight:500;color:var(--ink-2);margin-bottom:6px">No actual hours recorded yet</p>
+      <p style="font-size:.75rem;color:var(--ink-3);line-height:1.6">Teachers can log actual lesson hours on each topic in the Pacing Guide view.<br>Use the <strong>Actual: —h</strong> field next to each topic's planned hours.</p>
+    </div>`;
+    return;
+  }
+
+  const totalDiff = totalActual - totalPlanned;
+  el.innerHTML = `
+    <div class="variance-summary">
+      <div class="var-stat"><div class="var-stat-num">${totalPlanned}h</div><div class="var-stat-label">Total Planned</div></div>
+      <div class="var-stat ${totalDiff > 0 ? 'over' : totalDiff < 0 ? 'under' : 'ok'}">
+        <div class="var-stat-num">${totalActual}h</div><div class="var-stat-label">Total Actual${totalDiff !== 0 ? ' (' + (totalDiff > 0 ? '+' : '') + totalDiff + 'h)' : ''}</div>
+      </div>
+      <div class="var-stat over"><div class="var-stat-num">${overCount}</div><div class="var-stat-label">Over planned</div></div>
+      <div class="var-stat under"><div class="var-stat-num">${underCount}</div><div class="var-stat-label">Under planned</div></div>
+      <div class="var-stat ok"><div class="var-stat-num">${matchCount}</div><div class="var-stat-label">On target</div></div>
+    </div>
+    <table class="variance-table">
+      <thead><tr>
+        <th>Chapter</th>
+        <th>Topic</th>
+        <th style="width:80px;text-align:center">Planned</th>
+        <th style="width:80px;text-align:center">Actual</th>
+        <th style="width:100px">Variance</th>
+      </tr></thead>
+      <tbody>
+        ${rows.map(r => {
+          const cls = r.diff > 0 ? 'over' : r.diff < 0 ? 'under' : 'match';
+          const label = r.diff > 0 ? '+' + r.diff + 'h over' : r.diff < 0 ? Math.abs(r.diff) + 'h under' : 'On target';
+          return `<tr>
+            <td style="font-size:.72rem;color:var(--ink-3)">${escHtml(r.ch.replace(/^\d+\.\s*/,'').substring(0,30))}</td>
+            <td><a style="color:var(--ink);font-weight:500;cursor:pointer;text-decoration:none" onclick="scrollToChapter(${r.ci})" title="Go to chapter">${escHtml(r.topic)}</a></td>
+            <td style="text-align:center;font-family:'DM Mono',monospace">${r.planned}h</td>
+            <td style="text-align:center;font-family:'DM Mono',monospace;font-weight:600">${r.actual}h</td>
+            <td><span class="var-diff-badge ${cls}">${label}</span></td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>`;
+}
+
+function updateSearchResultCount(topicCount, clear) {
+  const el = document.getElementById('searchResultCount');
+  if (!el) return;
+  if (clear || !searchQ) { el.textContent = ''; el.className = 'search-result-count'; return; }
+  const chCount = DATA.filter(ch => ch.topics.some(t => {
+    if (!matchesSyllabusFilter(t)) return false;
+    const q = searchQ.toLowerCase();
+    return t.topic.toLowerCase().includes(q) || (t.objective||'').toLowerCase().includes(q);
+  })).length;
+  if (topicCount === 0) {
+    el.textContent = 'No results found';
+    el.className = 'search-result-count has-results';
+  } else {
+    el.textContent = topicCount + ' topic' + (topicCount !== 1 ? 's' : '') + ' in ' + chCount + ' chapter' + (chCount !== 1 ? 's' : '');
+    el.className = 'search-result-count has-results';
+  }
+}
+
+// -----------------------------------------------------------
 // PERSIST
 // -----------------------------------------------------------
 function saveState() {
-  if (window.__fbSaveState) window.__fbSaveState(DATA);
+  if (window.__fbSaveState) return window.__fbSaveState(DATA);
+  return Promise.resolve();
 }
 
 
@@ -1475,13 +1840,16 @@ function renderNav() {
 
   function buildItems(arr) {
     return arr.map(ch => {
-      const ci   = DATA.indexOf(ch);
-      const done = ch.topics.filter(t => t.status === 'done').length;
-      const pct  = ch.topics.length ? Math.round(done / ch.topics.length * 100) : 0;
+      const ci = DATA.indexOf(ch);
+      // Respect syllabus filter in nav counts
+      const visTopics = syllabusFilter === 'all' ? ch.topics : ch.topics.filter(t => matchesSyllabusFilter(t));
+      if (!visTopics.length) return ''; // hide chapter from nav if no visible topics
+      const done = visTopics.filter(t => t.status === 'done').length;
+      const pct  = visTopics.length ? Math.round(done / visTopics.length * 100) : 0;
       return `<div class="ch-nav-item" onclick="scrollToChapter(${ci})" id="nav-${ci}">
         <span class="ch-nav-num">${ci+1}</span>
         <span class="ch-nav-title">${ch.chapter.replace(/^\d+\.\s*/, '')}</span>
-        <div class="ch-nav-mini"><div class="ch-nav-mini-fill" style="width:${pct}%"></div></div>
+        <span class="ch-nav-count">${done}/${visTopics.length}</span>
       </div>`;
     }).join('');
   }
@@ -1525,6 +1893,7 @@ function renderPacing() {
     // skip chapters with no matching topics
     const hasTopics = ch.topics.some(t => {
       if (filterStatus !== 'all' && t.status !== filterStatus) return false;
+      if (!matchesSyllabusFilter(t)) return false;
       if (searchQ) {
         const q = searchQ.toLowerCase();
         return t.topic.toLowerCase().includes(q) || (t.objective||'').toLowerCase().includes(q);
@@ -1543,6 +1912,7 @@ function renderPacing() {
 
     const filteredTopics = ch.topics.map((t, ti) => ({t, ti})).filter(({t}) => {
       if (filterStatus !== 'all' && t.status !== filterStatus) return false;
+      if (!matchesSyllabusFilter(t)) return false;
       if (searchQ) {
         const q = searchQ.toLowerCase();
         return t.topic.toLowerCase().includes(q) || (t.objective||'').toLowerCase().includes(q);
@@ -1604,20 +1974,22 @@ function renderPacing() {
                       onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
                     >${escHtml(t.topic)}</div>
                     ${codes.length ? `<div class="obj-codes">${codes.map(c => `<span class="obj-code" onclick="showObj(${ci},${ti})">${c}</span>`).join('')}</div>` : ''}
-                    <div class="editable" style="font-size:.75rem;color:var(--ink-2);line-height:1.5;"
+                    <div class="topic-obj-line editable"
                       contenteditable="${isAdmin}"
                       data-field="objective" data-ci="${ci}" data-ti="${ti}"
                       onblur="saveEdit(this,${ci},${ti},'objective')"
                     >${_renderObjCell(t.objective)}${_objNeedsSeeMore(t.objective) ? ` <span class="obj-code" style="cursor:pointer" onclick="event.stopPropagation();showObj(${ci},${ti})">see full</span>` : ''}</div>
-                    <div style="display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap;">
-                      <span class="dur-badge editable"
+                    <div class="topic-meta-line">
+                      ${(()=>{ const s=getTopicSyllabus(t); return s!=='both'?`<span class="topic-syllabus-dot ${s}">${s==='core'?'Core':'Extended'}</span>`:''; })()}
+                      <span class="meta-pill meta-pill-hours editable"
                         contenteditable="${isAdmin}"
                         data-field="hour" data-ci="${ci}" data-ti="${ti}"
                         onblur="saveEdit(this,${ci},${ti},'hour')"
                         onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
-                        title="Hours"
-                      >Lesson Hours: ${t.hour}</span>
-                      ${t.week ? `<span style="font-size:.64rem;font-weight:600;padding:3px 8px;border-radius:100px;background:var(--blue-2);color:var(--blue);border:1px solid #c2d8f5;white-space:nowrap;">Week ${t.week}</span>` : ''}
+                        title="Planned lesson hours"
+                      ><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Planned: ${t.hour}h</span>
+                      ${renderActualHoursMeta(ci, ti, t)}
+                      ${t.week ? `<span class="meta-pill meta-pill-week"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Week ${t.week}</span>` : ''}
                       ${renderPaceBadge(t)}
                       <div class="status-pill">
                         <button class="sp-btn sp-pending   ${t.status==='pending'   ?'sp-on':''}" onclick="setStatus(${ci},${ti},'pending')">Pending</button>
@@ -1625,16 +1997,19 @@ function renderPacing() {
                         <button class="sp-btn sp-done      ${t.status==='done'      ?'sp-on':''}" onclick="setStatus(${ci},${ti},'done')">Done</button>
                       </div>
                       <button class="note-btn${t.note ? ' has-note' : ''}" onclick="toggleNote(${ci},${ti})" title="${t.note ? 'Edit note' : 'Add teacher note'}">&#9998; ${t.note ? 'Note' : 'Add note'}</button>
+                      ${renderDiagBtn(ci, ti, t)}
+                      ${(t.coordNote || role === 'admin') ? `<button class="coord-btn${t.coordNote ? ' has-coord' : ''}" onclick="toggleCoordNote(${ci},${ti})" title="Coordinator shared note">&#9432; ${t.coordNote ? 'Coord Note' : 'Add Coord Note'}</button>` : ''}
                     </div>
                   </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td class="col-obj"></td>
+                  <td class="col-hours"></td>
+                  <td class="col-week"></td>
+                  <td class="col-status"></td>
                 </tr>
                 <tr class="res-row${!hasRes && !t.activity ? ' empty-res' : ''}" id="res-row-${ci}-${ti}">
                   <td colspan="6">${renderResourcesHtml(ci, ti, t)}</td>
                 </tr>
+                ${renderCoordNoteRow(ci, ti, t)}
                 <tr class="note-row" id="note-row-${ci}-${ti}">
                   <td colspan="6" style="padding:0 !important; border-bottom: 1px solid var(--border) !important;">
                     <div class="note-panel${t.note ? ' open' : ''}" id="note-panel-${ci}-${ti}">
@@ -1713,6 +2088,18 @@ function renderPacing() {
   }
   html += `<div class="add-chapter-wrap"><button class="add-chapter-btn" onclick="addChapter()">+ Add Chapter</button></div>`;
   container.innerHTML = html;
+
+  // Update search result count
+  if (searchQ) {
+    const totalMatchedTopics = DATA.reduce((n, ch) => n + ch.topics.filter(t => {
+      if (!matchesSyllabusFilter(t)) return false;
+      const q = searchQ.toLowerCase();
+      return t.topic.toLowerCase().includes(q) || (t.objective||'').toLowerCase().includes(q);
+    }).length, 0);
+    updateSearchResultCount(totalMatchedTopics, false);
+  } else {
+    updateSearchResultCount(0, true);
+  }
 
   // Paginator goes into the mount point (outside the grid, always at bottom)
   const mountEl = document.getElementById('chapterPaginatorMount');
@@ -2083,9 +2470,20 @@ function saveEdit(el, ci, ti, field) {
   let val = el.innerText.trim();
   if (field === 'hour') val = parseInt(val) || DATA[ci].topics[ti].hour;
   DATA[ci].topics[ti][field] = val;
-  saveState();
-  showToast('Saved');
-  setTimeout(render, 200);
+
+  // Visual save feedback — green flash on the edited element
+  el.classList.remove('save-ok', 'save-fail');
+  void el.offsetWidth; // force reflow to restart animation
+  el.classList.add('save-ok');
+  setTimeout(() => el.classList.remove('save-ok'), 1200);
+
+  saveState().then(() => {}).catch(() => {
+    el.classList.remove('save-ok');
+    el.classList.add('save-fail');
+    setTimeout(() => el.classList.remove('save-fail'), 1200);
+    showToast('Save failed — check connection');
+  });
+  // render() is triggered by the Firestore snapshot after saveState() writes
 }
 
 function addTopic(ci) {
@@ -2221,11 +2619,37 @@ function toggleSidebar() {
 }
 
 function scrollToChapter(ci) {
+  // Switch to pacing tab (update button state too)
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
+  const pacingTab = document.querySelector('.tab-btn[onclick*="pacing"]');
+  if (pacingTab) pacingTab.classList.add('on');
   switchViewById('pacing');
+
+  // Make sure chapter is on the visible page
+  const filteredChIndices = DATA.map((ch, idx) => idx).filter(idx => {
+    const ch = DATA[idx];
+    if (filterYear !== 'all' && ch.year !== filterYear) return false;
+    return ch.topics.some(t => matchesSyllabusFilter(t));
+  });
+  const pos = filteredChIndices.indexOf(ci);
+  if (pos >= 0) chapterPage = Math.floor(pos / getChapterPageSize());
+  renderPacing();
+
   setTimeout(() => {
     const el = document.getElementById(`ch-${ci}`);
-    if (el) { el.classList.remove('collapsed'); el.scrollIntoView({behavior:'smooth', block:'start'}); }
-  }, 50);
+    if (!el) return;
+    el.classList.remove('collapsed');
+    // Flash the chapter header briefly to draw attention
+    el.style.transition = 'box-shadow .2s';
+    el.style.boxShadow = '0 0 0 3px rgba(192,57,43,.35)';
+    setTimeout(() => { el.style.boxShadow = ''; }, 1200);
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 60);
+}
+
+function closeSidebar() {
+  const layout = document.getElementById('appLayout');
+  if (layout && window.innerWidth <= 768) layout.classList.add('sidebar-collapsed');
 }
 
 // -----------------------------------------------------------
@@ -2275,19 +2699,30 @@ function buildClassSelector() {
   const manBtn = document.getElementById('classManageBtn');
   if (!wrap || !select) return;
 
-  // Always show selector (teachers can switch between All / class views)
+  // Always visible — teachers and admins both benefit from class context
   wrap.style.display = 'flex';
   if (manBtn) manBtn.style.display = role === 'admin' ? '' : 'none';
 
   // Rebuild options
-  select.innerHTML = '<option value="default">All Classes</option>';
-  classList.forEach(cls => {
-    const opt = document.createElement('option');
-    opt.value = cls;
-    opt.textContent = cls;
-    if (cls === currentClass) opt.selected = true;
-    select.appendChild(opt);
-  });
+  if (classList.length === 0) {
+    select.innerHTML = '<option value="default">All Classes</option>';
+    if (role === 'admin') {
+      // hint admin to set up classes
+      const hint = document.createElement('option');
+      hint.value = ''; hint.disabled = true;
+      hint.textContent = '— click ⚙ to add classes —';
+      select.appendChild(hint);
+    }
+  } else {
+    select.innerHTML = '<option value="default">All Classes</option>';
+    classList.forEach(cls => {
+      const opt = document.createElement('option');
+      opt.value = cls;
+      opt.textContent = cls;
+      if (cls === currentClass) opt.selected = true;
+      select.appendChild(opt);
+    });
+  }
   if (currentClass === 'default') select.value = 'default';
 }
 
@@ -2325,10 +2760,12 @@ function clearSearch(){
   if(clr)clr.classList.remove('visible');
   searchQ='';
   renderPacing();renderNav();
+  updateSearchResultCount(0, true);
 }
 let _searchDebounce;
 function handleSearch(val) {
   searchQ = val;
+  Object.keys(chPageMap).forEach(k => { chPageMap[k] = 0; });
   const clrBtn = document.getElementById('searchClear');
   if (clrBtn) clrBtn.classList.toggle('visible', val.length > 0);
   clearTimeout(_searchDebounce);
@@ -2447,16 +2884,49 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
 }
 
+let _resetTimer = null;
+function resetMyProgress() {
+  const btn = document.getElementById('teacherResetBtn');
+  if (!btn) return;
+  if (btn.dataset.confirming === '1') {
+    clearTimeout(btn._timer);
+    btn.dataset.confirming = '';
+    btn.textContent = 'Reset My Progress';
+    btn.style.background = '';
+    DATA.forEach(ch => ch.topics.forEach(t => t.status = 'pending'));
+    saveState(); render(); showToast('Your progress has been reset');
+  } else {
+    btn.dataset.confirming = '1';
+    btn.textContent = 'Click again to confirm';
+    btn.style.background = 'var(--accent-2)';
+    btn._timer = setTimeout(() => {
+      btn.dataset.confirming = '';
+      btn.textContent = 'Reset My Progress';
+      btn.style.background = '';
+    }, 3000);
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('objModal').classList.remove('open');
+    if (document.getElementById('cmModal').classList.contains('open')) _cmDone(false);
+    closeSidebar();
+  }
+});
+
 // -----------------------------------------------------------
 // MAIN RENDER
 // -----------------------------------------------------------
 function render() {
   renderProgress();
   renderPaceSummary();
+  renderExamCountdown();
   renderNav();
   renderPacing();
   renderWeekly();
   renderCoverage();
+  renderVariance();
 }
 
 // Re-render on resize so gallery cols and page size stay correct
@@ -2583,8 +3053,11 @@ function _mergeAndRender(isFirstLoad, appRole) {
     ...ch,
     topics: (ch.topics || []).map((t, ti) => ({
       ...t,
-      status: userStatuses[`${ci}-${ti}`] || 'pending',
-      note:   userStatuses[`note-${ci}-${ti}`]  || '',
+      status:     userStatuses[`${ci}-${ti}`]           || 'pending',
+      note:       userStatuses[`note-${ci}-${ti}`]       || '',
+      diag:       userStatuses[`diag-${ci}-${ti}`]       || '',
+      actualHour: userStatuses[`actual-${ci}-${ti}`] != null ? Number(userStatuses[`actual-${ci}-${ti}`]) : null,
+      // coordNote comes from sharedStructure (admin-written, same for all users)
     })),
   }));
   if (isFirstLoad) {
@@ -2657,7 +3130,7 @@ function _startSnapshot(appRole) {
 window.__fbSaveState = async function(data) {
   if (!currentUID) return;
 
-  // 1. Save this user's progress
+  // 1. Build this user's status map (skip 'pending' to keep doc lean)
   const newStatuses = {};
   data.forEach((ch, ci) => {
     (ch.topics || []).forEach((t, ti) => {
@@ -2666,6 +3139,12 @@ window.__fbSaveState = async function(data) {
       }
       if (t.note && t.note.trim()) {
         newStatuses[`note-${ci}-${ti}`] = t.note.trim();
+      }
+      if (t.diag && t.diag.trim()) {
+        newStatuses[`diag-${ci}-${ti}`] = t.diag.trim();
+      }
+      if (t.actualHour !== null && t.actualHour !== undefined) {
+        newStatuses[`actual-${ci}-${ti}`] = t.actualHour;
       }
     });
   });
@@ -2685,11 +3164,11 @@ window.__fbSaveState = async function(data) {
     return;
   }
 
-  // 2. Coordinators also update shared structure (without statuses)
+  // 3. Coordinators also update shared structure (without statuses)
   if (currentRole === 'admin') {
     const structureOnly = data.map(ch => ({
       ...ch,
-      topics: (ch.topics || []).map(({ status, note, ...rest }) => rest),
+      topics: (ch.topics || []).map(({ status, note, diag, actualHour, ...rest }) => rest),
     }));
     try {
       await setDoc(

@@ -64,11 +64,19 @@ const LINK_REWRITES = [
 // Read firebase-env partial once (used for placeholder injection)
 const firebaseEnvPartial = fs.readFileSync(path.join(__dirname, 'partials', 'firebase-env.html'), 'utf8');
 
+// Read pacing shared partials (CSS + JS) — injected into every pacing page
+const pacingSharedCss = '<style>\n' + fs.readFileSync(path.join(__dirname, 'partials', 'pacing-shared.css'), 'utf8') + '\n</style>';
+const pacingSharedJs  = '<script src="/partials/pacing-shared.js"></script>';
+
 function processFile(filename) {
   let html = fs.readFileSync(path.join(__dirname, filename), 'utf8');
 
   // Inject firebase-env partial where placeholder comment exists
   html = html.replace(/<!-- FIREBASE_ENV -->/g, firebaseEnvPartial);
+
+  // Inject pacing shared CSS/JS where placeholder comments exist
+  html = html.replace(/<!-- PACING_SHARED_CSS -->/g, pacingSharedCss);
+  html = html.replace(/<!-- PACING_SHARED_JS -->/g, pacingSharedJs);
 
   // Replace Firebase config placeholders
   envVars.forEach(varName => {

@@ -924,9 +924,12 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .week-load-fill.load-medium  { background: var(--amber, #d97706); }
 .week-load-fill.load-heavy   { background: var(--accent); }
 
+<!-- PACING_SHARED_CSS -->
 </style>
 
 <script src="partials/navbar.js"></script>
+<script src="partials/pacing-shared.js"></script>
+<!-- PACING_SHARED_JS -->
 <!-- FIREBASE_ENV -->
 <script type="module" src="auth-guard.js"></script>
 </head>
@@ -983,7 +986,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 
     <div id="paceSummaryPill" class="pace-summary-pill" style="display:none" title="Pace status based on current school week"></div>
 
-    <div class="class-selector-wrap" id="classSelectorWrap" style="display:none">
+    <div class="class-selector-wrap" id="classSelectorWrap">
 
       <label class="class-selector-label" for="classSelect">Class:</label>
 
@@ -993,7 +996,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 
       </select>
 
-      <button class="class-manage-btn" id="classManageBtn" onclick="manageClasses()" style="display:none" title="Add/remove class groups">⚙</button>
+      <button class="class-manage-btn" id="classManageBtn" onclick="manageClasses()" style="display:none" title="Add/remove class groups">&#9881;</button>
 
     </div>
 
@@ -1005,6 +1008,12 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 </header>
 
 <!-- -- LAYOUT ------------------------------------ -->
+<div class="exam-countdown-bar" id="examCountdownBar" style="display:none">
+  <span class="exam-countdown-label">Exam Countdown</span>
+  <span id="examChipArea"></span>
+  <span class="exam-countdown-uncovered" id="examUncoveredWarn" style="display:none"></span>
+  <button class="exam-manage-btn" onclick="manageExamDates()">Manage Dates</button>
+</div>
 <div class="layout sidebar-collapsed" id="appLayout">
 <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle sidebar" aria-label="Toggle sidebar">
   <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
@@ -1023,6 +1032,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
         <input class="search-input" id="searchInput" placeholder="Search topics, objectives..." oninput="handleSearch(this.value)">
         <button class="search-clear" id="searchClear" onclick="clearSearch()" title="Clear">&#215;</button>
       </div>
+      <div class="search-result-count" id="searchResultCount"></div>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-label">Year</div>
@@ -1051,6 +1061,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
         <button class="tab-btn on" onclick="switchView('pacing',this)">Pacing Guide</button>
         <button class="tab-btn" onclick="switchView('weekly',this)">Weekly View</button>
         <button class="tab-btn" onclick="switchView('coverage',this)">Obj Coverage</button>
+        <button class="tab-btn" onclick="switchView('variance',this)">Hours Report</button>
       </div>
       <div class="view-actions">
         <div class="view-mode-toggle" id="viewModeToggle" title="Switch chapter view">
@@ -1086,7 +1097,10 @@ table.topics-tbl td:last-child { white-space: nowrap; }
       <div id="coverageReport"></div>
     </div>
 
-
+    <!-- VARIANCE PANEL -->
+    <div class="panel" id="panel-variance">
+      <div id="varianceReport"></div>
+    </div>
 
     <!-- WEEKLY PANEL -->
     <div class="panel" id="panel-weekly">
@@ -1234,6 +1248,17 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 // SEED DATA - empty until seeded from Excel via seedFirestore
 // -----------------------------------------------------------
 var RAW_DATA = [];
+
+window.PACING_CONFIG = {
+  examLocalKey: 'asalevel_chemistry_exam_dates',
+  examPapers: [
+    { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
+    { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
+    { key: 'paper3', label: 'Paper 3', cls: 'paper3' },
+    { key: 'paper4', label: 'Paper 4', cls: 'paper4' },
+  ],
+  hasSyllabusFilter: false,
+};
 
 // -----------------------------------------------------------
 // STATE  (var so the Firebase module can write window.DATA)
@@ -1586,20 +1611,21 @@ function renderPacing() {
                       onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
                     >${escHtml(t.topic)}</div>
                     ${codes.length ? `<div class="obj-codes">${codes.map(c => `<span class="obj-code" onclick="showObj(${ci},${ti})">${c}</span>`).join('')}</div>` : ''}
-                    <div class="editable" style="font-size:.75rem;color:var(--ink-2);line-height:1.5;"
+                    <div class="topic-obj-line editable"
                       contenteditable="${isAdmin}"
                       data-field="objective" data-ci="${ci}" data-ti="${ti}"
                       onblur="saveEdit(this,${ci},${ti},'objective')"
                     >${_renderObjCell(t.objective)}${_objNeedsSeeMore(t.objective) ? ` <span class="obj-code" style="cursor:pointer" onclick="event.stopPropagation();showObj(${ci},${ti})">see full</span>` : ''}</div>
-                    <div style="display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap;">
-                      <span class="dur-badge editable"
+                    <div class="topic-meta-line">
+                      <span class="meta-pill meta-pill-hours editable"
                         contenteditable="${isAdmin}"
                         data-field="hour" data-ci="${ci}" data-ti="${ti}"
                         onblur="saveEdit(this,${ci},${ti},'hour')"
                         onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
-                        title="Hours"
-                      >Lesson Hours: ${t.hour}</span>
-                      ${t.week ? `<span style="font-size:.64rem;font-weight:600;padding:3px 8px;border-radius:100px;background:var(--blue-2);color:var(--blue);border:1px solid #c2d8f5;white-space:nowrap;">Week ${t.week}</span>` : ''}
+                        title="Planned lesson hours"
+                      ><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Planned: ${t.hour}h</span>
+                      ${renderActualHoursMeta(ci, ti, t)}
+                      ${t.week ? `<span class="meta-pill meta-pill-week"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Week ${t.week}</span>` : ''}
                       ${renderPaceBadge(t)}
                       <div class="status-pill">
                         <button class="sp-btn sp-pending   ${t.status==='pending'   ?'sp-on':''}" onclick="setStatus(${ci},${ti},'pending')">Pending</button>
@@ -1607,16 +1633,19 @@ function renderPacing() {
                         <button class="sp-btn sp-done      ${t.status==='done'      ?'sp-on':''}" onclick="setStatus(${ci},${ti},'done')">Done</button>
                       </div>
                       <button class="note-btn${t.note ? ' has-note' : ''}" onclick="toggleNote(${ci},${ti})" title="${t.note ? 'Edit note' : 'Add teacher note'}">&#9998; ${t.note ? 'Note' : 'Add note'}</button>
+                      ${renderDiagBtn(ci, ti, t)}
+                      ${(t.coordNote || role === 'admin') ? `<button class="coord-btn${t.coordNote ? ' has-coord' : ''}" onclick="toggleCoordNote(${ci},${ti})" title="Coordinator shared note">&#9432; ${t.coordNote ? 'Coord Note' : 'Add Coord Note'}</button>` : ''}
                     </div>
                   </td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td class="col-obj"></td>
+                  <td class="col-hours"></td>
+                  <td class="col-week"></td>
+                  <td class="col-status"></td>
                 </tr>
                 <tr class="res-row${!hasRes && !t.activity ? ' empty-res' : ''}" id="res-row-${ci}-${ti}">
                   <td colspan="6">${renderResourcesHtml(ci, ti, t)}</td>
                 </tr>
+                ${renderCoordNoteRow(ci, ti, t)}
                 <tr class="note-row" id="note-row-${ci}-${ti}">
                   <td colspan="6" style="padding:0 !important; border-bottom: 1px solid var(--border) !important;">
                     <div class="note-panel${t.note ? ' open' : ''}" id="note-panel-${ci}-${ti}">
@@ -1699,6 +1728,17 @@ function renderPacing() {
   // Paginator goes into the mount point (outside the grid, always at bottom)
   const mountEl = document.getElementById('chapterPaginatorMount');
   if (mountEl) mountEl.innerHTML = chPaginatorHtml;
+
+  // Update search result count
+  if (searchQ) {
+    const matchedTopics = DATA.reduce((acc, ch) => {
+      const q = searchQ.toLowerCase();
+      return acc + ch.topics.filter(t => t.topic.toLowerCase().includes(q) || t.objective.toLowerCase().includes(q)).length;
+    }, 0);
+    updateSearchResultCount(matchedTopics, false);
+  } else {
+    updateSearchResultCount(0, true);
+  }
 
   // Apply view mode class + dynamic grid columns
   const cols = getGalleryCols();
@@ -2298,20 +2338,39 @@ function resetProgress() {
 }
 
 function clearSearch(){
-  var inp=document.getElementById('searchInput');
+  const inp=document.getElementById('searchInput');
   if(inp)inp.value='';
-  var clr=document.getElementById('searchClear');
+  const clr=document.getElementById('searchClear');
   if(clr)clr.classList.remove('visible');
   searchQ='';
   renderPacing();renderNav();
+  updateSearchResultCount(0, true);
 }
 let _searchDebounce;
 function handleSearch(val) {
   searchQ = val;
+  Object.keys(chPageMap).forEach(k => { chPageMap[k] = 0; });
   const clrBtn = document.getElementById('searchClear');
   if (clrBtn) clrBtn.classList.toggle('visible', val.length > 0);
   clearTimeout(_searchDebounce);
   _searchDebounce = setTimeout(() => { renderPacing(); renderNav(); }, 180);
+}
+
+function updateSearchResultCount(topicCount, clear) {
+  const el = document.getElementById('searchResultCount');
+  if (!el) return;
+  if (clear || !searchQ) { el.textContent = ''; el.className = 'search-result-count'; return; }
+  const chCount = DATA.filter(ch => ch.topics.some(t => {
+    const q = searchQ.toLowerCase();
+    return t.topic.toLowerCase().includes(q) || t.objective.toLowerCase().includes(q);
+  })).length;
+  if (topicCount === 0) {
+    el.textContent = 'No results found';
+    el.className = 'search-result-count has-results';
+  } else {
+    el.textContent = `${topicCount} topic${topicCount!==1?'s':''} in ${chCount} chapter${chCount!==1?'s':''}`;
+    el.className = 'search-result-count has-results';
+  }
 }
 
 // Year chips
@@ -2432,10 +2491,18 @@ function showToast(msg) {
 function render() {
   renderProgress();
   renderPaceSummary();
+  renderExamCountdown();
   renderNav();
   renderPacing();
   renderWeekly();
   renderCoverage();
+  renderVariance();
+}
+
+function closeSidebar() {
+  // close sidebar on mobile (called from Escape key handler)
+  const layout = document.getElementById('appLayout');
+  if (layout && window.innerWidth <= 768) layout.classList.add('sidebar-collapsed');
 }
 
 // Re-render on resize so gallery cols and page size stay correct
@@ -2479,8 +2546,11 @@ function _mergeAndRender(isFirstLoad, appRole) {
     ...ch,
     topics: (ch.topics || []).map((t, ti) => ({
       ...t,
-      status: userStatuses[`${ci}-${ti}`] || 'pending',
-      note:   userStatuses[`note-${ci}-${ti}`]  || '',
+      status:     userStatuses[`${ci}-${ti}`]           || 'pending',
+      note:       userStatuses[`note-${ci}-${ti}`]       || '',
+      diag:       userStatuses[`diag-${ci}-${ti}`]       || '',
+      actualHour: userStatuses[`actual-${ci}-${ti}`] != null
+                    ? Number(userStatuses[`actual-${ci}-${ti}`]) : null,
     })),
   }));
   if (isFirstLoad) {
@@ -2574,6 +2644,12 @@ window.__fbSaveState = async function(data) {
       }
       if (t.note && t.note.trim()) {
         newStatuses[`note-${ci}-${ti}`] = t.note.trim();
+      }
+      if (t.diag && t.diag.trim()) {
+        newStatuses[`diag-${ci}-${ti}`] = t.diag.trim();
+      }
+      if (t.actualHour !== null && t.actualHour !== undefined) {
+        newStatuses[`actual-${ci}-${ti}`] = t.actualHour;
       }
     });
   });
