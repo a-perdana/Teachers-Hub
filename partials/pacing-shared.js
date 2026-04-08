@@ -297,21 +297,8 @@ function renderVariance() {
     </table>`;
 }
 
-// ── Topbar left-padding sync ─────────────────────────────────
-// Keeps pacing-nav left edge aligned with chapter content (24px inside main column).
-// sidebar width: 280px, toggle button: 22px, chapter padding: 24px, accent border: 4px
-function syncTopbarPadding() {
-  const topbar = document.querySelector('.pacing-topbar');
-  if (!topbar) return;
-  const collapsed = document.getElementById('appLayout')?.classList.contains('sidebar-collapsed');
-  const isMobile = window.innerWidth <= 768;
-  if (isMobile) {
-    topbar.style.paddingLeft = '16px';
-  } else {
-    topbar.style.paddingLeft = collapsed ? '42px' : '322px';
-  }
-}
-window.addEventListener('resize', syncTopbarPadding);
+// ── Topbar padding sync (no-op kept for call-site compatibility) ──
+function syncTopbarPadding() {}
 
 // ── Search Result Count ──────────────────────────────────────
 function updateSearchResultCount(topicCount, clear) {
