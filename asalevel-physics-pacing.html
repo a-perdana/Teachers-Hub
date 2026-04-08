@@ -1382,8 +1382,8 @@ function _chapterYearOptions() {
   return [{v:'Year 9',l:'Year 9'},{v:'Year 10',l:'Year 10',def:true}];
 }
 
-function parseObjCodes(objStr) {
-  if (!objStr) return [];
+function parseObjCodes(objStr, syllabusRefs) {
+  const fromRefs = Array.isArray(syllabusRefs) ? syllabusRefs.filter(Boolean) : [];
   const matches = objStr.match(/[CE]\d+\.\d+/g);
   return matches ? [...new Set(matches)] : [];
 }
@@ -1527,7 +1527,7 @@ function renderPacing() {
               const start = page * PAGE_SIZE;
               const pageTopics = filteredTopics.slice(start, start + PAGE_SIZE);
               return pageTopics.map(({t, ti}) => {
-                const codes   = parseObjCodes(t.objective);
+                const codes   = parseObjCodes(t.objective, t.syllabusRefs);
                 const rowClass = t.status === 'done' ? 'done-row' : t.status === 'inprogress' ? 'inprogress-row' : '';
                 const isAdmin  = role === 'admin';
                 const hasRes   = (t.resources || []).length > 0;
@@ -1924,7 +1924,7 @@ function renderCoverage() {
   const codeMap = {}; // code -> [{ ci, ti, topic, status }]
   DATA.forEach((ch, ci) => {
     ch.topics.forEach((t, ti) => {
-      const codes = parseObjCodes(t.objective || '');
+      const codes = parseObjCodes(t.objective || '', t.syllabusRefs);
       codes.forEach(code => {
         if (!codeMap[code]) codeMap[code] = [];
         codeMap[code].push({ ci, ti, topic: t.topic, status: t.status, chapter: ch.chapter });
