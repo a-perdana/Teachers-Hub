@@ -3,6 +3,34 @@
    via <!-- PACING_SHARED_CSS --> placeholder in build.js
    ============================================================= */
 
+/* ─── Multi-line topic row ──────────────────────── */
+.topic-obj-line {
+  font-size: .72rem; color: var(--ink-2); line-height: 1.5;
+  margin-top: 5px;
+}
+.topic-meta-line {
+  display: flex; align-items: center; gap: 6px; margin-top: 7px; flex-wrap: wrap;
+}
+.meta-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: .64rem; font-weight: 600; padding: 3px 8px;
+  border-radius: 100px; white-space: nowrap;
+}
+.meta-pill svg { flex-shrink: 0; }
+.meta-pill-hours {
+  background: var(--amber-2); color: var(--amber);
+  border: 1px solid #f0dea0;
+}
+.meta-pill-week {
+  background: var(--blue-2); color: var(--blue);
+  border: 1px solid #c2d8f5;
+}
+/* Hide separate Hours/Week/Status/Objectives columns — merged into topic cell */
+table.topics-tbl th.col-obj, table.topics-tbl td.col-obj,
+table.topics-tbl th.col-hours, table.topics-tbl td.col-hours,
+table.topics-tbl th.col-week, table.topics-tbl td.col-week,
+table.topics-tbl th.col-status, table.topics-tbl td.col-status { display: none; }
+
 /* ─── Weekly saat büyük ve belirgin ────────────── */
 .week-hours-tag {
   font-size: .88rem !important;

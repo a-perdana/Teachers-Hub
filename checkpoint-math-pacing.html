@@ -592,7 +592,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .activity-chip.external   { background:#e8f0fb; color:#1a5fa8; border-color:#c2d8f5; }
 .activity-chip.pdf        { background:#fff1f0; color:#dc2626; border-color:#fecaca; }
 
-
 /* ─── TEACHER NOTES ─────────────────────────── */
 .note-btn {
   display: inline-flex; align-items: center; gap: 3px;
@@ -664,38 +663,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   font-size: .82rem; transition: all .12s;
 }
 .class-manage-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
-
-/* ─── MULTI-LINE ROW ────────────────────────── */
-.topic-obj-line {
-  font-size: .72rem; color: var(--ink-2); line-height: 1.5;
-  margin-top: 5px;
-}
-.topic-meta-line {
-  display: flex; align-items: center; gap: 6px; margin-top: 7px; flex-wrap: wrap;
-}
-.meta-pill {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: .64rem; font-weight: 600; padding: 3px 8px;
-  border-radius: 100px; white-space: nowrap;
-}
-.meta-pill svg { flex-shrink: 0; }
-.meta-pill-hours {
-  background: var(--amber-2); color: var(--amber);
-  border: 1px solid #f0dea0;
-}
-.meta-pill-week {
-  background: var(--blue-2); color: var(--blue);
-  border: 1px solid #c2d8f5;
-}
-/* hide separate Hours, Week, Status, Objectives columns — merged into topic cell */
-table.topics-tbl th.col-obj,
-table.topics-tbl td.col-obj,
-table.topics-tbl th.col-hours,
-table.topics-tbl td.col-hours,
-table.topics-tbl th.col-week,
-table.topics-tbl td.col-week,
-table.topics-tbl th.col-status,
-table.topics-tbl td.col-status { display: none; }
 
 <!-- PACING_SHARED_CSS -->
 </style>
@@ -906,7 +873,6 @@ table.topics-tbl td.col-status { display: none; }
     <div class="modal-body" id="objModalBody"></div>
   </div>
 </div>
-
 
 <!-- -- CONFIRM MODAL ─────────────────────────────── -->
 <div class="cm-bg" id="cmModal">
@@ -1180,7 +1146,6 @@ const DIAG_LABELS = { weak: '⚠ Weak', review: '↺ Review', good: '✓ Good', 
 
 // Close diag dropdown on outside click
 
-
 // -----------------------------------------------------------
 // ÖZELLIK 3: COORDINATOR PUBLIC NOTE
 // -----------------------------------------------------------
@@ -1194,7 +1159,6 @@ function saveState() {
   if (window.__fbSaveState) return window.__fbSaveState(DATA);
   return Promise.resolve();
 }
-
 
 // -----------------------------------------------------------
 // CUSTOM DIALOG HELPERS
@@ -2570,16 +2534,4 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
 

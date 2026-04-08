@@ -523,38 +523,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   .home-float { bottom: 14px; left: 14px; }
 }
 
-/* ─── MULTI-LINE ROW ────────────────────────── */
-.topic-obj-line {
-  font-size: .72rem; color: var(--ink-2); line-height: 1.5;
-  margin-top: 5px;
-}
-.topic-meta-line {
-  display: flex; align-items: center; gap: 6px; margin-top: 7px; flex-wrap: wrap;
-}
-.meta-pill {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: .64rem; font-weight: 600; padding: 3px 8px;
-  border-radius: 100px; white-space: nowrap;
-}
-.meta-pill svg { flex-shrink: 0; }
-.meta-pill-hours {
-  background: var(--amber-2); color: var(--amber);
-  border: 1px solid #f0dea0;
-}
-.meta-pill-week {
-  background: var(--blue-2); color: var(--blue);
-  border: 1px solid #c2d8f5;
-}
-/* hide separate Hours, Week, Status, Objectives columns — merged into topic cell */
-table.topics-tbl th.col-obj,
-table.topics-tbl td.col-obj,
-table.topics-tbl th.col-hours,
-table.topics-tbl td.col-hours,
-table.topics-tbl th.col-week,
-table.topics-tbl td.col-week,
-table.topics-tbl th.col-status,
-table.topics-tbl td.col-status { display: none; }
-
 /* ─── GALLERY / LIST VIEW TOGGLE ────────────── */
 .view-mode-toggle {
   display: flex; gap: 2px;
@@ -654,7 +622,6 @@ table.topics-tbl td.col-status { display: none; }
 
 /* add-chapter button in gallery view */
 #chBlocks.gallery-view .add-chapter-wrap { grid-column: 1/-1; }
-
 
 /* ─── TEACHER NOTES ─────────────────────────── */
 .note-btn {
@@ -830,7 +797,6 @@ table.topics-tbl td.col-status { display: none; }
 .cov-filter-chip:hover { border-color: var(--ink-2); color: var(--ink); }
 .cov-filter-chip.on { background: var(--ink); border-color: var(--ink); color: white; }
 
-
 /* ─── WEEKLY VIEW ──────────────────────────────*/
 /* Cross-subject toggle bar */
 .cross-subj-bar {
@@ -878,7 +844,6 @@ table.topics-tbl td.col-status { display: none; }
 <script type="module" src="auth-guard.js"></script>
 </head>
 <body>
-
 
 <div id="navbar-container"></div>
 
@@ -1040,8 +1005,6 @@ table.topics-tbl td.col-status { display: none; }
       <div id="varianceReport"></div>
     </div>
 
-
-
     <!-- WEEKLY PANEL -->
     <div class="panel" id="panel-weekly">
             <div class="cross-subj-bar">
@@ -1080,7 +1043,6 @@ table.topics-tbl td.col-status { display: none; }
     <div class="modal-body" id="objModalBody"></div>
   </div>
 </div>
-
 
 <!-- -- CONFIRM MODAL ─────────────────────────────── -->
 <div class="cm-bg" id="cmModal">
@@ -1357,7 +1319,6 @@ function saveState() {
   if (window.__fbSaveState) return window.__fbSaveState(DATA);
   return Promise.resolve();
 }
-
 
 // -----------------------------------------------------------
 // CUSTOM DIALOG HELPERS
@@ -1936,8 +1897,6 @@ function renderWeekly() {
     </div>`;
   }).join('');
 }
-
-
 
 // -----------------------------------------------------------
 // RENDER - OBJECTIVE COVERAGE REPORT
@@ -2663,7 +2622,6 @@ function _startSnapshot(uid, appRole) {
     showToast('Firestore connection error');
   });
 
-
   // Per-user progress listener — key is class-scoped
   function _progressKey() {
     return currentClass && currentClass !== 'default'
@@ -2753,7 +2711,6 @@ window.__fbSaveState = async function(data) {
     }
   }
 };
-
 
 // -- One-shot document fetch for cross-subject data --
 window.__fbGetDoc = async function(colName, docName) {
