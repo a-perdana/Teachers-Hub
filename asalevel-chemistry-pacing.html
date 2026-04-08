@@ -590,7 +590,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .role-dot.coord   { background: #f5a623; }
 .role-dot.teacher { background: #059669; }
 
-
 /* ─── CHAPTER PAGINATION ────────────────────── */
 /* Paginator lives outside the grid, always at the bottom of the panel */
 .chapter-paginator {
@@ -649,68 +648,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   display: none; text-align: center; padding: 16px 0 20px;
 }
 .admin-mode .add-chapter-wrap { display: block; }
-
-/* ─── GALLERY VIEW ─────────────────────────── */
-#chBlocks.gallery-view {
-  display: grid;
-  /* columns injected dynamically via JS -- see getGalleryCols() */
-  gap: 14px;
-  align-items: stretch; /* equal height rows */
-}
-/* In gallery mode each chapter card shows summary only, no expanded topics table */
-#chBlocks.gallery-view .ch-block {
-  margin-bottom: 0;
-  display: flex; flex-direction: column;
-  min-height: 220px;
-}
-#chBlocks.gallery-view .ch-block .topics-wrap { display: none !important; }
-#chBlocks.gallery-view .ch-block .ch-assessment { display: none !important; }
-#chBlocks.gallery-view .ch-block .ch-header {
-  border-bottom: none;
-  cursor: default;
-  padding: 16px 18px;
-  flex-shrink: 0;
-}
-#chBlocks.gallery-view .ch-block .ch-caret { display: none; }
-#chBlocks.gallery-view .ch-block .del-ch-btn { display: none; }
-
-/* Gallery card body below header */
-.gallery-card-body {
-  padding: 12px 18px 16px;
-  border-top: 1px solid var(--border);
-  background: white;
-  flex: 1; /* fill remaining card height */
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-}
-#chBlocks.gallery-view .gallery-card-body { display: flex; }
-
-.gcb-topics-preview { display: flex; flex-direction: column; gap: 6px; }
-.gcb-topic-row {
-  display: flex; align-items: center; gap: 8px;
-  font-size: .8rem; color: var(--ink); line-height: 1.35;
-}
-.gcb-topic-dot {
-  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
-}
-.gcb-topic-dot.done       { background: var(--green); }
-.gcb-topic-dot.inprogress { background: var(--blue); }
-.gcb-topic-dot.pending    { background: var(--border); }
-.gcb-topic-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.gcb-more { font-size: .72rem; color: var(--ink-3); padding-top: 3px; }
-.gcb-open-btn {
-  display: block; width: 100%; margin-top: 14px;
-  font-family: 'DM Sans', sans-serif; font-size: .73rem; font-weight: 500;
-  padding: 7px 0; border-radius: 7px;
-  border: 1px solid var(--border); background: var(--paper); color: var(--ink-2);
-  cursor: pointer; transition: all .14s; text-align: center; flex-shrink: 0;
-}
-.gcb-open-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
-
-/* add-chapter button in gallery view */
-#chBlocks.gallery-view .add-chapter-wrap { grid-column: 1/-1; }
-
 
 /* ─── TEACHER NOTES ─────────────────────────── */
 .note-btn {
@@ -885,7 +822,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 }
 .cov-filter-chip:hover { border-color: var(--ink-2); color: var(--ink); }
 .cov-filter-chip.on { background: var(--ink); border-color: var(--ink); color: white; }
-
 
 /* ─── WEEKLY VIEW ──────────────────────────────*/
 /* Cross-subject toggle bar */
@@ -1140,7 +1076,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
     <div class="modal-body" id="objModalBody"></div>
   </div>
 </div>
-
 
 <!-- -- CONFIRM MODAL ─────────────────────────────── -->
 <div class="cm-bg" id="cmModal">
@@ -1399,7 +1334,6 @@ function renderPaceSummary() {
 function saveState() {
   if (window.__fbSaveState) window.__fbSaveState(DATA);
 }
-
 
 // -----------------------------------------------------------
 // CUSTOM DIALOG HELPERS
@@ -1979,8 +1913,6 @@ function renderWeekly() {
   }).join('');
 }
 
-
-
 // -----------------------------------------------------------
 // RENDER - OBJECTIVE COVERAGE REPORT
 // -----------------------------------------------------------
@@ -2516,7 +2448,6 @@ let currentRole = 'teacher';
 let sharedStructure = null;
 let userStatuses    = {};
 
-
 function _mergeAndRender(isFirstLoad, appRole) {
   if (!sharedStructure) return;
   window.DATA = sharedStructure.map((ch, ci) => ({
@@ -2587,7 +2518,6 @@ function _startSnapshot(uid, appRole) {
     applyRole(appRole);
     showToast('Firestore connection error');
   });
-
 
   // Per-user progress listener - key is class-scoped
   function _progressKey() {
@@ -2665,7 +2595,6 @@ window.__fbSaveState = async function(data) {
   }
 };
 
-
 // -- One-shot document fetch for cross-subject data --
 window.__fbGetDoc = async function(colName, docName) {
   const db = window.db;
@@ -2731,17 +2660,4 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
