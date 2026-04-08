@@ -1605,9 +1605,14 @@ function renderPacing() {
   const cols = getGalleryCols();
   container.classList.toggle('gallery-view', chapterViewMode === 'gallery');
   if (chapterViewMode === 'gallery') {
+    container.style.display = 'grid';
     container.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+    container.style.gap = '14px';
+    container.style.alignItems = 'start';
   } else {
+    container.style.display = '';
     container.style.gridTemplateColumns = '';
+    container.style.gap = '';
   }
 
   // Sync toggle buttons
