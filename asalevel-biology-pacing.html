@@ -897,10 +897,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 <!-- -- PACING TOPBAR ------------------------------------ -->
 <header class="pacing-topbar">
   <div class="pacing-nav">
-    <a href="index.html" class="pacing-back-btn">
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><polyline points="8,2 4,6.5 8,11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Back
-    </a>
+
     <div class="pacing-brand">
       <div class="pacing-brand-mark">AS</div>
       <div class="pacing-brand-text">
@@ -1242,6 +1239,7 @@ const _layoutEl = document.getElementById('appLayout');
 if (_layoutEl && localStorage.getItem(_pacingPrefix + '_sidebar') === 'collapsed') {
   _layoutEl.classList.add('sidebar-collapsed');
 }
+syncTopbarPadding();
 
 function getGalleryCols() {
   const wrap = document.getElementById('chBlocksWrap');
@@ -2173,6 +2171,7 @@ function toggleSidebar() {
   const layout = document.getElementById('appLayout');
   layout.classList.toggle('sidebar-collapsed');
   localStorage.setItem(_pacingPrefix + '_sidebar', layout.classList.contains('sidebar-collapsed') ? 'collapsed' : 'open');
+  syncTopbarPadding();
 }
 
 function scrollToChapter(ci) {
