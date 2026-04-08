@@ -2809,14 +2809,36 @@ function _startSnapshot(uid, appRole) {
 window.__fbSaveState = async function(data) {
   if (!currentUID) return;
 
+  // Backfill any missing IDs in DATA before saving.
+  // This handles legacy Firestore docs that predate the stable-ID system.
+  // The backfilled IDs are also written to the structure so CH stays in sync.
+  let needsStructureWrite = false;
+  data.forEach(ch => {
+    if (!ch.id) { ch.id = Date.now().toString(36) + Math.random().toString(36).slice(2,6); needsStructureWrite = true; }
+    (ch.topics || []).forEach(t => {
+      if (!t.id) { t.id = Date.now().toString(36) + Math.random().toString(36).slice(2,6); needsStructureWrite = true; }
+    });
+  });
+  if (needsStructureWrite) {
+    // Write backfilled IDs back to the shared pacing structure so all users benefit
+    const structureOnly = data.map(ch => ({
+      ...ch,
+      topics: ch.topics.map(({ status, note, diag, actualHour, ...rest }) => rest),
+    }));
+    setDoc(
+      doc(window.db, 'math_pacing', 'year9-10'),
+      { chapters: structureOnly, updatedAt: serverTimestamp() },
+      { merge: true }
+    ).catch(e => console.warn('ID backfill structure write error:', e));
+  }
+
   // 1. Build this user's status map keyed by stable chId.tId
   //    Skip 'pending' to keep doc lean.
-  //    Only topics with valid IDs are saved (orphans from deleted topics are dropped).
   const newStatuses = {};
   data.forEach((ch) => {
-    if (!ch.id) return; // chapter has no stable id — skip
+    if (!ch.id) return;
     (ch.topics || []).forEach((t) => {
-      if (!t.id) return; // topic has no stable id — skip
+      if (!t.id) return;
       const k = _topicKey(ch.id, t.id);
       if (t.status && t.status !== 'pending') {
         newStatuses[k] = t.status;
