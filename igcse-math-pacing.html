@@ -1158,17 +1158,57 @@ function getChapterPageSize() {
 // -----------------------------------------------------------
 // PACE ALERT HELPERS
 // -----------------------------------------------------------
-// School term start date — admin can set this via Central Hub settings
-// Default: first Monday of September of current year
-var TERM_START_DATE = null; // set by admin; falls back to auto-detect
+// Loaded from calendar_settings/current (Central Hub Academic Calendar)
+var TERM_START_DATE  = null; // ISO string e.g. "2025-07-21"
+var TOTAL_WEEKS      = null; // integer e.g. 36
+var HOLIDAY_RANGES   = [];   // [{start:"2025-12-20", end:"2026-01-03"}, ...]
+
+// Fetch academic year settings + holidays from Firestore (single call at startup)
+async function loadCalendarSettings(db) {
+  try {
+    const settingsSnap = await getDoc(doc(db, 'calendar_settings', 'current'));
+    if (settingsSnap.exists()) {
+      const d = settingsSnap.data();
+      if (d.academicYearStart)    TERM_START_DATE = d.academicYearStart;
+      if (d.totalTeachingWeeks)   TOTAL_WEEKS     = d.totalTeachingWeeks;
+    }
+  } catch (e) { console.warn('Could not load calendar_settings:', e); }
+
+  try {
+    const evSnap = await getDocs(collection(db, 'calendar_events'));
+    HOLIDAY_RANGES = [];
+    evSnap.forEach(d => {
+      const ev = d.data();
+      if (ev.category === 'Public Holiday' && ev.date_start && ev.date_end) {
+        HOLIDAY_RANGES.push({ start: String(ev.date_start).slice(0,10), end: String(ev.date_end).slice(0,10) });
+      }
+    });
+  } catch (e) { console.warn('Could not load calendar_events:', e); }
+}
+
+// Count teaching days (Mon–Fri, excluding public holidays) between two dates
+function countTeachingDays(from, to) {
+  let count = 0;
+  const cur = new Date(from);
+  while (cur <= to) {
+    const dow = cur.getDay();
+    if (dow >= 1 && dow <= 5) {
+      const iso = cur.toISOString().slice(0,10);
+      const isHoliday = HOLIDAY_RANGES.some(h => iso >= h.start && iso <= h.end);
+      if (!isHoliday) count++;
+    }
+    cur.setDate(cur.getDate() + 1);
+  }
+  return count;
+}
 
 function getTermStartDate() {
   if (TERM_START_DATE) return new Date(TERM_START_DATE);
-  // Auto-detect: first Monday of September this year (or last year if before Sep)
+  // Fallback: first Monday of September of current/last year
   const now = new Date();
   const year = now.getMonth() >= 8 ? now.getFullYear() : now.getFullYear() - 1;
   const sep1 = new Date(year, 8, 1);
-  const day = sep1.getDay(); // 0=Sun
+  const day = sep1.getDay();
   const offset = day === 1 ? 0 : day === 0 ? 1 : 8 - day;
   return new Date(year, 8, 1 + offset);
 }
@@ -2816,6 +2856,7 @@ async function loadSyllabus() {
 // -- auth-guard.js dispatches authReady when auth + role confirmed -
 document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   const appRole = profile.role_teachershub === 'teachers_admin' ? 'admin' : 'teacher';
+  loadCalendarSettings(window.db);
   loadSyllabus();
 
   // Update pacing topbar role badge
