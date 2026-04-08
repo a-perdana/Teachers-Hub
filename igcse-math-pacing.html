@@ -2402,7 +2402,7 @@ function _startSnapshot(uid, appRole) {
   currentRole = appRole;
 
   const db           = window.db;
-  const structureRef = doc(db, 'igcse_pacing', 'year9-10');
+  const structureRef = doc(db, 'math_pacing', 'year9-10');
   const userProgRef  = doc(db, 'userProgress', uid);
 
   let firstLoad      = true;
@@ -2513,7 +2513,7 @@ window.__fbSaveState = async function(data) {
     }));
     try {
       await setDoc(
-        doc(window.db, 'igcse_pacing', 'year9-10'),
+        doc(window.db, 'math_pacing', 'year9-10'),
         { chapters: structureOnly, updatedAt: serverTimestamp() },
         { merge: true }
       );
@@ -2546,7 +2546,7 @@ window.__fbSaveClassList = async function(list) {
   const db = window.db;
   try {
     await setDoc(
-      doc(db, 'igcse_pacing', 'year9-10'),
+      doc(db, 'math_pacing', 'year9-10'),
       { classes: list, updatedAt: serverTimestamp() },
       { merge: true }
     );

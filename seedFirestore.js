@@ -1,7 +1,7 @@
 /**
  * seedFirestore.js
  * ─────────────────────────────────────────────────────────────────
- * One-time script to seed igcse_pacing/year9-10 in Firestore.
+ * One-time script to seed math_pacing/year9-10 in Firestore.
  *
  * Prerequisites:
  *   1. npm install firebase-admin
@@ -31,9 +31,9 @@ const RAW_DATA = [{"chapter":"1. Review of number concepts","year":"Year 9","top
 
 // ── Seed ──────────────────────────────────────────────────────────
 async function seed() {
-  const docRef = db.collection("igcse_pacing").doc("year9-10");
+  const docRef = db.collection("math_pacing").doc("year9-10");
 
-  console.log("Seeding igcse_pacing/year9-10 …");
+  console.log("Seeding math_pacing/year9-10 …");
   await docRef.set({
     chapters: RAW_DATA,
     seededAt: admin.firestore.FieldValue.serverTimestamp(),
