@@ -2342,6 +2342,8 @@
           category: "Pacing",
           color1: "#7c3aed",
           color2: "#a78bfa",
+          pacingSubject: "math",
+          pacingLevel: "igcse",
         },
         {
           id: 14,
@@ -2354,6 +2356,8 @@
           category: "Pacing",
           color1: "#059669",
           color2: "#34d399",
+          pacingSubject: "biology",
+          pacingLevel: "igcse",
         },
         {
           id: 15,
@@ -2366,6 +2370,8 @@
           category: "Pacing",
           color1: "#0ea5e9",
           color2: "#38bdf8",
+          pacingSubject: "chemistry",
+          pacingLevel: "igcse",
         },
         {
           id: 16,
@@ -2378,6 +2384,8 @@
           category: "Pacing",
           color1: "#f97316",
           color2: "#fb923c",
+          pacingSubject: "physics",
+          pacingLevel: "igcse",
         },
         {
           id: 17,
@@ -2390,6 +2398,8 @@
           category: "Pacing",
           color1: "#6c5ce7",
           color2: "#a29bfe",
+          pacingSubject: "math",
+          pacingLevel: "asalevel",
         },
         {
           id: 18,
@@ -2402,6 +2412,8 @@
           category: "Pacing",
           color1: "#10b981",
           color2: "#6ee7b7",
+          pacingSubject: "biology",
+          pacingLevel: "asalevel",
         },
         {
           id: 19,
@@ -2414,6 +2426,8 @@
           category: "Pacing",
           color1: "#0891b2",
           color2: "#22d3ee",
+          pacingSubject: "chemistry",
+          pacingLevel: "asalevel",
         },
         {
           id: 20,
@@ -2426,6 +2440,8 @@
           category: "Pacing",
           color1: "#db2777",
           color2: "#f472b6",
+          pacingSubject: "physics",
+          pacingLevel: "asalevel",
         },
         {
           id: 21,
@@ -2438,6 +2454,8 @@
           category: "Pacing",
           color1: "#7c3aed",
           color2: "#c4b5fd",
+          pacingSubject: "math",
+          pacingLevel: "checkpoint",
         },
         {
           id: 22,
@@ -2450,6 +2468,8 @@
           category: "Pacing",
           color1: "#b45309",
           color2: "#fbbf24",
+          pacingSubject: "english",
+          pacingLevel: "checkpoint",
         },
         {
           id: 23,
@@ -2462,6 +2482,8 @@
           category: "Pacing",
           color1: "#047857",
           color2: "#34d399",
+          pacingSubject: "science",
+          pacingLevel: "checkpoint",
         },
         {
           id: 24,
@@ -2481,6 +2503,8 @@
       function filterBySearch(query) {
         const q = query.toLowerCase().trim();
         getAllCards().forEach(card => {
+          // Never show pacing cards that are hidden due to profile filter
+          if (card.dataset.pacingHidden === '1') { card.style.display = 'none'; return; }
           if (!q) {
             card.style.display = '';
           } else {
@@ -2517,6 +2541,8 @@
         a.className = 'resource-card card-appear';
         a.style.cssText = `--card-color-1:${resource.color1};--card-color-2:${resource.color2};--card-glow:${resource.color1}40;`;
         a.setAttribute('data-card-id', `res_${resource.id}`);
+        if (resource.pacingSubject) a.setAttribute('data-pacing-subject', resource.pacingSubject);
+        if (resource.pacingLevel)   a.setAttribute('data-pacing-level',   resource.pacingLevel);
         a.innerHTML = `
           <div class="card-content">
             <div class="card-header">
@@ -2542,6 +2568,24 @@
         const grid = document.getElementById('uncategorizedGrid');
         resources.forEach(r => grid.appendChild(buildResourceCard(r)));
         document.getElementById('uncategorizedCount').textContent = resources.length;
+      }
+
+      // ── Filter pacing cards based on user's subjects + levels ─────
+      // Admins always see all cards.
+      // Regular users see a pacing card only if BOTH subject AND level match.
+      // Non-pacing cards are always visible.
+      function filterPacingCards(profile, isAdmin) {
+        if (isAdmin) return; // admins see everything
+        const subjects = Array.isArray(profile.subjects) ? profile.subjects : [];
+        const classes  = Array.isArray(profile.classes)  ? profile.classes  : [];
+        document.querySelectorAll('.resource-card[data-pacing-subject]').forEach(card => {
+          const s = card.getAttribute('data-pacing-subject');
+          const l = card.getAttribute('data-pacing-level');
+          const visible = subjects.includes(s) && classes.includes(l);
+          card.style.display = visible ? '' : 'none';
+          // Also mark for search filter to skip hidden cards
+          card.dataset.pacingHidden = visible ? '' : '1';
+        });
       }
 
       // ── Card cache (like AH getAllCards) ──────────────────────────
@@ -2977,6 +3021,9 @@
         const db = window.db;
         const isAdmin = profile?.role_teachershub === 'teachers_admin';
         if (isAdmin) document.body.classList.add('is-admin');
+
+        // Hide pacing cards the user doesn't teach
+        filterPacingCards(profile, isAdmin);
 
         // Category system
         initCategorySystem(db, isAdmin, { onSnapshot, collection, query, orderBy, setDoc, doc, addDoc, deleteDoc, serverTimestamp });

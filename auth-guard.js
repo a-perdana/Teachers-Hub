@@ -20,7 +20,7 @@ import { initializeApp, getApps }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, serverTimestamp }
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp, updateDoc }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // ── Platform identity ─────────────────────────────────────────────
@@ -93,6 +93,108 @@ function promptForName() {
   });
 }
 
+// ── Profile setup prompt (school + subjects + classes) ───────────
+// Shown on every login until all three fields are filled.
+const SUBJECT_OPTIONS = [
+  { value: 'math',      label: 'Mathematics' },
+  { value: 'biology',   label: 'Biology' },
+  { value: 'chemistry', label: 'Chemistry' },
+  { value: 'physics',   label: 'Physics' },
+  { value: 'english',   label: 'English' },
+  { value: 'science',   label: 'Science' },
+];
+
+const CLASS_OPTIONS = [
+  { value: 'checkpoint', label: 'Checkpoint (Year 7–8)' },
+  { value: 'igcse',      label: 'IGCSE (Year 9–10)' },
+  { value: 'asalevel',   label: 'AS & A Level (Year 11–12)' },
+];
+
+// Expose so index.html can reference labels when needed
+window.TEACHERS_SUBJECT_OPTIONS = SUBJECT_OPTIONS;
+window.TEACHERS_CLASS_OPTIONS   = CLASS_OPTIONS;
+
+function profileComplete(profile) {
+  return (
+    profile.school   && profile.school.trim() &&
+    Array.isArray(profile.subjects) && profile.subjects.length > 0 &&
+    Array.isArray(profile.classes)  && profile.classes.length  > 0
+  );
+}
+
+function promptForProfile(profile) {
+  return new Promise(resolve => {
+    const existing = {
+      school:   profile.school   || '',
+      subjects: Array.isArray(profile.subjects) ? profile.subjects : [],
+      classes:  Array.isArray(profile.classes)  ? profile.classes  : [],
+    };
+
+    const subjectChips = SUBJECT_OPTIONS.map(o => `
+      <button type="button" class="_chip ${existing.subjects.includes(o.value) ? '_chip-on' : ''}"
+        data-group="subjects" data-value="${o.value}">${o.label}</button>`).join('');
+
+    const classChips = CLASS_OPTIONS.map(o => `
+      <button type="button" class="_chip ${existing.classes.includes(o.value) ? '_chip-on' : ''}"
+        data-group="classes" data-value="${o.value}">${o.label}</button>`).join('');
+
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(28,28,46,0.82);display:flex;align-items:center;justify-content:center;padding:24px;font-family:"DM Sans",sans-serif';
+    overlay.innerHTML = `
+      <div style="background:#fff;border-radius:20px;padding:40px 36px;width:100%;max-width:480px;box-shadow:0 24px 64px rgba(0,0,0,0.40);max-height:90vh;overflow-y:auto">
+        <div style="margin-bottom:24px">
+          <h2 style="font-size:1.35rem;font-weight:700;color:#1c1c2e;margin-bottom:6px">Set up your profile</h2>
+          <p style="font-size:0.875rem;color:#8888a8;line-height:1.5">Tell us about your school and the classes you teach so we can show you the right pacing guides.</p>
+        </div>
+
+        <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:6px">School name</label>
+        <input id="_schoolInput" type="text" placeholder="e.g. SMA Semesta" value="${existing.school.replace(/"/g,'&quot;')}"
+          style="width:100%;padding:10px 14px;border:1.5px solid #e0ddd6;border-radius:10px;font-size:0.95rem;color:#1c1c2e;outline:none;box-sizing:border-box;margin-bottom:20px">
+
+        <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:10px">Subjects you teach <span style="color:#dc2626">*</span></label>
+        <div id="_subjectChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px">${subjectChips}</div>
+
+        <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:10px">Curriculum levels <span style="color:#dc2626">*</span></label>
+        <div id="_classChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">${classChips}</div>
+
+        <p id="_profileErr" style="font-size:0.82rem;color:#dc2626;min-height:18px;margin-bottom:12px"></p>
+        <button id="_profileBtn" style="width:100%;padding:12px;background:linear-gradient(135deg,#7c3aed,#0891b2);color:#fff;border:none;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer">Save & Continue →</button>
+      </div>
+      <style>
+        ._chip{padding:7px 14px;border-radius:20px;border:1.5px solid #e0ddd6;background:#f7f6f3;color:#44445a;font-size:0.84rem;font-weight:500;cursor:pointer;transition:all .15s}
+        ._chip:hover{border-color:#6c5ce7;color:#6c5ce7}
+        ._chip-on{background:#ede9fe;border-color:#6c5ce7;color:#6c5ce7;font-weight:600}
+      </style>`;
+
+    document.body.appendChild(overlay);
+    document.body.style.visibility = 'visible';
+
+    // Chip toggle
+    overlay.addEventListener('click', e => {
+      const chip = e.target.closest('._chip');
+      if (!chip) return;
+      chip.classList.toggle('_chip-on');
+    });
+
+    const btn = overlay.querySelector('#_profileBtn');
+    const err = overlay.querySelector('#_profileErr');
+
+    btn.addEventListener('click', () => {
+      const school   = overlay.querySelector('#_schoolInput').value.trim();
+      const subjects = [...overlay.querySelectorAll('._chip[data-group="subjects"]._chip-on')].map(c => c.dataset.value);
+      const classes  = [...overlay.querySelectorAll('._chip[data-group="classes"]._chip-on')].map(c => c.dataset.value);
+
+      if (!school)           { err.textContent = 'Please enter your school name.'; return; }
+      if (!subjects.length)  { err.textContent = 'Please select at least one subject.'; return; }
+      if (!classes.length)   { err.textContent = 'Please select at least one curriculum level.'; return; }
+
+      overlay.remove();
+      document.body.style.visibility = 'hidden';
+      resolve({ school, subjects, classes });
+    });
+  });
+}
+
 // ── Auth state listener ──────────────────────────────────────────
 onAuthStateChanged(auth, async (user) => {
 
@@ -161,6 +263,15 @@ onAuthStateChanged(auth, async (user) => {
     const name = await promptForName();
     await setDoc(userRef, { displayName: name }, { merge: true });
     profile.displayName = name;
+  }
+
+  // 5b. Profile setup prompt if school/subjects/classes are missing
+  if (!profileComplete(profile)) {
+    const { school, subjects, classes } = await promptForProfile(profile);
+    await setDoc(userRef, { school, subjects, classes }, { merge: true });
+    profile.school   = school;
+    profile.subjects = subjects;
+    profile.classes  = classes;
   }
 
   // 6. All checks passed — expose globals
