@@ -59,19 +59,54 @@ function initNavbar() {
     if (nav) nav.classList.toggle('scrolled', window.scrollY > 50);
   });
 
-  // Wire teaching profile section once auth + Firestore helpers are ready.
-  // auth-guard.js sets window.__firestoreHelpers early; authReady fires after profile is loaded.
-  function tryInitTeachingProfile() {
-    const h = window.__firestoreHelpers;
-    if (h && window.userProfile && window.currentUser) {
-      initTeachingProfile(h.db, h.setDoc, h.doc);
+  // Populate dropdown header + avatar + name + email + password section.
+  // Also wires teaching profile section once Firestore helpers are ready.
+  function populateDropdown() {
+    const user    = window.currentUser;
+    const profile = window.userProfile;
+    if (!user || !profile) return;
+
+    // Header: large avatar + name + email
+    const pdAvatarLg = document.getElementById('pdAvatarLg');
+    const pdName     = document.getElementById('pdName');
+    const pdEmail    = document.getElementById('pdEmail');
+    if (pdAvatarLg) buildAvatarEl(pdAvatarLg, user);
+    if (pdName)     pdName.textContent  = profile.displayName || user.displayName || user.email;
+    if (pdEmail)    pdEmail.textContent = user.email;
+
+    // Nav avatar + short name (some pages set these themselves; fill gaps)
+    const navAvatar    = document.getElementById('profileAvatar');
+    const navNameShort = document.getElementById('profileNameShort');
+    const navWrap      = document.getElementById('profileWrap');
+    if (navAvatar && !navAvatar.textContent.trim() && !navAvatar.querySelector('img')) {
+      buildAvatarEl(navAvatar, user);
     }
+    if (navNameShort && !navNameShort.textContent.trim()) {
+      const display = profile.displayName || user.displayName || user.email;
+      navNameShort.textContent = display.split(' ')[0];
+    }
+    if (navWrap) navWrap.style.display = 'flex';
+
+    // Phone: pre-fill saved value
+    const pdPhone = document.getElementById('pdPhone');
+    if (pdPhone && profile.phone) pdPhone.value = profile.phone;
+
+    // Password section: only show for email/password users
+    const pdPwSection = document.getElementById('pdPwSection');
+    if (pdPwSection) {
+      const isPasswordUser = user.providerData.some(p => p.providerId === 'password');
+      pdPwSection.style.display = isPasswordUser ? '' : 'none';
+    }
+
+    // Teaching profile + class editor
+    const h = window.__firestoreHelpers;
+    if (h) initTeachingProfile(h.db, h.setDoc, h.doc);
   }
-  // authReady may have already fired (auth-guard runs before navbar partial loads)
+
   if (window.__authReadyDetail) {
-    tryInitTeachingProfile();
+    populateDropdown();
   } else {
-    document.addEventListener('authReady', tryInitTeachingProfile, { once: true });
+    document.addEventListener('authReady', populateDropdown, { once: true });
   }
 }
 
