@@ -194,7 +194,6 @@ FIREBASE_APP_ID
 | `announcements.html`        | Announcements feed                     |
 | `messageboard.html`         | Message board                          |
 | `library.html`              | Resource library                       |
-| `pacing-hub.html`           | IGCSE pacing guide hub                 |
 | `igcse-math-pacing.html`    | Maths pacing guide                     |
 | `igcse-physics-pacing.html` | Physics pacing guide                   |
 | `igcse-chemistry-pacing.html`| Chemistry pacing guide                |
@@ -208,11 +207,50 @@ FIREBASE_APP_ID
 |------------------------------|------------------------------------------------------------|
 | `auth-guard.js`              | Auth + role gate for protected pages (modular SDK v10)     |
 | `build.js`                   | Vercel build script — placeholder replacement              |
+| `base.css`                   | Shared design system (DM Sans, CSS variables, components)  |
+| `partials/navbar.html`       | Shared navbar partial (light theme)                        |
+| `partials/navbar.js`         | Navbar init + badge logic                                  |
+| `partials/pacing-shared.js`  | Shared JS for all pacing pages (exam countdown, variance, GLH) |
 | `firebase-config.js`         | Local dev config (gitignored)                              |
 | `firebase-config.example.js` | Template for firebase-config.js                            |
 | `vercel.json`                | Vercel deployment config (build cmd, output dir)           |
-| `seedFirestore.js`           | One-time seed script for initial Firestore data            |
 | `dist/`                      | Build output (not committed)                               |
+
+---
+
+## Pacing Pages — Feature Reference
+
+All IGCSE pacing pages share a common architecture via `partials/pacing-shared.js` and `SUBJECT_CONFIG`:
+
+**Topic status states:** `pending` → `inprogress` → `done` → `pending` (cycle via checkbox). `revisit` is a 4th state set via the status pill (amber, means needs re-teaching; outside the cycle).
+
+**Per-topic meta shown in topic rows:**
+- Planned hours (editable by admin) + Actual hours (editable by all)
+- Week number + pace alert badge (overdue / behind / on-track / upcoming)
+- Status pill (Pending / In Progress / Done / ↺ Revisit)
+- AO badge (AO1 = Knowledge & techniques, AO2 = Analyse & interpret, or both) — auto-inferred from topic text, override via `t.ao` field
+- Paper indicator badge (P1+P3 Core / P2+P4 Ext / P1/2/3/4) — derived from syllabus code prefix (C = Core, E = Extended)
+- Teacher note + Coordinator note + Diagnostic tag (Weak / Review / Good)
+- Resource links
+
+**Bulk actions:** "✓ All Done" button on chapter header (hover to reveal; admin always sees it). Toggles all topics in chapter between done ↔ pending.
+
+**Syllabus Detail modal:** Shows Cambridge learning objectives + notes. Footer shows all 13 Cambridge command words (Calculate, Construct, Determine, Describe, Explain, Give, Plot, Show(that), Sketch, State, Work out, Write, Write down); words detected in the syllabus entry are highlighted blue.
+
+**Hours Report tab:** GLH projection banner at top — compares total planned hours vs Cambridge's 130 GLH target, plus pace-extrapolated projected total. Below that: per-topic actual vs planned variance table.
+
+**Offline persistence:** `enableIndexedDbPersistence(db)` called on `authReady` — teacher progress cached locally, survives connectivity drops. Fails gracefully on multiple tabs / unsupported browsers.
+
+**`SUBJECT_CONFIG` block** (top of each pacing page) — only this block changes per subject:
+```js
+const SUBJECT_CONFIG = {
+  collection, docId, syllabusPrefix,
+  subjectKey, label, code, qualifier, years, accentColor,
+  examLocalKey, examPapers,
+  hasSyllabusFilter,   // true for IGCSE (shows Core/Extended UI)
+  crossSubjects,       // other subjects shown in Weekly View
+};
+```
 
 ---
 
@@ -226,3 +264,6 @@ FIREBASE_APP_ID
 - **Auth guard goes first.** On protected pages, `auth-guard.js` must be the first `<script type="module">` tag so it hides the body before any content renders.
 - **Use `authReady` event** to gate all Firestore reads in page scripts — never call `window.db` before the event fires.
 - **`central_documents` collection, not `documents`** — use the renamed collection name when linking to CentralHub documents.
+- **`pacing-hub.html` is deleted** — its content was moved to `index.html` cards. Do not recreate it.
+- **Shared pacing logic lives in `partials/pacing-shared.js`** — exam countdown, syllabus filter, diagnostic tags, coord notes, actual hours, variance report, GLH projection. Do not duplicate this logic inline in individual pacing pages.
+- **`<!-- PACING_SHARED_CSS -->` and `<!-- PACING_SHARED_JS -->`** are build-time placeholders in pacing pages — VS Code CSS linter flags the HTML comment inside `<style>` as an error, but browsers handle it correctly. Do not remove these placeholders.
