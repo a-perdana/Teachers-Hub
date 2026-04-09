@@ -1170,6 +1170,7 @@ var role = 'teacher'; // 'teacher' | 'admin'
 // Class-based progress
 var currentClass = 'default'; // 'default' = shared / all classes
 var classList    = [];        // populated from Firestore meta doc (admin-managed)
+var _objPrefixes = [];        // populated from Firestore meta doc; falls back to C/E auto-detect
 
 // Cross-subject weekly data cache — keyed by subject key
 var crossSubjData   = Object.fromEntries(SUBJECT_CONFIG.crossSubjects.map(s => [s.key, null]));
@@ -1397,7 +1398,11 @@ function _chapterYearOptions() {
 
 function parseObjCodes(objStr, syllabusRefs) {
   const fromRefs = Array.isArray(syllabusRefs) ? syllabusRefs.filter(Boolean) : [];
-  const matches = objStr ? (objStr.match(/[CE]\d+\.\d+/g) || []) : [];
+  // Build prefix pattern dynamically from CH-managed objPrefixes; fallback to C/E
+  const prefixes = _objPrefixes.length ? _objPrefixes : ['C', 'E'];
+  const pfxPattern = prefixes.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+  const re = new RegExp(`(?:${pfxPattern})\\d+\\.\\d+`, 'g');
+  const matches = objStr ? (objStr.match(re) || []) : [];
   return [...new Set([...fromRefs, ...matches])];
 }
 
@@ -2974,6 +2979,10 @@ function _startSnapshot(uid, appRole) {
     // Load class list from structure meta
     if (snap.exists() && Array.isArray(snap.data().classes)) {
       classList = snap.data().classes;
+    }
+    // Load objective code prefixes from structure meta (set by CH admin in Settings)
+    if (snap.exists() && Array.isArray(snap.data().objPrefixes) && snap.data().objPrefixes.length) {
+      _objPrefixes = snap.data().objPrefixes;
     }
     structureReady = true;
     tryRender();
