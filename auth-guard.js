@@ -58,6 +58,8 @@ const db   = getFirestore(app);
 window.firebaseApp = app;
 window.auth        = auth;
 window.db          = db;
+// Expose Firestore helpers for navbar.js initTeachingProfile (set early; navbar.js picks them up after authReady)
+window.__firestoreHelpers = { db, setDoc, doc };
 
 // ── Name prompt (shown when displayName is missing) ───────────────
 function promptForName() {

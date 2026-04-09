@@ -234,6 +234,19 @@
   }
   .pd-signout-btn:hover { background: rgba(220, 38, 38, 0.25); border-color: rgba(220, 38, 38, 0.4); }
 
+  /* Teaching profile chips (inside dropdown) */
+  .pd-chip {
+    padding: 4px 10px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.55);
+    font-size: 11.5px; font-weight: 500;
+    cursor: pointer; transition: all .15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .pd-chip:hover { border-color: #a78bfa; color: #a78bfa; }
+  .pd-chip.on { background: rgba(108,92,231,0.25); border-color: #6c5ce7; color: #a78bfa; font-weight: 600; }
+
   /* ── Feedback Modal ──────────────────────────────────────────── */
   .feedback-overlay {
     position: fixed; inset: 0;
@@ -393,6 +406,26 @@
           <div>
             <div class="pd-info-name" id="pdName"></div>
             <div class="pd-info-email" id="pdEmail"></div>
+          </div>
+        </div>
+
+        <!-- Teaching Profile -->
+        <div class="pd-section" id="pdTeachingSection">
+          <div class="pd-label" style="display:flex;align-items:center;justify-content:space-between;">
+            Teaching Profile
+            <span id="pdTeachingToggle" style="font-size:10px;font-weight:500;letter-spacing:0;text-transform:none;color:rgba(255,255,255,0.45);cursor:pointer;transition:color .15s;">▸ Edit</span>
+          </div>
+          <!-- Summary (read-only view) -->
+          <div id="pdTeachingSummary" style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.7;"></div>
+          <!-- Edit fields -->
+          <div id="pdTeachingFields" style="display:none;margin-top:10px;">
+            <input type="text" class="pd-input" id="pdSchool" placeholder="School name" style="margin-bottom:10px;">
+            <div style="font-size:10.5px;color:rgba(255,255,255,0.4);margin-bottom:6px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;">Subjects</div>
+            <div id="pdSubjectChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;"></div>
+            <div style="font-size:10.5px;color:rgba(255,255,255,0.4);margin-bottom:6px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;">Curriculum levels</div>
+            <div id="pdClassChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;"></div>
+            <button class="pd-save-btn" id="pdTeachingBtn">Save Teaching Profile</button>
+            <div class="pd-msg" id="pdTeachingMsg"></div>
           </div>
         </div>
 
