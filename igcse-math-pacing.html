@@ -2766,8 +2766,24 @@ function applyRole(r) {
 //   - Mixed → both
 // We read from t.ao field if set by coordinator; otherwise infer from syllabus tier.
 // -----------------------------------------------------------
-const AO1_KEYWORDS = ['calculate','compute','solve','simplify','factorise','expand','evaluate','construct','plot','draw','measure','state','write down','find'];
-const AO2_KEYWORDS = ['explain','interpret','describe','show','prove','derive','justify','reason','deduce','analyse','determine','estimate'];
+// AO inference — Cambridge IGCSE 0580
+// AO1: recall and apply mathematical knowledge; carry out routine procedures
+// AO2: analyse, interpret, communicate mathematically
+// Source: Cambridge 0580 syllabus assessment objectives
+const AO1_KEYWORDS = [
+  'calculate', 'state', 'write down', 'give', 'find', 'work out',
+  'construct', 'sketch', 'plot', 'draw', 'measure', 'complete', 'list',
+  'convert', 'simplify', 'expand', 'factorise', 'substitute', 'solve',
+  'use', 'apply', 'carry out', 'perform', 'recall', 'express',
+  'write', 'evaluate', 'compute',
+];
+const AO2_KEYWORDS = [
+  'interpret', 'analyse', 'show that', 'prove', 'derive', 'justify',
+  'explain', 'describe', 'deduce', 'determine', 'predict', 'generalise',
+  'compare', 'comment', 'reason', 'formulate', 'model', 'make connections',
+  'identify pattern', 'identify strategy', 'select appropriate',
+  'communicate', 'present', 'discuss',
+];
 
 function inferAO(t) {
   // If explicitly tagged by coordinator, use that
@@ -2775,13 +2791,14 @@ function inferAO(t) {
   if (t.ao === 'AO2') return 'AO2';
   if (t.ao === 'AO1+AO2') return 'AO1+AO2';
 
-  // Infer from topic name + objective text
-  const text = ((t.topic || '') + ' ' + (t.objective || '')).toLowerCase();
+  // Infer from topic name + objective text (strip HTML first)
+  const raw = ((t.topic || '') + ' ' + (t.objective || t.objectives || '')).toLowerCase();
+  const text = raw.replace(/<[^>]*>/g, ' ');
   const hasAO1 = AO1_KEYWORDS.some(kw => text.includes(kw));
   const hasAO2 = AO2_KEYWORDS.some(kw => text.includes(kw));
   if (hasAO1 && hasAO2) return 'AO1+AO2';
   if (hasAO2) return 'AO2';
-  return 'AO1'; // default: most math topics are primarily AO1
+  return 'AO1'; // default: most IGCSE math topics are primarily procedural (AO1)
 }
 
 function renderAoBadges(t) {
