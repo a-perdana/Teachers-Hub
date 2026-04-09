@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cambridge IGCSE Mathematics — Pacing Guide</title>
+<title id="pageTitle">Cambridge IGCSE — Pacing Guide</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
 <link rel="stylesheet" href="base.css">
 <style>
@@ -762,8 +762,8 @@ table.topics-tbl td:last-child { white-space: nowrap; }
     <div class="pacing-brand">
       <div class="pacing-brand-mark">IG</div>
       <div class="pacing-brand-text">
-        <h1>Cambridge IGCSE Mathematics</h1>
-        <p>0580 · Core & Extended · Year 9–10</p>
+        <h1 id="brandTitle">Cambridge IGCSE</h1>
+        <p id="brandSub"></p>
       </div>
     </div>
     <nav class="pacing-breadcrumb" aria-label="Breadcrumb">
@@ -771,7 +771,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
       <span class="pacing-breadcrumb-sep">›</span>
       <span>IGCSE</span>
       <span class="pacing-breadcrumb-sep">›</span>
-      <span class="pacing-breadcrumb-current">Mathematics</span>
+      <span class="pacing-breadcrumb-current" id="breadcrumbCurrent"></span>
     </nav>
   </div>
   <div class="pacing-topbar-right">
@@ -912,17 +912,9 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 
     <!-- WEEKLY PANEL -->
     <div class="panel" id="panel-weekly">
-            <div class="cross-subj-bar">
+            <div class="cross-subj-bar" id="crossSubjBar">
         <span class="cross-subj-label">Show subjects:</span>
-        <button class="cross-chip on" data-subj="math" onclick="toggleCrossSubj('math',this)">
-          <span class="cross-chip-dot" style="background:var(--accent)"></span>Mathematics
-        </button>
-        <button class="cross-chip" data-subj="biology" onclick="toggleCrossSubj('biology',this)">
-          <span class="cross-chip-dot" style="background:#1a5fa8"></span>Biology
-        </button>
-        <button class="cross-chip" data-subj="chemistry" onclick="toggleCrossSubj('chemistry',this)">
-          <span class="cross-chip-dot" style="background:#6c3fa0"></span>Chemistry
-        </button>
+        <!-- chips injected by initSubjectConfig() -->
         <span id="crossSubjLoadingNote" style="font-size:.65rem;color:var(--ink-3);display:none">Loading other subjects…</span>
       </div>
       <div class="week-grid" id="weekGrid"></div>
@@ -1077,14 +1069,88 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 </a>
 
 <script>
-window.PACING_CONFIG = {
-  examLocalKey: 'igcse_math_exam_dates',
+// ============================================================
+// SUBJECT CONFIG — only this block changes per subject file
+// ============================================================
+const SUBJECT_CONFIG = {
+  // Firestore
+  collection:      'math_pacing',
+  docId:           'year9-10',
+  syllabusPrefix:  '0580',        // prefix used in igcse_syllabus doc IDs
+
+  // Display
+  subjectKey:      'math',        // used as key in cross-subject maps
+  label:           'Mathematics',
+  code:            '0580',
+  qualifier:       'Core & Extended',
+  years:           'Year 9–10',
+  accentColor:     'var(--accent)', // CSS var or hex
+
+  // Exam config
+  examLocalKey:    'igcse_math_exam_dates',
   examPapers: [
     { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
     { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
     { key: 'paper4', label: 'Paper 4', cls: 'paper4' },
   ],
   hasSyllabusFilter: true,
+
+  // Cross-subject weekly view — other subjects shown alongside this one
+  crossSubjects: [
+    { key: 'biology',   col: 'biology_pacing',   doc: 'year9-10', label: 'Biology',   color: '#1a5fa8' },
+    { key: 'chemistry', col: 'chemistry_pacing',  doc: 'year9-10', label: 'Chemistry', color: '#6c3fa0' },
+  ],
+};
+// ============================================================
+
+window.SUBJECT_CONFIG = SUBJECT_CONFIG; // expose to ES module scope
+
+// Populate all subject-specific HTML from SUBJECT_CONFIG (runs immediately)
+(function initSubjectConfig() {
+  const cfg = SUBJECT_CONFIG;
+
+  // <title>
+  const titleEl = document.getElementById('pageTitle');
+  if (titleEl) titleEl.textContent = `Cambridge IGCSE ${cfg.label} — Pacing Guide`;
+
+  // Topbar brand
+  const brandTitle = document.getElementById('brandTitle');
+  if (brandTitle) brandTitle.textContent = `Cambridge IGCSE ${cfg.label}`;
+  const brandSub = document.getElementById('brandSub');
+  if (brandSub) brandSub.textContent = `${cfg.code} · ${cfg.qualifier} · ${cfg.years}`;
+
+  // Breadcrumb
+  const breadcrumb = document.getElementById('breadcrumbCurrent');
+  if (breadcrumb) breadcrumb.textContent = cfg.label;
+
+  // Cross-subject chips
+  const bar = document.getElementById('crossSubjBar');
+  const loadingNote = document.getElementById('crossSubjLoadingNote');
+  if (bar && loadingNote) {
+    // Self chip (always on)
+    const selfChip = document.createElement('button');
+    selfChip.className = 'cross-chip on';
+    selfChip.dataset.subj = cfg.subjectKey;
+    selfChip.onclick = function() { toggleCrossSubj(cfg.subjectKey, this); };
+    selfChip.innerHTML = `<span class="cross-chip-dot" style="background:${cfg.accentColor}"></span>${cfg.label}`;
+    bar.insertBefore(selfChip, loadingNote);
+
+    // Cross-subject chips
+    cfg.crossSubjects.forEach(s => {
+      const chip = document.createElement('button');
+      chip.className = 'cross-chip';
+      chip.dataset.subj = s.key;
+      chip.onclick = function() { toggleCrossSubj(s.key, this); };
+      chip.innerHTML = `<span class="cross-chip-dot" style="background:${s.color}"></span>${s.label}`;
+      bar.insertBefore(chip, loadingNote);
+    });
+  }
+})();
+
+window.PACING_CONFIG = {
+  examLocalKey:      SUBJECT_CONFIG.examLocalKey,
+  examPapers:        SUBJECT_CONFIG.examPapers,
+  hasSyllabusFilter: SUBJECT_CONFIG.hasSyllabusFilter,
 };
 
 // -----------------------------------------------------------
@@ -1097,22 +1163,17 @@ var role = 'teacher'; // 'teacher' | 'admin'
 var currentClass = 'default'; // 'default' = shared / all classes
 var classList    = [];        // populated from Firestore meta doc (admin-managed)
 
-// Cross-subject weekly data cache
-var crossSubjData = {
-  biology: null,
-  chemistry: null
-};
-var crossSubjActive = {
-  math: true,
-  biology: false,
-  chemistry: false
-};
+// Cross-subject weekly data cache — keyed by subject key
+var crossSubjData   = Object.fromEntries(SUBJECT_CONFIG.crossSubjects.map(s => [s.key, null]));
+var crossSubjActive = Object.fromEntries([
+  [SUBJECT_CONFIG.subjectKey, true],
+  ...SUBJECT_CONFIG.crossSubjects.map(s => [s.key, false]),
+]);
 
 // Cross-subject Firestore collection map
-const CROSS_SUBJ_COLLECTIONS = {
-  biology: { col: 'biology_pacing', doc: 'year9-10', label: 'Biology' },
-  chemistry: { col: 'chemistry_pacing', doc: 'year9-10', label: 'Chemistry' }
-};
+const CROSS_SUBJ_COLLECTIONS = Object.fromEntries(
+  SUBJECT_CONFIG.crossSubjects.map(s => [s.key, { col: s.col, doc: s.doc, label: s.label }])
+);
 
 let filterYear     = 'all';
 let filterStatus   = 'all';
@@ -1475,7 +1536,7 @@ function renderPacing() {
                 const hasSyllabus = codes.length && Object.keys(syllabusIndex).length > 0;
                 const sylInlineHtml = hasSyllabus
                   ? codes.map(code => {
-                      const key   = '0580_' + code;
+                      const key   = SUBJECT_CONFIG.syllabusPrefix + '_' + code;
                       const entry = syllabusIndex[key];
                       const topicText = entry ? escHtml(entry.topicArea || '') : '';
                       const titleText = entry ? escHtml(entry.title || '') : '';
@@ -1770,7 +1831,7 @@ function toggleCrossSubj(subj, btn) {
   btn.classList.toggle('on', crossSubjActive[subj]);
 
   // Lazy-load from Firestore if first activation
-  if (crossSubjActive[subj] && subj !== 'math' && crossSubjData[subj] === null) {
+  if (crossSubjActive[subj] && subj !== SUBJECT_CONFIG.subjectKey && crossSubjData[subj] === null) {
     const note = document.getElementById('crossSubjLoadingNote');
     if (note) note.style.display = 'inline';
     const col = CROSS_SUBJ_COLLECTIONS[subj];
@@ -1802,23 +1863,24 @@ function toggleCrossSubj(subj, btn) {
 function renderWeekly() {
   const weekMap = {};
 
-  // Math topics (always active if crossSubjActive.math)
-  if (crossSubjActive.math) {
+  // This subject's topics (always active)
+  const selfKey = SUBJECT_CONFIG.subjectKey;
+  if (crossSubjActive[selfKey]) {
     DATA.forEach(ch => {
       ch.topics.forEach(t => {
         const w = t.week ? String(t.week) : null;
         if (!w) return;
-        if (!weekMap[w]) weekMap[w] = { mathHours: 0, subjTopics: {} };
-        if (!weekMap[w].subjTopics.math) weekMap[w].subjTopics.math = [];
-        const mathHr = t.duration ?? t.hour ?? 0;
-        weekMap[w].subjTopics.math.push({ name: t.topic, chapter: ch.chapter, year: ch.year, hour: mathHr });
-        weekMap[w].mathHours += mathHr;
+        if (!weekMap[w]) weekMap[w] = { selfHours: 0, subjTopics: {} };
+        if (!weekMap[w].subjTopics[selfKey]) weekMap[w].subjTopics[selfKey] = [];
+        const hr = t.duration ?? t.hour ?? 0;
+        weekMap[w].subjTopics[selfKey].push({ name: t.topic, chapter: ch.chapter, year: ch.year, hour: hr });
+        weekMap[w].selfHours += hr;
       });
     });
   }
 
-  // Other subjects
-  ['biology', 'chemistry'].forEach(subj => {
+  // Cross-subjects
+  SUBJECT_CONFIG.crossSubjects.map(s => s.key).forEach(subj => {
     if (!crossSubjActive[subj] || !crossSubjData[subj]) return;
     crossSubjData[subj].forEach(ch => {
       (ch.topics || []).forEach(t => {
@@ -1835,16 +1897,14 @@ function renderWeekly() {
     parseInt(a.replace(/\D/g,'')) - parseInt(b.replace(/\D/g,''))
   );
 
-  const subjColors = {
-  math: 'var(--accent)',
-  biology: '#1a5fa8',
-  chemistry: '#6c3fa0'
-};
-  const subjLabels = {
-  math: 'Mathematics',
-  biology: 'Biology',
-  chemistry: 'Chemistry'
-};
+  const subjColors = Object.fromEntries([
+    [SUBJECT_CONFIG.subjectKey, SUBJECT_CONFIG.accentColor],
+    ...SUBJECT_CONFIG.crossSubjects.map(s => [s.key, s.color]),
+  ]);
+  const subjLabels = Object.fromEntries([
+    [SUBJECT_CONFIG.subjectKey, SUBJECT_CONFIG.label],
+    ...SUBJECT_CONFIG.crossSubjects.map(s => [s.key, s.label]),
+  ]);
   const MAX_HOURS = 12; // max expected hours per week for load bar
 
   if (!weeks.length) {
@@ -1864,7 +1924,7 @@ function renderWeekly() {
     const isCurrent = wNum === currentWeek;
 
     let sectionsHtml = '';
-    ['math', 'biology', 'chemistry'].forEach(subj => {
+    [SUBJECT_CONFIG.subjectKey, ...SUBJECT_CONFIG.crossSubjects.map(s => s.key)].forEach(subj => {
       const topics = wData.subjTopics[subj];
       if (!topics || !topics.length) return;
       const showSep = Object.keys(wData.subjTopics).length > 1;
@@ -2484,7 +2544,7 @@ function showObj(ci, ti) {
   const codes = parseObjCodes(objRaw, t.syllabusRefs);
   if (codes.length && typeof syllabusIndex !== 'undefined' && Object.keys(syllabusIndex).length) {
     const sections = codes.map(code => {
-      const key   = '0580_' + code;
+      const key   = SUBJECT_CONFIG.syllabusPrefix + '_' + code;
       const entry = syllabusIndex[key];
       const titleText = entry ? escHtml(entry.title || '') : '';
       const topicText = entry ? escHtml(entry.topicArea || '') : '';
@@ -2740,7 +2800,7 @@ function _startSnapshot(uid, appRole) {
   currentRole = appRole;
 
   const db           = window.db;
-  const structureRef = doc(db, 'math_pacing', 'year9-10');
+  const structureRef = doc(db, window.SUBJECT_CONFIG.collection, window.SUBJECT_CONFIG.docId);
   const userProgRef  = doc(db, 'userProgress', uid);
 
   let firstLoad      = true;
@@ -2826,7 +2886,7 @@ window.__fbSaveState = async function(data) {
       topics: ch.topics.map(({ status, note, diag, actualHour, ...rest }) => rest),
     }));
     setDoc(
-      doc(window.db, 'math_pacing', 'year9-10'),
+      doc(window.db, window.SUBJECT_CONFIG.collection, window.SUBJECT_CONFIG.docId),
       { chapters: structureOnly, updatedAt: serverTimestamp() },
       { merge: true }
     ).catch(e => console.warn('ID backfill structure write error:', e));
@@ -2890,7 +2950,7 @@ window.__fbSaveState = async function(data) {
     });
     try {
       await setDoc(
-        doc(window.db, 'math_pacing', 'year9-10'),
+        doc(window.db, window.SUBJECT_CONFIG.collection, window.SUBJECT_CONFIG.docId),
         { chapters: structureOnly, updatedAt: serverTimestamp() },
         { merge: true }
       );
