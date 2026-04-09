@@ -637,7 +637,8 @@ body {
   transition: all .25s ease;
   z-index: 2000;
 }
-.toast.show { transform: translateY(0); opacity: 1; }
+.toast.show      { transform: translateY(0); opacity: 1; }
+.toast.show.warn { background: var(--amber); color: #fff3cd; }
 
 /* ── Utility ──────────────────────────────────────────────────── */
 .sr-only {

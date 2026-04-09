@@ -1177,6 +1177,10 @@ function renderPaceSummary() {
 // PERSIST - delegates to Firebase module
 // -----------------------------------------------------------
 function saveState() {
+  if (!currentClass || currentClass === 'default') {
+    showToast('Select a class first to save progress', 'warn');
+    return Promise.resolve();
+  }
   if (window.__fbSaveState) return window.__fbSaveState(DATA);
   return Promise.resolve();
 }
@@ -2581,12 +2585,14 @@ function renderPaperBadge(t) {
 // TOAST
 // -----------------------------------------------------------
 let toastTimer;
-function showToast(msg) {
+function showToast(msg, type) {
   const t = document.getElementById('toast');
   t.textContent = msg;
+  t.classList.remove('warn');
+  if (type) t.classList.add(type);
   t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+  toastTimer = setTimeout(() => { t.classList.remove('show', 'warn'); }, 2200);
 }
 
 // -----------------------------------------------------------
