@@ -300,6 +300,13 @@ table.topics-tbl tbody tr.inprogress-row:hover { background: #d6e6f8; }
 }
 .sil-title { color: var(--ink-2); font-size: .78rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sil-desc  { grid-column: 2 / -1; color: var(--ink-3); font-size: .72rem; line-height: 1.5; padding-top: 1px; }
+.syl-tier-badge {
+  font-size: .58rem; font-weight: 700; padding: 1px 4px; border-radius: 100px;
+  flex-shrink: 0; white-space: nowrap; align-self: center;
+}
+.syl-tier-badge.core       { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+.syl-tier-badge.supplement { background: #fef9c3; color: #a16207; border: 1px solid #fde68a; }
+.syl-tier-badge.extended   { background: #fef9c3; color: #a16207; border: 1px solid #fde68a; }
 
 /* Syllabus ref lines (shown in obj modal when igcse_syllabus data is loaded) */
 .syl-ref-line {
@@ -1536,8 +1543,7 @@ function renderPacing() {
                 const hasSyllabus = codes.length && Object.keys(syllabusIndex).length > 0;
                 const sylInlineHtml = hasSyllabus
                   ? codes.map(code => {
-                      const key   = SUBJECT_CONFIG.syllabusPrefix + '_' + code;
-                      const entry = syllabusIndex[key];
+                      const { key, entry } = lookupSyllabus(SUBJECT_CONFIG.syllabusPrefix, code);
                       const topicText = entry ? escHtml(entry.topicArea || '') : '';
                       const titleText = entry ? escHtml(entry.title || '') : '';
                       const content   = entry?.content || [];
@@ -1548,6 +1554,7 @@ function renderPacing() {
                           : '';
                       return `<div class="syl-inline-line">
                         <span class="sil-code" onclick="openSyllabusDetail('${escHtml(key)}')" title="View full syllabus detail">${escHtml(code)}</span>
+                        ${tierBadgeHtml(entry?.tier)}
                         ${topicText ? `<span class="sil-topic">${topicText}</span>` : ''}
                         <span class="sil-title">${titleText}</span>
                         ${descText ? `<div class="sil-desc">${descText}</div>` : ''}
@@ -2472,6 +2479,25 @@ function switchViewById(view) {
 // -----------------------------------------------------------
 var syllabusIndex = {};
 
+// Lookup helper: tries exact key, then _core / _supplement suffixes.
+// Biology/Chemistry/Physics docs are stored as "0610_1.1_core" etc.
+function lookupSyllabus(prefix, code) {
+  const exact = prefix + '_' + code;
+  if (syllabusIndex[exact]) return { key: exact, entry: syllabusIndex[exact] };
+  for (const suffix of ['_core', '_supplement', '_extended']) {
+    const k = exact + suffix;
+    if (syllabusIndex[k]) return { key: k, entry: syllabusIndex[k] };
+  }
+  return { key: exact, entry: undefined };
+}
+
+function tierBadgeHtml(tier) {
+  const t = (tier || '').toLowerCase();
+  const label = t === 'core' ? 'C' : t === 'supplement' ? 'S' : t === 'extended' ? 'E' : '';
+  if (!label) return '';
+  return `<span class="syl-tier-badge ${t}">${label}</span>`;
+}
+
 function openSyllabusDetail(indexKey) {
   const entry = syllabusIndex[indexKey];
   const modal = document.getElementById('syllabusDetailModal');
@@ -2544,8 +2570,7 @@ function showObj(ci, ti) {
   const codes = parseObjCodes(objRaw, t.syllabusRefs);
   if (codes.length && typeof syllabusIndex !== 'undefined' && Object.keys(syllabusIndex).length) {
     const sections = codes.map(code => {
-      const key   = SUBJECT_CONFIG.syllabusPrefix + '_' + code;
-      const entry = syllabusIndex[key];
+      const { key, entry } = lookupSyllabus(SUBJECT_CONFIG.syllabusPrefix, code);
       const titleText = entry ? escHtml(entry.title || '') : '';
       const topicText = entry ? escHtml(entry.topicArea || '') : '';
       const tier      = entry?.tier ? escHtml(entry.tier) : '';
@@ -2568,9 +2593,9 @@ function showObj(ci, ti) {
       return `<div class="obj-syl-section">
         <div class="obj-syl-header">
           <span class="srl-code" onclick="openSyllabusDetail('${escHtml(key)}')" title="View full detail">${escHtml(code)}</span>
+          ${tierBadgeHtml(entry?.tier)}
           ${topicText ? `<span class="srl-topic">${topicText}</span>` : ''}
           ${titleText ? `<span class="obj-syl-title">${titleText}</span>` : ''}
-          ${tier ? `<span class="syl-detail-tier">${tier}</span>` : ''}
         </div>
         ${descHtml}
         ${contentHtml || notesHtml
