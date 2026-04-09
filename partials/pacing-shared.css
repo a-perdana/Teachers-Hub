@@ -455,3 +455,120 @@ table.topics-tbl th.col-status, table.topics-tbl td.col-status { display: none; 
 .wt-dot.subj-biology  { background: #27ae60; }
 .wt-dot.subj-chemistry { background: #e67e22; }
 .wt-dot.subj-physics  { background: #2980b9; }
+
+/* ─── BULK DONE BUTTON ─────────────────────────────────────── */
+.bulk-done-btn {
+  display: none; font-family: 'DM Sans', sans-serif;
+  font-size: .62rem; font-weight: 600; padding: 3px 9px;
+  border-radius: 6px; border: 1px solid rgba(22,101,52,.3);
+  background: none; color: #166534; cursor: pointer;
+  transition: all .15s; flex-shrink: 0; margin-left: auto;
+}
+.bulk-done-btn:hover { background: #e8f7ef; border-color: #166534; }
+.ch-header:hover .bulk-done-btn,
+.bulk-done-btn:focus { display: inline-flex; align-items: center; gap: 3px; }
+.admin-mode .bulk-done-btn { display: inline-flex; align-items: center; gap: 3px; }
+
+/* ─── AO BADGES (Assessment Objective tags) ────────────────── */
+.ao-badge {
+  display: inline-flex; align-items: center;
+  font-size: .58rem; font-weight: 700; letter-spacing: .04em;
+  padding: 1px 6px; border-radius: 4px; flex-shrink: 0;
+  line-height: 1.6;
+}
+.ao-badge.ao1 { background: #eef4ff; color: #1a5fa8; border: 1px solid #c2d8f5; }
+.ao-badge.ao2 { background: #f2ecfb; color: #6c3fa0; border: 1px solid #d5c3f0; }
+.ao-badge.ao12 { background: #fff8e6; color: #b45309; border: 1px solid #f0dea0; }
+.ao-badges-wrap { display: inline-flex; gap: 3px; align-items: center; }
+
+/* ─── PAPER INDICATOR BADGES ───────────────────────────────── */
+.paper-badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: .58rem; font-weight: 700; letter-spacing: .03em;
+  padding: 1px 6px; border-radius: 4px; flex-shrink: 0;
+  line-height: 1.6;
+}
+.paper-badge.core     { background: #e8f7ef; color: #166534; border: 1px solid #bbf7d0; }
+.paper-badge.extended { background: #fff0f0; color: #991b1b; border: 1px solid #fecaca; }
+.paper-badge.both     { background: #f0f4ff; color: #1e40af; border: 1px solid #bfdbfe; }
+
+/* ─── REVISIT STATUS (4th state) ──────────────────────────── */
+.sp-btn.sp-revisit  { border-color: #f0dea0; color: #b45309; }
+.sp-btn.sp-revisit.sp-on { background: #fff8e6; border-color: #d97706; color: #92400e; font-weight: 700; }
+.tcheck.revisit {
+  background: #fff8e6;
+  border-color: #d97706;
+}
+.tcheck.revisit::after {
+  content: '↺';
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .65rem; color: #d97706; font-weight: 700;
+}
+tr.revisit-row td { background: rgba(251,242,214,.3); }
+
+/* ─── COMMAND WORD BADGES (Cambridge) ─────────────────────── */
+.cmd-words-wrap {
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.cmd-words-label {
+  font-size: .62rem; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px;
+}
+.cmd-word-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.cmd-chip {
+  font-size: .63rem; font-weight: 500;
+  padding: 2px 8px; border-radius: 4px;
+  background: var(--paper-2); color: var(--ink-2);
+  border: 1px solid var(--border);
+}
+
+/* ─── GLH PROGRESS BANNER ─────────────────────────────────── */
+.glh-banner {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px 18px;
+  margin-bottom: 16px; box-shadow: var(--shadow-sm);
+}
+.glh-banner-head {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;
+}
+.glh-banner-title {
+  font-size: .72rem; font-weight: 700; color: var(--ink); flex: 1;
+}
+.glh-banner-nums {
+  font-size: .72rem; font-family: 'DM Mono', monospace; color: var(--ink-2);
+}
+.glh-track {
+  height: 10px; background: var(--border); border-radius: 5px; overflow: hidden;
+  position: relative;
+}
+.glh-fill-planned { height: 100%; border-radius: 5px; transition: width .5s; }
+.glh-fill-projected {
+  position: absolute; top: 0; height: 100%; border-radius: 5px;
+  opacity: 0.35;
+}
+.glh-legend { display: flex; gap: 14px; margin-top: 6px; flex-wrap: wrap; }
+.glh-legend-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: .65rem; color: var(--ink-3);
+}
+.glh-legend-dot {
+  width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+}
+.glh-stat-row {
+  display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap;
+}
+.glh-stat {
+  flex: 1; min-width: 80px;
+  background: var(--paper); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 12px; text-align: center;
+}
+.glh-stat-num {
+  font-size: 1.1rem; font-weight: 700; color: var(--ink);
+  font-family: 'DM Mono', monospace; line-height: 1;
+}
+.glh-stat-label { font-size: .62rem; color: var(--ink-3); margin-top: 3px; }
+.glh-stat.over .glh-stat-num  { color: var(--accent); }
+.glh-stat.ok   .glh-stat-num  { color: var(--green);  }
+.glh-stat.warn .glh-stat-num  { color: #d97706; }
