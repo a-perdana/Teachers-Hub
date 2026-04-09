@@ -1975,14 +1975,14 @@ function renderCoverage() {
   const el = document.getElementById('coverageReport');
   if (!el) return;
 
-  // Collect all obj codes from all topics
-  const codeMap = {}; // code -> [{ ci, ti, topic, status }]
+  // Collect all obj codes from all topics (include diag tag)
+  const codeMap = {}; // code -> [{ ci, ti, topic, status, diag, chapter }]
   DATA.forEach((ch, ci) => {
     ch.topics.forEach((t, ti) => {
       const codes = parseObjCodes(t.objective || '', t.syllabusRefs);
       codes.forEach(code => {
         if (!codeMap[code]) codeMap[code] = [];
-        codeMap[code].push({ ci, ti, topic: t.topic, status: t.status, chapter: ch.chapter });
+        codeMap[code].push({ ci, ti, topic: t.topic, status: t.status, diag: t.diag || '', chapter: ch.chapter });
       });
     });
   });
@@ -1991,7 +1991,10 @@ function renderCoverage() {
   const total    = allCodes.length;
   const covered  = allCodes.filter(c => codeMap[c].every(t => t.status === 'done')).length;
   const partial  = allCodes.filter(c => codeMap[c].some(t => t.status === 'done') && !codeMap[c].every(t => t.status === 'done')).length;
-  const uncov    = allCodes.filter(c => codeMap[c].every(t => t.status === 'pending')).length;
+  const uncov    = allCodes.filter(c => codeMap[c].every(t => t.status !== 'done')).length;
+  // Diagnostic counts across all objectives
+  const weakCodes    = allCodes.filter(c => codeMap[c].some(t => t.diag === 'weak')).length;
+  const reviewCodes  = allCodes.filter(c => codeMap[c].some(t => t.diag === 'review') && !codeMap[c].some(t => t.diag === 'weak')).length;
 
   if (!total) {
     el.innerHTML = '<div class="empty"><p style="color:var(--ink-2);font-size:.8rem">No objective codes found. Coordinators can add Cambridge objective codes (e.g. C1.1, E2.3) to topic objectives.</p></div>';
@@ -2007,6 +2010,7 @@ function renderCoverage() {
         if (coverageFilter === 'covered')   return allDone;
         if (coverageFilter === 'partial')   return someDone && !allDone;
         if (coverageFilter === 'uncovered') return !someDone;
+        if (coverageFilter === 'weak')      return codeMap[code].some(t => t.diag === 'weak');
         return true;
       });
 
@@ -2018,6 +2022,7 @@ function renderCoverage() {
       <div class="cov-stat ok"><div class="cov-stat-num">${covered}</div><div class="cov-stat-label">Fully covered (${pct}%)</div></div>
       <div class="cov-stat"><div class="cov-stat-num" style="color:var(--amber,#d97706)">${partial}</div><div class="cov-stat-label">In progress</div></div>
       <div class="cov-stat danger"><div class="cov-stat-num">${uncov}</div><div class="cov-stat-label">Not started</div></div>
+      ${weakCodes > 0 ? `<div class="cov-stat danger"><div class="cov-stat-num">${weakCodes}</div><div class="cov-stat-label">⚠ Has weak topic</div></div>` : ''}
     </div>
 
     <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;margin-bottom:16px;box-shadow:var(--shadow-sm)">
@@ -2034,7 +2039,8 @@ function renderCoverage() {
       <button class="cov-filter-chip${coverageFilter==='all'?' on':''}" onclick="setCovFilter('all')">All (${total})</button>
       <button class="cov-filter-chip${coverageFilter==='covered'?' on':''}" onclick="setCovFilter('covered')">Covered (${covered})</button>
       <button class="cov-filter-chip${coverageFilter==='partial'?' on':''}" onclick="setCovFilter('partial')">In Progress (${partial})</button>
-      <button class="cov-filter-chip${coverageFilter==='uncovered'?' on':''}" onclick="setCovFilter('uncovered')" style="color:${coverageFilter==='uncovered'?'':'var(--accent)'}">Not Started (${uncov})</button>
+      <button class="cov-filter-chip${coverageFilter==='uncovered'?' on':''}" onclick="setCovFilter('uncovered')">Not Started (${uncov})</button>
+      ${weakCodes > 0 ? `<button class="cov-filter-chip${coverageFilter==='weak'?' on':''}" onclick="setCovFilter('weak')" style="border-color:#fca5a5;color:#dc2626">⚠ Weak (${weakCodes})</button>` : ''}
     </div>
 
     ${visible.length === 0 ? '<p style="color:var(--ink-3);font-size:.8rem;padding:12px 0">No objectives match this filter.</p>' : ''}
@@ -2042,7 +2048,7 @@ function renderCoverage() {
     <table class="coverage-table">
       <thead><tr>
         <th style="width:90px">Code</th>
-        <th style="width:100px">Status</th>
+        <th style="width:110px">Status</th>
         <th>Topics using this objective</th>
       </tr></thead>
       <tbody>
@@ -2050,15 +2056,27 @@ function renderCoverage() {
           const topics = codeMap[code];
           const allDone  = topics.every(t => t.status === 'done');
           const someDone = topics.some(t => t.status === 'done');
-          const rowClass = allDone ? 'cov-covered' : someDone ? 'cov-partial' : 'cov-uncovered';
+          const hasWeak   = topics.some(t => t.diag === 'weak');
+          const hasReview = topics.some(t => t.diag === 'review');
+          const rowClass = hasWeak ? 'cov-uncovered' : allDone ? 'cov-covered' : someDone ? 'cov-partial' : 'cov-uncovered';
           const badge    = allDone ? 'covered' : someDone ? 'partial' : 'uncovered';
           const badgeLabel = allDone ? 'Covered' : someDone ? 'In Progress' : 'Not Started';
-          const topicLinks = topics.map(t =>
-            `<span class="cov-topic-link ${t.status}" onclick="scrollToChapter(${t.ci})" title="Ch ${t.ci+1}: ${escHtml(t.chapter)}">${escHtml(t.topic.substring(0,40))}${t.topic.length>40?'…':''}</span>`
-          ).join('');
+          const diagBadge = hasWeak
+            ? `<span style="font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:100px;background:#fee2e2;color:#dc2626;border:1px solid #fca5a5;white-space:nowrap">⚠ Weak</span>`
+            : hasReview
+            ? `<span style="font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:100px;background:#fef9c3;color:#92400e;border:1px solid #fde68a;white-space:nowrap">↻ Review</span>`
+            : '';
+          const topicLinks = topics.map(t => {
+            const diagDot = t.diag === 'weak'
+              ? `<span title="Weak" style="color:#dc2626;font-size:.7rem">⚠</span>`
+              : t.diag === 'review'
+              ? `<span title="Needs review" style="color:#d97706;font-size:.7rem">↻</span>`
+              : '';
+            return `<span class="cov-topic-link ${t.status}" onclick="scrollToChapter(${t.ci})" title="Ch ${t.ci+1}: ${escHtml(t.chapter)}">${diagDot}${escHtml(t.topic.substring(0,38))}${t.topic.length>38?'…':''}</span>`;
+          }).join('');
           return `<tr class="${rowClass}">
             <td><span class="cov-code">${escHtml(code)}</span></td>
-            <td><span class="cov-status-badge ${badge}">${badgeLabel}</span></td>
+            <td style="display:flex;gap:4px;align-items:center;flex-wrap:wrap"><span class="cov-status-badge ${badge}">${badgeLabel}</span>${diagBadge}</td>
             <td><div class="cov-topic-links">${topicLinks}</div></td>
           </tr>`;
         }).join('')}
@@ -2069,6 +2087,97 @@ function renderCoverage() {
 function setCovFilter(f) {
   coverageFilter = f;
   renderCoverage();
+}
+
+// -----------------------------------------------------------
+// DIAGNOSTIC ROLLUP — appended to Hours Report
+// -----------------------------------------------------------
+function renderDiagRollup() {
+  const container = document.getElementById('varianceReport');
+  if (!container || !DATA.length) return;
+
+  // Collect weak + revisit topics per chapter
+  const weakByChapter = [];
+  const revisitByChapter = [];
+  let totalWeak = 0, totalRevisit = 0;
+
+  DATA.forEach((ch, ci) => {
+    const weakTopics = ch.topics.filter(t => t.diag === 'weak');
+    const revisitTopics = ch.topics.filter(t => t.status === 'revisit');
+    if (weakTopics.length) {
+      weakByChapter.push({ chapter: ch.chapter, ci, topics: weakTopics });
+      totalWeak += weakTopics.length;
+    }
+    if (revisitTopics.length) {
+      revisitByChapter.push({ chapter: ch.chapter, ci, topics: revisitTopics });
+      totalRevisit += revisitTopics.length;
+    }
+  });
+
+  if (totalWeak === 0 && totalRevisit === 0) return; // nothing to show
+
+  // Remove previous rollup if re-rendering
+  const existing = document.getElementById('diagRollupPanel');
+  if (existing) existing.remove();
+
+  const panel = document.createElement('div');
+  panel.id = 'diagRollupPanel';
+  panel.style.cssText = 'margin-top:24px';
+
+  const renderChapterList = (items, accentColor, accentBg, icon, diagLabel) => {
+    if (!items.length) return `<p style="color:var(--ink-3);font-size:.8rem;padding:8px 0">None</p>`;
+    return items.map(({ chapter, ci, topics }) => `
+      <div style="margin-bottom:12px">
+        <div style="font-size:.72rem;font-weight:700;color:var(--ink-2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">
+          Ch ${ci + 1} — ${escHtml(chapter)}
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          ${topics.map(t => `
+            <span onclick="scrollToChapter(${ci})" style="cursor:pointer;font-size:.72rem;padding:3px 10px;border-radius:100px;background:${accentBg};border:1px solid ${accentColor};color:${accentColor};display:inline-flex;align-items:center;gap:4px" title="${escHtml(t.topic)}">
+              ${icon} ${escHtml(t.topic.substring(0, 40))}${t.topic.length > 40 ? '…' : ''}
+            </span>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+  };
+
+  panel.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <span style="font-size:.75rem;font-weight:700;color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em">Coordinator Attention</span>
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+      ${totalWeak > 0 ? `
+      <div style="background:white;border:1px solid #fca5a5;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+          <span style="font-size:1rem">⚠</span>
+          <div>
+            <div style="font-size:.78rem;font-weight:700;color:#dc2626">${totalWeak} Weak Topic${totalWeak !== 1 ? 's' : ''}</div>
+            <div style="font-size:.68rem;color:var(--ink-3)">Flagged by coordinator — needs re-teaching</div>
+          </div>
+        </div>
+        ${renderChapterList(weakByChapter, '#dc2626', '#fee2e2', '⚠', 'weak')}
+      </div>
+      ` : ''}
+
+      ${totalRevisit > 0 ? `
+      <div style="background:white;border:1px solid #fde68a;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+          <span style="font-size:1rem">↺</span>
+          <div>
+            <div style="font-size:.78rem;font-weight:700;color:#d97706">${totalRevisit} Topic${totalRevisit !== 1 ? 's' : ''} Marked for Revisit</div>
+            <div style="font-size:.68rem;color:var(--ink-3)">Scheduled for additional review</div>
+          </div>
+        </div>
+        ${renderChapterList(revisitByChapter, '#d97706', '#fef9c3', '↺', 'revisit')}
+      </div>
+      ` : ''}
+    </div>
+  `;
+
+  container.appendChild(panel);
 }
 
 // -----------------------------------------------------------
@@ -2866,6 +2975,7 @@ function render() {
   renderWeekly();
   renderCoverage();
   renderVariance();
+  renderDiagRollup();
 }
 
 // Re-render on resize so gallery cols and page size stay correct
