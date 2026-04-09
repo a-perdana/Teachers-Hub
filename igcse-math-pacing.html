@@ -2853,7 +2853,6 @@ window.addEventListener('resize', () => {
 <script type="module">
 import {
   getFirestore,
-  enableIndexedDbPersistence,
   collection,
   doc,
   getDoc,
@@ -3148,16 +3147,6 @@ async function loadSyllabus() {
 // -- auth-guard.js dispatches authReady when auth + role confirmed -
 document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   const appRole = profile.role_teachershub === 'teachers_admin' ? 'admin' : 'teacher';
-
-  // Enable offline persistence so teachers don't lose progress on connectivity drops
-  enableIndexedDbPersistence(window.db).catch(err => {
-    if (err.code === 'failed-precondition') {
-      // Multiple tabs open — persistence only works in one tab at a time
-      console.warn('Firestore offline persistence unavailable: multiple tabs open');
-    } else if (err.code === 'unimplemented') {
-      console.warn('Firestore offline persistence not supported in this browser');
-    }
-  });
 
   loadCalendarSettings(window.db);
   loadSyllabus();
