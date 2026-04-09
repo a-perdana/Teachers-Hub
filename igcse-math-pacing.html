@@ -2094,13 +2094,23 @@ let _resetTimer = null;
 function resetMyProgress() {
   const btn = document.getElementById('teacherResetBtn');
   if (!btn) return;
+
+  if (!currentClass || currentClass === 'default') {
+    showToast('Select a class first to reset progress', 'warn');
+    return;
+  }
+
   if (btn.dataset.confirming === '1') {
     clearTimeout(btn._timer);
     btn.dataset.confirming = '';
     btn.textContent = 'Reset My Progress';
     btn.style.background = '';
     DATA.forEach(ch => ch.topics.forEach(t => t.status = 'pending'));
-    saveState(); render(); showToast('Your progress has been reset');
+    // Bypass saveState() guard — write directly to Firestore
+    if (window.__fbSaveState) {
+      window.__fbSaveState(DATA).then(() => showToast('Your progress has been reset'));
+    }
+    render();
   } else {
     btn.dataset.confirming = '1';
     btn.textContent = 'Click again to confirm';
