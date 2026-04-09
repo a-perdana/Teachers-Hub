@@ -1175,14 +1175,15 @@ function renderPaceSummary() {
 
 // -----------------------------------------------------------
 // PERSIST - delegates to Firebase module
+// Returns false if blocked (no class selected), true otherwise.
 // -----------------------------------------------------------
 function saveState() {
   if (!currentClass || currentClass === 'default') {
     showToast('Select a class first to save progress', 'warn');
-    return Promise.resolve();
+    return false;
   }
-  if (window.__fbSaveState) return window.__fbSaveState(DATA);
-  return Promise.resolve();
+  if (window.__fbSaveState) window.__fbSaveState(DATA);
+  return true;
 }
 
 // -----------------------------------------------------------
@@ -1982,6 +1983,10 @@ function renderDiagRollup() {
 // INTERACTIONS
 // -----------------------------------------------------------
 function toggleDone(ci, ti) {
+  if (!currentClass || currentClass === 'default') {
+    showToast('Select a class first to save progress', 'warn');
+    return;
+  }
   const cur = DATA[ci].topics[ti].status;
   // Cycle: pending → inprogress → done → pending (revisit stays out of cycle — use pill)
   const next = cur === 'pending' ? 'inprogress' : cur === 'inprogress' ? 'done' : 'pending';
@@ -1995,6 +2000,10 @@ function toggleDone(ci, ti) {
 }
 
 function bulkMarkDone(ci) {
+  if (!currentClass || currentClass === 'default') {
+    showToast('Select a class first to save progress', 'warn');
+    return;
+  }
   const ch = DATA[ci];
   if (!ch) return;
   const allDone = ch.topics.every(t => t.status === 'done');
@@ -2006,6 +2015,10 @@ function bulkMarkDone(ci) {
 }
 
 function setStatus(ci, ti, val) {
+  if (!currentClass || currentClass === 'default') {
+    showToast('Select a class first to save progress', 'warn');
+    return;
+  }
   DATA[ci].topics[ti].status = val;
   // Clear status filter so the topic doesn't disappear after status change
   if (filterStatus !== 'all') {
