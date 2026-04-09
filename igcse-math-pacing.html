@@ -2155,11 +2155,18 @@ function buildClassSelector() {
   const select = document.getElementById('classSelect');
   if (!wrap || !select) return;
 
-  wrap.style.display = classList.length > 0 ? 'flex' : 'none';
+  // Prefer the teacher's own IGCSE class list from their profile.
+  // Fall back to the admin-defined global list from Firestore.
+  const profileClasses = Array.isArray(window.userProfile?.igcse_classes) && window.userProfile.igcse_classes.length
+    ? window.userProfile.igcse_classes
+    : null;
+  const effectiveList = profileClasses || classList;
 
-  if (classList.length > 0) {
+  wrap.style.display = effectiveList.length > 0 ? 'flex' : 'none';
+
+  if (effectiveList.length > 0) {
     select.innerHTML = '<option value="default">All Classes</option>';
-    classList.forEach(cls => {
+    effectiveList.forEach(cls => {
       const opt = document.createElement('option');
       opt.value = cls;
       opt.textContent = cls;
