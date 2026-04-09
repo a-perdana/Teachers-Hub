@@ -250,7 +250,7 @@ table.topics-tbl tbody tr.inprogress-row:hover { background: #d6e6f8; }
   width: 17px; height: 17px;
   border: 2px solid var(--border); border-radius: 4px;
   cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: all .15s; flex-shrink: 0;
+  transition: all .15s; flex-shrink: 0; position: relative;
 }
 .tcheck:hover { border-color: var(--blue); }
 .tcheck.mid { background: var(--blue-2); border-color: var(--blue); }
@@ -2079,6 +2079,11 @@ function toggleDone(ci, ti) {
   // Cycle: pending → inprogress → done → pending (revisit stays out of cycle — use pill)
   const next = cur === 'pending' ? 'inprogress' : cur === 'inprogress' ? 'done' : 'pending';
   DATA[ci].topics[ti].status = next;
+  // Clear status filter so the topic doesn't disappear after status change
+  if (filterStatus !== 'all') {
+    filterStatus = 'all';
+    document.querySelectorAll('[data-status]').forEach(c => c.classList.toggle('on', c.dataset.status === 'all'));
+  }
   saveState(); render();
 }
 
@@ -2095,6 +2100,11 @@ function bulkMarkDone(ci) {
 
 function setStatus(ci, ti, val) {
   DATA[ci].topics[ti].status = val;
+  // Clear status filter so the topic doesn't disappear after status change
+  if (filterStatus !== 'all') {
+    filterStatus = 'all';
+    document.querySelectorAll('[data-status]').forEach(c => c.classList.toggle('on', c.dataset.status === 'all'));
+  }
   saveState(); render();
 }
 
