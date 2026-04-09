@@ -750,6 +750,124 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .week-load-fill.load-heavy   { background: var(--accent); }
 
 <!-- PACING_SHARED_CSS -->
+
+/* ─── BULK DONE BUTTON ─────────────────────────────────────── */
+.bulk-done-btn {
+  display: none; font-family: 'DM Sans', sans-serif;
+  font-size: .62rem; font-weight: 600; padding: 3px 9px;
+  border-radius: 6px; border: 1px solid rgba(22,101,52,.3);
+  background: none; color: #166534; cursor: pointer;
+  transition: all .15s; flex-shrink: 0; margin-left: auto;
+}
+.bulk-done-btn:hover { background: #e8f7ef; border-color: #166534; }
+.ch-header:hover .bulk-done-btn,
+.bulk-done-btn:focus { display: inline-flex; align-items: center; gap: 3px; }
+/* always show for admin */
+.admin-mode .bulk-done-btn { display: inline-flex; align-items: center; gap: 3px; }
+
+/* ─── AO BADGES (Assessment Objective tags) ────────────────── */
+.ao-badge {
+  display: inline-flex; align-items: center;
+  font-size: .58rem; font-weight: 700; letter-spacing: .04em;
+  padding: 1px 6px; border-radius: 4px; flex-shrink: 0;
+  line-height: 1.6;
+}
+.ao-badge.ao1 { background: #eef4ff; color: #1a5fa8; border: 1px solid #c2d8f5; }
+.ao-badge.ao2 { background: #f2ecfb; color: #6c3fa0; border: 1px solid #d5c3f0; }
+.ao-badge.ao12 { background: #fff8e6; color: #b45309; border: 1px solid #f0dea0; }
+.ao-badges-wrap { display: inline-flex; gap: 3px; align-items: center; }
+
+/* ─── PAPER INDICATOR BADGES ───────────────────────────────── */
+.paper-badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: .58rem; font-weight: 700; letter-spacing: .03em;
+  padding: 1px 6px; border-radius: 4px; flex-shrink: 0;
+  line-height: 1.6;
+}
+.paper-badge.core     { background: #e8f7ef; color: #166534; border: 1px solid #bbf7d0; }
+.paper-badge.extended { background: #fff0f0; color: #991b1b; border: 1px solid #fecaca; }
+.paper-badge.both     { background: #f0f4ff; color: #1e40af; border: 1px solid #bfdbfe; }
+
+/* ─── REVISIT STATUS (4th state) ──────────────────────────── */
+.sp-btn.sp-revisit  { border-color: #f0dea0; color: #b45309; }
+.sp-btn.sp-revisit.sp-on { background: #fff8e6; border-color: #d97706; color: #92400e; font-weight: 700; }
+.tcheck.revisit {
+  background: #fff8e6;
+  border-color: #d97706;
+}
+.tcheck.revisit::after {
+  content: '↺';
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .65rem; color: #d97706; font-weight: 700;
+}
+tr.revisit-row td { background: rgba(251,242,214,.3); }
+
+/* ─── COMMAND WORD BADGES (Cambridge) ─────────────────────── */
+.cmd-words-wrap {
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.cmd-words-label {
+  font-size: .62rem; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px;
+}
+.cmd-word-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.cmd-chip {
+  font-size: .63rem; font-weight: 500;
+  padding: 2px 8px; border-radius: 4px;
+  background: var(--paper-2); color: var(--ink-2);
+  border: 1px solid var(--border);
+}
+
+/* ─── GLH PROGRESS BANNER ─────────────────────────────────── */
+.glh-banner {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px 18px;
+  margin-bottom: 16px; box-shadow: var(--shadow-sm);
+}
+.glh-banner-head {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;
+}
+.glh-banner-title {
+  font-size: .72rem; font-weight: 700; color: var(--ink); flex: 1;
+}
+.glh-banner-nums {
+  font-size: .72rem; font-family: 'DM Mono', monospace; color: var(--ink-2);
+}
+.glh-track {
+  height: 10px; background: var(--border); border-radius: 5px; overflow: hidden;
+  position: relative;
+}
+.glh-fill-planned { height: 100%; border-radius: 5px; transition: width .5s; }
+.glh-fill-projected {
+  position: absolute; top: 0; height: 100%; border-radius: 5px;
+  opacity: 0.35;
+}
+.glh-legend { display: flex; gap: 14px; margin-top: 6px; flex-wrap: wrap; }
+.glh-legend-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: .65rem; color: var(--ink-3);
+}
+.glh-legend-dot {
+  width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+}
+.glh-stat-row {
+  display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap;
+}
+.glh-stat {
+  flex: 1; min-width: 80px;
+  background: var(--paper); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 12px; text-align: center;
+}
+.glh-stat-num {
+  font-size: 1.1rem; font-weight: 700; color: var(--ink);
+  font-family: 'DM Mono', monospace; line-height: 1;
+}
+.glh-stat-label { font-size: .62rem; color: var(--ink-3); margin-top: 3px; }
+.glh-stat.over .glh-stat-num  { color: var(--accent); }
+.glh-stat.ok   .glh-stat-num  { color: var(--green);  }
+.glh-stat.warn .glh-stat-num  { color: #d97706; }
 </style>
 
 <script src="partials/navbar.js"></script>
@@ -854,6 +972,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
         <div class="chip" data-status="pending" tabindex="0" role="button">Pending</div>
         <div class="chip" data-status="inprogress" tabindex="0" role="button">In Progress</div>
         <div class="chip" data-status="done" tabindex="0" role="button">Done</div>
+        <div class="chip" data-status="revisit" tabindex="0" role="button">Revisit</div>
       </div>
     </div>
     <div class="ch-nav" id="chNav"></div>
@@ -1521,6 +1640,7 @@ function renderPacing() {
           <span class="ch-topic-count">${ch.topics.length} topics</span>
         </div>
         <button class="del-ch-btn" onclick="event.stopPropagation();deleteChapter(${ci})" title="Delete chapter">x</button>
+        <button class="bulk-done-btn" onclick="event.stopPropagation();bulkMarkDone(${ci})" title="Mark all topics in this chapter as Done">✓ All Done</button>
         <span class="ch-caret">▾</span>
       </div>
       <div class="topics-wrap">
@@ -1536,7 +1656,7 @@ function renderPacing() {
               const pageTopics = filteredTopics.slice(start, start + PAGE_SIZE);
               return pageTopics.map(({t, ti}) => {
                 const codes   = parseObjCodes(t.objective, t.syllabusRefs);
-                const rowClass = t.status === 'done' ? 'done-row' : t.status === 'inprogress' ? 'inprogress-row' : '';
+                const rowClass = t.status === 'done' ? 'done-row' : t.status === 'inprogress' ? 'inprogress-row' : t.status === 'revisit' ? 'revisit-row' : '';
                 const isAdmin  = role === 'admin';
                 const hasRes   = (t.resources || []).length > 0;
                 // Build inline syllabus block if index is loaded
@@ -1571,7 +1691,7 @@ function renderPacing() {
                 return `
                 <tr class="${rowClass}" id="row-${ci}-${ti}">
                   <td>
-                    <div class="tcheck ${t.status==='done'?'on':t.status==='inprogress'?'mid':''}" onclick="toggleDone(${ci},${ti})" title="${t.status==='pending'?'Mark in progress':t.status==='inprogress'?'Mark done':'Mark pending'}"></div>
+                    <div class="tcheck ${t.status==='done'?'on':t.status==='inprogress'?'mid':t.status==='revisit'?'revisit':''}" onclick="toggleDone(${ci},${ti})" title="${t.status==='pending'?'Mark in progress':t.status==='inprogress'?'Mark done':t.status==='done'?'Mark pending':'Mark pending'}"></div>
                     <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">&#215;</button>
                   </td>
                   <td class="topic-cell">
@@ -1602,7 +1722,10 @@ function renderPacing() {
                         <button class="sp-btn sp-pending   ${t.status==='pending'   ?'sp-on':''}" onclick="setStatus(${ci},${ti},'pending')">Pending</button>
                         <button class="sp-btn sp-inprogress ${t.status==='inprogress'?'sp-on':''}" onclick="setStatus(${ci},${ti},'inprogress')">In Progress</button>
                         <button class="sp-btn sp-done      ${t.status==='done'      ?'sp-on':''}" onclick="setStatus(${ci},${ti},'done')">Done</button>
+                        <button class="sp-btn sp-revisit   ${t.status==='revisit'   ?'sp-on':''}" onclick="setStatus(${ci},${ti},'revisit')" title="Needs re-teaching / revisit">↺ Revisit</button>
                       </div>
+                      ${renderAoBadges(t)}
+                      ${renderPaperBadge(t)}
                       <button class="note-btn${t.note ? ' has-note' : ''}" onclick="toggleNote(${ci},${ti})" title="${t.note ? 'Edit note' : 'Add teacher note'}">&#9998; ${t.note ? 'Note' : 'Add note'}</button>
                       ${renderDiagBtn(ci, ti, t)}
                       ${(t.coordNote || role === 'admin') ? `<button class="coord-btn${t.coordNote ? ' has-coord' : ''}" onclick="toggleCoordNote(${ci},${ti})" title="Coordinator shared note">&#9432; ${t.coordNote ? 'Coord Note' : 'Add Coord Note'}</button>` : ''}
@@ -2066,9 +2189,21 @@ function setCovFilter(f) {
 // -----------------------------------------------------------
 function toggleDone(ci, ti) {
   const cur = DATA[ci].topics[ti].status;
+  // Cycle: pending → inprogress → done → pending (revisit stays out of cycle — use pill)
   const next = cur === 'pending' ? 'inprogress' : cur === 'inprogress' ? 'done' : 'pending';
   DATA[ci].topics[ti].status = next;
   saveState(); render();
+}
+
+function bulkMarkDone(ci) {
+  const ch = DATA[ci];
+  if (!ch) return;
+  const allDone = ch.topics.every(t => t.status === 'done');
+  // Toggle: if all done → reset to pending; otherwise → mark all done
+  const newStatus = allDone ? 'pending' : 'done';
+  ch.topics.forEach(t => { t.status = newStatus; });
+  saveState(); render();
+  showToast(allDone ? 'Chapter reset to pending' : 'All topics marked done');
 }
 
 function setStatus(ci, ti, val) {
@@ -2475,6 +2610,57 @@ function switchViewById(view) {
 }
 
 // -----------------------------------------------------------
+// CAMBRIDGE COMMAND WORDS (IGCSE Mathematics 0580, Syllabus 2025-2027)
+// -----------------------------------------------------------
+const CAMBRIDGE_CMD_WORDS = {
+  'Calculate':   'Work out from given facts, figures or information.',
+  'Construct':   'Make an accurate drawing.',
+  'Determine':   'Establish with certainty.',
+  'Describe':    'State the points of a topic / give characteristics and main features.',
+  'Explain':     'Set out purposes or reasons / make the relationships between things clear.',
+  'Give':        'Produce an answer from a given source or recall/memory.',
+  'Plot':        'Mark accurate points on a graph using data given.',
+  'Show (that)': 'Provide structured evidence that leads to a given result.',
+  'Sketch':      'Make a simple freehand drawing showing the key features.',
+  'State':       'Express in clear terms.',
+  'Work out':    'Calculate from given facts, figures or information.',
+  'Write':       'Give an answer in a specific form.',
+  'Write down':  'Give an answer without needing to show working.',
+};
+
+// Detect which command words are likely relevant to a syllabus entry
+function detectCmdWords(entry) {
+  if (!entry) return [];
+  const text = [
+    entry.title || '',
+    entry.description || '',
+    ...(entry.content || []),
+    ...(entry.notes || entry.notesExamples || []),
+  ].join(' ').toLowerCase();
+
+  return Object.keys(CAMBRIDGE_CMD_WORDS).filter(cw => {
+    const lower = cw.toLowerCase();
+    return text.includes(lower) || text.includes(lower.replace(' (that)', ''));
+  });
+}
+
+function renderCmdWordBadges(entry) {
+  const detected = detectCmdWords(entry);
+  // Always show all 13 command words; highlight detected ones
+  const chips = Object.keys(CAMBRIDGE_CMD_WORDS).map(cw => {
+    const isDetected = detected.includes(cw);
+    const style = isDetected
+      ? 'background:#eef4ff;color:#1a5fa8;border-color:#c2d8f5;font-weight:700'
+      : '';
+    return `<span class="cmd-chip" title="${escHtml(CAMBRIDGE_CMD_WORDS[cw])}" style="${style}">${escHtml(cw)}</span>`;
+  }).join('');
+  return `<div class="cmd-words-wrap">
+    <div class="cmd-words-label">Cambridge Command Words</div>
+    <div class="cmd-word-chips">${chips}</div>
+  </div>`;
+}
+
+// -----------------------------------------------------------
 // SYLLABUS INDEX (populated by Firebase module after auth)
 // -----------------------------------------------------------
 var syllabusIndex = {};
@@ -2543,7 +2729,8 @@ function openSyllabusDetail(indexKey) {
         ${tier ? `<span class="syl-detail-tier">${escHtml(tier)}</span>` : ''}
       </div>
       ${descHtml}
-      ${colsHtml}`;
+      ${colsHtml}
+      ${renderCmdWordBadges(entry)}`;
   }
 
   modal.classList.add('open');
@@ -2683,6 +2870,65 @@ function applyRole(r) {
 }
 
 // -----------------------------------------------------------
+// AO BADGE HELPERS
+// Cambridge IGCSE 0580: AO1 = Knowledge & techniques (Core 60-70%, Ext 40-50%)
+//                       AO2 = Analyse/Interpret/Communicate (Core 30-40%, Ext 50-60%)
+// Topic-level AO is derived from the objective codes:
+//   - Pure computation/recall topics → AO1
+//   - Problem-solving / reasoning / interpretation topics → AO2
+//   - Mixed → both
+// We read from t.ao field if set by coordinator; otherwise infer from syllabus tier.
+// -----------------------------------------------------------
+const AO1_KEYWORDS = ['calculate','compute','solve','simplify','factorise','expand','evaluate','construct','plot','draw','measure','state','write down','find'];
+const AO2_KEYWORDS = ['explain','interpret','describe','show','prove','derive','justify','reason','deduce','analyse','determine','estimate'];
+
+function inferAO(t) {
+  // If explicitly tagged by coordinator, use that
+  if (t.ao === 'AO1') return 'AO1';
+  if (t.ao === 'AO2') return 'AO2';
+  if (t.ao === 'AO1+AO2') return 'AO1+AO2';
+
+  // Infer from topic name + objective text
+  const text = ((t.topic || '') + ' ' + (t.objective || '')).toLowerCase();
+  const hasAO1 = AO1_KEYWORDS.some(kw => text.includes(kw));
+  const hasAO2 = AO2_KEYWORDS.some(kw => text.includes(kw));
+  if (hasAO1 && hasAO2) return 'AO1+AO2';
+  if (hasAO2) return 'AO2';
+  return 'AO1'; // default: most math topics are primarily AO1
+}
+
+function renderAoBadges(t) {
+  const ao = inferAO(t);
+  if (ao === 'AO1+AO2') {
+    return `<span class="ao-badges-wrap"><span class="ao-badge ao1" title="AO1: Knowledge &amp; techniques">AO1</span><span class="ao-badge ao2" title="AO2: Analyse &amp; interpret">AO2</span></span>`;
+  }
+  if (ao === 'AO2') return `<span class="ao-badge ao2" title="AO2: Analyse, interpret &amp; communicate">AO2</span>`;
+  return `<span class="ao-badge ao1" title="AO1: Knowledge &amp; techniques">AO1</span>`;
+}
+
+// -----------------------------------------------------------
+// PAPER INDICATOR HELPERS
+// Cambridge 0580: Core = Paper 1 (non-calc) + Paper 3 (calc)
+//                 Extended = Paper 2 (non-calc) + Paper 4 (calc)
+// Derived from topic's syllabus code prefix: C = Core, E = Extended
+// -----------------------------------------------------------
+function renderPaperBadge(t) {
+  const codes = parseObjCodes(t.objective || '', t.syllabusRefs || []);
+  const hasC = codes.some(c => c.startsWith('C'));
+  const hasE = codes.some(c => c.startsWith('E'));
+  if (hasC && hasE) {
+    return `<span class="paper-badge both" title="Tested in Paper 1+3 (Core) and Paper 2+4 (Extended)">P1/2/3/4</span>`;
+  }
+  if (hasE) {
+    return `<span class="paper-badge extended" title="Extended only — Paper 2 (non-calc) &amp; Paper 4 (calc)">P2+P4 Ext</span>`;
+  }
+  if (hasC) {
+    return `<span class="paper-badge core" title="Core — Paper 1 (non-calc) &amp; Paper 3 (calc)">P1+P3 Core</span>`;
+  }
+  return ''; // no codes — no badge
+}
+
+// -----------------------------------------------------------
 // TOAST
 // -----------------------------------------------------------
 let toastTimer;
@@ -2725,6 +2971,7 @@ window.addEventListener('resize', () => {
 <script type="module">
 import {
   getFirestore,
+  enableIndexedDbPersistence,
   collection,
   doc,
   getDoc,
@@ -3019,6 +3266,17 @@ async function loadSyllabus() {
 // -- auth-guard.js dispatches authReady when auth + role confirmed -
 document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   const appRole = profile.role_teachershub === 'teachers_admin' ? 'admin' : 'teacher';
+
+  // Enable offline persistence so teachers don't lose progress on connectivity drops
+  enableIndexedDbPersistence(window.db).catch(err => {
+    if (err.code === 'failed-precondition') {
+      // Multiple tabs open — persistence only works in one tab at a time
+      console.warn('Firestore offline persistence unavailable: multiple tabs open');
+    } else if (err.code === 'unimplemented') {
+      console.warn('Firestore offline persistence not supported in this browser');
+    }
+  });
+
   loadCalendarSettings(window.db);
   loadSyllabus();
 

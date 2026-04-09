@@ -235,13 +235,73 @@ function renderVariance() {
   const el = document.getElementById('varianceReport');
   if (!el) return;
 
+  // ── GLH Projection (Cambridge IGCSE = 130 Guided Learning Hours) ──
+  const GLH_TARGET = 130;
+  const allTopicsFlat = DATA.flatMap(ch => ch.topics);
+  const totalTopics   = allTopicsFlat.length;
+  const doneTopics    = allTopicsFlat.filter(t => t.status === 'done').length;
+  const totalPlannedAll = allTopicsFlat.reduce((s, t) => s + (t.duration ?? t.hour ?? 1), 0);
+
+  // Actual hours logged so far (across all topics with actualHour set)
+  const loggedTopics  = allTopicsFlat.filter(t => t.actualHour != null);
+  const actualSoFar   = loggedTopics.reduce((s, t) => s + t.actualHour, 0);
+  const plannedSoFar  = loggedTopics.reduce((s, t) => s + (t.duration ?? t.hour ?? 1), 0);
+
+  // Pace ratio: if actual > 0, compute how actual compares to planned
+  const paceRatio = plannedSoFar > 0 ? actualSoFar / plannedSoFar : 1;
+  // Projected total = remaining planned hours * paceRatio + actual so far
+  const remainingPlanned = totalPlannedAll - plannedSoFar;
+  const projectedTotal   = Math.round(actualSoFar + remainingPlanned * paceRatio);
+
+  const glhPct        = Math.min(100, Math.round(totalPlannedAll / GLH_TARGET * 100));
+  const projPct       = Math.min(100, Math.round(projectedTotal  / GLH_TARGET * 100));
+  const donePct       = Math.min(100, Math.round(doneTopics / Math.max(totalTopics, 1) * 100));
+
+  const glhOverPct    = projectedTotal > GLH_TARGET
+    ? Math.min(100, Math.round((projectedTotal - GLH_TARGET) / GLH_TARGET * 100 * 5))
+    : 0;
+
+  const projClass = projectedTotal > GLH_TARGET + 10 ? 'over'
+                  : projectedTotal < GLH_TARGET - 10 ? 'warn'
+                  : 'ok';
+  const projColor = projClass === 'over' ? '#c0392b' : projClass === 'warn' ? '#d97706' : '#16a34a';
+
+  const glhBannerHtml = `
+    <div class="glh-banner">
+      <div class="glh-banner-head">
+        <span class="glh-banner-title">Cambridge Guided Learning Hours — 0580 IGCSE Mathematics</span>
+        <span class="glh-banner-nums">${totalPlannedAll}h planned · ${actualSoFar}h logged · <strong style="color:${projColor}">${projectedTotal}h projected</strong> vs ${GLH_TARGET}h target</span>
+      </div>
+      <div class="glh-track">
+        <div class="glh-fill-planned" style="width:${glhPct}%;background:var(--border);position:absolute;inset:0;border-radius:5px"></div>
+        <div class="glh-fill-planned" style="width:${Math.min(100,glhPct)}%;background:#bfdbfe;border-radius:5px"></div>
+        <div class="glh-fill-projected" style="width:${projPct}%;background:${projColor};left:0"></div>
+      </div>
+      <div class="glh-legend">
+        <div class="glh-legend-item"><div class="glh-legend-dot" style="background:#bfdbfe"></div>Planned hours (${totalPlannedAll}h = ${glhPct}% of ${GLH_TARGET}h)</div>
+        <div class="glh-legend-item"><div class="glh-legend-dot" style="background:${projColor}"></div>Projected total at current pace (${projectedTotal}h)</div>
+        <div class="glh-legend-item"><div class="glh-legend-dot" style="background:var(--border)"></div>Cambridge GLH target: ${GLH_TARGET}h</div>
+      </div>
+      <div class="glh-stat-row">
+        <div class="glh-stat"><div class="glh-stat-num">${GLH_TARGET}h</div><div class="glh-stat-label">Cambridge GLH Target</div></div>
+        <div class="glh-stat"><div class="glh-stat-num">${totalPlannedAll}h</div><div class="glh-stat-label">Total Planned</div></div>
+        <div class="glh-stat ${projClass}"><div class="glh-stat-num">${projectedTotal}h</div><div class="glh-stat-label">Projected at Pace${projectedTotal !== totalPlannedAll && loggedTopics.length ? ' (extrapolated)' : ''}</div></div>
+        <div class="glh-stat"><div class="glh-stat-num">${donePct}%</div><div class="glh-stat-label">Topics Complete (${doneTopics}/${totalTopics})</div></div>
+        <div class="glh-stat ${projectedTotal > GLH_TARGET ? 'over' : projectedTotal < GLH_TARGET - 5 ? 'warn' : 'ok'}">
+          <div class="glh-stat-num">${projectedTotal > GLH_TARGET ? '+' : ''}${projectedTotal - GLH_TARGET}h</div>
+          <div class="glh-stat-label">${projectedTotal > GLH_TARGET ? 'Over target' : projectedTotal < GLH_TARGET ? 'Under target' : 'On target'}</div>
+        </div>
+      </div>
+    </div>`;
+
+  // ── Per-topic variance table ──
   const rows = [];
   let totalPlanned = 0, totalActual = 0, overCount = 0, underCount = 0, matchCount = 0;
 
   DATA.forEach((ch, ci) => {
     ch.topics.forEach((t, ti) => {
       if (t.actualHour === null || t.actualHour === undefined) return;
-      const planned = t.hour || 1;
+      const planned = t.duration ?? t.hour ?? 1;
       const actual  = t.actualHour;
       const diff    = actual - planned;
       totalPlanned += planned;
@@ -254,21 +314,21 @@ function renderVariance() {
   });
 
   if (!rows.length) {
-    el.innerHTML = `<div class="empty" style="padding:40px 0">
+    el.innerHTML = glhBannerHtml + `<div class="empty" style="padding:40px 0">
       <div class="empty-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="opacity:.35"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
       <p style="font-weight:500;color:var(--ink-2);margin-bottom:6px">No actual hours recorded yet</p>
-      <p style="font-size:.75rem;color:var(--ink-3);line-height:1.6">Log actual lesson hours using the <strong>Actual: —h</strong> field on each topic.</p>
+      <p style="font-size:.75rem;color:var(--ink-3);line-height:1.6">Log actual lesson hours using the <strong>Actual: —h</strong> field on each topic to enable pace projection.</p>
     </div>`;
     return;
   }
 
   const totalDiff = totalActual - totalPlanned;
-  el.innerHTML = `
+  el.innerHTML = glhBannerHtml + `
     <div class="variance-summary">
-      <div class="var-stat"><div class="var-stat-num">${totalPlanned}h</div><div class="var-stat-label">Total Planned</div></div>
+      <div class="var-stat"><div class="var-stat-num">${totalPlanned}h</div><div class="var-stat-label">Logged Planned</div></div>
       <div class="var-stat ${totalDiff > 0 ? 'over' : totalDiff < 0 ? 'under' : 'ok'}">
         <div class="var-stat-num">${totalActual}h</div>
-        <div class="var-stat-label">Total Actual${totalDiff !== 0 ? ' (' + (totalDiff > 0 ? '+' : '') + totalDiff + 'h)' : ''}</div>
+        <div class="var-stat-label">Logged Actual${totalDiff !== 0 ? ' (' + (totalDiff > 0 ? '+' : '') + totalDiff + 'h)' : ''}</div>
       </div>
       <div class="var-stat over"><div class="var-stat-num">${overCount}</div><div class="var-stat-label">Over planned</div></div>
       <div class="var-stat under"><div class="var-stat-num">${underCount}</div><div class="var-stat-label">Under planned</div></div>
