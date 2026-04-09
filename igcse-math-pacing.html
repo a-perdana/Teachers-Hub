@@ -1578,7 +1578,7 @@ function renderPacing() {
                 return `
                 <tr class="${rowClass}" id="row-${ci}-${ti}">
                   <td>
-                    <div class="tcheck ${t.status==='done'?'on':t.status==='inprogress'?'mid':t.status==='revisit'?'revisit':''}" onclick="toggleDone(${ci},${ti})" title="${t.status==='pending'?'Mark in progress':t.status==='inprogress'?'Mark done':t.status==='done'?'Mark pending':'Mark pending'}"></div>
+                    <div class="tcheck ${t.status==='done'?'on':t.status==='inprogress'?'mid':t.status==='revisit'?'revisit':''}" onclick="toggleDone(${ci},${ti})"></div>
                     <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">&#215;</button>
                   </td>
                   <td class="topic-cell">
