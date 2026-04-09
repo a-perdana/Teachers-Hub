@@ -278,7 +278,7 @@ table.topics-tbl tbody tr.inprogress-row:hover { background: #d6e6f8; }
 .syl-inline-block { margin: 4px 0 6px; display: flex; flex-direction: column; gap: 0; }
 .syl-inline-line {
   display: grid;
-  grid-template-columns: auto auto 1fr;
+  grid-template-columns: auto auto auto 1fr;
   align-items: baseline;
   column-gap: 6px;
   padding: 6px 0 8px;
@@ -291,7 +291,6 @@ table.topics-tbl tbody tr.inprogress-row:hover { background: #d6e6f8; }
   padding: 1px 6px; border-radius: 100px;
   background: var(--blue-2); color: var(--blue); border: 1px solid #c0d4f0;
   cursor: pointer; transition: background .12s; white-space: nowrap; align-self: center;
-  display: inline-block; text-align: center; min-width: 3rem;
 }
 .sil-code:hover { background: var(--blue); color: white; }
 .sil-topic {
@@ -300,7 +299,7 @@ table.topics-tbl tbody tr.inprogress-row:hover { background: #d6e6f8; }
   white-space: nowrap; align-self: center;
 }
 .sil-title { color: var(--ink-2); font-size: .78rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.sil-desc  { grid-column: 2 / -1; color: var(--ink-3); font-size: .72rem; line-height: 1.5; padding-top: 1px; }
+.sil-desc  { grid-column: 3 / -1; color: var(--ink-3); font-size: .72rem; line-height: 1.5; padding-top: 1px; }
 .syl-tier-badge {
   font-size: .58rem; font-weight: 700; padding: 1px 4px; border-radius: 100px;
   flex-shrink: 0; white-space: nowrap; align-self: center;
@@ -1555,7 +1554,7 @@ function renderPacing() {
                           : '';
                       return `<div class="syl-inline-line">
                         <span class="sil-code" onclick="openSyllabusDetail('${escHtml(key)}')" title="View full syllabus detail">${escHtml(code)}</span>
-                        ${tierBadgeHtml(entry?.tier)}
+                        ${tierBadgeHtml(entry?.tier, true)}
                         ${topicText ? `<span class="sil-topic">${topicText}</span>` : ''}
                         <span class="sil-title">${titleText}</span>
                         ${descText ? `<div class="sil-desc">${descText}</div>` : ''}
@@ -2492,10 +2491,10 @@ function lookupSyllabus(prefix, code) {
   return { key: exact, entry: undefined };
 }
 
-function tierBadgeHtml(tier) {
+function tierBadgeHtml(tier, alwaysSlot = false) {
   const t = (tier || '').toLowerCase();
   const label = t === 'core' ? 'C' : t === 'supplement' ? 'S' : t === 'extended' ? 'E' : '';
-  if (!label) return '';
+  if (!label) return alwaysSlot ? '<span></span>' : '';
   return `<span class="syl-tier-badge ${t}">${label}</span>`;
 }
 
