@@ -111,6 +111,11 @@ function renderDiagBtn(ci, ti, t) {
   const d = t.diag || '';
   const cls = d ? 'diag-btn diag-' + d : 'diag-btn';
   const label = DIAG_LABELS[d] || 'Diagnose';
+  // In teacher-only mode (role !== 'admin'), show read-only badge if tag set, nothing if not
+  if (typeof role !== 'undefined' && role !== 'admin') {
+    if (!d) return '';
+    return `<span class="${cls}" title="Coordinator diagnostic tag">${label}</span>`;
+  }
   return `<div style="position:relative;display:inline-block">
     <button class="${cls}" id="diag-btn-${ci}-${ti}" onclick="toggleDiagMenu(${ci},${ti},event)" title="Set diagnostic tag for this topic">${label}</button>
     <div class="diag-dropdown" id="diag-dd-${ci}-${ti}">

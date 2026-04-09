@@ -403,7 +403,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .sp-btn.sp-on.sp-inprogress{ background: var(--blue-2); color: var(--blue); box-shadow: var(--shadow-sm); }
 .sp-btn.sp-on.sp-done      { background: var(--green-2); color: var(--green); box-shadow: var(--shadow-sm); }
 
-/* Editable cell */
+/* Editable cell — read-only for teachers */
 .editable {
   border-radius: 4px;
   padding: 2px 4px;
@@ -413,22 +413,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   outline: none;
   line-height: 1.5;
 }
-.admin-mode .editable {
-  cursor: text;
-  border: 1px dashed transparent;
-}
-.admin-mode .editable:hover { background: var(--paper-2); border-color: var(--border); }
-.admin-mode .editable:focus { background: white; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(192,57,43,.12); }
-
-/* Edit indicator */
-.edit-hint {
-  display: none;
-  font-size: .6rem; color: var(--accent); font-weight: 500;
-  padding: 3px 16px; background: var(--accent-2);
-  border-bottom: 1px solid #f5c6c1;
-  align-items: center; gap: 8px;
-}
-.admin-mode .edit-hint { display: flex; }
 
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
@@ -470,46 +454,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-/* ─── COORD ADD / DELETE CONTROLS ─────────────*/
-.del-topic-btn {
-  display: none; background: none; border: none; cursor: pointer;
-  color: var(--ink-3); font-size: .85rem; padding: 2px 4px;
-  border-radius: 4px; line-height: 1; margin-top: 2px;
-  transition: color .15s, background .15s;
-}
-.del-topic-btn:hover { color: var(--accent); background: var(--accent-2); }
-.admin-mode .del-topic-btn { display: inline-flex; }
-
-.del-ch-btn {
-  display: none; background: none; border: none; cursor: pointer;
-  color: rgba(255,255,255,.5); font-size: .9rem; padding: 2px 6px;
-  border-radius: 4px; line-height: 1; margin-left: auto;
-  transition: color .15s;
-}
-.del-ch-btn:hover { color: white; }
-.admin-mode .del-ch-btn { display: inline-flex; }
-
-.add-topic-row td { padding: 6px 16px !important; border-bottom: none !important; }
-.add-topic-btn {
-  display: none; background: none; border: 1.5px dashed var(--border);
-  color: var(--ink-3); font-size: .75rem; padding: 5px 14px;
-  border-radius: 6px; cursor: pointer; width: 100%; text-align: left;
-  transition: border-color .15s, color .15s;
-}
-.add-topic-btn:hover { border-color: var(--accent); color: var(--accent); }
-.admin-mode .add-topic-btn { display: block; }
-
-.add-chapter-wrap {
-  display: none; text-align: center; padding: 16px 0 8px;
-}
-.add-chapter-btn {
-  background: none; border: 2px dashed var(--border);
-  color: var(--ink-3); font-size: .8rem; padding: 10px 28px;
-  border-radius: 10px; cursor: pointer;
-  transition: border-color .15s, color .15s;
-}
-.add-chapter-btn:hover { border-color: var(--accent); color: var(--accent); }
-.admin-mode .add-chapter-wrap { display: block; }
+/* ─── COORD ADD / DELETE CONTROLS — removed (teacher-only page) ─── */
 
 /* ─── RESOURCES ────────────────────────────────*/
 .res-row td { padding: 3px 16px 10px 42px !important; }
@@ -523,45 +468,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   transition: all .12s;
 }
 .res-link:hover { background: var(--blue-2); color: var(--blue); border-color: #c0d4f0; }
-.del-res-btn {
-  display: none; background: none; border: none; cursor: pointer;
-  color: var(--ink-3); font-size: .65rem; padding: 0 1px;
-  line-height: 1; margin-left: 2px; transition: color .12s;
-}
-.del-res-btn:hover { color: var(--accent); }
-.admin-mode .del-res-btn { display: inline; }
-.add-res-btn {
-  display: none; background: none; border: 1px dashed var(--border);
-  color: var(--ink-3); font-size: .63rem; padding: 2px 7px;
-  border-radius: 4px; cursor: pointer; align-items: center; gap: 3px;
-  transition: border-color .12s, color .12s;
-}
-.add-res-btn:hover { border-color: var(--accent); color: var(--accent); }
-.admin-mode .add-res-btn { display: inline-flex; }
-.res-form { display: none; align-items: center; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
-.res-form.open { display: flex; }
-.res-form input {
-  font-family: 'DM Sans', sans-serif; font-size: .72rem;
-  padding: 4px 8px; border: 1px solid var(--border);
-  border-radius: 5px; outline: none; color: var(--ink);
-  transition: border-color .12s;
-}
-.res-form input:focus { border-color: var(--accent); }
-.res-name-inp { width: 170px; }
-.res-url-inp  { width: 230px; }
-.res-add-ok {
-  font-family: 'DM Sans', sans-serif; font-size: .7rem; padding: 4px 11px;
-  background: var(--accent); color: white; border: none; border-radius: 5px; cursor: pointer;
-}
-.res-add-ok:hover { background: #a93224; }
-.res-add-cancel {
-  font-family: 'DM Sans', sans-serif; font-size: .7rem; padding: 4px 8px;
-  background: none; border: 1px solid var(--border); color: var(--ink-3);
-  border-radius: 5px; cursor: pointer;
-}
-.res-add-cancel:hover { border-color: var(--ink-2); color: var(--ink); }
-.res-row.empty-res { display: none; }
-.admin-mode .res-row.empty-res { display: table-row; }
 .res-row td { border-bottom: none !important; }
 
 /* ─── CONFIRM MODAL ──────────────────────────── */
@@ -633,12 +539,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 /* Override .panel and .panel.on with higher specificity */
 
 /* scrollable chapter area */
-
-/* add-chapter wrap lives inside scrollable area */
-.add-chapter-wrap {
-  display: none; text-align: center; padding: 16px 0 20px;
-}
-.admin-mode .add-chapter-wrap { display: block; }
 
 /* ─── TEACHER NOTES ─────────────────────────── */
 .note-btn {
@@ -799,14 +699,9 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 
       </select>
 
-      <button class="class-manage-btn" id="classManageBtn" onclick="manageClasses()" style="display:none" title="Add/remove class groups">&#9881;</button>
 
     </div>
 
-        <div class="role-badge" id="roleBadge">
-      <span class="role-dot" id="roleDot"></span>
-      <span id="roleLabel">Teacher</span>
-    </div>
   </div>
 </header>
 
@@ -899,11 +794,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 
     <!-- PACING PANEL -->
     <div class="panel on" id="panel-pacing">
-      <div class="edit-hint" id="editHint">
-        <span class="edit-hint-dot"></span>
-        <span>Coordinator mode — click any topic, objective, or duration to edit inline.</span>
-        <button id="resetBtn" style="display:none;margin-left:auto;font-size:.65rem;padding:3px 10px;border-radius:6px;border:1px solid rgba(192,57,43,.35);color:var(--accent);background:none;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;" onclick="resetProgress()">Reset Progress</button>
-      </div>
       <div id="chBlocksWrap">
         <div id="chBlocks"></div>
       </div>
@@ -990,68 +880,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   box-shadow: 0 6px 24px rgba(192,57,43,0.4); transform: translateY(-2px);
 }
 .home-float svg { width: 18px; height: 18px; }
-/* ─── CONFIRM MODAL ──────────────────────────── */
-.cm-bg {
-  position: fixed; inset: 0;
-  background: rgba(28,28,46,.55);
-  display: none; align-items: center; justify-content: center;
-  z-index: 1100; backdrop-filter: blur(3px);
-}
-.cm-bg.open { display: flex; }
-.cm-box {
-  background: white; border-radius: 12px;
-  width: 380px; max-width: 92vw;
-  padding: 24px; box-shadow: var(--shadow-lg);
-  animation: popIn .15s ease;
-}
-.cm-title { font-family: 'Lora', serif; font-size: 1rem; margin-bottom: 6px; color: var(--ink); }
-.cm-msg { font-size: .8rem; color: var(--ink-2); line-height: 1.5; margin-bottom: 16px; }
-.cm-field { margin-bottom: 10px; }
-.cm-field label { font-size: .68rem; font-weight: 600; color: var(--ink-2); display: block; margin-bottom: 4px; letter-spacing: .03em; }
-.cm-input {
-  width: 100%; font-family: 'DM Sans', sans-serif; font-size: .82rem;
-  padding: 8px 11px; border: 1px solid var(--border); border-radius: 7px;
-  outline: none; color: var(--ink); transition: border-color .15s;
-}
-.cm-input:focus { border-color: var(--accent); }
-.cm-select {
-  width: 100%; font-family: 'DM Sans', sans-serif; font-size: .82rem;
-  padding: 8px 11px; border: 1px solid var(--border); border-radius: 7px;
-  outline: none; color: var(--ink); background: white; cursor: pointer;
-}
-.cm-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
-.cm-cancel { font-family: 'DM Sans', sans-serif; font-size: .78rem; padding: 7px 16px; border-radius: 7px; border: 1px solid var(--border); background: white; color: var(--ink-2); cursor: pointer; }
-.cm-cancel:hover { border-color: var(--ink-2); color: var(--ink); }
-.cm-ok { font-family: 'DM Sans', sans-serif; font-size: .78rem; padding: 7px 16px; border-radius: 7px; border: none; background: var(--accent); color: white; cursor: pointer; }
-.cm-ok:hover { filter: brightness(.9); }
-.cm-ok.danger { background: #c0392b; }
-
-/* ─── MOBILE ────────────────────────────────── */
-@media (max-width: 768px) {
-  .layout { grid-template-columns: 1fr !important; }
-  .sidebar {
-    position: fixed; top: 60px; left: 0; bottom: 0;
-    width: 280px; z-index: 180;
-    transform: translateX(-100%);
-    transition: transform .25s ease;
-    box-shadow: var(--shadow-lg);
-  }
-  .layout:not(.sidebar-collapsed) .sidebar { transform: translateX(0); }
-  .sidebar-toggle { left: 0 !important; border-left: 1px solid var(--border) !important; }
-  .layout:not(.sidebar-collapsed) .sidebar-toggle { left: 280px !important; }
-  .sidebar-inner { visibility: visible !important; }
-  table.topics-tbl th:nth-child(3),
-  table.topics-tbl td:nth-child(3) { display: none; }
-  .ch-year-tag, .ch-topic-count { display: none; }
-  .ch-prog-bar { width: 48px; }
-  .status-pill { flex-direction: column; }
-  .sp-btn { padding: 2px 5px; font-size: .6rem; }
-  .topbar { padding: 0 12px; }
-  .prog-pill { display: none; }
-  .brand-text p { display: none; }
-  .panel { padding: 12px 14px; }
-  .home-float { bottom: 14px; left: 14px; }
-}
 
 /* ===== ASSESSMENT ===== */
 .ch-assessment { display:flex; align-items:center; gap:10px; padding:10px 16px; border-top:1px solid var(--paper-2); background:var(--paper); flex-wrap:wrap; }
@@ -1390,7 +1218,7 @@ function _cmDone(ok) {
 // -----------------------------------------------------------
 // HELPERS
 // -----------------------------------------------------------
-function _chapterYearOptions() {
+function _chapterYearOptions() { // kept for pacing-shared.js compatibility
   var existing = DATA.map(function(ch){return ch.year;}).filter(function(y,i,a){return y&&a.indexOf(y)===i;});
   if (existing.length) return existing.map(function(y,i){return {v:y,l:y,def:i===existing.length-1};});
   return [{v:'Year 9',l:'Year 9'},{v:'Year 10',l:'Year 10',def:true}];
@@ -1526,7 +1354,6 @@ function renderPacing() {
           <span class="ch-pct">${pct}%</span>
           <span class="ch-topic-count">${ch.topics.length} topics</span>
         </div>
-        <button class="del-ch-btn" onclick="event.stopPropagation();deleteChapter(${ci})" title="Delete chapter">x</button>
         <button class="bulk-done-btn" onclick="event.stopPropagation();bulkMarkDone(${ci})" title="Mark all topics in this chapter as Done">✓ All Done</button>
         <span class="ch-caret">▾</span>
       </div>
@@ -1544,7 +1371,6 @@ function renderPacing() {
               return pageTopics.map(({t, ti}) => {
                 const codes   = parseObjCodes(t.objective, t.syllabusRefs);
                 const rowClass = t.status === 'done' ? 'done-row' : t.status === 'inprogress' ? 'inprogress-row' : t.status === 'revisit' ? 'revisit-row' : '';
-                const isAdmin  = role === 'admin';
                 const hasRes   = (t.resources || []).length > 0;
                 // Build inline syllabus block if index is loaded
                 const hasSyllabus = codes.length && Object.keys(syllabusIndex).length > 0;
@@ -1569,25 +1395,15 @@ function renderPacing() {
                     }).join('')
                   : '';
                 const objFallbackHtml = !hasSyllabus
-                  ? `<div class="topic-obj-line editable"
-                      contenteditable="${isAdmin}"
-                      data-field="objective" data-ci="${ci}" data-ti="${ti}"
-                      onblur="saveEdit(this,${ci},${ti},'objective')"
-                    >${_renderObjCell(t.objective)}${_objNeedsSeeMore(t.objective) ? ` <span class="obj-code" style="cursor:pointer" onclick="event.stopPropagation();showObj(${ci},${ti})">see full</span>` : ''}</div>`
+                  ? `<div class="topic-obj-line">${_renderObjCell(t.objective)}${_objNeedsSeeMore(t.objective) ? ` <span class="obj-code" style="cursor:pointer" onclick="event.stopPropagation();showObj(${ci},${ti})">see full</span>` : ''}</div>`
                   : '';
                 return `
                 <tr class="${rowClass}" id="row-${ci}-${ti}">
                   <td>
                     <div class="tcheck ${t.status==='done'?'on':t.status==='inprogress'?'mid':t.status==='revisit'?'revisit':''}" onclick="toggleDone(${ci},${ti})"></div>
-                    <button class="del-topic-btn" onclick="deleteTopic(${ci},${ti})" title="Delete topic">&#215;</button>
                   </td>
                   <td class="topic-cell">
-                    <div class="topic-name ${t.status==='done'?'struck':''} editable"
-                      contenteditable="${isAdmin}"
-                      data-field="topic" data-ci="${ci}" data-ti="${ti}"
-                      onblur="saveEdit(this,${ci},${ti},'topic')"
-                      onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
-                    >${escHtml(t.topic)}</div>
+                    <div class="topic-name ${t.status==='done'?'struck':''}">${escHtml(t.topic)}</div>
                     ${hasSyllabus
                       ? `<div class="syl-inline-block">${sylInlineHtml}</div>`
                       : (codes.length ? `<div class="obj-codes">${codes.map(c => `<span class="obj-code" onclick="showObj(${ci},${ti})">${c}</span>`).join('')}</div>` : '')
@@ -1595,13 +1411,7 @@ function renderPacing() {
                     ${objFallbackHtml}
                     <div class="topic-meta-line">
                       ${(()=>{ const s=getTopicSyllabus(t); return s!=='both'?`<span class="topic-syllabus-dot ${s}">${s==='core'?'Core':'Extended'}</span>`:''; })()}
-                      <span class="meta-pill meta-pill-hours editable"
-                        contenteditable="${isAdmin}"
-                        data-field="hour" data-ci="${ci}" data-ti="${ti}"
-                        onblur="saveEdit(this,${ci},${ti},'hour')"
-                        onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
-                        title="Planned lesson hours"
-                      ><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Planned: ${t.duration ?? t.hour}h</span>
+                      <span class="meta-pill meta-pill-hours" title="Planned lesson hours"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Planned: ${t.duration ?? t.hour}h</span>
                       ${renderActualHoursMeta(ci, ti, t)}
                       ${t.week ? `<span class="meta-pill meta-pill-week"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Week ${t.week}</span>` : ''}
                       ${renderPaceBadge(t)}
@@ -1615,14 +1425,12 @@ function renderPacing() {
                       ${renderPaperBadge(t)}
                       <button class="note-btn${t.note ? ' has-note' : ''}" onclick="toggleNote(${ci},${ti})" title="${t.note ? 'Edit note' : 'Add teacher note'}">&#9998; ${t.note ? 'Note' : 'Add note'}</button>
                       ${renderDiagBtn(ci, ti, t)}
-                      ${(t.coordNote || role === 'admin') ? `<button class="coord-btn${t.coordNote ? ' has-coord' : ''}" onclick="toggleCoordNote(${ci},${ti})" title="Coordinator shared note">&#9432; ${t.coordNote ? 'Coord Note' : 'Add Coord Note'}</button>` : ''}
+                      ${t.coordNote ? `<button class="coord-btn has-coord" onclick="toggleCoordNote(${ci},${ti})" title="Coordinator shared note">&#9432; Coord Note</button>` : ''}
                     </div>
                   </td>
 
                 </tr>
-                <tr class="res-row${!hasRes && !t.activity ? ' empty-res' : ''}" id="res-row-${ci}-${ti}">
-                  <td colspan="2">${renderResourcesHtml(ci, ti, t)}</td>
-                </tr>
+                ${hasRes || t.activity ? `<tr class="res-row" id="res-row-${ci}-${ti}"><td colspan="2">${renderResourcesHtml(ci, ti, t)}</td></tr>` : ''}
                 ${renderCoordNoteRow(ci, ti, t)}
                 <tr class="note-row" id="note-row-${ci}-${ti}">
                   <td colspan="2" style="padding:0 !important; border-bottom: 1px solid var(--border) !important;">
@@ -1639,11 +1447,6 @@ function renderPacing() {
 `;
               }).join('');
             })()}
-            <tr class="add-topic-row">
-              <td colspan="2">
-                <button class="add-topic-btn" onclick="addTopic(${ci})">+ Add Topic</button>
-              </td>
-            </tr>
           </tbody>
         </table>
         ${(()=>{
@@ -1700,7 +1503,6 @@ function renderPacing() {
       html = `<div class="empty"><div class="empty-icon"></div><p>No topics match your filters.</p></div>`;
     }
   }
-  html += `<div class="add-chapter-wrap"><button class="add-chapter-btn" onclick="addChapter()">+ Add Chapter</button></div>`;
   container.innerHTML = html;
 
   // Update search result count
@@ -1745,14 +1547,6 @@ function renderPacing() {
   if (collapseBtn) collapseBtn.style.display = chapterViewMode === 'list' ? '' : 'none';
 
   collapsed.forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('collapsed');});
-
-  if (role === 'admin') {
-    document.body.classList.add('admin-mode');
-    document.getElementById('editHint').style.display = 'block';
-  } else {
-    document.body.classList.remove('admin-mode');
-    document.getElementById('editHint').style.display = 'none';
-  }
 }
 
 // -----------------------------------------------------------
@@ -2217,69 +2011,6 @@ function setStatus(ci, ti, val) {
   saveState(); render();
 }
 
-function saveEdit(el, ci, ti, field) {
-  if (role !== 'admin') return;
-  let val = el.innerText.trim();
-  if (field === 'hour') val = parseInt(val) || DATA[ci].topics[ti].duration || DATA[ci].topics[ti].hour;
-  if (field === 'hour') { DATA[ci].topics[ti].duration = val; delete DATA[ci].topics[ti].hour; } else { DATA[ci].topics[ti][field] = val; }
-
-  // Visual save feedback — green flash on the edited element
-  el.classList.remove('save-ok', 'save-fail');
-  void el.offsetWidth; // force reflow to restart animation
-  el.classList.add('save-ok');
-  setTimeout(() => el.classList.remove('save-ok'), 1200);
-
-  if (window.__fbSaveState) {
-    window.__fbSaveState(DATA).catch(() => {
-      el.classList.remove('save-ok');
-      el.classList.add('save-fail');
-      setTimeout(() => el.classList.remove('save-fail'), 1200);
-      showToast('Save failed — check connection');
-    });
-  }
-  // render() is triggered by the Firestore snapshot after saveState() writes
-}
-
-function addTopic(ci) {
-  if (role !== 'admin') return;
-  const newId = Date.now().toString(36) + Math.random().toString(36).slice(2,6);
-  DATA[ci].topics.push({ id: newId, topic: 'New Topic', objective: '', week: null, hour: 1, status: 'pending', resources: [] });
-  // jump to last page so new topic is visible
-  chPageMap[ci] = Math.floor((DATA[ci].topics.length - 1) / PAGE_SIZE);
-  saveState(); render();
-  showToast('Topic added');
-}
-
-async function deleteTopic(ci, ti) {
-  if (role !== 'admin') return;
-  var ok = await _showCm({title:'Delete Topic',msg:'Delete "'+DATA[ci].topics[ti].topic+'"? This cannot be undone.',okLabel:'Delete',danger:true});
-  if (!ok) return;
-  DATA[ci].topics.splice(ti, 1);
-  saveState(); render();
-  showToast('Topic deleted');
-}
-
-async function addChapter() {
-  if (role !== 'admin') return;
-  var vals = await _showCm({title:'Add Chapter',okLabel:'Add Chapter',fields:[
-    {id:'name',label:'Chapter name',ph:'e.g. 5. Algebra & Graphs'},
-    {id:'year',label:'Year',type:'select',options:_chapterYearOptions()}
-  ]});
-  if (!vals||!vals.name) return;
-  const newChId = Date.now().toString(36) + Math.random().toString(36).slice(2,6);
-  DATA.push({ id: newChId, chapter: vals.name, year: vals.year, topics: [] });
-  saveState(); render();
-  showToast('Chapter added');
-}
-
-async function deleteChapter(ci) {
-  if (role !== 'admin') return;
-  var ok = await _showCm({title:'Delete Chapter',msg:'Delete "'+DATA[ci].chapter+'" and all its topics? This cannot be undone.',okLabel:'Delete',danger:true});
-  if (!ok) return;
-  DATA.splice(ci, 1);
-  saveState(); render();
-  showToast('Chapter deleted');
-}
 
 // -----------------------------------------------------------
 // CHAPTER ASSESSMENT CARD (read-only)
@@ -2297,71 +2028,19 @@ function renderChapterAssessmentCard(ch) {
   </div>`;
 }
 
-// RESOURCES
+// RESOURCES — read-only for teachers
 // -----------------------------------------------------------
 function renderResourcesHtml(ci, ti, t) {
   const res = t.resources || [];
   const linkIcon = `<svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4v4"/><path d="M14 2l-6 6"/><path d="M8 4H4a2 2 0 00-2 2v6a2 2 0 002 2h6a2 2 0 002-2v-4"/></svg>`;
-  const addIcon  = `<svg width="9" height="9" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>`;
-  const chips = res.map((r, ri) => `
+  const chips = res.map(r => `
     <a class="res-link" href="${escHtml(r.url)}" target="_blank" rel="noopener">
       ${linkIcon}${escHtml(r.name || r.url)}
-      <button class="del-res-btn" onclick="event.preventDefault();deleteResource(${ci},${ti},${ri})" title="Remove">x</button>
     </a>`).join('');
   const activityChip = t.activity
-    ? `<a href="${safeUrl(t.activity.url)}" target="_blank" rel="noopener noreferrer" class="activity-chip ${escHtml(t.activity.type)}" style="margin-left:4px;">${escHtml(t.activity.title || 'Activity')}</a>`
+    ? `<a href="${safeUrl(t.activity.url)}" target="_blank" rel="noopener noreferrer" class="activity-chip ${escHtml(t.activity.type)}">${escHtml(t.activity.title || 'Activity')}</a>`
     : '';
-  return `<div class="res-chips">
-      ${chips}
-      ${activityChip}
-      <button class="add-res-btn" onclick="addResource(${ci},${ti})">${addIcon} Resource</button>
-    </div>
-    <div class="res-form" id="res-form-${ci}-${ti}">
-      <input class="res-name-inp" type="text" placeholder="Name (e.g. Cambridge Textbook p.12)" id="res-name-${ci}-${ti}">
-      <input class="res-url-inp" type="url" placeholder="https://..." id="res-url-${ci}-${ti}">
-      <button class="res-add-ok" onclick="confirmAddResource(${ci},${ti})">Add</button>
-      <button class="res-add-cancel" onclick="cancelResource(${ci},${ti})">Cancel</button>
-    </div>`;
-}
-
-function addResource(ci, ti) {
-  if (role !== 'admin') return;
-  const f = document.getElementById(`res-form-${ci}-${ti}`);
-  if (f) { f.classList.add('open'); f.querySelector('.res-name-inp').focus(); }
-}
-
-function cancelResource(ci, ti) {
-  const f = document.getElementById(`res-form-${ci}-${ti}`);
-  if (f) {
-    f.classList.remove('open');
-    f.querySelector('.res-name-inp').value = '';
-    f.querySelector('.res-url-inp').value  = '';
-  }
-}
-
-function confirmAddResource(ci, ti) {
-  if (role !== 'admin') return;
-  const name = document.getElementById(`res-name-${ci}-${ti}`).value.trim();
-  const url  = document.getElementById(`res-url-${ci}-${ti}`).value.trim();
-  if (!name || !url) { showToast('Enter both name and URL'); return; }
-  if (!DATA[ci].topics[ti].resources) DATA[ci].topics[ti].resources = [];
-  DATA[ci].topics[ti].resources.push({ name, url });
-  saveState();
-  showToast('Resource added');
-  cancelResource(ci, ti);
-  render();
-}
-
-async function deleteResource(ci, ti, ri) {
-  if (role !== 'admin') return;
-  var res = DATA[ci].topics[ti].resources;
-  if (!res) return;
-  var ok = await _showCm({title:'Remove Resource',msg:'Remove "'+res[ri].name+'"?',okLabel:'Remove',danger:true});
-  if (!ok) return;
-  res.splice(ri, 1);
-  saveState();
-  showToast('Resource removed');
-  render();
+  return `<div class="res-chips">${chips}${activityChip}</div>`;
 }
 
 function toggleChapter(ci) {
@@ -2469,29 +2148,16 @@ function deleteNote(ci, ti) {
 }
 
 // -----------------------------------------------------------
-// CLASS MANAGEMENT
+// CLASS SELECTOR
 // -----------------------------------------------------------
 function buildClassSelector() {
   const wrap   = document.getElementById('classSelectorWrap');
   const select = document.getElementById('classSelect');
-  const manBtn = document.getElementById('classManageBtn');
   if (!wrap || !select) return;
 
-  // Always visible — teachers and admins both benefit from class context
-  wrap.style.display = 'flex';
-  if (manBtn) manBtn.style.display = role === 'admin' ? '' : 'none';
+  wrap.style.display = classList.length > 0 ? 'flex' : 'none';
 
-  // Rebuild options
-  if (classList.length === 0) {
-    select.innerHTML = '<option value="default">All Classes</option>';
-    if (role === 'admin') {
-      // hint admin to set up classes
-      const hint = document.createElement('option');
-      hint.value = ''; hint.disabled = true;
-      hint.textContent = '— click ⚙ to add classes —';
-      select.appendChild(hint);
-    }
-  } else {
+  if (classList.length > 0) {
     select.innerHTML = '<option value="default">All Classes</option>';
     classList.forEach(cls => {
       const opt = document.createElement('option');
@@ -2508,41 +2174,6 @@ function switchClass(cls) {
   currentClass = cls;
   // Notify Firebase module to switch progress path
   if (window.__fbSwitchClass) window.__fbSwitchClass(cls);
-}
-
-async function manageClasses() {
-  // Class groups are managed in Central Hub → IGCSE Pacing → Settings → Class Groups.
-  // They appear here automatically once saved there.
-  await _showCm({
-    title: 'Class Groups — Read Only',
-    msg: 'Class groups are configured in Central Hub (IGCSE Pacing → Settings). Changes made there appear here automatically.',
-    okLabel: 'OK',
-  });
-}
-
-function resetProgress() {
-  const btn = document.getElementById('resetBtn');
-  if (!btn) return;
-  if (btn.dataset.confirming === '1') {
-    clearTimeout(_resetTimer);
-    btn.dataset.confirming = '';
-    btn.textContent = 'Reset Progress';
-    btn.style.background = 'none';
-    btn.style.borderColor = 'rgba(192,57,43,.35)';
-    DATA.forEach(ch => ch.topics.forEach(t => t.status = 'pending'));
-    saveState(); render(); showToast('Progress has been reset');
-  } else {
-    btn.dataset.confirming = '1';
-    btn.textContent = 'Click again to confirm';
-    btn.style.background = 'var(--accent-2)';
-    btn.style.borderColor = 'var(--accent)';
-    _resetTimer = setTimeout(() => {
-      btn.dataset.confirming = '';
-      btn.textContent = 'Reset Progress';
-      btn.style.background = 'none';
-      btn.style.borderColor = 'rgba(192,57,43,.35)';
-    }, 3000);
-  }
 }
 
 function clearSearch(){
@@ -2856,21 +2487,9 @@ document.addEventListener('keydown', e => {
 // ROLE - set by Firebase module after auth
 // -----------------------------------------------------------
 function applyRole(r) {
-  role = r;
-  const dot      = document.getElementById('roleDot');
-  const label    = document.getElementById('roleLabel');
-  const resetBtn = document.getElementById('resetBtn');
-  if (r === 'admin') {
-    dot.className     = 'role-dot role-dot-admin';
-    label.textContent = 'Admin';
-    if (resetBtn) resetBtn.style.display = 'inline-block';
-  } else {
-    dot.className     = 'role-dot role-dot-teacher';
-    label.textContent = 'Teacher';
-    if (resetBtn) resetBtn.style.display = 'none';
-    const tr = document.getElementById('teacherResetBtn');
-    if (tr) tr.style.display = 'inline-block';
-  }
+  role = 'teacher'; // TH is teacher-only; role param kept for shared-JS compatibility
+  const tr = document.getElementById('teacherResetBtn');
+  if (tr) tr.style.display = 'inline-block';
   buildClassSelector();
   render();
 }
@@ -3233,31 +2852,7 @@ window.__fbSaveState = async function(data) {
     return;
   }
 
-  // 3. Coordinators also save structure changes (no per-user statuses stored here).
-  //    Strip progress fields; ensure every chapter/topic has a stable id before writing.
-  if (currentRole === 'admin') {
-    const structureOnly = data.map(ch => ({
-      ...ch,
-      topics: ch.topics.map(({ status, note, diag, actualHour, ...rest }) => rest),
-    }));
-    // Backfill any missing IDs (mirrors ensureIds() in Central Hub)
-    structureOnly.forEach(ch => {
-      if (!ch.id) ch.id = Date.now().toString(36) + Math.random().toString(36).slice(2,6);
-      (ch.topics || []).forEach(t => {
-        if (!t.id) t.id = Date.now().toString(36) + Math.random().toString(36).slice(2,6);
-      });
-    });
-    try {
-      await setDoc(
-        doc(window.db, window.SUBJECT_CONFIG.collection, window.SUBJECT_CONFIG.docId),
-        { chapters: structureOnly, updatedAt: serverTimestamp() },
-        { merge: true }
-      );
-    } catch(e) {
-      console.error('Structure save error:', e);
-      showToast('Structure save failed');
-    }
-  }
+  // Teachers only write their own progress — structure is managed by Central Hub admin.
 };
 
 // -- One-shot document fetch for cross-subject data --
@@ -3296,13 +2891,6 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
 
   loadCalendarSettings(window.db);
   loadSyllabus();
-
-  // Update pacing topbar role badge
-  const roleBadge = document.getElementById('roleBadge');
-  const roleDot   = document.getElementById('roleDot');
-  const roleLabel = document.getElementById('roleLabel');
-  if (roleDot)   { roleDot.className = 'role-dot ' + (appRole === 'admin' ? 'role-dot-admin' : 'role-dot-teacher'); }
-  if (roleLabel) { roleLabel.textContent = appRole === 'admin' ? 'Admin' : 'Teacher'; }
 
   // Expose signOut for navbar dropdown
   import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js').then(({ signOut }) => {
