@@ -214,6 +214,7 @@
 .ch-topic-count { font-size: .65rem; color: var(--ink-3); background: var(--paper-2); border: 1px solid var(--border); padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
 .ch-status-pills { display: flex; gap: 4px; align-items: center; flex-shrink: 0; }
 .ch-status-pill { font-size: .62rem; font-weight: 600; padding: 1px 7px; border-radius: 100px; white-space: nowrap; }
+.ch-status-pill.dn  { background: var(--green-2);  color: var(--green);  border: 1px solid #b6dfc8; }
 .ch-status-pill.ip  { background: var(--blue-2);   color: var(--blue);   border: 1px solid #c2d8f5; }
 .ch-status-pill.rev { background: var(--amber-2);  color: var(--amber);  border: 1px solid #f5dfa0; }
 .ch-status-pill.pnd { background: var(--paper-2);  color: var(--ink-3);  border: 1px solid var(--border); }
@@ -1358,9 +1359,10 @@ function renderPacing() {
     const pct        = Math.round(done / ch.topics.length * 100);
     const yearClass  = ch.year === 'Year 9' ? 'yr9' : 'yr10';
     const statusPillsHtml = `<div class="ch-status-pills">
+      ${done       ? `<span class="ch-status-pill dn">${done} done</span>` : ''}
       ${inprogress ? `<span class="ch-status-pill ip">${inprogress} in progress</span>` : ''}
       ${revisit    ? `<span class="ch-status-pill rev">${revisit} revisit</span>` : ''}
-      ${pending && pct < 100 ? `<span class="ch-status-pill pnd">${pending} pending</span>` : ''}
+      ${pending    ? `<span class="ch-status-pill pnd">${pending} pending</span>` : ''}
     </div>`;
 
     html += `
