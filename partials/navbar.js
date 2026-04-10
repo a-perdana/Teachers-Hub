@@ -174,12 +174,17 @@ function initFeedback(db, helpers) {
 // db, setDoc, doc come from window.__firestoreHelpers (set by auth-guard.js).
 //
 // Firestore fields saved on users/{uid}:
-//   school:             string
-//   subjects:           string[]   e.g. ["math","chemistry"]
-//   classes:            string[]   curriculum levels e.g. ["igcse","checkpoint"]
-//   igcse_classes:      string[]   e.g. ["10A","9Cam","10Stan"]
-//   asalevel_classes:   string[]
-//   checkpoint_classes: string[]
+//   school:                    string
+//   subjects:                  string[]   e.g. ["math","chemistry"]
+//   classes:                   string[]   curriculum levels e.g. ["igcse","checkpoint"]
+//   igcse_math_classes:        string[]   e.g. ["9 Har","9 Oxf"]
+//   igcse_biology_classes:     string[]
+//   igcse_chemistry_classes:   string[]
+//   igcse_physics_classes:     string[]
+//   igcse_english_classes:     string[]
+//   igcse_science_classes:     string[]
+//   asalevel_math_classes:     string[]
+//   ... (same pattern for checkpoint and asalevel)
 function initTeachingProfile(db, setDoc, doc) {
   const profile = window.userProfile;
   const user    = window.currentUser;
@@ -199,18 +204,19 @@ function initTeachingProfile(db, setDoc, doc) {
     { value: 'asalevel',   label: 'AS & A Level' },
   ];
 
-  // In-memory working copy of per-level class lists (edited before save)
-  // Keyed by level value: { igcse: ["10A","9Cam"], checkpoint: ["7X"], ... }
-  let _levelClasses = {};
+  // In-memory working copy: keyed by "level_subject" e.g. "igcse_math"
+  // { igcse_math: ["9 Har","9 Oxf"], igcse_physics: ["10A"], ... }
+  let _slClasses = {};
 
-  function _classKey(levelValue) { return `${levelValue}_classes`; }
+  function _slKey(levelValue, subjectValue) { return `${levelValue}_${subjectValue}_classes`; }
 
-  function _loadLevelClasses() {
+  function _loadSlClasses() {
     const p = window.userProfile;
     LEVELS.forEach(l => {
-      _levelClasses[l.value] = Array.isArray(p[_classKey(l.value)])
-        ? [...p[_classKey(l.value)]]
-        : [];
+      SUBJECTS.forEach(s => {
+        const key = _slKey(l.value, s.value);
+        _slClasses[key] = Array.isArray(p[key]) ? [...p[key]] : [];
+      });
     });
   }
 
@@ -227,101 +233,107 @@ function initTeachingProfile(db, setDoc, doc) {
 
   // ── Summary (read-only) ──────────────────────────────────────────
   function renderSummary() {
-    const p = window.userProfile;
+    const p        = window.userProfile;
     const school   = p.school   || '—';
     const subjects = (p.subjects || []).map(v => (SUBJECTS.find(s => s.value === v) || {}).label || v).join(', ') || '—';
     const levels   = (p.classes  || []).map(v => (LEVELS.find(l => l.value === v)   || {}).label || v).join(', ') || '—';
 
-    // Class lists per level
-    const classLines = (p.classes || []).map(lv => {
+    // Class lists per subject×level combination
+    const combos = [];
+    (p.classes || []).forEach(lv => {
       const lvLabel = (LEVELS.find(l => l.value === lv) || {}).label || lv;
-      const cls     = (p[_classKey(lv)] || []).join(', ') || '—';
-      return `<span style="color:rgba(255,255,255,0.3)">${lvLabel} classes:</span> ${cls}`;
-    }).join('<br>');
+      (p.subjects || []).forEach(sv => {
+        const subLabel = (SUBJECTS.find(s => s.value === sv) || {}).label || sv;
+        const key = _slKey(lv, sv);
+        const cls = (p[key] || []).join(', ') || '—';
+        combos.push(`<span style="color:rgba(255,255,255,0.3)">${lvLabel} ${subLabel}:</span> ${cls}`);
+      });
+    });
 
     summaryEl.innerHTML =
       `<span style="color:rgba(255,255,255,0.3)">School:</span> ${school}<br>` +
       `<span style="color:rgba(255,255,255,0.3)">Subjects:</span> ${subjects}<br>` +
       `<span style="color:rgba(255,255,255,0.3)">Levels:</span> ${levels}` +
-      (classLines ? `<br>${classLines}` : '');
+      (combos.length ? `<br>${combos.join('<br>')}` : '');
   }
 
-  // ── Per-level class list editor ──────────────────────────────────
-  function renderMyClasses(selectedLevels) {
+  // ── Per subject×level class list editor ─────────────────────────
+  function renderMyClasses(selectedLevels, selectedSubjects) {
     if (!myClassesEl) return;
     myClassesEl.innerHTML = '';
-    if (!selectedLevels.length) return;
+    if (!selectedLevels.length || !selectedSubjects.length) return;
 
     selectedLevels.forEach(lv => {
       const lvLabel = (LEVELS.find(l => l.value === lv) || {}).label || lv;
-      const classes = _levelClasses[lv] || [];
 
-      const group = document.createElement('div');
-      group.className = 'pd-classes-group';
-      group.dataset.level = lv;
+      selectedSubjects.forEach(sv => {
+        const subLabel = (SUBJECTS.find(s => s.value === sv) || {}).label || sv;
+        const key = _slKey(lv, sv);
+        if (!Array.isArray(_slClasses[key])) _slClasses[key] = [];
 
-      // Label
-      const label = document.createElement('div');
-      label.className = 'pd-classes-level-label';
-      label.textContent = `${lvLabel} — My Classes`;
-      group.appendChild(label);
+        const group = document.createElement('div');
+        group.className = 'pd-classes-group';
+        group.dataset.key = key;
 
-      // Tag container
-      const tagWrap = document.createElement('div');
-      tagWrap.className = 'pd-class-tags';
-      tagWrap.id = `pdClassTags_${lv}`;
-      group.appendChild(tagWrap);
+        const label = document.createElement('div');
+        label.className = 'pd-classes-level-label';
+        label.textContent = `${lvLabel} ${subLabel} — My Classes`;
+        group.appendChild(label);
 
-      function renderTags() {
-        tagWrap.innerHTML = '';
-        (_levelClasses[lv] || []).forEach((cls, idx) => {
-          const tag = document.createElement('span');
-          tag.className = 'pd-class-tag';
-          tag.innerHTML = `${cls}<button class="pd-class-tag-remove" title="Remove" data-idx="${idx}">×</button>`;
-          tag.querySelector('.pd-class-tag-remove').addEventListener('click', () => {
-            _levelClasses[lv].splice(idx, 1);
-            renderTags();
+        const tagWrap = document.createElement('div');
+        tagWrap.className = 'pd-class-tags';
+        group.appendChild(tagWrap);
+
+        function renderTags() {
+          tagWrap.innerHTML = '';
+          (_slClasses[key] || []).forEach((cls, idx) => {
+            const tag = document.createElement('span');
+            tag.className = 'pd-class-tag';
+            tag.innerHTML = `${cls}<button class="pd-class-tag-remove" title="Remove" data-idx="${idx}">×</button>`;
+            tag.querySelector('.pd-class-tag-remove').addEventListener('click', () => {
+              _slClasses[key].splice(idx, 1);
+              renderTags();
+            });
+            tagWrap.appendChild(tag);
           });
-          tagWrap.appendChild(tag);
-        });
-      }
-      renderTags();
-
-      // Add row
-      const addRow = document.createElement('div');
-      addRow.className = 'pd-class-add-row';
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.className = 'pd-class-input';
-      input.placeholder = 'e.g. 10A, 9Cam';
-      const addBtn = document.createElement('button');
-      addBtn.type = 'button';
-      addBtn.className = 'pd-class-add-btn';
-      addBtn.textContent = '+';
-
-      const doAdd = () => {
-        const val = input.value.trim();
-        if (!val) return;
-        if (!Array.isArray(_levelClasses[lv])) _levelClasses[lv] = [];
-        // Allow comma-separated input: "10A, 9Cam, 10Stan"
-        val.split(',').map(s => s.trim()).filter(Boolean).forEach(s => {
-          if (!_levelClasses[lv].includes(s)) _levelClasses[lv].push(s);
-        });
-        input.value = '';
+        }
         renderTags();
-      };
-      addBtn.addEventListener('click', doAdd);
-      input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doAdd(); } });
 
-      addRow.appendChild(input);
-      addRow.appendChild(addBtn);
-      group.appendChild(addRow);
+        const addRow = document.createElement('div');
+        addRow.className = 'pd-class-add-row';
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'pd-class-input';
+        input.placeholder = 'e.g. 10A, 9Cam';
+        const addBtn = document.createElement('button');
+        addBtn.type = 'button';
+        addBtn.className = 'pd-class-add-btn';
+        addBtn.textContent = '+';
 
-      myClassesEl.appendChild(group);
+        const doAdd = () => {
+          const val = input.value.trim();
+          if (!val) return;
+          val.split(',').map(s => s.trim()).filter(Boolean).forEach(s => {
+            if (!_slClasses[key].includes(s)) _slClasses[key].push(s);
+          });
+          input.value = '';
+          renderTags();
+        };
+        addBtn.addEventListener('click', doAdd);
+        input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doAdd(); } });
+
+        addRow.appendChild(input);
+        addRow.appendChild(addBtn);
+        group.appendChild(addRow);
+        myClassesEl.appendChild(group);
+      });
     });
   }
 
   // ── Chips ────────────────────────────────────────────────────────
+  function _activeSubjects() { return [...subChips.querySelectorAll('.pd-chip.on')].map(b => b.dataset.value); }
+  function _activeLevels()   { return [...lvlChips.querySelectorAll('.pd-chip.on')].map(b => b.dataset.value); }
+
   function renderChips() {
     const p = window.userProfile;
     subChips.innerHTML = '';
@@ -332,7 +344,10 @@ function initTeachingProfile(db, setDoc, doc) {
       btn.className = 'pd-chip' + ((p.subjects || []).includes(s.value) ? ' on' : '');
       btn.dataset.value = s.value;
       btn.textContent = s.label;
-      btn.addEventListener('click', () => btn.classList.toggle('on'));
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('on');
+        renderMyClasses(_activeLevels(), _activeSubjects());
+      });
       subChips.appendChild(btn);
     });
     LEVELS.forEach(l => {
@@ -343,20 +358,16 @@ function initTeachingProfile(db, setDoc, doc) {
       btn.textContent = l.label;
       btn.addEventListener('click', () => {
         btn.classList.toggle('on');
-        // Re-render class editors when level selection changes
-        const active = [...lvlChips.querySelectorAll('.pd-chip.on')].map(b => b.dataset.value);
-        renderMyClasses(active);
+        renderMyClasses(_activeLevels(), _activeSubjects());
       });
       lvlChips.appendChild(btn);
     });
     if (schoolInput) schoolInput.value = (p.school || '');
 
-    // Initial class editors for already-selected levels
-    const activeLevels = [...(p.classes || [])];
-    renderMyClasses(activeLevels);
+    renderMyClasses(p.classes || [], p.subjects || []);
   }
 
-  _loadLevelClasses();
+  _loadSlClasses();
   renderSummary();
 
   // ── Toggle edit/summary ──────────────────────────────────────────
@@ -364,7 +375,7 @@ function initTeachingProfile(db, setDoc, doc) {
     toggleEl.addEventListener('click', () => {
       const open = fieldsEl.style.display === 'none';
       if (open) {
-        _loadLevelClasses(); // re-sync working copy from profile
+        _loadSlClasses();
         renderChips();
         fieldsEl.style.display = 'block';
         summaryEl.style.display = 'none';
@@ -382,17 +393,19 @@ function initTeachingProfile(db, setDoc, doc) {
   if (saveBtn) {
     saveBtn.addEventListener('click', async () => {
       const school   = schoolInput ? schoolInput.value.trim() : '';
-      const subjects = [...subChips.querySelectorAll('.pd-chip.on')].map(b => b.dataset.value);
-      const levels   = [...lvlChips.querySelectorAll('.pd-chip.on')].map(b => b.dataset.value);
+      const subjects = _activeSubjects();
+      const levels   = _activeLevels();
       if (!school)          { msgEl.textContent = 'Please enter your school name.'; msgEl.className = 'pd-msg err'; return; }
       if (!subjects.length) { msgEl.textContent = 'Select at least one subject.';   msgEl.className = 'pd-msg err'; return; }
       if (!levels.length)   { msgEl.textContent = 'Select at least one level.';     msgEl.className = 'pd-msg err'; return; }
 
-      // Build per-level class fields to save
+      // Build all subject×level class fields to save
       const classFields = {};
       LEVELS.forEach(l => {
-        classFields[_classKey(l.value)] = Array.isArray(_levelClasses[l.value])
-          ? _levelClasses[l.value] : [];
+        SUBJECTS.forEach(s => {
+          const key = _slKey(l.value, s.value);
+          classFields[key] = Array.isArray(_slClasses[key]) ? _slClasses[key] : [];
+        });
       });
 
       saveBtn.disabled = true; saveBtn.textContent = 'Saving…';

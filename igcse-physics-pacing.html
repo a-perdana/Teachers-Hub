@@ -2203,8 +2203,8 @@ function buildClassSelector() {
 
   // Prefer the teacher's own IGCSE class list from their profile.
   // Fall back to the admin-defined global list from Firestore.
-  const profileClasses = Array.isArray(window.userProfile?.igcse_classes) && window.userProfile.igcse_classes.length
-    ? window.userProfile.igcse_classes
+  const profileClasses = Array.isArray(window.userProfile?.igcse_physics_classes) && window.userProfile.igcse_physics_classes.length
+    ? window.userProfile.igcse_physics_classes
     : null;
   const effectiveList = profileClasses || classList;
 
