@@ -226,12 +226,9 @@ onAuthStateChanged(auth, async (user) => {
       profile = newProfile;
     } else {
       profile = userSnap.data();
-      // Legacy migration: if Teachers Hub role field is absent, derive from old `role` field
       if (profile[PLATFORM_KEY] == null) {
-        const legacy     = profile.role;
-        const assignRole = ALLOWED_ROLES.includes(legacy) ? legacy : DEFAULT_ROLE;
-        await setDoc(userRef, { [PLATFORM_KEY]: assignRole }, { merge: true });
-        profile = { ...profile, [PLATFORM_KEY]: assignRole };
+        await setDoc(userRef, { [PLATFORM_KEY]: DEFAULT_ROLE }, { merge: true });
+        profile = { ...profile, [PLATFORM_KEY]: DEFAULT_ROLE };
       }
     }
   } catch (err) {
@@ -257,8 +254,6 @@ onAuthStateChanged(auth, async (user) => {
     window.location.replace('/login?error=access');
     return;
   }
-  // Set profile.role for backward compat with page-level checks
-  profile.role = platformRole;
 
   // 5. Name prompt if missing
   if (!profile.displayName) {

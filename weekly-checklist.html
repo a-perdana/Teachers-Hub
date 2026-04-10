@@ -362,7 +362,7 @@
 <!-- ─── MAIN ─────────────────────────────────────────────────────── -->
 <main class="page-wrap">
 
-  <!-- Checklist Tabs (hidden until auth; Subject Leader tab hidden unless is_subject_leader) -->
+  <!-- Checklist Tabs (hidden until auth; Subject Leader tab only for th_sub_roles includes subject_leader) -->
   <div class="checklist-tabs" id="checklistTabs" style="display:none">
     <button class="checklist-tab active" data-tab="teachers">Subject Teacher</button>
     <button class="checklist-tab" data-tab="subject_leader" id="slTab" style="display:none">Subject Leader</button>
@@ -535,10 +535,11 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     document.getElementById('emptyAddBtn').style.display = '';
   }
 
-  // Show tabs — Subject Leader tab only for is_subject_leader users
+  // Show tabs — Subject Leader tab only for users with subject_leader sub-role
   const tabsEl = document.getElementById('checklistTabs');
   tabsEl.style.display = '';
-  if (profile?.is_subject_leader) {
+  const thSubRoles = Array.isArray(profile?.th_sub_roles) ? profile.th_sub_roles : [];
+  if (thSubRoles.includes('subject_leader')) {
     document.getElementById('slTab').style.display = '';
   }
   document.querySelectorAll('.checklist-tab').forEach(tab => {

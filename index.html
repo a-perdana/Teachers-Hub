@@ -2662,7 +2662,8 @@
 
         // Filter by visible_to — admins see all; users see based on sub-role
         const profile = window.userProfile || {};
-        const userRole = profile.is_subject_leader ? 'subject_leader' : 'subject_teacher';
+        const thSubs = Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [];
+        const userRole = thSubs.includes('subject_leader') ? 'subject_leader' : 'subject_teacher';
         const visibleCats = isAdmin ? cats : cats.filter(cat => {
           const vt = cat.visible_to || [];
           return vt.length === 0 || vt.includes(userRole);
