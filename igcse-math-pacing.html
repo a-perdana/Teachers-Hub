@@ -1353,7 +1353,7 @@ function renderPacing() {
     const done       = ch.topics.filter(t => t.status === 'done').length;
     const inprogress = ch.topics.filter(t => t.status === 'inprogress').length;
     const revisit    = ch.topics.filter(t => t.status === 'revisit').length;
-    const pending    = ch.topics.length - done - inprogress - revisit;
+    const pending    = ch.topics.filter(t => !t.status || t.status === 'pending').length;
     const pct        = Math.round(done / ch.topics.length * 100);
     const yearClass  = ch.year === 'Year 9' ? 'yr9' : 'yr10';
     const statusPillsHtml = `<div class="ch-status-pills">
