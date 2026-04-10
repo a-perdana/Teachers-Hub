@@ -2200,11 +2200,13 @@ function buildClassSelector() {
   const select = document.getElementById('classSelect');
   if (!wrap || !select) return;
 
-  // Prefer the teacher's own IGCSE class list from their profile.
-  // Fall back to the admin-defined global list from Firestore.
-  const profileClasses = Array.isArray(window.userProfile?.igcse_math_classes) && window.userProfile.igcse_math_classes.length
-    ? window.userProfile.igcse_math_classes
-    : null;
+  // Prefer subject-specific class list (new format), fall back to shared
+  // igcse_classes (old format, pre-migration), then admin global list.
+  const p = window.userProfile;
+  const profileClasses =
+    (Array.isArray(p?.igcse_math_classes)  && p.igcse_math_classes.length)  ? p.igcse_math_classes  :
+    (Array.isArray(p?.igcse_classes)        && p.igcse_classes.length)        ? p.igcse_classes        :
+    null;
   const effectiveList = profileClasses || classList;
 
   wrap.style.display = effectiveList.length > 0 ? 'flex' : 'none';
