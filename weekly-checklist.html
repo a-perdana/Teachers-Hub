@@ -53,49 +53,45 @@
   text-transform: uppercase; letter-spacing: 0.08em;
 }
 .ring-svg { transform: rotate(-90deg); }
-.ring-bg   { fill: none; stroke: rgba(255,255,255,0.12); stroke-width: 6; }
-.ring-fill { fill: none; stroke: #a78bfa; stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease; }
-.ring-text { font-size: 18px; font-weight: 800; fill: #fff; dominant-baseline: middle; text-anchor: middle; }
-.ring-sub  { font-size: 9px;  font-weight: 600; fill: rgba(255,255,255,0.55); dominant-baseline: middle; text-anchor: middle; }
+.ring-bg   { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 5; }
+.ring-fill { fill: none; stroke: #c4b5fd; stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 0.6s cubic-bezier(.4,0,.2,1); }
+.ring-text { font-size: 17px; font-weight: 800; fill: #fff; dominant-baseline: middle; text-anchor: middle; }
+.ring-sub  { font-size: 9px;  font-weight: 600; fill: rgba(255,255,255,0.5); dominant-baseline: middle; text-anchor: middle; }
 
 /* ─── PAGE WRAP ──────────────────────────────── */
-.page-wrap { max-width: 980px; margin: 0 auto; padding: 28px 40px 72px; }
+.page-wrap { max-width: 980px; margin: 0 auto; padding: 24px 40px 72px; }
 
 /* ─── CHECKLIST TABS ─────────────────────────── */
 .checklist-tabs {
-  display: flex; gap: 4px; margin-bottom: 20px;
-  border-bottom: 2px solid var(--border);
+  display: flex; gap: 6px; margin-bottom: 20px;
 }
 .checklist-tab {
-  padding: 9px 20px; border: none; background: transparent;
-  font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600;
-  color: var(--ink-3); cursor: pointer; border-radius: 8px 8px 0 0;
-  transition: all 0.18s; position: relative; bottom: -2px;
-  border: 2px solid transparent; border-bottom: none;
+  padding: 8px 20px; border: 1.5px solid var(--border); background: var(--white);
+  font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 600;
+  color: var(--ink-3); cursor: pointer; border-radius: 20px;
+  transition: all 0.18s;
 }
-.checklist-tab:hover { color: var(--ink-2); background: rgba(108,92,231,0.06); }
+.checklist-tab:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
 .checklist-tab.active {
-  color: var(--accent); background: var(--white);
-  border-color: var(--border); border-bottom-color: var(--white);
+  color: var(--white); background: var(--accent); border-color: var(--accent);
 }
 
 /* ─── WEEK NAV ───────────────────────────────── */
 .week-nav {
   display: flex; align-items: center; justify-content: space-between;
   background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 14px 20px; margin-bottom: 24px;
+  padding: 14px 20px; margin-bottom: 20px;
   box-shadow: var(--shadow-sm);
 }
-.week-nav-center { text-align: center; }
-.week-num {
-  font-size: 1.1rem; font-weight: 700; color: var(--ink);
-}
+.week-nav-center { text-align: center; flex: 1; }
+.week-num { font-size: 1.05rem; font-weight: 700; color: var(--ink); }
 .week-dates { font-size: 0.78rem; color: var(--ink-3); margin-top: 2px; }
 .week-this { font-size: 11px; font-weight: 700; color: var(--green); margin-top: 2px; }
 .btn-nav {
   padding: 8px 16px; background: var(--paper); border: 1px solid var(--border);
   border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600;
   color: var(--ink-2); transition: all 0.15s; font-family: 'DM Sans', sans-serif;
+  flex-shrink: 0;
 }
 .btn-nav:hover:not(:disabled) { background: var(--paper-2); color: var(--ink); }
 .btn-nav:disabled { opacity: 0.35; cursor: default; }
@@ -104,29 +100,29 @@
 .essentials-section {
   background: var(--white); border: 1px solid var(--border);
   border-radius: var(--radius); box-shadow: var(--shadow-sm);
-  margin-bottom: 16px; overflow: hidden;
+  margin-bottom: 20px; overflow: hidden;
 }
 .essentials-header {
-  padding: 12px 18px; border-bottom: 1px solid var(--border);
+  padding: 10px 18px;
   display: flex; align-items: center; gap: 8px;
 }
 .essentials-header h4 {
-  font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.06em; color: var(--ink-3); margin: 0;
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--ink-3); margin: 0;
 }
 .essentials-list {
-  display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 18px;
+  display: flex; flex-wrap: wrap; gap: 8px; padding: 0 18px 14px;
 }
 .ess-item {
   display: flex; align-items: center; gap: 8px;
-  padding: 7px 12px; border-radius: 8px;
-  border: 1px solid var(--border); background: var(--paper);
+  padding: 7px 13px; border-radius: 20px;
+  border: 1.5px solid var(--border); background: var(--paper);
   cursor: pointer; transition: all 0.15s; user-select: none;
 }
 .ess-item:hover { border-color: var(--accent); background: var(--accent-2); }
 .ess-item.checked { border-color: var(--green); background: var(--green-2); }
 .ess-checkbox {
-  width: 18px; height: 18px; border-radius: 5px;
+  width: 16px; height: 16px; border-radius: 50%;
   border: 2px solid var(--border); background: var(--white);
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0; transition: all 0.15s;
@@ -184,28 +180,29 @@
 }
 
 /* ─── TASK CARD ──────────────────────────────── */
-.task-list { display: flex; flex-direction: column; gap: 8px; }
+.task-list { display: flex; flex-direction: column; gap: 6px; }
 .task-card {
-  display: flex; align-items: flex-start; gap: 14px;
+  display: flex; align-items: center; gap: 14px;
   background: var(--white); border: 1.5px solid var(--border);
-  border-radius: var(--radius); padding: 14px 16px;
-  transition: border-color 0.18s, box-shadow 0.18s;
+  border-radius: var(--radius); padding: 13px 16px;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
   cursor: pointer;
 }
-.task-card:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
+.task-card:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(108,92,231,0.08); }
 .task-card.checked {
-  background: var(--green-2); border-color: #6ee7b7;
+  background: #f0fdf4; border-color: #86efac;
 }
 .task-card.checked .task-title { text-decoration: line-through; color: var(--ink-3); }
 
 .checkbox-wrap {
-  width: 22px; height: 22px; border-radius: 6px;
+  width: 22px; height: 22px; border-radius: 50%;
   border: 2px solid var(--border); background: var(--white);
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-top: 1px; transition: all 0.18s;
+  flex-shrink: 0; transition: all 0.18s;
 }
+.task-card:hover .checkbox-wrap { border-color: var(--accent); }
 .task-card.checked .checkbox-wrap {
-  background: var(--green); border-color: var(--green);
+  background: #22c55e; border-color: #22c55e;
 }
 .checkmark {
   width: 12px; height: 12px; display: none;
@@ -215,9 +212,9 @@
 
 .task-body { flex: 1; min-width: 0; }
 .task-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); line-height: 1.4; }
-.task-meta { display: flex; gap: 6px; margin-top: 5px; flex-wrap: wrap; align-items: center; }
+.task-meta { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; align-items: center; }
 .task-cat {
-  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px;
+  font-size: 10px; font-weight: 700; padding: 2px 9px; border-radius: 10px;
   text-transform: uppercase; letter-spacing: 0.06em;
 }
 .task-note-indicator { font-size: 11px; color: var(--ink-3); }
@@ -364,13 +361,6 @@
 
 <!-- ─── MAIN ─────────────────────────────────────────────────────── -->
 <main class="page-wrap">
-
-  <!-- Breadcrumb -->
-  <nav class="page-breadcrumb" aria-label="Breadcrumb" style="max-width:none;margin-left:0;margin-right:0;margin-bottom:16px;">
-    <a href="index.html">Teachers Hub</a>
-    <span class="page-breadcrumb-sep">›</span>
-    <span class="page-breadcrumb-current">Weekly Checklist</span>
-  </nav>
 
   <!-- Checklist Tabs (hidden until auth; Subject Leader tab hidden unless is_subject_leader) -->
   <div class="checklist-tabs" id="checklistTabs" style="display:none">
@@ -562,6 +552,7 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
         document.getElementById('adminBar').style.display = show ? 'flex' : 'none';
         document.getElementById('emptyAddBtn').style.display = show ? '' : 'none';
       }
+      updateHeroSub();
       loadWeek(currentWeek);
       loadEssentials();
     });
@@ -612,6 +603,14 @@ function setupWeekNav() {
     jumpSel.appendChild(opt);
   }
   jumpSel.addEventListener('change', () => loadWeek(Number(jumpSel.value)));
+}
+
+function updateHeroSub() {
+  const sub = document.getElementById('heroSub');
+  if (!sub) return;
+  sub.textContent = currentPlatform === 'subject_leader'
+    ? 'Track your Subject Leader responsibilities and weekly tasks.'
+    : 'Track your weekly professional tasks and responsibilities.';
 }
 
 function updateWeekUI() {
