@@ -2570,20 +2570,30 @@
         document.getElementById('uncategorizedCount').textContent = resources.length;
       }
 
-      // ── Filter pacing cards based on user's subjects + levels ─────
+      // ── Filter pacing cards based on user's teaching combos ──────
       // Admins always see all cards.
-      // Regular users see a pacing card only if BOTH subject AND level match.
-      // Non-pacing cards are always visible.
+      // Regular users see a pacing card only if the exact level_subject combo
+      // is in their teaching_combos (new model) or subjects×classes (legacy).
       function filterPacingCards(profile, isAdmin) {
         if (isAdmin) return; // admins see everything
-        const subjects = Array.isArray(profile.subjects) ? profile.subjects : [];
-        const classes  = Array.isArray(profile.classes)  ? profile.classes  : [];
+
+        // Build a Set of "level_subject" strings the user actually teaches
+        let comboSet;
+        if (Array.isArray(profile.teaching_combos) && profile.teaching_combos.length) {
+          comboSet = new Set(profile.teaching_combos);
+        } else {
+          // Legacy fallback: cartesian product of subjects[] × classes[]
+          comboSet = new Set();
+          const subjects = Array.isArray(profile.subjects) ? profile.subjects : [];
+          const classes  = Array.isArray(profile.classes)  ? profile.classes  : [];
+          classes.forEach(l => subjects.forEach(s => comboSet.add(`${l}_${s}`)));
+        }
+
         document.querySelectorAll('.resource-card[data-pacing-subject]').forEach(card => {
           const s = card.getAttribute('data-pacing-subject');
           const l = card.getAttribute('data-pacing-level');
-          const visible = subjects.includes(s) && classes.includes(l);
+          const visible = comboSet.has(`${l}_${s}`);
           card.style.display = visible ? '' : 'none';
-          // Also mark for search filter to skip hidden cards
           card.dataset.pacingHidden = visible ? '' : '1';
         });
       }
