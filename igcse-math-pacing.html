@@ -197,7 +197,7 @@
 }
 
 .ch-header-title {
-  font-family: 'Lora', serif; font-size: 1rem; flex: 1;
+  font-family: 'Lora', serif; font-size: 1rem;
 }
 
 .ch-year-tag {
@@ -217,8 +217,8 @@
 .ch-status-pill.ip  { background: var(--blue-2);   color: var(--blue);   border: 1px solid #c2d8f5; }
 .ch-status-pill.rev { background: var(--amber-2);  color: var(--amber);  border: 1px solid #f5dfa0; }
 .ch-status-pill.pnd { background: var(--paper-2);  color: var(--ink-3);  border: 1px solid var(--border); }
-.ch-block:not(.collapsed) .ch-status-pills { display: none; }
-.ch-header-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ch-block:not(.collapsed) .ch-stats .ch-status-pills { display: none; }
+.ch-header-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
 
 .ch-caret { color: var(--ink-3); font-size: .75rem; transition: transform .2s; flex-shrink: 0; }
 .ch-block.collapsed .ch-caret { transform: rotate(-90deg); }
@@ -1368,8 +1368,8 @@ function renderPacing() {
         <span class="ch-badge">Ch ${ci+1}</span>
         <span class="ch-header-title">${ch.chapter}</span>
         <span class="ch-year-tag ${yearClass}">${ch.year}</span>
-        ${statusPillsHtml}
         <div class="ch-stats">
+          ${statusPillsHtml}
           <div class="ch-prog-bar"><div class="ch-prog-fill" style="width:${pct}%"></div></div>
           <span class="ch-pct">${pct}%</span>
           <span class="ch-topic-count">${ch.topics.length} topics</span>
