@@ -155,7 +155,7 @@
   /* Profile dropdown */
   .profile-dropdown {
     position: absolute; top: calc(100% + 10px); right: 0;
-    width: 280px;
+    width: 360px;
     background: #12122a;
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 14px;
@@ -212,8 +212,21 @@
   .pd-save-btn:hover { filter: brightness(1.1); }
   .pd-save-btn:disabled { opacity: .5; cursor: not-allowed; }
   .pd-msg { font-size: 11.5px; margin-top: 6px; padding: 5px 9px; border-radius: 7px; display: none; }
-  .pd-msg.ok  { display:block; background:rgba(5,150,105,.15); color:#34d399; border:1px solid rgba(5,150,105,.2); }
-  .pd-msg.err { display:block; background:rgba(220,38,38,.15); color:#f87171; border:1px solid rgba(220,38,38,.2); }
+  .pd-msg.ok   { display:block; background:rgba(5,150,105,.15); color:#34d399; border:1px solid rgba(5,150,105,.2); }
+  .pd-msg.err  { display:block; background:rgba(220,38,38,.15); color:#f87171; border:1px solid rgba(220,38,38,.2); }
+  .pd-msg.warn { display:block; background:rgba(245,158,11,.12); color:#fbbf24; border:1px solid rgba(245,158,11,.25); }
+
+  /* Empty class hint shown below each group label when no classes added yet */
+  .pd-classes-empty-hint {
+    font-size: 11px; color: #fbbf24;
+    background: rgba(245,158,11,.1); border: 1px solid rgba(245,158,11,.2);
+    border-radius: 6px; padding: 4px 8px; margin-bottom: 6px;
+  }
+  .pd-classes-group.has-classes .pd-classes-empty-hint { display: none; }
+
+  /* Highlight the input row when save was attempted without classes */
+  .pd-classes-group.missing .pd-class-input { border-color: #f87171; }
+  .pd-classes-group.missing .pd-classes-level-label { color: #f87171; }
 
   .pd-pw-toggle {
     font-size: 12px; color: rgba(255, 255, 255, 0.4); cursor: pointer;

@@ -26,6 +26,16 @@ function initNavbar() {
       profileWrap.classList.toggle('open');
     });
     document.addEventListener('click', function () {
+      // If teaching profile form is open and dirty, warn instead of closing
+      const fieldsOpen = document.getElementById('pdTeachingFields')?.style.display !== 'none';
+      if (profileWrap.classList.contains('open') && fieldsOpen && window.__teachingProfileDirty) {
+        const msgEl = document.getElementById('pdTeachingMsg');
+        if (msgEl) {
+          msgEl.textContent = 'You have unsaved changes. Save or discard first.';
+          msgEl.className = 'pd-msg warn';
+        }
+        return;
+      }
       profileWrap.classList.remove('open');
     });
     if (profileDropdown) {
@@ -208,6 +218,11 @@ function initTeachingProfile(db, setDoc, doc) {
   // { igcse_math: ["9 Har","9 Oxf"], igcse_physics: ["10A"], ... }
   let _slClasses = {};
 
+  // Dirty flag — true if the user has made unsaved changes in the edit form
+  let _dirty = false;
+  function _markDirty() { _dirty = true; window.__teachingProfileDirty = true; }
+  function _clearDirty() { _dirty = false; window.__teachingProfileDirty = false; }
+
   function _slKey(levelValue, subjectValue) { return `${levelValue}_${subjectValue}_classes`; }
 
   function _loadSlClasses() {
@@ -280,18 +295,29 @@ function initTeachingProfile(db, setDoc, doc) {
         label.textContent = `${lvLabel} ${subLabel} — My Classes`;
         group.appendChild(label);
 
+        // Empty hint — visible until at least one class is added
+        const emptyHint = document.createElement('div');
+        emptyHint.className = 'pd-classes-empty-hint';
+        emptyHint.textContent = 'Add at least one class below';
+        group.appendChild(emptyHint);
+
         const tagWrap = document.createElement('div');
         tagWrap.className = 'pd-class-tags';
         group.appendChild(tagWrap);
 
         function renderTags() {
           tagWrap.innerHTML = '';
-          (_slClasses[key] || []).forEach((cls, idx) => {
+          const list = _slClasses[key] || [];
+          // Toggle has-classes so CSS hides the hint
+          group.classList.toggle('has-classes', list.length > 0);
+          group.classList.remove('missing'); // clear error highlight on change
+          list.forEach((cls, idx) => {
             const tag = document.createElement('span');
             tag.className = 'pd-class-tag';
             tag.innerHTML = `${cls}<button class="pd-class-tag-remove" title="Remove" data-idx="${idx}">×</button>`;
             tag.querySelector('.pd-class-tag-remove').addEventListener('click', () => {
               _slClasses[key].splice(idx, 1);
+              _markDirty();
               renderTags();
             });
             tagWrap.appendChild(tag);
@@ -317,6 +343,7 @@ function initTeachingProfile(db, setDoc, doc) {
             if (!_slClasses[key].includes(s)) _slClasses[key].push(s);
           });
           input.value = '';
+          _markDirty();
           renderTags();
         };
         addBtn.addEventListener('click', doAdd);
@@ -346,6 +373,7 @@ function initTeachingProfile(db, setDoc, doc) {
       btn.textContent = s.label;
       btn.addEventListener('click', () => {
         btn.classList.toggle('on');
+        _markDirty();
         renderMyClasses(_activeLevels(), _activeSubjects());
       });
       subChips.appendChild(btn);
@@ -358,11 +386,15 @@ function initTeachingProfile(db, setDoc, doc) {
       btn.textContent = l.label;
       btn.addEventListener('click', () => {
         btn.classList.toggle('on');
+        _markDirty();
         renderMyClasses(_activeLevels(), _activeSubjects());
       });
       lvlChips.appendChild(btn);
     });
-    if (schoolInput) schoolInput.value = (p.school || '');
+    if (schoolInput) {
+      schoolInput.value = (p.school || '');
+      schoolInput.addEventListener('input', _markDirty, { once: false });
+    }
 
     renderMyClasses(p.classes || [], p.subjects || []);
   }
@@ -371,20 +403,45 @@ function initTeachingProfile(db, setDoc, doc) {
   renderSummary();
 
   // ── Toggle edit/summary ──────────────────────────────────────────
+  function _closeForm() {
+    fieldsEl.style.display = 'none';
+    summaryEl.style.display = '';
+    toggleEl.textContent = '▸ Edit';
+    msgEl.className = 'pd-msg';
+    _clearDirty();
+  }
+
   if (toggleEl) {
     toggleEl.addEventListener('click', () => {
       const open = fieldsEl.style.display === 'none';
       if (open) {
         _loadSlClasses();
+        _clearDirty();
         renderChips();
         fieldsEl.style.display = 'block';
         summaryEl.style.display = 'none';
         toggleEl.textContent = '▾ Close';
       } else {
-        fieldsEl.style.display = 'none';
-        summaryEl.style.display = '';
-        toggleEl.textContent = '▸ Edit';
-        msgEl.className = 'pd-msg';
+        if (_dirty) {
+          msgEl.textContent = 'You have unsaved changes. Save or discard?';
+          msgEl.className = 'pd-msg warn';
+          // Show discard button temporarily
+          let discardBtn = document.getElementById('pdDiscardBtn');
+          if (!discardBtn) {
+            discardBtn = document.createElement('button');
+            discardBtn.id = 'pdDiscardBtn';
+            discardBtn.type = 'button';
+            discardBtn.style.cssText = 'margin-top:6px;width:100%;padding:6px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:7px;color:rgba(255,255,255,0.6);font-family:DM Sans,sans-serif;font-size:12px;cursor:pointer;';
+            discardBtn.textContent = 'Discard changes and close';
+            discardBtn.addEventListener('click', () => {
+              discardBtn.remove();
+              _closeForm();
+            });
+            msgEl.after(discardBtn);
+          }
+          return; // don't close yet
+        }
+        _closeForm();
       }
     });
   }
@@ -398,6 +455,31 @@ function initTeachingProfile(db, setDoc, doc) {
       if (!school)          { msgEl.textContent = 'Please enter your school name.'; msgEl.className = 'pd-msg err'; return; }
       if (!subjects.length) { msgEl.textContent = 'Select at least one subject.';   msgEl.className = 'pd-msg err'; return; }
       if (!levels.length)   { msgEl.textContent = 'Select at least one level.';     msgEl.className = 'pd-msg err'; return; }
+
+      // Validate: every selected subject×level combo must have at least 1 class
+      const missingCombos = [];
+      levels.forEach(lv => {
+        subjects.forEach(sv => {
+          const key = _slKey(lv, sv);
+          const isEmpty = !Array.isArray(_slClasses[key]) || _slClasses[key].length === 0;
+          if (isEmpty) {
+            const lvLabel  = (LEVELS.find(l => l.value === lv)   || {}).label || lv;
+            const subLabel = (SUBJECTS.find(s => s.value === sv) || {}).label || sv;
+            missingCombos.push(`${lvLabel} ${subLabel}`);
+            // Highlight the offending group
+            const group = myClassesEl.querySelector(`[data-key="${key}"]`);
+            if (group) group.classList.add('missing');
+          }
+        });
+      });
+      if (missingCombos.length) {
+        msgEl.textContent = `Add classes for: ${missingCombos.join(', ')}`;
+        msgEl.className = 'pd-msg err';
+        // Scroll to first missing group
+        const firstMissing = myClassesEl.querySelector('.missing');
+        if (firstMissing) firstMissing.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
 
       // Build all subject×level class fields to save
       const classFields = {};
@@ -416,6 +498,8 @@ function initTeachingProfile(db, setDoc, doc) {
         );
         window.userProfile = { ...window.userProfile, school, subjects, classes: levels, ...classFields };
         renderSummary();
+        _clearDirty();
+        document.getElementById('pdDiscardBtn')?.remove();
         fieldsEl.style.display = 'none';
         summaryEl.style.display = '';
         if (toggleEl) toggleEl.textContent = '▸ Edit';
