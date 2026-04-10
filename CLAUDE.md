@@ -81,12 +81,14 @@ Every protected page loads `auth-guard.js` as a module:
 `auth-guard.js` (modular SDK v10):
 1. Hides `document.body` immediately (prevents flash of content).
 2. Initialises Firebase (guards against double-init with `getApps()`).
-3. Listens on `onAuthStateChanged`. If no user → redirects to `index.html`.
-4. Fetches (or creates) Firestore profile. If missing, creates it and assigns `role_teachershub: 'teachers_user'` automatically.
-5. **Domain check** — Google SSO users must have an email from `window.TEACHERS_ALLOWED_DOMAINS` (15 school domains). Email/password accounts bypass this check. Fails → `index.html?error=domain`.
-6. Role check — `role_teachershub` must be in `['teachers_admin', 'teachers_user']`. Fails → `index.html?error=access`.
+3. Listens on `onAuthStateChanged`. If no user → redirects to `/login`.
+4. Fetches (or creates) Firestore profile. If missing, creates it and assigns `role_teachershub: 'teachers_user'` + `approval_status_teachershub: 'pending'` automatically.
+5. **Domain check** — Google SSO users must have an email from `window.TEACHERS_ALLOWED_DOMAINS` (15 school domains). Email/password accounts bypass this check. Fails → `/login?error=domain`.
+6. Role check — `role_teachershub` must be in `['teachers_admin', 'teachers_user']`. Fails → `/login?error=access`.
 7. Name prompt if `displayName` is missing.
-8. Exposes globals and dispatches `authReady`.
+8. **Profile setup prompt** — shown until `school`, `subjects`, `classes`, and `th_sub_roles` are all filled. Returns all four fields; saved with `setDoc` merge.
+9. **Approval check** — if `approval_status_teachershub !== 'approved'` (and not `teachers_admin`) → redirect to `/waiting`. `waiting.html` polls every 30s and redirects on approval.
+10. Exposes globals and dispatches `authReady`.
 
 **Allowed domains** are defined centrally in `auth-guard.js` as `window.TEACHERS_ALLOWED_DOMAINS` (15 entries: 14 partner school `.sch.id` domains + `eduversal.org`). Individual pages reference this via `const allowedDomains = window.TEACHERS_ALLOWED_DOMAINS` — do NOT redefine the list inline.
 
@@ -118,10 +120,11 @@ Teachers Hub uses `role_teachershub` as the primary access field. **The legacy `
 |--------------------|---------------------------------------------------|
 | `role_teachershub` | `'teachers_user'` (default) \| `'teachers_admin'` |
 | `th_sub_roles[]`   | `'subject_teacher'`, `'subject_leader'`           |
+| `approval_status_teachershub` | `'pending'` (default) \| `'approved'` \| `'rejected'` |
 
 **Teachers Hub allowed roles:** `['teachers_user', 'teachers_admin']`
 
-First login automatically assigns `teachers_user` via `setDoc` with `{ merge: true }`. No approval step — access is immediate. `teachers_admin` must be set manually via CentralHub's `console.html`.
+First login automatically assigns `teachers_user` + `approval_status_teachershub: 'pending'` via `setDoc` with `{ merge: true }`. Users must fill the profile prompt (school/subjects/classes/th_sub_roles) then wait on `waiting.html` until a `central_admin` sets `approval_status_teachershub: 'approved'` in `console.html`. `teachers_admin` bypasses the approval check entirely.
 
 **Sub-roles (`th_sub_roles[]`)** are set in `console.html` and control:
 - `weekly-checklist.html` — Subject Leader tab is shown only if `th_sub_roles.includes('subject_leader')`. Users without this sub-role see only the Subject Teacher tab (no tab bar). Admins always see both tabs.
@@ -198,9 +201,11 @@ FIREBASE_APP_ID
 | File                        | Purpose                                |
 |-----------------------------|----------------------------------------|
 | `index.html`                | Login / home (no auth guard)           |
+| `waiting.html`              | Approval pending page (polls Firestore every 30s) |
 | `announcements.html`        | Announcements feed                     |
 | `messageboard.html`         | Message board                          |
 | `library.html`              | Resource library                       |
+| `weekly-checklist.html`     | Weekly teacher checklist (tabs by th_sub_roles) |
 | `igcse-math-pacing.html`    | Maths pacing guide                     |
 | `igcse-physics-pacing.html` | Physics pacing guide                   |
 | `igcse-chemistry-pacing.html`| Chemistry pacing guide                |
