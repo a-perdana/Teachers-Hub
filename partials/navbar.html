@@ -185,6 +185,25 @@
   .pd-info-name  { font-weight: 600; font-size: 13.5px; color: #ffffff; margin-bottom: 2px; }
   .pd-info-email { font-size: 11px; color: rgba(255, 255, 255, 0.45); word-break: break-all; }
 
+  /* Tabs */
+  .pd-tabs {
+    display: flex; border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .pd-tab {
+    flex: 1; padding: 9px 12px;
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
+    color: rgba(255, 255, 255, 0.4); background: none; border: none;
+    border-bottom: 2px solid transparent; cursor: pointer;
+    transition: color .15s, border-color .15s;
+    letter-spacing: .01em;
+  }
+  .pd-tab:hover { color: rgba(255, 255, 255, 0.7); }
+  .pd-tab.active { color: #a78bfa; border-bottom-color: #6c5ce7; }
+
+  .pd-tab-panel { display: none; }
+  .pd-tab-panel.active { display: block; }
+
   .pd-section {
     padding: 11px 14px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -215,6 +234,18 @@
   .pd-msg.ok   { display:block; background:rgba(5,150,105,.15); color:#34d399; border:1px solid rgba(5,150,105,.2); }
   .pd-msg.err  { display:block; background:rgba(220,38,38,.15); color:#f87171; border:1px solid rgba(220,38,38,.2); }
   .pd-msg.warn { display:block; background:rgba(245,158,11,.12); color:#fbbf24; border:1px solid rgba(245,158,11,.25); }
+
+  /* Teaching summary bg */
+  #pdTeachingSummary {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.65);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 8px;
+    padding: 8px 10px;
+    line-height: 1.75;
+  }
+  #pdTeachingSummary:empty { display: none; }
 
   /* Empty class hint shown below each group label when no classes added yet */
   .pd-classes-empty-hint {
@@ -459,61 +490,70 @@
           </div>
         </div>
 
-        <!-- Teaching Profile -->
-        <div class="pd-section" id="pdTeachingSection">
-          <div class="pd-label" style="display:flex;align-items:center;justify-content:space-between;">
-            Teaching Profile
-            <span id="pdTeachingToggle" style="font-size:10px;font-weight:500;letter-spacing:0;text-transform:none;color:rgba(255,255,255,0.45);cursor:pointer;transition:color .15s;">▸ Edit</span>
-          </div>
-          <!-- Summary (read-only view) -->
-          <div id="pdTeachingSummary" style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.7;"></div>
-          <!-- Edit fields -->
-          <div id="pdTeachingFields" style="display:none;margin-top:10px;">
-            <input type="text" class="pd-input" id="pdSchool" placeholder="School name" style="margin-bottom:10px;">
-            <div style="font-size:10.5px;color:rgba(255,255,255,0.4);margin-bottom:6px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;">Subjects</div>
-            <div id="pdSubjectChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;"></div>
-            <div style="font-size:10.5px;color:rgba(255,255,255,0.4);margin-bottom:6px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;">Curriculum levels</div>
-            <div id="pdClassChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;"></div>
-
-            <!-- Per-level class lists — rendered dynamically by navbar.js -->
-            <div id="pdMyClasses"></div>
-
-            <button class="pd-save-btn" id="pdTeachingBtn">Save Teaching Profile</button>
-            <div class="pd-msg" id="pdTeachingMsg"></div>
-          </div>
+        <!-- Tabs -->
+        <div class="pd-tabs">
+          <button class="pd-tab active" id="pdTabProfile" data-tab="pdPanelProfile">Profile</button>
+          <button class="pd-tab" id="pdTabSettings" data-tab="pdPanelSettings">Settings</button>
         </div>
 
-        <!-- Phone -->
-        <div class="pd-section">
-          <div class="pd-label">Phone Number</div>
-          <input type="tel" class="pd-input" id="pdPhone" placeholder="+62 xxx xxx xxxx">
-          <button class="pd-save-btn" id="pdPhoneBtn">Save Phone Number</button>
-          <div class="pd-msg" id="pdPhoneMsg"></div>
-        </div>
+        <!-- Tab: Profile -->
+        <div class="pd-tab-panel active" id="pdPanelProfile">
+          <div class="pd-section" id="pdTeachingSection">
+            <div class="pd-label" style="display:flex;align-items:center;justify-content:space-between;">
+              Teaching Profile
+              <span id="pdTeachingToggle" style="font-size:10px;font-weight:500;letter-spacing:0;text-transform:none;color:rgba(255,255,255,0.45);cursor:pointer;transition:color .15s;">▸ Edit</span>
+            </div>
+            <!-- Summary (read-only view) -->
+            <div id="pdTeachingSummary"></div>
+            <!-- Edit fields -->
+            <div id="pdTeachingFields" style="display:none;margin-top:10px;">
+              <input type="text" class="pd-input" id="pdSchool" placeholder="School name" style="margin-bottom:10px;">
+              <div style="font-size:10.5px;color:rgba(255,255,255,0.4);margin-bottom:6px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;">Subjects</div>
+              <div id="pdSubjectChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;"></div>
+              <div style="font-size:10.5px;color:rgba(255,255,255,0.4);margin-bottom:6px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;">Curriculum levels</div>
+              <div id="pdClassChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;"></div>
+              <!-- Per-level class lists — rendered dynamically by navbar.js -->
+              <div id="pdMyClasses"></div>
+              <button class="pd-save-btn" id="pdTeachingBtn">Save Teaching Profile</button>
+              <div class="pd-msg" id="pdTeachingMsg"></div>
+            </div>
+          </div>
 
-        <!-- Password (email users only) -->
-        <div class="pd-section" id="pdPwSection" style="display:none;">
-          <div class="pd-label">Password</div>
-          <div class="pd-pw-toggle" id="pdPwToggle">▸ Change password</div>
-          <div class="pd-pw-fields" id="pdPwFields">
-            <input type="password" class="pd-input" id="pdPwCurrent" placeholder="Current password">
-            <input type="password" class="pd-input" id="pdPwNew" placeholder="New password (min. 6 chars)">
-            <input type="password" class="pd-input" id="pdPwConfirm" placeholder="Confirm new password">
-            <button class="pd-save-btn" id="pdPwBtn">Update Password</button>
-            <div class="pd-msg" id="pdPwMsg"></div>
+          <!-- Sign Out (always visible on Profile tab) -->
+          <div class="pd-section">
+            <button class="pd-signout-btn" id="pdSignOut">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <polyline points="16 17 21 12 16 7"/>
+                <line x1="21" y1="12" x2="9" y2="12"/>
+              </svg>
+              Sign Out
+            </button>
           </div>
         </div>
 
-        <!-- Sign Out -->
-        <div class="pd-section">
-          <button class="pd-signout-btn" id="pdSignOut">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-              <polyline points="16 17 21 12 16 7"/>
-              <line x1="21" y1="12" x2="9" y2="12"/>
-            </svg>
-            Sign Out
-          </button>
+        <!-- Tab: Settings -->
+        <div class="pd-tab-panel" id="pdPanelSettings">
+          <!-- Phone -->
+          <div class="pd-section">
+            <div class="pd-label">Phone Number</div>
+            <input type="tel" class="pd-input" id="pdPhone" placeholder="+62 xxx xxx xxxx">
+            <button class="pd-save-btn" id="pdPhoneBtn">Save Phone Number</button>
+            <div class="pd-msg" id="pdPhoneMsg"></div>
+          </div>
+
+          <!-- Password (email users only) -->
+          <div class="pd-section" id="pdPwSection" style="display:none;">
+            <div class="pd-label">Password</div>
+            <div class="pd-pw-toggle" id="pdPwToggle">▸ Change password</div>
+            <div class="pd-pw-fields" id="pdPwFields">
+              <input type="password" class="pd-input" id="pdPwCurrent" placeholder="Current password">
+              <input type="password" class="pd-input" id="pdPwNew" placeholder="New password (min. 6 chars)">
+              <input type="password" class="pd-input" id="pdPwConfirm" placeholder="Confirm new password">
+              <button class="pd-save-btn" id="pdPwBtn">Update Password</button>
+              <div class="pd-msg" id="pdPwMsg"></div>
+            </div>
+          </div>
         </div>
 
       </div><!-- /profile-dropdown -->
