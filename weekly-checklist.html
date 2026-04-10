@@ -61,6 +61,24 @@
 /* ─── PAGE WRAP ──────────────────────────────── */
 .page-wrap { max-width: 980px; margin: 0 auto; padding: 28px 40px 72px; }
 
+/* ─── CHECKLIST TABS ─────────────────────────── */
+.checklist-tabs {
+  display: flex; gap: 4px; margin-bottom: 20px;
+  border-bottom: 2px solid var(--border);
+}
+.checklist-tab {
+  padding: 9px 20px; border: none; background: transparent;
+  font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600;
+  color: var(--ink-3); cursor: pointer; border-radius: 8px 8px 0 0;
+  transition: all 0.18s; position: relative; bottom: -2px;
+  border: 2px solid transparent; border-bottom: none;
+}
+.checklist-tab:hover { color: var(--ink-2); background: rgba(108,92,231,0.06); }
+.checklist-tab.active {
+  color: var(--accent); background: var(--white);
+  border-color: var(--border); border-bottom-color: var(--white);
+}
+
 /* ─── WEEK NAV ───────────────────────────────── */
 .week-nav {
   display: flex; align-items: center; justify-content: space-between;
@@ -354,6 +372,12 @@
     <span class="page-breadcrumb-current">Weekly Checklist</span>
   </nav>
 
+  <!-- Checklist Tabs (hidden until auth; Subject Leader tab hidden unless is_subject_leader) -->
+  <div class="checklist-tabs" id="checklistTabs" style="display:none">
+    <button class="checklist-tab active" data-tab="teachers">Subject Teacher</button>
+    <button class="checklist-tab" data-tab="subject_leader" id="slTab" style="display:none">Subject Leader</button>
+  </div>
+
   <!-- Week Navigator -->
   <div class="week-nav" style="gap:12px">
     <button class="btn-nav" id="prevWeekBtn">← Prev</button>
@@ -448,7 +472,6 @@ import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth
 
 // ── Constants ─────────────────────────────────────────────────────
 const ACADEMIC_YEAR  = '2025-26';
-const PLATFORM       = 'teachers';
 const TOTAL_WEEKS    = 40;
 // Academic year starts Week 1 on 2025-07-21 (first day of school)
 const WEEK1_START    = new Date(2025, 6, 21); // July 21 2025
@@ -459,10 +482,13 @@ const CAT_COLORS = {
   'Communication':           { color: '#d97706', bg: '#fffbeb' },
   'Professional Development':{ color: '#059669', bg: '#ecfdf5' },
   'Administration':          { color: '#0891b2', bg: '#f0f9ff' },
+  'Subject Leader Meeting':  { color: '#d97706', bg: '#fffbeb' },
+  'Data Review':             { color: '#0891b2', bg: '#f0f9ff' },
   'Other':                   { color: '#6b7280', bg: '#f9fafb' },
 };
 
 // ── State ─────────────────────────────────────────────────────────
+let currentPlatform = 'teachers';  // 'teachers' | 'subject_leader'
 let currentWeek  = 1;
 let isAdmin      = false;
 let currentUid   = null;
@@ -518,6 +544,28 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     document.getElementById('adminBar').style.display = 'flex';
     document.getElementById('emptyAddBtn').style.display = '';
   }
+
+  // Show tabs — Subject Leader tab only for is_subject_leader users
+  const tabsEl = document.getElementById('checklistTabs');
+  tabsEl.style.display = '';
+  if (profile?.is_subject_leader) {
+    document.getElementById('slTab').style.display = '';
+  }
+  document.querySelectorAll('.checklist-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.checklist-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentPlatform = tab.dataset.tab;
+      // Admin bar only on Subject Teacher tab (Subject Leader tasks managed from CentralHub)
+      if (isAdmin) {
+        const show = currentPlatform === 'teachers';
+        document.getElementById('adminBar').style.display = show ? 'flex' : 'none';
+        document.getElementById('emptyAddBtn').style.display = show ? '' : 'none';
+      }
+      loadWeek(currentWeek);
+      loadEssentials();
+    });
+  });
 
   // Determine current week
   currentWeek = getWeekNumber(new Date());
@@ -596,8 +644,8 @@ function loadWeek(week) {
   document.getElementById('emptyState').style.display   = 'none';
   document.getElementById('taskArea').style.display     = 'none';
 
-  const templateId = `${ACADEMIC_YEAR}_w${String(week).padStart(2,'0')}_${PLATFORM}`;
-  const progressId = `${currentUid}_${ACADEMIC_YEAR}_w${String(week).padStart(2,'0')}_${PLATFORM}`;
+  const templateId = `${ACADEMIC_YEAR}_w${String(week).padStart(2,'0')}_${currentPlatform}`;
+  const progressId = `${currentUid}_${ACADEMIC_YEAR}_w${String(week).padStart(2,'0')}_${currentPlatform}`;
   const db = window.db;
 
   // 1. Subscribe to task template
@@ -637,12 +685,12 @@ function loadWeek(week) {
 // ── Save progress ─────────────────────────────────────────────────
 async function saveProgress() {
   const db = window.db;
-  const progressId = `${currentUid}_${ACADEMIC_YEAR}_w${String(currentWeek).padStart(2,'0')}_${PLATFORM}`;
+  const progressId = `${currentUid}_${ACADEMIC_YEAR}_w${String(currentWeek).padStart(2,'0')}_${currentPlatform}`;
   await setDoc(doc(db, 'weekly_progress', progressId), {
     uid:          currentUid,
     weekNumber:   currentWeek,
     academicYear: ACADEMIC_YEAR,
-    platform:     PLATFORM,
+    platform:     currentPlatform,
     items:        myProgress,
     updatedAt:    serverTimestamp(),
   }, { merge: true });
@@ -824,11 +872,11 @@ function updateProgressRing() {
 // ── Admin: save task template ─────────────────────────────────────
 async function saveTaskTemplate() {
   const db = window.db;
-  const templateId = `${ACADEMIC_YEAR}_w${String(currentWeek).padStart(2,'0')}_${PLATFORM}`;
+  const templateId = `${ACADEMIC_YEAR}_w${String(currentWeek).padStart(2,'0')}_${currentPlatform}`;
   await setDoc(doc(db, 'weekly_templates', templateId), {
     weekNumber:   currentWeek,
     academicYear: ACADEMIC_YEAR,
-    platform:     PLATFORM,
+    platform:     currentPlatform,
     tasks,
     updatedAt: serverTimestamp(),
   }, { merge: true });
@@ -881,7 +929,7 @@ async function deleteTask(taskId) {
 function loadEssentials() {
   if (unsubEssentials) { unsubEssentials(); unsubEssentials = null; }
   const db = window.db;
-  unsubEssentials = onSnapshot(doc(db, 'weekly_essentials', PLATFORM), snap => {
+  unsubEssentials = onSnapshot(doc(db, 'weekly_essentials', currentPlatform), snap => {
     essentials = (snap.exists() && Array.isArray(snap.data().items)) ? snap.data().items : [];
     renderEssentials();
   }, err => console.error('Essentials error:', err));
@@ -915,7 +963,7 @@ async function toggleEssential(id) {
   myEssProgress[id] = { checked: !prev.checked };
   renderEssentials();
   const db = window.db;
-  const progressId = `${currentUid}_${ACADEMIC_YEAR}_w${String(currentWeek).padStart(2,'0')}_${PLATFORM}`;
+  const progressId = `${currentUid}_${ACADEMIC_YEAR}_w${String(currentWeek).padStart(2,'0')}_${currentPlatform}`;
   await setDoc(doc(db, 'weekly_progress', progressId), {
     uid: currentUid, weekNumber: currentWeek,
     academicYear: ACADEMIC_YEAR, platform: PLATFORM,
