@@ -217,7 +217,8 @@
 .ch-status-pill.ip  { background: var(--blue-2);   color: var(--blue);   border: 1px solid #c2d8f5; }
 .ch-status-pill.rev { background: var(--amber-2);  color: var(--amber);  border: 1px solid #f5dfa0; }
 .ch-status-pill.pnd { background: var(--paper-2);  color: var(--ink-3);  border: 1px solid var(--border); }
-.ch-block:not(.collapsed) .ch-stats .ch-status-pills { display: none; }
+.ch-status-pills { display: none; }
+.ch-block.collapsed .ch-status-pills { display: flex; }
 .ch-header-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
 
 .ch-caret { color: var(--ink-3); font-size: .75rem; transition: transform .2s; flex-shrink: 0; }
