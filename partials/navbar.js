@@ -307,13 +307,16 @@ function initTeachingProfile(db, setDoc, doc) {
     }
     grid.innerHTML = '';
 
+    const COL = '72px'; // fixed label column; subject cols share the rest equally
+    const gridCols = `${COL} repeat(${SUBJECTS.length}, 1fr)`;
+
     // Header row
     const headerRow = document.createElement('div');
-    headerRow.style.cssText = 'display:grid;grid-template-columns:auto repeat(' + SUBJECTS.length + ',1fr);gap:4px;margin-bottom:4px;';
+    headerRow.style.cssText = `display:grid;grid-template-columns:${gridCols};gap:4px;margin-bottom:4px;`;
     headerRow.appendChild(document.createElement('div')); // empty corner
     SUBJECTS.forEach(s => {
       const th = document.createElement('div');
-      th.style.cssText = 'font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,0.35);text-align:center;padding:2px 3px;';
+      th.style.cssText = 'font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,0.4);text-align:center;padding:2px 2px;line-height:1.2;';
       th.textContent = s.label.replace('Mathematics','Math').replace('Chemistry','Chem').replace('Physics','Phys').replace('Biology','Bio').replace('English','Eng').replace('Science','Sci');
       headerRow.appendChild(th);
     });
@@ -322,10 +325,10 @@ function initTeachingProfile(db, setDoc, doc) {
     // One row per level
     LEVELS.forEach(l => {
       const row = document.createElement('div');
-      row.style.cssText = 'display:grid;grid-template-columns:auto repeat(' + SUBJECTS.length + ',1fr);gap:4px;margin-bottom:4px;align-items:center;';
+      row.style.cssText = `display:grid;grid-template-columns:${gridCols};gap:4px;margin-bottom:4px;align-items:center;`;
 
       const rowLabel = document.createElement('div');
-      rowLabel.style.cssText = 'font-size:9.5px;font-weight:700;color:rgba(255,255,255,0.4);white-space:nowrap;padding-right:6px;';
+      rowLabel.style.cssText = 'font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);white-space:nowrap;line-height:1.2;';
       rowLabel.textContent = l.label.split(' ')[0]; // "Checkpoint" / "IGCSE" / "AS"
       row.appendChild(rowLabel);
 
@@ -336,7 +339,7 @@ function initTeachingProfile(db, setDoc, doc) {
         cell.dataset.combo = combo;
         const isOn = _activeCombos.has(combo);
         cell.className = 'pd-chip' + (isOn ? ' on' : '');
-        cell.style.cssText = 'font-size:10px;padding:3px 4px;border-radius:5px;';
+        cell.style.cssText = 'font-size:11px;padding:4px 2px;border-radius:5px;width:100%;text-align:center;';
         cell.textContent = '✓';
         cell.title = `${_lvLabel(l.value)} ${_svLabel(s.value)}`;
         cell.addEventListener('click', () => {
