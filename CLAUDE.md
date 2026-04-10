@@ -112,22 +112,29 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
 
 ## Role System
 
-Each platform has its own Firestore role field. Teachers Hub uses `role_teachershub`.
+Teachers Hub uses `role_teachershub` as the primary access field. **The legacy `role` field is no longer read** — `auth-guard.js` uses only `role_teachershub`.
 
-| Field              | Values                                          |
-|--------------------|-------------------------------------------------|
+| Field              | Values                                            |
+|--------------------|---------------------------------------------------|
 | `role_teachershub` | `'teachers_user'` (default) \| `'teachers_admin'` |
+| `th_sub_roles[]`   | `'subject_teacher'`, `'subject_leader'`           |
 
 **Teachers Hub allowed roles:** `['teachers_user', 'teachers_admin']`
 
-First login automatically assigns `teachers_user` via `setDoc` with `{ merge: true }`. No manual intervention needed for basic access. `teachers_admin` must be set manually via CentralHub's `console.html`.
+First login automatically assigns `teachers_user` via `setDoc` with `{ merge: true }`. No approval step — access is immediate. `teachers_admin` must be set manually via CentralHub's `console.html`.
+
+**Sub-roles (`th_sub_roles[]`)** are set in `console.html` and control:
+- `weekly-checklist.html` — Subject Leader tab is shown only if `th_sub_roles.includes('subject_leader')`. Users without this sub-role see only the Subject Teacher tab (no tab bar). Admins always see both tabs.
+- `index.html` dashboard — categories with a `visible_to[]` field are filtered: `subject_leader` sub-role shows subject_leader categories, otherwise `subject_teacher`. Categories with empty `visible_to` are shown to everyone.
+
+A user can have both `subject_teacher` and `subject_leader` in the array simultaneously.
 
 **isAdmin check pattern (pacing pages map this to internal `'coord'` state):**
 ```js
 const isAdmin = profile?.role_teachershub === 'teachers_admin';
 ```
 
-Legacy migration: if `role_teachershub` is absent on an existing user doc, `auth-guard.js` derives the role from the old `role` field and writes the new field.
+**weekly-checklist.html Firestore IDs** follow the pattern `${ACADEMIC_YEAR}_w${week}_${currentPlatform}` where `currentPlatform` is `'teachers'` or `'subject_leader'`.
 
 ---
 
