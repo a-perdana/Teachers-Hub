@@ -38,6 +38,7 @@ const ROUTES = {
   'messageboard.html': 'messageboard',
   'library.html': 'library',
   'weekly-checklist.html': 'weekly-checklist',
+  'waiting.html': 'waiting',
 };
 
 // Internal href replacements: old link -> clean URL

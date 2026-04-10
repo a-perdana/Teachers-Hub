@@ -20,11 +20,12 @@ import { initializeApp, getApps }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, serverTimestamp, updateDoc }
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // ── Platform identity ─────────────────────────────────────────────
-const PLATFORM_KEY  = 'role_teachershub';  // per-user Firestore field
+const PLATFORM_KEY  = 'role_teachershub';        // per-user Firestore field
+const APPROVAL_KEY  = 'approval_status_teachershub'; // 'pending' | 'approved'
 const DEFAULT_ROLE  = 'teachers_user';
 
 // Roles permitted to use Teachers Hub
@@ -119,17 +120,19 @@ window.TEACHERS_CLASS_OPTIONS   = CLASS_OPTIONS;
 function profileComplete(profile) {
   return (
     profile.school   && profile.school.trim() &&
-    Array.isArray(profile.subjects) && profile.subjects.length > 0 &&
-    Array.isArray(profile.classes)  && profile.classes.length  > 0
+    Array.isArray(profile.subjects)   && profile.subjects.length   > 0 &&
+    Array.isArray(profile.classes)    && profile.classes.length    > 0 &&
+    Array.isArray(profile.th_sub_roles) && profile.th_sub_roles.length > 0
   );
 }
 
 function promptForProfile(profile) {
   return new Promise(resolve => {
     const existing = {
-      school:   profile.school   || '',
-      subjects: Array.isArray(profile.subjects) ? profile.subjects : [],
-      classes:  Array.isArray(profile.classes)  ? profile.classes  : [],
+      school:      profile.school      || '',
+      subjects:    Array.isArray(profile.subjects)    ? profile.subjects    : [],
+      classes:     Array.isArray(profile.classes)     ? profile.classes     : [],
+      th_sub_roles: Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [],
     };
 
     const subjectChips = SUBJECT_OPTIONS.map(o => `
@@ -146,10 +149,10 @@ function promptForProfile(profile) {
       <div style="background:#fff;border-radius:20px;padding:40px 36px;width:100%;max-width:480px;box-shadow:0 24px 64px rgba(0,0,0,0.40);max-height:90vh;overflow-y:auto">
         <div style="margin-bottom:24px">
           <h2 style="font-size:1.35rem;font-weight:700;color:#1c1c2e;margin-bottom:6px">Set up your profile</h2>
-          <p style="font-size:0.875rem;color:#8888a8;line-height:1.5">Tell us about your school and the classes you teach so we can show you the right pacing guides.</p>
+          <p style="font-size:0.875rem;color:#8888a8;line-height:1.5">Tell us about your school, the classes you teach, and your role so we can set up your account correctly.</p>
         </div>
 
-        <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:6px">School name</label>
+        <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:6px">School name <span style="color:#dc2626">*</span></label>
         <input id="_schoolInput" type="text" placeholder="e.g. SMA Semesta" value="${existing.school.replace(/"/g,'&quot;')}"
           style="width:100%;padding:10px 14px;border:1.5px solid #e0ddd6;border-radius:10px;font-size:0.95rem;color:#1c1c2e;outline:none;box-sizing:border-box;margin-bottom:20px">
 
@@ -157,7 +160,25 @@ function promptForProfile(profile) {
         <div id="_subjectChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px">${subjectChips}</div>
 
         <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:10px">Curriculum levels <span style="color:#dc2626">*</span></label>
-        <div id="_classChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">${classChips}</div>
+        <div id="_classChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px">${classChips}</div>
+
+        <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:10px">Your role <span style="color:#dc2626">*</span></label>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px">
+          <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding:12px 14px;border:1.5px solid #e0ddd6;border-radius:10px;transition:border-color .15s" id="_roleSubjectTeacher">
+            <input type="checkbox" id="_chkSubjectTeacher" value="subject_teacher" style="margin-top:2px;accent-color:#6c5ce7;width:16px;height:16px;flex-shrink:0" ${existing.th_sub_roles.includes('subject_teacher') ? 'checked' : ''}>
+            <div>
+              <div style="font-size:0.875rem;font-weight:600;color:#1c1c2e">Subject Teacher</div>
+              <div style="font-size:0.78rem;color:#8888a8;margin-top:2px">I teach subjects to students and follow pacing guides.</div>
+            </div>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding:12px 14px;border:1.5px solid #e0ddd6;border-radius:10px;transition:border-color .15s" id="_roleSubjectLeader">
+            <input type="checkbox" id="_chkSubjectLeader" value="subject_leader" style="margin-top:2px;accent-color:#6c5ce7;width:16px;height:16px;flex-shrink:0" ${existing.th_sub_roles.includes('subject_leader') ? 'checked' : ''}>
+            <div>
+              <div style="font-size:0.875rem;font-weight:600;color:#1c1c2e">Subject Leader</div>
+              <div style="font-size:0.78rem;color:#8888a8;margin-top:2px">I oversee a subject department and coordinate pacing across teachers.</div>
+            </div>
+          </label>
+        </div>
 
         <p id="_profileErr" style="font-size:0.82rem;color:#dc2626;min-height:18px;margin-bottom:12px"></p>
         <button id="_profileBtn" style="width:100%;padding:12px;background:linear-gradient(135deg,#7c3aed,#0891b2);color:#fff;border:none;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer">Save & Continue →</button>
@@ -178,6 +199,15 @@ function promptForProfile(profile) {
       chip.classList.toggle('_chip-on');
     });
 
+    // Role label border highlight on check
+    ['_chkSubjectTeacher', '_chkSubjectLeader'].forEach(id => {
+      const chk   = overlay.querySelector(`#${id}`);
+      const label = chk.closest('label');
+      const update = () => { label.style.borderColor = chk.checked ? '#6c5ce7' : '#e0ddd6'; };
+      chk.addEventListener('change', update);
+      update();
+    });
+
     const btn = overlay.querySelector('#_profileBtn');
     const err = overlay.querySelector('#_profileErr');
 
@@ -185,14 +215,19 @@ function promptForProfile(profile) {
       const school   = overlay.querySelector('#_schoolInput').value.trim();
       const subjects = [...overlay.querySelectorAll('._chip[data-group="subjects"]._chip-on')].map(c => c.dataset.value);
       const classes  = [...overlay.querySelectorAll('._chip[data-group="classes"]._chip-on')].map(c => c.dataset.value);
+      const th_sub_roles = [
+        overlay.querySelector('#_chkSubjectTeacher').checked ? 'subject_teacher' : null,
+        overlay.querySelector('#_chkSubjectLeader').checked  ? 'subject_leader'  : null,
+      ].filter(Boolean);
 
-      if (!school)           { err.textContent = 'Please enter your school name.'; return; }
-      if (!subjects.length)  { err.textContent = 'Please select at least one subject.'; return; }
-      if (!classes.length)   { err.textContent = 'Please select at least one curriculum level.'; return; }
+      if (!school)              { err.textContent = 'Please enter your school name.'; return; }
+      if (!subjects.length)     { err.textContent = 'Please select at least one subject.'; return; }
+      if (!classes.length)      { err.textContent = 'Please select at least one curriculum level.'; return; }
+      if (!th_sub_roles.length) { err.textContent = 'Please select your role (Subject Teacher and/or Subject Leader).'; return; }
 
       overlay.remove();
       document.body.style.visibility = 'hidden';
-      resolve({ school, subjects, classes });
+      resolve({ school, subjects, classes, th_sub_roles });
     });
   });
 }
@@ -213,13 +248,14 @@ onAuthStateChanged(auth, async (user) => {
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
-      // First sign-in: assign default Teachers Hub role.
+      // First sign-in: assign default Teachers Hub role + pending approval.
       const newProfile = {
         uid:            user.uid,
         email:          user.email,
         displayName:    user.displayName || '',
         photoURL:       user.photoURL    || '',
         [PLATFORM_KEY]: DEFAULT_ROLE,
+        [APPROVAL_KEY]: 'pending',
         createdAt:      serverTimestamp(),
       };
       await setDoc(userRef, newProfile);
@@ -229,6 +265,11 @@ onAuthStateChanged(auth, async (user) => {
       if (profile[PLATFORM_KEY] == null) {
         await setDoc(userRef, { [PLATFORM_KEY]: DEFAULT_ROLE }, { merge: true });
         profile = { ...profile, [PLATFORM_KEY]: DEFAULT_ROLE };
+      }
+      // If approval field is absent, treat as pending — requires admin approval
+      if (profile[APPROVAL_KEY] == null) {
+        await setDoc(userRef, { [APPROVAL_KEY]: 'pending' }, { merge: true });
+        profile = { ...profile, [APPROVAL_KEY]: 'pending' };
       }
     }
   } catch (err) {
@@ -262,13 +303,27 @@ onAuthStateChanged(auth, async (user) => {
     profile.displayName = name;
   }
 
-  // 5b. Profile setup prompt if school/subjects/classes are missing
+  // 5b. Profile setup prompt if school/subjects/classes/th_sub_roles are missing
   if (!profileComplete(profile)) {
-    const { school, subjects, classes } = await promptForProfile(profile);
-    await setDoc(userRef, { school, subjects, classes }, { merge: true });
-    profile.school   = school;
-    profile.subjects = subjects;
-    profile.classes  = classes;
+    const { school, subjects, classes, th_sub_roles } = await promptForProfile(profile);
+    await setDoc(userRef, { school, subjects, classes, th_sub_roles }, { merge: true });
+    profile.school       = school;
+    profile.subjects     = subjects;
+    profile.classes      = classes;
+    profile.th_sub_roles = th_sub_roles;
+  }
+
+  // 5c. Approval check (teachers_admin bypasses — they are always approved)
+  const approvalStatus = profile[APPROVAL_KEY];
+  const isAdminRole    = profile[PLATFORM_KEY] === 'teachers_admin';
+  if (!isAdminRole && approvalStatus !== 'approved') {
+    const pathname  = window.location.pathname;
+    const isWaiting = pathname === '/waiting' || pathname.endsWith('/waiting.html');
+    if (!isWaiting) {
+      window.location.replace('/waiting');
+    }
+    document.body.style.visibility = 'visible';
+    return;
   }
 
   // 6. All checks passed — expose globals
