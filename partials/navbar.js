@@ -230,7 +230,17 @@ function initTeachingProfile(db, setDoc, doc) {
     LEVELS.forEach(l => {
       SUBJECTS.forEach(s => {
         const key = _slKey(l.value, s.value);
-        _slClasses[key] = Array.isArray(p[key]) ? [...p[key]] : [];
+        if (Array.isArray(p[key]) && p[key].length) {
+          // New per-subject field exists — use it
+          _slClasses[key] = [...p[key]];
+        } else {
+          // Fall back to old shared level field (e.g. igcse_classes → pre-fill all selected subjects)
+          const legacyKey = `${l.value}_classes`;
+          const legacyList = Array.isArray(p[legacyKey]) ? p[legacyKey] : [];
+          // Only pre-fill if this level is in the user's selected levels
+          const levelSelected = (p.classes || []).includes(l.value);
+          _slClasses[key] = (levelSelected && legacyList.length) ? [...legacyList] : [];
+        }
       });
     });
   }
