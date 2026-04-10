@@ -212,6 +212,12 @@
 .ch-prog-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width .4s; }
 .ch-pct { font-size: .68rem; color: var(--ink-3); font-weight: 500; min-width: 28px; }
 .ch-topic-count { font-size: .65rem; color: var(--ink-3); background: var(--paper-2); border: 1px solid var(--border); padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+.ch-status-pills { display: flex; gap: 4px; align-items: center; flex-shrink: 0; }
+.ch-status-pill { font-size: .62rem; font-weight: 600; padding: 1px 7px; border-radius: 100px; white-space: nowrap; }
+.ch-status-pill.ip  { background: var(--blue-2);   color: var(--blue);   border: 1px solid #c2d8f5; }
+.ch-status-pill.rev { background: var(--amber-2);  color: var(--amber);  border: 1px solid #f5dfa0; }
+.ch-status-pill.pnd { background: var(--paper-2);  color: var(--ink-3);  border: 1px solid var(--border); }
+.ch-block:not(.collapsed) .ch-status-pills { display: none; }
 .ch-header-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .ch-caret { color: var(--ink-3); font-size: .75rem; transition: transform .2s; flex-shrink: 0; }
@@ -1344,9 +1350,17 @@ function renderPacing() {
 
     if (!filteredTopics.length) return;
 
-    const done      = ch.topics.filter(t => t.status === 'done').length;
-    const pct       = Math.round(done / ch.topics.length * 100);
-    const yearClass = ch.year === 'Year 9' ? 'yr9' : 'yr10';
+    const done       = ch.topics.filter(t => t.status === 'done').length;
+    const inprogress = ch.topics.filter(t => t.status === 'inprogress').length;
+    const revisit    = ch.topics.filter(t => t.status === 'revisit').length;
+    const pending    = ch.topics.length - done - inprogress - revisit;
+    const pct        = Math.round(done / ch.topics.length * 100);
+    const yearClass  = ch.year === 'Year 9' ? 'yr9' : 'yr10';
+    const statusPillsHtml = `<div class="ch-status-pills">
+      ${inprogress ? `<span class="ch-status-pill ip">${inprogress} in progress</span>` : ''}
+      ${revisit    ? `<span class="ch-status-pill rev">${revisit} revisit</span>` : ''}
+      ${pending && pct < 100 ? `<span class="ch-status-pill pnd">${pending} pending</span>` : ''}
+    </div>`;
 
     html += `
     <div class="ch-block" id="ch-${ci}">
@@ -1354,6 +1368,7 @@ function renderPacing() {
         <span class="ch-badge">Ch ${ci+1}</span>
         <span class="ch-header-title">${ch.chapter}</span>
         <span class="ch-year-tag ${yearClass}">${ch.year}</span>
+        ${statusPillsHtml}
         <div class="ch-stats">
           <div class="ch-prog-bar"><div class="ch-prog-fill" style="width:${pct}%"></div></div>
           <span class="ch-pct">${pct}%</span>
