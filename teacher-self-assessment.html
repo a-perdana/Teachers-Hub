@@ -21,7 +21,6 @@ body {
   font-family: 'DM Sans', sans-serif;
   background: #f1f5f9;
   color: #1e293b;
-  padding-top: 60px;
 }
 
 /* ── HERO ────────────────────────────────────────── */
@@ -649,7 +648,7 @@ body {
 <script type="module">
 import {
   collection, doc, getDoc, getDocs, setDoc,
-  serverTimestamp, query, where
+  serverTimestamp, query, where, onSnapshot, addDoc
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 let db, currentUser, userProfile;
@@ -666,6 +665,12 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
   currentUser = user;
   userProfile = profile;
   db = window.db;
+
+  // Navbar badges + feedback
+  const doBadgeSetup    = () => setupNavBadges(db, { onSnapshot, collection });
+  const doFeedbackSetup = () => initFeedback(db, { addDoc, collection, serverTimestamp });
+  if (document.getElementById('msgBoardBadge')) { doBadgeSetup(); } else { window._pendingBadgeSetup = doBadgeSetup; }
+  if (document.getElementById('feedbackOverlay')) { doFeedbackSetup(); } else { window._pendingFeedbackSetup = doFeedbackSetup; }
 
   document.getElementById('infoName').value       = profile.displayName || '';
   document.getElementById('infoSubject').value    = (profile.subjects || []).join(', ');
