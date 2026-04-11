@@ -402,6 +402,122 @@ body {
 }
 .btn-ev-del:hover { color: #dc2626; background: #fee2e2; }
 
+/* ── SUGGEST HINT ────────────────────────────────── */
+.suggest-hint {
+  margin-top: 5px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: .75rem;
+  font-weight: 600;
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer;
+  border: 1.5px dashed;
+  transition: background .15s;
+}
+.suggest-hint.s5 { background: #f0fdf4; color: #15803d; border-color: #86efac; }
+.suggest-hint.s4 { background: #eff6ff; color: #1d4ed8; border-color: #93c5fd; }
+.suggest-hint.s3 { background: #fefce8; color: #a16207; border-color: #fde047; }
+.suggest-hint.s2 { background: #fff7ed; color: #c2410c; border-color: #fdba74; }
+.suggest-hint.s1 { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
+.suggest-hint:hover { filter: brightness(.97); }
+
+/* ── PREVIEW MODAL ───────────────────────────────── */
+.preview-overlay {
+  position: fixed; inset: 0;
+  background: rgba(15,23,42,.55);
+  backdrop-filter: blur(6px);
+  z-index: 9000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.preview-modal {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 24px 64px rgba(0,0,0,.25);
+  max-width: 680px; width: 100%;
+  max-height: 85vh;
+  display: flex; flex-direction: column;
+  animation: modalIn .2s ease;
+}
+@keyframes modalIn { from { opacity:0; transform:scale(.96) translateY(8px); } }
+.preview-head {
+  padding: 22px 28px 18px;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.preview-head h2 { font-size: 1.1rem; font-weight: 800; color: #1e293b; }
+.preview-close {
+  background: none; border: none; cursor: pointer;
+  font-size: 1.1rem; color: #94a3b8; padding: 4px 8px;
+  border-radius: 6px;
+}
+.preview-close:hover { background: #f1f5f9; color: #475569; }
+.preview-body { overflow-y: auto; padding: 20px 28px; flex: 1; }
+.preview-section { margin-bottom: 20px; }
+.preview-section-title {
+  font-size: .7rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; color: #94a3b8;
+  margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+}
+.preview-section-title::after { content: ''; flex: 1; height: 1px; background: #f1f5f9; }
+.preview-info-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+}
+.preview-info-cell {
+  background: #f8fafc; border-radius: 8px; padding: 8px 12px;
+}
+.preview-info-cell .lbl { font-size: .7rem; color: #94a3b8; font-weight: 600; margin-bottom: 2px; }
+.preview-info-cell .val { font-size: .85rem; font-weight: 600; color: #1e293b; }
+.preview-kpi-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid #f1f5f9;
+  font-size: .82rem;
+}
+.preview-kpi-row:last-child { border-bottom: none; }
+.preview-kpi-aspect { flex: 1; color: #334155; font-weight: 500; }
+.preview-kpi-val { color: #64748b; font-size: .78rem; min-width: 60px; text-align: right; }
+.preview-kpi-star { font-weight: 800; min-width: 40px; text-align: right; }
+.preview-kpi-star.r5 { color: #15803d; }
+.preview-kpi-star.r4 { color: #1d4ed8; }
+.preview-kpi-star.r3 { color: #a16207; }
+.preview-kpi-star.r2 { color: #c2410c; }
+.preview-kpi-star.r1 { color: #dc2626; }
+.preview-kpi-star.r0 { color: #94a3b8; }
+.preview-avg-box {
+  background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+  border: 1.5px solid #c4b5fd;
+  border-radius: 12px; padding: 14px 18px;
+  display: flex; align-items: center; gap: 14px;
+  margin-top: 10px;
+}
+.preview-avg-num { font-size: 2rem; font-weight: 800; color: var(--accent); line-height: 1; }
+.preview-avg-lbl { font-size: .78rem; color: #5b21b6; }
+.preview-warning {
+  background: #fffbeb; border: 1.5px solid #fde68a;
+  border-radius: 10px; padding: 10px 14px;
+  font-size: .8rem; color: #92400e; line-height: 1.5;
+  margin-bottom: 14px;
+}
+.preview-foot {
+  padding: 18px 28px;
+  border-top: 1px solid #f1f5f9;
+  display: flex; gap: 10px; justify-content: flex-end; align-items: center;
+}
+.preview-btn-cancel {
+  padding: 10px 20px; border-radius: 10px;
+  border: 1.5px solid #e2e8f0; background: #fff;
+  color: #475569; font-size: .85rem; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+}
+.preview-btn-submit {
+  padding: 10px 26px; border-radius: 10px; border: none;
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: #fff; font-size: .85rem; font-weight: 700;
+  cursor: pointer; font-family: inherit;
+  box-shadow: 0 4px 12px rgba(124,58,237,.3);
+}
+.preview-btn-submit:hover { opacity: .9; }
+
 /* ── ACTION BAR ──────────────────────────────────── */
 .action-bar {
   position: fixed; bottom: 0; left: 0; right: 0;
@@ -846,6 +962,21 @@ body {
   </div>
 </div>
 
+<!-- Submit Preview Modal -->
+<div class="preview-overlay" id="previewOverlay" style="display:none;">
+  <div class="preview-modal">
+    <div class="preview-head">
+      <h2>📋 Review Before Submitting</h2>
+      <button class="preview-close" id="previewClose">✕</button>
+    </div>
+    <div class="preview-body" id="previewBody"></div>
+    <div class="preview-foot">
+      <button class="preview-btn-cancel" id="previewCancel">Go Back &amp; Edit</button>
+      <button class="preview-btn-submit" id="previewConfirm">Confirm &amp; Submit</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script type="module">
@@ -1005,12 +1136,14 @@ function renderKPIs() {
           <div class="body-section-label">Performance Data</div>
           <div class="perf-row">
             <div class="form-group2">
-              <label>Actual Value (${esc(kpi.unit || 'value')})</label>
+              <label>Actual Value (${esc(kpi.unit || 'value')})${kpi.target ? ` — target: ${esc(String(kpi.target))} ${esc(kpi.unit || '')}` : ''}</label>
               <input type="number" step="0.01" id="fv-${kpi.id}"
-                value="${a.actualValue ?? ''}" placeholder="Your actual result" />
+                value="${a.actualValue ?? ''}"
+                placeholder="Enter your actual result${kpi.unit ? ' in ' + esc(kpi.unit) : ''}" />
+              ${kpi.target ? `<div id="sg-${kpi.id}" class="suggest-hint" style="display:none;"></div>` : ''}
             </div>
             <div class="form-group2">
-              <label>Self-Rating</label>
+              <label>Self-Rating <span style="font-weight:400;color:#94a3b8;font-size:.7rem;">(select or accept suggestion)</span></label>
               <div class="star-row" id="sw-${kpi.id}">
                 ${[1,2,3,4,5].map(s =>
                   `<button class="star-btn${s <= rating ? ' on' : ''}" type="button" data-val="${s}">★</button>`
@@ -1065,10 +1198,14 @@ function renderKPIs() {
       btn.addEventListener('click', () => setStar(kpi.id, +btn.dataset.val));
     });
 
-    // Fields → progress
+    // Fields → progress (actual value also triggers suggest)
     ['fv','fs','fc','fa','fsp','fco'].forEach(prefix => {
       const el = card.querySelector(`#${prefix}-${kpi.id}`);
-      if (el) el.addEventListener('input', () => { syncState(kpi.id); updateProgress(); });
+      if (el) el.addEventListener('input', () => {
+        syncState(kpi.id);
+        if (prefix === 'fv') updateSuggest(kpi.id);
+        updateProgress();
+      });
     });
 
     // Add evidence
@@ -1095,8 +1232,45 @@ function setStar(kpiId, star) {
   kp.textContent = '★'.repeat(star) + ' ' + star + '/5';
   kp.className   = 'kpi-rating-chip rated';
 
+  // Hide suggest hint once teacher explicitly picks a star
+  const sg = document.getElementById(`sg-${kpiId}`);
+  if (sg) sg.style.display = 'none';
+
   syncFilled(kpiId);
   updateProgress();
+}
+
+// ── Auto-suggest rating from actual/target ────────────
+function suggestedRating(actual, target) {
+  if (!target || isNaN(actual) || isNaN(target) || target <= 0) return null;
+  const pct = (actual / target) * 100;
+  if (pct >= 105) return 5;
+  if (pct >= 95)  return 4;
+  if (pct >= 85)  return 3;
+  if (pct >= 70)  return 2;
+  return 1;
+}
+
+function updateSuggest(kpiId) {
+  const kpi = kpis.find(k => k.id === kpiId);
+  if (!kpi?.target) return;
+  const sg  = document.getElementById(`sg-${kpiId}`);
+  if (!sg) return;
+
+  const actual = parseFloat(document.getElementById(`fv-${kpiId}`)?.value);
+  const target = parseFloat(kpi.target);
+  const sugg   = suggestedRating(actual, target);
+  if (!sugg || isNaN(actual)) { sg.style.display = 'none'; return; }
+
+  const pct = Math.round((actual / target) * 100);
+  sg.className   = `suggest-hint s${sugg}`;
+  sg.textContent = `💡 Suggested rating: ${sugg}/5 (${RATING_LABELS[sugg]}) — ${pct}% of target. Click to accept.`;
+  sg.style.display = 'flex';
+
+  sg.onclick = () => {
+    setStar(kpiId, sugg);
+    sg.style.display = 'none';
+  };
 }
 
 // ── Evidence ─────────────────────────────────────────
@@ -1214,7 +1388,82 @@ function wireInfo() {
 }
 function wireButtons() {
   document.getElementById('btnDraft').addEventListener('click',  () => save('draft'));
-  document.getElementById('btnSubmit').addEventListener('click', () => save('submitted'));
+  document.getElementById('btnSubmit').addEventListener('click', () => openPreview());
+
+  // Preview modal wiring
+  const overlay = document.getElementById('previewOverlay');
+  document.getElementById('previewClose').addEventListener('click',  () => overlay.style.display = 'none');
+  document.getElementById('previewCancel').addEventListener('click', () => overlay.style.display = 'none');
+  document.getElementById('previewConfirm').addEventListener('click', () => {
+    overlay.style.display = 'none';
+    save('submitted');
+  });
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.style.display = 'none'; });
+}
+
+function openPreview() {
+  kpis.forEach(kpi => syncState(kpi.id));
+
+  const name    = document.getElementById('infoName').value.trim()      || '—';
+  const subject = document.getElementById('infoSubject').value.trim()   || '—';
+  const grade   = document.getElementById('infoGrade').value.trim()     || '—';
+  const dept    = document.getElementById('infoDepartment').value.trim()|| '—';
+  const period  = document.getElementById('infoEvalPeriod').value       || '—';
+  const date    = document.getElementById('infoDate').value             || '—';
+
+  const incomplete = kpis.filter(k => {
+    const a = assessments[k.id] || {};
+    return !a.selfRating || a.actualValue == null;
+  });
+
+  let ratingSum = 0, ratedCount = 0;
+  kpis.forEach(k => {
+    const r = assessments[k.id]?.selfRating || 0;
+    if (r > 0) { ratingSum += r; ratedCount++; }
+  });
+  const avg = ratedCount ? (ratingSum / ratedCount).toFixed(2) : '—';
+  const avgLabel = ratedCount ? RATING_LABELS[Math.round(ratingSum / ratedCount)] : '';
+
+  const kpiRows = kpis.map(k => {
+    const a = assessments[k.id] || {};
+    const r = a.selfRating || 0;
+    const v = a.actualValue != null ? `${a.actualValue} ${k.unit || ''}` : '—';
+    return `<div class="preview-kpi-row">
+      <span class="preview-kpi-aspect">${esc(k.aspect || '')}</span>
+      <span class="preview-kpi-val">${esc(v)}</span>
+      <span class="preview-kpi-star r${r}">${r ? '★'.repeat(r) + ' ' + r + '/5' : '—'}</span>
+    </div>`;
+  }).join('');
+
+  const warning = incomplete.length
+    ? `<div class="preview-warning">⚠️ <strong>${incomplete.length} KPI${incomplete.length > 1 ? 's' : ''} incomplete</strong> — the following have no actual value or rating: ${incomplete.map(k => esc(k.aspect)).join(', ')}. You can still submit, but completing all KPIs gives a more accurate evaluation.</div>`
+    : '';
+
+  document.getElementById('previewBody').innerHTML = `
+    <div class="preview-section">
+      <div class="preview-section-title">Teacher Information</div>
+      <div class="preview-info-grid">
+        <div class="preview-info-cell"><div class="lbl">Name</div><div class="val">${esc(name)}</div></div>
+        <div class="preview-info-cell"><div class="lbl">Subject(s)</div><div class="val">${esc(subject)}</div></div>
+        <div class="preview-info-cell"><div class="lbl">Grade / Class</div><div class="val">${esc(grade)}</div></div>
+        <div class="preview-info-cell"><div class="lbl">Department</div><div class="val">${esc(dept)}</div></div>
+        <div class="preview-info-cell"><div class="lbl">Evaluation Period</div><div class="val">${esc(period)}</div></div>
+        <div class="preview-info-cell"><div class="lbl">Submission Date</div><div class="val">${esc(date)}</div></div>
+      </div>
+    </div>
+    <div class="preview-section">
+      <div class="preview-section-title">KPI Summary</div>
+      ${warning}
+      ${kpiRows}
+      <div class="preview-avg-box">
+        <div class="preview-avg-num">${avg}</div>
+        <div><div class="preview-avg-lbl">Average Self-Rating</div>${avgLabel ? `<div style="font-size:.85rem;font-weight:700;color:#5b21b6;">${avgLabel}</div>` : ''}</div>
+      </div>
+    </div>
+    <p style="font-size:.8rem;color:#64748b;margin-top:8px;">Once submitted, your assessment will be available for review by your evaluator. You can re-submit before the deadline if changes are needed.</p>
+  `;
+
+  document.getElementById('previewOverlay').style.display = 'flex';
 }
 
 // ── Save ─────────────────────────────────────────────
