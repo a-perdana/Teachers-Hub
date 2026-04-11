@@ -637,7 +637,7 @@ body {
 <script type="module">
 import {
   collection, doc, getDoc, getDocs, setDoc,
-  serverTimestamp, query, where, orderBy, limit
+  serverTimestamp, query, where
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 let db, currentUser, userProfile;
@@ -687,11 +687,11 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
 
 // ── Loaders ─────────────────────────────────────────
 async function loadKPIs() {
-  const snap = await getDocs(query(collection(db, 'teacher_kpi_config'), where('active', '==', true), orderBy('order')));
-  kpis = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  const snap = await getDocs(query(collection(db, 'teacher_kpi_config'), where('active', '==', true)));
+  kpis = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 }
 async function loadActivePeriod() {
-  const snap = await getDocs(query(collection(db, 'teacher_kpi_settings'), where('active', '==', true), limit(1)));
+  const snap = await getDocs(query(collection(db, 'teacher_kpi_settings'), where('active', '==', true)));
   activePeriod = snap.empty ? null : { id: snap.docs[0].id, ...snap.docs[0].data() };
 }
 async function loadExisting() {
