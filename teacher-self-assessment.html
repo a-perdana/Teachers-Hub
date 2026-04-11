@@ -703,6 +703,7 @@ body {
         <div class="hero-sub">KPI Performance Evaluation &amp; Professional Reflection</div>
         <div class="hero-period-pill" id="heroPeriod">
           <span>📅</span> <span id="heroPeriodName">Loading…</span>
+          <span id="heroPeriodTypeBadge" style="display:none;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:12px;padding:1px 9px;font-size:.68rem;font-weight:700;"></span>
         </div>
         <div class="hero-deadline-pill" id="heroDeadline" style="display:none;">
           <span>⏰</span> <span id="heroDeadlineText">—</span>
@@ -1066,6 +1067,15 @@ async function loadExisting() {
 function renderHero() {
   document.getElementById('heroPeriodName').textContent = activePeriod.name || 'Active Period';
   document.getElementById('heroKpiCount').textContent   = kpis.length;
+  // Period type badge
+  const typeBadge = document.getElementById('heroPeriodTypeBadge');
+  if (typeBadge) {
+    if (activePeriod.type === 'mid-year') {
+      typeBadge.textContent = '📅 Mid-Year'; typeBadge.style.display = 'inline-flex';
+    } else if (activePeriod.type === 'full-year') {
+      typeBadge.textContent = '📅 Full-Year'; typeBadge.style.display = 'inline-flex';
+    }
+  }
 
   // Deadline
   const deadline = activePeriod.deadline?.toDate?.() || (activePeriod.deadline ? new Date(activePeriod.deadline) : null);

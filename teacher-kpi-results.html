@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My KPI Results — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link rel="stylesheet" href="base.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent:   #7c3aed;
+  --accent-dk:#6d28d9;
+  --accent-2: #ede9fe;
+  --accent-3: #f5f3ff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 50%, #7c3aed 100%);
+  color: #fff; padding: 0; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 80% 50%, rgba(255,255,255,.07) 0%, transparent 60%),
+              radial-gradient(ellipse at 20% 80%, rgba(109,40,217,.4) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 1100px; margin: 0 auto; padding: 36px 32px 32px;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
+  position: relative; z-index: 1;
+}
+.hero-left { display: flex; flex-direction: column; gap: 10px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+  border-radius: 20px; padding: 4px 12px; font-size: .72rem; font-weight: 600;
+  width: fit-content; letter-spacing: .02em;
+}
+.hero h1 { font-size: 1.7rem; font-weight: 800; line-height: 1.2; }
+.hero-sub { font-size: .88rem; opacity: .82; margin-top: 4px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.period-selector-wrap { display: flex; align-items: center; gap: 10px; }
+.period-selector-wrap label { font-size: .78rem; opacity: .8; font-weight: 500; }
+#periodSelect {
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3);
+  color: #fff; border-radius: 8px; padding: 6px 12px; font-size: .82rem;
+  font-family: inherit; cursor: pointer; min-width: 200px;
+}
+#periodSelect option { background: #3b0764; color: #fff; }
+
+/* ── SCORE STRIP ── */
+.score-strip {
+  background: rgba(255,255,255,.12); border-top: 1px solid rgba(255,255,255,.15);
+  border-bottom: 1px solid rgba(255,255,255,.15);
+}
+.score-strip-inner {
+  max-width: 1100px; margin: 0 auto; padding: 18px 32px;
+  display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+}
+.score-item { display: flex; flex-direction: column; gap: 2px; color: #fff; }
+.score-label { font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; opacity: .7; }
+.score-value { font-size: 1.5rem; font-weight: 800; }
+.score-value.good { color: #86efac; }
+.score-value.ok   { color: #fde68a; }
+.score-value.low  { color: #fca5a5; }
+.score-divider { width: 1px; height: 40px; background: rgba(255,255,255,.2); }
+.score-recommendation {
+  margin-left: auto; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+  border-radius: 10px; padding: 6px 16px; font-size: .8rem; font-weight: 700; color: #fff;
+}
+
+/* ── MAIN LAYOUT ── */
+.page-wrap { max-width: 1100px; margin: 0 auto; padding: 32px 32px 100px; }
+.results-grid { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
+
+/* ── STATES ── */
+.state-box {
+  background: #fff; border-radius: 16px; border: 1px solid #e2e8f0;
+  padding: 48px 32px; text-align: center;
+}
+.state-icon { font-size: 3rem; margin-bottom: 12px; }
+.state-title { font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
+.state-sub { font-size: .88rem; color: #64748b; line-height: 1.6; }
+
+/* ── KPI RESULTS TABLE ── */
+.section-card {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05); overflow: hidden;
+}
+.section-head {
+  padding: 18px 24px 14px; border-bottom: 1px solid #f1f5f9;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.section-head h2 { font-size: 1rem; font-weight: 700; color: #1e293b; }
+.section-head-sub { font-size: .76rem; color: #94a3b8; margin-top: 2px; }
+
+.kpi-result-row {
+  display: grid;
+  grid-template-columns: 2fr 80px 80px 80px 1fr;
+  gap: 12px; align-items: center;
+  padding: 14px 24px;
+  border-bottom: 1px solid #f8fafc;
+  transition: background .15s;
+}
+.kpi-result-row:hover { background: #f8fafc; }
+.kpi-result-row:last-child { border-bottom: none; }
+.kpi-result-row.header {
+  background: #f8fafc; font-size: .7rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .05em; color: #64748b;
+  border-bottom: 1px solid #e2e8f0;
+}
+.kpi-aspect-col { display: flex; flex-direction: column; gap: 2px; }
+.kpi-aspect-name { font-size: .85rem; font-weight: 600; color: #1e293b; }
+.kpi-indicator-text { font-size: .73rem; color: #64748b; line-height: 1.4; }
+.kpi-wt-badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  background: #ede9fe; color: #6d28d9; border-radius: 6px;
+  padding: 1px 6px; font-size: .65rem; font-weight: 700; width: fit-content; margin-top: 3px;
+}
+
+.star-display { display: flex; gap: 2px; align-items: center; }
+.star-display .s { font-size: .9rem; }
+.star-display .s.on { color: #f59e0b; }
+.star-display .s.off { color: #e2e8f0; }
+.star-score-num { font-size: .72rem; font-weight: 700; color: #374151; margin-left: 3px; }
+
+.rating-chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 8px; padding: 3px 9px; font-size: .72rem; font-weight: 700; width: fit-content;
+}
+.rating-chip.r1 { background: #fee2e2; color: #991b1b; }
+.rating-chip.r2 { background: #ffedd5; color: #9a3412; }
+.rating-chip.r3 { background: #fef9c3; color: #713f12; }
+.rating-chip.r4 { background: #dcfce7; color: #14532d; }
+.rating-chip.r5 { background: #ede9fe; color: #4c1d95; }
+
+.diff-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  border-radius: 6px; padding: 2px 8px; font-size: .7rem; font-weight: 700;
+}
+.diff-pill.pos { background: #dcfce7; color: #15803d; }
+.diff-pill.neg { background: #fee2e2; color: #dc2626; }
+.diff-pill.eq  { background: #f1f5f9; color: #64748b; }
+
+.actual-val-col { font-size: .82rem; color: #374151; font-weight: 500; }
+.actual-target { font-size: .68rem; color: #94a3b8; }
+
+/* ── SIDEBAR ── */
+.sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+.info-card {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05); overflow: hidden;
+}
+.info-card-head {
+  padding: 14px 18px; border-bottom: 1px solid #f1f5f9;
+  font-size: .82rem; font-weight: 700; color: #374151;
+  display: flex; align-items: center; gap: 8px;
+}
+.info-card-body { padding: 14px 18px; }
+.info-row { display: flex; flex-direction: column; gap: 2px; padding: 8px 0; border-bottom: 1px solid #f8fafc; }
+.info-row:last-child { border-bottom: none; }
+.info-row-label { font-size: .67rem; text-transform: uppercase; letter-spacing: .06em; color: #94a3b8; font-weight: 600; }
+.info-row-value { font-size: .85rem; font-weight: 600; color: #1e293b; }
+
+/* ── DEV GOALS ── */
+.goal-item {
+  padding: 12px 0; border-bottom: 1px solid #f1f5f9;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.goal-item:last-child { border-bottom: none; }
+.goal-num { font-size: .68rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; }
+.goal-text { font-size: .83rem; font-weight: 600; color: #1e293b; line-height: 1.4; }
+.goal-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.goal-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;
+  padding: 2px 8px; font-size: .68rem; color: #64748b; font-weight: 500;
+}
+
+/* ── EVALUATOR INFO ── */
+.eval-info-grid { display: flex; flex-direction: column; gap: 0; }
+
+/* ── MEETING SCHEDULE (Adım 3 için placeholder) ── */
+.meeting-section {
+  background: #fff8f0; border: 1px solid #fed7aa; border-radius: 12px;
+  padding: 14px 18px; display: flex; flex-direction: column; gap: 8px;
+}
+.meeting-section-head { font-size: .82rem; font-weight: 700; color: #92400e; display: flex; align-items: center; gap: 6px; }
+.meeting-date { font-size: .95rem; font-weight: 700; color: #1e293b; }
+.meeting-note { font-size: .76rem; color: #78350f; line-height: 1.5; }
+.meeting-status-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #fef3c7; color: #92400e; border-radius: 6px;
+  padding: 2px 10px; font-size: .7rem; font-weight: 600; width: fit-content;
+}
+
+/* ── OVERALL COMMENTS ── */
+.comments-box {
+  background: #f8fafc; border-radius: 10px; padding: 12px 14px;
+  font-size: .82rem; color: #374151; line-height: 1.6; white-space: pre-wrap;
+  border: 1px solid #e2e8f0; margin-top: 4px;
+}
+
+/* ── PENDING BANNER ── */
+.pending-banner {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 1px solid #f59e0b; border-radius: 12px;
+  padding: 16px 20px; display: flex; align-items: flex-start; gap: 14px;
+}
+.pending-banner-icon { font-size: 1.8rem; flex-shrink: 0; }
+.pending-banner-title { font-size: .9rem; font-weight: 700; color: #78350f; }
+.pending-banner-sub { font-size: .8rem; color: #92400e; line-height: 1.5; margin-top: 3px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hero-inner { flex-direction: column; align-items: flex-start; }
+  .results-grid { grid-template-columns: 1fr; }
+  .kpi-result-row { grid-template-columns: 1fr 60px 60px; }
+  .kpi-result-row .diff-col,
+  .kpi-result-row .actual-col { display: none; }
+  .hero-right { align-items: flex-start; }
+  .score-strip-inner { gap: 18px; }
+}
+</style>
+</head>
+<body>
+<div id="navbar-container"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">📊 KPI Results</div>
+      <h1 id="heroTitle">My KPI Results</h1>
+      <p class="hero-sub" id="heroSub">View your finalized KPI evaluation results and development goals.</p>
+    </div>
+    <div class="hero-right">
+      <div class="period-selector-wrap">
+        <label>Period:</label>
+        <select id="periodSelect"></select>
+      </div>
+    </div>
+  </div>
+  <!-- Score Strip (shown only when finalized) -->
+  <div class="score-strip" id="scoreStrip" style="display:none;">
+    <div class="score-strip-inner">
+      <div class="score-item">
+        <span class="score-label">Weighted Score</span>
+        <span class="score-value" id="stripWeighted">—</span>
+      </div>
+      <div class="score-divider"></div>
+      <div class="score-item">
+        <span class="score-label">Admin Rating</span>
+        <span class="score-value" id="stripAdmin">—</span>
+      </div>
+      <div class="score-divider"></div>
+      <div class="score-item">
+        <span class="score-label">Self Rating</span>
+        <span class="score-value" id="stripSelf">—</span>
+      </div>
+      <div class="score-divider"></div>
+      <div class="score-item">
+        <span class="score-label">KPIs Evaluated</span>
+        <span class="score-value" id="stripCount">—</span>
+      </div>
+      <div class="score-recommendation" id="stripRec" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="page-wrap">
+  <!-- Loading -->
+  <div id="stateLoading" class="state-box">
+    <div class="state-icon">⏳</div>
+    <div class="state-title">Loading your results…</div>
+  </div>
+
+  <!-- No periods -->
+  <div id="stateNoPeriods" class="state-box" style="display:none;">
+    <div class="state-icon">📂</div>
+    <div class="state-title">No evaluation periods found</div>
+    <div class="state-sub">There are no KPI evaluation periods available yet. Check back after your self-assessment period is set up.</div>
+  </div>
+
+  <!-- Not submitted yet -->
+  <div id="stateNotSubmitted" class="state-box" style="display:none;">
+    <div class="state-icon">✏️</div>
+    <div class="state-title">Self-assessment not submitted</div>
+    <div class="state-sub">You haven't submitted your self-assessment for this period yet.<br>Complete it first, then return here once the evaluation is finalised.</div>
+    <a href="teacher-self-assessment.html" style="display:inline-block;margin-top:18px;background:#7c3aed;color:#fff;border-radius:10px;padding:10px 24px;font-weight:700;font-size:.88rem;text-decoration:none;">Go to Self-Assessment →</a>
+  </div>
+
+  <!-- Pending evaluation -->
+  <div id="statePending" style="display:none;">
+    <div class="pending-banner">
+      <div class="pending-banner-icon">⏳</div>
+      <div>
+        <div class="pending-banner-title">Evaluation in progress</div>
+        <div class="pending-banner-sub">Your self-assessment has been submitted and is awaiting review by your evaluator. Results will appear here once the evaluation is finalised.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main results grid (finalized only) -->
+  <div id="stateResults" style="display:none;">
+    <div class="results-grid">
+      <!-- LEFT: KPI table -->
+      <div class="main-col" style="display:flex;flex-direction:column;gap:20px;">
+
+        <!-- KPI-by-KPI breakdown -->
+        <div class="section-card">
+          <div class="section-head">
+            <div>
+              <h2>KPI Breakdown</h2>
+              <div class="section-head-sub" id="breakdownSub"></div>
+            </div>
+          </div>
+          <!-- Header row -->
+          <div class="kpi-result-row header">
+            <span>KPI Aspect</span>
+            <span>Self</span>
+            <span>Admin</span>
+            <span>Δ Diff</span>
+            <span>Actual Value</span>
+          </div>
+          <div id="kpiBreakdown"></div>
+        </div>
+
+        <!-- Overall comments -->
+        <div class="section-card" id="commentsCard" style="display:none;">
+          <div class="section-head"><div><h2>Evaluator Comments</h2></div></div>
+          <div style="padding:16px 24px;">
+            <div class="comments-box" id="overallComments"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Sidebar -->
+      <div class="sidebar">
+
+        <!-- Teacher Info -->
+        <div class="info-card">
+          <div class="info-card-head">👤 Teacher Information</div>
+          <div class="info-card-body eval-info-grid" id="teacherInfoGrid"></div>
+        </div>
+
+        <!-- Evaluator Info -->
+        <div class="info-card" id="evaluatorCard" style="display:none;">
+          <div class="info-card-head">🏫 Evaluator</div>
+          <div class="info-card-body" id="evaluatorInfoGrid"></div>
+        </div>
+
+        <!-- Meeting Proposal (if exists) -->
+        <div id="meetingCard" style="display:none;">
+          <div class="info-card-head" style="display:none;"></div>
+        </div>
+
+        <!-- Development Goals -->
+        <div class="info-card" id="goalsCard" style="display:none;">
+          <div class="info-card-head">🎯 Development Goals</div>
+          <div class="info-card-body" id="goalsBody"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="partials/navbar.js"></script>
+<!-- FIREBASE_ENV -->
+<script>
+  // Load navbar
+  fetch('partials/navbar.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('navbar-container').innerHTML = html;
+      if (window._pendingBadgeSetup)    { window._pendingBadgeSetup();    window._pendingBadgeSetup    = null; }
+      if (window._pendingFeedbackSetup) { window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
+    })
+    .catch(err => console.error('Error loading navbar:', err));
+</script>
+
+<script type="module" src="auth-guard.js"></script>
+<script type="module">
+import {
+  collection, doc, getDoc, getDocs,
+  serverTimestamp, query, where, orderBy, onSnapshot, addDoc
+} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+let db, currentUser, userProfile;
+let periods    = [];
+let kpiConfig  = [];
+let submission = null;
+let evaluation = null;
+let selectedPeriodId = null;
+
+const RATING_LABELS = ['', 'Below Expectations', 'Needs Improvement', 'Meets Expectations', 'Exceeds Expectations', 'Outstanding'];
+const REC_LABELS = {
+  'highly_effective': '⭐ Highly Effective',
+  'effective':        '✅ Effective',
+  'developing':       '📈 Developing',
+  'unsatisfactory':   '⚠️ Unsatisfactory',
+};
+
+// ── Auth ────────────────────────────────────────────
+document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
+  currentUser  = user;
+  userProfile  = profile;
+  db           = window.db;
+
+  // Navbar badges
+  const doBadgeSetup    = () => setupNavBadges(db, { onSnapshot, collection });
+  const doFeedbackSetup = () => initFeedback(db, { addDoc, collection, serverTimestamp });
+  if (document.getElementById('msgBoardBadge')) { doBadgeSetup(); } else { window._pendingBadgeSetup = doBadgeSetup; }
+  if (document.getElementById('feedbackOverlay')) { doFeedbackSetup(); } else { window._pendingFeedbackSetup = doFeedbackSetup; }
+
+  try {
+    await loadPeriods();
+    await loadKpiConfig();
+  } catch (err) {
+    console.error(err);
+    showState('loading', false);
+  }
+});
+
+// ── Load periods ────────────────────────────────────
+async function loadPeriods() {
+  const snap = await getDocs(query(
+    collection(db, 'teacher_kpi_settings'),
+    orderBy('createdAt', 'desc')
+  ));
+  periods = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+  showState('loading', false);
+
+  if (!periods.length) { showState('noPeriods'); return; }
+
+  // Build period selector
+  const sel = document.getElementById('periodSelect');
+  sel.innerHTML = '';
+  periods.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.id;
+    opt.textContent = p.name + (p.type ? ` (${p.type === 'mid-year' ? 'Mid-Year' : 'Full-Year'})` : '');
+    sel.appendChild(opt);
+  });
+  sel.addEventListener('change', () => loadResultsForPeriod(sel.value));
+
+  // Default: first period
+  selectedPeriodId = periods[0].id;
+  await loadResultsForPeriod(selectedPeriodId);
+}
+
+// ── Load KPI config ──────────────────────────────────
+async function loadKpiConfig() {
+  const snap = await getDocs(query(collection(db, 'teacher_kpi_config'), where('active', '==', true)));
+  kpiConfig = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+}
+
+// ── Load results for a period ───────────────────────
+async function loadResultsForPeriod(periodId) {
+  selectedPeriodId = periodId;
+  const period = periods.find(p => p.id === periodId);
+
+  // Reset all states
+  ['noPeriods','notSubmitted','pending','results'].forEach(s => showState(s, false));
+  document.getElementById('scoreStrip').style.display = 'none';
+
+  // Load submission
+  const subId  = `${currentUser.uid}_${periodId}`;
+  const subSnap = await getDoc(doc(db, 'teacher_kpi_submissions', subId));
+  if (!subSnap.exists()) { showState('notSubmitted'); return; }
+
+  submission = { id: subSnap.id, ...subSnap.data() };
+
+  if (submission.status !== 'finalized' && submission.status !== 'evaluated') {
+    if (submission.status === 'submitted') { showState('pending'); return; }
+    showState('notSubmitted'); return;
+  }
+
+  // Load evaluation
+  const evalSnap = await getDoc(doc(db, 'teacher_kpi_evaluations', subId));
+  evaluation = evalSnap.exists() ? { id: evalSnap.id, ...evalSnap.data() } : null;
+
+  if (!evaluation || evaluation.status !== 'finalized') {
+    showState('pending'); return;
+  }
+
+  renderResults(period);
+}
+
+// ── Render results ───────────────────────────────────
+function renderResults(period) {
+  showState('results');
+
+  // Compute scores
+  const kpiEvals = evaluation.kpiEvaluations || {};
+  let totalWeight = 0, weightedSum = 0, adminSum = 0, selfSum = 0, count = 0;
+  for (const kpi of kpiConfig) {
+    const ev = kpiEvals[kpi.id];
+    if (!ev || !ev.administratorRating) continue;
+    const w = parseFloat(kpi.weight) || 0;
+    totalWeight += w;
+    weightedSum += ev.administratorRating * w;
+    adminSum    += ev.administratorRating;
+    selfSum     += (ev.teacherSelfRating || submission?.assessments?.[kpi.id]?.selfRating || 0);
+    count++;
+  }
+  const weightedScore = totalWeight > 0 ? (weightedSum / totalWeight).toFixed(2) : null;
+  const adminAvg      = count > 0 ? (adminSum  / count).toFixed(2) : null;
+  const selfAvg       = count > 0 ? (selfSum   / count).toFixed(2) : null;
+
+  // Score strip
+  const strip = document.getElementById('scoreStrip');
+  strip.style.display = 'block';
+  const ws = parseFloat(weightedScore);
+  const wsEl = document.getElementById('stripWeighted');
+  wsEl.textContent = weightedScore ? weightedScore + ' / 5' : '—';
+  wsEl.className   = 'score-value ' + (ws >= 4 ? 'good' : ws >= 3 ? 'ok' : 'low');
+  document.getElementById('stripAdmin').textContent = adminAvg  ? adminAvg  + ' / 5' : '—';
+  document.getElementById('stripSelf').textContent  = selfAvg   ? selfAvg   + ' / 5' : '—';
+  document.getElementById('stripCount').textContent = count + ' KPIs';
+
+  const recEl = document.getElementById('stripRec');
+  if (evaluation.overallRecommendation && REC_LABELS[evaluation.overallRecommendation]) {
+    recEl.textContent    = REC_LABELS[evaluation.overallRecommendation];
+    recEl.style.display  = 'inline-flex';
+  }
+
+  // Hero
+  document.getElementById('heroTitle').textContent = 'KPI Results — ' + (period?.name || 'Period');
+  document.getElementById('heroSub').textContent   =
+    `Finalised evaluation for ${(evaluation.teacherInfo?.name || userProfile.displayName || 'you')}`;
+
+  // KPI breakdown
+  document.getElementById('breakdownSub').textContent =
+    `${count} KPI${count !== 1 ? 's' : ''} evaluated · Weighted score: ${weightedScore ?? '—'} / 5`;
+
+  const breakdownEl = document.getElementById('kpiBreakdown');
+  breakdownEl.innerHTML = '';
+  for (const kpi of kpiConfig) {
+    const ev  = kpiEvals[kpi.id] || {};
+    const selfR  = Number(ev.teacherSelfRating || submission?.assessments?.[kpi.id]?.selfRating || 0);
+    const adminR = Number(ev.administratorRating || 0);
+    const diff   = adminR && selfR ? adminR - selfR : null;
+    const actualVal = ev.administratorActualValue || ev.teacherActualValue || submission?.assessments?.[kpi.id]?.actualValue || '';
+
+    const row = document.createElement('div');
+    row.className = 'kpi-result-row';
+    row.innerHTML = `
+      <div class="kpi-aspect-col">
+        <div class="kpi-aspect-name">${esc(kpi.aspect || '')}</div>
+        <div class="kpi-indicator-text">${esc(kpi.indicator || '')}</div>
+        <span class="kpi-wt-badge">⚖ ${kpi.weight || 0}%</span>
+      </div>
+      <div>${selfR ? starDisplay(selfR) : '<span style="color:#cbd5e1;font-size:.8rem;">—</span>'}</div>
+      <div>${adminR ? starDisplay(adminR) : '<span style="color:#cbd5e1;font-size:.8rem;">—</span>'}</div>
+      <div class="diff-col">${diff !== null ? diffPill(diff) : '<span style="color:#cbd5e1;font-size:.8rem;">—</span>'}</div>
+      <div class="actual-col actual-val-col">
+        ${actualVal ? `<div>${esc(String(actualVal))} ${esc(kpi.unit || '')}</div>
+        ${kpi.target ? `<div class="actual-target">Target: ${esc(String(kpi.target))} ${esc(kpi.unit || '')}</div>` : ''}` : '<span style="color:#cbd5e1;font-size:.8rem;">—</span>'}
+      </div>`;
+    breakdownEl.appendChild(row);
+  }
+
+  // Overall comments
+  const comments = (evaluation.overallComments || '').trim();
+  if (comments) {
+    document.getElementById('overallComments').textContent = comments;
+    document.getElementById('commentsCard').style.display = 'block';
+  }
+
+  // Teacher info
+  const ti = evaluation.teacherInfo || submission.teacherInfo || {};
+  const teacherRows = [
+    ['Name',       ti.name       || userProfile.displayName || '—'],
+    ['Subject',    ti.subject    || (userProfile.subjects || []).join(', ') || '—'],
+    ['Classes',    ti.grade      || (userProfile.classes  || []).join(', ') || '—'],
+    ['Department', ti.department || '—'],
+    ['Period',     period?.name  || '—'],
+  ];
+  document.getElementById('teacherInfoGrid').innerHTML = teacherRows.map(([l, v]) =>
+    `<div class="info-row"><div class="info-row-label">${l}</div><div class="info-row-value">${esc(v)}</div></div>`
+  ).join('');
+
+  // Evaluator info
+  const ei = evaluation.evaluatorInfo || {};
+  if (ei.evaluatorName || ei.evaluatorPosition) {
+    const evalRows = [
+      ['Name',     ei.evaluatorName     || '—'],
+      ['Position', ei.evaluatorPosition || '—'],
+      ['Date',     ei.evaluationDate ? new Date(ei.evaluationDate).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }) : '—'],
+    ];
+    document.getElementById('evaluatorInfoGrid').innerHTML = evalRows.map(([l, v]) =>
+      `<div class="info-row"><div class="info-row-label">${l}</div><div class="info-row-value">${esc(v)}</div></div>`
+    ).join('');
+    document.getElementById('evaluatorCard').style.display = 'block';
+  }
+
+  // Meeting proposal placeholder (populated in Adım 3)
+  renderMeetingCard();
+
+  // Development goals
+  const goals = evaluation.developmentGoals || [];
+  if (goals.length) {
+    const goalsEl = document.getElementById('goalsBody');
+    goalsEl.innerHTML = goals.map((g, i) => `
+      <div class="goal-item">
+        <div class="goal-num">Goal ${i + 1}</div>
+        <div class="goal-text">${esc(g.goal || g.description || '')}</div>
+        <div class="goal-meta">
+          ${g.timeline         ? `<span class="goal-tag">📅 ${esc(g.timeline)}</span>` : ''}
+          ${g.support          ? `<span class="goal-tag">🤝 ${esc(g.support)}</span>` : ''}
+          ${g.successCriteria  ? `<span class="goal-tag">✅ ${esc(g.successCriteria)}</span>` : ''}
+        </div>
+      </div>`).join('');
+    document.getElementById('goalsCard').style.display = 'block';
+  }
+}
+
+// ── Meeting card (Adım 3 — reads meeting_proposals) ─
+async function renderMeetingCard() {
+  if (!submission?.id) return;
+  try {
+    const snap = await getDocs(query(
+      collection(db, 'kpi_meeting_proposals'),
+      where('submissionId', '==', submission.id)
+    ));
+    if (snap.empty) return;
+    const proposal = { id: snap.docs[0].id, ...snap.docs[0].data() };
+    const card = document.getElementById('meetingCard');
+    const proposedDate = proposal.proposedDate?.toDate?.() || (proposal.proposedDate ? new Date(proposal.proposedDate) : null);
+    const dateStr = proposedDate && !isNaN(proposedDate)
+      ? proposedDate.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' })
+      : proposal.proposedDateText || '—';
+
+    const statusLabel = proposal.status === 'confirmed' ? '✅ Confirmed'
+      : proposal.status === 'declined' ? '❌ Declined'
+      : '⏳ Awaiting your response';
+
+    card.innerHTML = `
+      <div class="info-card">
+        <div class="info-card-head">📅 Evaluation Meeting</div>
+        <div class="info-card-body">
+          <div class="meeting-section">
+            <div class="meeting-section-head">📋 Meeting Proposal</div>
+            <div class="meeting-date">${esc(dateStr)}</div>
+            ${proposal.time ? `<div style="font-size:.8rem;color:#78350f;font-weight:600;">🕐 ${esc(proposal.time)}</div>` : ''}
+            ${proposal.location ? `<div style="font-size:.78rem;color:#374151;">📍 ${esc(proposal.location)}</div>` : ''}
+            ${proposal.note ? `<div class="meeting-note">${esc(proposal.note)}</div>` : ''}
+            <span class="meeting-status-pill">${statusLabel}</span>
+            ${proposal.status === 'pending' ? `
+            <div style="display:flex;gap:8px;margin-top:6px;">
+              <button onclick="respondMeeting('${proposal.id}','confirmed')"
+                style="flex:1;background:#15803d;color:#fff;border:none;border-radius:7px;padding:7px 0;font-size:.78rem;font-weight:700;cursor:pointer;">✅ Confirm</button>
+              <button onclick="respondMeeting('${proposal.id}','declined')"
+                style="flex:1;background:#dc2626;color:#fff;border:none;border-radius:7px;padding:7px 0;font-size:.78rem;font-weight:700;cursor:pointer;">❌ Decline</button>
+            </div>` : ''}
+          </div>
+        </div>
+      </div>`;
+    card.style.display = 'block';
+  } catch (err) {
+    console.warn('Meeting proposal load error:', err);
+  }
+}
+
+// ── Meeting response ─────────────────────────────────
+window.respondMeeting = async function(proposalId, status) {
+  const { updateDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+  try {
+    await updateDoc(doc(db, 'kpi_meeting_proposals', proposalId), {
+      status,
+      respondedAt: serverTimestamp(),
+      respondedBy: currentUser.uid,
+    });
+    renderMeetingCard(); // Refresh
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// ── Helpers ──────────────────────────────────────────
+function showState(state, show = true) {
+  const map = { loading:'stateLoading', noPeriods:'stateNoPeriods', notSubmitted:'stateNotSubmitted', pending:'statePending', results:'stateResults' };
+  if (map[state]) document.getElementById(map[state]).style.display = show ? 'block' : 'none';
+}
+
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function starDisplay(rating) {
+  const stars = [1,2,3,4,5].map(s =>
+    `<span class="s ${s <= rating ? 'on' : 'off'}">★</span>`
+  ).join('');
+  return `<div class="star-display">${stars}<span class="star-score-num">${rating}/5</span></div>`;
+}
+
+function diffPill(diff) {
+  if (diff === 0) return `<span class="diff-pill eq">= Same</span>`;
+  if (diff > 0)   return `<span class="diff-pill pos">+${diff} Admin higher</span>`;
+  return `<span class="diff-pill neg">${diff} Self higher</span>`;
+}
+
+const { serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+</script>
+</body>
+</html>
