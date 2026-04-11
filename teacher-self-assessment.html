@@ -21,6 +21,7 @@ body {
   font-family: 'DM Sans', sans-serif;
   background: #f1f5f9;
   color: #1e293b;
+  padding-top: 60px;
 }
 
 /* ── HERO ────────────────────────────────────────── */
@@ -471,11 +472,22 @@ body {
 </head>
 <body>
 
-<!-- FIREBASE_ENV -->
-<script type="module" src="auth-guard.js"></script>
-
 <div id="navbar-container"></div>
 <script src="partials/navbar.js"></script>
+<script>
+  fetch('partials/navbar.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('navbar-container').innerHTML = html;
+      initNavbar();
+      if (typeof window._pendingNavbarUpdate === 'function') { window._pendingNavbarUpdate(); window._pendingNavbarUpdate = null; }
+      if (typeof window._pendingBadgeSetup   === 'function') { window._pendingBadgeSetup();   window._pendingBadgeSetup   = null; }
+      if (typeof window._pendingFeedbackSetup === 'function') { window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
+    })
+    .catch(e => console.error('Error loading navbar:', e));
+</script>
+<!-- FIREBASE_ENV -->
+<script type="module" src="auth-guard.js"></script>
 
 <!-- Loading -->
 <div id="stateLoading">
