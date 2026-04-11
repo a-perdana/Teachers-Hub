@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Self-Assessment — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link rel="stylesheet" href="base.css">
+
+<!-- FIREBASE_ENV -->
+<script src="firebase-config.js"></script>
+<script type="module" src="auth-guard.js"></script>
+
+<style>
+:root {
+  --accent:   #6c5ce7;
+  --accent-2: #ede9fe;
+}
+
+/* ── PAGE WRAP ── */
+.page-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+
+/* ── PAGE HEADER ── */
+.page-header {
+  background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+  border-radius: 16px;
+  padding: 28px 32px;
+  color: #fff;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.page-header-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; }
+.page-header-sub   { font-size: 0.88rem; opacity: .85; }
+.page-header-meta  { text-align: right; font-size: 0.82rem; opacity: .9; }
+.page-header-meta strong { display: block; font-size: 1.15rem; font-weight: 700; }
+
+/* ── PROGRESS BAR ── */
+.progress-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.progress-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.progress-label { font-size: 0.88rem; font-weight: 600; color: var(--ink-2); }
+.progress-pct   { font-size: 1.25rem; font-weight: 800; color: var(--accent); }
+.progress-bar-bg {
+  height: 8px;
+  background: var(--paper-2);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+  border-radius: 99px;
+  transition: width .4s ease;
+}
+.progress-note { font-size: 0.78rem; color: var(--ink-3); margin-top: 8px; }
+.progress-note.done { color: var(--green); font-weight: 600; }
+
+/* ── TEACHER INFO CARD ── */
+.info-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.info-card-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.info-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 640px) {
+  .info-grid, .info-grid.three { grid-template-columns: 1fr; }
+}
+
+/* ── INSTRUCTION BANNER ── */
+.instruction-banner {
+  background: #eff6ff;
+  border-left: 4px solid #3b82f6;
+  border-radius: 0 10px 10px 0;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  font-size: 0.82rem;
+  color: #1e40af;
+}
+.instruction-banner strong { display: block; margin-bottom: 6px; font-size: 0.85rem; }
+.instruction-banner ul { padding-left: 16px; line-height: 1.9; }
+
+/* ── KPI ACCORDION CARD ── */
+.kpi-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s;
+}
+.kpi-card.expanded { box-shadow: var(--shadow); }
+.kpi-card.filled .kpi-header { border-left: 3px solid var(--green); }
+
+.kpi-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  cursor: pointer;
+  background: var(--white);
+  transition: background .15s;
+  user-select: none;
+}
+.kpi-header:hover { background: #fafafa; }
+
+.kpi-num {
+  min-width: 32px; height: 32px;
+  background: var(--accent-2);
+  color: var(--accent);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 800;
+  flex-shrink: 0;
+}
+.kpi-header-text { flex: 1; min-width: 0; }
+.kpi-aspect   { font-size: 0.9rem; font-weight: 700; color: var(--ink); }
+.kpi-indicator { font-size: 0.77rem; color: var(--ink-3); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kpi-header-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.kpi-weight-pill {
+  background: var(--accent-2); color: var(--accent);
+  padding: 2px 10px; border-radius: 20px;
+  font-size: 0.72rem; font-weight: 700;
+}
+.kpi-rating-preview {
+  font-size: 0.78rem; font-weight: 700;
+  color: var(--ink-3);
+}
+.kpi-rating-preview.rated { color: var(--accent); }
+.kpi-chevron {
+  font-size: 0.8rem; color: var(--ink-3);
+  transition: transform .2s;
+}
+.kpi-card.expanded .kpi-chevron { transform: rotate(180deg); }
+
+/* ── KPI BODY ── */
+.kpi-body {
+  display: none;
+  padding: 0 20px 20px;
+  border-top: 1px solid var(--border);
+}
+.kpi-card.expanded .kpi-body { display: block; }
+
+.kpi-target-bar {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 14px 0;
+  font-size: 0.8rem;
+  color: var(--ink-2);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.kpi-target-bar span { display: flex; align-items: center; gap: 5px; }
+.kpi-target-bar strong { color: var(--ink); }
+
+.kpi-section-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--ink-3);
+  margin: 16px 0 8px;
+}
+
+.actual-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 4px;
+}
+@media (max-width: 500px) { .actual-row { grid-template-columns: 1fr; } }
+
+/* ── STAR RATING ── */
+.star-rating { display: flex; gap: 6px; align-items: center; margin-bottom: 4px; }
+.star-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: 1.4rem; line-height: 1; padding: 2px;
+  color: #d1d5db;
+  transition: color .15s, transform .1s;
+}
+.star-btn:hover, .star-btn.active { color: #f59e0b; }
+.star-btn:hover { transform: scale(1.15); }
+.star-label {
+  font-size: 0.78rem; font-weight: 600; color: var(--ink-3); margin-left: 6px;
+}
+.star-label.r5 { color: #16a34a; }
+.star-label.r4 { color: #2563eb; }
+.star-label.r3 { color: #d97706; }
+.star-label.r2 { color: #ea580c; }
+.star-label.r1 { color: #dc2626; }
+
+/* ── EVIDENCE ── */
+.evidence-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+.evidence-row {
+  display: grid;
+  grid-template-columns: 130px 1fr 130px auto;
+  gap: 8px;
+  align-items: center;
+}
+@media (max-width: 600px) {
+  .evidence-row { grid-template-columns: 1fr; }
+}
+.btn-evidence-add {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.78rem; font-weight: 600; color: var(--accent);
+  background: var(--accent-2); border: none; border-radius: 8px;
+  padding: 6px 12px; cursor: pointer; transition: background .15s;
+}
+.btn-evidence-add:hover { background: #ddd6fe; }
+.btn-evidence-del {
+  background: none; border: none; cursor: pointer;
+  color: var(--ink-3); font-size: 1rem; padding: 4px;
+  transition: color .15s;
+}
+.btn-evidence-del:hover { color: var(--red); }
+
+/* ── ACTION BUTTONS ── */
+.action-bar {
+  position: sticky;
+  bottom: 0;
+  background: rgba(247,246,243,.92);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  z-index: 100;
+}
+.action-bar-left  { font-size: 0.82rem; color: var(--ink-3); }
+.action-bar-right { display: flex; gap: 10px; }
+
+.btn-draft {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  color: var(--ink-2);
+  padding: 9px 20px;
+  border-radius: 9px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color .15s, color .15s;
+}
+.btn-draft:hover { border-color: var(--accent); color: var(--accent); }
+
+.btn-submit {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 9px 24px;
+  border-radius: 9px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s, opacity .15s;
+}
+.btn-submit:hover   { background: #5a4bd1; }
+.btn-submit:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: var(--ink); color: #fff;
+  padding: 10px 22px; border-radius: 10px;
+  font-size: 0.83rem; font-weight: 600;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s;
+  z-index: 9999;
+  white-space: nowrap;
+}
+.toast.show { opacity: 1; }
+.toast.success { background: var(--green); }
+.toast.error   { background: var(--red); }
+
+/* ── EMPTY / LOADING ── */
+.page-loading {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 40vh; gap: 12px; color: var(--ink-3);
+}
+.page-loading .spin {
+  width: 36px; height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.no-period {
+  text-align: center; padding: 60px 20px; color: var(--ink-3);
+}
+.no-period h3 { font-size: 1rem; font-weight: 700; color: var(--ink-2); margin-bottom: 8px; }
+.no-period p  { font-size: 0.85rem; }
+
+/* ── SUBMITTED BANNER ── */
+.submitted-banner {
+  background: var(--green-2); border: 1px solid #bbf7d0;
+  border-radius: 12px; padding: 16px 20px;
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 20px; color: #065f46; font-size: 0.88rem; font-weight: 600;
+}
+.submitted-banner .icon { font-size: 1.4rem; }
+
+/* ── PERIOD BADGE ── */
+.period-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.22); border: 1px solid rgba(255,255,255,.3);
+  border-radius: 20px; padding: 4px 12px;
+  font-size: 0.78rem; font-weight: 600; color: #fff;
+  margin-top: 8px;
+}
+
+/* ── SECTION DIVIDER ── */
+.section-divider {
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--ink-3);
+  margin: 24px 0 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+</style>
+</head>
+<body>
+
+<!-- navbar injected by partials/navbar.js -->
+<div id="navbar-container"></div>
+<script src="partials/navbar.js"></script>
+
+<div id="pageLoading" class="page-loading">
+  <div class="spin"></div>
+  <div>Loading your assessment…</div>
+</div>
+
+<div id="pageContent" style="display:none;">
+  <div class="page-wrap">
+
+    <!-- Page Header -->
+    <div class="page-header" id="pageHeader">
+      <div>
+        <div class="page-header-title">Teacher Self-Assessment</div>
+        <div class="page-header-sub">KPI Performance Evaluation & Reflection</div>
+        <div class="period-badge" id="periodBadge">Loading period…</div>
+      </div>
+      <div class="page-header-meta">
+        <span>Academic Year</span>
+        <strong id="headerAcademicYear">—</strong>
+      </div>
+    </div>
+
+    <!-- Submitted Banner (hidden by default) -->
+    <div class="submitted-banner" id="submittedBanner" style="display:none;">
+      <span class="icon">✅</span>
+      <div>This assessment has been submitted. You can still edit and re-submit until the deadline.</div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-card">
+      <div class="progress-top">
+        <span class="progress-label">Form Completion</span>
+        <span class="progress-pct" id="progressPct">0%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+      </div>
+      <div class="progress-note" id="progressNote">Complete all sections for a comprehensive self-assessment.</div>
+    </div>
+
+    <!-- Teacher Info -->
+    <div class="info-card">
+      <div class="info-card-title">📋 Teacher Information</div>
+      <div class="info-grid three">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input class="form-input" id="infoName" type="text" placeholder="Your full name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subject(s)</label>
+          <input class="form-input" id="infoSubject" type="text" placeholder="e.g. Mathematics, Physics" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Grade / Class</label>
+          <input class="form-input" id="infoGrade" type="text" placeholder="e.g. Year 10A, 10B" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Department</label>
+          <input class="form-input" id="infoDepartment" type="text" placeholder="e.g. Science Department" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Evaluation Period</label>
+          <select class="form-select" id="infoEvalPeriod">
+            <option value="Half AY">Mid-Year (Half AY)</option>
+            <option value="Full AY">End-of-Year (Full AY)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Submission Date</label>
+          <input class="form-input" id="infoDate" type="date" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="instruction-banner">
+      <strong>Instructions for Self-Assessment:</strong>
+      <ul>
+        <li>Click each KPI card to expand and complete your assessment.</li>
+        <li>Enter your actual performance value and rate yourself honestly (1–5 stars).</li>
+        <li>Describe your strengths, challenges, and planned improvements for each KPI.</li>
+        <li>Add supporting evidence (e.g. lesson observation notes, survey results).</li>
+        <li>Save a draft anytime. Click <strong>Submit</strong> when ready to finalise.</li>
+      </ul>
+    </div>
+
+    <!-- KPI Accordion Cards -->
+    <div class="section-divider">KPI Aspects</div>
+    <div id="kpiList"></div>
+
+    <!-- No active period fallback -->
+    <div class="no-period" id="noPeriod" style="display:none;">
+      <h3>No active evaluation period</h3>
+      <p>Please contact your coordinator — no Teacher KPI period is currently active.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- Sticky action bar -->
+<div class="action-bar" id="actionBar" style="display:none;">
+  <div class="action-bar-left" id="actionStatus">Draft not saved yet</div>
+  <div class="action-bar-right">
+    <button class="btn-draft" id="btnDraft">Save Draft</button>
+    <button class="btn-submit" id="btnSubmit">Submit Assessment</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import {
+  collection, doc, getDoc, getDocs, setDoc,
+  serverTimestamp, query, where, orderBy, limit
+} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+// ── State ──────────────────────────────────────────────────────
+let db, currentUser, userProfile;
+let kpis       = [];   // from teacher_kpi_config
+let activePeriod = null; // from teacher_kpi_settings
+let assessments  = {};   // { [kpiId]: { actualValue, selfRating, strengths, challenges, actions, support, comments, evidences[] } }
+let submissionId  = null;
+let isSubmitted   = false;
+
+// ── Auth Ready ─────────────────────────────────────────────────
+document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
+  currentUser = user;
+  userProfile = profile;
+  db = window.db;
+
+  // Pre-fill teacher info from profile
+  document.getElementById('infoName').value       = profile.displayName || '';
+  document.getElementById('infoSubject').value    = (profile.subjects || []).join(', ');
+  document.getElementById('infoGrade').value      = (profile.classes  || []).join(', ');
+  document.getElementById('infoDepartment').value = profile.department || '';
+  document.getElementById('infoDate').value       = new Date().toISOString().split('T')[0];
+
+  try {
+    await Promise.all([loadActivePeriod(), loadKPIs()]);
+
+    if (!activePeriod) {
+      document.getElementById('pageLoading').style.display = 'none';
+      document.getElementById('pageContent').style.display = 'block';
+      document.getElementById('noPeriod').style.display    = 'block';
+      document.getElementById('kpiList').style.display     = 'none';
+      return;
+    }
+
+    submissionId = `${currentUser.uid}_${activePeriod.id}`;
+    await loadExistingSubmission();
+
+    renderPeriodInfo();
+    renderKPIs();
+    updateProgress();
+    wireInfoListeners();
+    wireButtons();
+
+    document.getElementById('pageLoading').style.display = 'none';
+    document.getElementById('pageContent').style.display = 'block';
+    document.getElementById('actionBar').style.display   = 'flex';
+  } catch (err) {
+    console.error(err);
+    showToast('Error loading assessment: ' + err.message, 'error');
+  }
+});
+
+// ── Loaders ────────────────────────────────────────────────────
+async function loadKPIs() {
+  const snap = await getDocs(query(
+    collection(db, 'teacher_kpi_config'),
+    where('active', '==', true),
+    orderBy('order')
+  ));
+  kpis = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+}
+
+async function loadActivePeriod() {
+  const snap = await getDocs(query(
+    collection(db, 'teacher_kpi_settings'),
+    where('active', '==', true),
+    limit(1)
+  ));
+  activePeriod = snap.empty ? null : { id: snap.docs[0].id, ...snap.docs[0].data() };
+}
+
+async function loadExistingSubmission() {
+  const snap = await getDoc(doc(db, 'teacher_kpi_submissions', submissionId));
+  if (!snap.exists()) return;
+
+  const data = snap.data();
+  isSubmitted = data.status === 'submitted';
+
+  // Restore teacher info fields
+  if (data.teacherInfo) {
+    const ti = data.teacherInfo;
+    if (ti.name)       document.getElementById('infoName').value       = ti.name;
+    if (ti.subject)    document.getElementById('infoSubject').value    = ti.subject;
+    if (ti.grade)      document.getElementById('infoGrade').value      = ti.grade;
+    if (ti.department) document.getElementById('infoDepartment').value = ti.department;
+    if (ti.evalPeriod) document.getElementById('infoEvalPeriod').value = ti.evalPeriod;
+    if (ti.date)       document.getElementById('infoDate').value       = ti.date;
+  }
+
+  // Restore per-KPI assessments
+  if (data.assessments) {
+    assessments = data.assessments;
+  }
+}
+
+// ── Render ─────────────────────────────────────────────────────
+function renderPeriodInfo() {
+  document.getElementById('periodBadge').textContent = '📅 ' + (activePeriod.name || 'Active Period');
+  // Try to extract academic year from period name (e.g. "Academic Year 2025/2026")
+  const match = (activePeriod.name || '').match(/\d{4}\/\d{4}/);
+  document.getElementById('headerAcademicYear').textContent = match ? match[0] : activePeriod.name || '—';
+}
+
+function renderKPIs() {
+  const container = document.getElementById('kpiList');
+  if (!kpis.length) {
+    container.innerHTML = '<div class="no-period"><h3>No KPIs configured</h3><p>No active Teacher KPIs found. Please contact your coordinator.</p></div>';
+    return;
+  }
+
+  container.innerHTML = kpis.map((kpi, idx) => {
+    const a = assessments[kpi.id] || {};
+    const rating = a.selfRating || 0;
+    return `
+    <div class="kpi-card" id="kpi-card-${kpi.id}" data-kpi="${kpi.id}">
+      <div class="kpi-header" onclick="toggleKPI('${kpi.id}')">
+        <div class="kpi-num">KPI ${kpi.order ?? idx+1}</div>
+        <div class="kpi-header-text">
+          <div class="kpi-aspect">${kpi.aspect}</div>
+          <div class="kpi-indicator">${kpi.indicator}</div>
+        </div>
+        <div class="kpi-header-right">
+          <span class="kpi-weight-pill">${kpi.weight}%</span>
+          <span class="kpi-rating-preview ${rating ? 'rated' : ''}" id="rating-preview-${kpi.id}">
+            ${rating ? '★'.repeat(rating) + ' ' + rating + '/5' : 'Not rated'}
+          </span>
+          <span class="kpi-chevron">▾</span>
+        </div>
+      </div>
+      <div class="kpi-body" id="kpi-body-${kpi.id}">
+        <!-- Target info bar -->
+        <div class="kpi-target-bar">
+          <span>🎯 <strong>Target:</strong> ${kpi.target || (kpi.targetNumerical + ' ' + kpi.unit)}</span>
+          <span>📏 <strong>Unit:</strong> ${kpi.unit}</span>
+          ${kpi.halfAY != null ? `<span>📊 <strong>Mid-year benchmark:</strong> ${kpi.halfAY} ${kpi.unit}</span>` : ''}
+          ${kpi.fullAY != null ? `<span>📊 <strong>Full-year benchmark:</strong> ${kpi.fullAY} ${kpi.unit}</span>` : ''}
+        </div>
+        ${kpi.rationale ? `<div style="font-size:.78rem;color:var(--ink-3);margin-bottom:12px;font-style:italic;">💡 ${kpi.rationale}</div>` : ''}
+
+        <!-- Actual Value + Self Rating -->
+        <div class="kpi-section-label">Performance Data</div>
+        <div class="actual-row">
+          <div class="form-group">
+            <label class="form-label">Actual Value (${kpi.unit})</label>
+            <input class="form-input" type="number" step="0.01"
+              id="actual-${kpi.id}"
+              value="${a.actualValue ?? ''}"
+              placeholder="Enter your actual result"
+              oninput="onFieldChange('${kpi.id}')" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Self-Rating (1–5)</label>
+            <div class="star-rating" id="stars-${kpi.id}">
+              ${[1,2,3,4,5].map(s => `
+                <button class="star-btn ${s <= rating ? 'active' : ''}"
+                  data-kpi="${kpi.id}" data-star="${s}"
+                  onclick="setStar('${kpi.id}', ${s})">★</button>
+              `).join('')}
+              <span class="star-label ${rating ? 'r'+rating : ''}" id="star-label-${kpi.id}">
+                ${rating ? ratingLabel(rating) : 'Click to rate'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Qualitative Fields -->
+        <div class="kpi-section-label">Reflection</div>
+        <div class="form-group" style="margin-bottom:10px;">
+          <label class="form-label">Strengths & Achievements</label>
+          <textarea class="form-textarea" rows="2" id="strengths-${kpi.id}"
+            placeholder="What went well? Key successes this period…"
+            oninput="onFieldChange('${kpi.id}')">${a.strengths || ''}</textarea>
+        </div>
+        <div class="form-group" style="margin-bottom:10px;">
+          <label class="form-label">Challenges Faced</label>
+          <textarea class="form-textarea" rows="2" id="challenges-${kpi.id}"
+            placeholder="What obstacles did you encounter?"
+            oninput="onFieldChange('${kpi.id}')">${a.challenges || ''}</textarea>
+        </div>
+        <div class="form-group" style="margin-bottom:10px;">
+          <label class="form-label">Actions for Improvement</label>
+          <textarea class="form-textarea" rows="2" id="actions-${kpi.id}"
+            placeholder="What specific steps will you take next period?"
+            oninput="onFieldChange('${kpi.id}')">${a.actions || ''}</textarea>
+        </div>
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Support Needed from School</label>
+          <textarea class="form-textarea" rows="2" id="support-${kpi.id}"
+            placeholder="Resources, training, or support that would help…"
+            oninput="onFieldChange('${kpi.id}')">${a.support || ''}</textarea>
+        </div>
+
+        <!-- Evidence -->
+        <div class="kpi-section-label">Supporting Evidence</div>
+        <div class="evidence-list" id="evidence-list-${kpi.id}"></div>
+        <button class="btn-evidence-add" onclick="addEvidence('${kpi.id}')">+ Add Evidence</button>
+
+        <!-- Additional Comments -->
+        <div class="kpi-section-label" style="margin-top:14px;">Additional Comments</div>
+        <div class="form-group">
+          <textarea class="form-textarea" rows="2" id="comments-${kpi.id}"
+            placeholder="Any other observations or notes…"
+            oninput="onFieldChange('${kpi.id}')">${a.comments || ''}</textarea>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Render evidence for any loaded assessments
+  kpis.forEach(kpi => {
+    const a = assessments[kpi.id];
+    if (a?.evidences?.length) renderEvidence(kpi.id);
+    updateCardFilledState(kpi.id);
+  });
+
+  // Show submitted banner
+  if (isSubmitted) {
+    document.getElementById('submittedBanner').style.display = 'flex';
+  }
+}
+
+function renderEvidence(kpiId) {
+  const a = assessments[kpiId] || {};
+  const list = a.evidences || [];
+  const container = document.getElementById(`evidence-list-${kpiId}`);
+  if (!container) return;
+
+  container.innerHTML = list.map((ev, i) => `
+    <div class="evidence-row" id="ev-row-${kpiId}-${i}">
+      <select class="form-select" onchange="updateEvidence('${kpiId}', ${i}, 'type', this.value)">
+        <option value="">Type…</option>
+        ${['Observation', 'Survey Data', 'Student Work', 'Assessment Result', 'Attendance Record', 'Photo / Video', 'Other'].map(t =>
+          `<option value="${t}" ${ev.type === t ? 'selected' : ''}>${t}</option>`
+        ).join('')}
+      </select>
+      <input class="form-input" type="text" placeholder="Description…"
+        value="${ev.description || ''}"
+        oninput="updateEvidence('${kpiId}', ${i}, 'description', this.value)" />
+      <input class="form-input" type="date"
+        value="${ev.date || ''}"
+        oninput="updateEvidence('${kpiId}', ${i}, 'date', this.value)" />
+      <button class="btn-evidence-del" onclick="removeEvidence('${kpiId}', ${i})" title="Remove">✕</button>
+    </div>
+  `).join('');
+}
+
+// ── Interaction ────────────────────────────────────────────────
+window.toggleKPI = function(kpiId) {
+  const card = document.getElementById(`kpi-card-${kpiId}`);
+  card.classList.toggle('expanded');
+};
+
+window.setStar = function(kpiId, star) {
+  if (!assessments[kpiId]) assessments[kpiId] = defaultAssessment();
+  assessments[kpiId].selfRating = star;
+
+  // Update star visuals
+  document.querySelectorAll(`#stars-${kpiId} .star-btn`).forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.dataset.star) <= star);
+  });
+  const labelEl = document.getElementById(`star-label-${kpiId}`);
+  labelEl.textContent  = ratingLabel(star);
+  labelEl.className    = `star-label r${star}`;
+
+  const previewEl = document.getElementById(`rating-preview-${kpiId}`);
+  previewEl.textContent = '★'.repeat(star) + ' ' + star + '/5';
+  previewEl.className   = 'kpi-rating-preview rated';
+
+  updateCardFilledState(kpiId);
+  updateProgress();
+};
+
+window.onFieldChange = function(kpiId) {
+  syncFieldsToState(kpiId);
+  updateCardFilledState(kpiId);
+  updateProgress();
+};
+
+window.addEvidence = function(kpiId) {
+  if (!assessments[kpiId]) assessments[kpiId] = defaultAssessment();
+  if (!assessments[kpiId].evidences) assessments[kpiId].evidences = [];
+  assessments[kpiId].evidences.push({ type: '', description: '', date: '' });
+  renderEvidence(kpiId);
+};
+
+window.updateEvidence = function(kpiId, idx, field, value) {
+  if (!assessments[kpiId]?.evidences) return;
+  assessments[kpiId].evidences[idx][field] = value;
+};
+
+window.removeEvidence = function(kpiId, idx) {
+  if (!assessments[kpiId]?.evidences) return;
+  assessments[kpiId].evidences.splice(idx, 1);
+  renderEvidence(kpiId);
+};
+
+function syncFieldsToState(kpiId) {
+  if (!assessments[kpiId]) assessments[kpiId] = defaultAssessment();
+  const a = assessments[kpiId];
+  const g = id => { const el = document.getElementById(id); return el ? el.value : ''; };
+  const parsed = parseFloat(g(`actual-${kpiId}`));
+  a.actualValue = isNaN(parsed) ? null : parsed;
+  a.strengths   = g(`strengths-${kpiId}`);
+  a.challenges  = g(`challenges-${kpiId}`);
+  a.actions     = g(`actions-${kpiId}`);
+  a.support     = g(`support-${kpiId}`);
+  a.comments    = g(`comments-${kpiId}`);
+}
+
+function updateCardFilledState(kpiId) {
+  const card = document.getElementById(`kpi-card-${kpiId}`);
+  if (!card) return;
+  const a = assessments[kpiId] || {};
+  const filled = a.actualValue != null && a.selfRating > 0;
+  card.classList.toggle('filled', filled);
+}
+
+// ── Progress ────────────────────────────────────────────────────
+function updateProgress() {
+  // Info fields (6 total)
+  const infoIds = ['infoName','infoSubject','infoGrade','infoDepartment','infoEvalPeriod','infoDate'];
+  const infoDone = infoIds.filter(id => {
+    const el = document.getElementById(id);
+    return el && el.value.trim();
+  }).length;
+
+  // Per-KPI: actualValue + selfRating (2 per KPI, min fields)
+  let kpiDone = 0;
+  kpis.forEach(kpi => {
+    const a = assessments[kpi.id] || {};
+    if (a.actualValue != null) kpiDone++;
+    if (a.selfRating > 0)      kpiDone++;
+  });
+
+  const total  = infoIds.length + kpis.length * 2;
+  const done   = infoDone + kpiDone;
+  const pct    = total > 0 ? Math.round((done / total) * 100) : 0;
+
+  document.getElementById('progressPct').textContent  = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+
+  const noteEl = document.getElementById('progressNote');
+  if (pct === 100) {
+    noteEl.textContent = '✓ All required fields completed. Ready to submit.';
+    noteEl.className   = 'progress-note done';
+  } else {
+    noteEl.textContent = `${done} / ${total} required fields completed.`;
+    noteEl.className   = 'progress-note';
+  }
+
+  document.getElementById('btnSubmit').disabled = pct < 100;
+}
+
+// ── Wire ────────────────────────────────────────────────────────
+function wireInfoListeners() {
+  ['infoName','infoSubject','infoGrade','infoDepartment','infoEvalPeriod','infoDate'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', updateProgress);
+  });
+}
+
+function wireButtons() {
+  document.getElementById('btnDraft').addEventListener('click',  () => saveSubmission('draft'));
+  document.getElementById('btnSubmit').addEventListener('click', () => saveSubmission('submitted'));
+}
+
+// ── Save ────────────────────────────────────────────────────────
+async function saveSubmission(status) {
+  // Sync all visible KPI fields into state before saving
+  kpis.forEach(kpi => syncFieldsToState(kpi.id));
+
+  const teacherInfo = {
+    name:       document.getElementById('infoName').value.trim(),
+    subject:    document.getElementById('infoSubject').value.trim(),
+    grade:      document.getElementById('infoGrade').value.trim(),
+    department: document.getElementById('infoDepartment').value.trim(),
+    evalPeriod: document.getElementById('infoEvalPeriod').value,
+    date:       document.getElementById('infoDate').value,
+  };
+
+  const payload = {
+    uid:        currentUser.uid,
+    email:      currentUser.email,
+    periodId:   activePeriod.id,
+    periodName: activePeriod.name,
+    teacherInfo,
+    assessments,
+    status,
+    updatedAt:  serverTimestamp(),
+  };
+  if (status === 'submitted') payload.submittedAt = serverTimestamp();
+
+  const btnDraft  = document.getElementById('btnDraft');
+  const btnSubmit = document.getElementById('btnSubmit');
+  btnDraft.disabled = btnSubmit.disabled = true;
+
+  try {
+    await setDoc(doc(db, 'teacher_kpi_submissions', submissionId), payload, { merge: true });
+    isSubmitted = status === 'submitted';
+    document.getElementById('submittedBanner').style.display = isSubmitted ? 'flex' : 'none';
+    document.getElementById('actionStatus').textContent =
+      status === 'submitted'
+        ? 'Submitted — ' + new Date().toLocaleString('en-GB')
+        : 'Draft saved — ' + new Date().toLocaleString('en-GB');
+    showToast(status === 'submitted' ? 'Assessment submitted!' : 'Draft saved.', 'success');
+  } catch (err) {
+    showToast('Save failed: ' + err.message, 'error');
+  } finally {
+    btnDraft.disabled  = false;
+    btnSubmit.disabled = false;
+    updateProgress(); // re-check submit button state
+  }
+}
+
+// ── Helpers ─────────────────────────────────────────────────────
+function defaultAssessment() {
+  return { actualValue: null, selfRating: 0, strengths: '', challenges: '', actions: '', support: '', comments: '', evidences: [] };
+}
+
+function ratingLabel(r) {
+  return ['', 'Below Expectations', 'Needs Improvement', 'Meets Expectations', 'Exceeds Expectations', 'Outstanding'][r] || '';
+}
+
+function showToast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent  = msg;
+  el.className    = 'toast show' + (type ? ' ' + type : '');
+  setTimeout(() => { el.className = 'toast'; }, 3200);
+}
+</script>
+
+</body>
+</html>
