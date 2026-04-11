@@ -381,6 +381,8 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
     .then(r => r.text())
     .then(html => {
       document.getElementById('navbar-container').innerHTML = html;
+      initNavbar();
+      if (typeof window._pendingNavbarUpdate === 'function') { window._pendingNavbarUpdate(); window._pendingNavbarUpdate = null; }
       if (window._pendingBadgeSetup)    { window._pendingBadgeSetup();    window._pendingBadgeSetup    = null; }
       if (window._pendingFeedbackSetup) { window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
     })
