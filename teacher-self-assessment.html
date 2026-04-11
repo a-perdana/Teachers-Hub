@@ -326,6 +326,9 @@
 </head>
 <body>
 
+<!-- FIREBASE_ENV -->
+<script type="module" src="auth-guard.js"></script>
+
 <div id="navbar-container"></div>
 <script src="partials/navbar.js"></script>
 
@@ -448,10 +451,6 @@
 </div>
 
 <div class="toast" id="toast"></div>
-
-<!-- ── FIREBASE_ENV ── -->
-<script src="firebase-config.js"></script>
-<script type="module" src="auth-guard.js"></script>
 
 <script type="module">
 import {
