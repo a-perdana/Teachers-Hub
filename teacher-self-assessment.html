@@ -452,6 +452,85 @@ body {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ── GUIDE BOXES ─────────────────────────────────── */
+.guide-box {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  overflow: hidden;
+}
+.guide-box-head {
+  padding: 13px 18px;
+  font-size: .72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em;
+  display: flex; align-items: center; gap: 7px;
+  cursor: pointer; user-select: none;
+  justify-content: space-between;
+}
+.guide-box-head.purple { background: #f5f3ff; color: #5b21b6; border-bottom: 1px solid #ede9fe; }
+.guide-box-head.amber  { background: #fffbeb; color: #92400e; border-bottom: 1px solid #fde68a; }
+.guide-box-chevron { transition: transform .2s; font-size: .65rem; }
+.guide-box.collapsed .guide-box-chevron { transform: rotate(-90deg); }
+.guide-box-body { padding: 16px 18px; }
+.guide-box.collapsed .guide-box-body { display: none; }
+
+/* Rating scale */
+.rating-scale { display: flex; flex-direction: column; gap: 7px; }
+.rating-row {
+  display: flex; align-items: center; gap: 10px;
+  font-size: .8rem;
+}
+.rating-badge {
+  width: 28px; height: 28px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: .85rem; flex-shrink: 0;
+}
+.rb-5 { background: #dcfce7; color: #15803d; }
+.rb-4 { background: #dbeafe; color: #1d4ed8; }
+.rb-3 { background: #fef9c3; color: #a16207; }
+.rb-2 { background: #ffedd5; color: #c2410c; }
+.rb-1 { background: #fee2e2; color: #dc2626; }
+.rating-desc { line-height: 1.4; }
+.rating-desc strong { display: block; font-weight: 700; color: #1e293b; font-size: .8rem; }
+.rating-desc span   { color: #64748b; font-size: .73rem; }
+
+/* How-to steps */
+.howto-steps { display: flex; flex-direction: column; gap: 10px; }
+.howto-step {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: #f8fafc; border-radius: 10px; padding: 12px 14px;
+  border: 1px solid #f1f5f9;
+}
+.howto-num {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  font-size: .78rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.howto-text strong { display: block; font-size: .82rem; font-weight: 700; color: #1e293b; margin-bottom: 3px; }
+.howto-text p      { font-size: .76rem; color: #64748b; line-height: 1.5; }
+
+/* Tips box */
+.tips-list { display: flex; flex-direction: column; gap: 7px; }
+.tip-row {
+  display: flex; gap: 9px; align-items: flex-start;
+  font-size: .8rem; color: #78350f; line-height: 1.5;
+}
+.tip-icon { font-size: .9rem; flex-shrink: 0; margin-top: 1px; }
+
+/* Deadline pill in hero */
+.hero-deadline-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(251,191,36,.2);
+  border: 1px solid rgba(251,191,36,.4);
+  border-radius: 10px; padding: 6px 14px;
+  font-size: .82rem; font-weight: 600; color: #fef3c7;
+  margin-top: 10px;
+}
+.hero-deadline-pill.urgent { background: rgba(239,68,68,.2); border-color: rgba(239,68,68,.4); color: #fee2e2; }
+
 /* ── TOAST ───────────────────────────────────────── */
 .toast {
   position: fixed; bottom: 80px; right: 24px;
@@ -509,6 +588,9 @@ body {
         <div class="hero-period-pill" id="heroPeriod">
           <span>📅</span> <span id="heroPeriodName">Loading…</span>
         </div>
+        <div class="hero-deadline-pill" id="heroDeadline" style="display:none;">
+          <span>⏰</span> <span id="heroDeadlineText">—</span>
+        </div>
       </div>
       <div class="hero-stats" id="heroStats">
         <div class="hero-stat">
@@ -535,6 +617,54 @@ body {
 
     <!-- Left: KPI list -->
     <div class="kpi-col">
+
+      <!-- How-to guide -->
+      <div class="guide-box" id="howtoBox">
+        <div class="guide-box-head purple" onclick="this.closest('.guide-box').classList.toggle('collapsed')">
+          <span>📋 How to Complete This Assessment</span>
+          <span class="guide-box-chevron">▼</span>
+        </div>
+        <div class="guide-box-body">
+          <div class="howto-steps">
+            <div class="howto-step">
+              <div class="howto-num">1</div>
+              <div class="howto-text">
+                <strong>Check your teacher information</strong>
+                <p>Verify your name, subject, grade, and department in the sidebar panel. These details will be included in your submission.</p>
+              </div>
+            </div>
+            <div class="howto-step">
+              <div class="howto-num">2</div>
+              <div class="howto-text">
+                <strong>Expand each KPI card and enter your actual performance</strong>
+                <p>Click a KPI card to open it. Enter your actual performance value (e.g. 92% for engagement rate). The target and benchmark are shown at the top of each card for reference.</p>
+              </div>
+            </div>
+            <div class="howto-step">
+              <div class="howto-num">3</div>
+              <div class="howto-text">
+                <strong>Select your self-rating (1–5 stars)</strong>
+                <p>Choose a rating that honestly reflects your performance: <strong>1</strong> = Below Expectations, <strong>2</strong> = Needs Improvement, <strong>3</strong> = Meets Expectations, <strong>4</strong> = Exceeds Expectations, <strong>5</strong> = Outstanding.</p>
+              </div>
+            </div>
+            <div class="howto-step">
+              <div class="howto-num">4</div>
+              <div class="howto-text">
+                <strong>Add evidence and complete reflections</strong>
+                <p>Click "Add Evidence" and document specific examples (lesson plans, assessment data, student work). Then fill in the four reflection fields: Strengths, Challenges, Improvement Actions, and Support Needed.</p>
+              </div>
+            </div>
+            <div class="howto-step">
+              <div class="howto-num">5</div>
+              <div class="howto-text">
+                <strong>Save draft, then submit when ready</strong>
+                <p>Use "Save Draft" at any time to avoid losing progress. Once all KPIs are complete, click "Submit Assessment". You can re-submit before the deadline if you need to make changes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="section-label">KPI Aspects</div>
       <div id="kpiList"></div>
       <div class="state-box" id="noPeriod" style="display:none;">
@@ -556,6 +686,53 @@ body {
       <div class="submitted-panel" id="submittedPanel" style="display:none;">
         <span style="font-size:1.2rem;">✅</span>
         <div>Assessment submitted. You can still edit and re-submit until the deadline.</div>
+      </div>
+
+      <!-- Rating scale guide -->
+      <div class="guide-box collapsed">
+        <div class="guide-box-head purple" onclick="this.closest('.guide-box').classList.toggle('collapsed')">
+          <span>⭐ Rating Scale Guide</span>
+          <span class="guide-box-chevron">▼</span>
+        </div>
+        <div class="guide-box-body">
+          <div class="rating-scale">
+            <div class="rating-row">
+              <div class="rating-badge rb-5">5</div>
+              <div class="rating-desc">
+                <strong>Outstanding</strong>
+                <span>Performance significantly exceeds expectations. Exemplary practice that could serve as a model for others.</span>
+              </div>
+            </div>
+            <div class="rating-row">
+              <div class="rating-badge rb-4">4</div>
+              <div class="rating-desc">
+                <strong>Exceeds Expectations</strong>
+                <span>Performance consistently above the required standard with notable strengths demonstrated.</span>
+              </div>
+            </div>
+            <div class="rating-row">
+              <div class="rating-badge rb-3">3</div>
+              <div class="rating-desc">
+                <strong>Meets Expectations</strong>
+                <span>Performance meets all required standards. Competent and reliable professional practice.</span>
+              </div>
+            </div>
+            <div class="rating-row">
+              <div class="rating-badge rb-2">2</div>
+              <div class="rating-desc">
+                <strong>Needs Improvement</strong>
+                <span>Performance partially meets standards. Specific areas require focused development and support.</span>
+              </div>
+            </div>
+            <div class="rating-row">
+              <div class="rating-badge rb-1">1</div>
+              <div class="rating-desc">
+                <strong>Below Expectations</strong>
+                <span>Performance does not meet required standards. Significant improvement needed with structured support.</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Progress -->
@@ -625,6 +802,32 @@ body {
           <div class="info-field">
             <label>Submission Date</label>
             <input id="infoDate" type="date" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips for effective self-assessment -->
+      <div class="guide-box collapsed">
+        <div class="guide-box-head amber" onclick="this.closest('.guide-box').classList.toggle('collapsed')">
+          <span>💡 Tips for Effective Self-Assessment</span>
+          <span class="guide-box-chevron">▼</span>
+        </div>
+        <div class="guide-box-body">
+          <div class="tips-list">
+            <div class="tip-row"><span class="tip-icon">✔️</span><span><strong>Be honest and realistic</strong> — an accurate self-assessment helps your coordinator support you better than an inflated one.</span></div>
+            <div class="tip-row"><span class="tip-icon">✔️</span><span><strong>Use specific examples and data</strong> — reference lesson plans, test scores, or student work to support your ratings.</span></div>
+            <div class="tip-row"><span class="tip-icon">✔️</span><span><strong>Focus on growth, not perfection</strong> — identifying development areas is a strength, not a weakness.</span></div>
+            <div class="tip-row"><span class="tip-icon">✔️</span><span><strong>Identify concrete improvement actions</strong> — vague intentions are less useful than specific, time-bound steps.</span></div>
+            <div class="tip-row"><span class="tip-icon">✔️</span><span><strong>Don't be afraid to ask for support</strong> — the Support Needed field exists so your school can respond to your needs.</span></div>
+          </div>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid #fde68a;">
+            <div style="font-size:.72rem;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Preparing for your evaluation meeting</div>
+            <div class="tips-list">
+              <div class="tip-row"><span class="tip-icon">📄</span><span>Re-read your self-assessment before meeting your evaluator and be ready to discuss your ratings and evidence.</span></div>
+              <div class="tip-row"><span class="tip-icon">📁</span><span>Bring physical or digital copies of key evidence: lesson plans, student work, assessment data, certificates.</span></div>
+              <div class="tip-row"><span class="tip-icon">🙋</span><span>Prepare questions about available professional development and support resources.</span></div>
+              <div class="tip-row"><span class="tip-icon">🤝</span><span>Be open to feedback — the goal is professional growth, not judgement.</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -732,6 +935,27 @@ async function loadExisting() {
 function renderHero() {
   document.getElementById('heroPeriodName').textContent = activePeriod.name || 'Active Period';
   document.getElementById('heroKpiCount').textContent   = kpis.length;
+
+  // Deadline
+  const deadline = activePeriod.deadline?.toDate?.() || (activePeriod.deadline ? new Date(activePeriod.deadline) : null);
+  if (deadline && !isNaN(deadline)) {
+    const pill = document.getElementById('heroDeadline');
+    const txt  = document.getElementById('heroDeadlineText');
+    const diffMs   = deadline - Date.now();
+    const diffDays = Math.ceil(diffMs / 86400000);
+    if (diffDays < 0) {
+      txt.textContent = 'Deadline passed — ' + deadline.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+    } else if (diffDays === 0) {
+      txt.textContent = 'Due today!';
+      pill.classList.add('urgent');
+    } else if (diffDays <= 3) {
+      txt.textContent = `Due in ${diffDays} day${diffDays > 1 ? 's' : ''} — ${deadline.toLocaleDateString('en-GB', { day:'numeric', month:'short' })}`;
+      pill.classList.add('urgent');
+    } else {
+      txt.textContent = `Deadline: ${deadline.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })}`;
+    }
+    pill.style.display = 'inline-flex';
+  }
 }
 
 // ── Render KPIs ──────────────────────────────────────
