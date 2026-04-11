@@ -573,6 +573,5 @@ function setupNavBadges(db, helpers) {
   }
 
   onSnapshot(collection(db, 'announcements'), (snap) => setBadge('announcementsBadge', snap.size));
-  onSnapshot(collection(db, 'surveys'),       (snap) => setBadge('surveysBadge',        snap.size));
   onSnapshot(collection(db, 'topics'),        (snap) => setBadge('msgBoardBadge',       snap.size));
 }
