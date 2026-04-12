@@ -1514,13 +1514,6 @@
         box-shadow: 0 15px 40px var(--card-glow);
       }
 
-      .card-icon img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 18px;
-      }
-
       .card-badge {
         padding: 8px 16px;
         border-radius: 10px;
@@ -2597,7 +2590,6 @@
           title: "Cambridge Exam Calendar",
           description: "Key dates for Cambridge IGCSE, AS & A Level, and Checkpoint exam series — deadlines, entries, and timetables.",
           icon: "🗓",
-          image: "images/Cambridge_Calendar.png",
           url: "/cambridge-calendar",
           target: "_self",
           linkLabel: "Open Calendar",
@@ -2654,7 +2646,7 @@
         a.innerHTML = `
           <div class="card-content">
             <div class="card-header">
-              <div class="card-icon">${resource.image ? `<img src="${escHtml(resource.image)}" alt="">` : resource.icon}</div>
+              <div class="card-icon">${resource.icon}</div>
               <span class="card-badge">${escHtml(resource.category)}</span>
             </div>
             <h3 class="card-title">${escHtml(resource.title)}</h3>

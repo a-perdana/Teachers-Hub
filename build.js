@@ -168,17 +168,4 @@ if (fs.existsSync(partialsSrcDir)) {
   console.warn('Warning: partials directory not found');
 }
 
-// Copy images folder to dist root
-const imagesSrcDir = path.join(__dirname, 'images');
-const imagesDistDir = path.join(distDir, 'images');
-if (fs.existsSync(imagesSrcDir)) {
-  if (!fs.existsSync(imagesDistDir)) {
-    fs.mkdirSync(imagesDistDir, { recursive: true });
-  }
-  fs.readdirSync(imagesSrcDir).forEach(file => {
-    fs.copyFileSync(path.join(imagesSrcDir, file), path.join(imagesDistDir, file));
-    console.log(`Copied: dist/images/${file}`);
-  });
-}
-
 console.log('Build completed successfully!');
