@@ -14,34 +14,87 @@
 
 /* ─── HERO ───────────────────────────────────── */
 .hero {
-  background: linear-gradient(140deg, #1e0a4e 0%, #2d1175 50%, #6c5ce7 100%);
-  padding: 36px 40px 32px;
+  background: linear-gradient(130deg, #0d0628 0%, #1e0a4e 40%, #3b1a8a 72%, #6c5ce7 100%);
+  padding: 36px 40px 0;
   position: relative; overflow: hidden;
 }
 .hero::before {
   content: '';
   position: absolute; inset: 0;
   background:
-    radial-gradient(circle at 15% 60%, rgba(255,255,255,0.06) 0%, transparent 45%),
-    radial-gradient(circle at 80% 20%, rgba(0,0,0,0.15) 0%, transparent 45%);
+    radial-gradient(ellipse at 8% 80%, rgba(108,92,231,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 10%, rgba(255,255,255,0.04) 0%, transparent 45%),
+    radial-gradient(ellipse at 55% 50%, rgba(0,0,0,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.10) 30%, rgba(108,92,231,0.5) 55%, rgba(255,255,255,0.10) 80%, transparent 100%);
 }
 .hero-inner {
   position: relative; z-index: 1;
   max-width: 980px; margin: 0 auto;
+}
+.hero-top {
   display: flex; align-items: flex-start; justify-content: space-between; gap: 24px;
+  padding-bottom: 28px;
 }
 .hero-text .eyebrow {
-  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em;
-  text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 8px;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.22em;
+  text-transform: uppercase; color: rgba(255,255,255,0.42); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.hero-text .eyebrow::before {
+  content: ''; display: inline-block; width: 18px; height: 1.5px;
+  background: rgba(108,92,231,0.9); border-radius: 2px; flex-shrink: 0;
 }
 .hero-text h1 {
   font-family: 'Lora', serif;
   font-size: 1.7rem; font-weight: 600; color: #fff; line-height: 1.2;
-  margin-bottom: 6px;
+  margin-bottom: 6px; text-shadow: 0 1px 20px rgba(0,0,0,0.3);
 }
 .hero-text .sub {
-  font-size: 0.875rem; color: rgba(255,255,255,0.65); line-height: 1.6;
+  font-size: 0.875rem; color: rgba(255,255,255,0.55); line-height: 1.6;
 }
+
+/* ─── HERO TABS ──────────────────────────────── */
+.hero-tabs {
+  display: flex; gap: 0; position: relative; z-index: 2;
+  overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.hero-tabs::-webkit-scrollbar { display: none; }
+/* Per-tab colour tokens */
+.hero-tabs [data-tab="teachers"]      { --tc: #38bdf8; --tc-bg: rgba(56,189,248,0.12); }
+.hero-tabs [data-tab="subject_leader"]{ --tc: #a78bfa; --tc-bg: rgba(167,139,250,0.12); }
+.hero-tabs .checklist-tab {
+  padding: 12px 22px; border: none; background: transparent;
+  font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600;
+  color: color-mix(in srgb, var(--tc) 65%, transparent);
+  cursor: pointer; border-radius: 10px 10px 0 0;
+  transition: color 0.2s, background 0.2s;
+  position: relative; white-space: nowrap; letter-spacing: 0.01em;
+}
+.hero-tabs .checklist-tab::after {
+  content: ''; position: absolute; bottom: 0; left: 14px; right: 14px; height: 2.5px;
+  background: color-mix(in srgb, var(--tc) 40%, transparent);
+  border-radius: 2px 2px 0 0;
+  transition: background 0.2s, left 0.2s, right 0.2s;
+}
+.hero-tabs .checklist-tab:hover {
+  color: var(--tc); background: var(--tc-bg);
+}
+.hero-tabs .checklist-tab:hover::after {
+  background: var(--tc); left: 10px; right: 10px;
+}
+.hero-tabs .checklist-tab.active {
+  color: var(--tc); background: var(--tc-bg); font-weight: 700;
+}
+.hero-tabs .checklist-tab.active::after {
+  background: var(--tc); left: 10px; right: 10px;
+}
+
+/* hide old pill tabs */
+.checklist-tabs:not(.hero-tabs) { display: none !important; }
 
 /* Progress ring */
 .progress-ring-wrap {
@@ -61,20 +114,6 @@
 /* ─── PAGE WRAP ──────────────────────────────── */
 .page-wrap { max-width: 980px; margin: 0 auto; padding: 24px 40px 72px; }
 
-/* ─── CHECKLIST TABS ─────────────────────────── */
-.checklist-tabs {
-  display: flex; gap: 6px; margin-bottom: 20px;
-}
-.checklist-tab {
-  padding: 8px 20px; border: 1.5px solid var(--border); background: var(--white);
-  font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 600;
-  color: var(--ink-3); cursor: pointer; border-radius: 20px;
-  transition: all 0.18s;
-}
-.checklist-tab:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
-.checklist-tab.active {
-  color: var(--white); background: var(--accent); border-color: var(--accent);
-}
 
 /* ─── WEEK NAV ───────────────────────────────── */
 .week-nav {
@@ -341,32 +380,33 @@
 <!-- ─── HERO ────────────────────────────────────────────────────── -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-text">
-      <p class="eyebrow">Teachers Hub · 2025–2026</p>
-      <h1 id="heroTitle">Week — Weekly Checklist</h1>
-      <p class="sub" id="heroSub">Track your weekly professional tasks and responsibilities.</p>
+    <div class="hero-top">
+      <div class="hero-text">
+        <p class="eyebrow">Teachers Hub · 2025–2026</p>
+        <h1 id="heroTitle">Week — Weekly Checklist</h1>
+        <p class="sub" id="heroSub">Track your weekly professional tasks and responsibilities.</p>
+      </div>
+      <div class="progress-ring-wrap">
+        <svg class="ring-svg" width="84" height="84" viewBox="0 0 84 84">
+          <circle class="ring-bg"   cx="42" cy="42" r="36"/>
+          <circle class="ring-fill" id="ringFill" cx="42" cy="42" r="36"
+            stroke-dasharray="226.2" stroke-dashoffset="226.2"/>
+          <text class="ring-text" x="42" y="40" transform="rotate(90 42 42)" id="ringPct">0%</text>
+          <text class="ring-sub"  x="42" y="52" transform="rotate(90 42 42)" id="ringFrac">0/0</text>
+        </svg>
+        <span class="ring-label">Progress</span>
+      </div>
     </div>
-    <div class="progress-ring-wrap">
-      <svg class="ring-svg" width="84" height="84" viewBox="0 0 84 84">
-        <circle class="ring-bg"   cx="42" cy="42" r="36"/>
-        <circle class="ring-fill" id="ringFill" cx="42" cy="42" r="36"
-          stroke-dasharray="226.2" stroke-dashoffset="226.2"/>
-        <text class="ring-text" x="42" y="40" transform="rotate(90 42 42)" id="ringPct">0%</text>
-        <text class="ring-sub"  x="42" y="52" transform="rotate(90 42 42)" id="ringFrac">0/0</text>
-      </svg>
-      <span class="ring-label">Progress</span>
-    </div>
+    <!-- Tabs inside hero (hidden until auth) -->
+    <nav class="hero-tabs checklist-tabs" id="checklistTabs" style="display:none">
+      <button class="checklist-tab active" data-tab="teachers">Subject Teacher</button>
+      <button class="checklist-tab" data-tab="subject_leader" id="slTab" style="display:none">Subject Leader</button>
+    </nav>
   </div>
 </section>
 
 <!-- ─── MAIN ─────────────────────────────────────────────────────── -->
 <main class="page-wrap">
-
-  <!-- Checklist Tabs (hidden until auth; Subject Leader tab only for th_sub_roles includes subject_leader) -->
-  <div class="checklist-tabs" id="checklistTabs" style="display:none">
-    <button class="checklist-tab active" data-tab="teachers">Subject Teacher</button>
-    <button class="checklist-tab" data-tab="subject_leader" id="slTab" style="display:none">Subject Leader</button>
-  </div>
 
   <!-- Week Navigator -->
   <div class="week-nav" style="gap:12px">
