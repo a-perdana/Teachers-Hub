@@ -26,28 +26,29 @@
 }
 
 /* ─── LAYOUT ─────────────────────────────────────── */
-/* body sets overflow-x:hidden which breaks sticky — reset it here */
-body { overflow-x: unset; }
-
 .content-layout {
-  display: flex;
+  display: block;
   max-width: 1280px;
   margin: 0 auto;
   padding: 20px 24px 100px;
-  gap: 32px;
-  align-items: flex-start;
-  overflow-x: clip; /* prevents horizontal scroll without breaking sticky */
 }
 
 /* ─── SIDEBAR ─────────────────────────────────────── */
 .sidebar {
-  width: 240px;
-  flex-shrink: 0;
-  position: sticky;
-  top: 72px;
+  width: 220px;
+  position: fixed;
+  top: 68px;
+  left: max(24px, calc(50vw - 640px + 24px));
   display: flex;
   flex-direction: column;
   gap: 24px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+/* ─── MAIN AREA ───────────────────────────────────── */
+.main-area {
+  margin-left: 256px;
 }
 .sidebar-section { display: flex; flex-direction: column; gap: 5px; }
 .sidebar-label {
@@ -83,8 +84,6 @@ body { overflow-x: unset; }
 }
 .stat-type-row .stat-val { font-weight: 600; color: var(--ink-2); }
 
-/* ─── MAIN AREA ──────────────────────────────────── */
-.main-area { flex: 1; min-width: 0; }
 
 /* ─── SEARCH BAR ────────────────────────────────── */
 .search-wrap {
