@@ -27,28 +27,27 @@
 
 /* ─── LAYOUT ─────────────────────────────────────── */
 .content-layout {
-  display: block;
+  display: flex;
   max-width: 1280px;
   margin: 0 auto;
   padding: 20px 24px 100px;
+  gap: 32px;
+  align-items: flex-start;
 }
 
 /* ─── SIDEBAR ─────────────────────────────────────── */
 .sidebar {
-  width: 220px;
-  position: fixed;
-  top: 68px;
-  left: max(24px, calc(50vw - 640px + 24px));
+  width: 240px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  max-height: calc(100vh - 80px);
-  overflow-y: auto;
 }
 
 /* ─── MAIN AREA ───────────────────────────────────── */
 .main-area {
-  margin-left: 256px;
+  flex: 1;
+  min-width: 0;
 }
 .sidebar-section { display: flex; flex-direction: column; gap: 5px; }
 .sidebar-label {
