@@ -187,9 +187,19 @@
 }
 
 .video-body {
-  flex: 1; min-width: 0;
+  flex: 1; min-width: 0; overflow: hidden;
   padding: 18px 20px;
   display: flex; flex-direction: column; gap: 8px;
+}
+.card-video .res-title {
+  -webkit-line-clamp: 1;
+  white-space: nowrap;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-video .res-desc {
+  -webkit-line-clamp: 2;
 }
 .video-subject-chip {
   display: inline-block;
