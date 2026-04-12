@@ -26,6 +26,9 @@
 }
 
 /* ─── LAYOUT ─────────────────────────────────────── */
+/* body sets overflow-x:hidden which breaks sticky — reset it here */
+body { overflow-x: unset; }
+
 .content-layout {
   display: flex;
   max-width: 1280px;
@@ -33,6 +36,7 @@
   padding: 20px 24px 100px;
   gap: 32px;
   align-items: flex-start;
+  overflow-x: clip; /* prevents horizontal scroll without breaking sticky */
 }
 
 /* ─── SIDEBAR ─────────────────────────────────────── */
@@ -40,7 +44,7 @@
   width: 240px;
   flex-shrink: 0;
   position: sticky;
-  top: 80px;
+  top: 72px;
   display: flex;
   flex-direction: column;
   gap: 24px;
