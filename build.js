@@ -41,6 +41,7 @@ const ROUTES = {
   'waiting.html': 'waiting',
   'teacher-self-assessment.html': 'teacher-self-assessment',
   'teacher-kpi-results.html': 'teacher-kpi-results',
+  'cambridge-calendar.html': 'cambridge-calendar',
 };
 
 // Internal href replacements: old link -> clean URL
@@ -64,6 +65,7 @@ const LINK_REWRITES = [
   [/href="library\.html"/g, 'href="/library"'],
   [/href="teacher-self-assessment\.html"/g, 'href="/teacher-self-assessment"'],
   [/href="teacher-kpi-results\.html"/g,    'href="/teacher-kpi-results"'],
+  [/href="cambridge-calendar\.html"/g,     'href="/cambridge-calendar"'],
 ];
 
 // Read firebase-env partial once (used for placeholder injection)
