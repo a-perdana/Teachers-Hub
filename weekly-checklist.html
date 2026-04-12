@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Weekly Checklist — Teachers Hub</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="base.css">
 <style>
 :root {
@@ -107,24 +108,23 @@
   text-transform: uppercase; letter-spacing: 0.08em;
 }
 .ring-svg { transform: rotate(-90deg); }
-.ring-bg   { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 5; }
-.ring-fill { fill: none; stroke: #c4b5fd; stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 0.6s cubic-bezier(.4,0,.2,1); }
-.ring-text { font-size: 17px; font-weight: 800; fill: #fff; dominant-baseline: middle; text-anchor: middle; }
-.ring-sub  { font-size: 9px;  font-weight: 600; fill: rgba(255,255,255,0.5); dominant-baseline: middle; text-anchor: middle; }
+.ring-bg   { fill: none; stroke: rgba(255,255,255,0.12); stroke-width: 6; }
+.ring-fill { fill: none; stroke: #c4b5fd; stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease; }
+.ring-text { font-size: 18px; font-weight: 800; fill: #fff; dominant-baseline: middle; text-anchor: middle; }
+.ring-sub  { font-size: 9px;  font-weight: 600; fill: rgba(255,255,255,0.55); dominant-baseline: middle; text-anchor: middle; }
 
 /* ─── PAGE WRAP ──────────────────────────────── */
-.page-wrap { max-width: 980px; margin: 0 auto; padding: 24px 40px 72px; }
+.page-wrap { max-width: 980px; margin: 0 auto; padding: 28px 40px 72px; }
 
 
 /* ─── WEEK NAV ───────────────────────────────── */
 .week-nav {
   display: flex; align-items: center; justify-content: space-between;
   background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 14px 20px; margin-bottom: 20px;
-  box-shadow: var(--shadow-sm);
+  padding: 14px 20px; margin-bottom: 24px; box-shadow: var(--shadow-sm); gap: 12px;
 }
 .week-nav-center { text-align: center; flex: 1; }
-.week-num { font-size: 1.05rem; font-weight: 700; color: var(--ink); }
+.week-num { font-size: 1.1rem; font-weight: 700; color: var(--ink); }
 .week-dates { font-size: 0.78rem; color: var(--ink-3); margin-top: 2px; }
 .week-this { font-size: 11px; font-weight: 700; color: var(--green); margin-top: 2px; }
 .btn-nav {
@@ -220,49 +220,40 @@
 }
 
 /* ─── TASK CARD ──────────────────────────────── */
-.task-list { display: flex; flex-direction: column; gap: 6px; }
+.task-list { display: flex; flex-direction: column; gap: 8px; }
 .task-card {
-  display: flex; align-items: center; gap: 14px;
+  display: flex; align-items: flex-start; gap: 14px;
   background: var(--white); border: 1.5px solid var(--border);
-  border-radius: var(--radius); padding: 13px 16px;
-  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
-  cursor: pointer;
+  border-radius: var(--radius); padding: 14px 16px;
+  transition: border-color 0.18s, box-shadow 0.18s; cursor: pointer;
 }
-.task-card:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(108,92,231,0.08); }
-.task-card.checked {
-  background: #f0fdf4; border-color: #86efac;
-}
+.task-card:hover { border-color: var(--accent); box-shadow: var(--shadow-sm); }
+.task-card.checked { background: var(--green-2); border-color: #6ee7b7; }
 .task-card.checked .task-title { text-decoration: line-through; color: var(--ink-3); }
 
 .checkbox-wrap {
-  width: 22px; height: 22px; border-radius: 50%;
+  width: 22px; height: 22px; border-radius: 6px;
   border: 2px solid var(--border); background: var(--white);
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; transition: all 0.18s;
+  flex-shrink: 0; margin-top: 1px; transition: all 0.18s;
 }
-.task-card:hover .checkbox-wrap { border-color: var(--accent); }
-.task-card.checked .checkbox-wrap {
-  background: #22c55e; border-color: #22c55e;
-}
-.checkmark {
-  width: 12px; height: 12px; display: none;
-}
+.task-card.checked .checkbox-wrap { background: var(--green); border-color: var(--green); }
+.checkmark { width: 12px; height: 12px; display: none; }
 .task-card.checked .checkmark { display: block; }
 .task-card.checked .checkmark path { stroke: #fff; }
 
 .task-body { flex: 1; min-width: 0; }
 .task-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); line-height: 1.4; }
-.task-meta { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; align-items: center; }
+.task-meta  { display: flex; gap: 6px; margin-top: 5px; flex-wrap: wrap; align-items: center; }
 .task-cat {
-  font-size: 10px; font-weight: 700; padding: 2px 9px; border-radius: 10px;
+  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px;
   text-transform: uppercase; letter-spacing: 0.06em;
 }
 .task-note-indicator { font-size: 11px; color: var(--ink-3); }
 
 /* Admin task actions */
 .task-admin-actions {
-  display: flex; gap: 4px; flex-shrink: 0; opacity: 0;
-  transition: opacity 0.15s;
+  display: flex; gap: 4px; flex-shrink: 0; opacity: 0; transition: opacity 0.15s;
 }
 .task-card:hover .task-admin-actions { opacity: 1; }
 .btn-icon {
