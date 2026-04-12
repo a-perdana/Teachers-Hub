@@ -26,6 +26,9 @@
 }
 
 /* ─── LAYOUT ─────────────────────────────────────── */
+/* base.css sets body{overflow-x:hidden} which breaks position:sticky on navbar */
+body { overflow-x: clip; }
+
 .content-layout {
   display: flex;
   max-width: 1280px;
