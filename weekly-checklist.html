@@ -422,7 +422,7 @@
 
   <!-- Admin Bar (admin only) -->
   <div class="admin-bar" id="adminBar" style="display:none">
-    <span class="admin-bar-label">Admin — manage tasks for this week</span>
+    <span class="admin-bar-label" id="adminBarLabel">Admin — manage tasks for this week</span>
     <div class="admin-bar-actions">
       <button class="btn btn-secondary" style="font-size:13px;padding:7px 14px" onclick="openTaskModal(null)">
         + Add Task
@@ -579,11 +579,13 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
       document.querySelectorAll('.checklist-tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       currentPlatform = tab.dataset.tab;
-      // Admin bar only on Subject Teacher tab (Subject Leader tasks managed from CentralHub)
       if (isAdmin) {
-        const show = currentPlatform === 'teachers';
-        document.getElementById('adminBar').style.display = show ? 'flex' : 'none';
-        document.getElementById('emptyAddBtn').style.display = show ? '' : 'none';
+        document.getElementById('adminBar').style.display = 'flex';
+        document.getElementById('emptyAddBtn').style.display = '';
+        document.getElementById('adminBarLabel').textContent =
+          currentPlatform === 'subject_leader'
+            ? 'Admin — manage Subject Leader tasks for this week'
+            : 'Admin — manage tasks for this week';
       }
       updateHeroSub();
       loadWeek(currentWeek);
