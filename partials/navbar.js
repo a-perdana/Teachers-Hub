@@ -96,6 +96,45 @@ function initNavbar() {
     if (pdName)     pdName.textContent  = profile.displayName || user.displayName || user.email;
     if (pdEmail)    pdEmail.textContent = user.email;
 
+    // Role badge
+    const pdRoleBadge = document.getElementById('pdRoleBadge');
+    if (pdRoleBadge) {
+      const isAdmin = profile.role_teachershub === 'teachers_admin';
+      pdRoleBadge.textContent = isAdmin ? 'Admin' : 'User';
+      pdRoleBadge.className   = 'pd-role-badge' + (isAdmin ? ' admin' : '');
+      pdRoleBadge.style.display = '';
+    }
+
+    // Info strip: school + sub-roles
+    const infoStrip    = document.getElementById('pdInfoStrip');
+    const schoolRow    = document.getElementById('pdSchoolRow');
+    const schoolVal    = document.getElementById('pdSchoolVal');
+    const subRolesRow  = document.getElementById('pdSubRolesRow');
+    const chipsEl      = document.getElementById('pdSubRoleChips');
+    let stripVisible   = false;
+
+    if (schoolVal && profile.school) {
+      schoolVal.textContent = profile.school;
+      if (schoolRow) schoolRow.style.display = 'flex';
+      stripVisible = true;
+    }
+
+    const subRoles = Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [];
+    const TH_ROLE_LABELS = { subject_teacher: 'Subject Teacher', subject_leader: 'Subject Leader' };
+    if (chipsEl && subRoles.length) {
+      chipsEl.innerHTML = '';
+      subRoles.forEach(key => {
+        const chip = document.createElement('span');
+        chip.className   = 'pd-subrole-chip ' + key;
+        chip.textContent = TH_ROLE_LABELS[key] || key;
+        chipsEl.appendChild(chip);
+      });
+      if (subRolesRow) subRolesRow.style.display = 'flex';
+      stripVisible = true;
+    }
+
+    if (infoStrip && stripVisible) infoStrip.style.display = '';
+
     // Nav avatar + short name (some pages set these themselves; fill gaps)
     const navAvatar    = document.getElementById('profileAvatar');
     const navNameShort = document.getElementById('profileNameShort');

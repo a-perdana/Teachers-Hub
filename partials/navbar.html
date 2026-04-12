@@ -185,7 +185,44 @@
   }
   .pd-avatar-lg img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
   .pd-info-name  { font-weight: 600; font-size: 13.5px; color: #ffffff; margin-bottom: 2px; }
-  .pd-info-email { font-size: 11px; color: rgba(255, 255, 255, 0.45); word-break: break-all; }
+  .pd-info-email { font-size: 11px; color: rgba(255, 255, 255, 0.45); word-break: break-all; margin-bottom: 5px; }
+  .pd-role-badge {
+    display: inline-block;
+    padding: 2px 8px; border-radius: 20px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    background: rgba(108,92,231,0.25); border: 1px solid rgba(108,92,231,0.45); color: #a78bfa;
+  }
+  .pd-role-badge.admin {
+    background: rgba(16,185,129,0.18); border-color: rgba(16,185,129,0.4); color: #34d399;
+  }
+
+  /* Info strip below header */
+  .pd-info-strip {
+    padding: 9px 16px 3px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .pd-strip-row {
+    display: flex; align-items: flex-start; gap: 7px;
+  }
+  .pd-strip-icon {
+    width: 12px; height: 12px; flex-shrink: 0; margin-top: 1px;
+    color: rgba(255,255,255,0.3);
+  }
+  .pd-strip-val {
+    font-size: 11.5px; color: rgba(255,255,255,0.55);
+    font-family: 'DM Sans', sans-serif; line-height: 1.4;
+  }
+  .pd-subrole-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .pd-subrole-chip {
+    padding: 2px 8px; border-radius: 12px;
+    font-size: 10.5px; font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.28); color: rgba(56,189,248,0.9);
+  }
+  .pd-subrole-chip.subject_leader {
+    background: rgba(167,139,250,0.12); border-color: rgba(167,139,250,0.28); color: #a78bfa;
+  }
 
   /* Tabs */
   .pd-tabs {
@@ -472,9 +509,22 @@
 
         <div class="pd-header">
           <div class="pd-avatar-lg" id="pdAvatarLg"></div>
-          <div>
+          <div style="min-width:0;flex:1;">
             <div class="pd-info-name" id="pdName"></div>
             <div class="pd-info-email" id="pdEmail"></div>
+            <div class="pd-role-badge" id="pdRoleBadge" style="display:none;"></div>
+          </div>
+        </div>
+
+        <!-- Profile info strip: school + sub-roles -->
+        <div class="pd-info-strip" id="pdInfoStrip" style="display:none;">
+          <div class="pd-strip-row" id="pdSchoolRow" style="display:none;">
+            <svg class="pd-strip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span class="pd-strip-val" id="pdSchoolVal"></span>
+          </div>
+          <div class="pd-strip-row" id="pdSubRolesRow" style="display:none;">
+            <svg class="pd-strip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <div class="pd-subrole-chips" id="pdSubRoleChips"></div>
           </div>
         </div>
 
