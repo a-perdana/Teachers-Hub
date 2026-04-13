@@ -42,6 +42,18 @@ const ROUTES = {
   'teacher-self-assessment.html': 'teacher-self-assessment',
   'teacher-kpi-results.html': 'teacher-kpi-results',
   'cambridge-calendar.html': 'cambridge-calendar',
+  // Subject Leader Tracker pages
+  'igcse-math-tracker.html': 'igcse-math-tracker',
+  'igcse-biology-tracker.html': 'igcse-biology-tracker',
+  'igcse-chemistry-tracker.html': 'igcse-chemistry-tracker',
+  'igcse-physics-tracker.html': 'igcse-physics-tracker',
+  'checkpoint-math-tracker.html': 'checkpoint-math-tracker',
+  'checkpoint-english-tracker.html': 'checkpoint-english-tracker',
+  'checkpoint-science-tracker.html': 'checkpoint-science-tracker',
+  'asalevel-math-tracker.html': 'asalevel-math-tracker',
+  'asalevel-biology-tracker.html': 'asalevel-biology-tracker',
+  'asalevel-chemistry-tracker.html': 'asalevel-chemistry-tracker',
+  'asalevel-physics-tracker.html': 'asalevel-physics-tracker',
 };
 
 // Internal href replacements: old link -> clean URL
@@ -66,6 +78,18 @@ const LINK_REWRITES = [
   [/href="teacher-self-assessment\.html"/g, 'href="/teacher-self-assessment"'],
   [/href="teacher-kpi-results\.html"/g,    'href="/teacher-kpi-results"'],
   [/href="cambridge-calendar\.html"/g,     'href="/cambridge-calendar"'],
+  // Subject Leader Tracker pages
+  [/href="igcse-math-tracker\.html"/g,          'href="/igcse-math-tracker"'],
+  [/href="igcse-biology-tracker\.html"/g,       'href="/igcse-biology-tracker"'],
+  [/href="igcse-chemistry-tracker\.html"/g,     'href="/igcse-chemistry-tracker"'],
+  [/href="igcse-physics-tracker\.html"/g,       'href="/igcse-physics-tracker"'],
+  [/href="checkpoint-math-tracker\.html"/g,     'href="/checkpoint-math-tracker"'],
+  [/href="checkpoint-english-tracker\.html"/g,  'href="/checkpoint-english-tracker"'],
+  [/href="checkpoint-science-tracker\.html"/g,  'href="/checkpoint-science-tracker"'],
+  [/href="asalevel-math-tracker\.html"/g,       'href="/asalevel-math-tracker"'],
+  [/href="asalevel-biology-tracker\.html"/g,    'href="/asalevel-biology-tracker"'],
+  [/href="asalevel-chemistry-tracker\.html"/g,  'href="/asalevel-chemistry-tracker"'],
+  [/href="asalevel-physics-tracker\.html"/g,    'href="/asalevel-physics-tracker"'],
 ];
 
 // Read firebase-env partial once (used for placeholder injection)
@@ -106,6 +130,7 @@ function processFile(filename) {
 
   // Use absolute paths for partials so subdirectory pages resolve them correctly
   html = html.replace(/src="partials\/navbar\.js"/g, 'src="/partials/navbar.js"');
+  html = html.replace(/src="partials\/pacing-tracker-core\.js"/g, 'src="/partials/pacing-tracker-core.js"');
   html = html.replace(/fetch\('partials\/navbar\.html'\)/g, "fetch('/partials/navbar.html')");
 
   // Rewrite internal .html links to clean URLs

@@ -665,6 +665,8 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 .class-manage-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
 
 <!-- PACING_SHARED_CSS -->
+.tracker-link-btn { display:inline-flex; align-items:center; gap:4px; font-size:.68rem; font-weight:600; padding:4px 10px; border-radius:100px; background:rgba(255,255,255,.12); color:rgba(255,255,255,.7); text-decoration:none; transition:all .15s; white-space:nowrap; }
+.tracker-link-btn:hover { background:rgba(255,255,255,.2); color:white; }
 </style>
 
 <script src="partials/navbar.js"></script>
@@ -720,6 +722,8 @@ table.topics-tbl td:last-child { white-space: nowrap; }
       <div class="prog-text"><strong id="topProgDone">0</strong> / <span id="topProgTotal">0</span> topics</div>
     </div>
     <div id="paceSummaryPill" class="pace-summary-pill" style="display:none" title="Pace status based on current school week"></div>
+    <a href="checkpoint-math-tracker.html" id="trackerLink" class="tracker-link-btn" style="display:none" title="Subject Leader Tracker"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg> Tracker</a>
+
     <div class="class-selector-wrap" id="classSelectorWrap">
       <label class="class-selector-label" for="classSelect">Class:</label>
       <select class="class-select" id="classSelect" onchange="switchClass(this.value)">
@@ -2504,6 +2508,12 @@ window.__fbGetDoc = async function(colName, docName) {
 // -- auth-guard dispatches authReady when auth + role confirmed --
 document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   const appRole = profile.role_teachershub === 'teachers_admin' ? 'admin' : 'teacher';
+  // Show tracker link for subject leaders and admins
+  const _thSubs = profile.th_sub_roles || [];
+  if (appRole === 'admin' || _thSubs.includes('subject_leader')) {
+    const _tl = document.getElementById('trackerLink');
+    if (_tl) _tl.style.display = 'inline-flex';
+  }
 
   const roleDot   = document.getElementById('roleDot');
   const roleLabel = document.getElementById('roleLabel');

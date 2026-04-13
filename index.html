@@ -2525,6 +2525,172 @@
           pacingSubject: "science",
           pacingLevel: "checkpoint",
         },
+        // ── Subject Leader Tracker Cards ──────────────────────────
+        {
+          id: 100,
+          title: "IGCSE Math Tracker",
+          description: "Track your school's IGCSE Mathematics teachers — progress overview, topic heatmap, and hours report.",
+          icon: "📊",
+          url: "/igcse-math-tracker",
+          target: "_self",
+          linkLabel: "Open Tracker",
+          category: "Subject Leader",
+          color1: "#c0392b",
+          color2: "#e74c3c",
+          pacingSubject: "math",
+          pacingLevel: "igcse",
+          trackerCard: true,
+        },
+        {
+          id: 101,
+          title: "IGCSE Biology Tracker",
+          description: "Track your school's IGCSE Biology teachers — progress overview, topic heatmap, and hours report.",
+          icon: "📊",
+          url: "/igcse-biology-tracker",
+          target: "_self",
+          linkLabel: "Open Tracker",
+          category: "Subject Leader",
+          color1: "#27ae60",
+          color2: "#2ecc71",
+          pacingSubject: "biology",
+          pacingLevel: "igcse",
+          trackerCard: true,
+        },
+        {
+          id: 102,
+          title: "IGCSE Chemistry Tracker",
+          description: "Track your school's IGCSE Chemistry teachers — progress overview, topic heatmap, and hours report.",
+          icon: "📊",
+          url: "/igcse-chemistry-tracker",
+          target: "_self",
+          linkLabel: "Open Tracker",
+          category: "Subject Leader",
+          color1: "#e67e22",
+          color2: "#f39c12",
+          pacingSubject: "chemistry",
+          pacingLevel: "igcse",
+          trackerCard: true,
+        },
+        {
+          id: 103,
+          title: "IGCSE Physics Tracker",
+          description: "Track your school's IGCSE Physics teachers — progress overview, topic heatmap, and hours report.",
+          icon: "📊",
+          url: "/igcse-physics-tracker",
+          target: "_self",
+          linkLabel: "Open Tracker",
+          category: "Subject Leader",
+          color1: "#2980b9",
+          color2: "#3498db",
+          pacingSubject: "physics",
+          pacingLevel: "igcse",
+          trackerCard: true,
+        },
+        {
+          id: 104,
+          title: "Checkpoint Math Tracker",
+          description: "Track your school's Checkpoint Mathematics teachers — progress overview, topic heatmap, and hours report.",
+          icon: "📊",
+          url: "/checkpoint-math-tracker",
+          target: "_self",
+          linkLabel: "Open Tracker",
+          category: "Subject Leader",
+          color1: "#c0392b",
+          color2: "#e74c3c",
+          pacingSubject: "math",
+          pacingLevel: "checkpoint",
+          trackerCard: true,
+        },
+        {
+          id: 105,
+          title: "Checkpoint English Tracker",
+          description: "Track your school's Checkpoint English teachers — progress overview, topic heatmap, and hours report.",
+          icon: "📊",
+          url: "/checkpoint-english-tracker",
+          target: "_self",
+          linkLabel: "Open Tracker",
+          category: "Subject Leader",
+          color1: "#8e44ad",
+          color2: "#9b59b6",
+          pacingSubject: "english",
+          pacingLevel: "checkpoint",
+          trackerCard: true,
+        },
+        {
+          id: 106,
+          title: "Checkpoint Science Tracker",
+          description: "Track your school's Checkpoint Science teachers — progress overview, topic heatmap, and hours report.",
+          icon: "📊",
+          url: "/checkpoint-science-tracker",
+          target: "_self",
+          linkLabel: "Open Tracker",
+          category: "Subject Leader",
+          color1: "#16a085",
+          color2: "#1abc9c",
+          pacingSubject: "science",
+          pacingLevel: "checkpoint",
+          trackerCard: true,
+        },
+        {
+          id: 107,
+          title: "A-Level Math Tracker",
+          description: "Track your school's AS & A Level Mathematics teachers — progress overview, topic heatmap, and hours report.",
+          icon: "📊",
+          url: "/asalevel-math-tracker",
+          target: "_self",
+          linkLabel: "Open Tracker",
+          category: "Subject Leader",
+          color1: "#c0392b",
+          color2: "#e74c3c",
+          pacingSubject: "math",
+          pacingLevel: "asalevel",
+          trackerCard: true,
+        },
+        {
+          id: 108,
+          title: "A-Level Biology Tracker",
+          description: "Track your school's AS & A Level Biology teachers — progress overview, topic heatmap, and hours report.",
+          icon: "📊",
+          url: "/asalevel-biology-tracker",
+          target: "_self",
+          linkLabel: "Open Tracker",
+          category: "Subject Leader",
+          color1: "#27ae60",
+          color2: "#2ecc71",
+          pacingSubject: "biology",
+          pacingLevel: "asalevel",
+          trackerCard: true,
+        },
+        {
+          id: 109,
+          title: "A-Level Chemistry Tracker",
+          description: "Track your school's AS & A Level Chemistry teachers — progress overview, topic heatmap, and hours report.",
+          icon: "📊",
+          url: "/asalevel-chemistry-tracker",
+          target: "_self",
+          linkLabel: "Open Tracker",
+          category: "Subject Leader",
+          color1: "#e67e22",
+          color2: "#f39c12",
+          pacingSubject: "chemistry",
+          pacingLevel: "asalevel",
+          trackerCard: true,
+        },
+        {
+          id: 110,
+          title: "A-Level Physics Tracker",
+          description: "Track your school's AS & A Level Physics teachers — progress overview, topic heatmap, and hours report.",
+          icon: "📊",
+          url: "/asalevel-physics-tracker",
+          target: "_self",
+          linkLabel: "Open Tracker",
+          category: "Subject Leader",
+          color1: "#2980b9",
+          color2: "#3498db",
+          pacingSubject: "physics",
+          pacingLevel: "asalevel",
+          trackerCard: true,
+        },
         {
           id: 24,
           title: "Weekly Checklist",
@@ -2643,6 +2809,7 @@
         a.setAttribute('data-card-id', `res_${resource.id}`);
         if (resource.pacingSubject) a.setAttribute('data-pacing-subject', resource.pacingSubject);
         if (resource.pacingLevel)   a.setAttribute('data-pacing-level',   resource.pacingLevel);
+        if (resource.trackerCard)   a.setAttribute('data-tracker-card', '1');
         a.innerHTML = `
           <div class="card-content">
             <div class="card-header">
@@ -2689,9 +2856,24 @@
           classes.forEach(l => subjects.forEach(s => comboSet.add(`${l}_${s}`)));
         }
 
+        // Check if user is a subject_leader
+        const thSubs = Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [];
+        const isSubjectLeader = thSubs.includes('subject_leader');
+
         document.querySelectorAll('.resource-card[data-pacing-subject]').forEach(card => {
           const s = card.getAttribute('data-pacing-subject');
           const l = card.getAttribute('data-pacing-level');
+          const isTracker = card.getAttribute('data-tracker-card') === '1';
+
+          // Tracker cards: only visible to subject_leader with matching subject combo
+          if (isTracker) {
+            const visible = isSubjectLeader && comboSet.has(`${l}_${s}`);
+            card.style.display = visible ? '' : 'none';
+            card.dataset.pacingHidden = visible ? '' : '1';
+            return;
+          }
+
+          // Regular pacing cards: visible if subject combo matches
           const visible = comboSet.has(`${l}_${s}`);
           card.style.display = visible ? '' : 'none';
           card.dataset.pacingHidden = visible ? '' : '1';
