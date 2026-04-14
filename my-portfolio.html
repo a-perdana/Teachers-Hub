@@ -261,7 +261,7 @@
 <script src="partials/navbar.js"></script>
 
 <script type="module">
-import { collection, doc, addDoc, getDocs, query, where, orderBy, serverTimestamp, getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { collection, doc, addDoc, getDocs, query, where, orderBy, serverTimestamp, onSnapshot, getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 // ─── FRAMEWORK METADATA (comp id → name + levels) ────────────────────────────
 const COMP_META = {
@@ -309,13 +309,25 @@ fetch('partials/navbar.html')
   .then(html => {
     document.getElementById('navbar-container').innerHTML = html;
     initNavbar();
-    if (typeof window._pendingNavbarUpdate === 'function') {
-      window._pendingNavbarUpdate();
-      window._pendingNavbarUpdate = null;
-    }
+    if (typeof window._pendingNavbarUpdate === 'function') { window._pendingNavbarUpdate(); window._pendingNavbarUpdate = null; }
+    if (typeof window._pendingBadgeSetup === 'function') { window._pendingBadgeSetup(); window._pendingBadgeSetup = null; }
+    if (typeof window._pendingFeedbackSetup === 'function') { window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
   });
 
-document.addEventListener('authReady', async ({ detail: { user } }) => {
+document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
+  const db = window.db;
+  const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+  const updateNavbarElements = () => {
+    const el = document.getElementById('profileNameShort');
+    const av = document.getElementById('profileAvatar');
+    const pw = document.getElementById('profileWrap');
+    if (el) el.textContent = nameShort;
+    if (av && typeof buildAvatarEl === 'function') buildAvatarEl(av, user);
+    if (pw) pw.style.display = 'flex';
+  };
+  if (document.getElementById('profileNameShort')) { updateNavbarElements(); } else { window._pendingNavbarUpdate = updateNavbarElements; }
+  const doBadgeSetup = () => setupNavBadges(db, { onSnapshot, collection });
+  if (document.getElementById('msgBoardBadge')) { doBadgeSetup(); } else { window._pendingBadgeSetup = doBadgeSetup; }
   uid = user.uid;
   populateCompSelect();
   prefillFromUrl();
