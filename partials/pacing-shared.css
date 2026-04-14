@@ -572,3 +572,7 @@ tr.revisit-row td { background: rgba(251,242,214,.3); }
 .glh-stat.over .glh-stat-num  { color: var(--accent); }
 .glh-stat.ok   .glh-stat-num  { color: var(--green);  }
 .glh-stat.warn .glh-stat-num  { color: #d97706; }
+
+/* ─── Tracker Link Button (pacing topbar) ─────── */
+.tracker-link-btn { display:inline-flex; align-items:center; gap:4px; font-size:.68rem; font-weight:600; padding:4px 10px; border-radius:100px; background:rgba(255,255,255,.12); color:rgba(255,255,255,.7); text-decoration:none; transition:all .15s; white-space:nowrap; }
+.tracker-link-btn:hover { background:rgba(255,255,255,.2); color:white; }
