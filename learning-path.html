@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Learning Path — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link rel="stylesheet" href="base.css">
+<script src="firebase-config.js"></script>
+<script>if (!window.ENV) window.ENV = { FIREBASE_API_KEY: "__FIREBASE_API_KEY__", FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__", FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__", FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__", FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__", FIREBASE_APP_ID: "__FIREBASE_APP_ID__" };</script>
+<style>
+:root {
+  --accent: #7c3aed;
+  --accent-2: #ede9fe;
+}
+
+.page-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 20px 100px;
+}
+
+/* ─── PAGE TOPBAR ───────────────────────────── */
+.page-topbar {
+  background: #1a1a2e; border-bottom: 2px solid var(--accent);
+  position: sticky; top: 60px; z-index: 90; height: 56px;
+  display: flex; align-items: center; padding: 0 24px; gap: 16px;
+}
+.topbar-title { font-size: 14px; font-weight: 700; color: #fff; }
+.topbar-back {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: rgba(255,255,255,.55); text-decoration: none;
+  transition: color .15s ease;
+}
+.topbar-back:hover { color: #fff; }
+.topbar-back svg { width: 14px; height: 14px; }
+.topbar-sep { color: rgba(255,255,255,.25); font-size: 12px; }
+
+/* ─── LAYOUT ────────────────────────────────── */
+.lp-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 768px) {
+  .lp-layout { grid-template-columns: 1fr; }
+}
+
+/* ─── SIDEBAR ───────────────────────────────── */
+.lp-sidebar {
+  position: sticky; top: 120px;
+}
+
+.lp-domain-nav {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm);
+  margin-bottom: 16px;
+}
+.lp-domain-nav-title {
+  padding: 14px 16px 10px;
+  font-size: 11px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink-3);
+  border-bottom: 1px solid var(--border);
+}
+.lp-domain-item {
+  display: flex; align-items: center; gap: 10px; padding: 11px 16px;
+  cursor: pointer; transition: background .14s ease; border-bottom: 1px solid var(--border);
+  text-decoration: none;
+}
+.lp-domain-item:last-child { border-bottom: none; }
+.lp-domain-item:hover { background: var(--paper); }
+.lp-domain-item.active { background: var(--accent-2); }
+.lp-domain-item .di-icon { font-size: 16px; flex-shrink: 0; }
+.lp-domain-item .di-name { font-size: 13px; font-weight: 600; color: var(--ink); flex: 1; }
+.lp-domain-item.active .di-name { color: var(--accent); }
+.lp-domain-item .di-pct {
+  font-size: 11px; font-weight: 700; color: var(--ink-3);
+  background: var(--paper); border-radius: 50px; padding: 2px 8px;
+}
+.lp-domain-item.active .di-pct { background: #fff; color: var(--accent); }
+
+.lp-overall-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px; box-shadow: var(--shadow-sm);
+}
+.lp-overall-label { font-size: 11px; color: var(--ink-3); font-weight: 600; margin-bottom: 6px; }
+.lp-overall-bar { height: 8px; background: var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 6px; }
+.lp-overall-fill { height: 100%; background: var(--accent); border-radius: 8px; transition: width .4s ease; }
+.lp-overall-stats { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-3); }
+
+/* ─── MAIN CONTENT ──────────────────────────── */
+.lp-main {}
+
+.comp-section { margin-bottom: 32px; }
+
+.comp-section-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+  padding-bottom: 10px; border-bottom: 2px solid var(--border);
+}
+.comp-section-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.comp-section-title { font-size: 16px; font-weight: 700; color: var(--ink); }
+.comp-section-sub { font-size: 12px; color: var(--ink-3); }
+
+/* ─── COMPETENCY CARD ───────────────────────── */
+.comp-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 14px; margin-bottom: 12px; overflow: hidden;
+  box-shadow: var(--shadow-sm); transition: box-shadow .2s ease;
+}
+.comp-card:hover { box-shadow: var(--shadow); }
+.comp-card.completed { border-left: 3px solid #22c55e; }
+.comp-card.in-progress { border-left: 3px solid var(--accent); }
+
+.comp-card-header {
+  padding: 16px 18px;
+  display: flex; align-items: flex-start; gap: 12px; cursor: pointer;
+  user-select: none;
+}
+.comp-card-icon {
+  width: 36px; height: 36px; border-radius: 9px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+}
+.comp-card-body { flex: 1; min-width: 0; }
+.comp-card-name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 5px; }
+.comp-card-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+.status-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px; border-radius: 50px; font-size: 11px; font-weight: 700;
+}
+.status-badge.not-started { background: #f1f5f9; color: #64748b; }
+.status-badge.in-progress { background: #ede9fe; color: #7c3aed; }
+.status-badge.completed { background: #dcfce7; color: #15803d; }
+
+.comp-card-toggle {
+  width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--paper); color: var(--ink-3);
+  transition: transform .2s ease, background .15s;
+}
+.comp-card.expanded .comp-card-toggle { transform: rotate(180deg); background: var(--accent-2); color: var(--accent); }
+
+/* ─── LEVELS TRACK ──────────────────────────── */
+.comp-card-detail { display: none; padding: 0 18px 18px; }
+.comp-card.expanded .comp-card-detail { display: block; }
+
+.levels-track {
+  display: flex; gap: 0; margin-bottom: 18px;
+  border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+}
+.level-step {
+  flex: 1; padding: 12px 10px; text-align: center; border-right: 1px solid var(--border);
+  position: relative; cursor: default;
+}
+.level-step:last-child { border-right: none; }
+.level-step.done { background: #f0fdf4; }
+.level-step.current { background: var(--accent-2); }
+.level-step.locked { background: var(--paper); opacity: .6; }
+
+.ls-num {
+  width: 22px; height: 22px; border-radius: 50%; margin: 0 auto 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800;
+}
+.level-step.done .ls-num { background: #22c55e; color: #fff; }
+.level-step.current .ls-num { background: var(--accent); color: #fff; }
+.level-step.locked .ls-num { background: var(--border); color: var(--ink-3); }
+
+.ls-name { font-size: 11px; font-weight: 700; margin-bottom: 2px; }
+.level-step.done .ls-name { color: #15803d; }
+.level-step.current .ls-name { color: var(--accent); }
+.level-step.locked .ls-name { color: var(--ink-3); }
+
+.ls-sub { font-size: 10px; color: var(--ink-3); }
+
+/* ─── MATERIALS LIST ────────────────────────── */
+.materials-section { margin-bottom: 16px; }
+.mat-section-title {
+  font-size: 12px; font-weight: 700; color: var(--ink-3);
+  letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px;
+}
+.mat-list { display: flex; flex-direction: column; gap: 6px; }
+.mat-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border);
+  background: var(--paper); cursor: pointer; transition: all .14s ease;
+  text-decoration: none;
+}
+.mat-item:hover { border-color: var(--accent); background: var(--accent-2); }
+.mat-item.done-mat { border-color: #bbf7d0; background: #f0fdf4; }
+
+.mat-type-icon {
+  width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+}
+.mat-type-icon.reading { background: #dbeafe; }
+.mat-type-icon.video { background: #fce7f3; }
+.mat-type-icon.activity { background: #fef3c7; }
+.mat-type-icon.reflection { background: #ede9fe; }
+
+.mat-info { flex: 1; min-width: 0; }
+.mat-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.mat-meta { font-size: 11px; color: var(--ink-3); }
+.mat-check {
+  width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+  border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.mat-item.done-mat .mat-check { background: #22c55e; border-color: #22c55e; }
+.mat-item.done-mat .mat-check::after { content: '✓'; font-size: 10px; color: #fff; font-weight: 800; }
+
+/* ─── ASSESSMENT BUTTON ─────────────────────── */
+.assessment-cta {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; border-radius: 12px; border: 1.5px solid var(--border);
+  background: var(--white); cursor: pointer; transition: all .15s ease;
+  margin-top: 12px;
+}
+.assessment-cta:hover { border-color: var(--accent); background: var(--accent-2); }
+.assessment-cta.locked { opacity: .5; cursor: not-allowed; }
+.assessment-cta.locked:hover { border-color: var(--border); background: var(--white); }
+
+.acta-left { display: flex; align-items: center; gap: 10px; }
+.acta-icon { font-size: 20px; }
+.acta-text {}
+.acta-title { font-size: 13px; font-weight: 700; color: var(--ink); }
+.acta-sub { font-size: 11.5px; color: var(--ink-3); }
+.acta-right { font-size: 13px; font-weight: 700; color: var(--accent); }
+.assessment-cta.locked .acta-right { color: var(--ink-3); }
+
+/* ─── SKEL ──────────────────────────────────── */
+.skel { background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+</style>
+<script type="module" src="auth-guard.js"></script>
+</head>
+<body>
+
+<div id="navbar-container"></div>
+
+<div class="page-topbar">
+  <a href="competency-framework.html" class="topbar-back">
+    <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+    Framework
+  </a>
+  <span class="topbar-sep">/</span>
+  <span class="topbar-title">My Learning Path</span>
+</div>
+
+<div class="page-wrap">
+  <div class="lp-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="lp-sidebar">
+      <div class="lp-overall-card" style="margin-bottom:14px;">
+        <div class="lp-overall-label">Overall Progress</div>
+        <div class="lp-overall-bar"><div class="lp-overall-fill" id="overallBar" style="width:0%"></div></div>
+        <div class="lp-overall-stats">
+          <span id="overallEarned">0 earned</span>
+          <span id="overallPct">0%</span>
+        </div>
+      </div>
+      <div class="lp-domain-nav">
+        <div class="lp-domain-nav-title">Domains</div>
+        <div id="domainNav">
+          <!-- rendered by JS -->
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="lp-main" id="lpMain">
+      <div style="padding:60px 0;text-align:center;color:var(--ink-3);">
+        <div class="skel" style="height:180px;border-radius:14px;margin-bottom:12px;"></div>
+        <div class="skel" style="height:180px;border-radius:14px;"></div>
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<script src="partials/navbar.js"></script>
+
+<script type="module">
+import { doc, getDoc, setDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+// ─── FRAMEWORK DATA (same as competency-framework.html) ──────────────────────
+const FRAMEWORK = [
+  {
+    id: 'curriculum',
+    name: 'Curriculum Design & Delivery',
+    icon: '📚',
+    color: '#7c3aed',
+    bg: '#ede9fe',
+    competencies: [
+      { id: 'cur-1', name: 'Lesson Planning & Sequencing', levels: ['awareness','practitioner','advanced','lead'],
+        materials: {
+          awareness: [
+            { id: 'cur1-aw-1', type: 'reading', name: 'Cambridge Lesson Planning Guide', duration: '20 min' },
+            { id: 'cur1-aw-2', type: 'video', name: 'What Makes a Good Lesson Plan?', duration: '12 min' },
+          ],
+          practitioner: [
+            { id: 'cur1-pr-1', type: 'activity', name: 'Design a 3-lesson sequence with Learning Objectives', duration: '45 min' },
+            { id: 'cur1-pr-2', type: 'reflection', name: 'Peer-review a colleague\'s lesson plan using Cambridge criteria', duration: '30 min' },
+          ],
+          advanced: [
+            { id: 'cur1-ad-1', type: 'activity', name: 'Map a full scheme of work to Cambridge syllabus', duration: '60 min' },
+          ],
+          lead: [
+            { id: 'cur1-ld-1', type: 'activity', name: 'Lead a department lesson planning workshop', duration: '90 min' },
+          ]
+        }
+      },
+      { id: 'cur-2', name: 'Learning Objectives Alignment', levels: ['awareness','practitioner','advanced','lead'],
+        materials: {
+          awareness: [
+            { id: 'cur2-aw-1', type: 'reading', name: 'Bloom\'s Taxonomy Overview', duration: '15 min' },
+          ],
+          practitioner: [
+            { id: 'cur2-pr-1', type: 'activity', name: 'Write 10 SMART learning objectives for your subject', duration: '30 min' },
+          ],
+          advanced: [
+            { id: 'cur2-ad-1', type: 'activity', name: 'Audit a scheme of work for objective alignment gaps', duration: '45 min' },
+          ],
+          lead: [
+            { id: 'cur2-ld-1', type: 'activity', name: 'Train colleagues on writing Cambridge-aligned objectives', duration: '60 min' },
+          ]
+        }
+      },
+      { id: 'cur-3', name: 'Differentiated Curriculum Design', levels: ['practitioner','advanced','lead'],
+        materials: {
+          practitioner: [
+            { id: 'cur3-pr-1', type: 'reading', name: 'Introduction to Differentiation Strategies', duration: '25 min' },
+            { id: 'cur3-pr-2', type: 'activity', name: 'Adapt one lesson for 3 learning levels', duration: '40 min' },
+          ],
+          advanced: [
+            { id: 'cur3-ad-1', type: 'activity', name: 'Design a differentiated assessment scheme', duration: '50 min' },
+          ],
+          lead: [
+            { id: 'cur3-ld-1', type: 'activity', name: 'Observe and coach 2 colleagues on differentiation', duration: '120 min' },
+          ]
+        }
+      },
+      { id: 'cur-4', name: 'Cross-curricular Integration', levels: ['advanced','lead'],
+        materials: {
+          advanced: [
+            { id: 'cur4-ad-1', type: 'activity', name: 'Design a cross-subject project with one colleague', duration: '60 min' },
+          ],
+          lead: [
+            { id: 'cur4-ld-1', type: 'activity', name: 'Lead a cross-department curriculum mapping session', duration: '90 min' },
+          ]
+        }
+      },
+    ]
+  },
+  {
+    id: 'assessment',
+    name: 'Assessment & Feedback',
+    icon: '📊',
+    color: '#2563eb',
+    bg: '#dbeafe',
+    competencies: [
+      { id: 'asm-1', name: 'Formative Assessment Techniques', levels: ['awareness','practitioner','advanced','lead'],
+        materials: {
+          awareness: [
+            { id: 'asm1-aw-1', type: 'reading', name: 'What is Formative Assessment?', duration: '15 min' },
+            { id: 'asm1-aw-2', type: 'video', name: '5 Formative Assessment Strategies in Action', duration: '18 min' },
+          ],
+          practitioner: [
+            { id: 'asm1-pr-1', type: 'activity', name: 'Implement exit tickets for 2 consecutive weeks', duration: '14 days' },
+          ],
+          advanced: [
+            { id: 'asm1-ad-1', type: 'activity', name: 'Design a formative assessment calendar for a term', duration: '45 min' },
+          ],
+          lead: [
+            { id: 'asm1-ld-1', type: 'activity', name: 'Lead a department workshop on formative assessment', duration: '90 min' },
+          ]
+        }
+      },
+      { id: 'asm-2', name: 'Marking & Written Feedback', levels: ['awareness','practitioner','advanced'],
+        materials: {
+          awareness: [
+            { id: 'asm2-aw-1', type: 'reading', name: 'Effective Written Feedback Principles', duration: '20 min' },
+          ],
+          practitioner: [
+            { id: 'asm2-pr-1', type: 'activity', name: 'Mark 10 student pieces using WWW / EBI structure', duration: '60 min' },
+          ],
+          advanced: [
+            { id: 'asm2-ad-1', type: 'reflection', name: 'Reflect on student uptake of your feedback over a term', duration: '30 min' },
+          ]
+        }
+      },
+      { id: 'asm-3', name: 'Data-Informed Intervention', levels: ['practitioner','advanced','lead'],
+        materials: {
+          practitioner: [
+            { id: 'asm3-pr-1', type: 'reading', name: 'Reading Assessment Data: A Teacher\'s Guide', duration: '20 min' },
+          ],
+          advanced: [
+            { id: 'asm3-ad-1', type: 'activity', name: 'Identify 3 students needing intervention using EASE data', duration: '30 min' },
+          ],
+          lead: [
+            { id: 'asm3-ld-1', type: 'activity', name: 'Train department on using EASE dashboards for intervention', duration: '60 min' },
+          ]
+        }
+      },
+      { id: 'asm-4', name: 'Student Self & Peer Assessment', levels: ['practitioner','advanced','lead'],
+        materials: {
+          practitioner: [
+            { id: 'asm4-pr-1', type: 'activity', name: 'Implement one peer assessment activity per week for 4 weeks', duration: '4 weeks' },
+          ],
+          advanced: [
+            { id: 'asm4-ad-1', type: 'activity', name: 'Design a student self-assessment rubric for your subject', duration: '45 min' },
+          ],
+          lead: [
+            { id: 'asm4-ld-1', type: 'activity', name: 'Model a peer assessment lesson for the department', duration: '60 min' },
+          ]
+        }
+      },
+    ]
+  },
+  {
+    id: 'classroom',
+    name: 'Classroom Management',
+    icon: '🏫',
+    color: '#d97706',
+    bg: '#fef3c7',
+    competencies: [
+      { id: 'cls-1', name: 'Positive Behaviour Management', levels: ['awareness','practitioner','advanced','lead'],
+        materials: {
+          awareness: [{ id: 'cls1-aw-1', type: 'reading', name: 'Positive Behaviour for Learning Framework', duration: '20 min' }],
+          practitioner: [{ id: 'cls1-pr-1', type: 'activity', name: 'Implement a class agreement and review after 2 weeks', duration: '2 weeks' }],
+          advanced: [{ id: 'cls1-ad-1', type: 'reflection', name: 'Reflect on your behaviour management over one term', duration: '30 min' }],
+          lead: [{ id: 'cls1-ld-1', type: 'activity', name: 'Coach a colleague on managing a challenging class', duration: '90 min' }]
+        }
+      },
+      { id: 'cls-2', name: 'Inclusive Classroom Culture', levels: ['awareness','practitioner','advanced','lead'],
+        materials: {
+          awareness: [{ id: 'cls2-aw-1', type: 'reading', name: 'Universal Design for Learning Introduction', duration: '25 min' }],
+          practitioner: [{ id: 'cls2-pr-1', type: 'activity', name: 'Conduct a classroom inclusion audit', duration: '30 min' }],
+          advanced: [{ id: 'cls2-ad-1', type: 'activity', name: 'Redesign seating and grouping for inclusion', duration: '45 min' }],
+          lead: [{ id: 'cls2-ld-1', type: 'activity', name: 'Lead a whole-school inclusive practice session', duration: '90 min' }]
+        }
+      },
+      { id: 'cls-3', name: 'Student Engagement Strategies', levels: ['practitioner','advanced','lead'],
+        materials: {
+          practitioner: [{ id: 'cls3-pr-1', type: 'video', name: '10 Engagement Strategies That Work', duration: '20 min' }],
+          advanced: [{ id: 'cls3-ad-1', type: 'activity', name: 'Design an engagement-focused unit plan', duration: '50 min' }],
+          lead: [{ id: 'cls3-ld-1', type: 'activity', name: 'Observe and coach a colleague on student engagement', duration: '120 min' }]
+        }
+      },
+      { id: 'cls-4', name: 'Physical & Digital Environment Setup', levels: ['awareness','practitioner'],
+        materials: {
+          awareness: [{ id: 'cls4-aw-1', type: 'reading', name: 'Setting Up a Learning-Ready Environment', duration: '15 min' }],
+          practitioner: [{ id: 'cls4-pr-1', type: 'activity', name: 'Photograph and annotate your classroom environment', duration: '20 min' }]
+        }
+      },
+    ]
+  },
+  {
+    id: 'pedagogy',
+    name: 'Pedagogical Practice',
+    icon: '💡',
+    color: '#16a34a',
+    bg: '#dcfce7',
+    competencies: [
+      { id: 'ped-1', name: 'Active Learning Facilitation', levels: ['awareness','practitioner','advanced','lead'],
+        materials: {
+          awareness: [{ id: 'ped1-aw-1', type: 'reading', name: 'Active Learning: What, Why, How', duration: '20 min' }],
+          practitioner: [{ id: 'ped1-pr-1', type: 'activity', name: 'Redesign one lesson using active learning principles', duration: '40 min' }],
+          advanced: [{ id: 'ped1-ad-1', type: 'activity', name: 'Document 3 active learning lessons with student outcomes', duration: 'ongoing' }],
+          lead: [{ id: 'ped1-ld-1', type: 'activity', name: 'Facilitate an active learning professional development session', duration: '90 min' }]
+        }
+      },
+      { id: 'ped-2', name: 'Inquiry-Based Learning', levels: ['practitioner','advanced','lead'],
+        materials: {
+          practitioner: [{ id: 'ped2-pr-1', type: 'reading', name: 'Inquiry-Based Learning Design Guide', duration: '25 min' }],
+          advanced: [{ id: 'ped2-ad-1', type: 'activity', name: 'Design and deliver a 3-lesson inquiry unit', duration: '3 lessons' }],
+          lead: [{ id: 'ped2-ld-1', type: 'activity', name: 'Support a colleague in designing their first IBL unit', duration: '120 min' }]
+        }
+      },
+      { id: 'ped-3', name: "Higher-Order Thinking (Bloom's)", levels: ['awareness','practitioner','advanced','lead'],
+        materials: {
+          awareness: [{ id: 'ped3-aw-1', type: 'reading', name: "Bloom's Taxonomy in Practice", duration: '20 min' }],
+          practitioner: [{ id: 'ped3-pr-1', type: 'activity', name: 'Redesign 5 exam questions to hit Analysis/Evaluation', duration: '30 min' }],
+          advanced: [{ id: 'ped3-ad-1', type: 'activity', name: 'Map a full unit to Bloom\'s levels', duration: '45 min' }],
+          lead: [{ id: 'ped3-ld-1', type: 'activity', name: 'Run a questioning skills workshop for colleagues', duration: '90 min' }]
+        }
+      },
+      { id: 'ped-4', name: 'Metacognition & Learning to Learn', levels: ['advanced','lead'],
+        materials: {
+          advanced: [{ id: 'ped4-ad-1', type: 'reading', name: 'EEF Metacognition Guidance Report', duration: '35 min' }],
+          lead: [{ id: 'ped4-ld-1', type: 'activity', name: 'Design and deliver a study skills session for students', duration: '60 min' }]
+        }
+      },
+    ]
+  },
+  {
+    id: 'digital',
+    name: 'Digital Literacy & EdTech',
+    icon: '💻',
+    color: '#e11d48',
+    bg: '#ffe4e6',
+    competencies: [
+      { id: 'dig-1', name: 'Technology-Enhanced Learning Design', levels: ['awareness','practitioner','advanced','lead'],
+        materials: {
+          awareness: [{ id: 'dig1-aw-1', type: 'reading', name: 'SAMR Model: Moving Beyond Substitution', duration: '20 min' }],
+          practitioner: [{ id: 'dig1-pr-1', type: 'activity', name: 'Design one lesson using a digital tool at Modification level', duration: '40 min' }],
+          advanced: [{ id: 'dig1-ad-1', type: 'activity', name: 'Build a digital learning sequence with formative checkpoints', duration: '60 min' }],
+          lead: [{ id: 'dig1-ld-1', type: 'activity', name: 'Lead an EdTech integration workshop', duration: '90 min' }]
+        }
+      },
+      { id: 'dig-2', name: 'Data & Digital Tools for Assessment', levels: ['awareness','practitioner','advanced'],
+        materials: {
+          awareness: [{ id: 'dig2-aw-1', type: 'video', name: 'Digital Assessment Tools Overview', duration: '15 min' }],
+          practitioner: [{ id: 'dig2-pr-1', type: 'activity', name: 'Use a digital quiz tool for 3 consecutive formative checks', duration: '3 weeks' }],
+          advanced: [{ id: 'dig2-ad-1', type: 'activity', name: 'Build a dashboard to track class progress over a term', duration: '60 min' }]
+        }
+      },
+      { id: 'dig-3', name: 'Digital Citizenship & Online Safety', levels: ['awareness','practitioner'],
+        materials: {
+          awareness: [{ id: 'dig3-aw-1', type: 'reading', name: 'Digital Citizenship Framework', duration: '20 min' }],
+          practitioner: [{ id: 'dig3-pr-1', type: 'activity', name: 'Teach one digital citizenship lesson to your class', duration: '60 min' }]
+        }
+      },
+      { id: 'dig-4', name: 'AI-Assisted Learning Strategies', levels: ['practitioner','advanced','lead'],
+        materials: {
+          practitioner: [{ id: 'dig4-pr-1', type: 'reading', name: 'AI in Education: Opportunities and Risks', duration: '25 min' }],
+          advanced: [{ id: 'dig4-ad-1', type: 'activity', name: 'Design an AI-assisted lesson and reflect on outcomes', duration: '60 min' }],
+          lead: [{ id: 'dig4-ld-1', type: 'activity', name: 'Lead a staff discussion on responsible AI use in teaching', duration: '60 min' }]
+        }
+      },
+    ]
+  },
+  {
+    id: 'professional',
+    name: 'Professional Growth & Leadership',
+    icon: '🌱',
+    color: '#0d9488',
+    bg: '#ccfbf1',
+    competencies: [
+      { id: 'pro-1', name: 'Reflective Practice & Self-Evaluation', levels: ['awareness','practitioner','advanced','lead'],
+        materials: {
+          awareness: [{ id: 'pro1-aw-1', type: 'reading', name: 'Introduction to Reflective Teaching', duration: '20 min' }],
+          practitioner: [{ id: 'pro1-pr-1', type: 'reflection', name: 'Complete a 4-week reflective teaching journal', duration: '4 weeks' }],
+          advanced: [{ id: 'pro1-ad-1', type: 'reflection', name: 'Write a structured self-evaluation against Cambridge standards', duration: '45 min' }],
+          lead: [{ id: 'pro1-ld-1', type: 'activity', name: 'Facilitate a reflective practice group with 3+ colleagues', duration: '90 min' }]
+        }
+      },
+      { id: 'pro-2', name: 'Collaborative Professional Learning', levels: ['practitioner','advanced','lead'],
+        materials: {
+          practitioner: [{ id: 'pro2-pr-1', type: 'activity', name: 'Participate actively in 4 lesson study sessions', duration: '4 sessions' }],
+          advanced: [{ id: 'pro2-ad-1', type: 'activity', name: 'Co-plan and co-teach a lesson with a colleague', duration: '2 lessons' }],
+          lead: [{ id: 'pro2-ld-1', type: 'activity', name: 'Lead a department professional learning community', duration: 'ongoing' }]
+        }
+      },
+      { id: 'pro-3', name: 'Mentoring & Coaching Colleagues', levels: ['advanced','lead'],
+        materials: {
+          advanced: [{ id: 'pro3-ad-1', type: 'reading', name: 'Coaching Conversations Framework', duration: '30 min' }],
+          lead: [{ id: 'pro3-ld-1', type: 'activity', name: 'Formally mentor a new or developing teacher for one term', duration: '1 term' }]
+        }
+      },
+      { id: 'pro-4', name: 'Contributing to School Development', levels: ['advanced','lead'],
+        materials: {
+          advanced: [{ id: 'pro4-ad-1', type: 'activity', name: 'Write and present a proposal for one school improvement initiative', duration: '60 min' }],
+          lead: [{ id: 'pro4-ld-1', type: 'activity', name: 'Lead the implementation of a school improvement project', duration: '1 term' }]
+        }
+      },
+    ]
+  }
+];
+
+const LEVEL_ORDER = ['awareness','practitioner','advanced','lead'];
+const LEVEL_LABEL = { awareness:'Awareness', practitioner:'Practitioner', advanced:'Advanced', lead:'Lead / Mentor' };
+const MAT_TYPE_ICON = { reading: '📖', video: '▶️', activity: '✏️', reflection: '🪞' };
+
+let uid = '';
+let earned = {};
+let matDone = {}; // { [matId]: true }
+let expanded = {}; // { [compId]: true }
+
+document.addEventListener('authReady', async ({ detail: { user } }) => {
+  uid = user.uid;
+  await loadProgress();
+  renderAll();
+});
+
+async function loadProgress() {
+  const ref = doc(window.db, 'user_competencies', uid);
+  const snap = await getDoc(ref);
+  if (snap.exists()) {
+    const data = snap.data();
+    earned = data.earned || {};
+    matDone = data.matDone || {};
+  }
+}
+
+async function saveProgress() {
+  await setDoc(doc(window.db, 'user_competencies', uid), { earned, matDone }, { merge: true });
+}
+
+function getHighestEarned(compId) {
+  if (!earned[compId]) return null;
+  return earned[compId].level || null;
+}
+
+function getCurrentLevel(comp) {
+  const h = getHighestEarned(comp.id);
+  if (!h) return comp.levels[0];
+  const idx = LEVEL_ORDER.indexOf(h);
+  if (idx < 0 || idx >= LEVEL_ORDER.length - 1) return h;
+  // return next level if available
+  const nextIdx = comp.levels.indexOf(LEVEL_ORDER[idx + 1]);
+  if (nextIdx >= 0) return LEVEL_ORDER[idx + 1];
+  return h;
+}
+
+function renderAll() {
+  renderSidebar();
+  renderMain();
+}
+
+function renderSidebar() {
+  let totalComps = 0, earnedCount = 0;
+  FRAMEWORK.forEach(d => d.competencies.forEach(c => {
+    totalComps++;
+    if (getHighestEarned(c.id)) earnedCount++;
+  }));
+  const pct = totalComps > 0 ? Math.round((earnedCount / totalComps) * 100) : 0;
+  document.getElementById('overallBar').style.width = pct + '%';
+  document.getElementById('overallEarned').textContent = `${earnedCount} earned`;
+  document.getElementById('overallPct').textContent = `${pct}%`;
+
+  const nav = document.getElementById('domainNav');
+  nav.innerHTML = FRAMEWORK.map(domain => {
+    const domEarned = domain.competencies.filter(c => getHighestEarned(c.id)).length;
+    const domPct = Math.round((domEarned / domain.competencies.length) * 100);
+    return `
+      <a class="lp-domain-item" href="#dom-${domain.id}">
+        <span class="di-icon">${domain.icon}</span>
+        <span class="di-name">${domain.name}</span>
+        <span class="di-pct">${domPct}%</span>
+      </a>
+    `;
+  }).join('');
+}
+
+function renderMain() {
+  const main = document.getElementById('lpMain');
+  main.innerHTML = FRAMEWORK.map(domain => renderDomainSection(domain)).join('');
+}
+
+function renderDomainSection(domain) {
+  const compsHtml = domain.competencies.map(comp => renderCompCard(comp, domain)).join('');
+  return `
+    <div class="comp-section" id="dom-${domain.id}">
+      <div class="comp-section-header">
+        <div class="comp-section-icon" style="background:${domain.bg}">${domain.icon}</div>
+        <div>
+          <div class="comp-section-title">${domain.name}</div>
+          <div class="comp-section-sub">${domain.competencies.length} competencies</div>
+        </div>
+      </div>
+      ${compsHtml}
+    </div>
+  `;
+}
+
+function renderCompCard(comp, domain) {
+  const highestLvl = getHighestEarned(comp.id);
+  const isCompleted = highestLvl === comp.levels[comp.levels.length - 1];
+  const hasAny = !!highestLvl;
+  const statusClass = isCompleted ? 'completed' : hasAny ? 'in-progress' : '';
+  const statusLabel = isCompleted ? '✓ Completed' : hasAny ? `In Progress — ${LEVEL_LABEL[highestLvl]}` : 'Not Started';
+  const statusBadgeClass = isCompleted ? 'completed' : hasAny ? 'in-progress' : 'not-started';
+  const isExpanded = expanded[comp.id] || false;
+
+  // levels track
+  const levelsTrack = comp.levels.map((lvl, i) => {
+    const lvlIdx = LEVEL_ORDER.indexOf(lvl);
+    const highestIdx = highestLvl ? LEVEL_ORDER.indexOf(highestLvl) : -1;
+    let stepClass = 'locked';
+    if (highestIdx >= lvlIdx) stepClass = 'done';
+    else if (highestIdx === lvlIdx - 1 || (!highestLvl && i === 0)) stepClass = 'current';
+    return `
+      <div class="level-step ${stepClass}">
+        <div class="ls-num">${stepClass === 'done' ? '✓' : i + 1}</div>
+        <div class="ls-name">${LEVEL_LABEL[lvl]}</div>
+        <div class="ls-sub">${stepClass === 'done' ? 'Earned' : stepClass === 'current' ? 'Current' : 'Locked'}</div>
+      </div>
+    `;
+  }).join('');
+
+  // current working level materials
+  const currentLvl = isCompleted ? comp.levels[comp.levels.length - 1] : getCurrentLevel(comp);
+  const mats = comp.materials?.[currentLvl] || [];
+  const allMatsDone = mats.length > 0 && mats.every(m => matDone[m.id]);
+
+  const matsHtml = mats.length > 0 ? `
+    <div class="materials-section">
+      <div class="mat-section-title">Materials — ${LEVEL_LABEL[currentLvl]}</div>
+      <div class="mat-list">
+        ${mats.map(m => {
+          const done = !!matDone[m.id];
+          return `
+            <div class="mat-item ${done ? 'done-mat' : ''}" onclick="toggleMat('${comp.id}','${m.id}','${currentLvl}')">
+              <div class="mat-type-icon ${m.type}">${MAT_TYPE_ICON[m.type] || '📄'}</div>
+              <div class="mat-info">
+                <div class="mat-name">${m.name}</div>
+                <div class="mat-meta">${m.type.charAt(0).toUpperCase() + m.type.slice(1)} · ${m.duration}</div>
+              </div>
+              <div class="mat-check"></div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  ` : '';
+
+  const canAssess = allMatsDone || mats.length === 0;
+  const assLabel = isCompleted ? 'Level Completed' : canAssess ? `Submit Evidence for ${LEVEL_LABEL[currentLvl]}` : `Complete materials to unlock assessment`;
+
+  const assHtml = !isCompleted ? `
+    <div class="assessment-cta ${canAssess ? '' : 'locked'}" onclick="${canAssess ? `goPortfolio('${comp.id}','${currentLvl}')` : ''}">
+      <div class="acta-left">
+        <span class="acta-icon">📋</span>
+        <div class="acta-text">
+          <div class="acta-title">${assLabel}</div>
+          <div class="acta-sub">${canAssess ? 'Upload evidence to request level certification' : `${mats.filter(m => matDone[m.id]).length}/${mats.length} materials completed`}</div>
+        </div>
+      </div>
+      ${canAssess ? '<span class="acta-right">→</span>' : '<span class="acta-right">🔒</span>'}
+    </div>
+  ` : `
+    <div style="padding:12px 14px;border-radius:10px;background:#dcfce7;border:1px solid #bbf7d0;font-size:13px;font-weight:600;color:#15803d;display:flex;align-items:center;gap:8px;">
+      🏆 All levels completed! Certificate available in <a href="my-certificates.html" style="color:#15803d;">My Certificates</a>
+    </div>
+  `;
+
+  return `
+    <div class="comp-card ${statusClass} ${isExpanded ? 'expanded' : ''}" id="comp-${comp.id}">
+      <div class="comp-card-header" onclick="toggleCard('${comp.id}')">
+        <div class="comp-card-icon" style="background:${domain.bg}">${domain.icon}</div>
+        <div class="comp-card-body">
+          <div class="comp-card-name">${comp.name}</div>
+          <div class="comp-card-meta">
+            <span class="status-badge ${statusBadgeClass}">${statusLabel}</span>
+          </div>
+        </div>
+        <div class="comp-card-toggle">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+      </div>
+      <div class="comp-card-detail">
+        <div class="levels-track">${levelsTrack}</div>
+        ${matsHtml}
+        ${assHtml}
+      </div>
+    </div>
+  `;
+}
+
+window.toggleCard = function(compId) {
+  expanded[compId] = !expanded[compId];
+  const card = document.getElementById(`comp-${compId}`);
+  if (!card) return;
+  card.classList.toggle('expanded', expanded[compId]);
+};
+
+window.toggleMat = async function(compId, matId, currentLvl) {
+  matDone[matId] = !matDone[matId];
+  await saveProgress();
+  // re-render just this comp
+  const domain = FRAMEWORK.find(d => d.competencies.find(c => c.id === compId));
+  const comp = domain?.competencies.find(c => c.id === compId);
+  if (!comp || !domain) return;
+  const card = document.getElementById(`comp-${compId}`);
+  const wasExpanded = card?.classList.contains('expanded');
+  expanded[compId] = wasExpanded;
+  const newCard = document.createElement('div');
+  newCard.innerHTML = renderCompCard(comp, domain);
+  if (card) card.replaceWith(newCard.firstElementChild);
+};
+
+window.goPortfolio = function(compId, level) {
+  window.location.href = `my-portfolio.html?comp=${compId}&level=${level}`;
+};
+
+// Handle deep link from framework page
+const urlParams = new URLSearchParams(window.location.search);
+const focusComp = urlParams.get('comp');
+if (focusComp) {
+  setTimeout(() => {
+    expanded[focusComp] = true;
+    const el = document.getElementById(`comp-${focusComp}`);
+    if (el) {
+      el.classList.add('expanded');
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, 300);
+}
+</script>
+</body>
+</html>

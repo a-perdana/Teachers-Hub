@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Certificates — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link rel="stylesheet" href="base.css">
+<script src="firebase-config.js"></script>
+<script>if (!window.ENV) window.ENV = { FIREBASE_API_KEY: "__FIREBASE_API_KEY__", FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__", FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__", FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__", FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__", FIREBASE_APP_ID: "__FIREBASE_APP_ID__" };</script>
+<style>
+:root {
+  --accent: #7c3aed;
+  --accent-2: #ede9fe;
+}
+
+.page-wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 20px 100px;
+}
+
+/* ─── PAGE TOPBAR ───────────────────────────── */
+.page-topbar {
+  background: #1a1a2e; border-bottom: 2px solid var(--accent);
+  position: sticky; top: 60px; z-index: 90; height: 56px;
+  display: flex; align-items: center; padding: 0 24px; gap: 16px;
+}
+.topbar-title { font-size: 14px; font-weight: 700; color: #fff; }
+.topbar-back {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: rgba(255,255,255,.55); text-decoration: none;
+  transition: color .15s ease;
+}
+.topbar-back:hover { color: #fff; }
+.topbar-back svg { width: 14px; height: 14px; }
+.topbar-sep { color: rgba(255,255,255,.25); font-size: 12px; }
+
+/* ─── STATS ROW ─────────────────────────────── */
+.stats-row {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px; box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s, transform .2s;
+}
+.stat-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+.stat-num { font-size: 28px; font-weight: 800; color: var(--ink); line-height: 1; margin-bottom: 4px; }
+.stat-label { font-size: 12px; color: var(--ink-3); }
+
+/* ─── CERTIFICATE CARD ──────────────────────── */
+.cert-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px;
+  margin-bottom: 40px;
+}
+
+.cert-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 18px; overflow: hidden; box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s, transform .2s;
+}
+.cert-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+
+.cert-card-banner {
+  height: 80px; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.cert-card-banner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--banner-from, #1e1248) 0%, var(--banner-to, #0c1028) 100%);
+}
+.cert-card-banner .banner-icon {
+  position: relative; z-index: 1; font-size: 30px;
+}
+.cert-card-banner .banner-shine {
+  position: absolute; top: -20px; right: -20px; width: 80px; height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.12) 0%, transparent 70%);
+}
+
+.cert-card-body { padding: 18px 18px 14px; }
+.cert-domain-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.cert-name { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.cert-meta { font-size: 12px; color: var(--ink-3); margin-bottom: 10px; }
+.cert-verify-id {
+  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-3);
+  background: var(--paper); border-radius: 6px; padding: 4px 8px;
+  display: inline-block; margin-bottom: 12px; letter-spacing: .04em;
+}
+
+.cert-card-actions { display: flex; gap: 8px; }
+.cert-btn {
+  flex: 1; padding: 9px 0; border-radius: 9px; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all .15s ease; font-family: 'DM Sans', sans-serif;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  text-decoration: none;
+}
+.cert-btn-primary {
+  background: var(--accent); border: none; color: #fff;
+}
+.cert-btn-primary:hover { background: #6d28d9; }
+.cert-btn-secondary {
+  background: var(--paper); border: 1px solid var(--border); color: var(--ink);
+}
+.cert-btn-secondary:hover { background: var(--border); }
+
+/* ─── DOMAIN PROGRESS SECTION ───────────────── */
+.section-title {
+  font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-title svg { width: 18px; height: 18px; color: var(--accent); }
+
+.domain-progress-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 36px; }
+.dp-row {
+  background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px 18px; display: flex; align-items: center; gap: 14px;
+  box-shadow: var(--shadow-sm);
+}
+.dp-icon { font-size: 20px; flex-shrink: 0; }
+.dp-name { font-size: 13px; font-weight: 700; color: var(--ink); flex: 1; }
+.dp-bar-wrap { flex: 2; }
+.dp-bar { height: 7px; background: var(--border); border-radius: 6px; overflow: hidden; }
+.dp-fill { height: 100%; border-radius: 6px; transition: width .4s ease; }
+.dp-pct { font-size: 12px; font-weight: 700; color: var(--ink-2); width: 38px; text-align: right; }
+.dp-badge {
+  padding: 4px 10px; border-radius: 50px; font-size: 11px; font-weight: 700;
+  flex-shrink: 0;
+}
+.dp-badge.complete { background: #dcfce7; color: #15803d; }
+.dp-badge.in-progress { background: #ede9fe; color: #7c3aed; }
+.dp-badge.not-started { background: #f1f5f9; color: #64748b; }
+
+/* ─── CERTIFICATE MODAL ─────────────────────── */
+.cert-modal-overlay {
+  position: fixed; inset: 0; background: rgba(10,10,30,.7);
+  z-index: 900; display: none; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.cert-modal-overlay.open { display: flex; }
+.cert-modal {
+  background: #fff; border-radius: 20px; width: 100%; max-width: 560px;
+  overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.3);
+  animation: certIn .25s ease;
+}
+@keyframes certIn { from{opacity:0;transform:scale(.94)} to{opacity:1;transform:scale(1)} }
+
+.cert-preview {
+  padding: 36px 36px 24px;
+  background: linear-gradient(135deg, #0f0f1e 0%, #1e1248 60%, #0c1028 100%);
+  text-align: center; position: relative;
+}
+.cert-preview::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 15% 75%, rgba(124,58,237,0.25) 0%, transparent 50%),
+    radial-gradient(circle at 85% 20%, rgba(99,102,241,0.18) 0%, transparent 48%);
+}
+.cert-preview-inner { position: relative; z-index: 1; }
+.cert-preview-emblem { font-size: 40px; margin-bottom: 8px; }
+.cert-preview-org { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 14px; }
+.cert-preview-title { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 4px; line-height: 1.2; }
+.cert-preview-domain { font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 16px; }
+.cert-preview-name { font-size: 19px; font-weight: 800; color: #fff; border-top: 1px solid rgba(255,255,255,.15); padding-top: 14px; margin-bottom: 4px; }
+.cert-preview-date { font-size: 12px; color: rgba(255,255,255,.4); margin-bottom: 14px; }
+.cert-preview-id { font-family: 'DM Mono', monospace; font-size: 10.5px; color: rgba(255,255,255,.3); letter-spacing: .06em; }
+
+.cert-modal-footer {
+  padding: 18px 24px; display: flex; gap: 10px; border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.cert-modal-close {
+  padding: 9px 20px; border-radius: 9px; border: 1px solid var(--border);
+  background: var(--paper); color: var(--ink); font-size: 13px; font-weight: 600;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+}
+
+/* ─── EMPTY STATE ───────────────────────────── */
+.empty-state {
+  text-align: center; padding: 52px 20px;
+  background: var(--white); border: 1px dashed var(--border); border-radius: 18px;
+  margin-bottom: 32px;
+}
+.empty-icon { font-size: 42px; margin-bottom: 12px; }
+.empty-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.empty-sub { font-size: 13px; color: var(--ink-3); margin-bottom: 18px; }
+.empty-cta {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 22px; border-radius: 11px; background: var(--accent); color: #fff;
+  font-size: 13px; font-weight: 700; text-decoration: none;
+  transition: all .18s ease;
+}
+.empty-cta:hover { background: #6d28d9; transform: translateY(-1px); }
+
+/* ─── SKEL ──────────────────────────────────── */
+.skel { background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+</style>
+<script type="module" src="auth-guard.js"></script>
+</head>
+<body>
+
+<div id="navbar-container"></div>
+
+<div class="page-topbar">
+  <a href="competency-framework.html" class="topbar-back">
+    <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+    Framework
+  </a>
+  <span class="topbar-sep">/</span>
+  <span class="topbar-title">My Certificates</span>
+</div>
+
+<div class="page-wrap">
+
+  <!-- STATS -->
+  <div class="stats-row" id="statsRow">
+    <div class="stat-card"><div class="skel" style="height:40px;"></div></div>
+    <div class="stat-card"><div class="skel" style="height:40px;"></div></div>
+    <div class="stat-card"><div class="skel" style="height:40px;"></div></div>
+  </div>
+
+  <!-- CERTIFICATES -->
+  <div class="section-title">
+    <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a7 7 0 100 14A7 7 0 009 2zm2 10H7v-1.5l3-1.5V7h2v3.5l-1 .5V12z"/></svg>
+    Earned Certificates
+  </div>
+  <div class="cert-grid" id="certGrid">
+    <div class="skel" style="height:220px;border-radius:18px;"></div>
+    <div class="skel" style="height:220px;border-radius:18px;"></div>
+  </div>
+
+  <!-- DOMAIN PROGRESS -->
+  <div class="section-title">
+    <svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 10a8 8 0 1116 0A8 8 0 012 10zm9-3a1 1 0 10-2 0v3a1 1 0 00.293.707l2 2a1 1 0 001.414-1.414L11 9.586V7z"/></svg>
+    Domain Progress Towards Certification
+  </div>
+  <div class="domain-progress-list" id="domainProgressList">
+    <div class="skel" style="height:56px;border-radius:12px;"></div>
+    <div class="skel" style="height:56px;border-radius:12px;"></div>
+    <div class="skel" style="height:56px;border-radius:12px;"></div>
+  </div>
+
+</div>
+
+<!-- CERTIFICATE MODAL -->
+<div class="cert-modal-overlay" id="certModal">
+  <div class="cert-modal">
+    <div class="cert-preview">
+      <div class="cert-preview-inner">
+        <div class="cert-preview-emblem" id="cModalIcon">🎓</div>
+        <div class="cert-preview-org">Eduversal · Teachers Hub</div>
+        <div class="cert-preview-title" id="cModalTitle">Certificate of Competency</div>
+        <div class="cert-preview-domain" id="cModalDomain">Domain</div>
+        <div class="cert-preview-name" id="cModalName">Teacher Name</div>
+        <div class="cert-preview-date" id="cModalDate">Issued —</div>
+        <div class="cert-preview-id" id="cModalId">CERT-000000</div>
+      </div>
+    </div>
+    <div class="cert-modal-footer">
+      <button class="cert-modal-close" onclick="closeCertModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="partials/navbar.js"></script>
+
+<script type="module">
+import { collection, doc, getDoc, getDocs, query, where, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+const FRAMEWORK = [
+  { id: 'curriculum', name: 'Curriculum Design & Delivery', icon: '📚', color: '#7c3aed', bannerFrom: '#1e0a3c', bannerTo: '#0c0820',
+    comps: ['cur-1','cur-2','cur-3','cur-4'] },
+  { id: 'assessment', name: 'Assessment & Feedback', icon: '📊', color: '#2563eb', bannerFrom: '#0a1e3c', bannerTo: '#060d1e',
+    comps: ['asm-1','asm-2','asm-3','asm-4'] },
+  { id: 'classroom', name: 'Classroom Management', icon: '🏫', color: '#d97706', bannerFrom: '#3c1e0a', bannerTo: '#1e0c06',
+    comps: ['cls-1','cls-2','cls-3','cls-4'] },
+  { id: 'pedagogy', name: 'Pedagogical Practice', icon: '💡', color: '#16a34a', bannerFrom: '#0a3c1e', bannerTo: '#062010',
+    comps: ['ped-1','ped-2','ped-3','ped-4'] },
+  { id: 'digital', name: 'Digital Literacy & EdTech', icon: '💻', color: '#e11d48', bannerFrom: '#3c0a1a', bannerTo: '#200614',
+    comps: ['dig-1','dig-2','dig-3','dig-4'] },
+  { id: 'professional', name: 'Professional Growth & Leadership', icon: '🌱', color: '#0d9488', bannerFrom: '#0a2e2c', bannerTo: '#061616',
+    comps: ['pro-1','pro-2','pro-3','pro-4'] },
+];
+
+let uid = '';
+let userName = '';
+let earned = {};
+let myCerts = [];
+
+document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
+  uid = user.uid;
+  userName = profile?.displayName || user.displayName || 'Teacher';
+  await loadData();
+  render();
+});
+
+async function loadData() {
+  // Load user competency progress
+  const ucRef = doc(window.db, 'user_competencies', uid);
+  const ucSnap = await getDoc(ucRef);
+  if (ucSnap.exists()) earned = ucSnap.data().earned || {};
+
+  // Load issued certificates
+  const certQ = query(
+    collection(window.db, 'competency_certificates'),
+    where('uid', '==', uid),
+    where('platform', '==', 'teachers'),
+    orderBy('issuedAt', 'desc')
+  );
+  const certSnap = await getDocs(certQ);
+  myCerts = certSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+}
+
+function getEarnedCount(domainComps) {
+  return domainComps.filter(cid => earned[cid]?.level).length;
+}
+
+function isLeadOnAll(domainComps) {
+  return domainComps.every(cid => earned[cid]?.level === 'lead');
+}
+
+function render() {
+  renderStats();
+  renderCerts();
+  renderDomainProgress();
+}
+
+function renderStats() {
+  const totalCerts = myCerts.length;
+  let totalComps = 0, earnedCount = 0;
+  FRAMEWORK.forEach(d => {
+    d.comps.forEach(c => {
+      totalComps++;
+      if (earned[c]?.level) earnedCount++;
+    });
+  });
+  const domainsComplete = FRAMEWORK.filter(d => isLeadOnAll(d.comps)).length;
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat-card">
+      <div class="stat-num">${totalCerts}</div>
+      <div class="stat-label">Certificates Issued</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${earnedCount}</div>
+      <div class="stat-label">Competencies Earned</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${domainsComplete}</div>
+      <div class="stat-label">Domains Mastered</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${totalComps - earnedCount}</div>
+      <div class="stat-label">Still to Earn</div>
+    </div>
+  `;
+}
+
+function renderCerts() {
+  const grid = document.getElementById('certGrid');
+  if (myCerts.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="empty-icon">🎓</div>
+        <div class="empty-title">No certificates yet</div>
+        <div class="empty-sub">Complete all competencies in a domain at Lead level and a coordinator will issue your certificate.</div>
+        <a href="learning-path.html" class="empty-cta">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
+          Start My Learning Path
+        </a>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = myCerts.map(cert => {
+    const domain = FRAMEWORK.find(d => d.id === cert.domainId) || {};
+    const date = cert.issuedAt?.toDate?.()?.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) || '';
+    return `
+      <div class="cert-card">
+        <div class="cert-card-banner" style="--banner-from:${domain.bannerFrom || '#1e1248'};--banner-to:${domain.bannerTo || '#0c1028'}">
+          <div class="banner-icon">${domain.icon || '🎓'}</div>
+          <div class="banner-shine"></div>
+        </div>
+        <div class="cert-card-body">
+          <div class="cert-domain-tag" style="color:${domain.color || 'var(--accent)'};">${domain.name || cert.domainName}</div>
+          <div class="cert-name">Certificate of Teaching Competency</div>
+          <div class="cert-meta">Issued ${date} · ${cert.issuedBy || 'Eduversal'}</div>
+          <div class="cert-verify-id">${cert.id.substring(0, 8).toUpperCase()}</div>
+          <div class="cert-card-actions">
+            <button class="cert-btn cert-btn-primary" onclick='showCert(${JSON.stringify(cert)}, ${JSON.stringify(domain)})'>
+              🎓 View
+            </button>
+            <a class="cert-btn cert-btn-secondary" href="certificate-verify.html?id=${cert.id}" target="_blank">
+              🔗 Verify
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderDomainProgress() {
+  const list = document.getElementById('domainProgressList');
+  list.innerHTML = FRAMEWORK.map(domain => {
+    const earnedInDomain = getEarnedCount(domain.comps);
+    const total = domain.comps.length;
+    const pct = Math.round((earnedInDomain / total) * 100);
+    const isComplete = isLeadOnAll(domain.comps);
+    const hasAny = earnedInDomain > 0;
+    const badgeClass = isComplete ? 'complete' : hasAny ? 'in-progress' : 'not-started';
+    const badgeLabel = isComplete ? '✓ Certified' : hasAny ? 'In Progress' : 'Not Started';
+    return `
+      <div class="dp-row">
+        <div class="dp-icon">${domain.icon}</div>
+        <div class="dp-name">${domain.name}</div>
+        <div class="dp-bar-wrap">
+          <div class="dp-bar">
+            <div class="dp-fill" style="width:${pct}%;background:${domain.color};"></div>
+          </div>
+        </div>
+        <div class="dp-pct">${pct}%</div>
+        <span class="dp-badge ${badgeClass}">${badgeLabel}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+window.showCert = function(cert, domain) {
+  document.getElementById('cModalIcon').textContent = domain.icon || '🎓';
+  document.getElementById('cModalTitle').textContent = 'Certificate of Teaching Competency';
+  document.getElementById('cModalDomain').textContent = domain.name || cert.domainName;
+  document.getElementById('cModalName').textContent = userName;
+  const date = cert.issuedAt?.toDate?.()?.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) || '';
+  document.getElementById('cModalDate').textContent = `Issued ${date}`;
+  document.getElementById('cModalId').textContent = `CERT-${cert.id.substring(0, 8).toUpperCase()}`;
+  document.getElementById('certModal').classList.add('open');
+};
+
+window.closeCertModal = function() {
+  document.getElementById('certModal').classList.remove('open');
+};
+
+document.getElementById('certModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('certModal')) closeCertModal();
+});
+</script>
+</body>
+</html>

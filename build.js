@@ -42,6 +42,10 @@ const ROUTES = {
   'teacher-self-assessment.html': 'teacher-self-assessment',
   'teacher-kpi-results.html': 'teacher-kpi-results',
   'cambridge-calendar.html': 'cambridge-calendar',
+  'competency-framework.html': 'competency-framework',
+  'learning-path.html': 'learning-path',
+  'my-portfolio.html': 'my-portfolio',
+  'my-certificates.html': 'my-certificates',
   // Subject Leader Tracker pages
   'igcse-math-tracker.html': 'igcse-math-tracker',
   'igcse-biology-tracker.html': 'igcse-biology-tracker',
@@ -78,6 +82,10 @@ const LINK_REWRITES = [
   [/href="teacher-self-assessment\.html"/g, 'href="/teacher-self-assessment"'],
   [/href="teacher-kpi-results\.html"/g,    'href="/teacher-kpi-results"'],
   [/href="cambridge-calendar\.html"/g,     'href="/cambridge-calendar"'],
+  [/href="competency-framework\.html"/g,   'href="/competency-framework"'],
+  [/href="learning-path\.html"/g,          'href="/learning-path"'],
+  [/href="my-portfolio\.html"/g,           'href="/my-portfolio"'],
+  [/href="my-certificates\.html"/g,        'href="/my-certificates"'],
   // Subject Leader Tracker pages
   [/href="igcse-math-tracker\.html"/g,          'href="/igcse-math-tracker"'],
   [/href="igcse-biology-tracker\.html"/g,       'href="/igcse-biology-tracker"'],

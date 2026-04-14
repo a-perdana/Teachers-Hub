@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teaching Competency Framework — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link rel="stylesheet" href="base.css">
+<script src="firebase-config.js"></script>
+<script>if (!window.ENV) window.ENV = { FIREBASE_API_KEY: "__FIREBASE_API_KEY__", FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__", FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__", FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__", FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__", FIREBASE_APP_ID: "__FIREBASE_APP_ID__" };</script>
+<style>
+:root {
+  --accent: #7c3aed;
+  --accent-2: #ede9fe;
+}
+
+.page-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 20px 100px;
+}
+
+/* ─── HERO ─────────────────────────────────── */
+.cf-hero {
+  background: linear-gradient(135deg, #0f0f1e 0%, #1e1248 55%, #0c1028 100%);
+  border-radius: 20px;
+  padding: 40px 40px 36px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.cf-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 80%, rgba(124,58,237,0.22) 0%, transparent 48%),
+    radial-gradient(circle at 86% 20%, rgba(99,102,241,0.14) 0%, transparent 48%);
+}
+.cf-hero-inner { position: relative; z-index: 1; }
+.cf-eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(255,255,255,.38);
+  margin-bottom: 10px;
+}
+.cf-hero-title {
+  font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 8px; line-height: 1.25;
+}
+.cf-hero-sub { font-size: 14px; color: rgba(255,255,255,.5); max-width: 560px; line-height: 1.6; }
+.cf-hero-actions { margin-top: 22px; display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-hero-primary {
+  padding: 10px 22px; border-radius: 10px; border: none;
+  background: var(--accent); color: #fff; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all .18s ease; font-family: 'DM Sans', sans-serif;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
+}
+.btn-hero-primary:hover { background: #6d28d9; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(124,58,237,.4); }
+.btn-hero-secondary {
+  padding: 10px 22px; border-radius: 10px;
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.16);
+  color: rgba(255,255,255,.82); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all .18s ease; font-family: 'DM Sans', sans-serif;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
+}
+.btn-hero-secondary:hover { background: rgba(255,255,255,.16); }
+
+/* ─── LEVEL PILLS ───────────────────────────── */
+.levels-row {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px;
+}
+.level-pill {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: 50px;
+  border: 1.5px solid var(--border); background: var(--white);
+  font-size: 12px; font-weight: 600; color: var(--ink-2);
+  cursor: pointer; transition: all .16s ease;
+}
+.level-pill .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.level-pill:hover, .level-pill.active {
+  border-color: var(--accent); background: var(--accent-2); color: var(--accent);
+}
+.level-pill.active { box-shadow: 0 0 0 3px rgba(124,58,237,.12); }
+
+/* ─── DOMAIN GRID ───────────────────────────── */
+.domain-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 18px;
+  margin-bottom: 40px;
+}
+
+.domain-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s ease, transform .2s ease;
+}
+.domain-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+
+.domain-card-header {
+  padding: 20px 20px 14px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.domain-icon {
+  width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.domain-info { flex: 1; }
+.domain-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; margin-bottom: 3px;
+}
+.domain-name { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.domain-desc { font-size: 12.5px; color: var(--ink-3); line-height: 1.5; }
+
+.domain-card-body { padding: 0 20px 16px; }
+
+.competency-list { display: flex; flex-direction: column; gap: 6px; }
+
+.comp-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 10px;
+  border: 1px solid var(--border); background: var(--paper);
+  cursor: pointer; transition: all .15s ease;
+}
+.comp-item:hover { border-color: var(--accent); background: var(--accent-2); }
+
+.comp-check {
+  width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
+  border: 1.5px solid var(--border); background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s ease;
+}
+.comp-check.earned {
+  background: #22c55e; border-color: #22c55e;
+}
+.comp-check.earned svg { display: block; }
+.comp-check svg { display: none; width: 10px; height: 10px; color: #fff; }
+
+.comp-body { flex: 1; min-width: 0; }
+.comp-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.comp-level-badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 8px; border-radius: 50px;
+  font-size: 10px; font-weight: 700; margin-top: 2px;
+}
+
+.comp-arrow { color: var(--ink-3); flex-shrink: 0; }
+.comp-arrow svg { width: 14px; height: 14px; }
+
+/* ─── LEVEL COLORS ──────────────────────────── */
+.lvl-awareness { background: #e0f2fe; color: #0369a1; }
+.lvl-practitioner { background: #fef3c7; color: #92400e; }
+.lvl-advanced { background: #ede9fe; color: #6d28d9; }
+.lvl-lead { background: #dcfce7; color: #15803d; }
+
+.dot-awareness { background: #0ea5e9; }
+.dot-practitioner { background: #f59e0b; }
+.dot-advanced { background: #7c3aed; }
+.dot-lead { background: #22c55e; }
+
+/* ─── DOMAIN COLORS ─────────────────────────── */
+.dom-purple .domain-icon { background: #ede9fe; color: #7c3aed; }
+.dom-purple .domain-label { color: #7c3aed; }
+.dom-blue .domain-icon { background: #dbeafe; color: #1d4ed8; }
+.dom-blue .domain-label { color: #1d4ed8; }
+.dom-amber .domain-icon { background: #fef3c7; color: #d97706; }
+.dom-amber .domain-label { color: #d97706; }
+.dom-green .domain-icon { background: #dcfce7; color: #15803d; }
+.dom-green .domain-label { color: #15803d; }
+.dom-rose .domain-icon { background: #ffe4e6; color: #be123c; }
+.dom-rose .domain-label { color: #be123c; }
+.dom-teal .domain-icon { background: #ccfbf1; color: #0f766e; }
+.dom-teal .domain-label { color: #0f766e; }
+
+/* ─── PROGRESS BAR ──────────────────────────── */
+.domain-progress { padding: 0 20px 18px; }
+.dp-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-3); margin-bottom: 5px; }
+.dp-bar { height: 5px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.dp-fill { height: 100%; border-radius: 4px; transition: width .4s ease; }
+
+/* ─── MY PROGRESS SECTION ──────────────────── */
+.section-title {
+  font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-title svg { width: 18px; height: 18px; color: var(--accent); }
+
+.progress-overview {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px;
+  margin-bottom: 32px;
+}
+.progress-stat {
+  background: var(--white); border: 1px solid var(--border); border-radius: 14px;
+  padding: 18px 18px 14px; box-shadow: var(--shadow-sm);
+}
+.progress-stat-num { font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 4px; }
+.progress-stat-label { font-size: 12px; color: var(--ink-3); }
+.progress-stat-sub { font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+
+/* ─── FRAMEWORK LEVELS EXPLAINER ───────────── */
+.levels-explainer {
+  background: var(--white); border: 1px solid var(--border); border-radius: 16px;
+  padding: 24px; margin-bottom: 32px; box-shadow: var(--shadow-sm);
+}
+.levels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-top: 14px; }
+.level-card {
+  padding: 14px 16px; border-radius: 12px; border: 1.5px solid transparent;
+}
+.level-card.awareness { background: #f0f9ff; border-color: #bae6fd; }
+.level-card.practitioner { background: #fffbeb; border-color: #fde68a; }
+.level-card.advanced { background: #f5f3ff; border-color: #ddd6fe; }
+.level-card.lead { background: #f0fdf4; border-color: #bbf7d0; }
+.level-card-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.level-card.awareness .level-card-name { color: #0369a1; }
+.level-card.practitioner .level-card-name { color: #92400e; }
+.level-card.advanced .level-card-name { color: #6d28d9; }
+.level-card.lead .level-card-name { color: #15803d; }
+.level-card-desc { font-size: 12px; color: var(--ink-3); line-height: 1.5; }
+
+/* ─── FILTER BAR ────────────────────────────── */
+.filter-bar {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+  align-items: center;
+}
+.filter-label { font-size: 12px; font-weight: 600; color: var(--ink-3); }
+
+/* ─── EMPTY ─────────────────────────────────── */
+.skel-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden; height: 240px;
+  box-shadow: var(--shadow-sm);
+}
+.skel { background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+</style>
+<script type="module" src="auth-guard.js"></script>
+</head>
+<body>
+
+<div id="navbar-container"></div>
+
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <div class="cf-hero">
+    <div class="cf-hero-inner">
+      <div class="cf-eyebrow">Eduversal · Teachers Hub</div>
+      <h1 class="cf-hero-title">Teaching Competency Framework</h1>
+      <p class="cf-hero-sub">A structured pathway for professional growth. Explore the six domains, track your progress across all competency levels, and earn recognised certificates.</p>
+      <div class="cf-hero-actions">
+        <a href="learning-path.html" class="btn-hero-primary">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm1 11H9v-2h2v2zm0-4H9V7h2v2z"/></svg>
+          My Learning Path
+        </a>
+        <a href="my-certificates.html" class="btn-hero-secondary">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path d="M9 2a7 7 0 100 14A7 7 0 009 2zm2 10H7v-1.5l3-1.5V7h2v3.5l-1 .5V12z"/></svg>
+          My Certificates
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESS OVERVIEW -->
+  <div class="section-title">
+    <svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 10a8 8 0 1116 0A8 8 0 012 10zm9-3a1 1 0 10-2 0v3a1 1 0 00.293.707l2 2a1 1 0 001.414-1.414L11 9.586V7z"/></svg>
+    My Progress
+  </div>
+  <div class="progress-overview" id="progressOverview">
+    <div class="skel-card"><div class="skel" style="margin:20px;height:60px;"></div></div>
+    <div class="skel-card"><div class="skel" style="margin:20px;height:60px;"></div></div>
+    <div class="skel-card"><div class="skel" style="margin:20px;height:60px;"></div></div>
+    <div class="skel-card"><div class="skel" style="margin:20px;height:60px;"></div></div>
+  </div>
+
+  <!-- LEVELS EXPLAINER -->
+  <div class="levels-explainer">
+    <div class="section-title" style="margin-bottom:0;">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.396 0 2.7.37 3.82 1.016A7.968 7.968 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.396 0-2.7.37-3.82 1.016A7.968 7.968 0 009 4.804z"/></svg>
+      Competency Levels
+    </div>
+    <div class="levels-grid">
+      <div class="level-card awareness">
+        <div class="level-card-name">Awareness</div>
+        <div class="level-card-desc">Understands the concept and can describe it in context. Foundational knowledge.</div>
+      </div>
+      <div class="level-card practitioner">
+        <div class="level-card-name">Practitioner</div>
+        <div class="level-card-desc">Applies the competency consistently in classroom practice with evidence.</div>
+      </div>
+      <div class="level-card advanced">
+        <div class="level-card-name">Advanced</div>
+        <div class="level-card-desc">Adapts and extends the competency; reflective and context-responsive.</div>
+      </div>
+      <div class="level-card lead">
+        <div class="level-card-name">Lead / Mentor</div>
+        <div class="level-card-desc">Coaches colleagues, leads professional learning, models best practice.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER -->
+  <div class="filter-bar">
+    <span class="filter-label">Filter by level:</span>
+    <button class="level-pill active" data-filter="all" onclick="setFilter('all',this)">
+      <span class="dot" style="background:#94a3b8;"></span> All Levels
+    </button>
+    <button class="level-pill" data-filter="awareness" onclick="setFilter('awareness',this)">
+      <span class="dot dot-awareness"></span> Awareness
+    </button>
+    <button class="level-pill" data-filter="practitioner" onclick="setFilter('practitioner',this)">
+      <span class="dot dot-practitioner"></span> Practitioner
+    </button>
+    <button class="level-pill" data-filter="advanced" onclick="setFilter('advanced',this)">
+      <span class="dot dot-advanced"></span> Advanced
+    </button>
+    <button class="level-pill" data-filter="lead" onclick="setFilter('lead',this)">
+      <span class="dot dot-lead"></span> Lead / Mentor
+    </button>
+  </div>
+
+  <!-- FRAMEWORK TITLE -->
+  <div class="section-title">
+    <svg viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z"/></svg>
+    The Six Domains
+  </div>
+
+  <!-- DOMAIN GRID -->
+  <div class="domain-grid" id="domainGrid">
+    <div class="skel-card"></div>
+    <div class="skel-card"></div>
+    <div class="skel-card"></div>
+    <div class="skel-card"></div>
+    <div class="skel-card"></div>
+    <div class="skel-card"></div>
+  </div>
+
+</div>
+
+<script src="partials/navbar.js"></script>
+
+<script type="module">
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+// ─── FRAMEWORK DATA ───────────────────────────────────────────────────────────
+// Competency framework is defined here and mirrored in Firestore
+// Collection: competency_frameworks/{platform}
+// Domains: competency_domains/{domainId}
+// User earned competencies: user_competencies/{uid} → { earned: { [compId]: { level, date } } }
+
+const FRAMEWORK = [
+  {
+    id: 'curriculum',
+    name: 'Curriculum Design & Delivery',
+    desc: 'Planning, sequencing and delivering curriculum aligned to Cambridge standards.',
+    icon: '📚',
+    color: 'dom-purple',
+    competencies: [
+      { id: 'cur-1', name: 'Lesson Planning & Sequencing', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'cur-2', name: 'Learning Objectives Alignment', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'cur-3', name: 'Differentiated Curriculum Design', levels: ['practitioner','advanced','lead'] },
+      { id: 'cur-4', name: 'Cross-curricular Integration', levels: ['advanced','lead'] },
+    ]
+  },
+  {
+    id: 'assessment',
+    name: 'Assessment & Feedback',
+    desc: 'Using formative and summative assessment to drive learning.',
+    icon: '📊',
+    color: 'dom-blue',
+    competencies: [
+      { id: 'asm-1', name: 'Formative Assessment Techniques', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'asm-2', name: 'Marking & Written Feedback', levels: ['awareness','practitioner','advanced'] },
+      { id: 'asm-3', name: 'Data-Informed Intervention', levels: ['practitioner','advanced','lead'] },
+      { id: 'asm-4', name: 'Student Self & Peer Assessment', levels: ['practitioner','advanced','lead'] },
+    ]
+  },
+  {
+    id: 'classroom',
+    name: 'Classroom Management',
+    desc: 'Creating purposeful, safe and productive learning environments.',
+    icon: '🏫',
+    color: 'dom-amber',
+    competencies: [
+      { id: 'cls-1', name: 'Positive Behaviour Management', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'cls-2', name: 'Inclusive Classroom Culture', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'cls-3', name: 'Student Engagement Strategies', levels: ['practitioner','advanced','lead'] },
+      { id: 'cls-4', name: 'Physical & Digital Environment Setup', levels: ['awareness','practitioner'] },
+    ]
+  },
+  {
+    id: 'pedagogy',
+    name: 'Pedagogical Practice',
+    desc: 'Evidence-based instructional strategies and active learning approaches.',
+    icon: '💡',
+    color: 'dom-green',
+    competencies: [
+      { id: 'ped-1', name: 'Active Learning Facilitation', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'ped-2', name: 'Inquiry-Based Learning', levels: ['practitioner','advanced','lead'] },
+      { id: 'ped-3', name: 'Higher-Order Thinking (Bloom\'s)', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'ped-4', name: 'Metacognition & Learning to Learn', levels: ['advanced','lead'] },
+    ]
+  },
+  {
+    id: 'digital',
+    name: 'Digital Literacy & EdTech',
+    desc: 'Purposeful use of technology to enrich teaching and learning.',
+    icon: '💻',
+    color: 'dom-rose',
+    competencies: [
+      { id: 'dig-1', name: 'Technology-Enhanced Learning Design', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'dig-2', name: 'Data & Digital Tools for Assessment', levels: ['awareness','practitioner','advanced'] },
+      { id: 'dig-3', name: 'Digital Citizenship & Online Safety', levels: ['awareness','practitioner'] },
+      { id: 'dig-4', name: 'AI-Assisted Learning Strategies', levels: ['practitioner','advanced','lead'] },
+    ]
+  },
+  {
+    id: 'professional',
+    name: 'Professional Growth & Leadership',
+    desc: 'Reflective practice, collaboration, and contribution to school improvement.',
+    icon: '🌱',
+    color: 'dom-teal',
+    competencies: [
+      { id: 'pro-1', name: 'Reflective Practice & Self-Evaluation', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'pro-2', name: 'Collaborative Professional Learning', levels: ['practitioner','advanced','lead'] },
+      { id: 'pro-3', name: 'Mentoring & Coaching Colleagues', levels: ['advanced','lead'] },
+      { id: 'pro-4', name: 'Contributing to School Development', levels: ['advanced','lead'] },
+    ]
+  }
+];
+
+const LEVEL_ORDER = ['awareness','practitioner','advanced','lead'];
+const LEVEL_LABEL = { awareness:'Awareness', practitioner:'Practitioner', advanced:'Advanced', lead:'Lead / Mentor' };
+
+let earned = {}; // { [compId]: highestLevel }
+let currentFilter = 'all';
+
+document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
+  await loadUserCompetencies(user.uid);
+  renderProgressOverview();
+  renderDomains();
+});
+
+async function loadUserCompetencies(uid) {
+  const ref = doc(window.db, 'user_competencies', uid);
+  const snap = await getDoc(ref);
+  if (snap.exists()) {
+    const data = snap.data();
+    earned = data.earned || {};
+  }
+}
+
+function highestEarned(compId) {
+  if (!earned[compId]) return null;
+  return earned[compId].level || null;
+}
+
+function renderProgressOverview() {
+  let totalComps = 0, earnedCount = 0, certCount = 0;
+  const domainProgress = {};
+
+  FRAMEWORK.forEach(domain => {
+    let domTotal = 0, domEarned = 0;
+    domain.competencies.forEach(comp => {
+      totalComps++;
+      domTotal++;
+      if (highestEarned(comp.id)) { earnedCount++; domEarned++; }
+    });
+    domainProgress[domain.id] = { total: domTotal, earned: domEarned };
+  });
+
+  // Count certificates: a cert is issued when all competencies in a domain are at 'lead'
+  FRAMEWORK.forEach(domain => {
+    const allLead = domain.competencies.every(c => highestEarned(c.id) === 'lead');
+    if (allLead) certCount++;
+  });
+
+  const pct = totalComps > 0 ? Math.round((earnedCount / totalComps) * 100) : 0;
+
+  document.getElementById('progressOverview').innerHTML = `
+    <div class="progress-stat">
+      <div class="progress-stat-num">${pct}%</div>
+      <div class="progress-stat-label">Overall Progress</div>
+      <div class="progress-stat-sub">${earnedCount} of ${totalComps} competencies</div>
+    </div>
+    <div class="progress-stat">
+      <div class="progress-stat-num">${earnedCount}</div>
+      <div class="progress-stat-label">Competencies Earned</div>
+      <div class="progress-stat-sub">across all domains</div>
+    </div>
+    <div class="progress-stat">
+      <div class="progress-stat-num">${certCount}</div>
+      <div class="progress-stat-label">Certificates Earned</div>
+      <div class="progress-stat-sub">full domain mastery</div>
+    </div>
+    <div class="progress-stat">
+      <div class="progress-stat-num">${totalComps - earnedCount}</div>
+      <div class="progress-stat-label">Remaining</div>
+      <div class="progress-stat-sub">competencies to unlock</div>
+    </div>
+  `;
+}
+
+function renderDomains() {
+  const grid = document.getElementById('domainGrid');
+  grid.innerHTML = '';
+
+  FRAMEWORK.forEach(domain => {
+    const filtered = currentFilter === 'all'
+      ? domain.competencies
+      : domain.competencies.filter(c => c.levels.includes(currentFilter));
+
+    if (filtered.length === 0) return;
+
+    const earnedInDomain = domain.competencies.filter(c => highestEarned(c.id)).length;
+    const pct = Math.round((earnedInDomain / domain.competencies.length) * 100);
+
+    let fillColor = '#7c3aed';
+    if (domain.color === 'dom-blue') fillColor = '#2563eb';
+    else if (domain.color === 'dom-amber') fillColor = '#d97706';
+    else if (domain.color === 'dom-green') fillColor = '#16a34a';
+    else if (domain.color === 'dom-rose') fillColor = '#e11d48';
+    else if (domain.color === 'dom-teal') fillColor = '#0d9488';
+
+    const compsHtml = filtered.map(comp => {
+      const lvl = highestEarned(comp.id);
+      const isEarned = !!lvl;
+      const displayLevel = lvl ? LEVEL_LABEL[lvl] : (comp.levels[0] ? LEVEL_LABEL[comp.levels[0]] : '');
+      const levelClass = lvl ? `lvl-${lvl}` : `lvl-${comp.levels[0]}`;
+      return `
+        <div class="comp-item" onclick="goToPath('${comp.id}')">
+          <div class="comp-check ${isEarned ? 'earned' : ''}">
+            <svg viewBox="0 0 12 12" fill="currentColor"><path d="M10 3L5 9 2 6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="comp-body">
+            <div class="comp-name">${comp.name}</div>
+            <span class="comp-level-badge ${levelClass}">${isEarned ? '✓ ' : ''}${displayLevel}</span>
+          </div>
+          <div class="comp-arrow">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    grid.innerHTML += `
+      <div class="domain-card ${domain.color}">
+        <div class="domain-card-header">
+          <div class="domain-icon">${domain.icon}</div>
+          <div class="domain-info">
+            <div class="domain-label">Domain ${FRAMEWORK.indexOf(domain) + 1}</div>
+            <div class="domain-name">${domain.name}</div>
+            <div class="domain-desc">${domain.desc}</div>
+          </div>
+        </div>
+        <div class="domain-progress">
+          <div class="dp-label"><span>${earnedInDomain}/${domain.competencies.length} earned</span><span>${pct}%</span></div>
+          <div class="dp-bar"><div class="dp-fill" style="width:${pct}%;background:${fillColor};"></div></div>
+        </div>
+        <div class="domain-card-body">
+          <div class="competency-list">${compsHtml}</div>
+        </div>
+      </div>
+    `;
+  });
+
+  if (grid.innerHTML === '') {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--ink-3);font-size:14px;">No competencies found for this level filter.</div>';
+  }
+}
+
+window.setFilter = function(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.level-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  renderDomains();
+};
+
+window.goToPath = function(compId) {
+  window.location.href = `learning-path.html?comp=${compId}`;
+};
+</script>
+</body>
+</html>
