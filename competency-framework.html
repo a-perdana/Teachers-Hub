@@ -285,19 +285,19 @@
     <div class="levels-grid">
       <div class="level-card awareness">
         <div class="level-card-name">Awareness</div>
-        <div class="level-card-desc">Understands the concept and can describe it in context. Foundational knowledge.</div>
+        <div class="level-card-desc">Demonstrates foundational understanding of the standard; follows guidance and is building confidence. (Cambridge Teacher Standard: beginning to engage)</div>
       </div>
       <div class="level-card practitioner">
         <div class="level-card-name">Practitioner</div>
-        <div class="level-card-desc">Applies the competency consistently in classroom practice with evidence.</div>
+        <div class="level-card-desc">Applies the competency consistently and independently; can evidence impact on student learning. (Cambridge Teacher Standard: developing)</div>
       </div>
       <div class="level-card advanced">
         <div class="level-card-name">Advanced</div>
-        <div class="level-card-desc">Adapts and extends the competency; reflective and context-responsive.</div>
+        <div class="level-card-desc">Adapts practice with critical reflection; uses evidence to innovate and improve outcomes for diverse learners. (Cambridge Teacher Standard: established)</div>
       </div>
       <div class="level-card lead">
         <div class="level-card-name">Lead / Mentor</div>
-        <div class="level-card-desc">Coaches colleagues, leads professional learning, models best practice.</div>
+        <div class="level-card-desc">Leads and mentors colleagues; contributes to school-wide improvement and the wider Cambridge professional community. (Cambridge Teacher Standard: exemplary)</div>
       </div>
     </div>
   </div>
@@ -338,6 +338,41 @@
     <div class="skel-card"></div>
   </div>
 
+  <!-- REFERENCES -->
+  <div class="levels-explainer" style="margin-top:40px;">
+    <div class="section-title" style="margin-bottom:12px;">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.396 0 2.7.37 3.82 1.016A7.968 7.968 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.396 0-2.7.37-3.82 1.016A7.968 7.968 0 009 4.804z"/></svg>
+      Framework Sources & References
+    </div>
+    <p style="font-size:13px;color:var(--ink-3);margin:0 0 14px;">This framework is grounded in the following internationally recognised standards and Indonesian national regulations:</p>
+    <div style="display:grid;gap:10px;">
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;">
+        <span style="font-size:18px;flex-shrink:0;">📘</span>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--ink-1);margin-bottom:2px;">Cambridge Teacher Standards 2019</div>
+          <div style="font-size:12px;color:var(--ink-3);">University of Cambridge Local Examinations Syndicate (UCLES). Defines five attributes for Cambridge-qualified teachers: Confident, Responsible, Reflective, Innovative, and Engaged. Used to map all six domains and CPD level descriptors in this framework.</div>
+          <a href="https://www.cambridge.org/elt/blog/2019/10/cambridge-teacher-standards/" target="_blank" rel="noopener" style="font-size:12px;color:#6d28d9;font-weight:600;margin-top:4px;display:inline-block;">cambridge.org/elt → Cambridge Teacher Standards ↗</a>
+        </div>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;">
+        <span style="font-size:18px;flex-shrink:0;">🇮🇩</span>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--ink-1);margin-bottom:2px;">Permendiknas No. 16 Tahun 2007 — Standar Kualifikasi Akademik dan Kompetensi Guru</div>
+          <div style="font-size:12px;color:var(--ink-3);">Kementerian Pendidikan Nasional Republik Indonesia. Establishes the four core teacher competencies (Pedagogik, Kepribadian, Sosial, Profesional) that underpin teacher certification in Indonesia. Integrated into the Professional Identity & Ethics and Collaboration domains.</div>
+          <a href="https://peraturan.bpk.go.id/Details/83919/permendiknas-no-16-tahun-2007" target="_blank" rel="noopener" style="font-size:12px;color:#6d28d9;font-weight:600;margin-top:4px;display:inline-block;">peraturan.bpk.go.id → Permendiknas No. 16/2007 ↗</a>
+        </div>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;">
+        <span style="font-size:18px;flex-shrink:0;">🎓</span>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--ink-1);margin-bottom:2px;">Cambridge CPD Framework — Professional Development Levels</div>
+          <div style="font-size:12px;color:var(--ink-3);">Cambridge Assessment International Education. The four CPD levels (Awareness → Practitioner → Advanced → Lead/Mentor) map to the Cambridge CPD pathway and are used as the progression structure for all competency levels in this framework.</div>
+          <a href="https://www.cambridge-community.org.uk/professional-development" target="_blank" rel="noopener" style="font-size:12px;color:#6d28d9;font-weight:600;margin-top:4px;display:inline-block;">cambridge-community.org.uk → Professional Development ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script src="partials/navbar.js"></script>
@@ -351,83 +386,85 @@ import { getFirestore, doc, getDoc, setDoc, collection, getDocs, query, where, o
 // Domains: competency_domains/{domainId}
 // User earned competencies: user_competencies/{uid} → { earned: { [compId]: { level, date } } }
 
+// Framework grounded in: Cambridge Teacher Standards 2019 (UCLES),
+// Permendiknas No. 16/2007 (4 Kompetensi Guru), and Cambridge CPD levels.
 const FRAMEWORK = [
   {
-    id: 'curriculum',
-    name: 'Curriculum Design & Delivery',
-    desc: 'Planning, sequencing and delivering curriculum aligned to Cambridge standards.',
-    icon: '📚',
-    color: 'dom-purple',
+    id: 'smc',
+    name: 'Subject Mastery & Curriculum Design',
+    desc: 'Secure subject knowledge and coherent curriculum planning aligned to Cambridge syllabuses and Indonesian standards.',
+    icon: '📚', color: 'dom-purple',
+    // Cambridge Teacher Standard 2 + Kompetensi Profesional (Permendiknas 16/2007)
     competencies: [
-      { id: 'cur-1', name: 'Lesson Planning & Sequencing', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'cur-2', name: 'Learning Objectives Alignment', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'cur-3', name: 'Differentiated Curriculum Design', levels: ['practitioner','advanced','lead'] },
-      { id: 'cur-4', name: 'Cross-curricular Integration', levels: ['advanced','lead'] },
+      { id: 'smc-1', name: 'Cambridge Syllabus & Assessment Objectives', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'smc-2', name: 'Lesson Sequencing & Scheme of Work Design', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'smc-3', name: 'Vertical Curriculum Alignment (Key Stage)', levels: ['practitioner','advanced','lead'] },
+      { id: 'smc-4', name: 'Curriculum Review & Resource Development', levels: ['advanced','lead'] },
     ]
   },
   {
-    id: 'assessment',
-    name: 'Assessment & Feedback',
-    desc: 'Using formative and summative assessment to drive learning.',
-    icon: '📊',
-    color: 'dom-blue',
+    id: 'lcp',
+    name: 'Learner-Centred Pedagogy',
+    desc: 'Responsive teaching strategies that address diverse learning profiles, including EAL learners and students with additional needs.',
+    icon: '💡', color: 'dom-blue',
+    // Cambridge Teacher Standard 1 + Kompetensi Pedagogik (karakteristik peserta didik, teori belajar)
     competencies: [
-      { id: 'asm-1', name: 'Formative Assessment Techniques', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'asm-2', name: 'Marking & Written Feedback', levels: ['awareness','practitioner','advanced'] },
-      { id: 'asm-3', name: 'Data-Informed Intervention', levels: ['practitioner','advanced','lead'] },
-      { id: 'asm-4', name: 'Student Self & Peer Assessment', levels: ['practitioner','advanced','lead'] },
+      { id: 'lcp-1', name: 'Differentiation & Inclusive Practice', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'lcp-2', name: 'EAL & Multilingual Learner Support', levels: ['awareness','practitioner','advanced'] },
+      { id: 'lcp-3', name: 'Metacognition & Self-Regulated Learning', levels: ['practitioner','advanced','lead'] },
+      { id: 'lcp-4', name: 'Higher-Order & Inquiry-Based Thinking', levels: ['practitioner','advanced','lead'] },
     ]
   },
   {
-    id: 'classroom',
-    name: 'Classroom Management',
-    desc: 'Creating purposeful, safe and productive learning environments.',
-    icon: '🏫',
-    color: 'dom-amber',
+    id: 'afl',
+    name: 'Assessment for Learning',
+    desc: 'Using formative and summative assessment evidence — including Cambridge mark schemes — to improve student outcomes.',
+    icon: '📊', color: 'dom-green',
+    // Cambridge Teacher Standard 5.7–5.9 + Pedagogik (penilaian evaluasi proses dan hasil belajar)
     competencies: [
-      { id: 'cls-1', name: 'Positive Behaviour Management', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'cls-2', name: 'Inclusive Classroom Culture', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'cls-3', name: 'Student Engagement Strategies', levels: ['practitioner','advanced','lead'] },
-      { id: 'cls-4', name: 'Physical & Digital Environment Setup', levels: ['awareness','practitioner'] },
+      { id: 'afl-1', name: 'Formative Assessment Techniques', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'afl-2', name: 'Feedback Aligned to Cambridge Mark Schemes', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'afl-3', name: 'Data Analysis & Targeted Intervention', levels: ['practitioner','advanced','lead'] },
+      { id: 'afl-4', name: 'Moderation & Assessment Consistency', levels: ['advanced','lead'] },
     ]
   },
   {
-    id: 'pedagogy',
-    name: 'Pedagogical Practice',
-    desc: 'Evidence-based instructional strategies and active learning approaches.',
-    icon: '💡',
-    color: 'dom-green',
+    id: 'icp',
+    name: 'Innovative Classroom Practice',
+    desc: 'Applying evidence-based innovations and purposeful technology use to foster intellectual curiosity and 21st-century skills.',
+    icon: '🚀', color: 'dom-amber',
+    // Cambridge Teacher Standard 6 + Pedagogik (TIK) + Profesional (kreatif, Permendiknas 16/2007)
     competencies: [
-      { id: 'ped-1', name: 'Active Learning Facilitation', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'ped-2', name: 'Inquiry-Based Learning', levels: ['practitioner','advanced','lead'] },
-      { id: 'ped-3', name: 'Higher-Order Thinking (Bloom\'s)', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'ped-4', name: 'Metacognition & Learning to Learn', levels: ['advanced','lead'] },
+      { id: 'icp-1', name: 'Active Learning & Collaborative Structures', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'icp-2', name: 'Cambridge Global Perspectives & Thinking Skills', levels: ['practitioner','advanced','lead'] },
+      { id: 'icp-3', name: 'EdTech & Digital Tools for Learning', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'icp-4', name: 'Action Research & Evidence-Based Innovation', levels: ['advanced','lead'] },
     ]
   },
   {
-    id: 'digital',
-    name: 'Digital Literacy & EdTech',
-    desc: 'Purposeful use of technology to enrich teaching and learning.',
-    icon: '💻',
-    color: 'dom-rose',
+    id: 'pie',
+    name: 'Professional Identity & Ethics',
+    desc: 'Upholding Cambridge teacher attributes and Indonesian professional standards with integrity, reflective practice and commitment to growth.',
+    icon: '🌱', color: 'dom-rose',
+    // Cambridge Teacher Standard 3 + Kompetensi Kepribadian + kode etik profesi (UU Guru No. 14/2005)
     competencies: [
-      { id: 'dig-1', name: 'Technology-Enhanced Learning Design', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'dig-2', name: 'Data & Digital Tools for Assessment', levels: ['awareness','practitioner','advanced'] },
-      { id: 'dig-3', name: 'Digital Citizenship & Online Safety', levels: ['awareness','practitioner'] },
-      { id: 'dig-4', name: 'AI-Assisted Learning Strategies', levels: ['practitioner','advanced','lead'] },
+      { id: 'pie-1', name: 'Reflective Practice & CPD Engagement', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'pie-2', name: 'Professional Conduct & Teacher Ethics', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'pie-3', name: 'Safeguarding & Child Protection', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'pie-4', name: 'Mentoring & Contributing to School Development', levels: ['advanced','lead'] },
     ]
   },
   {
-    id: 'professional',
-    name: 'Professional Growth & Leadership',
-    desc: 'Reflective practice, collaboration, and contribution to school improvement.',
-    icon: '🌱',
-    color: 'dom-teal',
+    id: 'cce',
+    name: 'Collaboration & Community Engagement',
+    desc: 'Building professional partnerships with colleagues, families and the wider Cambridge school community.',
+    icon: '🤝', color: 'dom-teal',
+    // Cambridge Teacher Standard 4 + Standard 8 + Kompetensi Sosial (Permendiknas 16/2007)
     competencies: [
-      { id: 'pro-1', name: 'Reflective Practice & Self-Evaluation', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'pro-2', name: 'Collaborative Professional Learning', levels: ['practitioner','advanced','lead'] },
-      { id: 'pro-3', name: 'Mentoring & Coaching Colleagues', levels: ['advanced','lead'] },
-      { id: 'pro-4', name: 'Contributing to School Development', levels: ['advanced','lead'] },
+      { id: 'cce-1', name: 'Collaborative Curriculum & Lesson Planning', levels: ['awareness','practitioner','advanced','lead'] },
+      { id: 'cce-2', name: 'Parent Communication & Reporting', levels: ['awareness','practitioner','advanced'] },
+      { id: 'cce-3', name: 'Cross-departmental & Cross-school Collaboration', levels: ['practitioner','advanced','lead'] },
+      { id: 'cce-4', name: 'Cambridge Network & Professional Community', levels: ['advanced','lead'] },
     ]
   }
 ];

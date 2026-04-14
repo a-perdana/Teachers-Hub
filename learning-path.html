@@ -282,6 +282,29 @@
     </main>
 
   </div>
+
+  <!-- REFERENCES -->
+  <div style="margin-top:40px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:16px;">
+    <div style="font-size:13px;font-weight:700;color:var(--ink-1);margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+      <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.396 0 2.7.37 3.82 1.016A7.968 7.968 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.396 0-2.7.37-3.82 1.016A7.968 7.968 0 009 4.804z"/></svg>
+      Framework Sources & References
+    </div>
+    <div style="display:grid;gap:8px;">
+      <div style="font-size:12px;color:var(--ink-2);padding:10px 12px;background:var(--white);border-radius:10px;border:1px solid var(--border);">
+        <span style="font-weight:700;">Cambridge Teacher Standards 2019</span> — University of Cambridge Local Examinations Syndicate (UCLES). Five attributes: Confident, Responsible, Reflective, Innovative, Engaged. Primary source for all domain structures and CPD level descriptors.
+        <a href="https://www.cambridge.org/elt/blog/2019/10/cambridge-teacher-standards/" target="_blank" rel="noopener" style="color:#7c3aed;font-weight:600;margin-left:4px;">↗ cambridge.org</a>
+      </div>
+      <div style="font-size:12px;color:var(--ink-2);padding:10px 12px;background:var(--white);border-radius:10px;border:1px solid var(--border);">
+        <span style="font-weight:700;">Permendiknas No. 16 Tahun 2007 — Standar Kualifikasi Akademik dan Kompetensi Guru</span> — Kementerian Pendidikan Nasional RI. Four core teacher competencies: Pedagogik, Kepribadian, Sosial, Profesional. Integrated into Professional Identity & Ethics and Collaboration domains.
+        <a href="https://peraturan.bpk.go.id/Details/83919/permendiknas-no-16-tahun-2007" target="_blank" rel="noopener" style="color:#7c3aed;font-weight:600;margin-left:4px;">↗ peraturan.bpk.go.id</a>
+      </div>
+      <div style="font-size:12px;color:var(--ink-2);padding:10px 12px;background:var(--white);border-radius:10px;border:1px solid var(--border);">
+        <span style="font-weight:700;">Cambridge CPD Framework — Professional Development Levels</span> — Cambridge Assessment International Education. Four CPD progression levels (Awareness → Practitioner → Advanced → Lead/Mentor) used as the level structure throughout this framework.
+        <a href="https://www.cambridge-community.org.uk/professional-development" target="_blank" rel="noopener" style="color:#7c3aed;font-weight:600;margin-left:4px;">↗ cambridge-community.org.uk</a>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script src="partials/navbar.js"></script>
@@ -289,285 +312,390 @@
 <script type="module">
 import { doc, getDoc, setDoc, updateDoc, collection, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-// ─── FRAMEWORK DATA (same as competency-framework.html) ──────────────────────
+// ─── FRAMEWORK DATA ─────────────────────────────────────────────────────────
+// Grounded in: Cambridge Teacher Standards 2019 (UCLES),
+// Permendiknas No. 16/2007 (4 Kompetensi Guru), Cambridge CPD Levels.
 const FRAMEWORK = [
   {
-    id: 'curriculum',
-    name: 'Curriculum Design & Delivery',
+    id: 'smc',
+    name: 'Subject Mastery & Curriculum Design',
     icon: '📚',
     color: '#7c3aed',
     bg: '#ede9fe',
     competencies: [
-      { id: 'cur-1', name: 'Lesson Planning & Sequencing', levels: ['awareness','practitioner','advanced','lead'],
+      { id: 'smc-1', name: 'Cambridge Syllabus & Assessment Objectives', levels: ['awareness','practitioner','advanced','lead'],
         materials: {
           awareness: [
-            { id: 'cur1-aw-1', type: 'reading', name: 'Cambridge Lesson Planning Guide', duration: '20 min' },
-            { id: 'cur1-aw-2', type: 'video', name: 'What Makes a Good Lesson Plan?', duration: '12 min' },
+            { id: 'smc1-aw-1', type: 'reading', name: 'Cambridge Syllabus Overview & Learning Objectives Guide', duration: '20 min' },
+            { id: 'smc1-aw-2', type: 'video', name: 'Understanding Cambridge Assessment Objectives', duration: '15 min' },
           ],
           practitioner: [
-            { id: 'cur1-pr-1', type: 'activity', name: 'Design a 3-lesson sequence with Learning Objectives', duration: '45 min' },
-            { id: 'cur1-pr-2', type: 'reflection', name: 'Peer-review a colleague\'s lesson plan using Cambridge criteria', duration: '30 min' },
+            { id: 'smc1-pr-1', type: 'activity', name: 'Map your most recent lesson to specific Cambridge AOs', duration: '30 min' },
+            { id: 'smc1-pr-2', type: 'reflection', name: 'Annotate a past exam paper with AO tags', duration: '30 min' },
           ],
           advanced: [
-            { id: 'cur1-ad-1', type: 'activity', name: 'Map a full scheme of work to Cambridge syllabus', duration: '60 min' },
+            { id: 'smc1-ad-1', type: 'activity', name: 'Audit a full scheme of work against Cambridge syllabus and AOs', duration: '60 min' },
           ],
           lead: [
-            { id: 'cur1-ld-1', type: 'activity', name: 'Lead a department lesson planning workshop', duration: '90 min' },
+            { id: 'smc1-ld-1', type: 'activity', name: 'Lead a department workshop on Cambridge syllabus alignment', duration: '90 min' },
           ]
         }
       },
-      { id: 'cur-2', name: 'Learning Objectives Alignment', levels: ['awareness','practitioner','advanced','lead'],
+      { id: 'smc-2', name: 'Lesson Sequencing & Scheme of Work Design', levels: ['awareness','practitioner','advanced','lead'],
         materials: {
           awareness: [
-            { id: 'cur2-aw-1', type: 'reading', name: 'Bloom\'s Taxonomy Overview', duration: '15 min' },
+            { id: 'smc2-aw-1', type: 'reading', name: 'Cambridge Guide to Scheme of Work Design', duration: '20 min' },
           ],
           practitioner: [
-            { id: 'cur2-pr-1', type: 'activity', name: 'Write 10 SMART learning objectives for your subject', duration: '30 min' },
+            { id: 'smc2-pr-1', type: 'activity', name: 'Design a 3-lesson sequence with clear learning objectives and progression', duration: '45 min' },
+            { id: 'smc2-pr-2', type: 'reflection', name: 'Peer-review a colleague\'s scheme of work using Cambridge criteria', duration: '30 min' },
           ],
           advanced: [
-            { id: 'cur2-ad-1', type: 'activity', name: 'Audit a scheme of work for objective alignment gaps', duration: '45 min' },
+            { id: 'smc2-ad-1', type: 'activity', name: 'Build a full-term scheme of work with cross-topic progression', duration: '90 min' },
           ],
           lead: [
-            { id: 'cur2-ld-1', type: 'activity', name: 'Train colleagues on writing Cambridge-aligned objectives', duration: '60 min' },
+            { id: 'smc2-ld-1', type: 'activity', name: 'Lead a department scheme of work review and standardisation session', duration: '90 min' },
           ]
         }
       },
-      { id: 'cur-3', name: 'Differentiated Curriculum Design', levels: ['practitioner','advanced','lead'],
+      { id: 'smc-3', name: 'Vertical Curriculum Alignment (Key Stage)', levels: ['practitioner','advanced','lead'],
         materials: {
           practitioner: [
-            { id: 'cur3-pr-1', type: 'reading', name: 'Introduction to Differentiation Strategies', duration: '25 min' },
-            { id: 'cur3-pr-2', type: 'activity', name: 'Adapt one lesson for 3 learning levels', duration: '40 min' },
+            { id: 'smc3-pr-1', type: 'reading', name: 'Cambridge Progression from Checkpoint to IGCSE to A-Level', duration: '25 min' },
+            { id: 'smc3-pr-2', type: 'activity', name: 'Identify 3 topics in your subject that need vertical alignment adjustments', duration: '30 min' },
           ],
           advanced: [
-            { id: 'cur3-ad-1', type: 'activity', name: 'Design a differentiated assessment scheme', duration: '50 min' },
+            { id: 'smc3-ad-1', type: 'activity', name: 'Create a vertical alignment map for one topic across key stages', duration: '60 min' },
           ],
           lead: [
-            { id: 'cur3-ld-1', type: 'activity', name: 'Observe and coach 2 colleagues on differentiation', duration: '120 min' },
+            { id: 'smc3-ld-1', type: 'activity', name: 'Facilitate a cross-key-stage curriculum alignment workshop', duration: '90 min' },
           ]
         }
       },
-      { id: 'cur-4', name: 'Cross-curricular Integration', levels: ['advanced','lead'],
+      { id: 'smc-4', name: 'Curriculum Review & Resource Development', levels: ['advanced','lead'],
         materials: {
           advanced: [
-            { id: 'cur4-ad-1', type: 'activity', name: 'Design a cross-subject project with one colleague', duration: '60 min' },
+            { id: 'smc4-ad-1', type: 'activity', name: 'Design or curate a resource pack aligned to a Cambridge unit', duration: '60 min' },
           ],
           lead: [
-            { id: 'cur4-ld-1', type: 'activity', name: 'Lead a cross-department curriculum mapping session', duration: '90 min' },
+            { id: 'smc4-ld-1', type: 'activity', name: 'Lead a curriculum review cycle and produce a written report', duration: '1 term' },
           ]
         }
       },
     ]
   },
   {
-    id: 'assessment',
-    name: 'Assessment & Feedback',
-    icon: '📊',
+    id: 'lcp',
+    name: 'Learner-Centred Pedagogy',
+    icon: '💡',
     color: '#2563eb',
     bg: '#dbeafe',
     competencies: [
-      { id: 'asm-1', name: 'Formative Assessment Techniques', levels: ['awareness','practitioner','advanced','lead'],
+      { id: 'lcp-1', name: 'Active & Inquiry-Based Learning', levels: ['awareness','practitioner','advanced','lead'],
         materials: {
           awareness: [
-            { id: 'asm1-aw-1', type: 'reading', name: 'What is Formative Assessment?', duration: '15 min' },
-            { id: 'asm1-aw-2', type: 'video', name: '5 Formative Assessment Strategies in Action', duration: '18 min' },
+            { id: 'lcp1-aw-1', type: 'reading', name: 'Cambridge Active Learning Approaches Guide', duration: '20 min' },
+            { id: 'lcp1-aw-2', type: 'video', name: 'Inquiry-Based Learning in IGCSE Classrooms', duration: '15 min' },
           ],
           practitioner: [
-            { id: 'asm1-pr-1', type: 'activity', name: 'Implement exit tickets for 2 consecutive weeks', duration: '14 days' },
+            { id: 'lcp1-pr-1', type: 'activity', name: 'Redesign one lesson using active learning principles', duration: '45 min' },
           ],
           advanced: [
-            { id: 'asm1-ad-1', type: 'activity', name: 'Design a formative assessment calendar for a term', duration: '45 min' },
+            { id: 'lcp1-ad-1', type: 'activity', name: 'Design and deliver a 3-lesson inquiry unit with reflection', duration: '3 lessons' },
           ],
           lead: [
-            { id: 'asm1-ld-1', type: 'activity', name: 'Lead a department workshop on formative assessment', duration: '90 min' },
+            { id: 'lcp1-ld-1', type: 'activity', name: 'Facilitate a department CPD session on active learning', duration: '90 min' },
           ]
         }
       },
-      { id: 'asm-2', name: 'Marking & Written Feedback', levels: ['awareness','practitioner','advanced'],
+      { id: 'lcp-2', name: 'Differentiation & Inclusive Teaching', levels: ['awareness','practitioner','advanced','lead'],
         materials: {
           awareness: [
-            { id: 'asm2-aw-1', type: 'reading', name: 'Effective Written Feedback Principles', duration: '20 min' },
+            { id: 'lcp2-aw-1', type: 'reading', name: 'Universal Design for Learning & Cambridge Inclusive Practice', duration: '25 min' },
           ],
           practitioner: [
-            { id: 'asm2-pr-1', type: 'activity', name: 'Mark 10 student pieces using WWW / EBI structure', duration: '60 min' },
+            { id: 'lcp2-pr-1', type: 'activity', name: 'Adapt one lesson for 3 learning levels; document outcomes', duration: '40 min' },
           ],
           advanced: [
-            { id: 'asm2-ad-1', type: 'reflection', name: 'Reflect on student uptake of your feedback over a term', duration: '30 min' },
+            { id: 'lcp2-ad-1', type: 'activity', name: 'Design a differentiated assessment scheme for a unit', duration: '50 min' },
+          ],
+          lead: [
+            { id: 'lcp2-ld-1', type: 'activity', name: 'Observe and coach 2 colleagues on differentiation practice', duration: '120 min' },
           ]
         }
       },
-      { id: 'asm-3', name: 'Data-Informed Intervention', levels: ['practitioner','advanced','lead'],
+      { id: 'lcp-3', name: 'Higher-Order Questioning & Bloom\'s Taxonomy', levels: ['practitioner','advanced','lead'],
         materials: {
           practitioner: [
-            { id: 'asm3-pr-1', type: 'reading', name: 'Reading Assessment Data: A Teacher\'s Guide', duration: '20 min' },
+            { id: 'lcp3-pr-1', type: 'reading', name: 'Cambridge Command Words & Higher-Order Questioning', duration: '20 min' },
+            { id: 'lcp3-pr-2', type: 'activity', name: 'Redesign 5 exam questions to hit Analysis / Evaluation level', duration: '30 min' },
           ],
           advanced: [
-            { id: 'asm3-ad-1', type: 'activity', name: 'Identify 3 students needing intervention using EASE data', duration: '30 min' },
+            { id: 'lcp3-ad-1', type: 'activity', name: 'Map a full unit to Bloom\'s cognitive levels', duration: '45 min' },
           ],
           lead: [
-            { id: 'asm3-ld-1', type: 'activity', name: 'Train department on using EASE dashboards for intervention', duration: '60 min' },
+            { id: 'lcp3-ld-1', type: 'activity', name: 'Run a questioning skills workshop for the department', duration: '90 min' },
           ]
         }
       },
-      { id: 'asm-4', name: 'Student Self & Peer Assessment', levels: ['practitioner','advanced','lead'],
+      { id: 'lcp-4', name: 'Metacognition & Study Skills', levels: ['advanced','lead'],
         materials: {
-          practitioner: [
-            { id: 'asm4-pr-1', type: 'activity', name: 'Implement one peer assessment activity per week for 4 weeks', duration: '4 weeks' },
-          ],
           advanced: [
-            { id: 'asm4-ad-1', type: 'activity', name: 'Design a student self-assessment rubric for your subject', duration: '45 min' },
+            { id: 'lcp4-ad-1', type: 'reading', name: 'EEF Metacognition & Self-Regulated Learning Guidance Report', duration: '35 min' },
+            { id: 'lcp4-ad-2', type: 'activity', name: 'Embed one metacognitive strategy into your teaching for 2 weeks', duration: '2 weeks' },
           ],
           lead: [
-            { id: 'asm4-ld-1', type: 'activity', name: 'Model a peer assessment lesson for the department', duration: '60 min' },
+            { id: 'lcp4-ld-1', type: 'activity', name: 'Design and deliver a student study skills session', duration: '60 min' },
           ]
         }
       },
     ]
   },
   {
-    id: 'classroom',
-    name: 'Classroom Management',
-    icon: '🏫',
-    color: '#d97706',
-    bg: '#fef3c7',
-    competencies: [
-      { id: 'cls-1', name: 'Positive Behaviour Management', levels: ['awareness','practitioner','advanced','lead'],
-        materials: {
-          awareness: [{ id: 'cls1-aw-1', type: 'reading', name: 'Positive Behaviour for Learning Framework', duration: '20 min' }],
-          practitioner: [{ id: 'cls1-pr-1', type: 'activity', name: 'Implement a class agreement and review after 2 weeks', duration: '2 weeks' }],
-          advanced: [{ id: 'cls1-ad-1', type: 'reflection', name: 'Reflect on your behaviour management over one term', duration: '30 min' }],
-          lead: [{ id: 'cls1-ld-1', type: 'activity', name: 'Coach a colleague on managing a challenging class', duration: '90 min' }]
-        }
-      },
-      { id: 'cls-2', name: 'Inclusive Classroom Culture', levels: ['awareness','practitioner','advanced','lead'],
-        materials: {
-          awareness: [{ id: 'cls2-aw-1', type: 'reading', name: 'Universal Design for Learning Introduction', duration: '25 min' }],
-          practitioner: [{ id: 'cls2-pr-1', type: 'activity', name: 'Conduct a classroom inclusion audit', duration: '30 min' }],
-          advanced: [{ id: 'cls2-ad-1', type: 'activity', name: 'Redesign seating and grouping for inclusion', duration: '45 min' }],
-          lead: [{ id: 'cls2-ld-1', type: 'activity', name: 'Lead a whole-school inclusive practice session', duration: '90 min' }]
-        }
-      },
-      { id: 'cls-3', name: 'Student Engagement Strategies', levels: ['practitioner','advanced','lead'],
-        materials: {
-          practitioner: [{ id: 'cls3-pr-1', type: 'video', name: '10 Engagement Strategies That Work', duration: '20 min' }],
-          advanced: [{ id: 'cls3-ad-1', type: 'activity', name: 'Design an engagement-focused unit plan', duration: '50 min' }],
-          lead: [{ id: 'cls3-ld-1', type: 'activity', name: 'Observe and coach a colleague on student engagement', duration: '120 min' }]
-        }
-      },
-      { id: 'cls-4', name: 'Physical & Digital Environment Setup', levels: ['awareness','practitioner'],
-        materials: {
-          awareness: [{ id: 'cls4-aw-1', type: 'reading', name: 'Setting Up a Learning-Ready Environment', duration: '15 min' }],
-          practitioner: [{ id: 'cls4-pr-1', type: 'activity', name: 'Photograph and annotate your classroom environment', duration: '20 min' }]
-        }
-      },
-    ]
-  },
-  {
-    id: 'pedagogy',
-    name: 'Pedagogical Practice',
-    icon: '💡',
+    id: 'afl',
+    name: 'Assessment for Learning',
+    icon: '📊',
     color: '#16a34a',
     bg: '#dcfce7',
     competencies: [
-      { id: 'ped-1', name: 'Active Learning Facilitation', levels: ['awareness','practitioner','advanced','lead'],
+      { id: 'afl-1', name: 'Formative Assessment Techniques', levels: ['awareness','practitioner','advanced','lead'],
         materials: {
-          awareness: [{ id: 'ped1-aw-1', type: 'reading', name: 'Active Learning: What, Why, How', duration: '20 min' }],
-          practitioner: [{ id: 'ped1-pr-1', type: 'activity', name: 'Redesign one lesson using active learning principles', duration: '40 min' }],
-          advanced: [{ id: 'ped1-ad-1', type: 'activity', name: 'Document 3 active learning lessons with student outcomes', duration: 'ongoing' }],
-          lead: [{ id: 'ped1-ld-1', type: 'activity', name: 'Facilitate an active learning professional development session', duration: '90 min' }]
+          awareness: [
+            { id: 'afl1-aw-1', type: 'reading', name: 'Cambridge Guide to Assessment for Learning', duration: '15 min' },
+            { id: 'afl1-aw-2', type: 'video', name: '5 Formative Assessment Strategies in Action', duration: '18 min' },
+          ],
+          practitioner: [
+            { id: 'afl1-pr-1', type: 'activity', name: 'Implement exit tickets for 2 consecutive weeks', duration: '14 days' },
+          ],
+          advanced: [
+            { id: 'afl1-ad-1', type: 'activity', name: 'Design a formative assessment calendar for a full term', duration: '45 min' },
+          ],
+          lead: [
+            { id: 'afl1-ld-1', type: 'activity', name: 'Lead a department workshop on formative assessment', duration: '90 min' },
+          ]
         }
       },
-      { id: 'ped-2', name: 'Inquiry-Based Learning', levels: ['practitioner','advanced','lead'],
+      { id: 'afl-2', name: 'Quality Marking & Written Feedback', levels: ['awareness','practitioner','advanced'],
         materials: {
-          practitioner: [{ id: 'ped2-pr-1', type: 'reading', name: 'Inquiry-Based Learning Design Guide', duration: '25 min' }],
-          advanced: [{ id: 'ped2-ad-1', type: 'activity', name: 'Design and deliver a 3-lesson inquiry unit', duration: '3 lessons' }],
-          lead: [{ id: 'ped2-ld-1', type: 'activity', name: 'Support a colleague in designing their first IBL unit', duration: '120 min' }]
+          awareness: [
+            { id: 'afl2-aw-1', type: 'reading', name: 'Effective Written Feedback: Principles & Practice', duration: '20 min' },
+          ],
+          practitioner: [
+            { id: 'afl2-pr-1', type: 'activity', name: 'Mark 10 student pieces using WWW / EBI structure', duration: '60 min' },
+          ],
+          advanced: [
+            { id: 'afl2-ad-1', type: 'reflection', name: 'Evaluate student uptake of your feedback over one term', duration: '30 min' },
+          ]
         }
       },
-      { id: 'ped-3', name: "Higher-Order Thinking (Bloom's)", levels: ['awareness','practitioner','advanced','lead'],
+      { id: 'afl-3', name: 'Data-Informed Teaching & Intervention', levels: ['practitioner','advanced','lead'],
         materials: {
-          awareness: [{ id: 'ped3-aw-1', type: 'reading', name: "Bloom's Taxonomy in Practice", duration: '20 min' }],
-          practitioner: [{ id: 'ped3-pr-1', type: 'activity', name: 'Redesign 5 exam questions to hit Analysis/Evaluation', duration: '30 min' }],
-          advanced: [{ id: 'ped3-ad-1', type: 'activity', name: 'Map a full unit to Bloom\'s levels', duration: '45 min' }],
-          lead: [{ id: 'ped3-ld-1', type: 'activity', name: 'Run a questioning skills workshop for colleagues', duration: '90 min' }]
+          practitioner: [
+            { id: 'afl3-pr-1', type: 'reading', name: 'Using EASE Assessment Data to Inform Teaching', duration: '20 min' },
+          ],
+          advanced: [
+            { id: 'afl3-ad-1', type: 'activity', name: 'Identify 3 students needing intervention using EASE data and plan targeted support', duration: '30 min' },
+          ],
+          lead: [
+            { id: 'afl3-ld-1', type: 'activity', name: 'Train the department on using EASE dashboards for intervention decisions', duration: '60 min' },
+          ]
         }
       },
-      { id: 'ped-4', name: 'Metacognition & Learning to Learn', levels: ['advanced','lead'],
+      { id: 'afl-4', name: 'Student Self- & Peer Assessment', levels: ['practitioner','advanced','lead'],
         materials: {
-          advanced: [{ id: 'ped4-ad-1', type: 'reading', name: 'EEF Metacognition Guidance Report', duration: '35 min' }],
-          lead: [{ id: 'ped4-ld-1', type: 'activity', name: 'Design and deliver a study skills session for students', duration: '60 min' }]
+          practitioner: [
+            { id: 'afl4-pr-1', type: 'activity', name: 'Implement one peer assessment activity per week for 4 weeks', duration: '4 weeks' },
+          ],
+          advanced: [
+            { id: 'afl4-ad-1', type: 'activity', name: 'Design a student self-assessment rubric for your subject', duration: '45 min' },
+          ],
+          lead: [
+            { id: 'afl4-ld-1', type: 'activity', name: 'Model a peer assessment lesson for the department', duration: '60 min' },
+          ]
         }
       },
     ]
   },
   {
-    id: 'digital',
-    name: 'Digital Literacy & EdTech',
-    icon: '💻',
+    id: 'icp',
+    name: 'Innovative Classroom Practice',
+    icon: '🚀',
+    color: '#d97706',
+    bg: '#fef3c7',
+    competencies: [
+      { id: 'icp-1', name: 'Technology-Enhanced Learning (SAMR)', levels: ['awareness','practitioner','advanced','lead'],
+        materials: {
+          awareness: [
+            { id: 'icp1-aw-1', type: 'reading', name: 'SAMR Model: Moving Beyond Substitution', duration: '20 min' },
+          ],
+          practitioner: [
+            { id: 'icp1-pr-1', type: 'activity', name: 'Design one lesson using a digital tool at Modification or Redefinition level', duration: '40 min' },
+          ],
+          advanced: [
+            { id: 'icp1-ad-1', type: 'activity', name: 'Build a digital learning sequence with embedded formative checkpoints', duration: '60 min' },
+          ],
+          lead: [
+            { id: 'icp1-ld-1', type: 'activity', name: 'Lead a department EdTech integration workshop', duration: '90 min' },
+          ]
+        }
+      },
+      { id: 'icp-2', name: 'Digital Tools for Assessment & Tracking', levels: ['awareness','practitioner','advanced'],
+        materials: {
+          awareness: [
+            { id: 'icp2-aw-1', type: 'video', name: 'Digital Assessment Tools Overview for Cambridge Teachers', duration: '15 min' },
+          ],
+          practitioner: [
+            { id: 'icp2-pr-1', type: 'activity', name: 'Use a digital quiz tool for 3 consecutive formative checks', duration: '3 weeks' },
+          ],
+          advanced: [
+            { id: 'icp2-ad-1', type: 'activity', name: 'Build a class progress tracker and use it for one term', duration: '1 term' },
+          ]
+        }
+      },
+      { id: 'icp-3', name: 'Digital Citizenship & Online Safety', levels: ['awareness','practitioner'],
+        materials: {
+          awareness: [
+            { id: 'icp3-aw-1', type: 'reading', name: 'Digital Citizenship in K-12 Schools', duration: '20 min' },
+          ],
+          practitioner: [
+            { id: 'icp3-pr-1', type: 'activity', name: 'Teach one digital citizenship lesson to your class', duration: '60 min' },
+          ]
+        }
+      },
+      { id: 'icp-4', name: 'AI-Assisted Learning Strategies', levels: ['practitioner','advanced','lead'],
+        materials: {
+          practitioner: [
+            { id: 'icp4-pr-1', type: 'reading', name: 'AI in Education: Opportunities, Risks and Ethics', duration: '25 min' },
+          ],
+          advanced: [
+            { id: 'icp4-ad-1', type: 'activity', name: 'Design an AI-assisted lesson and document student outcomes', duration: '60 min' },
+          ],
+          lead: [
+            { id: 'icp4-ld-1', type: 'activity', name: 'Lead a staff discussion on responsible AI use in Cambridge classrooms', duration: '60 min' },
+          ]
+        }
+      },
+    ]
+  },
+  {
+    id: 'pie',
+    name: 'Professional Identity & Ethics',
+    icon: '🌱',
     color: '#e11d48',
     bg: '#ffe4e6',
     competencies: [
-      { id: 'dig-1', name: 'Technology-Enhanced Learning Design', levels: ['awareness','practitioner','advanced','lead'],
+      { id: 'pie-1', name: 'Reflective Practice & Self-Evaluation', levels: ['awareness','practitioner','advanced','lead'],
         materials: {
-          awareness: [{ id: 'dig1-aw-1', type: 'reading', name: 'SAMR Model: Moving Beyond Substitution', duration: '20 min' }],
-          practitioner: [{ id: 'dig1-pr-1', type: 'activity', name: 'Design one lesson using a digital tool at Modification level', duration: '40 min' }],
-          advanced: [{ id: 'dig1-ad-1', type: 'activity', name: 'Build a digital learning sequence with formative checkpoints', duration: '60 min' }],
-          lead: [{ id: 'dig1-ld-1', type: 'activity', name: 'Lead an EdTech integration workshop', duration: '90 min' }]
+          awareness: [
+            { id: 'pie1-aw-1', type: 'reading', name: 'Cambridge CPD Introduction to Reflective Teaching', duration: '20 min' },
+          ],
+          practitioner: [
+            { id: 'pie1-pr-1', type: 'reflection', name: 'Complete a 4-week reflective teaching journal', duration: '4 weeks' },
+          ],
+          advanced: [
+            { id: 'pie1-ad-1', type: 'reflection', name: 'Write a structured self-evaluation against Cambridge Teacher Standards', duration: '45 min' },
+          ],
+          lead: [
+            { id: 'pie1-ld-1', type: 'activity', name: 'Facilitate a reflective practice group with 3+ colleagues', duration: '90 min' },
+          ]
         }
       },
-      { id: 'dig-2', name: 'Data & Digital Tools for Assessment', levels: ['awareness','practitioner','advanced'],
+      { id: 'pie-2', name: 'Professional Ethics & Indonesian Teachers\' Code', levels: ['awareness','practitioner','advanced'],
         materials: {
-          awareness: [{ id: 'dig2-aw-1', type: 'video', name: 'Digital Assessment Tools Overview', duration: '15 min' }],
-          practitioner: [{ id: 'dig2-pr-1', type: 'activity', name: 'Use a digital quiz tool for 3 consecutive formative checks', duration: '3 weeks' }],
-          advanced: [{ id: 'dig2-ad-1', type: 'activity', name: 'Build a dashboard to track class progress over a term', duration: '60 min' }]
+          awareness: [
+            { id: 'pie2-aw-1', type: 'reading', name: 'Permendiknas No.16/2007 — Kompetensi Kepribadian & Sosial', duration: '25 min' },
+          ],
+          practitioner: [
+            { id: 'pie2-pr-1', type: 'reflection', name: 'Self-assess against the 4 Kompetensi Guru using a structured tool', duration: '30 min' },
+          ],
+          advanced: [
+            { id: 'pie2-ad-1', type: 'activity', name: 'Develop a personal professional ethics statement and share with a mentor', duration: '45 min' },
+          ]
         }
       },
-      { id: 'dig-3', name: 'Digital Citizenship & Online Safety', levels: ['awareness','practitioner'],
+      { id: 'pie-3', name: 'Wellbeing & Sustainable Teaching Practice', levels: ['awareness','practitioner','advanced'],
         materials: {
-          awareness: [{ id: 'dig3-aw-1', type: 'reading', name: 'Digital Citizenship Framework', duration: '20 min' }],
-          practitioner: [{ id: 'dig3-pr-1', type: 'activity', name: 'Teach one digital citizenship lesson to your class', duration: '60 min' }]
+          awareness: [
+            { id: 'pie3-aw-1', type: 'reading', name: 'Teacher Wellbeing and Resilience in International Schools', duration: '20 min' },
+          ],
+          practitioner: [
+            { id: 'pie3-pr-1', type: 'reflection', name: 'Identify 3 personal wellbeing strategies and trial them for one month', duration: '1 month' },
+          ],
+          advanced: [
+            { id: 'pie3-ad-1', type: 'activity', name: 'Lead a peer discussion on workload management and wellbeing', duration: '60 min' },
+          ]
         }
       },
-      { id: 'dig-4', name: 'AI-Assisted Learning Strategies', levels: ['practitioner','advanced','lead'],
+      { id: 'pie-4', name: 'Contributing to School Development', levels: ['advanced','lead'],
         materials: {
-          practitioner: [{ id: 'dig4-pr-1', type: 'reading', name: 'AI in Education: Opportunities and Risks', duration: '25 min' }],
-          advanced: [{ id: 'dig4-ad-1', type: 'activity', name: 'Design an AI-assisted lesson and reflect on outcomes', duration: '60 min' }],
-          lead: [{ id: 'dig4-ld-1', type: 'activity', name: 'Lead a staff discussion on responsible AI use in teaching', duration: '60 min' }]
+          advanced: [
+            { id: 'pie4-ad-1', type: 'activity', name: 'Write and present a proposal for one school improvement initiative', duration: '60 min' },
+          ],
+          lead: [
+            { id: 'pie4-ld-1', type: 'activity', name: 'Lead implementation of a school improvement project', duration: '1 term' },
+          ]
         }
       },
     ]
   },
   {
-    id: 'professional',
-    name: 'Professional Growth & Leadership',
-    icon: '🌱',
+    id: 'cce',
+    name: 'Collaboration & Community Engagement',
+    icon: '🤝',
     color: '#0d9488',
     bg: '#ccfbf1',
     competencies: [
-      { id: 'pro-1', name: 'Reflective Practice & Self-Evaluation', levels: ['awareness','practitioner','advanced','lead'],
+      { id: 'cce-1', name: 'Professional Learning Communities & Lesson Study', levels: ['awareness','practitioner','advanced','lead'],
         materials: {
-          awareness: [{ id: 'pro1-aw-1', type: 'reading', name: 'Introduction to Reflective Teaching', duration: '20 min' }],
-          practitioner: [{ id: 'pro1-pr-1', type: 'reflection', name: 'Complete a 4-week reflective teaching journal', duration: '4 weeks' }],
-          advanced: [{ id: 'pro1-ad-1', type: 'reflection', name: 'Write a structured self-evaluation against Cambridge standards', duration: '45 min' }],
-          lead: [{ id: 'pro1-ld-1', type: 'activity', name: 'Facilitate a reflective practice group with 3+ colleagues', duration: '90 min' }]
+          awareness: [
+            { id: 'cce1-aw-1', type: 'reading', name: 'Cambridge CPD: Professional Learning Communities', duration: '20 min' },
+          ],
+          practitioner: [
+            { id: 'cce1-pr-1', type: 'activity', name: 'Participate actively in 4 lesson study or PLC sessions', duration: '4 sessions' },
+          ],
+          advanced: [
+            { id: 'cce1-ad-1', type: 'activity', name: 'Co-plan and co-teach a lesson with a colleague; debrief outcomes', duration: '2 lessons' },
+          ],
+          lead: [
+            { id: 'cce1-ld-1', type: 'activity', name: 'Lead a department professional learning community over one term', duration: 'ongoing' },
+          ]
         }
       },
-      { id: 'pro-2', name: 'Collaborative Professional Learning', levels: ['practitioner','advanced','lead'],
+      { id: 'cce-2', name: 'Mentoring & Coaching Colleagues', levels: ['advanced','lead'],
         materials: {
-          practitioner: [{ id: 'pro2-pr-1', type: 'activity', name: 'Participate actively in 4 lesson study sessions', duration: '4 sessions' }],
-          advanced: [{ id: 'pro2-ad-1', type: 'activity', name: 'Co-plan and co-teach a lesson with a colleague', duration: '2 lessons' }],
-          lead: [{ id: 'pro2-ld-1', type: 'activity', name: 'Lead a department professional learning community', duration: 'ongoing' }]
+          advanced: [
+            { id: 'cce2-ad-1', type: 'reading', name: 'Coaching Conversations Framework for Teachers', duration: '30 min' },
+            { id: 'cce2-ad-2', type: 'activity', name: 'Conduct 3 structured coaching conversations with a developing colleague', duration: '3 sessions' },
+          ],
+          lead: [
+            { id: 'cce2-ld-1', type: 'activity', name: 'Formally mentor a new or developing teacher for one term', duration: '1 term' },
+          ]
         }
       },
-      { id: 'pro-3', name: 'Mentoring & Coaching Colleagues', levels: ['advanced','lead'],
+      { id: 'cce-3', name: 'Parent & Community Communication', levels: ['awareness','practitioner','advanced'],
         materials: {
-          advanced: [{ id: 'pro3-ad-1', type: 'reading', name: 'Coaching Conversations Framework', duration: '30 min' }],
-          lead: [{ id: 'pro3-ld-1', type: 'activity', name: 'Formally mentor a new or developing teacher for one term', duration: '1 term' }]
+          awareness: [
+            { id: 'cce3-aw-1', type: 'reading', name: 'Effective Home-School Communication in International Schools', duration: '20 min' },
+          ],
+          practitioner: [
+            { id: 'cce3-pr-1', type: 'activity', name: 'Lead or contribute to one parent engagement event', duration: '2 hours' },
+          ],
+          advanced: [
+            { id: 'cce3-ad-1', type: 'activity', name: 'Design a parent communication plan for a term', duration: '45 min' },
+          ]
         }
       },
-      { id: 'pro-4', name: 'Contributing to School Development', levels: ['advanced','lead'],
+      { id: 'cce-4', name: 'Cross-curricular & Inter-school Collaboration', levels: ['practitioner','advanced','lead'],
         materials: {
-          advanced: [{ id: 'pro4-ad-1', type: 'activity', name: 'Write and present a proposal for one school improvement initiative', duration: '60 min' }],
-          lead: [{ id: 'pro4-ld-1', type: 'activity', name: 'Lead the implementation of a school improvement project', duration: '1 term' }]
+          practitioner: [
+            { id: 'cce4-pr-1', type: 'activity', name: 'Design a cross-subject mini-project with one colleague', duration: '60 min' },
+          ],
+          advanced: [
+            { id: 'cce4-ad-1', type: 'activity', name: 'Lead a cross-department curriculum collaboration session', duration: '90 min' },
+          ],
+          lead: [
+            { id: 'cce4-ld-1', type: 'activity', name: 'Coordinate an inter-school collaborative learning initiative', duration: '1 term' },
+          ]
         }
       },
     ]

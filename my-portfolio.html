@@ -263,42 +263,43 @@
 <script type="module">
 import { collection, doc, addDoc, getDocs, query, where, orderBy, serverTimestamp, onSnapshot, getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-// ─── FRAMEWORK METADATA (comp id → name + levels) ────────────────────────────
+// ─── FRAMEWORK METADATA ──────────────────────────────────────────────────────
+// Grounded in: Cambridge Teacher Standards 2019, Permendiknas No.16/2007
 const COMP_META = {
-  'cur-1': { name: 'Lesson Planning & Sequencing', domain: 'Curriculum Design & Delivery', levels: ['awareness','practitioner','advanced','lead'] },
-  'cur-2': { name: 'Learning Objectives Alignment', domain: 'Curriculum Design & Delivery', levels: ['awareness','practitioner','advanced','lead'] },
-  'cur-3': { name: 'Differentiated Curriculum Design', domain: 'Curriculum Design & Delivery', levels: ['practitioner','advanced','lead'] },
-  'cur-4': { name: 'Cross-curricular Integration', domain: 'Curriculum Design & Delivery', levels: ['advanced','lead'] },
-  'asm-1': { name: 'Formative Assessment Techniques', domain: 'Assessment & Feedback', levels: ['awareness','practitioner','advanced','lead'] },
-  'asm-2': { name: 'Marking & Written Feedback', domain: 'Assessment & Feedback', levels: ['awareness','practitioner','advanced'] },
-  'asm-3': { name: 'Data-Informed Intervention', domain: 'Assessment & Feedback', levels: ['practitioner','advanced','lead'] },
-  'asm-4': { name: 'Student Self & Peer Assessment', domain: 'Assessment & Feedback', levels: ['practitioner','advanced','lead'] },
-  'cls-1': { name: 'Positive Behaviour Management', domain: 'Classroom Management', levels: ['awareness','practitioner','advanced','lead'] },
-  'cls-2': { name: 'Inclusive Classroom Culture', domain: 'Classroom Management', levels: ['awareness','practitioner','advanced','lead'] },
-  'cls-3': { name: 'Student Engagement Strategies', domain: 'Classroom Management', levels: ['practitioner','advanced','lead'] },
-  'cls-4': { name: 'Physical & Digital Environment Setup', domain: 'Classroom Management', levels: ['awareness','practitioner'] },
-  'ped-1': { name: 'Active Learning Facilitation', domain: 'Pedagogical Practice', levels: ['awareness','practitioner','advanced','lead'] },
-  'ped-2': { name: 'Inquiry-Based Learning', domain: 'Pedagogical Practice', levels: ['practitioner','advanced','lead'] },
-  'ped-3': { name: "Higher-Order Thinking (Bloom's)", domain: 'Pedagogical Practice', levels: ['awareness','practitioner','advanced','lead'] },
-  'ped-4': { name: 'Metacognition & Learning to Learn', domain: 'Pedagogical Practice', levels: ['advanced','lead'] },
-  'dig-1': { name: 'Technology-Enhanced Learning Design', domain: 'Digital Literacy & EdTech', levels: ['awareness','practitioner','advanced','lead'] },
-  'dig-2': { name: 'Data & Digital Tools for Assessment', domain: 'Digital Literacy & EdTech', levels: ['awareness','practitioner','advanced'] },
-  'dig-3': { name: 'Digital Citizenship & Online Safety', domain: 'Digital Literacy & EdTech', levels: ['awareness','practitioner'] },
-  'dig-4': { name: 'AI-Assisted Learning Strategies', domain: 'Digital Literacy & EdTech', levels: ['practitioner','advanced','lead'] },
-  'pro-1': { name: 'Reflective Practice & Self-Evaluation', domain: 'Professional Growth & Leadership', levels: ['awareness','practitioner','advanced','lead'] },
-  'pro-2': { name: 'Collaborative Professional Learning', domain: 'Professional Growth & Leadership', levels: ['practitioner','advanced','lead'] },
-  'pro-3': { name: 'Mentoring & Coaching Colleagues', domain: 'Professional Growth & Leadership', levels: ['advanced','lead'] },
-  'pro-4': { name: 'Contributing to School Development', domain: 'Professional Growth & Leadership', levels: ['advanced','lead'] },
+  'smc-1': { name: 'Cambridge Syllabus & Assessment Objectives', domain: 'Subject Mastery & Curriculum Design', levels: ['awareness','practitioner','advanced','lead'] },
+  'smc-2': { name: 'Lesson Sequencing & Scheme of Work Design', domain: 'Subject Mastery & Curriculum Design', levels: ['awareness','practitioner','advanced','lead'] },
+  'smc-3': { name: 'Vertical Curriculum Alignment (Key Stage)', domain: 'Subject Mastery & Curriculum Design', levels: ['practitioner','advanced','lead'] },
+  'smc-4': { name: 'Curriculum Review & Resource Development', domain: 'Subject Mastery & Curriculum Design', levels: ['advanced','lead'] },
+  'lcp-1': { name: 'Active & Inquiry-Based Learning', domain: 'Learner-Centred Pedagogy', levels: ['awareness','practitioner','advanced','lead'] },
+  'lcp-2': { name: 'Differentiation & Inclusive Teaching', domain: 'Learner-Centred Pedagogy', levels: ['awareness','practitioner','advanced','lead'] },
+  'lcp-3': { name: "Higher-Order Questioning & Bloom's Taxonomy", domain: 'Learner-Centred Pedagogy', levels: ['practitioner','advanced','lead'] },
+  'lcp-4': { name: 'Metacognition & Study Skills', domain: 'Learner-Centred Pedagogy', levels: ['advanced','lead'] },
+  'afl-1': { name: 'Formative Assessment Techniques', domain: 'Assessment for Learning', levels: ['awareness','practitioner','advanced','lead'] },
+  'afl-2': { name: 'Quality Marking & Written Feedback', domain: 'Assessment for Learning', levels: ['awareness','practitioner','advanced'] },
+  'afl-3': { name: 'Data-Informed Teaching & Intervention', domain: 'Assessment for Learning', levels: ['practitioner','advanced','lead'] },
+  'afl-4': { name: 'Student Self- & Peer Assessment', domain: 'Assessment for Learning', levels: ['practitioner','advanced','lead'] },
+  'icp-1': { name: 'Technology-Enhanced Learning (SAMR)', domain: 'Innovative Classroom Practice', levels: ['awareness','practitioner','advanced','lead'] },
+  'icp-2': { name: 'Digital Tools for Assessment & Tracking', domain: 'Innovative Classroom Practice', levels: ['awareness','practitioner','advanced'] },
+  'icp-3': { name: 'Digital Citizenship & Online Safety', domain: 'Innovative Classroom Practice', levels: ['awareness','practitioner'] },
+  'icp-4': { name: 'AI-Assisted Learning Strategies', domain: 'Innovative Classroom Practice', levels: ['practitioner','advanced','lead'] },
+  'pie-1': { name: 'Reflective Practice & Self-Evaluation', domain: 'Professional Identity & Ethics', levels: ['awareness','practitioner','advanced','lead'] },
+  'pie-2': { name: "Professional Ethics & Indonesian Teachers' Code", domain: 'Professional Identity & Ethics', levels: ['awareness','practitioner','advanced'] },
+  'pie-3': { name: 'Wellbeing & Sustainable Teaching Practice', domain: 'Professional Identity & Ethics', levels: ['awareness','practitioner','advanced'] },
+  'pie-4': { name: 'Contributing to School Development', domain: 'Professional Identity & Ethics', levels: ['advanced','lead'] },
+  'cce-1': { name: 'Professional Learning Communities & Lesson Study', domain: 'Collaboration & Community Engagement', levels: ['awareness','practitioner','advanced','lead'] },
+  'cce-2': { name: 'Mentoring & Coaching Colleagues', domain: 'Collaboration & Community Engagement', levels: ['advanced','lead'] },
+  'cce-3': { name: 'Parent & Community Communication', domain: 'Collaboration & Community Engagement', levels: ['awareness','practitioner','advanced'] },
+  'cce-4': { name: 'Cross-curricular & Inter-school Collaboration', domain: 'Collaboration & Community Engagement', levels: ['practitioner','advanced','lead'] },
 };
 
 const LEVEL_LABEL = { awareness:'Awareness', practitioner:'Practitioner', advanced:'Advanced', lead:'Lead / Mentor' };
 const DOMAIN_ICON = {
-  'Curriculum Design & Delivery': '📚',
-  'Assessment & Feedback': '📊',
-  'Classroom Management': '🏫',
-  'Pedagogical Practice': '💡',
-  'Digital Literacy & EdTech': '💻',
-  'Professional Growth & Leadership': '🌱'
+  'Subject Mastery & Curriculum Design': '📚',
+  'Learner-Centred Pedagogy': '💡',
+  'Assessment for Learning': '📊',
+  'Innovative Classroom Practice': '🚀',
+  'Professional Identity & Ethics': '🌱',
+  'Collaboration & Community Engagement': '🤝'
 };
 
 let uid = '';
