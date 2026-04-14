@@ -160,6 +160,8 @@ const isAdmin = profile?.role_teachershub === 'teachers_admin';
 | `physics_pacing/year9-10` | IGCSE physics pacing — same structure as math_pacing. | central_admin (write) |
 | `igcse_syllabus/{docId}` | Syllabus reference items indexed by objective code (e.g. C1.1). Loaded once at startup. | read-only here |
 | `userProgress/{uid}`    | Per-teacher pacing progress. Each teacher writes only their own doc. Fields: `statuses`, `statuses_<class>` maps keyed by `ci-ti`. | owner (teacher) |
+| `user_competencies/{uid}` | Teacher competency progress. Fields: `earned` (map of compId → `{level, date}`), `matDone` (map of matId → bool). Written by the owner, read by `learning-path.html` and `competency-framework.html`. | owner (teacher) |
+| `competency_evidence/{docId}` | Evidence submissions for competency level certification. Fields: `uid`, `platform` (`'teachers'`), `compId`, `compName`, `domain`, `level`, `description`, `fileUrl`, `fileName`, `status` (`'pending'`\|`'approved'`\|`'rejected'`), `reviewerNote`, `createdAt`, `updatedAt`. Written by teacher (create), reviewed by `teachers_admin` via competency-admin in Central Hub. | owner (create), central_admin (review) |
 
 **Timestamp field:** always `createdAt` (serverTimestamp). Do not use `timestamp` — that was the legacy name.
 
@@ -181,11 +183,12 @@ Teachers Hub does NOT have its own `firestore.rules`. Never create one — it wo
 **Output directory:** `dist/`
 
 ### What `build.js` does:
-1. Reads each `.html` source file.
+1. Reads each `.html` source file listed in the `ROUTES` map.
 2. Replaces `__FIREBASE_*__` placeholders with Vercel environment variables.
 3. Strips the `<script src="firebase-config.js"></script>` tag.
-4. Writes output files into `dist/` with the same filenames (no slug renaming for Teachers Hub).
-5. Copies `auth-guard.js` into `dist/`.
+4. Rewrites internal `.html` href links to clean URL paths via `LINK_REWRITES`.
+5. Writes output files into `dist/<slug>/index.html` (clean URL structure). `index.html` goes to `dist/index.html`.
+6. Copies `auth-guard.js`, `base.css`, `partials/` (navbar.html, navbar.js, pacing-shared.js), and other assets into `dist/`.
 
 ### Vercel environment variables required:
 ```
@@ -197,19 +200,36 @@ FIREBASE_MESSAGING_SENDER_ID
 FIREBASE_APP_ID
 ```
 
-### Pages built:
-| File                        | Purpose                                |
-|-----------------------------|----------------------------------------|
-| `index.html`                | Login / home (no auth guard)           |
-| `waiting.html`              | Approval pending page (polls Firestore every 30s) |
-| `announcements.html`        | Announcements feed                     |
-| `messageboard.html`         | Message board                          |
-| `library.html`              | Resource library                       |
-| `weekly-checklist.html`     | Weekly teacher checklist (tabs by th_sub_roles) |
-| `igcse-math-pacing.html`    | Maths pacing guide                     |
-| `igcse-physics-pacing.html` | Physics pacing guide                   |
-| `igcse-chemistry-pacing.html`| Chemistry pacing guide                |
-| `igcse-biology-pacing.html` | Biology pacing guide                   |
+### Pages built (ROUTES map → clean URL):
+| File                           | Clean URL                    | Purpose                                          |
+|--------------------------------|------------------------------|--------------------------------------------------|
+| `index.html`                   | `/`                          | Login / home (no auth guard)                     |
+| `waiting.html`                 | `/waiting`                   | Approval pending page (polls Firestore every 30s)|
+| `announcements.html`           | `/announcements`             | Announcements feed                               |
+| `messageboard.html`            | `/messageboard`              | Message board                                    |
+| `library.html`                 | `/library`                   | Resource library                                 |
+| `weekly-checklist.html`        | `/weekly-checklist`          | Weekly teacher checklist (tabs by th_sub_roles)  |
+| `cambridge-calendar.html`      | `/cambridge-calendar`        | Cambridge exam calendar                          |
+| `surveys.html`                 | `/surveys`                   | Survey responses                                 |
+| `teacher-self-assessment.html` | `/teacher-self-assessment`   | Teacher self-assessment form                     |
+| `teacher-kpi-results.html`     | `/teacher-kpi-results`       | Teacher KPI results view                         |
+| `igcse-math-pacing.html`       | `/igcse-math`                | IGCSE Maths pacing guide                         |
+| `igcse-physics-pacing.html`    | `/igcse-physics`             | IGCSE Physics pacing guide                       |
+| `igcse-chemistry-pacing.html`  | `/igcse-chemistry`           | IGCSE Chemistry pacing guide                     |
+| `igcse-biology-pacing.html`    | `/igcse-biology`             | IGCSE Biology pacing guide                       |
+| `checkpoint-math-pacing.html`  | `/checkpoint-math`           | Checkpoint Maths pacing guide                    |
+| `checkpoint-english-pacing.html`| `/checkpoint-english`       | Checkpoint English pacing guide                  |
+| `checkpoint-science-pacing.html`| `/checkpoint-science`       | Checkpoint Science pacing guide                  |
+| `asalevel-math-pacing.html`    | `/asalevel-math`             | AS/A-Level Maths pacing guide                    |
+| `asalevel-biology-pacing.html` | `/asalevel-biology`          | AS/A-Level Biology pacing guide                  |
+| `asalevel-chemistry-pacing.html`| `/asalevel-chemistry`       | AS/A-Level Chemistry pacing guide                |
+| `asalevel-physics-pacing.html` | `/asalevel-physics`          | AS/A-Level Physics pacing guide                  |
+| `competency-framework.html`    | `/competency-framework`      | Teaching Competency Framework — 6 domains        |
+| `learning-path.html`           | `/learning-path`             | Learning Path — materials & progress per competency |
+| `my-portfolio.html`            | `/my-portfolio`              | Evidence portfolio — submit & review evidence    |
+| `my-certificates.html`         | `/my-certificates`           | My earned competency certificates                |
+| `igcse-math-tracker.html`      | `/igcse-math-tracker`        | Subject Leader tracker — IGCSE Math              |
+| *(+ other tracker pages)*      |                              | Subject Leader trackers for all subjects         |
 
 ---
 
@@ -218,10 +238,10 @@ FIREBASE_APP_ID
 | File                         | Purpose                                                    |
 |------------------------------|------------------------------------------------------------|
 | `auth-guard.js`              | Auth + role gate for protected pages (modular SDK v10)     |
-| `build.js`                   | Vercel build script — placeholder replacement              |
+| `build.js`                   | Vercel build script — ROUTES map, placeholder replacement, link rewrites, copies assets |
 | `base.css`                   | Shared design system (DM Sans, CSS variables, components)  |
-| `partials/navbar.html`       | Shared navbar partial (light theme)                        |
-| `partials/navbar.js`         | Navbar init + badge logic                                  |
+| `partials/navbar.html`       | Shared navbar HTML partial (light theme)                   |
+| `partials/navbar.js`         | Navbar init (`initNavbar()`), badge logic (`setupNavBadges()`), feedback button |
 | `partials/pacing-shared.js`  | Shared JS for all pacing pages (exam countdown, variance, GLH) |
 | `firebase-config.js`         | Local dev config (gitignored)                              |
 | `firebase-config.example.js` | Template for firebase-config.js                            |
@@ -266,6 +286,42 @@ const SUBJECT_CONFIG = {
 
 ---
 
+## Navbar Loading Pattern
+
+All protected pages (except pacing pages which have their own layout) use this pattern:
+
+```js
+fetch('partials/navbar.html')
+  .then(r => r.text())
+  .then(html => {
+    document.getElementById('navbar-container').innerHTML = html;
+    initNavbar();
+    if (typeof window._pendingNavbarUpdate === 'function') { window._pendingNavbarUpdate(); window._pendingNavbarUpdate = null; }
+    if (typeof window._pendingBadgeSetup === 'function')   { window._pendingBadgeSetup();   window._pendingBadgeSetup   = null; }
+    if (typeof window._pendingFeedbackSetup === 'function'){ window._pendingFeedbackSetup(); window._pendingFeedbackSetup= null; }
+  });
+```
+
+Then in `authReady`:
+```js
+document.addEventListener('authReady', ({ detail: { user, profile } }) => {
+  // Update navbar profile elements (name, avatar)
+  const updateNavbarElements = () => { /* set #profileNameShort, #profileAvatar, #profileWrap */ };
+  if (document.getElementById('profileNameShort')) updateNavbarElements();
+  else window._pendingNavbarUpdate = updateNavbarElements;
+
+  // Set up announcement/message board badge counters
+  const doBadgeSetup = () => setupNavBadges(db, { onSnapshot, collection });
+  if (document.getElementById('msgBoardBadge')) doBadgeSetup();
+  else window._pendingBadgeSetup = doBadgeSetup;
+});
+```
+
+The `_pending*` callbacks handle the race between navbar fetch completing and `authReady` firing.  
+`setupNavBadges` is defined in `partials/navbar.js` — requires `onSnapshot` and `collection` from Firestore imports.
+
+---
+
 ## Important Conventions
 
 - **No React, no npm bundler.** All JS runs directly in the browser via CDN ESM imports.
@@ -279,3 +335,4 @@ const SUBJECT_CONFIG = {
 - **`pacing-hub.html` is deleted** — its content was moved to `index.html` cards. Do not recreate it.
 - **Shared pacing logic lives in `partials/pacing-shared.js`** — exam countdown, syllabus filter, diagnostic tags, coord notes, actual hours, variance report, GLH projection. Do not duplicate this logic inline in individual pacing pages.
 - **`<!-- PACING_SHARED_CSS -->` and `<!-- PACING_SHARED_JS -->`** are build-time placeholders in pacing pages — VS Code CSS linter flags the HTML comment inside `<style>` as an error, but browsers handle it correctly. Do not remove these placeholders.
+- **Competency framework IDs** — domain IDs: `smc`, `lcp`, `afl`, `icp`, `pie`, `cce`. Competency IDs: `smc-1..4`, `lcp-1..4`, `afl-1..4`, `icp-1..4`, `pie-1..4`, `cce-1..4`. Grounded in Cambridge Teacher Standards 2019 + Permendiknas No.16/2007. Do NOT revert to old IDs (`cur-1`, `asm-1` etc.) — Firestore data uses new IDs.
