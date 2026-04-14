@@ -304,6 +304,17 @@ const DOMAIN_ICON = {
 let uid = '';
 let selectedFile = null;
 
+fetch('partials/navbar.html')
+  .then(r => r.text())
+  .then(html => {
+    document.getElementById('navbar-container').innerHTML = html;
+    initNavbar();
+    if (typeof window._pendingNavbarUpdate === 'function') {
+      window._pendingNavbarUpdate();
+      window._pendingNavbarUpdate = null;
+    }
+  });
+
 document.addEventListener('authReady', async ({ detail: { user } }) => {
   uid = user.uid;
   populateCompSelect();

@@ -438,6 +438,17 @@ const LEVEL_LABEL = { awareness:'Awareness', practitioner:'Practitioner', advanc
 let earned = {}; // { [compId]: highestLevel }
 let currentFilter = 'all';
 
+fetch('partials/navbar.html')
+  .then(r => r.text())
+  .then(html => {
+    document.getElementById('navbar-container').innerHTML = html;
+    initNavbar();
+    if (typeof window._pendingNavbarUpdate === 'function') {
+      window._pendingNavbarUpdate();
+      window._pendingNavbarUpdate = null;
+    }
+  });
+
 document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
   await loadUserCompetencies(user.uid);
   renderProgressOverview();

@@ -295,6 +295,17 @@ let userName = '';
 let earned = {};
 let myCerts = [];
 
+fetch('partials/navbar.html')
+  .then(r => r.text())
+  .then(html => {
+    document.getElementById('navbar-container').innerHTML = html;
+    initNavbar();
+    if (typeof window._pendingNavbarUpdate === 'function') {
+      window._pendingNavbarUpdate();
+      window._pendingNavbarUpdate = null;
+    }
+  });
+
 document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
   uid = user.uid;
   userName = profile?.displayName || user.displayName || 'Teacher';
