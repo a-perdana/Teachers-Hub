@@ -21,20 +21,6 @@
 }
 
 /* ─── PAGE TOPBAR ───────────────────────────── */
-.page-topbar {
-  background: #1a1a2e; border-bottom: 2px solid var(--accent);
-  position: sticky; top: 60px; z-index: 90; height: 56px;
-  display: flex; align-items: center; padding: 0 24px; gap: 16px;
-}
-.topbar-title { font-size: 14px; font-weight: 700; color: #fff; }
-.topbar-back {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 12px; color: rgba(255,255,255,.55); text-decoration: none;
-  transition: color .15s ease;
-}
-.topbar-back:hover { color: #fff; }
-.topbar-back svg { width: 14px; height: 14px; }
-.topbar-sep { color: rgba(255,255,255,.25); font-size: 12px; }
 
 /* ─── LAYOUT ────────────────────────────────── */
 .lp-layout {
@@ -49,7 +35,7 @@
 
 /* ─── SIDEBAR ───────────────────────────────── */
 .lp-sidebar {
-  position: sticky; top: 120px;
+  position: sticky; top: 80px;
 }
 
 .lp-domain-nav {
@@ -349,6 +335,34 @@
 .acta-right { font-size: 13px; font-weight: 700; color: var(--accent); }
 .assessment-cta.locked .acta-right { color: var(--ink-3); }
 
+/* ─── READING EDITOR ───────────────────────── */
+.btn-edit-reading { display: none; align-items: center; gap: 5px; padding: 6px 13px; border-radius: 8px; border: 1px solid var(--border); background: var(--paper); color: var(--ink-2); font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .14s; }
+.btn-edit-reading:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
+.btn-edit-reading svg { width: 13px; height: 13px; }
+.reading-editor-wrap { display: none; margin-bottom: 16px; border: 1.5px solid var(--accent); border-radius: 14px; overflow: hidden; background: #fff; }
+.reading-editor-wrap.active { display: block; }
+.editor-toolbar { display: flex; gap: 4px; padding: 8px 12px; background: var(--paper); border-bottom: 1px solid var(--border); flex-wrap: wrap; align-items: center; }
+.editor-btn { padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); background: #fff; color: var(--ink); font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .12s; line-height: 1.4; }
+.editor-btn:hover { border-color: var(--accent); color: var(--accent); }
+.editor-btn-hl { background: #fef08a; border-color: #fbbf24; color: #78350f; }
+.editor-btn-hl:hover { background: #fde047; border-color: #f59e0b; color: #78350f; }
+.editor-sep { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+.editor-area { padding: 16px 20px; min-height: 140px; font-size: 13.5px; line-height: 1.75; color: var(--ink-2); outline: none; font-family: 'DM Sans', sans-serif; }
+.editor-area p { margin-bottom: 10px; }
+.editor-area p:last-child { margin-bottom: 0; }
+.editor-area strong { font-weight: 700; }
+.editor-area em { font-style: italic; }
+.editor-area mark { background: #fef08a; border-radius: 3px; padding: 0 2px; }
+.editor-area ul { margin: 8px 0 8px 20px; }
+.editor-area li { margin-bottom: 4px; }
+.editor-actions { display: flex; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--border); justify-content: flex-end; background: var(--paper); }
+.btn-save-reading { padding: 8px 20px; border-radius: 9px; border: none; background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; display: flex; align-items: center; gap: 6px; }
+.btn-save-reading:hover { background: #6d28d9; }
+.btn-save-reading:disabled { opacity: .6; cursor: not-allowed; }
+.btn-cancel-edit { padding: 8px 16px; border-radius: 9px; border: 1px solid var(--border); background: var(--white); color: var(--ink-2); font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .14s; }
+.btn-cancel-edit:hover { background: var(--border); }
+.reading-override-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; color: var(--accent); background: var(--accent-2); border-radius: 50px; padding: 2px 8px; margin-left: 8px; vertical-align: middle; }
+
 /* ─── SKEL ──────────────────────────────────── */
 .skel { background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
 @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
@@ -359,14 +373,6 @@
 
 <div id="navbar-container"></div>
 
-<div class="page-topbar">
-  <a href="competency-framework.html" class="topbar-back">
-    <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-    Framework
-  </a>
-  <span class="topbar-sep">/</span>
-  <span class="topbar-title">My Learning Path</span>
-</div>
 
 <div class="page-wrap">
   <div class="lp-layout">
@@ -432,9 +438,35 @@
         <div id="matModalType" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin-bottom:4px;"></div>
         <div id="matModalTitle" style="font-size:16px;font-weight:700;color:var(--ink);"></div>
       </div>
-      <button class="btn-mat-close" onclick="closeMatModal()">&#x2715;</button>
+      <div style="display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0;">
+        <button class="btn-edit-reading" id="btnEditReading" onclick="toggleReadingEditor()">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>
+          Edit
+        </button>
+        <button class="btn-mat-close" onclick="closeMatModal()">&#x2715;</button>
+      </div>
     </div>
     <div class="mat-modal-body">
+      <div class="reading-editor-wrap" id="readingEditorWrap">
+        <div class="editor-toolbar">
+          <button class="editor-btn" onmousedown="event.preventDefault();edCmd('bold')" title="Bold"><b>B</b></button>
+          <button class="editor-btn" onmousedown="event.preventDefault();edCmd('italic')" title="Italic"><i>I</i></button>
+          <button class="editor-btn editor-btn-hl" onmousedown="event.preventDefault();edHighlight()" title="Highlight">H</button>
+          <div class="editor-sep"></div>
+          <button class="editor-btn" onmousedown="event.preventDefault();edCmd('insertUnorderedList')" title="Bullet list">• List</button>
+          <button class="editor-btn" onmousedown="event.preventDefault();edInsertParagraph()" title="New paragraph">¶ Para</button>
+          <div class="editor-sep"></div>
+          <button class="editor-btn" onmousedown="event.preventDefault();edCmd('removeFormat')" title="Clear formatting" style="color:#be123c;">Clear</button>
+        </div>
+        <div class="editor-area" id="readingEditorArea" contenteditable="true" spellcheck="false"></div>
+        <div class="editor-actions">
+          <button class="btn-cancel-edit" onclick="cancelReadingEdit()">Cancel</button>
+          <button class="btn-save-reading" id="btnSaveReading" onclick="saveReadingEdit()">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+            Save
+          </button>
+        </div>
+      </div>
       <div id="matModalReading" class="mat-reading-text"></div>
       <div id="matModalTakeaways" class="mat-takeaways"></div>
       <div id="matModalSelfAssess" class="mat-self-assess"></div>
@@ -451,6 +483,23 @@
 
 <script type="module">
 import { doc, getDoc, setDoc, updateDoc, collection, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+// ─── CONTENT OVERRIDES ─────────────────────────────────────────
+const _overrideCache = {};
+async function loadOverride(compId, lvl) {
+  const key = compId + '_' + lvl;
+  if (key in _overrideCache) return _overrideCache[key];
+  try {
+    const snap = await getDoc(doc(window.db, 'content_overrides_teachers', key));
+    _overrideCache[key] = snap.exists() ? (snap.data().reading || null) : null;
+  } catch { _overrideCache[key] = null; }
+  return _overrideCache[key];
+}
+async function saveOverride(compId, lvl, html) {
+  const key = compId + '_' + lvl;
+  await setDoc(doc(window.db, 'content_overrides_teachers', key), { reading: html });
+  _overrideCache[key] = html;
+}
 
 // ─── CONTENT DATA ──────────────────────────────────────────────────────────
 const CONTENT_DATA = {
@@ -1378,7 +1427,7 @@ const LEVEL_ORDER = ['awareness','practitioner','advanced','lead'];
 const LEVEL_LABEL = { awareness:'Awareness', practitioner:'Practitioner', advanced:'Advanced', lead:'Lead / Mentor' };
 const MAT_TYPE_ICON = { reading: '📖', video: '▶️', activity: '✏️', reflection: '🪞' };
 
-let uid = '';
+let uid = '', isAdmin = false;
 let earned = {};
 let matDone = {}; // { [matId]: true }
 let saScores = {}; window.saScores = saScores; // { "compId/lvl/idx": 1-4 }
@@ -1409,6 +1458,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
   const doBadgeSetup = () => setupNavBadges(db, { onSnapshot, collection });
   if (document.getElementById('msgBoardBadge')) { doBadgeSetup(); } else { window._pendingBadgeSetup = doBadgeSetup; }
   uid = user.uid;
+  isAdmin = profile?.role_teachershub === 'teachers_admin';
   await loadProgress();
   renderAll();
 });
@@ -1630,7 +1680,7 @@ window.goPortfolio = function(compId, level) {
 
 let _modalState = null;
 
-window.openMat = function(compId, matId, lvl) {
+window.openMat = async function(compId, matId, lvl) {
   _modalState = { compId, matId, lvl };
   const domain = FRAMEWORK.find(d => d.competencies.find(c => c.id === compId));
   const comp = domain?.competencies.find(c => c.id === compId);
@@ -1641,6 +1691,10 @@ window.openMat = function(compId, matId, lvl) {
 
   document.getElementById('matModalType').textContent = (MAT_TYPE_ICON[mat.type] || '\uD83D\uDCC4') + ' ' + mat.type.charAt(0).toUpperCase() + mat.type.slice(1) + ' · ' + mat.duration;
   document.getElementById('matModalTitle').textContent = mat.name;
+
+  const editBtn = document.getElementById('btnEditReading');
+  if (editBtn) editBtn.style.display = (isAdmin && mat.type === 'reading') ? 'inline-flex' : 'none';
+  cancelReadingEdit();
 
   if (!content) {
     document.getElementById('matModalReading').innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--ink-3);"><div style="font-size:32px;margin-bottom:12px;">🚧</div><div style="font-size:14px;font-weight:600;color:var(--ink-2);margin-bottom:6px;">Content Coming Soon</div><div style="font-size:13px;">This material is being prepared and will be available shortly.</div></div>';
@@ -1656,8 +1710,11 @@ window.openMat = function(compId, matId, lvl) {
     return;
   }
 
+  const override = await loadOverride(compId, lvl);
   const readingEl = document.getElementById('matModalReading');
-  if (content?.reading) {
+  if (override) {
+    readingEl.innerHTML = '<span class="reading-override-badge">✎ Edited</span>' + override;
+  } else if (content?.reading) {
     readingEl.innerHTML = '<p style="font-size:13.5px;line-height:1.7;color:var(--ink-2);">' + content.reading + '</p>';
   } else { readingEl.innerHTML = ''; }
 
@@ -1705,8 +1762,70 @@ window.openMat = function(compId, matId, lvl) {
   document.body.style.overflow = 'hidden';
 };
 
+// ─── READING EDITOR ────────────────────────────────────────────
+window.edCmd = function(cmd) { document.execCommand(cmd, false, null); document.getElementById('readingEditorArea').focus(); };
+window.edHighlight = function() {
+  const sel = window.getSelection();
+  if (!sel || !sel.rangeCount) return;
+  try { const r = sel.getRangeAt(0); const m = document.createElement('mark'); r.surroundContents(m); }
+  catch { document.execCommand('backColor', false, '#fef08a'); }
+  document.getElementById('readingEditorArea').focus();
+};
+window.edInsertParagraph = function() {
+  document.execCommand('insertHTML', false, '<p><br></p>');
+  document.getElementById('readingEditorArea').focus();
+};
+window.toggleReadingEditor = function() {
+  if (!_modalState) return;
+  const { compId, lvl } = _modalState;
+  const wrap = document.getElementById('readingEditorWrap');
+  const area = document.getElementById('readingEditorArea');
+  const readingEl = document.getElementById('matModalReading');
+  if (wrap.classList.contains('active')) { cancelReadingEdit(); return; }
+  const override = _overrideCache[compId + '_' + lvl];
+  const content = CONTENT_DATA[compId]?.[lvl];
+  if (override) {
+    area.innerHTML = override;
+  } else if (content?.reading) {
+    const sentences = content.reading.match(/[^.!?]+[.!?]+/g) || [content.reading];
+    const paras = [];
+    for (let i = 0; i < sentences.length; i += 3) paras.push(sentences.slice(i, i + 3).join(' ').trim());
+    area.innerHTML = paras.map(p => '<p>' + p + '</p>').join('');
+  } else { area.innerHTML = '<p></p>'; }
+  wrap.classList.add('active');
+  readingEl.style.opacity = '0.3';
+  area.focus();
+};
+window.cancelReadingEdit = function() {
+  const wrap = document.getElementById('readingEditorWrap');
+  const readingEl = document.getElementById('matModalReading');
+  if (wrap) wrap.classList.remove('active');
+  if (readingEl) readingEl.style.opacity = '';
+};
+window.saveReadingEdit = async function() {
+  if (!_modalState) return;
+  const { compId, lvl } = _modalState;
+  const area = document.getElementById('readingEditorArea');
+  const btn = document.getElementById('btnSaveReading');
+  const html = area.innerHTML.trim();
+  if (!html || html === '<p><br></p>') { return; }
+  btn.disabled = true; btn.textContent = 'Saving…';
+  try {
+    await saveOverride(compId, lvl, html);
+    const readingEl = document.getElementById('matModalReading');
+    readingEl.innerHTML = '<span class="reading-override-badge">✎ Edited</span>' + html;
+    readingEl.style.opacity = '';
+    document.getElementById('readingEditorWrap').classList.remove('active');
+  } catch (e) { console.error('Save failed', e); }
+  finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg> Save';
+  }
+};
+
 window.closeMatModal = function(evt) {
   if (evt && evt.target !== document.getElementById('matModal')) return;
+  cancelReadingEdit();
   document.getElementById('matModal').classList.remove('open');
   document.body.style.overflow = '';
 };
@@ -1739,6 +1858,7 @@ window.markMatDone = async function() {
 
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
+    cancelReadingEdit();
     document.getElementById('matModal').classList.remove('open');
     document.body.style.overflow = '';
   }
