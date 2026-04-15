@@ -326,6 +326,8 @@
 .assessment-cta:hover { border-color: var(--accent); background: var(--accent-2); }
 .assessment-cta.locked { opacity: .5; cursor: not-allowed; }
 .assessment-cta.locked:hover { border-color: var(--border); background: var(--white); }
+@keyframes ctaUnlock { 0%{box-shadow:0 0 0 0 rgba(124,58,237,.5)} 60%{box-shadow:0 0 0 10px rgba(124,58,237,0)} 100%{box-shadow:0 0 0 0 rgba(124,58,237,0)} }
+.assessment-cta.unlocked-flash { animation: ctaUnlock .7s ease forwards; }
 
 .acta-left { display: flex; align-items: center; gap: 10px; }
 .acta-icon { font-size: 20px; }
@@ -1848,6 +1850,20 @@ window.markMatDone = async function() {
     const newCard = document.createElement('div');
     newCard.innerHTML = renderCompCard(comp, domain);
     if (card) card.replaceWith(newCard.firstElementChild);
+    // Flash the assessment CTA if all materials are now done
+    if (isDone) {
+      const currentLvl = lvl;
+      const mats = comp.materials?.[currentLvl] || [];
+      const allNowDone = mats.length > 0 && mats.every(m => matDone[m.id]);
+      if (allNowDone) {
+        const renderedCard = document.getElementById('comp-' + compId);
+        const cta = renderedCard?.querySelector('.assessment-cta:not(.locked)');
+        if (cta) {
+          cta.classList.add('unlocked-flash');
+          cta.addEventListener('animationend', () => cta.classList.remove('unlocked-flash'), { once: true });
+        }
+      }
+    }
   }
   if (!matDone[matId]) return;
   setTimeout(function() {

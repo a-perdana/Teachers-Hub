@@ -228,6 +228,51 @@
 }
 .filter-label { font-size: 12px; font-weight: 600; color: var(--ink-3); }
 
+/* ─── DOMAIN TAKEAWAYS ──────────────────────── */
+.domain-takeaways {
+  padding: 0 20px 16px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+}
+.domain-takeaways-toggle {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0 0; cursor: pointer; user-select: none;
+}
+.domain-takeaways-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--ink-3);
+  display: flex; align-items: center; gap: 6px;
+}
+.domain-takeaways-chevron {
+  width: 16px; height: 16px; color: var(--ink-3);
+  transition: transform .2s ease; flex-shrink: 0;
+}
+.domain-card.tk-open .domain-takeaways-chevron { transform: rotate(180deg); }
+.domain-takeaways-list {
+  display: none; padding-top: 10px; display: flex; flex-direction: column; gap: 6px;
+}
+.domain-card:not(.tk-open) .domain-takeaways-list { display: none; }
+.domain-card.tk-open .domain-takeaways-list { display: flex; }
+.domain-tk-item {
+  font-size: 12px; color: var(--ink-2); line-height: 1.5;
+  padding: 7px 10px; border-radius: 8px; background: var(--paper);
+  border-left: 3px solid var(--border);
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.domain-tk-item::before { content: '→'; font-weight: 700; color: var(--ink-3); flex-shrink: 0; margin-top: 1px; }
+
+/* ─── SA SCORE STAT ─────────────────────────── */
+.progress-stat-sa {
+  font-size: 11px; color: var(--ink-3); margin-top: 4px;
+  display: flex; align-items: center; gap: 4px;
+}
+.sa-score-bar {
+  flex: 1; height: 4px; background: var(--border); border-radius: 4px; overflow: hidden;
+}
+.sa-score-fill {
+  height: 100%; border-radius: 4px; background: var(--accent); transition: width .4s ease;
+}
+
 /* ─── EMPTY ─────────────────────────────────── */
 .skel-card {
   background: var(--white); border: 1px solid var(--border);
@@ -394,6 +439,11 @@ const FRAMEWORK = [
     name: 'Subject Mastery & Curriculum Design',
     desc: 'Secure subject knowledge and coherent curriculum planning aligned to Cambridge syllabuses and Indonesian standards.',
     icon: '📚', color: 'dom-purple',
+    keyTakeaways: [
+      'Map your teaching topics to Cambridge syllabus content statements and assessment objectives.',
+      'Design schemes of work that build knowledge progressively across a unit and key stage.',
+      'Review and improve curriculum resources based on student performance data.',
+    ],
     // Cambridge Teacher Standard 2 + Kompetensi Profesional (Permendiknas 16/2007)
     competencies: [
       { id: 'smc-1', name: 'Cambridge Syllabus & Assessment Objectives', levels: ['awareness','practitioner','advanced','lead'] },
@@ -407,6 +457,11 @@ const FRAMEWORK = [
     name: 'Learner-Centred Pedagogy',
     desc: 'Responsive teaching strategies that address diverse learning profiles, including EAL learners and students with additional needs.',
     icon: '💡', color: 'dom-blue',
+    keyTakeaways: [
+      'Adapt tasks, resources, and support to meet the different learning needs in your classroom.',
+      'Apply strategies that build student independence, metacognition, and higher-order thinking.',
+      'Create an inclusive environment that respects language diversity and additional learning needs.',
+    ],
     // Cambridge Teacher Standard 1 + Kompetensi Pedagogik (karakteristik peserta didik, teori belajar)
     competencies: [
       { id: 'lcp-1', name: 'Differentiation & Inclusive Practice', levels: ['awareness','practitioner','advanced','lead'] },
@@ -420,6 +475,11 @@ const FRAMEWORK = [
     name: 'Assessment for Learning',
     desc: 'Using formative and summative assessment evidence — including Cambridge mark schemes — to improve student outcomes.',
     icon: '📊', color: 'dom-green',
+    keyTakeaways: [
+      'Use regular formative assessment techniques to check understanding and adapt your teaching in real time.',
+      'Give targeted feedback aligned to Cambridge mark schemes so students know exactly how to improve.',
+      'Analyse assessment data to identify gaps and design focused interventions for individual learners.',
+    ],
     // Cambridge Teacher Standard 5.7–5.9 + Pedagogik (penilaian evaluasi proses dan hasil belajar)
     competencies: [
       { id: 'afl-1', name: 'Formative Assessment Techniques', levels: ['awareness','practitioner','advanced','lead'] },
@@ -433,6 +493,11 @@ const FRAMEWORK = [
     name: 'Innovative Classroom Practice',
     desc: 'Applying evidence-based innovations and purposeful technology use to foster intellectual curiosity and 21st-century skills.',
     icon: '🚀', color: 'dom-amber',
+    keyTakeaways: [
+      'Design active, collaborative learning structures that engage students as active participants.',
+      'Integrate digital tools and EdTech purposefully to deepen learning — not just for novelty.',
+      'Use inquiry-based approaches and Cambridge Global Perspectives to develop critical thinking.',
+    ],
     // Cambridge Teacher Standard 6 + Pedagogik (TIK) + Profesional (kreatif, Permendiknas 16/2007)
     competencies: [
       { id: 'icp-1', name: 'Active Learning & Collaborative Structures', levels: ['awareness','practitioner','advanced','lead'] },
@@ -446,6 +511,11 @@ const FRAMEWORK = [
     name: 'Professional Identity & Ethics',
     desc: 'Upholding Cambridge teacher attributes and Indonesian professional standards with integrity, reflective practice and commitment to growth.',
     icon: '🌱', color: 'dom-rose',
+    keyTakeaways: [
+      'Engage in regular reflective practice and structured CPD aligned to Cambridge and Indonesian standards.',
+      'Uphold the professional code of conduct, model ethical behaviour, and safeguard student wellbeing.',
+      'Contribute to school improvement by mentoring colleagues and sharing professional expertise.',
+    ],
     // Cambridge Teacher Standard 3 + Kompetensi Kepribadian + kode etik profesi (UU Guru No. 14/2005)
     competencies: [
       { id: 'pie-1', name: 'Reflective Practice & CPD Engagement', levels: ['awareness','practitioner','advanced','lead'] },
@@ -459,6 +529,11 @@ const FRAMEWORK = [
     name: 'Collaboration & Community Engagement',
     desc: 'Building professional partnerships with colleagues, families and the wider Cambridge school community.',
     icon: '🤝', color: 'dom-teal',
+    keyTakeaways: [
+      'Plan and teach collaboratively with colleagues to improve curriculum consistency and shared practice.',
+      'Communicate proactively with parents and report student progress clearly and constructively.',
+      'Engage with the wider Cambridge professional community to bring external expertise into your school.',
+    ],
     // Cambridge Teacher Standard 4 + Standard 8 + Kompetensi Sosial (Permendiknas 16/2007)
     competencies: [
       { id: 'cce-1', name: 'Collaborative Curriculum & Lesson Planning', levels: ['awareness','practitioner','advanced','lead'] },
@@ -473,6 +548,7 @@ const LEVEL_ORDER = ['awareness','practitioner','advanced','lead'];
 const LEVEL_LABEL = { awareness:'Awareness', practitioner:'Practitioner', advanced:'Advanced', lead:'Lead / Mentor' };
 
 let earned = {}; // { [compId]: highestLevel }
+let saScores = {}; // { "compId/lvl/idx": 1-4 }
 let currentFilter = 'all';
 
 fetch('partials/navbar.html')
@@ -510,7 +586,32 @@ async function loadUserCompetencies(uid) {
   if (snap.exists()) {
     const data = snap.data();
     earned = data.earned || {};
+    saScores = data.saScores || {};
   }
+}
+
+// Returns avg self-assessment score (1-4) for a competency across all its levels, or null if none answered
+function avgSaScore(compId) {
+  const vals = Object.entries(saScores)
+    .filter(([k]) => k.startsWith(compId + '/'))
+    .map(([, v]) => v);
+  if (!vals.length) return null;
+  return vals.reduce((a, b) => a + b, 0) / vals.length;
+}
+
+// Returns avg SA score across all comps in a domain, or null
+function domainAvgSa(domain) {
+  const scores = domain.competencies.map(c => avgSaScore(c.id)).filter(s => s !== null);
+  if (!scores.length) return null;
+  return scores.reduce((a, b) => a + b, 0) / scores.length;
+}
+
+// Returns overall avg SA score across all comps, or null
+function overallAvgSa() {
+  const allComps = FRAMEWORK.flatMap(d => d.competencies);
+  const scores = allComps.map(c => avgSaScore(c.id)).filter(s => s !== null);
+  if (!scores.length) return null;
+  return scores.reduce((a, b) => a + b, 0) / scores.length;
 }
 
 function highestEarned(compId) {
@@ -539,6 +640,13 @@ function renderProgressOverview() {
   });
 
   const pct = totalComps > 0 ? Math.round((earnedCount / totalComps) * 100) : 0;
+  const avgSa = overallAvgSa();
+  const saHtml = avgSa !== null
+    ? `<div class="progress-stat-sa">
+        <span style="white-space:nowrap;">${avgSa.toFixed(1)}/4</span>
+        <div class="sa-score-bar"><div class="sa-score-fill" style="width:${Math.round((avgSa/4)*100)}%"></div></div>
+       </div>`
+    : `<div class="progress-stat-sub" style="margin-top:4px;">No self-assessments yet</div>`;
 
   document.getElementById('progressOverview').innerHTML = `
     <div class="progress-stat">
@@ -560,6 +668,10 @@ function renderProgressOverview() {
       <div class="progress-stat-num">${totalComps - earnedCount}</div>
       <div class="progress-stat-label">Remaining</div>
       <div class="progress-stat-sub">competencies to unlock</div>
+    </div>
+    <div class="progress-stat">
+      <div class="progress-stat-label" style="margin-bottom:6px;">Avg Self-Assessment</div>
+      ${saHtml}
     </div>
   `;
 }
@@ -606,6 +718,15 @@ function renderDomains() {
       `;
     }).join('');
 
+    const domSa = domainAvgSa(domain);
+    const domSaHtml = domSa !== null
+      ? `<span style="font-size:10px;font-weight:700;color:var(--ink-3);margin-left:auto;flex-shrink:0;">SA ${domSa.toFixed(1)}/4</span>`
+      : '';
+
+    const tkHtml = (domain.keyTakeaways || []).map(t =>
+      `<div class="domain-tk-item">${t}</div>`
+    ).join('');
+
     grid.innerHTML += `
       <div class="domain-card ${domain.color}">
         <div class="domain-card-header">
@@ -617,12 +738,22 @@ function renderDomains() {
           </div>
         </div>
         <div class="domain-progress">
-          <div class="dp-label"><span>${earnedInDomain}/${domain.competencies.length} earned</span><span>${pct}%</span></div>
+          <div class="dp-label"><span>${earnedInDomain}/${domain.competencies.length} earned</span><span style="display:flex;align-items:center;gap:6px;">${domSaHtml}<span>${pct}%</span></span></div>
           <div class="dp-bar"><div class="dp-fill" style="width:${pct}%;background:${fillColor};"></div></div>
         </div>
         <div class="domain-card-body">
           <div class="competency-list">${compsHtml}</div>
         </div>
+        ${tkHtml ? `<div class="domain-takeaways">
+          <div class="domain-takeaways-toggle" onclick="toggleTakeaways(this)">
+            <span class="domain-takeaways-label">
+              <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm.75 10.5h-1.5v-5h1.5v5zm0-6.5h-1.5V3.5h1.5V5z"/></svg>
+              What you will learn
+            </span>
+            <svg class="domain-takeaways-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="domain-takeaways-list">${tkHtml}</div>
+        </div>` : ''}
       </div>
     `;
   });
@@ -641,6 +772,11 @@ window.setFilter = function(filter, btn) {
 
 window.goToPath = function(compId) {
   window.location.href = `/learning-path?comp=${compId}`;
+};
+
+window.toggleTakeaways = function(toggleEl) {
+  const card = toggleEl.closest('.domain-card');
+  card.classList.toggle('tk-open');
 };
 </script>
 </body>
