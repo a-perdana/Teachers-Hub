@@ -291,6 +291,15 @@
 .sa-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
 .sa-btn.active { border-color: var(--accent); background: var(--accent); color: #fff; }
 
+.sa-toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(12px);
+  background: #1a1a2e; color: #fff; font-size: 12.5px; font-weight: 600;
+  padding: 9px 18px; border-radius: 20px; z-index: 2000;
+  opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none;
+  white-space: nowrap;
+}
+.sa-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
 .mat-activity-box {
   background: #fef3c7; border: 1px solid #fde68a; border-radius: 12px; padding: 14px 16px;
   margin-bottom: 20px;
@@ -415,6 +424,7 @@
 </div>
 
 <!-- MATERIAL MODAL -->
+<div id="saToast" class="sa-toast"></div>
 <div class="mat-modal-overlay" id="matModal" onclick="closeMatModal(event)">
   <div class="mat-modal">
     <div class="mat-modal-head">
@@ -1415,8 +1425,19 @@ async function loadProgress() {
   }
 }
 
+window._saToastTimer = null;
+window.showSaToast = function(msg) {
+  const t = document.getElementById('saToast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window._saToastTimer);
+  window._saToastTimer = setTimeout(function() { t.classList.remove('show'); }, 1800);
+};
+
 window.saveProgress = async function saveProgress() {
   await setDoc(doc(window.db, 'user_competencies', uid), { earned, matDone, saScores }, { merge: true });
+  window.showSaToast('✓ Answer saved');
 }
 
 function getHighestEarned(compId) {
