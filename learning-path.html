@@ -284,12 +284,12 @@
 .sa-statement { font-size: 13px; color: var(--ink); line-height: 1.45; }
 .sa-scale { display: flex; gap: 6px; }
 .sa-btn {
-  flex: 1; padding: 5px 0; border-radius: 7px; border: 1.5px solid var(--border);
-  background: var(--paper); font-size: 11px; font-weight: 700; color: var(--ink-3);
-  cursor: pointer; transition: all .14s; text-align: center;
+  width: 44px; height: 36px; flex-shrink: 0; border-radius: 7px; border: 1.5px solid var(--border);
+  background: var(--paper); font-size: 12px; font-weight: 700; color: var(--ink-3);
+  cursor: pointer; transition: all .14s; text-align: center; font-family: inherit;
 }
 .sa-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-2); }
-.sa-btn.selected { border-color: var(--accent); background: var(--accent); color: #fff; }
+.sa-btn.active { border-color: var(--accent); background: var(--accent); color: #fff; }
 
 .mat-activity-box {
   background: #fef3c7; border: 1px solid #fde68a; border-radius: 12px; padding: 14px 16px;
