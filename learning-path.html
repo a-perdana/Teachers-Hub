@@ -1642,6 +1642,20 @@ window.openMat = function(compId, matId, lvl) {
   document.getElementById('matModalType').textContent = (MAT_TYPE_ICON[mat.type] || '\uD83D\uDCC4') + ' ' + mat.type.charAt(0).toUpperCase() + mat.type.slice(1) + ' · ' + mat.duration;
   document.getElementById('matModalTitle').textContent = mat.name;
 
+  if (!content) {
+    document.getElementById('matModalReading').innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--ink-3);"><div style="font-size:32px;margin-bottom:12px;">🚧</div><div style="font-size:14px;font-weight:600;color:var(--ink-2);margin-bottom:6px;">Content Coming Soon</div><div style="font-size:13px;">This material is being prepared and will be available shortly.</div></div>';
+    document.getElementById('matModalTakeaways').innerHTML = '';
+    document.getElementById('matModalSelfAssess').innerHTML = '';
+    document.getElementById('matModalActivity').innerHTML = '';
+    const isDone = !!matDone[matId];
+    const btn = document.getElementById('btnMarkDone');
+    btn.textContent = isDone ? '\u2713 Done' : 'Mark as Done';
+    btn.className = 'btn-mark-done' + (isDone ? ' already-done' : '');
+    document.getElementById('matModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    return;
+  }
+
   const readingEl = document.getElementById('matModalReading');
   if (content?.reading) {
     readingEl.innerHTML = '<p style="font-size:13.5px;line-height:1.7;color:var(--ink-2);">' + content.reading + '</p>';
