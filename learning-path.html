@@ -217,7 +217,7 @@
 /* ─── MATERIAL MODAL ───────────────────────── */
 .mat-modal-overlay {
   position: fixed; inset: 0; background: rgba(10,10,30,.6);
-  z-index: 900; display: none; align-items: center; justify-content: center;
+  z-index: 1500; display: none; align-items: center; justify-content: center;
   padding: 24px 16px; overflow: hidden;
 }
 .mat-modal-overlay.open { display: flex; }
@@ -1371,7 +1371,7 @@ const MAT_TYPE_ICON = { reading: '📖', video: '▶️', activity: '✏️', re
 let uid = '';
 let earned = {};
 let matDone = {}; // { [matId]: true }
-let saScores = {}; // { "compId/lvl/idx": 1-4 }
+let saScores = {}; window.saScores = saScores; // { "compId/lvl/idx": 1-4 }
 let expanded = {}; // { [compId]: true }
 
 fetch('partials/navbar.html')
@@ -1411,10 +1411,11 @@ async function loadProgress() {
     earned = data.earned || {};
     matDone = data.matDone || {};
     saScores = data.saScores || {};
+    window.saScores = saScores;
   }
 }
 
-async function saveProgress() {
+window.saveProgress = async function saveProgress() {
   await setDoc(doc(window.db, 'user_competencies', uid), { earned, matDone, saScores }, { merge: true });
 }
 
@@ -1642,7 +1643,7 @@ window.openMat = function(compId, matId, lvl) {
           '<div class="sa-scale">' +
           [1,2,3,4].map(function(n) {
             const active = saved === n ? ' active' : '';
-            return '<button class="sa-btn' + active + '" onclick="(function(btn,k,v){btn.parentElement.querySelectorAll(\'.sa-btn\').forEach(function(b){b.classList.remove(\'active\')});btn.classList.add(\'active\');saScores[k]=v;saveProgress();})(this,\'' + key + '\',' + n + ')">' + n + '</button>';
+            return '<button class="sa-btn' + active + '" onclick="(function(btn,k,v){btn.parentElement.querySelectorAll(\'.sa-btn\').forEach(function(b){b.classList.remove(\'active\')});btn.classList.add(\'active\');window.saScores[k]=v;window.saveProgress();})(this,\'' + key + '\',' + n + ')">' + n + '</button>';
           }).join('') +
           '</div></div>';
       }).join('');
