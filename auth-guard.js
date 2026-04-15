@@ -98,7 +98,7 @@ function promptForName() {
 
 // ── Profile setup prompt (school + subjects + classes) ───────────
 // Shown on every login until all three fields are filled.
-const SUBJECT_OPTIONS = [
+const CAMBRIDGE_SUBJECT_OPTIONS = [
   { value: 'math',      label: 'Mathematics' },
   { value: 'biology',   label: 'Biology' },
   { value: 'chemistry', label: 'Chemistry' },
@@ -107,6 +107,13 @@ const SUBJECT_OPTIONS = [
   { value: 'science',   label: 'Science' },
 ];
 
+const NON_CAMBRIDGE_SUBJECT_OPTIONS = [
+  { value: 'religion',  label: 'Religion' },
+];
+
+// All subject options combined (for backwards-compat references)
+const SUBJECT_OPTIONS = [...CAMBRIDGE_SUBJECT_OPTIONS, ...NON_CAMBRIDGE_SUBJECT_OPTIONS];
+
 const CLASS_OPTIONS = [
   { value: 'checkpoint', label: 'Checkpoint (Year 7–8)' },
   { value: 'igcse',      label: 'IGCSE (Year 9–10)' },
@@ -114,8 +121,9 @@ const CLASS_OPTIONS = [
 ];
 
 // Expose so index.html can reference labels when needed
-window.TEACHERS_SUBJECT_OPTIONS = SUBJECT_OPTIONS;
-window.TEACHERS_CLASS_OPTIONS   = CLASS_OPTIONS;
+window.TEACHERS_SUBJECT_OPTIONS           = SUBJECT_OPTIONS;
+window.TEACHERS_CAMBRIDGE_SUBJECT_OPTIONS = CAMBRIDGE_SUBJECT_OPTIONS;
+window.TEACHERS_CLASS_OPTIONS             = CLASS_OPTIONS;
 
 function profileComplete(profile) {
   return (
@@ -135,7 +143,15 @@ function promptForProfile(profile) {
       th_sub_roles: Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [],
     };
 
-    const subjectChips = SUBJECT_OPTIONS.map(o => `
+    // Detect existing "other" subject (any value not in the known options list)
+    const knownValues     = SUBJECT_OPTIONS.map(o => o.value);
+    const existingOther   = existing.subjects.filter(v => !knownValues.includes(v)).join(', ');
+
+    const cambridgeChips = CAMBRIDGE_SUBJECT_OPTIONS.map(o => `
+      <button type="button" class="_chip ${existing.subjects.includes(o.value) ? '_chip-on' : ''}"
+        data-group="subjects" data-value="${o.value}">${o.label}</button>`).join('');
+
+    const nonCambridgeChips = NON_CAMBRIDGE_SUBJECT_OPTIONS.map(o => `
       <button type="button" class="_chip ${existing.subjects.includes(o.value) ? '_chip-on' : ''}"
         data-group="subjects" data-value="${o.value}">${o.label}</button>`).join('');
 
@@ -157,7 +173,12 @@ function promptForProfile(profile) {
           style="width:100%;padding:10px 14px;border:1.5px solid #e0ddd6;border-radius:10px;font-size:0.95rem;color:#1c1c2e;outline:none;box-sizing:border-box;margin-bottom:20px">
 
         <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:10px">Subjects you teach <span style="color:#dc2626">*</span></label>
-        <div id="_subjectChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px">${subjectChips}</div>
+        <div style="font-size:0.78rem;font-weight:600;color:#8888a8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Cambridge Subjects</div>
+        <div id="_cambridgeChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px">${cambridgeChips}</div>
+        <div style="font-size:0.78rem;font-weight:600;color:#8888a8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Non-Cambridge Subjects</div>
+        <div id="_nonCambridgeChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px">${nonCambridgeChips}</div>
+        <input id="_otherSubjectInput" type="text" placeholder="Other subject (e.g. PE, Art, IT…)" value="${existingOther.replace(/"/g,'&quot;')}"
+          style="width:100%;padding:9px 14px;border:1.5px solid #e0ddd6;border-radius:10px;font-size:0.875rem;color:#1c1c2e;outline:none;box-sizing:border-box;margin-bottom:20px">
 
         <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:10px">Curriculum levels <span style="color:#dc2626">*</span></label>
         <div id="_classChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px">${classChips}</div>
@@ -212,9 +233,12 @@ function promptForProfile(profile) {
     const err = overlay.querySelector('#_profileErr');
 
     btn.addEventListener('click', () => {
-      const school   = overlay.querySelector('#_schoolInput').value.trim();
-      const subjects = [...overlay.querySelectorAll('._chip[data-group="subjects"]._chip-on')].map(c => c.dataset.value);
-      const classes  = [...overlay.querySelectorAll('._chip[data-group="classes"]._chip-on')].map(c => c.dataset.value);
+      const school        = overlay.querySelector('#_schoolInput').value.trim();
+      const chipSubjects  = [...overlay.querySelectorAll('._chip[data-group="subjects"]._chip-on')].map(c => c.dataset.value);
+      const otherRaw      = overlay.querySelector('#_otherSubjectInput').value.trim();
+      const otherSubjects = otherRaw ? otherRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+      const subjects      = [...chipSubjects, ...otherSubjects];
+      const classes       = [...overlay.querySelectorAll('._chip[data-group="classes"]._chip-on')].map(c => c.dataset.value);
       const th_sub_roles = [
         overlay.querySelector('#_chkSubjectTeacher').checked ? 'subject_teacher' : null,
         overlay.querySelector('#_chkSubjectLeader').checked  ? 'subject_leader'  : null,
