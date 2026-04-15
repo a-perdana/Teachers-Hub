@@ -162,29 +162,37 @@ function promptForProfile(profile) {
     const overlay = document.createElement('div');
     overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(28,28,46,0.82);display:flex;align-items:center;justify-content:center;padding:24px;font-family:"DM Sans",sans-serif';
     overlay.innerHTML = `
-      <div style="background:#fff;border-radius:20px;padding:40px 36px;width:100%;max-width:480px;box-shadow:0 24px 64px rgba(0,0,0,0.40);max-height:90vh;overflow-y:auto">
-        <div style="margin-bottom:24px">
+      <div style="background:#fff;border-radius:20px;padding:36px 40px;width:100%;max-width:700px;box-shadow:0 24px 64px rgba(0,0,0,0.40);max-height:90vh;overflow-y:auto">
+        <div style="margin-bottom:22px">
           <h2 style="font-size:1.35rem;font-weight:700;color:#1c1c2e;margin-bottom:6px">Set up your profile</h2>
           <p style="font-size:0.875rem;color:#8888a8;line-height:1.5">Tell us about your school, the classes you teach, and your role so we can set up your account correctly.</p>
         </div>
 
         <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:6px">School name <span style="color:#dc2626">*</span></label>
         <input id="_schoolInput" type="text" placeholder="e.g. SMA Semesta" value="${existing.school.replace(/"/g,'&quot;')}"
-          style="width:100%;padding:10px 14px;border:1.5px solid #e0ddd6;border-radius:10px;font-size:0.95rem;color:#1c1c2e;outline:none;box-sizing:border-box;margin-bottom:20px">
+          style="width:100%;padding:10px 14px;border:1.5px solid #e0ddd6;border-radius:10px;font-size:0.95rem;color:#1c1c2e;outline:none;box-sizing:border-box;margin-bottom:22px">
 
-        <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:10px">Subjects you teach <span style="color:#dc2626">*</span></label>
-        <div style="font-size:0.78rem;font-weight:600;color:#8888a8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Cambridge Subjects</div>
-        <div id="_cambridgeChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px">${cambridgeChips}</div>
-        <div style="font-size:0.78rem;font-weight:600;color:#8888a8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">Non-Cambridge Subjects</div>
-        <div id="_nonCambridgeChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px">${nonCambridgeChips}</div>
-        <input id="_otherSubjectInput" type="text" placeholder="Other subject (e.g. PE, Art, IT…)" value="${existingOther.replace(/"/g,'&quot;')}"
-          style="width:100%;padding:9px 14px;border:1.5px solid #e0ddd6;border-radius:10px;font-size:0.875rem;color:#1c1c2e;outline:none;box-sizing:border-box;margin-bottom:20px">
+        <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:12px">Subjects you teach <span style="color:#dc2626">*</span></label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:22px">
 
-        <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:10px">Curriculum levels <span style="color:#dc2626">*</span></label>
-        <div id="_classChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px">${classChips}</div>
+          <div style="border:1.5px solid #e0ddd6;border-radius:12px;padding:14px 16px">
+            <div style="font-size:0.75rem;font-weight:700;color:#8888a8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">Cambridge Subjects</div>
+            <div id="_cambridgeChips" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px">${cambridgeChips}</div>
+            <div style="font-size:0.75rem;font-weight:700;color:#44445a;margin-bottom:6px">Curriculum levels <span style="color:#dc2626">*</span></div>
+            <div id="_classChips" style="display:flex;flex-wrap:wrap;gap:7px">${classChips}</div>
+          </div>
+
+          <div style="border:1.5px solid #e0ddd6;border-radius:12px;padding:14px 16px">
+            <div style="font-size:0.75rem;font-weight:700;color:#8888a8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">Non-Cambridge Subjects</div>
+            <div id="_nonCambridgeChips" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px">${nonCambridgeChips}</div>
+            <input id="_otherSubjectInput" type="text" placeholder="Other (e.g. PE, Art, IT…)" value="${existingOther.replace(/"/g,'&quot;')}"
+              style="width:100%;padding:8px 12px;border:1.5px solid #e0ddd6;border-radius:9px;font-size:0.84rem;color:#1c1c2e;outline:none;box-sizing:border-box">
+          </div>
+
+        </div>
 
         <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:10px">Your role <span style="color:#dc2626">*</span></label>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px">
           <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding:12px 14px;border:1.5px solid #e0ddd6;border-radius:10px;transition:border-color .15s" id="_roleSubjectTeacher">
             <input type="checkbox" id="_chkSubjectTeacher" value="subject_teacher" style="margin-top:2px;accent-color:#6c5ce7;width:16px;height:16px;flex-shrink:0" ${existing.th_sub_roles.includes('subject_teacher') ? 'checked' : ''}>
             <div>
@@ -205,7 +213,7 @@ function promptForProfile(profile) {
         <button id="_profileBtn" style="width:100%;padding:12px;background:linear-gradient(135deg,#7c3aed,#0891b2);color:#fff;border:none;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer">Save & Continue →</button>
       </div>
       <style>
-        ._chip{padding:7px 14px;border-radius:20px;border:1.5px solid #e0ddd6;background:#f7f6f3;color:#44445a;font-size:0.84rem;font-weight:500;cursor:pointer;transition:all .15s}
+        ._chip{padding:6px 13px;border-radius:20px;border:1.5px solid #e0ddd6;background:#f7f6f3;color:#44445a;font-size:0.82rem;font-weight:500;cursor:pointer;transition:all .15s}
         ._chip:hover{border-color:#6c5ce7;color:#6c5ce7}
         ._chip-on{background:#ede9fe;border-color:#6c5ce7;color:#6c5ce7;font-weight:600}
       </style>`;
@@ -244,10 +252,11 @@ function promptForProfile(profile) {
         overlay.querySelector('#_chkSubjectLeader').checked  ? 'subject_leader'  : null,
       ].filter(Boolean);
 
-      if (!school)              { err.textContent = 'Please enter your school name.'; return; }
-      if (!subjects.length)     { err.textContent = 'Please select at least one subject.'; return; }
-      if (!classes.length)      { err.textContent = 'Please select at least one curriculum level.'; return; }
-      if (!th_sub_roles.length) { err.textContent = 'Please select your role (Subject Teacher and/or Subject Leader).'; return; }
+      const cambridgeSelected = chipSubjects.some(v => CAMBRIDGE_SUBJECT_OPTIONS.map(o => o.value).includes(v));
+      if (!school)                              { err.textContent = 'Please enter your school name.'; return; }
+      if (!subjects.length)                     { err.textContent = 'Please select at least one subject.'; return; }
+      if (cambridgeSelected && !classes.length) { err.textContent = 'Please select at least one curriculum level.'; return; }
+      if (!th_sub_roles.length)                 { err.textContent = 'Please select your role (Subject Teacher and/or Subject Leader).'; return; }
 
       overlay.remove();
       document.body.style.visibility = 'hidden';
