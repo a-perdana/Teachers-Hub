@@ -247,6 +247,7 @@ function initTeachingProfile(db, setDoc, doc) {
   const user    = window.currentUser;
   if (!profile || !user) return;
 
+  // Cambridge subjects only — used for the combo grid (level × subject)
   const SUBJECTS = [
     { value: 'math',      label: 'Mathematics' },
     { value: 'biology',   label: 'Biology' },
@@ -255,6 +256,11 @@ function initTeachingProfile(db, setDoc, doc) {
     { value: 'english',   label: 'English' },
     { value: 'science',   label: 'Science' },
   ];
+  // Non-Cambridge subjects shown in summary but not in the combo grid
+  const NON_CAMBRIDGE_SUBJECTS = [
+    { value: 'religion', label: 'Religion' },
+  ];
+  const ALL_KNOWN_SUBJECTS = [...SUBJECTS, ...NON_CAMBRIDGE_SUBJECTS];
   const LEVELS = [
     { value: 'checkpoint', label: 'Checkpoint (Year 7–8)' },
     { value: 'igcse',      label: 'IGCSE (Year 9–10)' },
@@ -263,7 +269,14 @@ function initTeachingProfile(db, setDoc, doc) {
 
   function _slKey(lv, sv) { return `${lv}_${sv}_classes`; }
   function _lvLabel(lv) { return (LEVELS.find(l => l.value === lv) || {}).label || lv; }
-  function _svLabel(sv) { return (SUBJECTS.find(s => s.value === sv) || {}).label || sv; }
+  // For unknown values (custom "other" subjects), capitalise each word
+  function _svLabel(sv) {
+    const known = ALL_KNOWN_SUBJECTS.find(s => s.value === sv);
+    if (known) return known.label;
+    return sv.split(/[\s_-]+/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  }
+  // Returns true if a subject value is a Cambridge subject
+  function _isCambridgeSubject(sv) { return SUBJECTS.some(s => s.value === sv); }
 
   // Active combos: Set of "lv_sv" strings e.g. "igcse_math"
   // Classes per combo: { igcse_math_classes: ["10A","9Cam"], ... }
@@ -318,20 +331,32 @@ function initTeachingProfile(db, setDoc, doc) {
   function renderSummary() {
     const p      = window.userProfile;
     const school = p.school || '—';
-    if (!_activeCombos.size) {
+
+    // Cambridge combos → "IGCSE Mathematics: 10A, 9Cam"
+    const cambridgeLines = [..._activeCombos].map(combo => {
+      const [lv, sv] = combo.split('_');
+      const cls = (_slClasses[_slKey(lv, sv)] || []).join(', ') || '—';
+      return `<span style="color:rgba(255,255,255,0.3)">${_lvLabel(lv).split(' ')[0]} ${_svLabel(sv)}:</span> ${cls}`;
+    });
+
+    // Non-Cambridge subjects from subjects[] (religion, custom, etc.)
+    const allSubjects   = Array.isArray(p.subjects) ? p.subjects : [];
+    const nonCamSubjects = allSubjects.filter(sv => !_isCambridgeSubject(sv));
+    const nonCamLine = nonCamSubjects.length
+      ? `<span style="color:rgba(255,255,255,0.3)">Other:</span> ${nonCamSubjects.map(_svLabel).join(', ')}`
+      : null;
+
+    const allLines = [...cambridgeLines, ...(nonCamLine ? [nonCamLine] : [])];
+
+    if (!allLines.length) {
       summaryEl.innerHTML =
         `<span style="color:rgba(255,255,255,0.3)">School:</span> ${school}<br>` +
         `<span style="color:rgba(255,255,255,0.3)">Teaching:</span> —`;
       return;
     }
-    const lines = [..._activeCombos].map(combo => {
-      const [lv, sv] = combo.split('_');
-      const cls = (_slClasses[_slKey(lv, sv)] || []).join(', ') || '—';
-      return `<span style="color:rgba(255,255,255,0.3)">${_lvLabel(lv).split(' ')[0]} ${_svLabel(sv)}:</span> ${cls}`;
-    });
     summaryEl.innerHTML =
       `<span style="color:rgba(255,255,255,0.3)">School:</span> ${school}<br>` +
-      lines.join('<br>');
+      allLines.join('<br>');
   }
 
   // ── Combo grid — each level×subject cell is a toggle ────────────
