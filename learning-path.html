@@ -37,57 +37,7 @@
 .topbar-sep { color: rgba(255,255,255,.25); font-size: 12px; }
 
 /* ─── LAYOUT ────────────────────────────────── */
-.lp-layout {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 24px;
-  align-items: start;
-}
-@media (max-width: 768px) {
-  .lp-layout { grid-template-columns: 1fr; }
-}
-
-/* ─── SIDEBAR ───────────────────────────────── */
-.lp-sidebar {
-  position: sticky; top: 120px;
-}
-
-.lp-domain-nav {
-  background: var(--white); border: 1px solid var(--border);
-  border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm);
-  margin-bottom: 16px;
-}
-.lp-domain-nav-title {
-  padding: 14px 16px 10px;
-  font-size: 11px; font-weight: 700; letter-spacing: .08em;
-  text-transform: uppercase; color: var(--ink-3);
-  border-bottom: 1px solid var(--border);
-}
-.lp-domain-item {
-  display: flex; align-items: center; gap: 10px; padding: 11px 16px;
-  cursor: pointer; transition: background .14s ease; border-bottom: 1px solid var(--border);
-  text-decoration: none;
-}
-.lp-domain-item:last-child { border-bottom: none; }
-.lp-domain-item:hover { background: var(--paper); }
-.lp-domain-item.active { background: var(--accent-2); }
-.lp-domain-item .di-icon { font-size: 16px; flex-shrink: 0; }
-.lp-domain-item .di-name { font-size: 13px; font-weight: 600; color: var(--ink); flex: 1; }
-.lp-domain-item.active .di-name { color: var(--accent); }
-.lp-domain-item .di-pct {
-  font-size: 11px; font-weight: 700; color: var(--ink-3);
-  background: var(--paper); border-radius: 50px; padding: 2px 8px;
-}
-.lp-domain-item.active .di-pct { background: #fff; color: var(--accent); }
-
-.lp-overall-card {
-  background: var(--white); border: 1px solid var(--border);
-  border-radius: 14px; padding: 18px; box-shadow: var(--shadow-sm);
-}
-.lp-overall-label { font-size: 11px; color: var(--ink-3); font-weight: 600; margin-bottom: 6px; }
-.lp-overall-bar { height: 8px; background: var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 6px; }
-.lp-overall-fill { height: 100%; background: var(--accent); border-radius: 8px; transition: width .4s ease; }
-.lp-overall-stats { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-3); }
+.lp-layout { display: block; }
 
 /* ─── MAIN CONTENT ──────────────────────────── */
 .lp-main {}
@@ -370,24 +320,6 @@
 
 <div class="page-wrap">
   <div class="lp-layout">
-
-    <!-- SIDEBAR -->
-    <aside class="lp-sidebar">
-      <div class="lp-overall-card" style="margin-bottom:14px;">
-        <div class="lp-overall-label">Overall Progress</div>
-        <div class="lp-overall-bar"><div class="lp-overall-fill" id="overallBar" style="width:0%"></div></div>
-        <div class="lp-overall-stats">
-          <span id="overallEarned">0 earned</span>
-          <span id="overallPct">0%</span>
-        </div>
-      </div>
-      <div class="lp-domain-nav">
-        <div class="lp-domain-nav-title">Domains</div>
-        <div id="domainNav">
-          <!-- rendered by JS -->
-        </div>
-      </div>
-    </aside>
 
     <!-- MAIN -->
     <main class="lp-main" id="lpMain">
@@ -1457,33 +1389,7 @@ function getCurrentLevel(comp) {
 }
 
 function renderAll() {
-  renderSidebar();
   renderMain();
-}
-
-function renderSidebar() {
-  let totalComps = 0, earnedCount = 0;
-  FRAMEWORK.forEach(d => d.competencies.forEach(c => {
-    totalComps++;
-    if (getHighestEarned(c.id)) earnedCount++;
-  }));
-  const pct = totalComps > 0 ? Math.round((earnedCount / totalComps) * 100) : 0;
-  document.getElementById('overallBar').style.width = pct + '%';
-  document.getElementById('overallEarned').textContent = `${earnedCount} earned`;
-  document.getElementById('overallPct').textContent = `${pct}%`;
-
-  const nav = document.getElementById('domainNav');
-  nav.innerHTML = FRAMEWORK.map(domain => {
-    const domEarned = domain.competencies.filter(c => getHighestEarned(c.id)).length;
-    const domPct = Math.round((domEarned / domain.competencies.length) * 100);
-    return `
-      <a class="lp-domain-item" href="#dom-${domain.id}">
-        <span class="di-icon">${domain.icon}</span>
-        <span class="di-name">${domain.name}</span>
-        <span class="di-pct">${domPct}%</span>
-      </a>
-    `;
-  }).join('');
 }
 
 function renderMain() {
