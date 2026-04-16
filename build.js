@@ -203,16 +203,16 @@ if (fs.existsSync(partialsSrcDir)) {
   console.warn('Warning: partials directory not found');
 }
 
-// Copy appraisal/ JSON data folder to dist root
-const appraisalSrcDir = path.join(__dirname, 'appraisal');
-const appraisalDistDir = path.join(distDir, 'appraisal');
-if (fs.existsSync(appraisalSrcDir)) {
-  if (!fs.existsSync(appraisalDistDir)) {
-    fs.mkdirSync(appraisalDistDir, { recursive: true });
+// Copy resources/ folder to dist root (JSON data files: appraisal framework, walkthrough rubric, etc.)
+const resourcesSrcDir = path.join(__dirname, 'resources');
+const resourcesDistDir = path.join(distDir, 'resources');
+if (fs.existsSync(resourcesSrcDir)) {
+  if (!fs.existsSync(resourcesDistDir)) {
+    fs.mkdirSync(resourcesDistDir, { recursive: true });
   }
-  fs.readdirSync(appraisalSrcDir).forEach(file => {
-    fs.copyFileSync(path.join(appraisalSrcDir, file), path.join(appraisalDistDir, file));
-    console.log(`Copied: dist/appraisal/${file}`);
+  fs.readdirSync(resourcesSrcDir).forEach(file => {
+    fs.copyFileSync(path.join(resourcesSrcDir, file), path.join(resourcesDistDir, file));
+    console.log(`Copied: dist/resources/${file}`);
   });
 }
 

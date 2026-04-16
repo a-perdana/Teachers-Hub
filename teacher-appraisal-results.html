@@ -443,8 +443,8 @@ import { getFirestore, collection, query, where, orderBy, getDocs, doc, getDoc, 
 // ── FRAMEWORK DATA (loaded from JSON) ────────────────────
 let FRAMEWORK = null;
 let LEVELS    = null;
-fetch('appraisal/appraisal-framework-v2.json').then(r => r.json()).then(d => { FRAMEWORK = d; });
-fetch('appraisal/appraisal-levels.json').then(r => r.json()).then(d => { LEVELS = d; });
+fetch('resources/appraisal-framework-v2.json').then(r => r.json()).then(d => { FRAMEWORK = d; });
+fetch('resources/appraisal-levels.json').then(r => r.json()).then(d => { LEVELS = d; });
 
 // ── HELPERS ──────────────────────────────────────────────
 function scoreChip(s) {
