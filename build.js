@@ -41,6 +41,7 @@ const ROUTES = {
   'waiting.html': 'waiting',
   'teacher-self-assessment.html': 'teacher-self-assessment',
   'teacher-kpi-results.html': 'teacher-kpi-results',
+  'teacher-appraisal-results.html': 'teacher-appraisal-results',
   'cambridge-calendar.html': 'cambridge-calendar',
   'competency-framework.html': 'competency-framework',
   'learning-path.html': 'learning-path',
@@ -81,6 +82,7 @@ const LINK_REWRITES = [
   [/href="library\.html"/g, 'href="/library"'],
   [/href="teacher-self-assessment\.html"/g, 'href="/teacher-self-assessment"'],
   [/href="teacher-kpi-results\.html"/g,    'href="/teacher-kpi-results"'],
+  [/href="teacher-appraisal-results\.html"/g, 'href="/teacher-appraisal-results"'],
   [/href="cambridge-calendar\.html"/g,     'href="/cambridge-calendar"'],
   [/href="competency-framework\.html"/g,   'href="/competency-framework"'],
   [/href="learning-path\.html"/g,          'href="/learning-path"'],
@@ -199,6 +201,19 @@ if (fs.existsSync(partialsSrcDir)) {
   });
 } else {
   console.warn('Warning: partials directory not found');
+}
+
+// Copy appraisal/ JSON data folder to dist root
+const appraisalSrcDir = path.join(__dirname, 'appraisal');
+const appraisalDistDir = path.join(distDir, 'appraisal');
+if (fs.existsSync(appraisalSrcDir)) {
+  if (!fs.existsSync(appraisalDistDir)) {
+    fs.mkdirSync(appraisalDistDir, { recursive: true });
+  }
+  fs.readdirSync(appraisalSrcDir).forEach(file => {
+    fs.copyFileSync(path.join(appraisalSrcDir, file), path.join(appraisalDistDir, file));
+    console.log(`Copied: dist/appraisal/${file}`);
+  });
 }
 
 console.log('Build completed successfully!');

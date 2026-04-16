@@ -1,0 +1,929 @@
+{
+  "schema_version": "2.0",
+  "track": "formal_appraisal",
+  "title": "Eduversal Teacher Appraisal Framework v2.0",
+  "version": "2.0",
+  "effective_date": "2026-07-01",
+  "description": "The Eduversal Teacher Appraisal Framework v2.0 is a differentiated, level-aware summative appraisal system. It comprises four frameworks weighted to produce a composite annual appraisal score. The item set visible to each teacher is determined by their assigned appraisal level (Induction, Developing, Proficient, or Lead). The Student Survey (Framework 4) is collected separately and reported informatively — it does not contribute to the final score.",
+  "theory_basis": {
+    "primary": "Eduversal Professional Teaching Standards (internal, 2026)",
+    "references": [
+      "Charlotte Danielson, Framework for Teaching (FfT), 3rd ed., 2013 — cited where directly adapted",
+      "Robert J. Marzano, The Art and Science of Teaching, 2007 — cited where directly adapted"
+    ]
+  },
+  "weights": {
+    "F1": 0.20,
+    "F2": 0.60,
+    "F3": 0.20,
+    "F4_note": "Student Survey (F4) is informative only — not included in final score calculation"
+  },
+  "scoring_scale": [
+    { "value": 4, "label": "Distinguished" },
+    { "value": 3, "label": "Proficient" },
+    { "value": 2, "label": "Basic" },
+    { "value": 1, "label": "Unsatisfactory" }
+  ],
+  "predicate_bands": [
+    { "label": "A", "min": 86, "max": 100, "description": "Excellent" },
+    { "label": "B", "min": 66, "max": 85, "description": "Good" },
+    { "label": "C", "min": 51, "max": 65, "description": "Satisfactory" },
+    { "label": "D", "min": 36, "max": 50, "description": "Needs Improvement" },
+    { "label": "F", "min": 0,  "max": 35, "description": "Unsatisfactory" }
+  ],
+  "level_visibility": {
+    "note": "Each item carries a 'visible_from' field specifying the minimum level at which it appears in the formal appraisal. Items visible from 'induction' appear for all levels. Items visible from 'lead' appear only for Lead teachers.",
+    "order": ["induction", "developing", "proficient", "lead"]
+  },
+  "frameworks": [
+    {
+      "id": "F1",
+      "title": "Teacher Administration",
+      "description": "Assesses the teacher's fulfilment of professional administrative responsibilities — documentation, record-keeping, and compliance with school academic systems.",
+      "weight": 0.20,
+      "items_note": "All 9 items are visible at all levels.",
+      "items": [
+        {
+          "id": "F1.1",
+          "title": "Knowledge of the School Academic Calendar",
+          "visible_from": "induction",
+          "rubric": {
+            "4": "Demonstrates thorough, proactive knowledge of the school academic calendar. Plans all instructional activities, assessments, and submissions in full alignment with key dates. Anticipates scheduling conflicts and adjusts accordingly.",
+            "3": "Demonstrates consistent knowledge of the school academic calendar. Activities and submissions are reliably aligned with key dates, with minor lapses.",
+            "2": "Shows partial knowledge of the academic calendar. Some activities or submissions are misaligned with key dates, requiring reminders.",
+            "1": "Demonstrates insufficient knowledge of the school academic calendar. Activities and submissions are frequently misaligned or missed."
+          }
+        },
+        {
+          "id": "F1.2",
+          "title": "Annual Plan and Syllabus Preparation",
+          "visible_from": "induction",
+          "rubric": {
+            "4": "Submits a comprehensive annual plan and syllabus well ahead of deadlines. Documents are coherent, clearly sequenced, and fully aligned with curriculum standards and school expectations.",
+            "3": "Submits an annual plan and syllabus on time. Documents are adequately aligned with curriculum standards, with minor gaps.",
+            "2": "Submits an annual plan and syllabus, though late or with notable gaps in alignment or sequencing.",
+            "1": "Fails to submit a complete annual plan or syllabus by the required deadline, or submits documents that are significantly misaligned with curriculum standards."
+          }
+        },
+        {
+          "id": "F1.3",
+          "title": "Lesson Plan Submission Timeliness",
+          "visible_from": "induction",
+          "rubric": {
+            "4": "Consistently submits lesson plans ahead of the required deadline. Submission is part of a systematic personal planning routine.",
+            "3": "Submits lesson plans on time in almost all cases. Occasional late submissions are followed up proactively.",
+            "2": "Submits lesson plans with frequent delays. Reminders are regularly required.",
+            "1": "Rarely or never submits lesson plans by the required deadline, or fails to submit them at all."
+          }
+        },
+        {
+          "id": "F1.4",
+          "title": "Lesson Plan Quality and Format",
+          "visible_from": "induction",
+          "rubric": {
+            "4": "Lesson plans consistently meet or exceed the required format. All components (objectives, activities, assessment, differentiation) are complete, coherent, and evidence reflective planning.",
+            "3": "Lesson plans meet the required format in most cases. All core components are present, with minor inconsistencies.",
+            "2": "Lesson plans partially meet the required format. Key components are missing or underdeveloped in a significant number of plans.",
+            "1": "Lesson plans rarely meet the required format. Most plans are incomplete, formulaic, or fail to demonstrate genuine planning."
+          }
+        },
+        {
+          "id": "F1.5",
+          "title": "Teaching Schedule Adherence",
+          "visible_from": "induction",
+          "rubric": {
+            "4": "Fully adheres to the assigned teaching schedule. Any deviations are pre-approved, documented, and have no impact on student learning continuity.",
+            "3": "Adheres to the teaching schedule with minor unplanned deviations, which are communicated promptly.",
+            "2": "Teaching schedule deviations occur with some regularity and are not always communicated in advance.",
+            "1": "Frequently deviates from the teaching schedule without prior authorisation or communication."
+          }
+        },
+        {
+          "id": "F1.6",
+          "title": "Lesson Journal / Teaching Log",
+          "visible_from": "induction",
+          "rubric": {
+            "4": "Maintains a detailed, consistently updated lesson journal. Entries reflect genuine reflection on lesson outcomes, student responses, and next-step adjustments.",
+            "3": "Maintains a lesson journal with regular, sufficiently detailed entries covering lesson progress and observations.",
+            "2": "Lesson journal entries are incomplete, irregular, or formulaic, offering limited evidence of reflective practice.",
+            "1": "Lesson journal is rarely maintained, significantly incomplete, or absent."
+          }
+        },
+        {
+          "id": "F1.7",
+          "title": "Gradebook Accuracy and Currency",
+          "visible_from": "induction",
+          "rubric": {
+            "4": "Gradebook is consistently accurate, current, and well-organised. Assessment data is entered promptly and can be interpreted clearly by any authorised party.",
+            "3": "Gradebook is generally accurate and reasonably current. Minor delays in data entry are quickly resolved.",
+            "2": "Gradebook contains errors or is frequently out of date, requiring correction or follow-up.",
+            "1": "Gradebook is significantly inaccurate, persistently out of date, or inadequately maintained."
+          }
+        },
+        {
+          "id": "F1.8",
+          "title": "Student Attendance Recording",
+          "visible_from": "induction",
+          "rubric": {
+            "4": "Records student attendance accurately and consistently in every session, using the designated system. Patterns of absence are noted and escalated appropriately.",
+            "3": "Records student attendance accurately in most sessions. Occasional errors are identified and corrected.",
+            "2": "Attendance recording is inconsistent or contains recurring errors that require follow-up.",
+            "1": "Attendance recording is unreliable, infrequent, or absent."
+          }
+        },
+        {
+          "id": "F1.9",
+          "title": "Coursebook and Resource Stewardship",
+          "visible_from": "induction",
+          "rubric": {
+            "4": "Manages all assigned coursebooks and instructional resources responsibly. Distribution, collection, and condition records are maintained meticulously.",
+            "3": "Manages coursebooks and resources adequately. Most records are maintained; minor lapses are quickly addressed.",
+            "2": "Resource management is inconsistent. Records are incomplete or materials are not adequately tracked.",
+            "1": "Coursebooks and instructional resources are poorly managed. Significant losses, damage, or record failures are present."
+          }
+        }
+      ]
+    },
+    {
+      "id": "F2",
+      "title": "Class Observation",
+      "description": "Assesses teaching practice across four domains: lesson planning, classroom management, instructional process, and assessment. This framework carries the heaviest weighting and is the primary lens for professional growth. Observed during a formal announced lesson of 35–40 minutes.",
+      "weight": 0.60,
+      "domains": [
+        {
+          "id": "D1",
+          "title": "Lesson Planning",
+          "description": "Evaluates the quality of lesson design — the coherence, alignment, and responsiveness of the teacher's planning to student needs and curriculum goals.",
+          "theory_basis": "Aligned with Danielson FfT Domain 1 (Planning and Preparation).",
+          "items": [
+            {
+              "id": "D1.1",
+              "title": "Lesson Plan Structure: Layout, Sequencing, and Timing",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Lesson plan reflects a carefully structured sequence with logical progression and realistic time allocation for each phase. Transitions between phases are explicitly planned.",
+                "3": "Lesson plan is well-structured with clear sequencing and reasonable timing. Minor pacing gaps are present but do not undermine coherence.",
+                "2": "Lesson plan structure is adequate but shows inconsistencies in sequencing or unrealistic time allocations for some phases.",
+                "1": "Lesson plan lacks coherent structure. Sequencing is illogical or timing is so unrealistic that it undermines instructional effectiveness."
+              }
+            },
+            {
+              "id": "D1.2",
+              "title": "Clarity and Measurability of Learning Objectives",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Learning objectives are clearly articulated, student-centred, and measurable. They specify what students will know or be able to do, at what level of complexity, and how success will be evidenced.",
+                "3": "Learning objectives are clear and largely measurable. Minor ambiguities in scope or success criteria are present.",
+                "2": "Learning objectives are present but vague, unmeasurable, or focused on teacher activity rather than student learning.",
+                "1": "Learning objectives are absent, incoherent, or so broad they provide no meaningful guidance for instruction."
+              },
+              "theory_basis": "Danielson FfT 1c."
+            },
+            {
+              "id": "D1.3",
+              "title": "Content–Objective Alignment",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Every planned activity, resource, and assessment directly supports the stated learning objectives. The alignment is explicit and consistent throughout the plan.",
+                "3": "Most activities and resources align with the learning objectives. Minor misalignments do not significantly undermine coherence.",
+                "2": "Some activities or resources align with the objectives, but notable gaps or mismatches weaken the instructional focus.",
+                "1": "Planned activities and resources have little or no discernible connection to the stated learning objectives."
+              }
+            },
+            {
+              "id": "D1.4",
+              "title": "Differentiated Planning for Diverse Learners",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Lesson plan includes explicit, substantive differentiation strategies addressing the range of learner needs present in the class. Adaptations are specific, not generic.",
+                "3": "Lesson plan includes some differentiation strategies. Adaptations are present but may not address the full range of learner needs.",
+                "2": "Differentiation is superficial or generic. Plans do not reflect specific knowledge of students' varying needs.",
+                "1": "Lesson plan makes no provision for differentiation. All students are expected to engage with identical tasks at an identical pace."
+              },
+              "theory_basis": "Danielson FfT 1e, Marzano DQ5."
+            },
+            {
+              "id": "D1.5",
+              "title": "Balance of Individual and Collaborative Learning Activities",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Lesson plan purposefully balances individual and group/pair work in a way that is justified by the objectives and the nature of the content. Each mode is designed for productive engagement.",
+                "3": "The lesson includes both individual and collaborative activities. The balance is reasonable, though the rationale for each mode could be more explicit.",
+                "2": "The lesson relies predominantly on one mode (individual or group) without clear justification. Opportunities for alternative modes are missed.",
+                "1": "No deliberate balance exists. The planning reflects a single, uniform mode of engagement throughout."
+              }
+            },
+            {
+              "id": "D1.6",
+              "title": "Selection of Instructional Materials",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Instructional materials are purposefully selected for their appropriateness to the objectives, learner level, and context. Materials enhance rather than substitute for instruction.",
+                "3": "Instructional materials are appropriate and support the objectives. Selection is adequate, though not always optimally matched to all learner needs.",
+                "2": "Materials are selected with limited consideration of their fit to the objectives or learner level.",
+                "1": "Materials are absent, inappropriate, or selected without evident consideration of learning goals."
+              },
+              "theory_basis": "Danielson FfT 1d."
+            },
+            {
+              "id": "D1.7",
+              "title": "Coherence and Organisational Logic of the Lesson",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "The lesson is organised around a unifying purpose. Each element — opening, main activity, practice, closure — contributes meaningfully to the whole. The 'why' of each phase is evident.",
+                "3": "The lesson is logically organised and internally consistent. Connections between phases are present, though not always explicit.",
+                "2": "The lesson is organised but lacks clear connections between phases. Some elements appear disconnected from the central purpose.",
+                "1": "The lesson lacks organisational coherence. Phases are disconnected, arbitrary, or difficult to follow as a learning sequence."
+              }
+            },
+            {
+              "id": "D1.8",
+              "title": "Formative Assessment Planning",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "The lesson plan includes explicit, varied formative assessment strategies embedded at strategic points to check understanding and inform instruction.",
+                "3": "The lesson plan includes formative assessment. Strategies are present and reasonably well-placed, though variety or specificity could be greater.",
+                "2": "Formative assessment is mentioned but vague, limited to a single method, or placed only at the lesson's end.",
+                "1": "No formative assessment is planned. The lesson proceeds without any mechanism to check student understanding."
+              }
+            },
+            {
+              "id": "D1.9",
+              "title": "Accessibility of Content Presentation",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Content is planned to be presented using language, examples, analogies, and representations that make it accessible to all learners in the class, including those with lower prior knowledge.",
+                "3": "Content presentation is planned with reasonable attention to accessibility. Most learners are accounted for, though some may need unplanned support.",
+                "2": "Content presentation is planned at a single level, without deliberate attention to accessibility for diverse learners.",
+                "1": "Content is planned to be presented in a manner that is inaccessible to a significant portion of the class."
+              }
+            },
+            {
+              "id": "D1.10",
+              "title": "Interdisciplinary and Cross-Curricular Connections",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "The lesson deliberately incorporates meaningful connections to other subjects, real-world contexts, or broader conceptual frameworks, enriching the learning experience.",
+                "3": "The lesson includes some connection to other subjects or real-world contexts. Connections are valid, though not always fully developed.",
+                "2": "Interdisciplinary connections are superficial, incidental, or limited to a brief mention without integration.",
+                "1": "No interdisciplinary or cross-curricular connections are present or attempted."
+              }
+            }
+          ]
+        },
+        {
+          "id": "D2",
+          "title": "Classroom Management",
+          "description": "Evaluates the teacher's creation and maintenance of a productive, orderly, and respectful learning environment.",
+          "theory_basis": "Aligned with Danielson FfT Domain 2 (Classroom Environment).",
+          "items": [
+            {
+              "id": "D2.1",
+              "title": "Awareness of Classroom Dynamics",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Demonstrates keen, continuous awareness of the full classroom — student interactions, emerging off-task behaviour, and shifts in attention. Responds proactively and without disrupting lesson flow.",
+                "3": "Demonstrates consistent awareness of classroom dynamics. Responds effectively to most situations, with minor lapses in scanning or proximity.",
+                "2": "Awareness of classroom dynamics is uneven. Some student behaviour or interactions go unnoticed until they escalate.",
+                "1": "Demonstrates limited awareness of what is happening in the classroom. Off-task behaviour is frequently unnoticed or addressed ineffectively."
+              }
+            },
+            {
+              "id": "D2.2",
+              "title": "Establishing a Purposeful Learning Atmosphere",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "The classroom atmosphere is consistently purposeful, respectful, and intellectually safe. Students take academic risks and engage in learning with genuine investment.",
+                "3": "The classroom atmosphere is generally positive and supportive. Most students feel comfortable participating. Minor disruptions are quickly addressed.",
+                "2": "The classroom atmosphere is inconsistent. At times, the environment is not conducive to focused learning.",
+                "1": "The classroom atmosphere is chaotic, tense, or disengaged. Students do not appear to feel safe, valued, or focused on learning."
+              },
+              "theory_basis": "Danielson FfT 2a, 2b."
+            },
+            {
+              "id": "D2.3",
+              "title": "Equitable and Respectful Treatment of Students",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Interacts with all students with consistent respect, dignity, and fairness. There is no observable bias in interactions, opportunities, or expectations. Individual students are recognised as whole people.",
+                "3": "Generally treats students fairly and respectfully. Minor inconsistencies in attention or interaction quality are present but not systemic.",
+                "2": "Fairness or respect is inconsistent. Some students appear to receive noticeably different — positive or negative — treatment from others.",
+                "1": "Interactions are inequitable, dismissive, or disrespectful toward a student or group. Student dignity is not consistently upheld."
+              }
+            },
+            {
+              "id": "D2.4",
+              "title": "Time Management and Instructional Pace",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Time is managed with precision and intentionality. Instructional minutes are maximised; transitions are efficient; the lesson neither rushes nor drags.",
+                "3": "Time is generally well-managed. Most phases are appropriately paced. Minor over- or under-runs are handled without significant loss of learning time.",
+                "2": "Time management is inconsistent. Some phases are rushed or unnecessarily prolonged, reducing the quality of instruction or practice.",
+                "1": "Time is poorly managed throughout. Significant portions of instructional time are lost to inefficiency, waiting, or unproductive activity."
+              }
+            },
+            {
+              "id": "D2.5",
+              "title": "Responsible Use of Classroom Resources",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Classroom resources (materials, devices, furniture, shared supplies) are used purposefully, maintained well, and returned to order efficiently. Students are guided to take shared responsibility for their care.",
+                "3": "Resources are used appropriately and maintained adequately. Minor inefficiencies in distribution or collection are present.",
+                "2": "Resource use is disorganised or wasteful. Distribution and collection consume unnecessary instructional time.",
+                "1": "Resources are used carelessly, wasted, or managed in a way that disrupts learning or creates disorder."
+              }
+            },
+            {
+              "id": "D2.6",
+              "title": "Managing Learning Activities and Student Behaviour",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Learning activities are managed with clear direction and consistent follow-through. Student behaviour expectations are established, understood, and upheld calmly and consistently.",
+                "3": "Activities are managed effectively in most cases. Behaviour expectations are clear and generally upheld. Minor off-task behaviour is addressed without significant disruption.",
+                "2": "Activity management is inconsistent. Behavioural expectations are unclear or inconsistently enforced, leading to periodic disruption.",
+                "1": "Activities are poorly managed. Behavioural expectations are absent, ineffectively communicated, or not enforced."
+              }
+            },
+            {
+              "id": "D2.7",
+              "title": "Smooth and Purposeful Transitions",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Transitions between phases, groups, or activities are brief, orderly, and clearly signalled. Students know what to do next without needing repeated instructions.",
+                "3": "Transitions are generally smooth and reasonably brief. Occasional confusion or delay occurs but is resolved quickly.",
+                "2": "Transitions are often slow, disorderly, or require multiple directions. Instructional time is regularly lost during transitions.",
+                "1": "Transitions are chaotic and significantly disrupt the learning flow. Students are frequently confused about what to do next."
+              }
+            },
+            {
+              "id": "D2.8",
+              "title": "Attendance and Punctuality Management",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Attendance is taken promptly, accurately, and efficiently — never at the expense of instructional time. Latecomers are handled with minimal disruption to the class.",
+                "3": "Attendance is taken accurately and with reasonable efficiency. Occasional delays or disruptions are minor.",
+                "2": "Attendance processes are slow, inaccurate, or create noticeable disruption to lesson flow.",
+                "1": "Attendance is not reliably taken, or the process creates significant and recurring disruption to instruction."
+              }
+            }
+          ]
+        },
+        {
+          "id": "D3",
+          "title": "Instructional Process",
+          "description": "Evaluates the quality of teaching as observed during the formal appraisal lesson. This domain has the greatest number of items and carries significant weight within Framework 2. Items are differentiated by level — Induction teachers are assessed on foundational instructional behaviours; Lead teachers are assessed on the full range including advanced practice.",
+          "theory_basis": "Aligned with Danielson FfT Domains 1 and 3, and Marzano's Design Questions 1–10.",
+          "items": [
+            {
+              "id": "D3.1",
+              "title": "Punctuality and Session Readiness",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Arrives before students; all materials, technology, and room setup are fully prepared. Instruction begins on time without exception.",
+                "3": "Arrives on time and is prepared in most sessions. Minor setup issues are resolved quickly without significant delay to instruction.",
+                "2": "Punctuality or preparation is inconsistent. Instruction is sometimes delayed while materials are organised or technology is set up.",
+                "1": "Regularly arrives late or is visibly unprepared. Instructional time is routinely lost to setup or waiting."
+              }
+            },
+            {
+              "id": "D3.2",
+              "title": "Establishing a Productive Class Opening",
+              "visible_from": "proficient",
+              "rubric": {
+                "4": "The lesson opening is purposeful and immediately engaging. It activates prior knowledge, establishes relevance, and focuses students on the learning ahead — setting a productive tone for the session.",
+                "3": "The lesson opening is adequate and connects to the learning to come. Students are brought to focus effectively, though the opening could be more intellectually stimulating.",
+                "2": "The lesson opening is functional but routine. It does little to activate prior knowledge or generate curiosity about the lesson.",
+                "1": "The lesson begins without a deliberate opening. Students are not oriented to the learning purpose or brought into productive focus."
+              },
+              "theory_basis": "Danielson FfT 3a."
+            },
+            {
+              "id": "D3.3",
+              "title": "Making Learning Intentions Visible",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Learning intentions and success criteria are explicitly communicated and revisited throughout the lesson. Students can articulate what they are learning and demonstrate ownership of their progress.",
+                "3": "Learning intentions are clearly stated at the start of the lesson and referenced at key transition points. Most students can articulate the lesson goal.",
+                "2": "Learning intentions are mentioned but not consistently reinforced. Students have partial awareness of lesson goals.",
+                "1": "No learning intention is communicated. Students are unclear about the purpose of the lesson."
+              },
+              "theory_basis": "Danielson FfT 1c, Marzano DQ1."
+            },
+            {
+              "id": "D3.4",
+              "title": "Activity–Objective Alignment",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Every instructional activity is visibly and purposefully aligned with the stated learning objective. The teacher articulates the connection to students; activities are not chosen for novelty or habit.",
+                "3": "Instructional activities are aligned with the learning objective in most instances. Minor misalignments are present but do not significantly detract from learning.",
+                "2": "Some activities are aligned with the objective, but others appear tangential or chosen out of routine rather than purpose.",
+                "1": "Instructional activities have little discernible connection to the stated objective."
+              }
+            },
+            {
+              "id": "D3.5",
+              "title": "Activating Higher-Order Thinking",
+              "visible_from": "developing",
+              "rubric": {
+                "4": "Deliberately and consistently designs and facilitates activities that require students to analyse, evaluate, create, or apply knowledge to novel problems. Students are challenged beyond recall and comprehension.",
+                "3": "Higher-order thinking is incorporated into the lesson, though not consistently throughout. At least one activity requires analysis, evaluation, or application.",
+                "2": "Activities are predominantly recall-based. Opportunities for higher-order thinking are infrequent or unintentional.",
+                "1": "The lesson operates entirely at recall or basic comprehension level. No opportunities for higher-order thinking are present."
+              },
+              "theory_basis": "Danielson FfT 3b, Marzano DQ3."
+            },
+            {
+              "id": "D3.6",
+              "title": "Awareness of Student Performance Patterns",
+              "visible_from": "proficient",
+              "rubric": {
+                "4": "Demonstrates nuanced, ongoing awareness of individual and group performance patterns. Uses this awareness to personalise instruction, adjust groupings, and target feedback.",
+                "3": "Demonstrates adequate awareness of student performance patterns and makes reasonable instructional adjustments based on general class-level data.",
+                "2": "Awareness of student performance is surface-level. Instructional decisions do not consistently reflect knowledge of where individual students are.",
+                "1": "Demonstrates little or no awareness of student performance patterns. Instruction proceeds uniformly regardless of evidence about student understanding."
+              },
+              "theory_basis": "Danielson FfT 3d."
+            },
+            {
+              "id": "D3.7",
+              "title": "Subject Matter and Objective Coherence",
+              "visible_from": "proficient",
+              "rubric": {
+                "4": "Demonstrates deep subject matter knowledge that is consistently deployed in service of the lesson's objectives. Content choices, examples, and explanations reflect expert command of the discipline.",
+                "3": "Subject matter knowledge is solid and adequately deployed in service of the objectives. Minor gaps or imprecisions are present but do not mislead students.",
+                "2": "Subject matter knowledge is adequate but inconsistently connected to the lesson's objectives. Some explanations are imprecise or tangential.",
+                "1": "Subject matter knowledge gaps are evident and undermine the lesson's objectives. Students may receive inaccurate or misleading content."
+              }
+            },
+            {
+              "id": "D3.8",
+              "title": "Variety in Teaching Strategies",
+              "visible_from": "developing",
+              "rubric": {
+                "4": "Employs a purposeful, varied repertoire of teaching strategies within the lesson, chosen to match the content, the students, and the learning objective. Variety serves learning — not novelty.",
+                "3": "Uses more than one teaching strategy during the lesson. Choices are reasonable, though the selection could be more deliberately matched to learner needs.",
+                "2": "Relies on one or two familiar strategies regardless of the content or students. Limited variety reduces engagement and reach.",
+                "1": "Uses a single instructional approach throughout, regardless of its suitability for the content or learners."
+              },
+              "theory_basis": "Marzano DQ5."
+            },
+            {
+              "id": "D3.9",
+              "title": "Purposeful Use of Instructional Materials",
+              "visible_from": "developing",
+              "rubric": {
+                "4": "Instructional materials are purposefully selected, well-prepared, and used to deepen student understanding. The teacher explains the purpose of materials to students and uses them to advance thinking.",
+                "3": "Instructional materials are appropriate and used effectively in most instances. Their connection to learning goals is generally clear.",
+                "2": "Materials are used but without evident purposefulness. Students may not understand why the materials are being used.",
+                "1": "Materials are absent, inappropriate, or used in a way that distracts from rather than supports learning."
+              },
+              "theory_basis": "Danielson FfT 1d."
+            },
+            {
+              "id": "D3.10",
+              "title": "Questioning for Critical Thinking",
+              "visible_from": "proficient",
+              "rubric": {
+                "4": "Uses a deliberate range of questions — factual, analytical, evaluative, and creative — to push student thinking progressively beyond surface understanding. Questions are planned and improvised responsively.",
+                "3": "Uses a variety of question types that move beyond simple recall in most instances. Some higher-order questions are posed, though follow-up probing could be more consistent.",
+                "2": "Questioning is predominantly factual and closed. Limited attempts are made to push student thinking beyond recall.",
+                "1": "Questioning is almost entirely recall-based or rhetorical. No deliberate attempt is made to develop critical thinking through questions."
+              },
+              "theory_basis": "Danielson FfT 3b."
+            },
+            {
+              "id": "D3.11",
+              "title": "Distributing Response Opportunities",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Response opportunities are distributed equitably and deliberately across the class. The teacher uses strategies (cold-calling, think-pair-share, random selection, whiteboards) to ensure all students are accountable for thinking.",
+                "3": "Response opportunities are generally distributed across the class. Occasional over-reliance on volunteers is present, but most students are engaged.",
+                "2": "Response opportunities are inconsistently distributed. A small number of students dominate responses; others rarely participate.",
+                "1": "Response opportunities are dominated by a few students. The teacher does not attempt to redistribute or hold the full class accountable."
+              },
+              "theory_basis": "Danielson FfT 3b."
+            },
+            {
+              "id": "D3.12",
+              "title": "Ensuring All-Student Participation",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Actively monitors and facilitates full-class participation throughout the lesson. Uses deliberate strategies to re-engage students who disengage, without singling them out negatively.",
+                "3": "Most students participate actively during the lesson. The teacher notices and gently re-engages some disengaged students.",
+                "2": "Participation is uneven. Some students are consistently disengaged, and the teacher does not consistently address this.",
+                "1": "Participation is passive or limited to a small subset of the class. The teacher does not take deliberate steps to ensure broader engagement."
+              },
+              "theory_basis": "Marzano DQ6."
+            },
+            {
+              "id": "D3.13",
+              "title": "Guiding Concept and Skill Acquisition",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Guides students through the acquisition of new concepts or skills with clear, well-sequenced explanations, worked examples, and scaffolded practice. Gradually releases responsibility to students.",
+                "3": "Concept or skill instruction is clear and adequately sequenced. Scaffolding is present, though the gradual release of responsibility could be more deliberate.",
+                "2": "Instruction is delivered but without effective scaffolding. Students are expected to acquire new knowledge with insufficient guided practice.",
+                "1": "Concepts or skills are presented without adequate explanation, modelling, or scaffolded guidance."
+              },
+              "theory_basis": "Danielson FfT 3c."
+            },
+            {
+              "id": "D3.14",
+              "title": "Logical and Coherent Lesson Progression",
+              "visible_from": "developing",
+              "rubric": {
+                "4": "The lesson unfolds as a coherent learning journey. Each phase builds purposefully on the last, and students can perceive the logical flow from introduction through practice to consolidation.",
+                "3": "The lesson progresses logically in most phases. The overall arc is discernible, though transitions between phases could be more explicitly connected.",
+                "2": "The lesson progression is partially coherent. Some phases feel disconnected or out of sequence.",
+                "1": "The lesson lacks a coherent progression. Activities appear unrelated or the sequence undermines rather than supports learning."
+              },
+              "theory_basis": "Danielson FfT 1e."
+            },
+            {
+              "id": "D3.15",
+              "title": "Content–Standard Coherence",
+              "visible_from": "proficient",
+              "rubric": {
+                "4": "Instruction is visibly grounded in and aligned to the curriculum standards being addressed. The teacher explicitly connects lesson content to the broader curriculum, enabling students to situate their learning.",
+                "3": "Instruction is generally aligned to curriculum standards. The connection to broader standards is present, though not always made explicit to students.",
+                "2": "Instruction covers the content area but without explicit reference to or coherence with the relevant curriculum standards.",
+                "1": "No discernible connection between instruction and curriculum standards. Content is covered in isolation from any standards framework."
+              }
+            },
+            {
+              "id": "D3.16",
+              "title": "Values Integration in Instruction",
+              "visible_from": "developing",
+              "rubric": {
+                "4": "Eduversal values and character education are naturally and meaningfully integrated into instruction — through content choices, discussion, modelling, and affirmation of student character. Integration feels genuine, not formulaic.",
+                "3": "Values are referenced or modelled during the lesson in a purposeful way. Integration is genuine and contextually appropriate.",
+                "2": "Values are mentioned but superficially or as an add-on — not meaningfully connected to the lesson's content or activities.",
+                "1": "No integration of values is present, or any reference is perfunctory and without substance."
+              }
+            },
+            {
+              "id": "D3.17",
+              "title": "Lesson Closure and Consolidation",
+              "visible_from": "proficient",
+              "rubric": {
+                "4": "The lesson closes with a deliberate consolidation activity that brings learning together, checks understanding, and reinforces the key takeaways. Students leave with clarity about what they have learned.",
+                "3": "The lesson includes a closing phase. Consolidation is present, though it could be more substantive or explicitly tied to the objectives.",
+                "2": "Closure is brief or perfunctory. Limited consolidation of learning occurs before the lesson ends.",
+                "1": "No deliberate lesson closure. The lesson ends abruptly or is cut short with no synthesis or review of learning."
+              }
+            },
+            {
+              "id": "D3.18",
+              "title": "Language of Instruction",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Uses language that is consistently clear, precise, and appropriately academic. Code-switching (where applicable) is purposeful and used to support comprehension, not as a default.",
+                "3": "Language of instruction is generally clear and appropriate. Minor imprecision or unnecessary code-switching is present.",
+                "2": "Language is sometimes unclear, imprecise, or inconsistently matched to the intended level of instruction.",
+                "1": "Language is frequently unclear, confusing, or inappropriate for the instructional context."
+              }
+            },
+            {
+              "id": "D3.19",
+              "title": "Monitoring Student Understanding",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Actively and continuously monitors student understanding throughout the lesson using a variety of strategies. Evidence gathered visibly influences in-lesson decisions.",
+                "3": "Monitors student understanding at key points during the lesson. Some adjustment of instruction based on evidence is observed.",
+                "2": "Monitoring of student understanding is infrequent or limited to a single method. Adjustments based on evidence are rare.",
+                "1": "No meaningful monitoring of student understanding. The teacher proceeds without evidence of whether students are keeping up."
+              },
+              "theory_basis": "Danielson FfT 3d."
+            },
+            {
+              "id": "D3.20",
+              "title": "Providing Timely and Actionable Feedback",
+              "visible_from": "developing",
+              "rubric": {
+                "4": "Feedback to students is timely, specific, and actionable — it names what is strong, what needs to change, and how. Students can use the feedback to improve immediately.",
+                "3": "Feedback is generally timely and focused. Most students receive feedback that is useful, though specificity or actionability could be stronger.",
+                "2": "Feedback is given but is often general, delayed, or difficult for students to act on.",
+                "1": "Feedback is absent, unhelpfully vague, or delivered in a way that does not support student improvement."
+              },
+              "theory_basis": "Danielson FfT 3d, Marzano DQ8."
+            },
+            {
+              "id": "D3.21",
+              "title": "Determination and Persistence in Student Success",
+              "visible_from": "lead",
+              "rubric": {
+                "4": "Demonstrates unwavering commitment to every student's success. When a student struggles, the teacher exhausts strategies, seeks support proactively, and communicates resolve to the student. No student is written off.",
+                "3": "Demonstrates genuine commitment to student success. Makes reasonable efforts to support struggling students and does not give up readily.",
+                "2": "Commitment to student success is present but inconsistent. Some students who struggle receive limited additional attention or support.",
+                "1": "Limited evidence of persistence when students struggle. Difficulties are attributed to the student, with little effort to find alternative pathways."
+              }
+            }
+          ]
+        },
+        {
+          "id": "D4",
+          "title": "Assessment",
+          "description": "Evaluates the quality of the teacher's assessment design and practice — including the alignment of assessment to objectives, the accuracy of records, and the use of assessment evidence to inform teaching.",
+          "theory_basis": "Aligned with Danielson FfT Domain 1f (Designing Student Assessments) and Domain 3d (Using Assessment in Instruction).",
+          "items": [
+            {
+              "id": "D4.1",
+              "title": "Clarity of Assessment Criteria",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Assessment criteria are explicit, student-facing, and communicated before tasks are undertaken. Students can use the criteria to self-assess and understand what success looks like.",
+                "3": "Assessment criteria are clear and communicated to students. Most students understand what is expected, though criteria could be more accessible to all learners.",
+                "2": "Assessment criteria exist but are communicated vaguely or only after tasks are in progress.",
+                "1": "Assessment criteria are absent or not communicated to students."
+              }
+            },
+            {
+              "id": "D4.2",
+              "title": "Appropriateness of Assessment Activities",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Assessment activities are purposefully designed to reveal student understanding in relation to the objectives. Tasks are challenging, accessible, and varied across the year.",
+                "3": "Assessment activities are appropriate and reasonably aligned with objectives. Some variety in task type is present.",
+                "2": "Assessment activities are used but are not well-matched to the objectives or reveal limited information about student understanding.",
+                "1": "Assessment activities are inappropriate, absent, or provide no meaningful information about student learning."
+              }
+            },
+            {
+              "id": "D4.3",
+              "title": "Assessment Level and Curriculum Alignment",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "Assessment tasks are precisely calibrated to the cognitive level and curriculum expectations of the objectives. Tasks neither under-challenge nor exceed what students are expected to know at this stage.",
+                "3": "Assessment tasks are broadly aligned with the cognitive level and curriculum expectations. Minor misalignments are present but do not significantly distort results.",
+                "2": "Assessment tasks are misaligned in level or curriculum scope in ways that compromise the validity of results.",
+                "1": "Assessment tasks bear little relationship to the cognitive level or curriculum expectations of the objectives."
+              }
+            },
+            {
+              "id": "D4.4",
+              "title": "Accurate and Timely Records in Edunav",
+              "visible_from": "induction",
+              "rubric": {
+                "4": "All assessment records are entered into Edunav accurately, completely, and within the required timeframe. Records are well-organised and fully interpretable.",
+                "3": "Assessment records in Edunav are generally accurate and entered within acceptable timeframes. Minor delays or gaps are quickly resolved.",
+                "2": "Assessment records contain errors, gaps, or are frequently entered late. Follow-up is required to maintain accuracy.",
+                "1": "Assessment records are systematically inaccurate, missing, or entered so late they are not useful for any purpose."
+              }
+            },
+            {
+              "id": "D4.5",
+              "title": "Student Progress Monitoring Over Time",
+              "visible_from": "developing",
+              "rubric": {
+                "4": "Tracks individual and class progress systematically over time. Uses trend data to identify growth, stagnation, or regression, and can speak to each student's trajectory.",
+                "3": "Monitors student progress at a class level and for most individuals. Some trend analysis informs planning.",
+                "2": "Progress monitoring is periodic and focused on summative outcomes. Little use of longitudinal data to understand student trajectories.",
+                "1": "No systematic monitoring of student progress over time. Assessment data is collected but not used to track growth."
+              }
+            },
+            {
+              "id": "D4.6",
+              "title": "Action Based on Assessment Results",
+              "visible_from": "proficient",
+              "rubric": {
+                "4": "Consistently acts on assessment results to adjust teaching. Re-teaching, enrichment, grouping changes, and targeted feedback are documented and observable.",
+                "3": "Acts on assessment results in most cases. Instructional adjustments are made, though not always systematically or for every identified need.",
+                "2": "Assessment results are reviewed but rarely lead to substantive changes in instruction.",
+                "1": "Assessment results do not inform teaching. Data is collected but not used as a lever for instructional improvement."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F3",
+      "title": "Teacher's Work Inspection",
+      "description": "Evaluates the teacher's professional conduct, responsibilities beyond the classroom, and contribution to the school and Eduversal community. Lead teachers are also assessed against six additional leadership items.",
+      "weight": 0.20,
+      "items": [
+        {
+          "id": "F3.1",
+          "title": "Work Punctuality and Deadline Adherence",
+          "visible_from": "induction",
+          "rubric": {
+            "4": "Consistently meets all deadlines and professional time commitments. Work is submitted ahead of schedule. No reminders required.",
+            "3": "Meets deadlines in almost all cases. Rare lateness is communicated proactively and does not become a pattern.",
+            "2": "Frequently requires reminders or submits work after deadlines. Punctuality to professional commitments is inconsistent.",
+            "1": "Routinely misses deadlines or professional commitments without communication or follow-through."
+          }
+        },
+        {
+          "id": "F3.2",
+          "title": "Task Performance and Completion",
+          "visible_from": "induction",
+          "rubric": {
+            "4": "All assigned tasks are completed to a high standard, demonstrating care, thoroughness, and professional pride in output.",
+            "3": "Assigned tasks are completed to an adequate standard. Minor gaps in quality or completeness are present.",
+            "2": "Task completion is inconsistent. Some assignments are incomplete, superficial, or require significant revision.",
+            "1": "Tasks are frequently incomplete, poorly executed, or abandoned without resolution."
+          }
+        },
+        {
+          "id": "F3.3",
+          "title": "Proactive Pursuit of Professional Development",
+          "visible_from": "induction",
+          "rubric": {
+            "4": "Actively seeks out professional development opportunities beyond what is required. Pursues formal and informal learning, applies new knowledge to practice, and shares insights with colleagues.",
+            "3": "Participates in required professional development and occasionally seeks additional opportunities. Makes reasonable efforts to apply learning.",
+            "2": "Engages in professional development when required but does not seek it independently. Application of new learning is limited.",
+            "1": "Shows little interest in or engagement with professional development, even when opportunities are provided."
+          }
+        },
+        {
+          "id": "F3.4",
+          "title": "Participation in School Professional Development Activities",
+          "visible_from": "induction",
+          "rubric": {
+            "4": "Participates fully and constructively in all school PD activities — workshops, training, staff meetings. Contributes ideas and engages colleagues in shared learning.",
+            "3": "Participates reliably in school PD activities. Engagement is active, though contributions to group learning are moderate.",
+            "2": "Participation in school PD activities is passive or irregular. Attends but is minimally engaged.",
+            "1": "Avoids or is frequently absent from school PD activities without valid reason."
+          }
+        },
+        {
+          "id": "F3.5",
+          "title": "Adherence to the Eduversal Code of Ethics",
+          "visible_from": "induction",
+          "rubric": {
+            "4": "Consistently upholds Eduversal's professional standards and code of ethics in all contexts — with students, colleagues, parents, and the broader community. Models integrity without exception.",
+            "3": "Adheres to the code of ethics in all observed and reported interactions. No substantive violations recorded.",
+            "2": "Generally adheres to the code of ethics, though minor professional conduct issues have been noted and addressed.",
+            "1": "Has demonstrated conduct inconsistent with Eduversal's code of ethics. Issues have required formal intervention."
+          }
+        },
+        {
+          "id": "F3.6",
+          "title": "Leadership Skills and Initiative",
+          "visible_from": "developing",
+          "rubric": {
+            "4": "Demonstrates leadership within and beyond their role. Takes initiative on school improvement activities, drives projects to completion, and inspires confidence in colleagues.",
+            "3": "Shows leadership qualities in their primary role. Takes initiative when appropriate and follows through on commitments.",
+            "2": "Leadership initiative is limited. Relies on direction rather than self-motivation.",
+            "1": "Shows little or no initiative. Waits to be directed and does not demonstrate leadership within the scope of their role."
+          }
+        },
+        {
+          "id": "F3.7",
+          "title": "Co-Curricular Contribution",
+          "visible_from": "developing",
+          "rubric": {
+            "4": "Makes a meaningful, sustained contribution to co-curricular life — clubs, events, competitions, student welfare activities. Goes beyond the minimum and brings genuine commitment.",
+            "3": "Participates in co-curricular activities as expected. Contribution is genuine, though scope could be broader.",
+            "2": "Co-curricular participation is minimal or passive. Involvement is limited to what is formally required.",
+            "1": "Does not participate in co-curricular life or does so only under direct instruction."
+          }
+        },
+        {
+          "id": "F3.8",
+          "title": "Upholding Student Dignity and Positive Reinforcement",
+          "visible_from": "induction",
+          "rubric": {
+            "4": "Consistently affirms student dignity in all interactions. Celebrates growth and effort; avoids public criticism. Actively builds student confidence and self-belief.",
+            "3": "Generally upholds student dignity and uses positive reinforcement. Occasional lapses in tone or phrasing are isolated and not a pattern.",
+            "2": "Student dignity is maintained inconsistently. Some interactions undermine student confidence or use negative framing habitually.",
+            "1": "Student dignity is not reliably upheld. Public criticism, dismissiveness, or negative comparisons are present."
+          }
+        },
+        {
+          "id": "F3.9",
+          "title": "Contribution to School Community and Collegial Cooperation",
+          "visible_from": "developing",
+          "rubric": {
+            "4": "Actively contributes to the school community and collaborates willingly with colleagues. Offers help proactively, participates in shared projects, and strengthens team cohesion.",
+            "3": "Contributes to the school community and cooperates with colleagues reliably. Collaboration is genuine, though largely within expected boundaries.",
+            "2": "Cooperation with colleagues is passive or transactional. Limited contribution to school community beyond individual duties.",
+            "1": "Demonstrates poor collegial cooperation. Avoids shared responsibilities or creates friction in collaborative settings."
+          }
+        },
+        {
+          "id": "F3.10",
+          "title": "Communication with Stakeholders",
+          "visible_from": "developing",
+          "rubric": {
+            "4": "Communicates with parents, students, and school leadership proactively, clearly, and professionally. Responds promptly; tailors communication style to the audience; builds trust through transparency.",
+            "3": "Communicates adequately with stakeholders. Responses are reasonably timely and professional. Minor gaps in proactivity are present.",
+            "2": "Communication with stakeholders is reactive and inconsistent. Some delays, unclear messages, or missed communications have been noted.",
+            "1": "Communication with stakeholders is poor — infrequent, unprofessional, or creates misunderstanding."
+          }
+        }
+      ]
+    },
+    {
+      "id": "F3L",
+      "title": "Leadership Responsibilities",
+      "description": "Six additional items assessed only for Lead-level teachers (Subject Leaders and Heads of Department). These items evaluate the quality of pedagogical leadership, mentoring, and strategic contribution beyond the individual classroom.",
+      "weight_note": "Lead items contribute to the F3 score. The combined F3 + F3L score is weighted at 20% of the total appraisal.",
+      "applies_to_levels": ["lead"],
+      "items": [
+        {
+          "id": "L1",
+          "title": "Subject Expertise and Knowledge Sharing",
+          "visible_from": "lead",
+          "rubric": {
+            "4": "Leads subject-specific professional learning for the department. Shares research-informed practice, curates resources, and contributes to the school's academic knowledge base. Colleagues describe this teacher as a subject authority.",
+            "3": "Shares subject expertise with colleagues through formal and informal channels. Makes a genuine contribution to the department's professional knowledge.",
+            "2": "Subject knowledge is not consistently shared. Professional learning contributions to the department are limited.",
+            "1": "Does not actively share subject expertise. Subject knowledge remains confined to the individual's own classroom."
+          },
+          "theory_basis": "Marzano DQ10 adapted."
+        },
+        {
+          "id": "L2",
+          "title": "Coaching and Mentoring Practice",
+          "visible_from": "lead",
+          "rubric": {
+            "4": "Provides structured, high-quality developmental feedback to colleagues through regular classroom observations and mentoring conversations. Supports induction-stage teachers through a consistent, growth-oriented cycle.",
+            "3": "Engages in coaching or mentoring of colleagues. Feedback given is developmental and delivered with professional sensitivity.",
+            "2": "Mentoring activity is present but irregular or insufficiently structured to produce sustained growth.",
+            "1": "Does not engage in meaningful coaching or mentoring. Observation cycles with colleagues are absent or perfunctory."
+          },
+          "theory_basis": "Danielson FfT 4f adapted."
+        },
+        {
+          "id": "L3",
+          "title": "Curriculum Leadership",
+          "visible_from": "lead",
+          "rubric": {
+            "4": "Drives coherence, rigour, and vertical alignment within the subject's scheme of work. Assessment design, resource curation, and curriculum decisions reflect a long-term, standards-informed vision.",
+            "3": "Manages the subject's curriculum documents and assessment calendar adequately. Some strategic planning is evident in curriculum decisions.",
+            "2": "Curriculum leadership is primarily administrative. Limited evidence of strategic or pedagogical decision-making.",
+            "1": "Curriculum responsibilities are not being met. Scheme of work, assessments, or resources are outdated, incomplete, or misaligned."
+          }
+        },
+        {
+          "id": "L4",
+          "title": "Data-Informed Departmental Decision Making",
+          "visible_from": "lead",
+          "rubric": {
+            "4": "Uses subject-level assessment and performance data systematically to set departmental priorities, identify student cohort gaps, and adjust team practice. Decisions are evidence-based and regularly reviewed.",
+            "3": "Engages with departmental data and makes reasonable instructional decisions at a subject level. Data use is present but not fully systematic.",
+            "2": "Aware of departmental data but does not use it consistently to drive decisions. Subject-level planning is largely intuitive.",
+            "1": "Does not engage meaningfully with departmental performance data. Decisions are made without reference to evidence."
+          },
+          "theory_basis": "Marzano DQ9 adapted."
+        },
+        {
+          "id": "L5",
+          "title": "Professional Community Building",
+          "visible_from": "lead",
+          "rubric": {
+            "4": "Fosters a culture of collaborative inquiry and continuous learning within the department. Models reflective practice, creates conditions for peer learning, and celebrates professional growth.",
+            "3": "Contributes to a collegial department culture. Collaborative activities are encouraged and some shared inquiry is present.",
+            "2": "Professional community building is limited to routine team meetings. A genuine learning culture in the department is not yet established.",
+            "1": "Does not foster collaboration or professional learning within the department. Team culture is fragmented or disengaged."
+          },
+          "theory_basis": "Danielson FfT 4d adapted."
+        },
+        {
+          "id": "L6",
+          "title": "Strategic Communication with Stakeholders",
+          "visible_from": "lead",
+          "rubric": {
+            "4": "Communicates the department's vision, student progress trends, and strategic priorities clearly and proactively to school leadership, parents, and the Eduversal network. Communication builds trust and drives alignment.",
+            "3": "Communicates departmental matters to stakeholders adequately and professionally. Some strategic communication is present beyond routine updates.",
+            "2": "Communication with stakeholders is primarily reactive and transactional. Strategic or proactive communication is limited.",
+            "1": "Stakeholder communication from the department is poor — infrequent, unclear, or creates confusion about the department's direction."
+          }
+        }
+      ]
+    },
+    {
+      "id": "F4",
+      "title": "Student Survey",
+      "description": "The Student Survey gathers student perspectives on teaching quality. It is collected annually and reported as a separate section of the appraisal report. It does NOT contribute to the final appraisal score. Results are used to inform professional conversations and identify patterns over time.",
+      "weight": 0,
+      "scoring": "informative_only",
+      "response_scale": [
+        { "value": 4, "label": "Always" },
+        { "value": 3, "label": "Usually" },
+        { "value": 2, "label": "Sometimes" },
+        { "value": 1, "label": "Rarely" }
+      ],
+      "items": [
+        { "id": "F4.1",  "title": "Assignments are helpful for my learning", "visible_from": "induction" },
+        { "id": "F4.2",  "title": "The teacher responds to late or incomplete submissions", "visible_from": "induction" },
+        { "id": "F4.3",  "title": "I have the opportunity to ask questions in class", "visible_from": "induction" },
+        { "id": "F4.4",  "title": "The classroom feels safe and comfortable for learning", "visible_from": "induction" },
+        { "id": "F4.5",  "title": "I receive feedback that helps me improve", "visible_from": "induction" },
+        { "id": "F4.6",  "title": "The teacher explains the subject with confidence", "visible_from": "induction" },
+        { "id": "F4.7",  "title": "The teacher answers my questions clearly", "visible_from": "induction" },
+        { "id": "F4.8",  "title": "The teacher reviews previous lessons to help me remember", "visible_from": "induction" },
+        { "id": "F4.9",  "title": "The teacher does not give up on students who are struggling", "visible_from": "induction" },
+        { "id": "F4.10", "title": "Lessons are interactive and engaging", "visible_from": "induction" },
+        { "id": "F4.11", "title": "The teacher suggests useful resources for further learning", "visible_from": "induction" },
+        { "id": "F4.12", "title": "The teacher explains concepts in ways I can understand", "visible_from": "induction" },
+        { "id": "F4.13", "title": "The teacher helps me prepare for exams effectively", "visible_from": "induction" },
+        { "id": "F4.14", "title": "I receive feedback on my assignments that helps me improve", "visible_from": "induction" },
+        { "id": "F4.15", "title": "I understand the criteria by which my work is graded", "visible_from": "induction" },
+        { "id": "F4.16", "title": "The teacher helps me when I find something difficult", "visible_from": "induction" },
+        { "id": "F4.17", "title": "The teacher uses practical activities or experiments when appropriate", "visible_from": "induction" }
+      ]
+    }
+  ]
+}
