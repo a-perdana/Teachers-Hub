@@ -444,7 +444,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
 <div class="action-bar" id="actionBar" style="display:none;">
   <div class="action-bar-left" id="actionHint">Score all visible items to submit.</div>
   <div class="action-bar-right">
-    <button class="btn-ghost" onclick="saveDraft()">Save draft</button>
+    <button class="btn-ghost" onclick="saveDraft(true)">Save draft</button>
     <button class="btn-primary" id="submitBtn" onclick="submitSelf()" disabled>Submit self-appraisal</button>
   </div>
 </div>
@@ -748,7 +748,7 @@ function autoSave() {
   _saveTimer = setTimeout(saveDraft, 3000);
 }
 
-window.saveDraft = async function() {
+window.saveDraft = async function(fromButton = false) {
   if (!db || !currentUser) return;
   const statusEl = document.getElementById('saveStatus');
   try {
@@ -764,10 +764,13 @@ window.saveDraft = async function() {
       status: isSubmitted ? 'submitted' : 'draft',
       updatedAt: serverTimestamp(),
     }, { merge: true });
-    statusEl.textContent = 'Saved ' + new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    const timeStr = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    statusEl.textContent = 'Saved ' + timeStr;
+    if (fromButton) showToast('Draft saved — ' + timeStr, 'success');
   } catch (e) {
     console.error(e);
     statusEl.textContent = 'Save failed.';
+    if (fromButton) showToast('Save failed: ' + e.message, 'error');
   }
 };
 
