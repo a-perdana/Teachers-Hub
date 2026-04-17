@@ -451,6 +451,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
 
 <div class="toast" id="toast"></div>
 
+<script src="partials/navbar.js"></script>
 <script>
   fetch('partials/navbar.html').then(r=>r.text()).then(html=>{
     document.getElementById('navbar-container').innerHTML = html;
@@ -483,6 +484,19 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
   currentUser = user;
   userProfile = profile;
   db = window.db;
+
+  // Navbar profile
+  const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+  const updateNavbarElements = () => {
+    const el = document.getElementById('profileNameShort');
+    const av = document.getElementById('profileAvatar');
+    const wr = document.getElementById('profileWrap');
+    if (el) el.textContent = nameShort;
+    if (av && typeof buildAvatarEl === 'function') buildAvatarEl(av, user);
+    if (wr) wr.style.display = 'flex';
+  };
+  if (document.getElementById('profileNameShort')) updateNavbarElements();
+  else window._pendingNavbarUpdate = updateNavbarElements;
 
   const doBadgeSetup = () => setupNavBadges(db, { onSnapshot, collection });
   const doFeedback   = () => initFeedback(db, { addDoc, collection, serverTimestamp });
