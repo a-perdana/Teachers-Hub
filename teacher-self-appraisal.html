@@ -545,7 +545,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
 function currentAcademicYear() {
   const now = new Date();
   const y = now.getFullYear();
-  return now.getMonth() >= 6 ? `${y}/${y+1}` : `${y-1}/${y}`;
+  return now.getMonth() >= 6 ? `${y}-${y+1}` : `${y-1}-${y}`;
 }
 
 function currentLevel() {
