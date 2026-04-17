@@ -31,3 +31,4 @@ Thumbs.db
 *.log
 npm-debug.log*
 .vercel
+resources/appraisal-framework-v2.json
