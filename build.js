@@ -203,7 +203,7 @@ if (fs.existsSync(partialsSrcDir)) {
   console.warn('Warning: partials directory not found');
 }
 
-// Copy resources/ folder to dist root (JSON data files: appraisal framework, walkthrough rubric, etc.)
+// Copy resources/ folder to dist root (JSON data files: walkthrough rubric, etc.)
 const resourcesSrcDir = path.join(__dirname, 'resources');
 const resourcesDistDir = path.join(distDir, 'resources');
 if (fs.existsSync(resourcesSrcDir)) {
@@ -211,9 +211,17 @@ if (fs.existsSync(resourcesSrcDir)) {
     fs.mkdirSync(resourcesDistDir, { recursive: true });
   }
   fs.readdirSync(resourcesSrcDir).forEach(file => {
+    if (file === 'appraisal-framework-v2.json') return; // sourced from monorepo root
     fs.copyFileSync(path.join(resourcesSrcDir, file), path.join(resourcesDistDir, file));
     console.log(`Copied: dist/resources/${file}`);
   });
+}
+// Copy shared framework JSON from monorepo root (single source of truth)
+const sharedFramework = path.join(__dirname, '..', 'resources', 'appraisal-framework-v2.json');
+if (fs.existsSync(sharedFramework)) {
+  if (!fs.existsSync(resourcesDistDir)) fs.mkdirSync(resourcesDistDir, { recursive: true });
+  fs.copyFileSync(sharedFramework, path.join(resourcesDistDir, 'appraisal-framework-v2.json'));
+  console.log('Copied: dist/resources/appraisal-framework-v2.json (from monorepo root)');
 }
 
 console.log('Build completed successfully!');
