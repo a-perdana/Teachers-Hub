@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Self-Appraisal — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<script src="firebase-config.js"></script>
+<script>
+  if (!window.ENV) window.ENV = {
+    FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+    FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+    FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+    FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+    FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+    FIREBASE_APP_ID: "__FIREBASE_APP_ID__",
+  };
+</script>
+<script type="module" src="auth-guard.js"></script>
+<link rel="stylesheet" href="base.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent:    #7c3aed;
+  --accent-dk: #6d28d9;
+  --accent-lt: #ede9fe;
+  --accent-3:  #f5f3ff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; }
+
+/* ── HERO ─────────────────────────────────────────────── */
+.hero {
+  background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 55%, #7c3aed 100%);
+  color: #fff; padding: 0; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 80% 50%, rgba(255,255,255,.07) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 1100px; margin: 0 auto; padding: 36px 32px 32px;
+  position: relative; z-index: 1;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+  border-radius: 99px; padding: 4px 14px;
+  font-size: .72rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.hero h1 { font-size: 1.75rem; font-weight: 800; line-height: 1.2; margin-bottom: 6px; }
+.hero-sub { font-size: .87rem; opacity: .8; margin-bottom: 18px; max-width: 580px; }
+.hero-notice {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,200,0,.18); border: 1px solid rgba(255,200,0,.35);
+  border-radius: 10px; padding: 8px 16px; font-size: .8rem; font-weight: 600;
+}
+
+/* ── LAYOUT ───────────────────────────────────────────── */
+.page-wrap { max-width: 1100px; margin: 0 auto; padding: 28px 32px 100px; }
+.layout-grid { display: grid; grid-template-columns: 1fr 280px; gap: 24px; align-items: start; }
+
+/* ── CARD ─────────────────────────────────────────────── */
+.card {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04); overflow: hidden; margin-bottom: 20px;
+}
+.card-head {
+  padding: 16px 24px; border-bottom: 1px solid #f1f5f9;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.card-head h2 { font-size: .95rem; font-weight: 700; color: #1e293b; }
+.card-head-sub { font-size: .73rem; color: #94a3b8; margin-top: 2px; }
+.card-body { padding: 20px 24px; }
+
+/* ── SETUP CARD ───────────────────────────────────────── */
+.setup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.field-group { display: flex; flex-direction: column; gap: 5px; }
+.field-group label { font-size: .75rem; font-weight: 700; color: #475569; }
+.field-group input, .field-group select {
+  font-family: inherit; font-size: .88rem; padding: 9px 12px;
+  border: 1.5px solid #e2e8f0; border-radius: 10px; color: #1e293b; background: #fff;
+}
+.field-group input:focus, .field-group select:focus {
+  outline: none; border-color: var(--accent);
+}
+
+/* ── LEVEL PILLS ──────────────────────────────────────── */
+.level-pill {
+  display: inline-block; font-size: .68rem; font-weight: 700;
+  padding: 2px 10px; border-radius: 20px;
+}
+.level-pill.induction  { background: #fef9c3; color: #854d0e; border: 1px solid #fde68a; }
+.level-pill.developing { background: #ffedd5; color: #9a3412; border: 1px solid #fdba74; }
+.level-pill.proficient { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+.level-pill.lead       { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+
+/* ── FRAMEWORK TABS ───────────────────────────────────── */
+.fw-tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+.fw-tab {
+  font-family: inherit; font-size: .82rem; font-weight: 600;
+  padding: 8px 16px; border-radius: 10px; border: 1.5px solid #e2e8f0;
+  background: #fff; color: #64748b; cursor: pointer; transition: all .15s;
+}
+.fw-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.fw-tab:hover:not(.active) { border-color: #a78bfa; }
+.fw-tab .fw-tab-pct { font-size: .68rem; opacity: .75; margin-left: 4px; }
+
+/* ── DOMAIN SECTION ───────────────────────────────────── */
+.domain-section { margin-bottom: 16px; }
+.domain-label {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px; background: #f8fafc; border: 1px solid #e2e8f0;
+  border-radius: 10px; cursor: pointer; user-select: none;
+  font-size: .83rem; font-weight: 700; color: #1e293b;
+}
+.domain-label:hover { background: #f1f5f9; }
+.domain-label.collapsed + .domain-body { display: none; }
+.domain-label .domain-chevron { font-size: .7rem; color: #94a3b8; transition: transform .2s; }
+.domain-label:not(.collapsed) .domain-chevron { transform: rotate(180deg); }
+.domain-body { padding: 12px 0 4px; }
+
+/* ── ITEM ROW ─────────────────────────────────────────── */
+.item-row {
+  padding: 14px 0 14px 16px; border-bottom: 1px solid #f1f5f9;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.item-row:last-child { border-bottom: none; }
+.item-header { display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+.item-id { font-size: .7rem; font-weight: 800; color: #94a3b8; white-space: nowrap; min-width: 38px; padding-top: 1px; }
+.item-title { font-size: .88rem; font-weight: 600; color: #1e293b; flex: 1; }
+.item-not-applicable {
+  font-size: .7rem; color: #94a3b8; font-style: italic;
+  padding: 4px 0; margin-left: 48px;
+}
+
+/* ── RUBRIC TOGGLE ────────────────────────────────────── */
+.rubric-toggle {
+  font-family: inherit; font-size: .68rem; font-weight: 600;
+  padding: 2px 8px; border-radius: 6px;
+  border: 1px solid #e2e8f0; background: #f8fafc; color: #64748b;
+  cursor: pointer; margin-left: auto; flex-shrink: 0;
+  transition: all .15s;
+}
+.rubric-toggle:hover { border-color: #a78bfa; color: var(--accent); }
+
+.rubric-panel {
+  display: none; margin: 0 0 6px 48px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+}
+.rubric-panel.hidden { display: none !important; }
+.rubric-card {
+  border-radius: 10px; padding: 10px 12px; border: 1.5px solid;
+  font-size: .76rem; line-height: 1.55;
+}
+.rubric-card.r1 { background: #fff1f2; border-color: #fca5a5; color: #7f1d1d; }
+.rubric-card.r2 { background: #fffbeb; border-color: #fde68a; color: #78350f; }
+.rubric-card.r3 { background: #f0fdfa; border-color: #99f6e4; color: #134e4a; }
+.rubric-card.r4 { background: #f0fdf4; border-color: #bbf7d0; color: #14532d; }
+.rubric-score { font-weight: 800; font-size: .82rem; margin-bottom: 4px; }
+
+/* ── SCORE BUTTONS ────────────────────────────────────── */
+.score-row { display: flex; gap: 6px; margin-left: 48px; }
+.s-btn {
+  flex: 1; padding: 9px 4px; border-radius: 10px;
+  border: 1.5px solid #e2e8f0; background: #fff;
+  cursor: pointer; text-align: center; transition: all .15s; font-family: inherit;
+}
+.s-btn:hover { border-color: #a78bfa; }
+.s-btn .s-num { font-size: .95rem; font-weight: 700; color: #475569; }
+.s-btn .s-lbl { font-size: .62rem; color: #94a3b8; margin-top: 2px; }
+.s-btn.sel-1 { background: #fff1f2; border-color: #f87171; }
+.s-btn.sel-1 .s-num { color: #dc2626; }
+.s-btn.sel-2 { background: #fffbeb; border-color: #fbbf24; }
+.s-btn.sel-2 .s-num { color: #b45309; }
+.s-btn.sel-3 { background: #f0fdfa; border-color: #2dd4bf; }
+.s-btn.sel-3 .s-num { color: #0f766e; }
+.s-btn.sel-4 { background: #f0fdf4; border-color: #4ade80; }
+.s-btn.sel-4 .s-num { color: #16a34a; }
+
+/* ── EVIDENCE BOX ─────────────────────────────────────── */
+.evidence-wrap { margin-left: 48px; }
+.evidence-textarea {
+  width: 100%; font-family: inherit; font-size: .82rem; line-height: 1.6;
+  padding: 10px 12px; border: 1.5px solid #e2e8f0; border-radius: 10px;
+  color: #334155; resize: vertical; min-height: 72px;
+  transition: border-color .15s;
+}
+.evidence-textarea:focus { outline: none; border-color: var(--accent); }
+.evidence-label { font-size: .65rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: #94a3b8; margin-bottom: 5px; }
+
+/* ── SIDEBAR ──────────────────────────────────────────── */
+.sidebar-card {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04); padding: 20px; margin-bottom: 16px;
+  position: sticky; top: 84px;
+}
+.sidebar-title { font-size: .78rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 14px; }
+
+/* ── PROGRESS ─────────────────────────────────────────── */
+.prog-item { margin-bottom: 10px; }
+.prog-label-row { display: flex; justify-content: space-between; font-size: .78rem; margin-bottom: 4px; }
+.prog-bar { background: #e2e8f0; border-radius: 4px; height: 6px; }
+.prog-fill { height: 6px; border-radius: 4px; background: var(--accent); transition: width .4s; }
+
+/* ── SCORE SUMMARY ────────────────────────────────────── */
+.score-summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.score-box-sm {
+  background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
+  padding: 10px 12px; text-align: center;
+}
+.score-box-sm .sb-val { font-size: 1.3rem; font-weight: 800; color: var(--accent); }
+.score-box-sm .sb-lbl { font-size: .65rem; color: #64748b; margin-top: 2px; }
+
+/* ── ACTION BAR ───────────────────────────────────────── */
+.action-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,.97); border-top: 1px solid #e2e8f0;
+  padding: 12px 32px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.action-bar-left { font-size: .82rem; color: #64748b; font-weight: 600; }
+.action-bar-right { display: flex; gap: 10px; }
+.btn-primary {
+  font-family: inherit; font-size: .85rem; font-weight: 700;
+  padding: 10px 24px; border-radius: 10px;
+  background: var(--accent); color: #fff; border: none;
+  cursor: pointer; transition: background .15s;
+}
+.btn-primary:hover { background: var(--accent-dk); }
+.btn-primary:disabled { opacity: .4; cursor: default; }
+.btn-ghost {
+  font-family: inherit; font-size: .85rem; font-weight: 600;
+  padding: 10px 24px; border-radius: 10px;
+  background: #fff; color: #1e293b; border: 1.5px solid #e2e8f0;
+  cursor: pointer; transition: background .15s;
+}
+.btn-ghost:hover { background: #f8fafc; }
+
+/* ── STATUS STATES ────────────────────────────────────── */
+.state-panel { text-align: center; padding: 48px 24px; color: #94a3b8; }
+.state-panel p { font-size: .88rem; margin-top: 8px; }
+
+/* ── SUBMITTED BANNER ─────────────────────────────────── */
+.submitted-banner {
+  background: #f0fdf4; border: 1px solid #86efac; border-radius: 14px;
+  padding: 16px 20px; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.submitted-banner-icon { font-size: 1.4rem; }
+.submitted-banner-text h3 { font-size: .92rem; font-weight: 700; color: #15803d; }
+.submitted-banner-text p { font-size: .78rem; color: #166534; margin-top: 2px; }
+
+/* ── TOAST ────────────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: #1e293b; color: #fff; padding: 10px 20px; border-radius: 10px;
+  font-size: .83rem; font-weight: 600; opacity: 0;
+  transition: opacity .2s, transform .2s; pointer-events: none; z-index: 200; white-space: nowrap;
+}
+.toast.success { background: #15803d; }
+.toast.error   { background: #dc2626; }
+.toast.show    { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 768px) {
+  .layout-grid { grid-template-columns: 1fr; }
+  .sidebar-card { position: static; }
+  .setup-grid { grid-template-columns: 1fr; }
+  .score-row { flex-wrap: wrap; }
+  .s-btn { min-width: calc(50% - 4px); }
+  .rubric-panel { grid-template-columns: 1fr; }
+  .page-wrap { padding: 16px 12px 100px; }
+}
+</style>
+</head>
+<body>
+
+<div id="navbar-container"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">&#x1F4CB; Self-Appraisal</div>
+    <h1>Teacher Self-Appraisal</h1>
+    <div class="hero-sub">Rate yourself against the Eduversal Appraisal Framework before your post-conference. Your scores and evidence will be visible to your appraiser alongside their observation scores.</div>
+    <div class="hero-notice">&#x2139;&#xFE0F; This is a reflective exercise — honest self-assessment drives better post-conference dialogue.</div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <div id="stateLoading" class="state-panel">
+    <p>Loading framework…</p>
+  </div>
+
+  <div id="pageContent" style="display:none;">
+
+    <div id="submittedBanner" class="submitted-banner" style="display:none;">
+      <div class="submitted-banner-icon">&#x2705;</div>
+      <div class="submitted-banner-text">
+        <h3>Self-appraisal submitted</h3>
+        <p id="submittedMeta">Your scores have been shared with your appraiser.</p>
+      </div>
+    </div>
+
+    <div class="layout-grid">
+      <!-- MAIN COLUMN -->
+      <div>
+
+        <!-- Setup -->
+        <div class="card" id="setupCard">
+          <div class="card-head">
+            <div>
+              <h2>Your Details</h2>
+              <div class="card-head-sub">Confirm information before scoring</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="setup-grid">
+              <div class="field-group">
+                <label>Name</label>
+                <input type="text" id="infoName" readonly>
+              </div>
+              <div class="field-group">
+                <label>School</label>
+                <input type="text" id="infoSchool" readonly>
+              </div>
+              <div class="field-group">
+                <label>Subject(s)</label>
+                <input type="text" id="infoSubject" readonly>
+              </div>
+              <div class="field-group">
+                <label>Classes</label>
+                <input type="text" id="infoClasses" readonly>
+              </div>
+              <div class="field-group">
+                <label>Appraisal Level</label>
+                <select id="appraisalLevel">
+                  <option value="induction">Induction</option>
+                  <option value="developing">Developing</option>
+                  <option value="proficient">Proficient</option>
+                  <option value="lead">Lead</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label>Academic Year</label>
+                <input type="text" id="infoYear" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Framework Tabs -->
+        <div class="fw-tabs" id="fwTabs">
+          <button class="fw-tab active" onclick="switchFw('F1',this)">F1 Admin <span class="fw-tab-pct" id="pct-F1">0%</span></button>
+          <button class="fw-tab" onclick="switchFw('F2',this)">F2 Observation <span class="fw-tab-pct" id="pct-F2">0%</span></button>
+          <button class="fw-tab" onclick="switchFw('F3',this)">F3 Professional <span class="fw-tab-pct" id="pct-F3">0%</span></button>
+        </div>
+
+        <!-- F1 -->
+        <div id="fw-F1">
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h2>F1 — Teacher Administration</h2>
+                <div class="card-head-sub">Score yourself on each administrative responsibility</div>
+              </div>
+            </div>
+            <div class="card-body" id="f1-items"></div>
+          </div>
+        </div>
+
+        <!-- F2 -->
+        <div id="fw-F2" style="display:none;">
+          <div id="f2-domains"></div>
+        </div>
+
+        <!-- F3 -->
+        <div id="fw-F3" style="display:none;">
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h2>F3 — Professional Conduct & Development</h2>
+                <div class="card-head-sub">Rate your professional responsibilities and growth</div>
+              </div>
+            </div>
+            <div class="card-body" id="f3-items"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SIDEBAR -->
+      <div>
+        <div class="sidebar-card">
+          <div class="sidebar-title">Progress</div>
+
+          <div class="prog-item">
+            <div class="prog-label-row">
+              <span>F1 Admin</span>
+              <span id="prog-label-F1">0 / 0</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" id="prog-bar-F1" style="width:0%"></div></div>
+          </div>
+          <div class="prog-item">
+            <div class="prog-label-row">
+              <span>F2 Observation</span>
+              <span id="prog-label-F2">0 / 0</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" id="prog-bar-F2" style="width:0%"></div></div>
+          </div>
+          <div class="prog-item" style="margin-bottom:18px;">
+            <div class="prog-label-row">
+              <span>F3 Professional</span>
+              <span id="prog-label-F3">0 / 0</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" id="prog-bar-F3" style="width:0%"></div></div>
+          </div>
+
+          <div class="sidebar-title">Estimated Scores</div>
+          <div class="score-summary-grid">
+            <div class="score-box-sm"><div class="sb-val" id="est-F1">—</div><div class="sb-lbl">F1</div></div>
+            <div class="score-box-sm"><div class="sb-val" id="est-F2">—</div><div class="sb-lbl">F2</div></div>
+            <div class="score-box-sm"><div class="sb-val" id="est-F3">—</div><div class="sb-lbl">F3</div></div>
+            <div class="score-box-sm"><div class="sb-val" id="est-composite" style="font-size:1.1rem;">—</div><div class="sb-lbl">Est. composite</div></div>
+          </div>
+          <div style="font-size:.7rem;color:#94a3b8;line-height:1.5;">
+            F1 20% · F2 50% · F3 20%<br>Scores shown are self-reported estimates only.
+          </div>
+
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid #f1f5f9;">
+            <div class="sidebar-title">Save status</div>
+            <div id="saveStatus" style="font-size:.75rem;color:#94a3b8;">Not saved yet.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Action bar -->
+<div class="action-bar" id="actionBar" style="display:none;">
+  <div class="action-bar-left" id="actionHint">Score all visible items to submit.</div>
+  <div class="action-bar-right">
+    <button class="btn-ghost" onclick="saveDraft()">Save draft</button>
+    <button class="btn-primary" id="submitBtn" onclick="submitSelf()" disabled>Submit self-appraisal</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  fetch('partials/navbar.html').then(r=>r.text()).then(html=>{
+    document.getElementById('navbar-container').innerHTML = html;
+    if(typeof initNavbar==='function') initNavbar();
+    if(typeof window._pendingNavbarUpdate==='function'){ window._pendingNavbarUpdate(); window._pendingNavbarUpdate=null; }
+    if(typeof window._pendingBadgeSetup==='function'){   window._pendingBadgeSetup();   window._pendingBadgeSetup=null; }
+    if(typeof window._pendingFeedbackSetup==='function'){window._pendingFeedbackSetup();window._pendingFeedbackSetup=null;}
+  });
+</script>
+
+<script type="module">
+import {
+  collection, doc, getDoc, getDocs, setDoc, serverTimestamp, query, where, onSnapshot, addDoc
+} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+let db, currentUser, userProfile;
+let FRAMEWORK = null;
+let LEVELS = null;
+let scores = {};     // itemId -> 1|2|3|4
+let evidence = {};   // itemId -> string
+let activeFw = 'F1';
+let selfDocId = null;
+let isSubmitted = false;
+let openRubrics = {};  // itemId -> bool
+const LEVEL_ORDER = ['induction','developing','proficient','lead'];
+const SCORE_LABELS = { 1:'Unsatisf.', 2:'Basic', 3:'Proficient', 4:'Distngshd' };
+
+// ── Auth ────────────────────────────────────────────────
+document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
+  currentUser = user;
+  userProfile = profile;
+  db = window.db;
+
+  const doBadgeSetup = () => setupNavBadges(db, { onSnapshot, collection });
+  const doFeedback   = () => initFeedback(db, { addDoc, collection, serverTimestamp });
+  if (document.getElementById('msgBoardBadge')) doBadgeSetup(); else window._pendingBadgeSetup = doBadgeSetup;
+  if (document.getElementById('feedbackOverlay')) doFeedback(); else window._pendingFeedbackSetup = doFeedback;
+
+  document.getElementById('infoName').value    = profile.displayName || '';
+  document.getElementById('infoSchool').value  = profile.school || '';
+  document.getElementById('infoSubject').value = (profile.subjects || []).join(', ');
+  document.getElementById('infoClasses').value = (profile.classes  || []).join(', ');
+  document.getElementById('infoYear').value    = currentAcademicYear();
+
+  // Pre-fill level from profile if available
+  if (profile.appraisalLevel && LEVEL_ORDER.includes(profile.appraisalLevel)) {
+    document.getElementById('appraisalLevel').value = profile.appraisalLevel;
+  }
+  document.getElementById('appraisalLevel').addEventListener('change', () => {
+    renderAll();
+    updateProgress();
+  });
+
+  try {
+    const [fwData, lvData] = await Promise.all([
+      fetch('resources/appraisal-framework-v2.json').then(r => r.json()),
+      fetch('resources/appraisal-levels.json').then(r => r.json()),
+    ]);
+    FRAMEWORK = fwData;
+    LEVELS = lvData;
+
+    selfDocId = `${currentUser.uid}_${currentAcademicYear()}`;
+    await loadExisting();
+
+    document.getElementById('stateLoading').style.display = 'none';
+    document.getElementById('pageContent').style.display  = 'block';
+    document.getElementById('actionBar').style.display    = 'flex';
+
+    renderAll();
+    updateProgress();
+  } catch (err) {
+    console.error(err);
+    document.getElementById('stateLoading').innerHTML = `<p style="color:#dc2626;">Error loading framework: ${err.message}</p>`;
+  }
+});
+
+// ── Helpers ──────────────────────────────────────────────
+function currentAcademicYear() {
+  const now = new Date();
+  const y = now.getFullYear();
+  return now.getMonth() >= 6 ? `${y}/${y+1}` : `${y-1}/${y}`;
+}
+
+function currentLevel() {
+  return document.getElementById('appraisalLevel')?.value || 'induction';
+}
+
+function isVisible(item) {
+  const lvl = currentLevel();
+  const vi = item.visible_from || 'induction';
+  return LEVEL_ORDER.indexOf(lvl) >= LEVEL_ORDER.indexOf(vi);
+}
+
+function visibleItems(items) {
+  return items.filter(isVisible);
+}
+
+// ── Load existing ────────────────────────────────────────
+async function loadExisting() {
+  const snap = await getDoc(doc(db, 'teacher_self_appraisals', selfDocId));
+  if (!snap.exists()) return;
+  const data = snap.data();
+  if (data.scores)   scores   = data.scores;
+  if (data.evidence) evidence = data.evidence;
+  if (data.level && LEVEL_ORDER.includes(data.level)) {
+    document.getElementById('appraisalLevel').value = data.level;
+  }
+  isSubmitted = data.status === 'submitted';
+  if (isSubmitted) {
+    document.getElementById('submittedBanner').style.display = 'flex';
+    const ts = data.submittedAt?.toDate?.();
+    if (ts) document.getElementById('submittedMeta').textContent =
+      `Submitted ${ts.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})} — visible to your appraiser.`;
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('submitBtn').textContent = 'Already submitted';
+  }
+}
+
+// ── Render all frameworks ────────────────────────────────
+function renderAll() {
+  const f1 = FRAMEWORK.frameworks.find(f => f.id === 'F1');
+  const f2 = FRAMEWORK.frameworks.find(f => f.id === 'F2');
+  const f3 = FRAMEWORK.frameworks.find(f => f.id === 'F3');
+  document.getElementById('f1-items').innerHTML   = renderItemList(visibleItems(f1.items));
+  document.getElementById('f2-domains').innerHTML = renderF2Domains(f2);
+  document.getElementById('f3-items').innerHTML   = renderItemList(visibleItems(f3.items));
+}
+
+function renderF2Domains(f2) {
+  return f2.domains.map((d, i) => {
+    const items = visibleItems(d.items);
+    if (!items.length) return '';
+    return `
+      <div class="card domain-section" style="margin-bottom:16px;">
+        <div class="card-head">
+          <div>
+            <h2>${d.id} — ${d.title}</h2>
+            <div class="card-head-sub">${items.length} items at your level</div>
+          </div>
+        </div>
+        <div class="card-body" style="padding:0 24px;">
+          ${renderItemList(items)}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderItemList(items) {
+  if (!items.length) return `<div class="item-not-applicable">No items visible at your current level.</div>`;
+  return items.map(item => renderItem(item)).join('');
+}
+
+function renderItem(item) {
+  const sel = scores[item.id];
+  const ev  = evidence[item.id] || '';
+  const rubricOpen = openRubrics[item.id];
+
+  const btns = [1,2,3,4].map(s =>
+    `<button class="s-btn ${sel === s ? 'sel-'+s : ''}"
+      onclick="window.selectScore('${item.id}',${s})" ${isSubmitted ? 'disabled' : ''}>
+      <div class="s-num">${s}</div>
+      <div class="s-lbl">${SCORE_LABELS[s]}</div>
+    </button>`
+  ).join('');
+
+  const rubricCards = item.rubric ? [4,3,2,1].map(s =>
+    `<div class="rubric-card r${s}">
+      <div class="rubric-score">${s} — ${['','Unsatisfactory','Basic','Proficient','Distinguished'][s]}</div>
+      ${item.rubric[s] || ''}
+    </div>`
+  ).join('') : '';
+
+  return `
+    <div class="item-row" id="item-${item.id}">
+      <div class="item-header">
+        <span class="item-id">${item.id}</span>
+        <span class="item-title">${item.title}</span>
+        ${rubricCards ? `<button class="rubric-toggle" onclick="window.toggleRubric('${item.id}')">${rubricOpen ? '▲ Hide rubric' : '▼ Rubric'}</button>` : ''}
+      </div>
+      ${rubricCards ? `<div class="rubric-panel ${rubricOpen ? '' : 'hidden'}" id="rubric-${item.id}">${rubricCards}</div>` : ''}
+      <div class="score-row">${btns}</div>
+      <div class="evidence-wrap">
+        <div class="evidence-label">Evidence / rationale (optional — recommended)</div>
+        <textarea class="evidence-textarea" rows="2"
+          placeholder="What specific evidence from your practice supports this score?"
+          onchange="window.setEvidence('${item.id}',this.value)"
+          ${isSubmitted ? 'disabled' : ''}>${ev}</textarea>
+      </div>
+    </div>`;
+}
+
+// ── Score & evidence handlers ────────────────────────────
+window.selectScore = function(itemId, s) {
+  if (isSubmitted) return;
+  scores[itemId] = s;
+  const row = document.getElementById(`item-${itemId}`);
+  if (!row) return;
+  row.querySelectorAll('.s-btn').forEach((btn, i) => {
+    btn.className = 's-btn' + (i+1 === s ? ' sel-'+s : '');
+  });
+  updateProgress();
+  autoSave();
+};
+
+window.setEvidence = function(itemId, val) {
+  evidence[itemId] = val;
+  autoSave();
+};
+
+window.toggleRubric = function(itemId) {
+  openRubrics[itemId] = !openRubrics[itemId];
+  const panel = document.getElementById(`rubric-${itemId}`);
+  const btn   = document.querySelector(`[onclick="window.toggleRubric('${itemId}')"]`);
+  if (panel) panel.classList.toggle('hidden', !openRubrics[itemId]);
+  if (btn)   btn.textContent = openRubrics[itemId] ? '▲ Hide rubric' : '▼ Rubric';
+};
+
+// ── Framework tab switcher ───────────────────────────────
+window.switchFw = function(fw, btn) {
+  activeFw = fw;
+  document.querySelectorAll('.fw-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  ['F1','F2','F3'].forEach(id => {
+    document.getElementById(`fw-${id}`).style.display = id === fw ? '' : 'none';
+  });
+};
+
+// ── Progress + estimated scores ──────────────────────────
+function updateProgress() {
+  const f1 = FRAMEWORK.frameworks.find(f=>f.id==='F1');
+  const f2 = FRAMEWORK.frameworks.find(f=>f.id==='F2');
+  const f3 = FRAMEWORK.frameworks.find(f=>f.id==='F3');
+
+  const f1v = visibleItems(f1.items);
+  const f2v = visibleItems(f2.domains.flatMap(d=>d.items));
+  const f3v = visibleItems(f3.items);
+
+  const scored = arr => arr.filter(i => scores[i.id] !== undefined).length;
+  const avg    = arr => {
+    const sc = arr.filter(i => scores[i.id]);
+    return sc.length ? (sc.reduce((s,i) => s + scores[i.id], 0) / sc.length).toFixed(2) : null;
+  };
+
+  ['F1','F2','F3'].forEach((fw, idx) => {
+    const arr = [f1v, f2v, f3v][idx];
+    const done = scored(arr);
+    const total = arr.length;
+    const pct = total ? Math.round(done/total*100) : 0;
+    document.getElementById(`prog-label-${fw}`).textContent = `${done} / ${total}`;
+    document.getElementById(`prog-bar-${fw}`).style.width = pct + '%';
+    document.getElementById(`pct-${fw}`).textContent = pct + '%';
+  });
+
+  const a1 = avg(f1v), a2 = avg(f2v), a3 = avg(f3v);
+  document.getElementById('est-F1').textContent = a1 ? a1 : '—';
+  document.getElementById('est-F2').textContent = a2 ? a2 : '—';
+  document.getElementById('est-F3').textContent = a3 ? a3 : '—';
+
+  if (a1 && a2 && a3) {
+    const raw = parseFloat(a1)*0.2 + parseFloat(a2)*0.5 + parseFloat(a3)*0.2;
+    const composite = Math.round((raw / 4) * 100);
+    document.getElementById('est-composite').textContent = composite + '%';
+  } else {
+    document.getElementById('est-composite').textContent = '—';
+  }
+
+  // Submit button
+  const allItems = [...f1v, ...f2v, ...f3v];
+  const allScored = allItems.every(i => scores[i.id] !== undefined);
+  document.getElementById('submitBtn').disabled = !allScored || isSubmitted;
+  document.getElementById('actionHint').textContent =
+    allScored
+      ? `All ${allItems.length} items scored — ready to submit.`
+      : `${scored(allItems)} of ${allItems.length} items scored.`;
+}
+
+// ── Auto-save draft ──────────────────────────────────────
+let _saveTimer = null;
+function autoSave() {
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(saveDraft, 3000);
+}
+
+window.saveDraft = async function() {
+  if (!db || !currentUser) return;
+  const statusEl = document.getElementById('saveStatus');
+  try {
+    statusEl.textContent = 'Saving…';
+    await setDoc(doc(db, 'teacher_self_appraisals', selfDocId), {
+      uid: currentUser.uid,
+      displayName: userProfile.displayName || '',
+      email: currentUser.email || '',
+      school: userProfile.school || '',
+      level: currentLevel(),
+      academicYear: currentAcademicYear(),
+      scores, evidence,
+      status: isSubmitted ? 'submitted' : 'draft',
+      updatedAt: serverTimestamp(),
+    }, { merge: true });
+    statusEl.textContent = 'Saved ' + new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  } catch (e) {
+    console.error(e);
+    statusEl.textContent = 'Save failed.';
+  }
+};
+
+window.submitSelf = async function() {
+  if (isSubmitted) return;
+  const f1 = FRAMEWORK.frameworks.find(f=>f.id==='F1');
+  const f2 = FRAMEWORK.frameworks.find(f=>f.id==='F2');
+  const f3 = FRAMEWORK.frameworks.find(f=>f.id==='F3');
+  const allItems = [
+    ...visibleItems(f1.items),
+    ...visibleItems(f2.domains.flatMap(d=>d.items)),
+    ...visibleItems(f3.items),
+  ];
+  const missing = allItems.filter(i => scores[i.id] === undefined);
+  if (missing.length) {
+    showToast(`${missing.length} item(s) not yet scored.`, 'error');
+    return;
+  }
+  if (!confirm('Submit your self-appraisal? This cannot be edited after submission.')) return;
+  try {
+    await setDoc(doc(db, 'teacher_self_appraisals', selfDocId), {
+      uid: currentUser.uid,
+      displayName: userProfile.displayName || '',
+      email: currentUser.email || '',
+      school: userProfile.school || '',
+      level: currentLevel(),
+      academicYear: currentAcademicYear(),
+      scores, evidence,
+      status: 'submitted',
+      submittedAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    }, { merge: true });
+    isSubmitted = true;
+    document.getElementById('submittedBanner').style.display = 'flex';
+    document.getElementById('submittedMeta').textContent = `Submitted ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})} — visible to your appraiser.`;
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('submitBtn').textContent = 'Already submitted';
+    showToast('Self-appraisal submitted!', 'success');
+  } catch (e) {
+    console.error(e);
+    showToast('Submission failed: ' + e.message, 'error');
+  }
+};
+
+// ── Toast ────────────────────────────────────────────────
+function showToast(msg, type='') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast ${type} show`;
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+</script>
+
+</body>
+</html>
