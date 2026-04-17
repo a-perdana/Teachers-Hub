@@ -244,7 +244,7 @@
       "id": "F2",
       "title": "Class Observation",
       "description": "Assesses teaching practice across four domains: lesson planning, classroom management, instructional process, and assessment. This framework carries the heaviest weighting and is the primary lens for professional growth. Observed during a formal announced lesson of 35–40 minutes.",
-      "weight": 0.60,
+      "weight": 0.50,
       "domains": [
         {
           "id": "D1",
