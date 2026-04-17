@@ -410,11 +410,11 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
         <!-- Framework weight reference -->
         <div class="info-card">
           <div class="info-card-head">&#x2696;&#xFE0F; Framework Weights</div>
-          <div class="info-card-body">
-            <div class="info-row"><div class="info-row-label">F1 — Teacher Administration</div><div class="info-row-value">20%</div></div>
-            <div class="info-row"><div class="info-row-label">F2 — Class Observation</div><div class="info-row-value">60%</div></div>
-            <div class="info-row"><div class="info-row-label">F3 — Work Inspection</div><div class="info-row-value">20%</div></div>
-            <div class="info-row"><div class="info-row-label">F4 — Student Survey</div><div class="info-row-value" style="color:#94a3b8;">Informative only</div></div>
+          <div class="info-card-body" id="frameworkWeightsList">
+            <div class="info-row"><div class="info-row-label">F1 — Teacher Administration</div><div class="info-row-value" id="wt-F1">—</div></div>
+            <div class="info-row"><div class="info-row-label">F2 — Class Observation</div><div class="info-row-value" id="wt-F2">—</div></div>
+            <div class="info-row"><div class="info-row-label">F3 — Work Inspection</div><div class="info-row-value" id="wt-F3">—</div></div>
+            <div class="info-row"><div class="info-row-label">F4 — Student Survey</div><div class="info-row-value" id="wt-F4">—</div></div>
           </div>
         </div>
 
@@ -443,7 +443,16 @@ import { getFirestore, collection, query, where, orderBy, getDocs, doc, getDoc, 
 // ── FRAMEWORK DATA (loaded from JSON) ────────────────────
 let FRAMEWORK = null;
 let LEVELS    = null;
-fetch('resources/appraisal-framework-v2.json').then(r => r.json()).then(d => { FRAMEWORK = d; });
+fetch('resources/appraisal-framework-v2.json').then(r => r.json()).then(d => {
+  FRAMEWORK = d;
+  const w = d.weights || {};
+  const fmtW = v => v != null ? Math.round(v * 100) + '%' : '—';
+  const el = id => document.getElementById(id);
+  if (el('wt-F1')) el('wt-F1').textContent = fmtW(w.F1);
+  if (el('wt-F2')) el('wt-F2').textContent = fmtW(w.F2);
+  if (el('wt-F3')) el('wt-F3').textContent = fmtW(w.F3);
+  if (el('wt-F4')) el('wt-F4').textContent = w.F4_note ? 'Informative only' : fmtW(w.F4);
+});
 fetch('resources/appraisal-levels.json').then(r => r.json()).then(d => { LEVELS = d; });
 
 // ── HELPERS ──────────────────────────────────────────────
@@ -478,7 +487,9 @@ function buildFormalContent(appraisal, framework) {
 
   // F1
   const f1fw = framework.frameworks.find(f => f.id === 'F1');
-  html += buildFrameworkSection(f1fw, scores, narratives, 'F1 — Teacher Administration', '20%', appraisal.f1Score);
+  const fmtW = v => v != null ? Math.round(v * 100) + '%' : '—';
+  const w = framework.weights || {};
+  html += buildFrameworkSection(f1fw, scores, narratives, 'F1 — Teacher Administration', fmtW(w.F1), appraisal.f1Score);
 
   // F2 domains
   const f2fw = framework.frameworks.find(f => f.id === 'F2');
@@ -509,7 +520,7 @@ function buildFormalContent(appraisal, framework) {
       <div class="section-head-left"><h2>F2 — Class Observation</h2><div class="section-head-sub">Includes D1 Planning, D2 Classroom Management, D3 Instruction, D4 Assessment</div></div>
       <div style="display:flex;align-items:center;gap:10px;">
         <div class="section-mean"><span class="section-mean-num">${f2Mean}</span><span class="section-mean-denom"> / 4.00</span></div>
-        <span class="section-weight-badge">60%</span>
+        <span class="section-weight-badge">${fmtW(w.F2)}</span>
       </div>
     </div>
     ${f2Html}
@@ -527,7 +538,7 @@ function buildFormalContent(appraisal, framework) {
       <div class="section-head-left"><h2>F3 — Work Inspection${f3LItems.length?' + Leadership':''}</h2><div class="section-head-sub">${f3Items.length} professional conduct items${f3LItems.length?` + ${f3LItems.length} leadership items`:''}</div></div>
       <div style="display:flex;align-items:center;gap:10px;">
         <div class="section-mean"><span class="section-mean-num">${f3Mean}</span><span class="section-mean-denom"> / 4.00</span></div>
-        <span class="section-weight-badge">20%</span>
+        <span class="section-weight-badge">${fmtW(w.F3)}</span>
       </div>
     </div>
     ${[...f3Items,...f3LItems].map(item => {

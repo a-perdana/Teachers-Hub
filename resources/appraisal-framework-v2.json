@@ -4,7 +4,7 @@
   "title": "Eduversal Teacher Appraisal Framework v2.0",
   "version": "2.0",
   "effective_date": "2026-07-01",
-  "description": "The Eduversal Teacher Appraisal Framework v2.0 is a differentiated, level-aware summative appraisal system. It comprises four frameworks weighted to produce a composite annual appraisal score. The item set visible to each teacher is determined by their assigned appraisal level (Induction, Developing, Proficient, or Lead). The Student Survey (Framework 4) is collected separately and reported informatively — it does not contribute to the final score.",
+  "description": "The Eduversal Teacher Appraisal Framework v2.0 is a differentiated, level-aware summative appraisal system. It comprises four frameworks weighted to produce a composite annual appraisal score. The item set visible to each teacher is determined by their assigned appraisal level (Induction, Developing, Proficient, or Lead). The Student Survey (Framework 4) contributes 10% to the final score.",
   "theory_basis": {
     "primary": "Eduversal Professional Teaching Standards (internal, 2026)",
     "references": [
@@ -14,9 +14,9 @@
   },
   "weights": {
     "F1": 0.20,
-    "F2": 0.60,
+    "F2": 0.50,
     "F3": 0.20,
-    "F4_note": "Student Survey (F4) is informative only — not included in final score calculation"
+    "F4": 0.10
   },
   "scoring_scale": [
     { "value": 4, "label": "Distinguished" },
@@ -896,9 +896,8 @@
     {
       "id": "F4",
       "title": "Student Survey",
-      "description": "The Student Survey gathers student perspectives on teaching quality. It is collected annually and reported as a separate section of the appraisal report. It does NOT contribute to the final appraisal score. Results are used to inform professional conversations and identify patterns over time.",
-      "weight": 0,
-      "scoring": "informative_only",
+      "description": "The Student Survey gathers student perspectives on teaching quality. It is collected annually and contributes 10% to the final appraisal score. Results are also used to inform professional conversations and identify patterns over time.",
+      "weight": 0.10,
       "response_scale": [
         { "value": 4, "label": "Always" },
         { "value": 3, "label": "Usually" },
