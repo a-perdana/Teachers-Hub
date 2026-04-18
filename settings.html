@@ -24,8 +24,9 @@
 /* ── Settings Layout ───────────────────────────────────────────── */
 .settings-wrap {
   display: flex;
-  min-height: calc(100vh - 60px);
+  height: calc(100vh - 60px);
   background: #f5f4f0;
+  overflow: hidden;
 }
 
 /* Sidebar */
@@ -35,9 +36,7 @@
   background: #ffffff;
   border-right: 1px solid #e8e6e0;
   padding: 28px 12px;
-  position: sticky;
-  top: 60px;
-  height: calc(100vh - 60px);
+  height: 100%;
   overflow-y: auto;
 }
 .settings-sidebar-title {
@@ -122,6 +121,8 @@
   min-width: 0;
   padding: 36px 40px 80px;
   max-width: 740px;
+  height: 100%;
+  overflow-y: auto;
 }
 .settings-panel { display: none; }
 .settings-panel.active { display: block; }

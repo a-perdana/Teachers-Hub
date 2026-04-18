@@ -3464,33 +3464,6 @@
         }
       }
 
-      async function showProfileUI(user, db) {
-        const displayName = user.displayName || user.email.split('@')[0];
-        const isEmailUser = user.providerData.some(p => p.providerId === 'password');
-        let phone = '';
-        try {
-          const snap = await getDoc(doc(db, 'users', user.uid));
-          if (snap.exists() && snap.data().phone) phone = snap.data().phone;
-        } catch(_) {}
-
-        function applyToNavbar() {
-          buildAvatar(document.getElementById('profileAvatar'), user);
-          document.getElementById('profileNameShort').textContent = displayName.split(' ')[0];
-          buildAvatar(document.getElementById('pdAvatarLg'), user);
-          document.getElementById('pdName').textContent = displayName;
-          document.getElementById('pdEmail').textContent = user.email;
-          if (phone) document.getElementById('pdPhone').value = phone;
-          document.getElementById('pdPwSection').style.display = isEmailUser ? 'block' : 'none';
-          document.getElementById('profileWrap').style.display = 'flex';
-        }
-
-        if (document.getElementById('profileAvatar')) {
-          applyToNavbar();
-        } else {
-          window._pendingNavbarUpdate = applyToNavbar;
-        }
-      }
-
       document.addEventListener('authReady', ({ detail: { user, profile } }) => {
         document.getElementById('loading').classList.add('hidden');
         const db = window.db;
@@ -3534,7 +3507,7 @@
           window._pendingFeedbackSetup = doFeedbackSetup;
         }
 
-        // Navbar dropdown + phone/password/signout wired after navbar partial loads
+        // Navbar dropdown wired after navbar partial loads
         fetch('partials/navbar.html')
           .then(r => r.text())
           .then(html => {
@@ -3545,63 +3518,10 @@
               window._pendingFeedbackSetup();
               window._pendingFeedbackSetup = null;
             }
-
-            // Phone save
-            document.getElementById('pdPhoneBtn').addEventListener('click', async () => {
-              if (!window.currentUser) return;
-              const phone = document.getElementById('pdPhone').value.trim();
-              const msg = document.getElementById('pdPhoneMsg');
-              const btn = document.getElementById('pdPhoneBtn');
-              btn.disabled = true; btn.textContent = 'Saving…';
-              try {
-                await setDoc(doc(db, 'users', window.currentUser.uid), { phone }, { merge: true });
-                msg.textContent = 'Phone number saved ✓';
-                msg.className = 'pd-msg ok';
-              } catch(e) {
-                msg.textContent = 'Failed to save. Try again.';
-                msg.className = 'pd-msg err';
-              } finally {
-                btn.disabled = false; btn.textContent = 'Save Phone Number';
-                setTimeout(() => { msg.className = 'pd-msg'; }, 3000);
-              }
-            });
-
-            // Password update
-            document.getElementById('pdPwBtn').addEventListener('click', async () => {
-              if (!window.currentUser) return;
-              const current = document.getElementById('pdPwCurrent').value;
-              const newPw   = document.getElementById('pdPwNew').value;
-              const confirm = document.getElementById('pdPwConfirm').value;
-              const msg = document.getElementById('pdPwMsg');
-              const btn = document.getElementById('pdPwBtn');
-              msg.className = 'pd-msg';
-              if (newPw.length < 6) { msg.textContent = 'Password must be at least 6 characters.'; msg.className = 'pd-msg err'; return; }
-              if (newPw !== confirm) { msg.textContent = 'Passwords do not match.'; msg.className = 'pd-msg err'; return; }
-              btn.disabled = true; btn.textContent = 'Updating…';
-              try {
-                const credential = EmailAuthProvider.credential(window.currentUser.email, current);
-                await reauthenticateWithCredential(window.currentUser, credential);
-                await updatePassword(window.currentUser, newPw);
-                msg.textContent = 'Password updated successfully ✓';
-                msg.className = 'pd-msg ok';
-                ['pdPwCurrent','pdPwNew','pdPwConfirm'].forEach(id => document.getElementById(id).value = '');
-                document.getElementById('pdPwFields').classList.remove('open');
-                document.getElementById('pdPwToggle').textContent = '▸ Change password';
-              } catch(e) {
-                msg.textContent = e.code === 'auth/wrong-password' ? 'Current password is incorrect.' : 'Failed to update. Try again.';
-                msg.className = 'pd-msg err';
-              } finally {
-                btn.disabled = false; btn.textContent = 'Update Password';
-                setTimeout(() => { msg.className = 'pd-msg'; }, 4000);
-              }
-            });
-
             if (window._pendingNavbarUpdate) { window._pendingNavbarUpdate(); window._pendingNavbarUpdate = null; }
             if (typeof window._pendingBadgeSetup === 'function') { window._pendingBadgeSetup(); window._pendingBadgeSetup = null; }
           })
           .catch(error => console.error('Error loading navbar:', error));
-
-        showProfileUI(user, db);
       });
 
       // ════════════════════════════════════════════════════════════

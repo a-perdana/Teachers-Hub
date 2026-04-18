@@ -224,30 +224,27 @@
     background: rgba(167,139,250,0.12); border-color: rgba(167,139,250,0.28); color: #a78bfa;
   }
 
-  /* Tabs */
-  .pd-tabs {
-    display: flex; border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(0, 0, 0, 0.2);
-  }
-  .pd-tab {
-    flex: 1; padding: 9px 12px;
-    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
-    color: rgba(255, 255, 255, 0.4); background: none; border: none;
-    border-bottom: 2px solid transparent; cursor: pointer;
-    transition: color .15s, border-color .15s;
-    letter-spacing: .01em;
-  }
-  .pd-tab:hover { color: rgba(255, 255, 255, 0.7); }
-  .pd-tab.active { color: #a78bfa; border-bottom-color: #6c5ce7; }
-
-  .pd-tab-panel { display: none; }
-  .pd-tab-panel.active { display: block; }
 
   .pd-section {
     padding: 11px 14px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
   .pd-section:last-child { border-bottom: none; padding-bottom: 13px; }
+
+  /* Nav links inside dropdown */
+  .pd-nav-links { padding: 6px 8px; }
+  .pd-nav-link {
+    display: flex; align-items: center; gap: 9px;
+    padding: 8px 10px; border-radius: 8px;
+    font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    transition: background .15s, color .15s;
+  }
+  .pd-nav-link:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.9); }
+  .pd-nav-link-icon { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 7px; background: rgba(255,255,255,0.07); flex-shrink: 0; }
+  .pd-nav-link-icon svg { width: 14px; height: 14px; }
+  .pd-nav-link-chevron { width: 13px; height: 13px; margin-left: auto; opacity: 0.35; }
   .pd-label {
     font-size: 9.5px; font-weight: 700; letter-spacing: 1.4px;
     text-transform: uppercase; color: rgba(255, 255, 255, 0.4); margin-bottom: 8px;
@@ -781,67 +778,33 @@
           </div>
         </div>
 
-        <!-- Tabs -->
-        <div class="pd-tabs">
-          <button class="pd-tab active" id="pdTabProfile" data-tab="pdPanelProfile">Profile</button>
-          <button class="pd-tab" id="pdTabSettings" data-tab="pdPanelSettings">Settings</button>
+        <!-- Teaching summary -->
+        <div class="pd-section" id="pdTeachingSection" style="display:none;">
+          <div class="pd-label">Teaching</div>
+          <div id="pdTeachingSummary"></div>
         </div>
 
-        <!-- Tab: Profile -->
-        <div class="pd-tab-panel active" id="pdPanelProfile">
-          <div class="pd-section" id="pdTeachingSection">
-            <div class="pd-label">Teaching Profile</div>
-            <!-- Summary (read-only) -->
-            <div id="pdTeachingSummary"></div>
-            <!-- Link to settings page -->
-            <a href="settings.html#teaching" class="pd-settings-link">
-              <span style="display:flex;align-items:center;gap:6px;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                Edit in Settings
-              </span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </a>
-          </div>
-
-          <!-- Sign Out -->
-          <div class="pd-section">
-            <button class="pd-signout-btn" id="pdSignOut">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                <polyline points="16 17 21 12 16 7"/>
-                <line x1="21" y1="12" x2="9" y2="12"/>
-              </svg>
-              Sign Out
-            </button>
-          </div>
+        <!-- Settings links -->
+        <div class="pd-section pd-nav-links">
+          <a href="settings.html" class="pd-nav-link" id="pdNavSettings">
+            <span class="pd-nav-link-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </span>
+            Settings
+            <svg class="pd-nav-link-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </a>
         </div>
 
-        <!-- Tab: Settings shortcut -->
-        <div class="pd-tab-panel" id="pdPanelSettings">
-          <div class="pd-section">
-            <div class="pd-label">Quick Links</div>
-            <a href="settings.html#personal" class="pd-settings-link" style="margin-top:0;">
-              <span style="display:flex;align-items:center;gap:7px;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                Personal Info
-              </span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </a>
-            <a href="settings.html#account" class="pd-settings-link" style="margin-top:0;">
-              <span style="display:flex;align-items:center;gap:7px;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                Account &amp; Security
-              </span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </a>
-            <a href="settings.html#notifications" class="pd-settings-link" style="margin-top:0;">
-              <span style="display:flex;align-items:center;gap:7px;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                Notifications
-              </span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </a>
-          </div>
+        <!-- Sign Out -->
+        <div class="pd-section" style="padding-top:8px;">
+          <button class="pd-signout-btn" id="pdSignOut">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            Sign Out
+          </button>
         </div>
 
       </div><!-- /profile-dropdown -->
