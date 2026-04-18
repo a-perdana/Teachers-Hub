@@ -938,7 +938,24 @@ async function loadSchoolClasses(db, schoolId) {
     snap.forEach(d => {
       _schoolClasses.push({ id: d.id, ...d.data() });
     });
-  } catch { /* leave empty */ }
+  } catch (e) { console.error('loadSchoolClasses failed:', e); }
+}
+
+// Ensures classes saved in the teacher's profile are always visible
+// in the dropdown, even if the school pool hasn't been populated yet.
+function mergeProfileClassesIntoPool() {
+  const poolNames = new Set(_schoolClasses.map(c => c.name));
+  Object.values(_slClasses).forEach(arr => {
+    if (!Array.isArray(arr)) return;
+    arr.forEach(name => {
+      if (poolNames.has(name)) return;
+      const grade = parseInt(name, 10) || 0;
+      const section = name.replace(/^\d+\s*/, '');
+      _schoolClasses.push({ id: null, name, grade, section });
+      poolNames.add(name);
+    });
+  });
+  _schoolClasses.sort((a, b) => a.grade - b.grade || a.name.localeCompare(b.name));
 }
 
 function loadTeachingState(p) {
@@ -1087,24 +1104,13 @@ function renderClassEditors() {
     function rebuildDropdown() {
       const selected = new Set(_slClasses[key] || []);
       const [minG, maxG] = GRADE_RANGE[lv] || [1, 13];
-      const fromPool = _schoolClasses.filter(c => c.grade >= minG && c.grade <= maxG);
-      // Also include classes from teacher's profile for this level that aren't in the pool
-      const poolNames = new Set(fromPool.map(c => c.name));
-      const allProfileClasses = new Set();
-      Object.entries(_slClasses).forEach(([k, arr]) => {
-        const lvOfKey = k.split('_')[0];
-        if (lvOfKey === lv && Array.isArray(arr)) arr.forEach(n => allProfileClasses.add(n));
-      });
-      const fromProfile = [...allProfileClasses]
-        .filter(name => !poolNames.has(name))
-        .map(name => ({ name, grade: parseInt(name, 10) || 0, section: name.replace(/^\d+\s*/, '') }));
-      const allClasses = [...fromPool, ...fromProfile].sort((a, b) => a.grade - b.grade || a.name.localeCompare(b.name));
+      const filtered = _schoolClasses.filter(c => c.grade >= minG && c.grade <= maxG);
       sel.innerHTML = '';
       const placeholder = document.createElement('option');
       placeholder.value = '';
-      placeholder.textContent = allClasses.length ? '— Pick a class —' : '— No classes yet for this level —';
+      placeholder.textContent = filtered.length ? '— Pick a class —' : '— No classes yet for this level —';
       sel.appendChild(placeholder);
-      allClasses.forEach(c => {
+      filtered.forEach(c => {
         const opt = document.createElement('option');
         opt.value = c.name;
         opt.textContent = selected.has(c.name) ? `${c.name} ✓` : c.name;
@@ -1259,12 +1265,14 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     }
     // After school is selected, load that school's classes
     await loadSchoolClasses(db, sel.value);
+    mergeProfileClassesIntoPool();
     renderClassEditors();
   })();
 
   // When school changes, reload class pool
   document.getElementById('sSchool').addEventListener('change', async (e) => {
     await loadSchoolClasses(db, e.target.value);
+    mergeProfileClassesIntoPool();
     renderClassEditors();
   });
 
