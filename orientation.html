@@ -751,7 +751,8 @@
           ${(q.options || []).map((opt, j) => `
             <label class="q-option" id="qopt-${q.id}-${j}">
               <input type="radio" name="q-${q.id}" value="${j}"
-                onchange="selectAnswer('${q.id}', ${j}, '${escHtml(opt)}')" />
+                data-qid="${escHtml(q.id)}" data-oidx="${j}" data-otext="${escHtml(opt)}"
+                onchange="selectAnswer(this.dataset.qid, +this.dataset.oidx, this.dataset.otext)" />
               ${escHtml(opt)}
             </label>
           `).join('')}
@@ -875,7 +876,8 @@
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   // ── TAB SWITCH ─────────────────────────────────────────────────────────────
