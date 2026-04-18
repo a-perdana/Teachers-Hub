@@ -1406,11 +1406,12 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     renderClassEditors();
   })();
 
-  // When school changes, reset my classes and reload pool
+  // When school changes, reset everything — subjects, levels, classes
   document.getElementById('sSchool').addEventListener('change', async (e) => {
-    // Clear all class selections — classes belong to a specific school
-    Object.keys(_slClasses).forEach(k => { _slClasses[k] = []; });
+    _activeCombos = new Set();
+    _slClasses = {};
     await loadSchoolClasses(db, e.target.value);
+    renderComboGrid();
     renderClassEditors();
     if (window.saveTeachingProfile) window.saveTeachingProfile({ toast: true });
   });
