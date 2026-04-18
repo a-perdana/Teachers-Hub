@@ -75,6 +75,72 @@ function initNavbar() {
     });
   }
 
+  // Dropdown menus
+  function initThDropdowns() {
+    const activeKey = window.__thNavActiveKey || '';
+    const groupKeys = {
+      pacing: ['igcse-math','igcse-biology','igcse-chemistry','igcse-physics',
+                'asalevel-math','asalevel-biology','asalevel-chemistry','asalevel-physics',
+                'checkpoint-math','checkpoint-english','checkpoint-science',
+                'igcse-math-tracker','igcse-biology-tracker','igcse-chemistry-tracker','igcse-physics-tracker',
+                'checkpoint-math-tracker','checkpoint-english-tracker','checkpoint-science-tracker',
+                'asalevel-math-tracker','asalevel-biology-tracker','asalevel-chemistry-tracker','asalevel-physics-tracker'],
+      mywork: ['weekly-checklist','teacher-self-assessment','teacher-kpi-results',
+               'teacher-appraisal-results','teacher-self-appraisal',
+               'competency-framework','learning-path','my-portfolio','my-certificates'],
+      hub:    ['announcements','messageboard','library','cambridge-calendar','surveys'],
+    };
+
+    document.querySelectorAll('.th-dd-wrap').forEach(function(wrap) {
+      const trigger = wrap.querySelector('.th-dd-trigger');
+      const panel   = wrap.querySelector('.th-dd-panel');
+      if (!trigger || !panel) return;
+      const dd = trigger.dataset.dd;
+
+      if (dd && groupKeys[dd] && groupKeys[dd].includes(activeKey)) {
+        trigger.classList.add('active');
+      }
+
+      trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isOpen = wrap.classList.contains('open');
+        document.querySelectorAll('.th-dd-wrap.open').forEach(function(w) {
+          if (w !== wrap) w.classList.remove('open');
+        });
+        wrap.classList.toggle('open', !isOpen);
+        trigger.setAttribute('aria-expanded', String(!isOpen));
+
+        if (!isOpen) {
+          requestAnimationFrame(function() {
+            const rect = panel.getBoundingClientRect();
+            if (rect.right > window.innerWidth - 8) {
+              panel.style.left = 'auto';
+              panel.style.right = '0';
+            } else {
+              panel.style.left = '';
+              panel.style.right = '';
+            }
+          });
+        }
+      });
+
+      // Mark active item inside panel
+      if (activeKey) {
+        panel.querySelectorAll('[data-nav-key]').forEach(function(a) {
+          if (a.dataset.navKey === activeKey) a.classList.add('active');
+        });
+      }
+    });
+
+    document.addEventListener('click', function() {
+      document.querySelectorAll('.th-dd-wrap.open').forEach(function(w) { w.classList.remove('open'); });
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') document.querySelectorAll('.th-dd-wrap.open').forEach(function(w) { w.classList.remove('open'); });
+    });
+  }
+  initThDropdowns();
+
   // Scroll effect
   window.addEventListener('scroll', function () {
     const nav = document.getElementById('nav');

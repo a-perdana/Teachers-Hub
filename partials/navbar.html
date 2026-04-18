@@ -367,6 +367,77 @@
   }
   .pd-class-add-btn:hover { background: rgba(108,92,231,0.45); }
 
+  /* ── Dropdown menus ─────────────────────────────────────────── */
+  .th-dd-wrap { position: relative; }
+  .th-dd-trigger {
+    display: flex; align-items: center; gap: 6px;
+    padding: 7px 13px; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+    color: rgba(255,255,255,0.65);
+    border: none; background: transparent; cursor: pointer;
+    transition: background .15s, color .15s; white-space: nowrap;
+    user-select: none;
+  }
+  .th-dd-trigger svg:first-child { width: 15px; height: 15px; flex-shrink: 0; }
+  .th-dd-caret { width: 12px; height: 12px; flex-shrink: 0; transition: transform .22s ease; }
+  .th-dd-wrap:hover .th-dd-trigger,
+  .th-dd-wrap.open .th-dd-trigger { background: rgba(255,255,255,0.08); color: #fff; }
+  .th-dd-wrap.open .th-dd-caret { transform: rotate(180deg); }
+  .th-dd-trigger.active { background: rgba(108,92,231,0.25); color: #a78bfa; font-weight: 600; }
+
+  .th-dd-panel {
+    display: none;
+    position: absolute; top: calc(100% + 6px); left: 0;
+    min-width: 210px;
+    background: rgba(8,8,22,0.97);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.55);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    padding: 6px; z-index: 1100;
+    animation: thDdOpen .18s cubic-bezier(.34,1.2,.64,1) both;
+  }
+  @keyframes thDdOpen {
+    from { opacity:0; transform: translateY(-8px) scale(.97); }
+    to   { opacity:1; transform: translateY(0) scale(1); }
+  }
+  .th-dd-wrap.open .th-dd-panel { display: block; }
+
+  .th-dd-item {
+    display: flex; align-items: center; gap: 9px;
+    padding: 8px 10px; border-radius: 8px;
+    color: rgba(255,255,255,0.7);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+    text-decoration: none; white-space: nowrap;
+    transition: background .13s, color .13s;
+  }
+  .th-dd-item svg { width: 14px; height: 14px; flex-shrink: 0; color: rgba(255,255,255,0.35); transition: color .13s; }
+  .th-dd-item:hover { background: rgba(108,92,231,0.18); color: #fff; }
+  .th-dd-item:hover svg { color: rgba(255,255,255,0.8); }
+  .th-dd-item.active { background: rgba(108,92,231,0.28); color: #a78bfa; }
+  .th-dd-item.active svg { color: #a78bfa; }
+
+  .th-dd-divider { height:1px; background:rgba(255,255,255,0.07); margin: 4px 0; }
+
+  /* Wide 3-column panel for Pacing */
+  .th-dd-panel--wide { min-width: 560px; }
+  .th-dd-col-group { display: flex; gap: 0; }
+  .th-dd-col { flex: 1; min-width: 0; }
+  .th-dd-col-header {
+    padding: 6px 10px 3px;
+    font-size: 10px; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: rgba(255,255,255,0.28);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .th-dd-col-divider { width:1px; background:rgba(255,255,255,0.07); margin: 6px 2px; flex-shrink:0; }
+
+  /* Badge inside dropdown item */
+  .th-dd-badge {
+    position: static !important;
+    margin-left: auto;
+    top: auto !important; right: auto !important;
+  }
+
   /* ── Feedback Modal ──────────────────────────────────────────── */
   .feedback-overlay {
     position: fixed; inset: 0;
@@ -460,38 +531,155 @@
   </a>
 
   <div class="nav-links">
-    <!-- Announcements -->
-    <div class="nav-btn-wrap">
-      <a href="announcements.html" class="nav-link" id="announcementsBtn" title="Announcements">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-        </svg>
-        Announcements
-      </a>
-      <span class="nav-badge" id="announcementsBadge" style="display:none;"></span>
+
+    <!-- Pacing dropdown -->
+    <div class="th-dd-wrap" id="thDdWrap-pacing">
+      <button class="th-dd-trigger" data-dd="pacing" aria-haspopup="true" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Pacing
+        <svg class="th-dd-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="th-dd-panel th-dd-panel--wide" id="thDdPanel-pacing">
+        <div class="th-dd-col-group">
+          <div class="th-dd-col">
+            <div class="th-dd-col-header">IGCSE</div>
+            <a href="igcse-math-pacing.html" class="th-dd-item" data-nav-key="igcse-math">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Mathematics
+            </a>
+            <a href="igcse-biology-pacing.html" class="th-dd-item" data-nav-key="igcse-biology">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/></svg>Biology
+            </a>
+            <a href="igcse-chemistry-pacing.html" class="th-dd-item" data-nav-key="igcse-chemistry">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 9H8L9 3z"/><path d="M8 12c-2 2-3 4-3 5a5 5 0 0010 0c0-1-1-3-3-5"/></svg>Chemistry
+            </a>
+            <a href="igcse-physics-pacing.html" class="th-dd-item" data-nav-key="igcse-physics">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Physics
+            </a>
+          </div>
+          <div class="th-dd-col-divider"></div>
+          <div class="th-dd-col">
+            <div class="th-dd-col-header">AS / A-Level</div>
+            <a href="asalevel-math-pacing.html" class="th-dd-item" data-nav-key="asalevel-math">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Mathematics
+            </a>
+            <a href="asalevel-biology-pacing.html" class="th-dd-item" data-nav-key="asalevel-biology">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/></svg>Biology
+            </a>
+            <a href="asalevel-chemistry-pacing.html" class="th-dd-item" data-nav-key="asalevel-chemistry">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 9H8L9 3z"/><path d="M8 12c-2 2-3 4-3 5a5 5 0 0010 0c0-1-1-3-3-5"/></svg>Chemistry
+            </a>
+            <a href="asalevel-physics-pacing.html" class="th-dd-item" data-nav-key="asalevel-physics">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Physics
+            </a>
+          </div>
+          <div class="th-dd-col-divider"></div>
+          <div class="th-dd-col">
+            <div class="th-dd-col-header">Checkpoint</div>
+            <a href="checkpoint-math-pacing.html" class="th-dd-item" data-nav-key="checkpoint-math">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Mathematics
+            </a>
+            <a href="checkpoint-english-pacing.html" class="th-dd-item" data-nav-key="checkpoint-english">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h10"/></svg>English
+            </a>
+            <a href="checkpoint-science-pacing.html" class="th-dd-item" data-nav-key="checkpoint-science">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Science
+            </a>
+            <div class="th-dd-divider"></div>
+            <div class="th-dd-col-header" style="padding-top:4px;">Trackers</div>
+            <a href="igcse-math-tracker.html" class="th-dd-item" data-nav-key="igcse-math-tracker">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>IGCSE Math Tracker
+            </a>
+            <a href="igcse-biology-tracker.html" class="th-dd-item" data-nav-key="igcse-biology-tracker">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>IGCSE Biology Tracker
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Message Board -->
-    <div class="nav-btn-wrap">
-      <a href="messageboard.html" class="nav-link" id="msgBoardBtn" title="Message Board">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-        </svg>
-        Message Board
-      </a>
-      <span class="nav-badge" id="msgBoardBadge" style="display:none;"></span>
+    <!-- My Work dropdown -->
+    <div class="th-dd-wrap" id="thDdWrap-mywork">
+      <button class="th-dd-trigger" data-dd="mywork" aria-haspopup="true" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+        My Work
+        <svg class="th-dd-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="th-dd-panel" id="thDdPanel-mywork">
+        <a href="weekly-checklist.html" class="th-dd-item" data-nav-key="weekly-checklist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          Weekly Checklist
+        </a>
+        <a href="teacher-self-assessment.html" class="th-dd-item" data-nav-key="teacher-self-assessment">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Self Assessment
+        </a>
+        <a href="teacher-kpi-results.html" class="th-dd-item" data-nav-key="teacher-kpi-results">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          KPI Results
+        </a>
+        <a href="teacher-appraisal-results.html" class="th-dd-item" data-nav-key="teacher-appraisal-results">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Appraisal Results
+        </a>
+        <a href="teacher-self-appraisal.html" class="th-dd-item" data-nav-key="teacher-self-appraisal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Self Appraisal
+        </a>
+        <div class="th-dd-divider"></div>
+        <a href="competency-framework.html" class="th-dd-item" data-nav-key="competency-framework">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Competency Framework
+        </a>
+        <a href="learning-path.html" class="th-dd-item" data-nav-key="learning-path">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Learning Path
+        </a>
+        <a href="my-portfolio.html" class="th-dd-item" data-nav-key="my-portfolio">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+          My Portfolio
+        </a>
+        <a href="my-certificates.html" class="th-dd-item" data-nav-key="my-certificates">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+          My Certificates
+        </a>
+      </div>
     </div>
 
-    <!-- Competency Framework -->
-    <div class="nav-btn-wrap">
-      <a href="competency-framework.html" class="nav-link" id="competencyBtn" title="Competency Framework">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-        </svg>
-        Competency
-      </a>
+    <!-- Hub dropdown -->
+    <div class="th-dd-wrap" id="thDdWrap-hub">
+      <button class="th-dd-trigger" data-dd="hub" aria-haspopup="true" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        Hub
+        <svg class="th-dd-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="th-dd-panel" id="thDdPanel-hub">
+        <div class="nav-btn-wrap" style="display:contents;">
+          <a href="announcements.html" class="th-dd-item" data-nav-key="announcements" id="announcementsBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>
+            Announcements
+            <span class="nav-badge th-dd-badge" id="announcementsBadge" style="display:none;"></span>
+          </a>
+        </div>
+        <div class="nav-btn-wrap" style="display:contents;">
+          <a href="messageboard.html" class="th-dd-item" data-nav-key="messageboard" id="msgBoardBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            Message Board
+            <span class="nav-badge th-dd-badge" id="msgBoardBadge" style="display:none;"></span>
+          </a>
+        </div>
+        <a href="library.html" class="th-dd-item" data-nav-key="library">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          Library
+        </a>
+        <a href="cambridge-calendar.html" class="th-dd-item" data-nav-key="cambridge-calendar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Cambridge Calendar
+        </a>
+        <a href="surveys.html" class="th-dd-item" data-nav-key="surveys">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Surveys
+        </a>
+      </div>
     </div>
 
     <!-- Feedback -->
