@@ -207,7 +207,7 @@ async function promptForProfile(profile) {
             <div style="font-size:0.73rem;font-weight:700;color:#8888a8;text-transform:uppercase;letter-spacing:0.06em">My Classes</div>
             <span style="font-size:0.73rem;color:#b0b0c8">optional — add more later in Settings</span>
           </div>
-          <div id="_classChipWrap" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;min-height:26px">
+          <div id="_classChipWrap" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px;min-height:26px">
             ${_setupSchoolClasses.length > 0
               ? _setupSchoolClasses.map(c => `<button type="button" class="_chip ${existingClassNames.has(c.name)?'_chip-on':''}" data-group="myClasses" data-value="${c.name}">${c.name}</button>`).join('')
               : '<span id="_noClassesMsg" style="font-size:0.8rem;color:#b0b0c8;font-style:italic;align-self:center">No classes defined for this school yet.</span>'
@@ -227,17 +227,17 @@ async function promptForProfile(profile) {
 
           <div style="border:1.5px solid #e0ddd6;border-radius:12px;padding:12px 14px">
             <div style="font-size:0.73rem;font-weight:700;color:#8888a8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">Cambridge Subjects</div>
-            <div id="_cambridgeChips" style="display:flex;flex-wrap:wrap;gap:6px">${cambridgeChips}</div>
+            <div id="_cambridgeChips" style="display:flex;flex-direction:column;gap:5px">${cambridgeChips}</div>
           </div>
 
           <div style="border:1.5px solid #e0ddd6;border-radius:12px;padding:12px 14px">
             <div style="font-size:0.73rem;font-weight:700;color:#8888a8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">Curriculum Levels <span style="color:#dc2626">*</span></div>
-            <div id="_classChips" style="display:flex;flex-wrap:wrap;gap:6px">${classChips}</div>
+            <div id="_classChips" style="display:flex;flex-direction:column;gap:5px">${classChips}</div>
           </div>
 
           <div style="border:1.5px solid #e0ddd6;border-radius:12px;padding:12px 14px">
             <div style="font-size:0.73rem;font-weight:700;color:#8888a8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">Non-Cambridge</div>
-            <div id="_nonCambridgeChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">${nonCambridgeChips}</div>
+            <div id="_nonCambridgeChips" style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px">${nonCambridgeChips}</div>
             <input id="_otherSubjectInput" type="text" placeholder="Other (e.g. PE, Art, IT…)" value="${existingOther.replace(/"/g,'&quot;')}"
               style="width:100%;padding:7px 11px;border:1.5px solid #e0ddd6;border-radius:9px;font-size:0.8rem;color:#1c1c2e;outline:none;box-sizing:border-box">
           </div>
@@ -267,8 +267,8 @@ async function promptForProfile(profile) {
         <button id="_profileBtn" style="width:100%;padding:11px;background:linear-gradient(135deg,#7c3aed,#0891b2);color:#fff;border:none;border-radius:10px;font-size:0.93rem;font-weight:600;cursor:pointer">Save & Continue →</button>
       </div>
       <style>
-        ._chip{padding:5px 12px;border-radius:20px;border:1.5px solid #e0ddd6;background:#f7f6f3;color:#44445a;font-size:0.8rem;font-weight:500;cursor:pointer;transition:all .15s}
-        ._chip:hover{border-color:#6c5ce7;color:#6c5ce7}
+        ._chip{padding:6px 12px;border-radius:8px;border:1.5px solid #e0ddd6;background:#f7f6f3;color:#44445a;font-size:0.8rem;font-weight:500;cursor:pointer;transition:all .15s;width:100%;text-align:left;box-sizing:border-box}
+        ._chip:hover{border-color:#6c5ce7;color:#6c5ce7;background:#f3f0ff}
         ._chip-on{background:#ede9fe;border-color:#6c5ce7;color:#6c5ce7;font-weight:600}
       </style>`;
 
