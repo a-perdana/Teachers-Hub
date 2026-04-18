@@ -1178,10 +1178,9 @@ function renderClassEditors() {
         });
         _schoolClasses.push({ id: classRef.id, name: className, grade, section });
         _schoolClasses.sort((a, b) => a.grade - b.grade || a.section.localeCompare(b.section));
-        // Auto-select the new class in this combo
         if (!_slClasses[key].includes(className)) _slClasses[key].push(className);
-        // Re-render all editors so every combo's dropdown refreshes
         renderClassEditors();
+        if (window.saveTeachingProfile) await window.saveTeachingProfile({ silent: true });
       } catch { newErr.textContent = 'Failed to save. Try again.'; }
       finally { saveNewBtn.disabled = false; }
     };
@@ -1268,28 +1267,30 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     renderClassEditors();
   });
 
-  document.getElementById('sTeachingBtn').addEventListener('click', async () => {
+  window.saveTeachingProfile = async function saveTeachingProfile({ silent = false } = {}) {
     const schoolSel = document.getElementById('sSchool');
     const schoolId  = schoolSel.value.trim();
     const school    = schoolSel.selectedOptions[0]?.dataset.name || window._schoolMap[schoolId] || schoolId;
     const btn = document.getElementById('sTeachingBtn');
-    if (!schoolId) { showMsg('sTeachingMsg', 'Please select your school.', 'err'); return; }
-    if (!_activeCombos.size) { showMsg('sTeachingMsg', 'Tick at least one subject to teach.', 'err'); return; }
+    if (!schoolId) { if (!silent) showMsg('sTeachingMsg', 'Please select your school.', 'err'); return false; }
+    if (!_activeCombos.size) { if (!silent) showMsg('sTeachingMsg', 'Tick at least one subject to teach.', 'err'); return false; }
 
-    const missing = [];
-    _activeCombos.forEach(combo => {
-      const [lv, sv] = combo.split('_');
-      const key = slKey(lv, sv);
-      if (!Array.isArray(_slClasses[key]) || !_slClasses[key].length) {
-        missing.push(`${lvLabel(lv)} ${svLabel(sv)}`);
-        const grp = document.querySelector(`[data-key="${key}"]`);
-        if (grp) grp.classList.add('missing');
+    if (!silent) {
+      const missing = [];
+      _activeCombos.forEach(combo => {
+        const [lv, sv] = combo.split('_');
+        const key = slKey(lv, sv);
+        if (!Array.isArray(_slClasses[key]) || !_slClasses[key].length) {
+          missing.push(`${lvLabel(lv)} ${svLabel(sv)}`);
+          const grp = document.querySelector(`[data-key="${key}"]`);
+          if (grp) grp.classList.add('missing');
+        }
+      });
+      if (missing.length) {
+        showMsg('sTeachingMsg', `Add at least one class for: ${missing.join(', ')}`, 'err');
+        document.querySelector('.class-group.missing')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return false;
       }
-    });
-    if (missing.length) {
-      showMsg('sTeachingMsg', `Add at least one class for: ${missing.join(', ')}`, 'err');
-      document.querySelector('.class-group.missing')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      return;
     }
 
     const teaching_combos = [..._activeCombos];
@@ -1301,7 +1302,7 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
       classFields[key] = Array.isArray(_slClasses[key]) ? _slClasses[key] : [];
     }));
 
-    btn.disabled = true; btn.textContent = 'Saving…';
+    if (!silent) { btn.disabled = true; btn.textContent = 'Saving…'; }
     try {
       await setDoc(doc(db, 'users', user.uid),
         { school, schoolId, teaching_combos, subjects: [...subjectsSet], classes: [...levelsSet], ...classFields },
@@ -1311,14 +1312,20 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
       loadTeachingState(window.userProfile);
       renderProgress(window.userProfile);
       document.getElementById('sTeachingBanner').style.display = 'none';
-      showMsg('sTeachingMsg', 'Teaching profile saved ✓', 'ok');
+      if (!silent) showMsg('sTeachingMsg', 'Teaching profile saved ✓', 'ok');
+      return true;
     } catch (e) {
-      showMsg('sTeachingMsg', 'Failed to save. Try again.', 'err');
+      if (!silent) showMsg('sTeachingMsg', 'Failed to save. Try again.', 'err');
+      return false;
     } finally {
-      btn.disabled = false;
-      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Save Teaching Profile`;
+      if (!silent) {
+        btn.disabled = false;
+        btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Save Teaching Profile`;
+      }
     }
-  });
+  }
+
+  document.getElementById('sTeachingBtn').addEventListener('click', () => window.saveTeachingProfile());
 
   // ── Personal Info ─────────────────────────────────────────────
   document.getElementById('sDisplayName').value = profile.displayName || '';
