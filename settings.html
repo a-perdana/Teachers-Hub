@@ -930,7 +930,7 @@ let _schoolClasses = [];      // [{id, name, grade, section}] loaded from school
 
 async function loadSchoolClasses(db, schoolId) {
   _schoolClasses = [];
-  if (!schoolId) return;
+  if (!schoolId) { console.warn('loadSchoolClasses: no schoolId'); return; }
   try {
     const snap = await getDocs(
       query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section'))
@@ -938,6 +938,7 @@ async function loadSchoolClasses(db, schoolId) {
     snap.forEach(d => {
       _schoolClasses.push({ id: d.id, ...d.data() });
     });
+    console.log('loadSchoolClasses:', schoolId, '→', _schoolClasses.length, 'classes', _schoolClasses.map(c=>c.name));
   } catch (e) { console.error('loadSchoolClasses failed:', e); }
 }
 
