@@ -105,6 +105,79 @@
       color: var(--brand);
     }
 
+    /* ── FOOTER ── */
+    .site-footer {
+      background: linear-gradient(160deg, #0a0a1a 0%, #1a1040 60%, #2d1b69 100%);
+      color: rgba(255,255,255,.75);
+      margin-top: 48px;
+    }
+    .footer-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 52px 28px 40px;
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .footer-brand {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      flex: 0 0 auto;
+      max-width: 260px;
+    }
+    .footer-brand-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .footer-brand-tagline {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,.5);
+      line-height: 1.5;
+    }
+    .footer-cols {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+    .footer-col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 180px;
+    }
+    .footer-col-heading {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: rgba(255,255,255,.4);
+      margin-bottom: 4px;
+    }
+    .footer-link {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,.7);
+      text-decoration: none;
+      transition: color .15s;
+    }
+    .footer-link:hover { color: #fff; }
+    .footer-text {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,.55);
+      line-height: 1.6;
+    }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.08);
+      text-align: center;
+      padding: 18px 28px;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,.3);
+    }
+
     /* ── HERO ── */
     .hero {
       background: linear-gradient(160deg, #0a0a1a 0%, #1a1040 55%, #2d1b69 100%);
@@ -691,6 +764,38 @@
 </div>
 
 </div><!-- /page-wrap -->
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg width="36" height="36" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="8" fill="#6c5ce7"/>
+        <path d="M6 16l10-6 10 6-10 6z" fill="white" opacity=".9"/>
+        <path d="M10 17v4c3 2.5 9 2.5 12 0v-4" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div class="footer-brand-name">Eduversal Teachers Hub</div>
+        <div class="footer-brand-tagline">Empowering educators across our network</div>
+      </div>
+    </div>
+
+    <div class="footer-cols">
+      <div class="footer-col">
+        <div class="footer-col-heading">Contact</div>
+        <a class="footer-link" href="mailto:primary.edu@eduversal.org">primary.edu@eduversal.org</a>
+        <a class="footer-link" href="mailto:secondary.edu@eduversal.org">secondary.edu@eduversal.org</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-heading">Onboarding</div>
+        <span class="footer-text">Submit your registration via the Register tab above. Our team reviews applications and responds within 2 business days.</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Eduversal. All rights reserved.</span>
+  </div>
+</footer>
 
 <!-- Firebase & App Script -->
 <script src="firebase-config.js"></script>
