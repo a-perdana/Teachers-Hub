@@ -329,6 +329,16 @@
   transition: color .12s;
 }
 .class-tag-remove:hover { color: #dc2626; }
+.class-tag.confirming {
+  background: rgba(220,38,38,0.08);
+  border-color: rgba(220,38,38,0.35);
+  color: #dc2626;
+}
+.class-tag.confirming .class-tag-remove {
+  color: #dc2626;
+  font-size: 11px;
+  font-weight: 700;
+}
 
 .class-group {
   margin-bottom: 20px;
@@ -1197,8 +1207,21 @@ function renderClassEditors() {
         [...selected].forEach(name => {
           const tag = document.createElement('span');
           tag.className = 'class-tag';
-          tag.innerHTML = `${name} <button class="class-tag-remove" title="Remove">×</button>`;
-          tag.querySelector('.class-tag-remove').addEventListener('click', () => removeFromMy(name));
+          tag.innerHTML = `${name} <button class="class-tag-remove" title="Click to remove">×</button>`;
+          let confirmTimer = null;
+          tag.querySelector('.class-tag-remove').addEventListener('click', () => {
+            if (tag.classList.contains('confirming')) {
+              clearTimeout(confirmTimer);
+              removeFromMy(name);
+            } else {
+              tag.classList.add('confirming');
+              tag.querySelector('.class-tag-remove').textContent = '✕ Remove?';
+              confirmTimer = setTimeout(() => {
+                tag.classList.remove('confirming');
+                tag.querySelector('.class-tag-remove').textContent = '×';
+              }, 3000);
+            }
+          });
           tagsWrap.appendChild(tag);
         });
       }
