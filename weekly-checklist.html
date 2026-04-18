@@ -1000,7 +1000,7 @@ async function toggleEssential(id) {
   const progressId = `${currentUid}_${ACADEMIC_YEAR}_w${String(currentWeek).padStart(2,'0')}_${currentPlatform}`;
   await setDoc(doc(db, 'weekly_progress', progressId), {
     uid: currentUid, weekNumber: currentWeek,
-    academicYear: ACADEMIC_YEAR, platform: PLATFORM,
+    academicYear: ACADEMIC_YEAR, platform: currentPlatform,
     essentials: myEssProgress, updatedAt: serverTimestamp(),
   }, { merge: true });
 }
