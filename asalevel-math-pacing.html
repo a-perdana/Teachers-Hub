@@ -2246,10 +2246,12 @@ async function buildClassSelector() {
 }
 
 function _showNotAssigned(subjectLabel, levelLabel) {
-  const topbar = document.querySelector('.pacing-topbar');
-  const main   = document.querySelector('.main');
-  if (topbar) topbar.style.display = 'none';
-  if (main)   main.style.display   = 'none';
+  const topbar   = document.querySelector('.pacing-topbar');
+  const sidebar  = document.querySelector('.sidebar');
+  const main     = document.querySelector('.main');
+  if (topbar)  topbar.style.display  = 'none';
+  if (sidebar) sidebar.style.display = 'none';
+  if (main)    main.style.display    = 'none';
   const msg = document.createElement('div');
   msg.style.cssText = 'display:flex;flex-direction:column;align-items:center;justify-content:center;height:calc(100vh - 60px);font-family:"DM Sans",sans-serif;text-align:center;padding:24px';
   msg.innerHTML = `
