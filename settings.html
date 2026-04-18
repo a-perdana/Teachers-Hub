@@ -1257,6 +1257,7 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     }
     // After school is selected, load that school's classes
     await loadSchoolClasses(db, sel.value);
+    renderClassEditors();
   })();
 
   // When school changes, reload class pool
