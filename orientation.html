@@ -105,6 +105,51 @@
       color: var(--brand);
     }
 
+    /* ── PHOTO UPLOAD ── */
+    .photo-upload-wrap {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      margin-top: 4px;
+    }
+    .photo-preview {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--paper-2);
+      border: 2px dashed var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-3);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .photo-upload-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+    .photo-upload-btn {
+      align-self: flex-start;
+      cursor: pointer;
+      font-size: 0.88rem;
+    }
+    .photo-url-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .photo-or {
+      font-size: 0.8rem;
+      color: var(--ink-3);
+      white-space: nowrap;
+    }
+    .photo-status { font-size: 0.82rem; color: var(--ink-3); min-height: 18px; }
+    .photo-status-ok  { color: var(--green); }
+    .photo-status-err { color: var(--red); }
+
     /* ── FOOTER ── */
     .site-footer {
       background: linear-gradient(160deg, #0a0a1a 0%, #1a1040 60%, #2d1b69 100%);
@@ -720,6 +765,31 @@
 
       <div class="form-card">
         <p class="section-title">Professional Profile</p>
+
+        <!-- Photo upload -->
+        <div class="form-row">
+          <label class="form-label">Profile Photo</label>
+          <div class="photo-upload-wrap">
+            <div class="photo-preview" id="photo-preview">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              </svg>
+            </div>
+            <div class="photo-upload-controls">
+              <label class="btn btn-ghost photo-upload-btn" for="r-photo-file">
+                📷 Upload Photo
+                <input type="file" id="r-photo-file" accept="image/*" style="display:none" onchange="handlePhotoFile(this)" />
+              </label>
+              <div class="photo-url-row">
+                <span class="photo-or">or</span>
+                <input class="form-input" id="r-photo-url" type="url" placeholder="Paste photo URL (LinkedIn, Google Drive…)" oninput="handlePhotoUrl(this.value)" />
+              </div>
+              <div id="photo-upload-status" class="photo-status"></div>
+            </div>
+          </div>
+          <p class="form-hint">Optional — a clear headshot is preferred. Max 5 MB.</p>
+        </div>
+
         <div class="form-row">
           <label class="form-label" for="r-cv">CV / Resume Link <span class="req">*</span></label>
           <input class="form-input" id="r-cv" type="url" placeholder="https://drive.google.com/…" />
@@ -814,6 +884,9 @@
   import {
     getFirestore, collection, getDocs, addDoc, serverTimestamp, query, orderBy, where
   } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+  import {
+    getStorage, ref, uploadBytesResumable, getDownloadURL
+  } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
   // Init Firebase
   const firebaseConfig = {
@@ -824,8 +897,9 @@
     messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
     appId:             window.ENV.FIREBASE_APP_ID,
   };
-  const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-  const db  = getFirestore(app);
+  const app     = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+  const db      = getFirestore(app);
+  const storage = getStorage(app);
 
   // ── RESOURCES ──────────────────────────────────────────────────────────────
 
@@ -984,6 +1058,70 @@
     switchTab('register');
   };
 
+  // ── PHOTO UPLOAD ───────────────────────────────────────────────────────────
+
+  let resolvedPhotoUrl = null; // final URL used in submission
+
+  function setPhotoPreview(url) {
+    const el = document.getElementById('photo-preview');
+    if (url) {
+      el.innerHTML = `<img src="${url}" alt="Preview" style="width:72px;height:72px;object-fit:cover;border-radius:50%" onerror="this.parentElement.innerHTML='<span style=font-size:2rem>🖼️</span>'" />`;
+    } else {
+      el.innerHTML = `<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>`;
+    }
+  }
+
+  function setPhotoStatus(msg, type) {
+    const el = document.getElementById('photo-upload-status');
+    el.textContent = msg;
+    el.className = 'photo-status' + (type ? ` photo-status-${type}` : '');
+  }
+
+  window.handlePhotoUrl = function(val) {
+    const url = val.trim();
+    if (!url) { resolvedPhotoUrl = null; setPhotoPreview(null); setPhotoStatus('', ''); return; }
+    resolvedPhotoUrl = url;
+    setPhotoPreview(url);
+    setPhotoStatus('URL saved.', 'ok');
+    // Clear file input so URL takes precedence
+    document.getElementById('r-photo-file').value = '';
+  };
+
+  window.handlePhotoFile = async function(input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      setPhotoStatus('File is too large. Maximum 5 MB.', 'err');
+      input.value = '';
+      return;
+    }
+    // Clear URL input — file takes precedence
+    document.getElementById('r-photo-url').value = '';
+    resolvedPhotoUrl = null;
+    setPhotoStatus('Uploading…', '');
+    setPhotoPreview(URL.createObjectURL(file));
+
+    try {
+      const ext      = file.name.split('.').pop();
+      const fileName = `orientation_photos/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+      const storageRef = ref(storage, fileName);
+      const task = uploadBytesResumable(storageRef, file);
+
+      task.on('state_changed', snap => {
+        const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+        setPhotoStatus(`Uploading… ${pct}%`, '');
+      });
+
+      await task;
+      resolvedPhotoUrl = await getDownloadURL(storageRef);
+      setPhotoStatus('Photo uploaded ✓', 'ok');
+    } catch (e) {
+      console.error('Photo upload failed:', e);
+      setPhotoStatus('Upload failed. You can paste a URL instead.', 'err');
+      resolvedPhotoUrl = null;
+    }
+  };
+
   // ── REGISTRATION ───────────────────────────────────────────────────────────
 
   window.submitRegistration = async function() {
@@ -1033,6 +1171,7 @@
         level:        level,
         cvLink:       cvLink,
         note:         note || null,
+        photoUrl:     resolvedPhotoUrl || null,
         quizAnswers:  quizAnswers,
         createdAt:    serverTimestamp(),
         status:       'pending',
