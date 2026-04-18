@@ -1420,7 +1420,7 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     const schoolSel = document.getElementById('sSchool');
     const schoolId  = schoolSel.value.trim();
     const school    = schoolSel.selectedOptions[0]?.dataset.name || window._schoolMap[schoolId] || schoolId;
-    if (!schoolId || !_activeCombos.size) return false;
+    if (!schoolId) return false;
 
     const teaching_combos = [..._activeCombos];
     const levelsSet = new Set(), subjectsSet = new Set();
