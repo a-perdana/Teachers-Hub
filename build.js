@@ -61,6 +61,7 @@ const ROUTES = {
   'asalevel-biology-tracker.html': 'asalevel-biology-tracker',
   'asalevel-chemistry-tracker.html': 'asalevel-chemistry-tracker',
   'asalevel-physics-tracker.html': 'asalevel-physics-tracker',
+  'settings.html': 'settings',
 };
 
 // Internal href replacements: old link -> clean URL
@@ -104,6 +105,7 @@ const LINK_REWRITES = [
   [/href="asalevel-biology-tracker\.html"/g,    'href="/asalevel-biology-tracker"'],
   [/href="asalevel-chemistry-tracker\.html"/g,  'href="/asalevel-chemistry-tracker"'],
   [/href="asalevel-physics-tracker\.html"/g,    'href="/asalevel-physics-tracker"'],
+  [/href="settings\.html"/g,                    'href="/settings"'],
 ];
 
 // Read firebase-env partial once (used for placeholder injection)

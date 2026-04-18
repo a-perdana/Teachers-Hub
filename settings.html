@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link rel="stylesheet" href="base.css">
+
+<script src="firebase-config.js"></script>
+<script>
+  if (!window.ENV) window.ENV = {
+    FIREBASE_API_KEY: "__FIREBASE_API_KEY__",
+    FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__",
+    FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__",
+    FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__",
+    FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+    FIREBASE_APP_ID: "__FIREBASE_APP_ID__"
+  };
+</script>
+<script type="module" src="auth-guard.js"></script>
+
+<style>
+/* ── Settings Layout ───────────────────────────────────────────── */
+.settings-wrap {
+  display: flex;
+  min-height: calc(100vh - 60px);
+  background: #f5f4f0;
+}
+
+/* Sidebar */
+.settings-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-right: 1px solid #e8e6e0;
+  padding: 28px 12px;
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+.settings-sidebar-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #a8a49c;
+  padding: 0 10px;
+  margin-bottom: 10px;
+}
+.settings-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #5a5568;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  transition: background .15s, color .15s;
+  margin-bottom: 2px;
+}
+.settings-nav-item svg {
+  width: 16px; height: 16px; flex-shrink: 0;
+  color: #a8a49c; transition: color .15s;
+}
+.settings-nav-item:hover {
+  background: #f5f4f0;
+  color: #1a1a2e;
+}
+.settings-nav-item:hover svg { color: #6c5ce7; }
+.settings-nav-item.active {
+  background: rgba(108, 92, 231, 0.1);
+  color: #6c5ce7;
+  font-weight: 600;
+}
+.settings-nav-item.active svg { color: #6c5ce7; }
+
+/* Profile completeness card in sidebar */
+.settings-progress-card {
+  margin: 16px 10px 20px;
+  padding: 12px 14px;
+  background: linear-gradient(135deg, rgba(108,92,231,0.08), rgba(108,92,231,0.04));
+  border: 1px solid rgba(108,92,231,0.18);
+  border-radius: 12px;
+}
+.settings-progress-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6c5ce7;
+  margin-bottom: 8px;
+}
+.settings-progress-bar-wrap {
+  background: rgba(108,92,231,0.15);
+  border-radius: 99px;
+  height: 6px;
+  margin-bottom: 5px;
+  overflow: hidden;
+}
+.settings-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #6c5ce7, #a78bfa);
+  border-radius: 99px;
+  transition: width .5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.settings-progress-pct {
+  font-size: 11px;
+  color: #8b80c8;
+  font-weight: 500;
+}
+
+/* Main content */
+.settings-content {
+  flex: 1;
+  min-width: 0;
+  padding: 36px 40px 80px;
+  max-width: 740px;
+}
+.settings-panel { display: none; }
+.settings-panel.active { display: block; }
+
+.settings-section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+  font-family: 'DM Sans', sans-serif;
+}
+.settings-section-sub {
+  font-size: 13.5px;
+  color: #8b8b9e;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+/* Cards */
+.settings-card {
+  background: #ffffff;
+  border: 1px solid #e8e6e0;
+  border-radius: 16px;
+  padding: 24px 26px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.settings-card-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: #a8a49c;
+  margin-bottom: 14px;
+}
+
+/* Inputs */
+.settings-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #e0ddd6;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #1a1a2e;
+  background: #fafaf8;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  box-sizing: border-box;
+}
+.settings-input:focus {
+  border-color: #6c5ce7;
+  box-shadow: 0 0 0 3px rgba(108,92,231,0.12);
+  background: #fff;
+}
+.settings-input::placeholder { color: #b8b4ac; }
+.settings-input:disabled {
+  background: #f0efeb;
+  color: #a8a49c;
+  cursor: not-allowed;
+}
+.settings-input-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #5a5568;
+  margin-bottom: 6px;
+}
+.settings-input-wrap { margin-bottom: 16px; }
+.settings-input-wrap:last-child { margin-bottom: 0; }
+
+.settings-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #e0ddd6;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #1a1a2e;
+  background: #fafaf8;
+  outline: none;
+  resize: vertical;
+  min-height: 80px;
+  transition: border-color .15s, box-shadow .15s;
+  box-sizing: border-box;
+}
+.settings-textarea:focus {
+  border-color: #6c5ce7;
+  box-shadow: 0 0 0 3px rgba(108,92,231,0.12);
+  background: #fff;
+}
+.settings-textarea::placeholder { color: #b8b4ac; }
+
+.settings-char-count {
+  font-size: 11px;
+  color: #a8a49c;
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* Row layout for two inputs side by side */
+.settings-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.settings-row .settings-input-wrap { margin-bottom: 0; }
+
+/* Save button */
+.settings-save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 22px;
+  background: #6c5ce7;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  margin-top: 4px;
+}
+.settings-save-btn:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(108,92,231,0.35);
+}
+.settings-save-btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+.settings-save-btn svg { width: 15px; height: 15px; }
+
+/* Status messages */
+.settings-msg {
+  font-size: 12.5px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: none;
+  line-height: 1.4;
+}
+.settings-msg.ok   { display:block; background:rgba(5,150,105,.1); color:#059669; border:1px solid rgba(5,150,105,.2); }
+.settings-msg.err  { display:block; background:rgba(220,38,38,.08); color:#dc2626; border:1px solid rgba(220,38,38,.18); }
+.settings-msg.warn { display:block; background:rgba(245,158,11,.1); color:#d97706; border:1px solid rgba(245,158,11,.22); }
+
+/* ── Teaching Profile specific ─────────────────────────────────── */
+.combo-grid-wrap { margin-bottom: 16px; }
+.combo-grid-hint {
+  font-size: 12px;
+  color: #a8a49c;
+  margin-top: 6px;
+}
+
+/* Combo grid cells */
+.combo-chip {
+  padding: 5px 4px;
+  border-radius: 6px;
+  border: 1.5px solid #e0ddd6;
+  background: #fafaf8;
+  color: #a8a49c;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .15s;
+  text-align: center;
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+}
+.combo-chip:hover { border-color: #6c5ce7; color: #6c5ce7; background: rgba(108,92,231,0.05); }
+.combo-chip.on {
+  background: rgba(108,92,231,0.12);
+  border-color: #6c5ce7;
+  color: #6c5ce7;
+  font-weight: 700;
+}
+
+/* Class tag chips */
+.class-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px 4px 12px;
+  border-radius: 20px;
+  background: rgba(108,92,231,0.1);
+  border: 1px solid rgba(108,92,231,0.25);
+  color: #6c5ce7;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+}
+.class-tag-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(108,92,231,0.5);
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color .12s;
+}
+.class-tag-remove:hover { color: #dc2626; }
+
+.class-group { margin-bottom: 18px; }
+.class-group-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #a8a49c;
+  margin-bottom: 8px;
+}
+.class-tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.class-add-row {
+  display: flex;
+  gap: 8px;
+}
+.class-add-input {
+  flex: 1;
+  padding: 7px 11px;
+  border: 1.5px solid #e0ddd6;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: #1a1a2e;
+  background: #fafaf8;
+  outline: none;
+  transition: border-color .15s;
+}
+.class-add-input:focus { border-color: #6c5ce7; background: #fff; }
+.class-add-input::placeholder { color: #b8b4ac; }
+.class-add-btn {
+  padding: 7px 14px;
+  border-radius: 8px;
+  background: rgba(108,92,231,0.12);
+  border: 1.5px solid rgba(108,92,231,0.3);
+  color: #6c5ce7;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.class-add-btn:hover { background: rgba(108,92,231,0.2); }
+
+.class-group.missing .class-add-input { border-color: #dc2626; }
+.class-group.missing .class-group-label { color: #dc2626; }
+.class-empty-hint {
+  font-size: 11.5px;
+  color: #d97706;
+  background: rgba(245,158,11,.08);
+  border: 1px solid rgba(245,158,11,.2);
+  border-radius: 6px;
+  padding: 5px 9px;
+  margin-bottom: 8px;
+}
+.class-group.has-classes .class-empty-hint { display: none; }
+
+/* ── Password collapse ──────────────────────────────────────────── */
+.pw-toggle {
+  font-size: 13px;
+  color: #8b8b9e;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color .15s;
+  user-select: none;
+  margin-bottom: 12px;
+}
+.pw-toggle:hover { color: #6c5ce7; }
+.pw-fields { display: none; }
+.pw-fields.open { display: block; }
+
+/* ── Notification toggles ───────────────────────────────────────── */
+.notif-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0efeb;
+}
+.notif-row:last-child { border-bottom: none; }
+.notif-row-info { flex: 1; min-width: 0; }
+.notif-row-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 2px;
+}
+.notif-row-sub {
+  font-size: 12px;
+  color: #a8a49c;
+}
+.toggle-switch {
+  position: relative;
+  width: 42px;
+  height: 24px;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+.toggle-track {
+  position: absolute;
+  inset: 0;
+  background: #ddd;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  left: 3px; top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform .2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle-switch input:checked + .toggle-track { background: #6c5ce7; }
+.toggle-switch input:checked + .toggle-track::after { transform: translateX(18px); }
+
+/* ── Incomplete banner ──────────────────────────────────────────── */
+.settings-incomplete-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  background: rgba(245,158,11,.08);
+  border: 1px solid rgba(245,158,11,.25);
+  border-radius: 12px;
+  margin-bottom: 22px;
+}
+.settings-incomplete-banner svg { width: 18px; height: 18px; color: #d97706; flex-shrink: 0; margin-top: 1px; }
+.settings-incomplete-banner-text {
+  font-size: 13px;
+  color: #92400e;
+  line-height: 1.5;
+  flex: 1;
+}
+.settings-incomplete-banner-text strong { font-weight: 700; display: block; margin-bottom: 2px; }
+.settings-incomplete-banner .goto-btn {
+  font-size: 12px;
+  font-weight: 600;
+  color: #d97706;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  white-space: nowrap;
+  transition: color .15s;
+}
+.settings-incomplete-banner .goto-btn:hover { color: #b45309; }
+
+/* ── Mobile tabs (hidden on desktop) ───────────────────────────── */
+.settings-mobile-tabs {
+  display: none;
+  background: #fff;
+  border-bottom: 1px solid #e8e6e0;
+  overflow-x: auto;
+  padding: 0 16px;
+  gap: 0;
+  scrollbar-width: none;
+}
+.settings-mobile-tabs::-webkit-scrollbar { display: none; }
+.settings-mobile-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 13px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #a8a49c;
+  border: none;
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+.settings-mobile-tab svg { width: 14px; height: 14px; }
+.settings-mobile-tab.active { color: #6c5ce7; border-bottom-color: #6c5ce7; font-weight: 600; }
+
+@media (max-width: 768px) {
+  .settings-sidebar { display: none; }
+  .settings-mobile-tabs { display: flex; }
+  .settings-content { padding: 20px 16px 60px; max-width: none; }
+}
+</style>
+</head>
+<body>
+<div id="navbar-container"></div>
+
+<div class="settings-wrap">
+  <!-- Sidebar -->
+  <aside class="settings-sidebar">
+    <div class="settings-progress-card" id="sProgressCard" style="display:none;">
+      <div class="settings-progress-label">Profile Completeness</div>
+      <div class="settings-progress-bar-wrap">
+        <div class="settings-progress-bar" id="sProgressBar" style="width:0%"></div>
+      </div>
+      <div class="settings-progress-pct" id="sProgressPct">0% complete</div>
+    </div>
+
+    <div class="settings-sidebar-title">Account</div>
+    <button class="settings-nav-item active" data-panel="teaching">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Teaching Profile
+    </button>
+    <button class="settings-nav-item" data-panel="personal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Personal Info
+    </button>
+    <button class="settings-nav-item" data-panel="account">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Account & Security
+    </button>
+    <button class="settings-nav-item" data-panel="notifications">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      Notifications
+    </button>
+  </aside>
+
+  <!-- Mobile tabs -->
+  <div class="settings-mobile-tabs" id="sMobileTabs">
+    <button class="settings-mobile-tab active" data-panel="teaching">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Teaching
+    </button>
+    <button class="settings-mobile-tab" data-panel="personal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Personal
+    </button>
+    <button class="settings-mobile-tab" data-panel="account">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Account
+    </button>
+    <button class="settings-mobile-tab" data-panel="notifications">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      Notifs
+    </button>
+  </div>
+
+  <!-- Main content -->
+  <main class="settings-content" id="sMainContent">
+
+    <!-- ── Teaching Profile ──────────────────────────────────────── -->
+    <div class="settings-panel active" id="sPanel-teaching">
+      <div class="settings-section-title">Teaching Profile</div>
+      <div class="settings-section-sub">Your school, the subjects you teach, curriculum levels, and your classes.</div>
+
+      <div id="sTeachingBanner" class="settings-incomplete-banner" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div class="settings-incomplete-banner-text">
+          <strong>Teaching profile incomplete</strong>
+          Fill in your school, subjects, and classes to get full access to pacing guides and trackers.
+        </div>
+      </div>
+
+      <!-- School -->
+      <div class="settings-card">
+        <div class="settings-card-label">School</div>
+        <div class="settings-input-wrap">
+          <label class="settings-input-label" for="sSchool">School name <span style="color:#dc2626">*</span></label>
+          <input type="text" class="settings-input" id="sSchool" placeholder="e.g. SMA Semesta Bilingual Boarding School">
+        </div>
+      </div>
+
+      <!-- Subjects & Levels -->
+      <div class="settings-card">
+        <div class="settings-card-label">Subjects &amp; Curriculum Levels</div>
+        <p style="font-size:12.5px;color:#a8a49c;margin-bottom:16px;line-height:1.5;">Tick each subject you teach at each level. A class editor will appear for each combination.</p>
+        <div class="combo-grid-wrap" id="sComboGrid"></div>
+        <div class="combo-grid-hint">Tip: you can teach the same subject at multiple levels.</div>
+      </div>
+
+      <!-- Classes per combo -->
+      <div class="settings-card" id="sClassesCard" style="display:none;">
+        <div class="settings-card-label">My Classes</div>
+        <p style="font-size:12.5px;color:#a8a49c;margin-bottom:18px;line-height:1.5;">Add the class names you teach for each subject/level. Press Enter or + to add multiple.</p>
+        <div id="sClassEditors"></div>
+      </div>
+
+      <div>
+        <button class="settings-save-btn" id="sTeachingBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Save Teaching Profile
+        </button>
+        <div class="settings-msg" id="sTeachingMsg"></div>
+      </div>
+    </div>
+
+    <!-- ── Personal Info ─────────────────────────────────────────── -->
+    <div class="settings-panel" id="sPanel-personal">
+      <div class="settings-section-title">Personal Info</div>
+      <div class="settings-section-sub">Your name, bio, and professional details visible on your profile.</div>
+
+      <div id="sPersonalBanner" class="settings-incomplete-banner" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div class="settings-incomplete-banner-text">
+          <strong>Personal info incomplete</strong>
+          Add a bio and department to reach 100% profile completeness.
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <div class="settings-card-label">Name &amp; Identity</div>
+        <div class="settings-input-wrap">
+          <label class="settings-input-label" for="sDisplayName">Full name <span style="color:#dc2626">*</span></label>
+          <input type="text" class="settings-input" id="sDisplayName" placeholder="Your full name">
+        </div>
+        <div class="settings-input-wrap">
+          <label class="settings-input-label" for="sBio">Bio / Tagline</label>
+          <textarea class="settings-textarea" id="sBio" placeholder="e.g. Passionate IGCSE Math teacher with 8 years of experience…" maxlength="200"></textarea>
+          <div class="settings-char-count"><span id="sBioCount">0</span>/200</div>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <div class="settings-card-label">Professional Details</div>
+        <div class="settings-row">
+          <div class="settings-input-wrap">
+            <label class="settings-input-label" for="sDepartment">Department</label>
+            <input type="text" class="settings-input" id="sDepartment" placeholder="e.g. Mathematics Department">
+          </div>
+          <div class="settings-input-wrap">
+            <label class="settings-input-label" for="sYearsExp">Years of Experience</label>
+            <select class="settings-input" id="sYearsExp">
+              <option value="">Select…</option>
+              <option value="0-1">Less than 1 year</option>
+              <option value="1-3">1–3 years</option>
+              <option value="3-5">3–5 years</option>
+              <option value="5-10">5–10 years</option>
+              <option value="10-15">10–15 years</option>
+              <option value="15+">15+ years</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button class="settings-save-btn" id="sPersonalBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Save Personal Info
+        </button>
+        <div class="settings-msg" id="sPersonalMsg"></div>
+      </div>
+    </div>
+
+    <!-- ── Account & Security ────────────────────────────────────── -->
+    <div class="settings-panel" id="sPanel-account">
+      <div class="settings-section-title">Account &amp; Security</div>
+      <div class="settings-section-sub">Your login credentials and contact information.</div>
+
+      <div class="settings-card">
+        <div class="settings-card-label">Contact</div>
+        <div class="settings-input-wrap">
+          <label class="settings-input-label">Email address</label>
+          <input type="email" class="settings-input" id="sEmail" disabled>
+        </div>
+        <div class="settings-input-wrap">
+          <label class="settings-input-label" for="sPhone">Phone number</label>
+          <input type="tel" class="settings-input" id="sPhone" placeholder="+62 xxx xxx xxxx">
+        </div>
+        <button class="settings-save-btn" id="sPhoneBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Save Phone Number
+        </button>
+        <div class="settings-msg" id="sPhoneMsg"></div>
+      </div>
+
+      <div class="settings-card" id="sPwCard" style="display:none;">
+        <div class="settings-card-label">Password</div>
+        <div class="pw-toggle" id="sPwToggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><polyline points="6 9 12 15 18 9"/></svg>
+          Change password
+        </div>
+        <div class="pw-fields" id="sPwFields">
+          <div class="settings-input-wrap">
+            <label class="settings-input-label" for="sPwCurrent">Current password</label>
+            <input type="password" class="settings-input" id="sPwCurrent" placeholder="Enter current password">
+          </div>
+          <div class="settings-input-wrap">
+            <label class="settings-input-label" for="sPwNew">New password</label>
+            <input type="password" class="settings-input" id="sPwNew" placeholder="Minimum 6 characters">
+          </div>
+          <div class="settings-input-wrap">
+            <label class="settings-input-label" for="sPwConfirm">Confirm new password</label>
+            <input type="password" class="settings-input" id="sPwConfirm" placeholder="Repeat new password">
+          </div>
+          <button class="settings-save-btn" id="sPwBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Update Password
+          </button>
+          <div class="settings-msg" id="sPwMsg"></div>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <div class="settings-card-label">Session</div>
+        <button id="sSignOutBtn" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:rgba(220,38,38,0.08);border:1.5px solid rgba(220,38,38,0.2);border-radius:10px;color:#dc2626;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:600;cursor:pointer;transition:all .15s;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Notifications ─────────────────────────────────────────── -->
+    <div class="settings-panel" id="sPanel-notifications">
+      <div class="settings-section-title">Notifications</div>
+      <div class="settings-section-sub">Choose which updates you'd like to receive on Teachers Hub.</div>
+
+      <div class="settings-card">
+        <div class="settings-card-label">In-App Notifications</div>
+        <div class="notif-row">
+          <div class="notif-row-info">
+            <div class="notif-row-title">New Announcements</div>
+            <div class="notif-row-sub">Get notified when a new announcement is posted.</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="sNotifAnnouncements" checked>
+            <div class="toggle-track"></div>
+          </label>
+        </div>
+        <div class="notif-row">
+          <div class="notif-row-info">
+            <div class="notif-row-title">Message Board</div>
+            <div class="notif-row-sub">Show badge when new topics are posted.</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="sNotifMessages" checked>
+            <div class="toggle-track"></div>
+          </label>
+        </div>
+        <div class="notif-row">
+          <div class="notif-row-info">
+            <div class="notif-row-title">Cambridge Calendar Reminders</div>
+            <div class="notif-row-sub">Alerts for upcoming exam dates and deadlines.</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="sNotifCalendar" checked>
+            <div class="toggle-track"></div>
+          </label>
+        </div>
+        <div class="notif-row">
+          <div class="notif-row-info">
+            <div class="notif-row-title">Pacing Alerts</div>
+            <div class="notif-row-sub">Warnings when your pacing is behind schedule.</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="sNotifPacing" checked>
+            <div class="toggle-track"></div>
+          </label>
+        </div>
+      </div>
+
+      <div>
+        <button class="settings-save-btn" id="sNotifBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Save Preferences
+        </button>
+        <div class="settings-msg" id="sNotifMsg"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script type="module">
+import { getAuth, signOut, updatePassword, EmailAuthProvider, reauthenticateWithCredential }
+  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, updateDoc }
+  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+window.__thNavActiveKey = 'settings';
+
+// ── Constants (mirrors auth-guard.js) ────────────────────────────
+const CAMBRIDGE_SUBJECTS = [
+  { value: 'math',      label: 'Mathematics' },
+  { value: 'biology',   label: 'Biology' },
+  { value: 'chemistry', label: 'Chemistry' },
+  { value: 'physics',   label: 'Physics' },
+  { value: 'english',   label: 'English' },
+  { value: 'science',   label: 'Science' },
+];
+const LEVELS = [
+  { value: 'checkpoint', label: 'Checkpoint (Year 7–8)' },
+  { value: 'igcse',      label: 'IGCSE (Year 9–10)' },
+  { value: 'asalevel',   label: 'AS & A Level (Year 11–12)' },
+];
+
+function slKey(lv, sv) { return `${lv}_${sv}_classes`; }
+function lvLabel(lv) { return (LEVELS.find(l => l.value === lv) || {}).label || lv; }
+function svLabel(sv) {
+  const known = CAMBRIDGE_SUBJECTS.find(s => s.value === sv);
+  if (known) return known.label;
+  return sv.split(/[\s_-]+/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
+// ── Profile completeness score ────────────────────────────────────
+function calcProgress(p) {
+  let score = 0;
+  if (p.school?.trim())                                              score += 20;
+  if (Array.isArray(p.teaching_combos) && p.teaching_combos.length) score += 20;
+  if (p.displayName?.trim())                                         score += 15;
+  if (p.bio?.trim())                                                 score += 15;
+  if (p.department?.trim())                                          score += 10;
+  if (p.phone?.trim())                                               score += 10;
+  if (Array.isArray(p.th_sub_roles) && p.th_sub_roles.length)       score += 10;
+  return score;
+}
+
+function renderProgress(p) {
+  const pct = calcProgress(p);
+  const bar  = document.getElementById('sProgressBar');
+  const pctEl = document.getElementById('sProgressPct');
+  const card = document.getElementById('sProgressCard');
+  if (bar) bar.style.width = pct + '%';
+  if (pctEl) pctEl.textContent = pct + '% complete';
+  if (card) card.style.display = '';
+}
+
+// ── Tab / panel switching ─────────────────────────────────────────
+function switchPanel(panelKey) {
+  document.querySelectorAll('.settings-nav-item').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.panel === panelKey);
+  });
+  document.querySelectorAll('.settings-mobile-tab').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.panel === panelKey);
+  });
+  document.querySelectorAll('.settings-panel').forEach(panel => {
+    panel.classList.toggle('active', panel.id === 'sPanel-' + panelKey);
+  });
+}
+
+document.querySelectorAll('.settings-nav-item, .settings-mobile-tab').forEach(btn => {
+  btn.addEventListener('click', () => switchPanel(btn.dataset.panel));
+});
+
+// Check URL hash for direct tab link
+const hashPanel = window.location.hash.replace('#', '');
+if (['teaching', 'personal', 'account', 'notifications'].includes(hashPanel)) {
+  switchPanel(hashPanel);
+}
+
+// ── Navbar ───────────────────────────────────────────────────────
+fetch('partials/navbar.html')
+  .then(r => r.text())
+  .then(html => {
+    document.getElementById('navbar-container').innerHTML = html;
+    if (typeof initNavbar === 'function') initNavbar();
+    if (typeof window._pendingNavbarUpdate === 'function') { window._pendingNavbarUpdate(); window._pendingNavbarUpdate = null; }
+    if (typeof window._pendingBadgeSetup === 'function')   { window._pendingBadgeSetup();   window._pendingBadgeSetup = null; }
+    if (typeof window._pendingFeedbackSetup === 'function'){ window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
+  });
+
+// ── Bio char counter ─────────────────────────────────────────────
+document.getElementById('sBio').addEventListener('input', function() {
+  document.getElementById('sBioCount').textContent = this.value.length;
+});
+
+// ── Password toggle ───────────────────────────────────────────────
+document.getElementById('sPwToggle').addEventListener('click', function() {
+  const fields = document.getElementById('sPwFields');
+  const open = fields.classList.toggle('open');
+  const icon = this.querySelector('svg');
+  if (icon) icon.style.transform = open ? 'rotate(180deg)' : '';
+  this.lastChild.textContent = open ? ' Hide password change' : ' Change password';
+});
+
+// ── Teaching Profile state ────────────────────────────────────────
+let _activeCombos = new Set();
+let _slClasses    = {};
+
+function loadTeachingState(p) {
+  _activeCombos = new Set();
+  _slClasses    = {};
+  if (Array.isArray(p.teaching_combos) && p.teaching_combos.length) {
+    p.teaching_combos.forEach(combo => {
+      _activeCombos.add(combo);
+      const [lv, sv] = combo.split('_');
+      const key = slKey(lv, sv);
+      _slClasses[key] = Array.isArray(p[key]) ? [...p[key]] : [];
+    });
+  } else {
+    // Legacy migration
+    const legacySubjects = Array.isArray(p.subjects) ? p.subjects : [];
+    const legacyLevels   = Array.isArray(p.classes)  ? p.classes  : [];
+    legacyLevels.forEach(lv => {
+      legacySubjects.forEach(sv => {
+        const combo = `${lv}_${sv}`;
+        _activeCombos.add(combo);
+        const key = slKey(lv, sv);
+        _slClasses[key] = Array.isArray(p[key]) ? [...p[key]] : [];
+      });
+    });
+  }
+}
+
+function renderComboGrid() {
+  const container = document.getElementById('sComboGrid');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const COL = '80px';
+  const cols = `${COL} repeat(${CAMBRIDGE_SUBJECTS.length}, 1fr)`;
+
+  // Header
+  const headerRow = document.createElement('div');
+  headerRow.style.cssText = `display:grid;grid-template-columns:${cols};gap:5px;margin-bottom:5px;`;
+  headerRow.appendChild(document.createElement('div'));
+  CAMBRIDGE_SUBJECTS.forEach(s => {
+    const th = document.createElement('div');
+    th.style.cssText = 'font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#a8a49c;text-align:center;padding:2px;line-height:1.2;';
+    th.textContent = s.label.replace('Mathematics','Math').replace('Chemistry','Chem').replace('Physics','Phys').replace('Biology','Bio').replace('English','Eng').replace('Science','Sci');
+    headerRow.appendChild(th);
+  });
+  container.appendChild(headerRow);
+
+  LEVELS.forEach(l => {
+    const row = document.createElement('div');
+    row.style.cssText = `display:grid;grid-template-columns:${cols};gap:5px;margin-bottom:5px;align-items:center;`;
+
+    const rowLabel = document.createElement('div');
+    rowLabel.style.cssText = 'font-size:9.5px;font-weight:700;color:#a8a49c;white-space:nowrap;line-height:1.2;';
+    rowLabel.textContent = l.label.split(' ')[0];
+    row.appendChild(rowLabel);
+
+    CAMBRIDGE_SUBJECTS.forEach(s => {
+      const combo = `${l.value}_${s.value}`;
+      const cell = document.createElement('button');
+      cell.type = 'button';
+      cell.dataset.combo = combo;
+      cell.className = 'combo-chip' + (_activeCombos.has(combo) ? ' on' : '');
+      cell.textContent = '✓';
+      cell.title = `${lvLabel(l.value)} ${svLabel(s.value)}`;
+      cell.addEventListener('click', () => {
+        if (_activeCombos.has(combo)) {
+          _activeCombos.delete(combo);
+          cell.classList.remove('on');
+        } else {
+          _activeCombos.add(combo);
+          if (!Array.isArray(_slClasses[slKey(l.value, s.value)])) {
+            _slClasses[slKey(l.value, s.value)] = [];
+          }
+          cell.classList.add('on');
+        }
+        renderClassEditors();
+      });
+      row.appendChild(cell);
+    });
+    container.appendChild(row);
+  });
+}
+
+function renderClassEditors() {
+  const editorsEl = document.getElementById('sClassEditors');
+  const card = document.getElementById('sClassesCard');
+  if (!editorsEl) return;
+  editorsEl.innerHTML = '';
+
+  if (!_activeCombos.size) {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = '';
+
+  [..._activeCombos].forEach(combo => {
+    const [lv, sv] = combo.split('_');
+    const key = slKey(lv, sv);
+    if (!Array.isArray(_slClasses[key])) _slClasses[key] = [];
+
+    const group = document.createElement('div');
+    group.className = 'class-group';
+    group.dataset.key = key;
+
+    const label = document.createElement('div');
+    label.className = 'class-group-label';
+    label.textContent = `${lvLabel(lv)} ${svLabel(sv)}`;
+    group.appendChild(label);
+
+    const emptyHint = document.createElement('div');
+    emptyHint.className = 'class-empty-hint';
+    emptyHint.textContent = 'Add at least one class below';
+    group.appendChild(emptyHint);
+
+    const tagsWrap = document.createElement('div');
+    tagsWrap.className = 'class-tags-wrap';
+    group.appendChild(tagsWrap);
+
+    function renderTags() {
+      tagsWrap.innerHTML = '';
+      const list = _slClasses[key] || [];
+      group.classList.toggle('has-classes', list.length > 0);
+      group.classList.remove('missing');
+      list.forEach((cls, idx) => {
+        const tag = document.createElement('span');
+        tag.className = 'class-tag';
+        tag.innerHTML = `${cls}<button class="class-tag-remove" title="Remove">×</button>`;
+        tag.querySelector('.class-tag-remove').addEventListener('click', () => {
+          _slClasses[key].splice(idx, 1);
+          renderTags();
+        });
+        tagsWrap.appendChild(tag);
+      });
+    }
+    renderTags();
+
+    const addRow = document.createElement('div');
+    addRow.className = 'class-add-row';
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'class-add-input';
+    input.placeholder = 'e.g. 10A, 9Cam  (comma-separated)';
+    const addBtn = document.createElement('button');
+    addBtn.type = 'button';
+    addBtn.className = 'class-add-btn';
+    addBtn.textContent = '+';
+
+    const doAdd = () => {
+      const val = input.value.trim();
+      if (!val) return;
+      val.split(',').map(x => x.trim()).filter(Boolean).forEach(x => {
+        if (!_slClasses[key].includes(x)) _slClasses[key].push(x);
+      });
+      input.value = '';
+      renderTags();
+    };
+    addBtn.addEventListener('click', doAdd);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doAdd(); } });
+    addRow.appendChild(input);
+    addRow.appendChild(addBtn);
+    group.appendChild(addRow);
+    editorsEl.appendChild(group);
+  });
+}
+
+// ── Show / hide message ───────────────────────────────────────────
+function showMsg(id, text, type) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'settings-msg ' + type;
+  if (type === 'ok') setTimeout(() => { el.className = 'settings-msg'; }, 3000);
+}
+
+// ── Auth ready ───────────────────────────────────────────────────
+document.addEventListener('authReady', ({ detail: { user, profile } }) => {
+  const db = window.db;
+  const auth = window.auth;
+
+  // Progress
+  renderProgress(profile);
+
+  // Incomplete banners
+  const teachingOk = profile.school?.trim() && Array.isArray(profile.teaching_combos) && profile.teaching_combos.length;
+  const personalOk = profile.displayName?.trim() && profile.bio?.trim() && profile.department?.trim();
+  if (!teachingOk) document.getElementById('sTeachingBanner').style.display = 'flex';
+  if (!personalOk) document.getElementById('sPersonalBanner').style.display = 'flex';
+
+  // ── Teaching Profile ──────────────────────────────────────────
+  loadTeachingState(profile);
+  renderComboGrid();
+  renderClassEditors();
+  document.getElementById('sSchool').value = profile.school || '';
+
+  document.getElementById('sTeachingBtn').addEventListener('click', async () => {
+    const school = document.getElementById('sSchool').value.trim();
+    const btn = document.getElementById('sTeachingBtn');
+    if (!school) { showMsg('sTeachingMsg', 'Please enter your school name.', 'err'); return; }
+    if (!_activeCombos.size) { showMsg('sTeachingMsg', 'Tick at least one subject to teach.', 'err'); return; }
+
+    const missing = [];
+    _activeCombos.forEach(combo => {
+      const [lv, sv] = combo.split('_');
+      const key = slKey(lv, sv);
+      if (!Array.isArray(_slClasses[key]) || !_slClasses[key].length) {
+        missing.push(`${lvLabel(lv)} ${svLabel(sv)}`);
+        const grp = document.querySelector(`[data-key="${key}"]`);
+        if (grp) grp.classList.add('missing');
+      }
+    });
+    if (missing.length) {
+      showMsg('sTeachingMsg', `Add at least one class for: ${missing.join(', ')}`, 'err');
+      document.querySelector('.class-group.missing')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      return;
+    }
+
+    const teaching_combos = [..._activeCombos];
+    const levelsSet = new Set(), subjectsSet = new Set();
+    teaching_combos.forEach(c => { const [lv,sv] = c.split('_'); levelsSet.add(lv); subjectsSet.add(sv); });
+    const classFields = {};
+    LEVELS.forEach(l => CAMBRIDGE_SUBJECTS.forEach(s => {
+      const key = slKey(l.value, s.value);
+      classFields[key] = Array.isArray(_slClasses[key]) ? _slClasses[key] : [];
+    }));
+
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+      await setDoc(doc(db, 'users', user.uid),
+        { school, teaching_combos, subjects: [...subjectsSet], classes: [...levelsSet], ...classFields },
+        { merge: true }
+      );
+      window.userProfile = { ...window.userProfile, school, teaching_combos, subjects: [...subjectsSet], classes: [...levelsSet], ...classFields };
+      loadTeachingState(window.userProfile);
+      renderProgress(window.userProfile);
+      document.getElementById('sTeachingBanner').style.display = 'none';
+      showMsg('sTeachingMsg', 'Teaching profile saved ✓', 'ok');
+    } catch (e) {
+      showMsg('sTeachingMsg', 'Failed to save. Try again.', 'err');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Save Teaching Profile`;
+    }
+  });
+
+  // ── Personal Info ─────────────────────────────────────────────
+  document.getElementById('sDisplayName').value = profile.displayName || '';
+  document.getElementById('sBio').value = profile.bio || '';
+  document.getElementById('sBioCount').textContent = (profile.bio || '').length;
+  document.getElementById('sDepartment').value = profile.department || '';
+  document.getElementById('sYearsExp').value = profile.years_experience || '';
+
+  document.getElementById('sPersonalBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('sPersonalBtn');
+    const displayName = document.getElementById('sDisplayName').value.trim();
+    const bio         = document.getElementById('sBio').value.trim();
+    const department  = document.getElementById('sDepartment').value.trim();
+    const years_experience = document.getElementById('sYearsExp').value;
+
+    if (!displayName) { showMsg('sPersonalMsg', 'Full name is required.', 'err'); return; }
+
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+      await setDoc(doc(db, 'users', user.uid), { displayName, bio, department, years_experience }, { merge: true });
+      window.userProfile = { ...window.userProfile, displayName, bio, department, years_experience };
+      renderProgress(window.userProfile);
+      const personalOk = displayName && bio && department;
+      document.getElementById('sPersonalBanner').style.display = personalOk ? 'none' : 'flex';
+      showMsg('sPersonalMsg', 'Personal info saved ✓', 'ok');
+    } catch (e) {
+      showMsg('sPersonalMsg', 'Failed to save. Try again.', 'err');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Save Personal Info`;
+    }
+  });
+
+  // ── Account & Security ─────────────────────────────────────────
+  document.getElementById('sEmail').value = user.email || '';
+  document.getElementById('sPhone').value = profile.phone || '';
+
+  document.getElementById('sPhoneBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('sPhoneBtn');
+    const phone = document.getElementById('sPhone').value.trim();
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+      await setDoc(doc(db, 'users', user.uid), { phone }, { merge: true });
+      window.userProfile = { ...window.userProfile, phone };
+      renderProgress(window.userProfile);
+      showMsg('sPhoneMsg', 'Phone number saved ✓', 'ok');
+    } catch (e) {
+      showMsg('sPhoneMsg', 'Failed to save. Try again.', 'err');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Save Phone Number`;
+    }
+  });
+
+  // Password (email users only)
+  const isPasswordUser = user.providerData.some(p => p.providerId === 'password');
+  if (isPasswordUser) document.getElementById('sPwCard').style.display = '';
+
+  document.getElementById('sPwBtn')?.addEventListener('click', async () => {
+    const btn = document.getElementById('sPwBtn');
+    const current = document.getElementById('sPwCurrent').value;
+    const newPw    = document.getElementById('sPwNew').value;
+    const confirm  = document.getElementById('sPwConfirm').value;
+    if (!current) { showMsg('sPwMsg', 'Enter your current password.', 'err'); return; }
+    if (newPw.length < 6) { showMsg('sPwMsg', 'New password must be at least 6 characters.', 'err'); return; }
+    if (newPw !== confirm) { showMsg('sPwMsg', 'Passwords do not match.', 'err'); return; }
+    btn.disabled = true; btn.textContent = 'Updating…';
+    try {
+      const credential = EmailAuthProvider.credential(user.email, current);
+      await reauthenticateWithCredential(user, credential);
+      await updatePassword(user, newPw);
+      document.getElementById('sPwCurrent').value = '';
+      document.getElementById('sPwNew').value = '';
+      document.getElementById('sPwConfirm').value = '';
+      document.getElementById('sPwFields').classList.remove('open');
+      showMsg('sPwMsg', 'Password updated ✓', 'ok');
+    } catch (e) {
+      const msg = e.code === 'auth/wrong-password' ? 'Current password is incorrect.' : 'Failed to update. Try again.';
+      showMsg('sPwMsg', msg, 'err');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Update Password`;
+    }
+  });
+
+  // Sign out
+  document.getElementById('sSignOutBtn').addEventListener('click', async () => {
+    await signOut(auth);
+    window.location.href = '/login';
+  });
+
+  // ── Notifications ─────────────────────────────────────────────
+  const prefs = profile.notification_prefs || {};
+  if (prefs.announcements !== false) document.getElementById('sNotifAnnouncements').checked = true;
+  if (prefs.messages      !== false) document.getElementById('sNotifMessages').checked = true;
+  if (prefs.calendar      !== false) document.getElementById('sNotifCalendar').checked = true;
+  if (prefs.pacing        !== false) document.getElementById('sNotifPacing').checked = true;
+
+  document.getElementById('sNotifBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('sNotifBtn');
+    const notification_prefs = {
+      announcements: document.getElementById('sNotifAnnouncements').checked,
+      messages:      document.getElementById('sNotifMessages').checked,
+      calendar:      document.getElementById('sNotifCalendar').checked,
+      pacing:        document.getElementById('sNotifPacing').checked,
+    };
+    btn.disabled = true; btn.textContent = 'Saving…';
+    try {
+      await setDoc(doc(db, 'users', user.uid), { notification_prefs }, { merge: true });
+      window.userProfile = { ...window.userProfile, notification_prefs };
+      showMsg('sNotifMsg', 'Preferences saved ✓', 'ok');
+    } catch (e) {
+      showMsg('sNotifMsg', 'Failed to save. Try again.', 'err');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Save Preferences`;
+    }
+  });
+
+  // Navbar update
+  const updateNavbar = () => {
+    const nameEl = document.getElementById('profileNameShort');
+    const avatarEl = document.getElementById('profileAvatar');
+    const wrapEl = document.getElementById('profileWrap');
+    if (nameEl) nameEl.textContent = (profile.displayName || user.email).split(' ')[0];
+    if (avatarEl && typeof buildAvatarEl === 'function') buildAvatarEl(avatarEl, user);
+    if (wrapEl) wrapEl.style.display = 'flex';
+  };
+  if (document.getElementById('profileNameShort')) updateNavbar();
+  else window._pendingNavbarUpdate = updateNavbar;
+
+  const doBadgeSetup = () => {
+    if (typeof setupNavBadges === 'function') {
+      const { onSnapshot, collection } = window.__firestoreHelpers || {};
+    }
+  };
+  if (document.getElementById('msgBoardBadge')) doBadgeSetup();
+  else window._pendingBadgeSetup = doBadgeSetup;
+});
+</script>
+</body>
+</html>
