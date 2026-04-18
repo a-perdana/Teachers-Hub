@@ -219,19 +219,22 @@ async function promptForProfile(profile) {
 
         </div>
 
-        <div id="_classSection" style="margin-bottom:22px">
-          <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:6px">My classes <span style="color:#8888a8;font-weight:400">(optional — you can add more later in Settings)</span></label>
-          <div id="_classChipWrap" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px">
+        <div id="_classSection" style="margin-bottom:22px;border:1.5px solid #e0ddd6;border-radius:12px;padding:14px 16px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px">
+            <div style="font-size:0.75rem;font-weight:700;color:#8888a8;text-transform:uppercase;letter-spacing:0.06em">My Classes</div>
+            <span style="font-size:0.75rem;color:#b0b0c8;font-weight:400">optional — add more later in Settings</span>
+          </div>
+          <div id="_classChipWrap" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;min-height:28px">
             ${_setupSchoolClasses.length > 0
               ? _setupSchoolClasses.map(c => `<button type="button" class="_chip ${existingClassNames.has(c.name)?'_chip-on':''}" data-group="myClasses" data-value="${c.name}">${c.name}</button>`).join('')
-              : '<span id="_noClassesMsg" style="font-size:0.82rem;color:#8888a8">No classes defined for this school yet.</span>'
+              : '<span id="_noClassesMsg" style="font-size:0.81rem;color:#b0b0c8;font-style:italic;align-self:center">No classes defined for this school yet.</span>'
             }
           </div>
-          <div style="display:flex;gap:8px;align-items:center">
-            <input id="_newClassInput" type="text" placeholder="e.g. 10 Stan, 9 A…"
-              style="padding:7px 12px;border:1.5px dashed #b0a8f8;border-radius:9px;font-size:0.82rem;color:#1c1c2e;outline:none;width:160px;background:#faf9ff">
+          <div style="display:flex;gap:7px;align-items:center;border-top:1px solid #f0eee9;padding-top:10px">
+            <input id="_newClassInput" type="text" placeholder="Define new class (e.g. 10 Stanford)"
+              style="flex:1;padding:7px 12px;border:1.5px solid #e0ddd6;border-radius:8px;font-size:0.82rem;color:#1c1c2e;outline:none;background:#fafafa;box-sizing:border-box">
             <button type="button" id="_addClassBtn"
-              style="padding:7px 14px;border:1.5px dashed #6c5ce7;border-radius:9px;font-size:0.82rem;font-weight:600;color:#6c5ce7;background:#faf9ff;cursor:pointer">+ Add</button>
+              style="padding:7px 16px;border:1.5px dashed #6c5ce7;border-radius:8px;font-size:0.82rem;font-weight:600;color:#6c5ce7;background:#faf9ff;cursor:pointer;white-space:nowrap;flex-shrink:0">+ Define</button>
           </div>
         </div>
 
@@ -268,7 +271,7 @@ async function promptForProfile(profile) {
     const refreshClassChips = () => {
       const wrap = overlay.querySelector('#_classChipWrap');
       if (_setupSchoolClasses.length === 0) {
-        wrap.innerHTML = '<span id="_noClassesMsg" style="font-size:0.82rem;color:#8888a8">No classes defined for this school yet.</span>';
+        wrap.innerHTML = '<span id="_noClassesMsg" style="font-size:0.81rem;color:#b0b0c8;font-style:italic;align-self:center">No classes defined for this school yet.</span>';
       } else {
         wrap.innerHTML = _setupSchoolClasses.map(c =>
           `<button type="button" class="_chip" data-group="myClasses" data-value="${c.name}">${c.name}</button>`
