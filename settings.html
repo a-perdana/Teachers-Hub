@@ -1088,20 +1088,16 @@ function renderClassEditors() {
       const selected = new Set(_slClasses[key] || []);
       const [minG, maxG] = GRADE_RANGE[lv] || [1, 13];
       const filtered = _schoolClasses.filter(c => c.grade >= minG && c.grade <= maxG);
-      const available = filtered.filter(c => !selected.has(c.name));
       sel.innerHTML = '';
       const placeholder = document.createElement('option');
       placeholder.value = '';
-      placeholder.textContent = available.length
-        ? '— Pick a class —'
-        : filtered.length
-          ? '— All classes added —'
-          : '— No classes yet for this level —';
+      placeholder.textContent = filtered.length ? '— Pick a class —' : '— No classes yet for this level —';
       sel.appendChild(placeholder);
-      available.forEach(c => {
+      filtered.forEach(c => {
         const opt = document.createElement('option');
         opt.value = c.name;
-        opt.textContent = c.name;
+        opt.textContent = selected.has(c.name) ? `${c.name} ✓` : c.name;
+        opt.disabled = selected.has(c.name);
         sel.appendChild(opt);
       });
     }
