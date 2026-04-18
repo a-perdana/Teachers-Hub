@@ -219,10 +219,19 @@ async function promptForProfile(profile) {
 
         </div>
 
-        <div id="_classSection" style="margin-bottom:22px;${_setupSchoolClasses.length===0?'display:none':''}">
+        <div id="_classSection" style="margin-bottom:22px">
           <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:6px">My classes <span style="color:#8888a8;font-weight:400">(optional — you can add more later in Settings)</span></label>
-          <div id="_classChipWrap" style="display:flex;flex-wrap:wrap;gap:7px">
-            ${_setupSchoolClasses.map(c => `<button type="button" class="_chip ${existingClassNames.has(c.name)?'_chip-on':''}" data-group="myClasses" data-value="${c.name}">${c.name}</button>`).join('')}
+          <div id="_classChipWrap" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px">
+            ${_setupSchoolClasses.length > 0
+              ? _setupSchoolClasses.map(c => `<button type="button" class="_chip ${existingClassNames.has(c.name)?'_chip-on':''}" data-group="myClasses" data-value="${c.name}">${c.name}</button>`).join('')
+              : '<span id="_noClassesMsg" style="font-size:0.82rem;color:#8888a8">No classes defined for this school yet.</span>'
+            }
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input id="_newClassInput" type="text" placeholder="e.g. 10 Stan, 9 A…"
+              style="padding:7px 12px;border:1.5px dashed #b0a8f8;border-radius:9px;font-size:0.82rem;color:#1c1c2e;outline:none;width:160px;background:#faf9ff">
+            <button type="button" id="_addClassBtn"
+              style="padding:7px 14px;border:1.5px dashed #6c5ce7;border-radius:9px;font-size:0.82rem;font-weight:600;color:#6c5ce7;background:#faf9ff;cursor:pointer">+ Add</button>
           </div>
         </div>
 
@@ -256,26 +265,50 @@ async function promptForProfile(profile) {
     document.body.appendChild(overlay);
     document.body.style.visibility = 'visible';
 
-    // When school changes → reload class chips
-    overlay.querySelector('#_schoolInput').addEventListener('change', async (e) => {
-      const schoolId = e.target.value;
-      const section  = overlay.querySelector('#_classSection');
-      const wrap     = overlay.querySelector('#_classChipWrap');
-      if (!schoolId) { section.style.display = 'none'; return; }
-      wrap.innerHTML = '<span style="font-size:0.82rem;color:#8888a8">Loading…</span>';
-      section.style.display = '';
-      _setupSchoolClasses = [];
-      try {
-        const snap = await getDocs(query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section')));
-        snap.forEach(d => _setupSchoolClasses.push({ id: d.id, ...d.data() }));
-      } catch { /* ignore */ }
+    const refreshClassChips = () => {
+      const wrap = overlay.querySelector('#_classChipWrap');
       if (_setupSchoolClasses.length === 0) {
-        section.style.display = 'none';
+        wrap.innerHTML = '<span id="_noClassesMsg" style="font-size:0.82rem;color:#8888a8">No classes defined for this school yet.</span>';
       } else {
         wrap.innerHTML = _setupSchoolClasses.map(c =>
           `<button type="button" class="_chip" data-group="myClasses" data-value="${c.name}">${c.name}</button>`
         ).join('');
       }
+    };
+
+    // "+ Add" inline class button
+    overlay.querySelector('#_addClassBtn').addEventListener('click', () => {
+      const input = overlay.querySelector('#_newClassInput');
+      const name  = input.value.trim();
+      if (!name) return;
+      if (!_setupSchoolClasses.find(c => c.name === name)) {
+        _setupSchoolClasses.push({ name, grade: parseInt(name, 10) || 0, section: name.replace(/^\d+\s*/, '') });
+      }
+      refreshClassChips();
+      // auto-select the newly added chip
+      const wrap = overlay.querySelector('#_classChipWrap');
+      const chip = [...wrap.querySelectorAll('._chip')].find(c => c.dataset.value === name);
+      if (chip) chip.classList.add('_chip-on');
+      input.value = '';
+      input.focus();
+    });
+
+    overlay.querySelector('#_newClassInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); overlay.querySelector('#_addClassBtn').click(); }
+    });
+
+    // When school changes → reload class chips
+    overlay.querySelector('#_schoolInput').addEventListener('change', async (e) => {
+      const schoolId = e.target.value;
+      const wrap     = overlay.querySelector('#_classChipWrap');
+      _setupSchoolClasses = [];
+      if (!schoolId) { refreshClassChips(); return; }
+      wrap.innerHTML = '<span style="font-size:0.82rem;color:#8888a8">Loading…</span>';
+      try {
+        const snap = await getDocs(query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section')));
+        snap.forEach(d => _setupSchoolClasses.push({ id: d.id, ...d.data() }));
+      } catch { /* ignore */ }
+      refreshClassChips();
     });
 
     // Chip toggle
