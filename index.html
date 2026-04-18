@@ -11,6 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="tokens.css" />
     <style>
       :root {
         --primary: #6c5ce7;
@@ -903,6 +904,98 @@
           transform: scaleY(0.5);
           opacity: 0.5;
         }
+      }
+
+      /* ── Hero personalisation ───────────────────────────────── */
+      .hero-greeting {
+        margin-bottom: var(--space-3, 12px);
+        animation: heroReveal 0.8s ease-out 0.05s both;
+      }
+
+      .hero-greeting-text {
+        font-family: "Sora", sans-serif;
+        font-size: var(--text-base, 0.9375rem);
+        color: var(--text-secondary);
+        margin-right: var(--space-3, 12px);
+      }
+
+      .hero-subrole-chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 3px 11px;
+        background: rgba(108,92,231,0.18);
+        border: 1px solid rgba(108,92,231,0.38);
+        border-radius: 20px;
+        font-size: var(--text-xs, 0.6875rem);
+        font-weight: var(--fw-semibold, 600);
+        color: #c4b5fd;
+        letter-spacing: 0.03em;
+        text-transform: capitalize;
+        margin-right: var(--space-1, 4px);
+      }
+
+      /* ── Hero quick actions ──────────────────────────────────── */
+      .hero-quick-actions {
+        display: flex;
+        justify-content: center;
+        gap: var(--space-3, 12px);
+        flex-wrap: wrap;
+        margin-top: var(--space-5, 20px);
+        animation: heroReveal 0.8s ease-out 0.4s both;
+      }
+
+      .hero-action-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2, 8px);
+        padding: 8px 18px;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: 50px;
+        font-size: var(--text-sm, 0.8125rem);
+        font-weight: var(--fw-medium, 500);
+        font-family: "Sora", sans-serif;
+        color: rgba(255,255,255,0.82);
+        text-decoration: none;
+        backdrop-filter: blur(10px);
+        transition: all var(--transition, 0.2s ease);
+      }
+
+      .hero-action-pill svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+      }
+
+      .hero-action-pill:hover {
+        background: rgba(108,92,231,0.2);
+        border-color: rgba(108,92,231,0.55);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(108,92,231,0.25);
+      }
+
+      /* ── Card type distinction: external resource ────────────── */
+      .card-external-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 2px 8px;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 6px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: rgba(255,255,255,0.5);
+        text-transform: uppercase;
+        margin-top: 6px;
+      }
+
+      .card-external-badge svg {
+        width: 10px;
+        height: 10px;
+        flex-shrink: 0;
       }
 
       /* ══════════════════════════════════════════════════════════
@@ -2050,6 +2143,10 @@
             <span class="badge-dot"></span>
             <span>Resource Center 2025</span>
           </div>
+          <div class="hero-greeting" id="heroGreeting" style="display:none;">
+            <span class="hero-greeting-text" id="heroGreetingText"></span>
+            <span id="heroSubroleChips"></span>
+          </div>
           <h1 class="hero-title">
             <span class="line-1">Teachers Hub</span>
             <span class="line-2">Indonesia</span>
@@ -2058,6 +2155,24 @@
             Comprehensive resource center for educational excellence and
             professional development across all Eduversal partner schools
           </p>
+          <div class="hero-quick-actions">
+            <a href="weekly-checklist.html" class="hero-action-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+              Weekly Checklist
+            </a>
+            <a href="igcse-math-pacing.html" class="hero-action-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Pacing Guides
+            </a>
+            <a href="cambridge-calendar.html" class="hero-action-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Cambridge Calendar
+            </a>
+            <a href="competency-framework.html" class="hero-action-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              Competency Framework
+            </a>
+          </div>
 
           <div class="search-container">
             <div class="search-wrapper">
@@ -3404,6 +3519,21 @@
         const db = window.db;
         const isAdmin = profile?.role_teachershub === 'teachers_admin';
         if (isAdmin) document.body.classList.add('is-admin');
+
+        // Hero personalisation
+        const firstName = (profile?.displayName || user.displayName || '').split(' ')[0];
+        if (firstName) {
+          const hour = new Date().getHours();
+          const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+          const school = profile?.school ? ` · ${profile.school}` : '';
+          document.getElementById('heroGreetingText').textContent = `${greeting}, ${firstName}${school}`;
+          const subRoleLabels = { subject_teacher: 'Subject Teacher', subject_leader: 'Subject Leader' };
+          const chips = (profile?.th_sub_roles || [])
+            .map(r => `<span class="hero-subrole-chip">${subRoleLabels[r] || r}</span>`)
+            .join('');
+          document.getElementById('heroSubroleChips').innerHTML = chips;
+          document.getElementById('heroGreeting').style.display = 'block';
+        }
 
         // Hide pacing cards the user doesn't teach
         filterPacingCards(profile, isAdmin);

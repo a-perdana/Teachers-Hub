@@ -4,22 +4,14 @@
  * All pages link this file; page-specific styles remain inline.
  */
 
+/* ── Shared design tokens (spacing, type, shadow, radius, motion) ── */
+@import url('tokens.css');
+
 /* ── Google Fonts ─────────────────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
-/* ── CSS Variables ────────────────────────────────────────────── */
+/* ── Teachers Hub accent + brand overrides ─────────────────────── */
 :root {
-  /* Ink scale */
-  --ink:       #1c1c2e;
-  --ink-2:     #44445a;
-  --ink-3:     #8888a8;
-
-  /* Paper scale */
-  --paper:     #f7f6f3;
-  --paper-2:   #efede8;
-  --white:     #ffffff;
-  --border:    #e0ddd6;
-
   /* Brand */
   --brand:     #6c5ce7;
   --brand-2:   #ede9fe;
@@ -27,25 +19,6 @@
   /* Accent (per-page override via inline :root) */
   --accent:    #6c5ce7;
   --accent-2:  #ede9fe;
-
-  /* Semantic colors */
-  --green:     #059669;
-  --green-2:   #d1fae5;
-  --red:       #dc2626;
-  --red-2:     #fee2e2;
-  --amber:     #b07800;
-  --amber-2:   #fef8e7;
-  --blue:      #1a5fa8;
-  --blue-2:    #e8f0fb;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 4px rgba(28,28,46,.07);
-  --shadow:    0 3px 14px rgba(28,28,46,.10);
-  --shadow-lg: 0 10px 40px rgba(28,28,46,.16);
-
-  /* Shape */
-  --radius:    10px;
-  --radius-lg: 16px;
 
   /* Topbar */
   --topbar-h:  60px;

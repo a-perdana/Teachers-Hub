@@ -178,6 +178,12 @@ console.log('Copied: dist/auth-guard.js');
 fs.copyFileSync(path.join(__dirname, 'base.css'), path.join(distDir, 'base.css'));
 console.log('Copied: dist/base.css');
 
+// Copy tokens.css to dist root
+if (fs.existsSync(path.join(__dirname, 'tokens.css'))) {
+  fs.copyFileSync(path.join(__dirname, 'tokens.css'), path.join(distDir, 'tokens.css'));
+  console.log('Copied: dist/tokens.css');
+}
+
 // Copy partials folder to dist root
 const partialsSrcDir = path.join(__dirname, 'partials');
 const partialsDistDir = path.join(distDir, 'partials');
