@@ -2826,7 +2826,7 @@ function _startSnapshot(uid) {
   });
 
   // Fallback: if Firestore snapshots don't return within 8s, unblock the UI
-  setTimeout(() => {
+  setTimeout(async () => {
     if (!structureReady || !progressReady) {
       sharedStructure = sharedStructure || [];
       userStatuses    = userStatuses    || {};
