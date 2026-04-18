@@ -3514,6 +3514,16 @@
             document.getElementById('navbar-container').innerHTML = html;
             initNavbar();
             window.authSignOut = () => window.auth && window.auth.signOut();
+            // Populate navbar profile elements directly (populateDropdown
+            // runs inside initNavbar but only if window.__authReadyDetail is set,
+            // so we also wire up the elements here as a fallback)
+            const nameShort = (profile.displayName || user.displayName || user.email).split(' ')[0];
+            const wEl = document.getElementById('profileWrap');
+            const nEl = document.getElementById('profileNameShort');
+            const aEl = document.getElementById('profileAvatar');
+            if (nEl) nEl.textContent = nameShort;
+            if (aEl) buildAvatar(aEl, user);
+            if (wEl) wEl.style.display = 'flex';
             if (typeof window._pendingFeedbackSetup === 'function') {
               window._pendingFeedbackSetup();
               window._pendingFeedbackSetup = null;
