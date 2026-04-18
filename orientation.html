@@ -642,7 +642,7 @@
       ? res.type === 'video'
         ? `<div class="res-thumb-wrap">
              <img class="res-thumb" src="${escHtml(res.thumbnail)}" alt="" loading="lazy"
-               onerror="this.parentElement.innerHTML='<div class=\\'res-icon video\\'>▶️</div>'" />
+               onerror="this.style.display='none'" />
              <div class="res-thumb-play">
                <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
                  <circle cx="18" cy="18" r="18" fill="rgba(0,0,0,.45)"/>
@@ -652,7 +652,7 @@
            </div>`
         : `<img class="res-thumb" src="${escHtml(res.thumbnail)}" alt="" loading="lazy"
              style="height:80px;width:58px;object-fit:cover;border-radius:6px"
-             onerror="this.outerHTML='<div class=\\'res-icon book\\'>📗</div>'" />`
+             onerror="this.style.display='none'" />`
       : `<div class="res-icon ${meta.iconClass}">${meta.icon}</div>`;
 
     return `
