@@ -13,11 +13,10 @@ Teachers Hub is a tool suite for Eduversal's teachers, academic coordinators, an
 ```
 Eduversal Web/                    ← monorepo root (not a deployed app)
 ├── Academic Hub/                 ← analytics dashboards (Vercel)
-├── CentralHub/                   ← admin control panel (Vercel)
+├── Central Hub/                  ← admin control panel (Vercel)
 │   ├── firestore.rules           ← ⚠️ ONLY Firestore rules file — deploy from here
 │   └── firebase.json             ← firebase deploy config
 ├── Teachers Hub/                 ← THIS app (Vercel)
-├── migrate-auth-and-firestore.js ← one-time migration script
 └── keys/                         ← service account JSON keys (gitignored)
 ```
 
