@@ -929,14 +929,9 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 
       </select>
 
-      <button class="class-manage-btn" id="classManageBtn" onclick="manageClasses()" style="display:none" title="Add/remove class groups">&#9881;</button>
 
     </div>
 
-        <div class="role-badge" id="roleBadge">
-      <span class="role-dot" id="roleDot"></span>
-      <span id="roleLabel">Teacher</span>
-    </div>
   </div>
 </header>
 
@@ -1012,8 +1007,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
         </div>
         <button class="btn" id="expandAllBtn" onclick="expandAll()">Expand All</button>
         <button class="btn" id="collapseAllBtn" onclick="collapseAll()">Collapse All</button>
-        <button class="btn primary" id="resetBtn" onclick="resetProgress()" style="display:none">Reset All</button>
-        <button class="btn" id="teacherResetBtn" onclick="resetMyProgress()" style="display:none" title="Reset your own progress">Reset My Progress</button>
       </div>
     </div>
 
@@ -1190,11 +1183,10 @@ window.PACING_CONFIG = {
 // STATE  (var so the Firebase module can write window.DATA)
 // -----------------------------------------------------------
 var DATA = [];
-var role = 'teacher'; // 'teacher' | 'admin'
 
 // Class-based progress
 var currentClass = 'default'; // 'default' = shared / all classes
-var classList    = [];        // populated from Firestore meta doc (admin-managed)
+var classList    = [];        // fallback class list from Firestore structure meta
 
 // Cross-subject weekly data cache
 var crossSubjData = {
@@ -1518,7 +1510,6 @@ function renderPacing() {
               return pageTopics.map(({t, ti}) => {
                 const codes   = parseObjCodes(t.objective, t.syllabusRefs);
                 const rowClass = t.status === 'done' ? 'done-row' : t.status === 'inprogress' ? 'inprogress-row' : '';
-                const isAdmin  = role === 'admin';
                 const hasRes   = (t.resources || []).length > 0;
                 return `
                 <tr class="${rowClass}" id="row-${ci}-${ti}">
@@ -1528,20 +1519,20 @@ function renderPacing() {
                   </td>
                   <td class="topic-cell">
                     <div class="topic-name ${t.status==='done'?'struck':''} editable"
-                      contenteditable="${isAdmin}"
+                      contenteditable="false"
                       data-field="topic" data-ci="${ci}" data-ti="${ti}"
                       onblur="saveEdit(this,${ci},${ti},'topic')"
                       onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
                     >${escHtml(t.topic)}</div>
                     ${codes.length ? `<div class="obj-codes">${codes.map(c => `<span class="obj-code" onclick="showObj(${ci},${ti})">${c}</span>`).join('')}</div>` : ''}
                     <div class="topic-obj-line editable"
-                      contenteditable="${isAdmin}"
+                      contenteditable="false"
                       data-field="objective" data-ci="${ci}" data-ti="${ti}"
                       onblur="saveEdit(this,${ci},${ti},'objective')"
                     >${_renderObjCell(t.objective)}${_objNeedsSeeMore(t.objective) ? ` <span class="obj-code" style="cursor:pointer" onclick="event.stopPropagation();showObj(${ci},${ti})">see full</span>` : ''}</div>
                     <div class="topic-meta-line">
                       <span class="meta-pill meta-pill-hours editable"
-                        contenteditable="${isAdmin}"
+                        contenteditable="false"
                         data-field="hour" data-ci="${ci}" data-ti="${ti}"
                         onblur="saveEdit(this,${ci},${ti},'hour')"
                         onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
@@ -2213,11 +2204,7 @@ function deleteNote(ci, ti) {
 async function buildClassSelector() {
   const wrap   = document.getElementById('classSelectorWrap');
   const select = document.getElementById('classSelect');
-  const manBtn = document.getElementById('classManageBtn');
   if (!wrap || !select) return;
-
-  wrap.style.display = 'flex';
-  if (manBtn) manBtn.style.display = role === 'admin' ? '' : 'none';
 
   const p = window.userProfile;
   const profileClasses =
@@ -2235,6 +2222,8 @@ async function buildClassSelector() {
   const effectiveList = profileClasses ||
     (schoolClasses.length ? schoolClasses.map(c => c.name) : classList);
 
+  wrap.style.display = effectiveList.length > 0 ? 'flex' : 'none';
+
   select.innerHTML = '<option value="default">All Classes</option>';
   effectiveList.forEach(cls => {
     const opt = document.createElement('option');
@@ -2250,27 +2239,6 @@ function switchClass(cls) {
   currentClass = cls;
   // Notify Firebase module to switch progress path
   if (window.__fbSwitchClass) window.__fbSwitchClass(cls);
-}
-
-async function manageClasses() {
-  const res = await _showCm({
-    title: 'Manage Class Groups',
-    msg: 'Enter class names separated by commas (e.g. 7A, 7B, 8A). These define separate progress paths per class.',
-    fields: [{ id: 'classes', label: 'Class groups', ph: '7A, 7B, 8A', val: classList.join(', ') }]
-  });
-  if (!res) return;
-  const raw = (res.classes || '').split(',').map(s => s.trim()).filter(Boolean);
-  classList = [...new Set(raw)];
-  await buildClassSelector();
-  // Save class list to Firestore structure meta
-  if (window.__fbSaveClassList) window.__fbSaveClassList(classList);
-  showToast('Class groups saved');
-}
-
-function resetProgress() {
-  if (!confirm('Reset your progress All topics will return to Pending.')) return;
-  DATA.forEach(ch => ch.topics.forEach(t => t.status = 'pending'));
-  saveState(); render(); showToast('Your progress has been reset');
 }
 
 function clearSearch(){
@@ -2377,27 +2345,6 @@ function closeObjModal(e) {
 }
 
 // -----------------------------------------------------------
-// ROLE - set by Firebase module after auth
-// -----------------------------------------------------------
-function applyRole(r) {
-  role = r;
-  const dot      = document.getElementById('roleDot');
-  const label    = document.getElementById('roleLabel');
-  const resetBtn = document.getElementById('resetBtn');
-  if (r === 'admin') {
-    if (dot)   dot.className     = 'role-dot role-dot-admin';
-    if (label) label.textContent = 'Admin';
-    if (resetBtn) resetBtn.style.display = '';
-  } else {
-    if (dot)   dot.className     = 'role-dot role-dot-teacher';
-    if (label) label.textContent = 'Teacher';
-    if (resetBtn) resetBtn.style.display = 'none';
-  }
-  await buildClassSelector();
-  render();
-}
-
-// -----------------------------------------------------------
 // TOAST
 // -----------------------------------------------------------
 let toastTimer;
@@ -2457,12 +2404,11 @@ const db = getFirestore(window.firebaseApp);
 let unsubStructure  = null;   // listener for shared chapter structure
 let unsubUserProg   = null;   // listener for this user's own progress
 let currentUID      = null;
-let currentRole = 'teacher';
 let sharedStructure = null;   // chapters/topics without statuses
 let userStatuses    = {};     // { "ci-ti": "pending"|"inprogress"|"done" }
 
 // â"€â"€ Merge shared structure + per-user statuses â†' window.DATA â"€â"€
-function _mergeAndRender(isFirstLoad, appRole) {
+async function _mergeAndRender(isFirstLoad) {
   if (!sharedStructure) return;
   window.DATA = sharedStructure.map((ch, ci) => ({
     ...ch,
@@ -2477,19 +2423,19 @@ function _mergeAndRender(isFirstLoad, appRole) {
   }));
   if (isFirstLoad) {
     document.getElementById('loadingScreen').style.display = 'none';
-    applyRole(appRole);   // sets role var, updates badge, calls render()
+    await buildClassSelector();
+    render();
   } else {
     render();
   }
 }
 
 // â"€â"€ Start real-time listeners â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
-function _startSnapshot(uid, appRole) {
+function _startSnapshot(uid) {
   if (unsubStructure) unsubStructure();
   if (unsubUserProg)  unsubUserProg();
 
   currentUID  = uid;
-  currentRole = appRole;
 
   const structureRef = doc(db, 'asalevel_math_pacing', 'year11-12');
   const userProgRef  = doc(db, 'userProgress', currentUID);
@@ -2502,7 +2448,7 @@ function _startSnapshot(uid, appRole) {
     if (!structureReady || !progressReady) return;
     const fl = firstLoad;
     firstLoad = false;
-    _mergeAndRender(fl, appRole);
+    _mergeAndRender(fl);
   }
 
   // â"€â"€ Shared structure listener â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
@@ -2512,30 +2458,31 @@ function _startSnapshot(uid, appRole) {
     // Load class list from structure meta
     if (snap.exists() && Array.isArray(snap.data().classes)) {
       classList = snap.data().classes;
-    
+    }
+    structureReady = true;
+    tryRender();
+  }, async (err) => {
+    console.error('Structure snapshot error:', err);
+    sharedStructure = [];
+    structureReady  = true;
+    document.getElementById('loadingScreen').style.display = 'none';
+    await buildClassSelector();
+    render();
+    showToast('Firestore connection error');
+  });
 
   // Fallback: if Firestore snapshots don't return within 8s, unblock the UI
-  const _loadTimeout = setTimeout(() => {
+  const _loadTimeout = setTimeout(async () => {
     if (!structureReady || !progressReady) {
       sharedStructure = sharedStructure || [];
       userStatuses    = userStatuses    || {};
       structureReady  = true;
       progressReady   = true;
       document.getElementById('loadingScreen').style.display = 'none';
-      applyRole(appRole);
+      await buildClassSelector();
+      render();
     }
   }, 8000);
-}
-    structureReady = true;
-    tryRender();
-  }, (err) => {
-    console.error('Structure snapshot error:', err);
-    sharedStructure = [];
-    structureReady  = true;
-    document.getElementById('loadingScreen').style.display = 'none';
-    applyRole(appRole);
-    showToast('Firestore connection error');
-  });
 
   // â"€â"€ Per-user progress listener â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
@@ -2598,23 +2545,6 @@ window.__fbSaveState = async function(data) {
     return;
   }
 
-  // 3. Coordinators also save structure changes (no statuses stored here)
-  if (currentRole === 'admin') {
-    const structureOnly = data.map(ch => ({
-      ...ch,
-      topics: ch.topics.map(({ status, note, diag, actualHour, ...rest }) => rest),
-    }));
-    try {
-      await setDoc(
-        doc(db, 'asalevel_math_pacing', 'year11-12'),
-        { chapters: structureOnly, updatedAt: serverTimestamp() },
-        { merge: true }
-      );
-    } catch(e) {
-      console.error('Structure save error:', e);
-      showToast('Structure save failed');
-    }
-  }
 };
 
 // -- One-shot document fetch for cross-subject data --
@@ -2631,35 +2561,17 @@ window.__fbGetDoc = async function(colName, docName) {
 window.__fbSwitchClass = function(cls) {
   if (!sharedStructure) return;
   currentClass = cls;
-  _startSnapshot(currentUID, currentRole);
-};
-
-// -- Save class list into the shared structure meta --
-window.__fbSaveClassList = async function(list) {
-  const db = window.db;
-  try {
-    await setDoc(
-      doc(db, 'asalevel_math_pacing', 'year11-12'),
-      { classes: list, updatedAt: serverTimestamp() },
-      { merge: true }
-    );
-  } catch(e) { console.error('Class list save error:', e); }
+  _startSnapshot(currentUID);
 };
 
 // -- auth-guard dispatches authReady when auth + role confirmed --
 document.addEventListener('authReady', ({ detail: { user, profile } }) => {
-  const appRole = profile.role_teachershub === 'teachers_admin' ? 'admin' : 'teacher';
-  // Show tracker link for subject leaders and admins
+  // Show tracker link for subject leaders
   const _thSubs = profile.th_sub_roles || [];
-  if (appRole === 'admin' || _thSubs.includes('subject_leader')) {
+  if (_thSubs.includes('subject_leader')) {
     const _tl = document.getElementById('trackerLink');
     if (_tl) _tl.style.display = 'inline-flex';
   }
-
-  const roleDot   = document.getElementById('roleDot');
-  const roleLabel = document.getElementById('roleLabel');
-  if (roleDot)   { roleDot.className = 'role-dot ' + (appRole === 'admin' ? 'role-dot-admin' : 'role-dot-teacher'); }
-  if (roleLabel) { roleLabel.textContent = appRole === 'admin' ? 'Admin' : 'Teacher'; }
 
   import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js').then(({ signOut }) => {
     window.authSignOut = () => signOut(window.auth).then(() => { window.location.href = 'login.html'; });
@@ -2683,7 +2595,7 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     })
     .catch(err => console.error('[asalevel-math] navbar load error:', err));
 
-  _startSnapshot(user.uid, appRole);
+  _startSnapshot(user.uid);
 });
 </script>
 </body>

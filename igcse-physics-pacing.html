@@ -798,7 +798,6 @@ table.topics-tbl td:last-child { white-space: nowrap; }
         </div>
         <button class="btn" id="expandAllBtn" onclick="expandAll()">Expand All</button>
         <button class="btn" id="collapseAllBtn" onclick="collapseAll()">Collapse All</button>
-        <button class="btn" id="teacherResetBtn" onclick="resetMyProgress()" style="display:none" title="Reset your own progress">Reset My Progress</button>
       </div>
     </div>
 
@@ -1004,11 +1003,9 @@ window.PACING_CONFIG = {
 // STATE  (var so the Firebase module can write window.DATA)
 // -----------------------------------------------------------
 var DATA = [];
-var role = 'teacher'; // 'teacher' | 'admin'
-
 // Class-based progress
 var currentClass = 'default'; // 'default' = shared / all classes
-var classList    = [];        // populated from Firestore meta doc (admin-managed)
+var classList    = [];        // fallback class list from Firestore structure meta
 var _objPrefixes = [];        // populated from Firestore meta doc; falls back to C/E auto-detect
 
 // Cross-subject weekly data cache — keyed by subject key
@@ -2550,17 +2547,6 @@ document.addEventListener('keydown', e => {
 });
 
 // -----------------------------------------------------------
-// ROLE - set by Firebase module after auth
-// -----------------------------------------------------------
-function applyRole(r) {
-  role = 'teacher'; // TH is teacher-only; role param kept for shared-JS compatibility
-  const tr = document.getElementById('teacherResetBtn');
-  if (tr) tr.style.display = 'inline-block';
-  await buildClassSelector();
-  render();
-}
-
-// -----------------------------------------------------------
 // AO BADGE HELPERS
 // Cambridge IGCSE 0580: AO1 = Knowledge & techniques (Core 60-70%, Ext 40-50%)
 //                       AO2 = Analyse/Interpret/Communicate (Core 30-40%, Ext 50-60%)
@@ -2697,7 +2683,6 @@ import {
 let unsubStructure  = null;   // listener for shared chapter structure
 let unsubUserProg   = null;   // listener for this user's own progress
 let currentUID      = null;
-let currentRole = 'teacher';
 let sharedStructure = null;   // chapters/topics without statuses
 let userStatuses    = {};     // { "chId.tId": status, "note.chId.tId": note, ... }
 
@@ -2733,7 +2718,7 @@ function _migrateLegacyKeys(rawStatuses) {
 }
 
 // -- Merge shared structure + per-user statuses → window.DATA ------
-async function _mergeAndRender(isFirstLoad, appRole) {
+async function _mergeAndRender(isFirstLoad) {
   if (!sharedStructure) return;
 
   // Migrate legacy ci-ti keys once, then persist so next load skips migration
@@ -2769,19 +2754,19 @@ async function _mergeAndRender(isFirstLoad, appRole) {
 
   if (isFirstLoad) {
     const _ls = document.getElementById('loadingScreen'); if (_ls) _ls.style.display = 'none';
-    applyRole(appRole);   // sets role var, updates badge, calls render()
+    await buildClassSelector();
+    render();
   } else {
     render();
   }
 }
 
 // -- Start real-time listeners -------------------------------------
-function _startSnapshot(uid, appRole) {
+function _startSnapshot(uid) {
   if (unsubStructure) unsubStructure();
   if (unsubUserProg)  unsubUserProg();
 
   currentUID  = uid;
-  currentRole = appRole;
 
   const db           = window.db;
   const structureRef = doc(db, window.SUBJECT_CONFIG.collection, window.SUBJECT_CONFIG.docId);
@@ -2795,7 +2780,7 @@ function _startSnapshot(uid, appRole) {
     if (!structureReady || !progressReady) return;
     const fl = firstLoad;
     firstLoad = false;
-    _mergeAndRender(fl, appRole);
+    _mergeAndRender(fl);
   }
 
   // -- Shared structure listener ---------------------------------
@@ -2812,11 +2797,12 @@ function _startSnapshot(uid, appRole) {
     }
     structureReady = true;
     tryRender();
-  }, (err) => {
+  }, async (err) => {
     console.error('Structure snapshot error:', err);
     sharedStructure = [];
     structureReady  = true;
-    applyRole(appRole);
+    await buildClassSelector();
+    render();
     showToast('Firestore connection error');
   });
 
@@ -2848,7 +2834,8 @@ function _startSnapshot(uid, appRole) {
       structureReady  = true;
       progressReady   = true;
       const _ls = document.getElementById('loadingScreen'); if (_ls) _ls.style.display = 'none';
-      applyRole(appRole);
+      await buildClassSelector();
+      render();
     }
   }, 8000);
 }
@@ -2939,7 +2926,7 @@ window.__fbGetDoc = async function(colName, docName) {
 window.__fbSwitchClass = function(cls) {
   if (!sharedStructure) return;
   currentClass = cls;
-  _startSnapshot(currentUID, currentRole);
+  _startSnapshot(currentUID);
 };
 
 // Class groups are managed exclusively in Central Hub (igcse-pacing.html settings).
@@ -2957,10 +2944,9 @@ async function loadSyllabus() {
 
 // -- auth-guard.js dispatches authReady when auth + role confirmed -
 document.addEventListener('authReady', ({ detail: { user, profile } }) => {
-  const appRole = profile.role_teachershub === 'teachers_admin' ? 'admin' : 'teacher';
-  // Show tracker link for subject leaders and admins
+  // Show tracker link for subject leaders
   const _thSubs = profile.th_sub_roles || [];
-  if (appRole === 'admin' || _thSubs.includes('subject_leader')) {
+  if (_thSubs.includes('subject_leader')) {
     const _tl = document.getElementById('trackerLink');
     if (_tl) _tl.style.display = 'inline-flex';
   }
@@ -2989,7 +2975,7 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
       if (wEl) wEl.style.display = 'flex';
     });
 
-  _startSnapshot(user.uid, appRole);
+  _startSnapshot(user.uid);
 });
 </script>
 </body>
