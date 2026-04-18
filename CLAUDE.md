@@ -2,7 +2,14 @@
 
 ## What This App Is
 
-Teachers Hub is a tool suite for Eduversal's teachers, academic coordinators, and central administrators. It provides pacing guides (IGCSE subjects), an announcements feed, a message board, and a resource library. It is a **vanilla HTML/CSS/JS application** (no React, no bundler framework). Pages are plain `.html` files with inline scripts that load Firebase via CDN.
+Teachers Hub is the **partner school teacher portal** for Eduversal's network. Its users are teaching staff at partner schools:
+
+- **Subject Teachers** — classroom teachers delivering Cambridge curriculum
+- **Subject Leaders** — heads of department overseeing subject delivery and cohort progress
+
+Key features: curriculum pacing guides for all Cambridge levels (IGCSE, AS/A-Level, Checkpoint — 11 subjects total), subject leader cohort trackers, teaching competency framework with learning path and evidence portfolio, weekly checklists (role-based), teacher KPI and appraisal results, Cambridge exam calendar, surveys, announcements feed, message board, and resource library.
+
+New users complete a profile setup (school, subjects, classes, sub-role) then require approval from a `central_admin` before accessing the platform. It is a **vanilla HTML/CSS/JS application** (no React, no bundler framework). Pages are plain `.html` files with inline scripts that load Firebase via CDN.
 
 **Deployment:** Vercel (build output in `dist/`).
 
