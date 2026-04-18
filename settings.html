@@ -1082,16 +1082,20 @@ function renderClassEditors() {
     const sel = document.createElement('select');
     sel.className = 'class-add-input';
 
+    const GRADE_RANGE = { checkpoint: [7, 8], igcse: [9, 10], asalevel: [11, 12] };
+
     function rebuildDropdown() {
       const selected = new Set(_slClasses[key] || []);
+      const [minG, maxG] = GRADE_RANGE[lv] || [1, 13];
+      const filtered = _schoolClasses.filter(c => c.grade >= minG && c.grade <= maxG);
       sel.innerHTML = '';
       const placeholder = document.createElement('option');
       placeholder.value = '';
-      placeholder.textContent = _schoolClasses.length
+      placeholder.textContent = filtered.length
         ? '— Pick a class —'
-        : '— No classes yet for this school —';
+        : '— No classes yet for this level —';
       sel.appendChild(placeholder);
-      _schoolClasses.forEach(c => {
+      filtered.forEach(c => {
         if (selected.has(c.name)) return; // already added
         const opt = document.createElement('option');
         opt.value = c.name;
@@ -1134,8 +1138,9 @@ function renderClassEditors() {
     const gradeInput = document.createElement('input');
     gradeInput.type = 'number';
     gradeInput.className = 'class-add-input class-grade-input';
-    gradeInput.placeholder = 'Grade (e.g. 10)';
-    gradeInput.min = 1; gradeInput.max = 13;
+    const [minGr, maxGr] = { checkpoint: [7, 8], igcse: [9, 10], asalevel: [11, 12] }[lv] || [1, 13];
+    gradeInput.placeholder = `Grade (${minGr}–${maxGr})`;
+    gradeInput.min = minGr; gradeInput.max = maxGr;
 
     const sectionInput = document.createElement('input');
     sectionInput.type = 'text';
@@ -1173,13 +1178,10 @@ function renderClassEditors() {
         });
         _schoolClasses.push({ id: classRef.id, name: className, grade, section });
         _schoolClasses.sort((a, b) => a.grade - b.grade || a.section.localeCompare(b.section));
-        gradeInput.value = ''; sectionInput.value = '';
-        newRow.style.display = 'none';
-        newToggle.textContent = '+ Define new class';
-        // Auto-select the new class
+        // Auto-select the new class in this combo
         if (!_slClasses[key].includes(className)) _slClasses[key].push(className);
-        renderTags();
-        rebuildDropdown();
+        // Re-render all editors so every combo's dropdown refreshes
+        renderClassEditors();
       } catch { newErr.textContent = 'Failed to save. Try again.'; }
       finally { saveNewBtn.disabled = false; }
     };
