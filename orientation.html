@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher Orientation — Eduversal Teachers Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #1c1c2e;
+      --ink-2: #44445a;
+      --ink-3: #8888a8;
+      --paper: #f7f6f3;
+      --paper-2: #efede8;
+      --white: #ffffff;
+      --border: #e0ddd6;
+      --brand: #6c5ce7;
+      --brand-2: #ede9fe;
+      --green: #059669;
+      --green-2: #d1fae5;
+      --red: #dc2626;
+      --red-2: #fee2e2;
+      --amber: #b07800;
+      --amber-2: #fef8e7;
+      --blue: #1a5fa8;
+      --blue-2: #e8f0fb;
+      --shadow-sm: 0 1px 4px rgba(28,28,46,.07);
+      --shadow: 0 3px 14px rgba(28,28,46,.10);
+      --shadow-lg: 0 10px 40px rgba(28,28,46,.16);
+      --radius: 10px;
+      --radius-lg: 16px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #0a0a1a 0%, #1a1040 60%, #2d1b69 100%);
+      color: white;
+      padding: 56px 24px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(108,92,231,.35) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      opacity: .85;
+    }
+    .hero-logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-logo-text { font-size: 18px; font-weight: 700; letter-spacing: -.3px; }
+    .hero-logo-sub  { font-size: 12px; opacity: .6; font-weight: 500; }
+    .hero h1 {
+      font-size: clamp(26px, 5vw, 40px);
+      font-weight: 800;
+      letter-spacing: -.5px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .hero p {
+      font-size: 16px;
+      opacity: .75;
+      max-width: 520px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(108,92,231,.25);
+      border: 1px solid rgba(108,92,231,.4);
+      color: #c4b5fd;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    /* ── TABS ── */
+    .tabs-wrap {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+    .tabs {
+      display: flex;
+      max-width: 860px;
+      margin: 0 auto;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex-shrink: 0;
+      padding: 16px 20px;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink-3);
+      cursor: pointer;
+      transition: color .18s, border-color .18s;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .tab-btn.on {
+      color: var(--brand);
+      border-bottom-color: var(--brand);
+    }
+    .tab-btn:hover:not(.on) { color: var(--ink-2); }
+
+    /* ── LAYOUT ── */
+    .page-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+    .section { display: none; }
+    .section.on { display: block; }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow .2s;
+    }
+    .card:hover { box-shadow: var(--shadow); }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--ink-3);
+      margin-bottom: 16px;
+    }
+
+    /* ── RESOURCE CARDS ── */
+    .res-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .res-card:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+    .res-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .res-icon.handbook { background: #e8f0fb; }
+    .res-icon.video    { background: #fee2e2; }
+    .res-icon.book     { background: #d1fae5; }
+    .res-icon.link     { background: var(--brand-2); }
+    .res-body { flex: 1; min-width: 0; }
+    .res-title { font-weight: 700; font-size: 15px; margin-bottom: 3px; }
+    .res-desc  { font-size: 13px; color: var(--ink-2); line-height: 1.45; }
+    .res-badge {
+      display: inline-block;
+      font-size: 11px; font-weight: 700;
+      padding: 2px 8px; border-radius: 20px;
+      margin-top: 6px; text-transform: uppercase; letter-spacing: .4px;
+    }
+    .res-badge.handbook { background: var(--blue-2); color: var(--blue); }
+    .res-badge.video    { background: var(--red-2); color: var(--red); }
+    .res-badge.book     { background: var(--green-2); color: var(--green); }
+    .res-badge.link     { background: var(--brand-2); color: var(--brand); }
+    .res-arrow { color: var(--ink-3); font-size: 18px; align-self: center; flex-shrink: 0; }
+
+    /* ── COMPETENCY QUIZ ── */
+    .quiz-intro {
+      background: var(--brand-2);
+      border: 1px solid rgba(108,92,231,.2);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .quiz-intro-icon { font-size: 28px; flex-shrink: 0; }
+    .quiz-intro-text h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: var(--brand); }
+    .quiz-intro-text p  { font-size: 13px; color: var(--ink-2); }
+
+    .q-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      margin-bottom: 14px;
+    }
+    .q-num {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .6px; color: var(--brand); margin-bottom: 8px;
+    }
+    .q-text { font-size: 15px; font-weight: 600; margin-bottom: 14px; color: var(--ink); }
+    .q-options { display: flex; flex-direction: column; gap: 8px; }
+    .q-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .q-option:hover { border-color: var(--brand); background: var(--brand-2); }
+    .q-option input[type="radio"] { margin-top: 2px; accent-color: var(--brand); flex-shrink: 0; }
+    .q-option.selected { border-color: var(--brand); background: var(--brand-2); }
+
+    /* ── FORM ── */
+    .form-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin-bottom: 16px;
+    }
+    .form-row { margin-bottom: 18px; }
+    .form-label {
+      display: block;
+      font-size: 13px; font-weight: 600;
+      color: var(--ink-2);
+      margin-bottom: 6px;
+    }
+    .form-label .req { color: var(--red); }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--white);
+      transition: border-color .15s;
+      outline: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(108,92,231,.1);
+    }
+    .form-textarea { resize: vertical; min-height: 90px; }
+    .form-hint {
+      font-size: 12px; color: var(--ink-3); margin-top: 5px;
+    }
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 560px) { .form-row-2 { grid-template-columns: 1fr; } }
+
+    .form-err {
+      background: var(--red-2);
+      border: 1px solid #fca5a5;
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--red);
+      margin-bottom: 16px;
+      display: none;
+    }
+    .form-err.on { display: block; }
+
+    /* ── SUBMIT STATE ── */
+    .submit-state {
+      text-align: center;
+      padding: 48px 24px;
+      display: none;
+    }
+    .submit-state.on { display: block; }
+    .submit-icon {
+      width: 72px; height: 72px;
+      background: var(--green-2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 34px;
+      margin: 0 auto 20px;
+    }
+    .submit-state h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+    .submit-state p  { font-size: 15px; color: var(--ink-2); max-width: 400px; margin: 0 auto; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 20px;
+      border-radius: var(--radius);
+      font-family: inherit; font-size: 14px; font-weight: 600;
+      cursor: pointer; border: none; transition: opacity .15s, transform .1s;
+    }
+    .btn:active { transform: scale(.98); }
+    .btn-primary { background: var(--brand); color: white; }
+    .btn-primary:hover { opacity: .9; }
+    .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-ghost {
+      background: none; border: 1.5px solid var(--border);
+      color: var(--ink-2);
+    }
+    .btn-ghost:hover { border-color: var(--ink-3); }
+
+    /* ── PROGRESS BAR ── */
+    .quiz-progress {
+      background: var(--paper-2);
+      border-radius: 20px;
+      height: 6px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .quiz-progress-fill {
+      height: 100%;
+      background: var(--brand);
+      border-radius: 20px;
+      transition: width .3s ease;
+    }
+    .quiz-progress-label {
+      font-size: 12px; color: var(--ink-3); font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    /* ── EMPTY / LOADING ── */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--ink-3);
+    }
+    .empty-state-icon { font-size: 40px; margin-bottom: 12px; }
+    .empty-state p { font-size: 14px; }
+
+    .spinner-wrap { text-align: center; padding: 48px; }
+    .spinner {
+      width: 32px; height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--brand);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── QUIZ ACTIONS ── */
+    .quiz-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .quiz-unanswered {
+      font-size: 13px; color: var(--amber); font-weight: 600;
+      display: none;
+    }
+    .quiz-unanswered.on { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-logo">
+    <div class="hero-logo-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+      </svg>
+    </div>
+    <div>
+      <div class="hero-logo-text">Eduversal</div>
+      <div class="hero-logo-sub">Teachers Hub</div>
+    </div>
+  </div>
+  <div class="hero-badge">New Teacher Orientation</div>
+  <h1>Welcome to the Eduversal Network</h1>
+  <p>Everything you need to get started as a partner school teacher — handbooks, resources, and a quick competency check.</p>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn on" data-tab="resources" onclick="switchTab('resources')">
+      <span>📚</span> Resources
+    </button>
+    <button class="tab-btn" data-tab="competency" onclick="switchTab('competency')">
+      <span>✅</span> Competency Check
+    </button>
+    <button class="tab-btn" data-tab="register" onclick="switchTab('register')">
+      <span>📋</span> Register
+    </button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="page-wrap">
+
+  <!-- ── RESOURCES TAB ── -->
+  <div id="tab-resources" class="section on">
+    <p class="section-title">Handbooks</p>
+    <div id="handbooks-list">
+      <div class="spinner-wrap"><div class="spinner"></div></div>
+    </div>
+
+    <p class="section-title" style="margin-top:28px;">Recommended Videos</p>
+    <div id="videos-list">
+      <div class="spinner-wrap"><div class="spinner"></div></div>
+    </div>
+
+    <p class="section-title" style="margin-top:28px;">Recommended Books</p>
+    <div id="books-list">
+      <div class="spinner-wrap"><div class="spinner"></div></div>
+    </div>
+  </div>
+
+  <!-- ── COMPETENCY TAB ── -->
+  <div id="tab-competency" class="section">
+    <div class="quiz-intro">
+      <div class="quiz-intro-icon">🎯</div>
+      <div class="quiz-intro-text">
+        <h3>Basic Competency Check</h3>
+        <p>Answer all questions honestly — there are no right or wrong answers. This helps us understand where you are and how we can best support you.</p>
+      </div>
+    </div>
+
+    <div id="quiz-loading" class="spinner-wrap"><div class="spinner"></div></div>
+    <div id="quiz-empty" class="empty-state" style="display:none;">
+      <div class="empty-state-icon">📝</div>
+      <p>No questions have been added yet. Check back soon.</p>
+    </div>
+    <div id="quiz-content" style="display:none;">
+      <div class="quiz-progress-label" id="quiz-progress-label">0 of 0 answered</div>
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="quiz-progress-fill" style="width:0%"></div></div>
+      <div id="questions-list"></div>
+      <div class="quiz-actions">
+        <span class="quiz-unanswered" id="quiz-unanswered">Please answer all questions before continuing.</span>
+        <div style="flex:1"></div>
+        <button class="btn btn-primary" onclick="goToRegister()">Continue to Register →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── REGISTER TAB ── -->
+  <div id="tab-register" class="section">
+
+    <!-- Success state -->
+    <div class="submit-state" id="submit-success">
+      <div class="submit-icon">✅</div>
+      <h2>Registration Submitted!</h2>
+      <p>Thank you! We've received your information and will be in touch soon. Welcome to the Eduversal network.</p>
+    </div>
+
+    <!-- Form -->
+    <div id="register-form-wrap">
+      <div class="form-card">
+        <p class="section-title">Personal Information</p>
+        <div class="form-row-2">
+          <div class="form-row" style="margin-bottom:0">
+            <label class="form-label" for="r-fname">First Name <span class="req">*</span></label>
+            <input class="form-input" id="r-fname" type="text" placeholder="e.g. Siti" autocomplete="given-name" />
+          </div>
+          <div class="form-row" style="margin-bottom:0">
+            <label class="form-label" for="r-lname">Last Name <span class="req">*</span></label>
+            <input class="form-input" id="r-lname" type="text" placeholder="e.g. Rahayu" autocomplete="family-name" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <p class="section-title">Contact & School</p>
+        <div class="form-row">
+          <label class="form-label" for="r-email">Email Address <span class="req">*</span></label>
+          <input class="form-input" id="r-email" type="email" placeholder="your@school.sch.id" autocomplete="email" />
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="r-school">School Name <span class="req">*</span></label>
+          <input class="form-input" id="r-school" type="text" placeholder="e.g. SMA Negeri 1 Jakarta" />
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="r-subject">Subject(s) Taught <span class="req">*</span></label>
+          <input class="form-input" id="r-subject" type="text" placeholder="e.g. Mathematics, Physics" />
+        </div>
+        <div class="form-row" style="margin-bottom:0">
+          <label class="form-label" for="r-level">Level(s) Taught <span class="req">*</span></label>
+          <select class="form-select" id="r-level">
+            <option value="">Select level…</option>
+            <option>Cambridge Checkpoint (Year 7–9)</option>
+            <option>IGCSE (Year 10–11)</option>
+            <option>AS / A-Level (Year 12–13)</option>
+            <option>Multiple levels</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <p class="section-title">Professional Profile</p>
+        <div class="form-row">
+          <label class="form-label" for="r-cv">CV / Resume Link <span class="req">*</span></label>
+          <input class="form-input" id="r-cv" type="url" placeholder="https://drive.google.com/…" />
+          <p class="form-hint">Share a public Google Drive link to your CV.</p>
+        </div>
+        <div class="form-row" style="margin-bottom:0">
+          <label class="form-label" for="r-note">Anything else you'd like us to know</label>
+          <textarea class="form-textarea" id="r-note" placeholder="Optional — teaching background, certifications, questions, etc."></textarea>
+        </div>
+      </div>
+
+      <div class="form-err" id="form-err"></div>
+
+      <div style="display:flex; justify-content:flex-end;">
+        <button class="btn btn-primary" id="submit-btn" onclick="submitRegistration()">
+          Submit Registration
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- Firebase & App Script -->
+<script src="firebase-config.js"></script>
+<script>
+  if (!window.ENV) window.ENV = {
+    FIREBASE_API_KEY: '__FIREBASE_API_KEY__',
+    FIREBASE_AUTH_DOMAIN: '__FIREBASE_AUTH_DOMAIN__',
+    FIREBASE_PROJECT_ID: '__FIREBASE_PROJECT_ID__',
+    FIREBASE_STORAGE_BUCKET: '__FIREBASE_STORAGE_BUCKET__',
+    FIREBASE_MESSAGING_SENDER_ID: '__FIREBASE_MESSAGING_SENDER_ID__',
+    FIREBASE_APP_ID: '__FIREBASE_APP_ID__',
+  };
+</script>
+<script type="module">
+  import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+  import {
+    getFirestore, collection, getDocs, addDoc, serverTimestamp, query, orderBy, where
+  } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+  // Init Firebase
+  const firebaseConfig = {
+    apiKey:            window.ENV.FIREBASE_API_KEY,
+    authDomain:        window.ENV.FIREBASE_AUTH_DOMAIN,
+    projectId:         window.ENV.FIREBASE_PROJECT_ID,
+    storageBucket:     window.ENV.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
+    appId:             window.ENV.FIREBASE_APP_ID,
+  };
+  const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
+
+  // ── RESOURCES ──────────────────────────────────────────────────────────────
+
+  const TYPE_META = {
+    handbook: { icon: '📘', label: 'Handbook', iconClass: 'handbook' },
+    video:    { icon: '▶️',  label: 'Video',    iconClass: 'video'    },
+    book:     { icon: '📗',  label: 'Book',     iconClass: 'book'     },
+    link:     { icon: '🔗',  label: 'Link',     iconClass: 'link'     },
+  };
+
+  function renderResCard(res) {
+    const meta = TYPE_META[res.type] || TYPE_META.link;
+    return `
+      <a class="res-card" href="${escHtml(res.url)}" target="_blank" rel="noopener noreferrer">
+        <div class="res-icon ${meta.iconClass}">${meta.icon}</div>
+        <div class="res-body">
+          <div class="res-title">${escHtml(res.title)}</div>
+          ${res.description ? `<div class="res-desc">${escHtml(res.description)}</div>` : ''}
+          <span class="res-badge ${meta.iconClass}">${meta.label}</span>
+        </div>
+        <div class="res-arrow">›</div>
+      </a>`;
+  }
+
+  function emptyCard() {
+    return `<div class="empty-state"><div class="empty-state-icon">🗂️</div><p>Nothing here yet.</p></div>`;
+  }
+
+  async function loadResources() {
+    try {
+      const snap = await getDocs(query(
+        collection(db, 'orientation_resources'),
+        orderBy('order', 'asc')
+      ));
+      const resources = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+      const byType = (type) => resources.filter(r => r.type === type);
+
+      const handbookHtml = byType('handbook').map(renderResCard).join('') || emptyCard();
+      const videoHtml    = byType('video').map(renderResCard).join('')    || emptyCard();
+      const bookHtml     = byType('book').map(renderResCard).join('')     || emptyCard();
+
+      document.getElementById('handbooks-list').innerHTML = handbookHtml;
+      document.getElementById('videos-list').innerHTML    = videoHtml;
+      document.getElementById('books-list').innerHTML     = bookHtml;
+    } catch (e) {
+      console.error('loadResources:', e);
+      ['handbooks-list','videos-list','books-list'].forEach(id => {
+        document.getElementById(id).innerHTML =
+          `<div class="empty-state"><p>Could not load resources.</p></div>`;
+      });
+    }
+  }
+
+  // ── QUIZ ───────────────────────────────────────────────────────────────────
+
+  let questions  = [];
+  let answers    = {}; // questionId -> optionIndex
+
+  async function loadQuestions() {
+    try {
+      const snap = await getDocs(query(
+        collection(db, 'orientation_questions'),
+        orderBy('order', 'asc')
+      ));
+      questions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+      document.getElementById('quiz-loading').style.display = 'none';
+
+      if (questions.length === 0) {
+        document.getElementById('quiz-empty').style.display = 'block';
+        return;
+      }
+
+      document.getElementById('quiz-content').style.display = 'block';
+      renderQuestions();
+    } catch (e) {
+      console.error('loadQuestions:', e);
+      document.getElementById('quiz-loading').innerHTML =
+        '<p style="text-align:center;color:var(--ink-3)">Could not load questions.</p>';
+    }
+  }
+
+  function renderQuestions() {
+    const list = document.getElementById('questions-list');
+    list.innerHTML = questions.map((q, i) => `
+      <div class="q-card" id="qcard-${q.id}">
+        <div class="q-num">Question ${i + 1} of ${questions.length}</div>
+        <div class="q-text">${escHtml(q.question)}</div>
+        <div class="q-options">
+          ${(q.options || []).map((opt, j) => `
+            <label class="q-option" id="qopt-${q.id}-${j}">
+              <input type="radio" name="q-${q.id}" value="${j}"
+                onchange="selectAnswer('${q.id}', ${j}, '${escHtml(opt)}')" />
+              ${escHtml(opt)}
+            </label>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+    updateProgress();
+  }
+
+  window.selectAnswer = function(qId, optIdx, optText) {
+    answers[qId] = { idx: optIdx, text: optText };
+    // Highlight selected
+    const q = questions.find(q => q.id === qId);
+    if (q) {
+      (q.options || []).forEach((_, j) => {
+        const el = document.getElementById(`qopt-${qId}-${j}`);
+        if (el) el.classList.toggle('selected', j === optIdx);
+      });
+    }
+    updateProgress();
+    document.getElementById('quiz-unanswered').classList.remove('on');
+  };
+
+  function updateProgress() {
+    const total    = questions.length;
+    const answered = Object.keys(answers).length;
+    const pct      = total ? Math.round((answered / total) * 100) : 0;
+    document.getElementById('quiz-progress-fill').style.width  = pct + '%';
+    document.getElementById('quiz-progress-label').textContent =
+      `${answered} of ${total} answered`;
+  }
+
+  window.goToRegister = function() {
+    const unanswered = questions.filter(q => !(q.id in answers));
+    if (unanswered.length > 0) {
+      document.getElementById('quiz-unanswered').classList.add('on');
+      // Scroll to first unanswered
+      const el = document.getElementById(`qcard-${unanswered[0].id}`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    switchTab('register');
+  };
+
+  // ── REGISTRATION ───────────────────────────────────────────────────────────
+
+  window.submitRegistration = async function() {
+    const fname   = document.getElementById('r-fname').value.trim();
+    const lname   = document.getElementById('r-lname').value.trim();
+    const email   = document.getElementById('r-email').value.trim();
+    const school  = document.getElementById('r-school').value.trim();
+    const subject = document.getElementById('r-subject').value.trim();
+    const level   = document.getElementById('r-level').value;
+    const cvLink  = document.getElementById('r-cv').value.trim();
+    const note    = document.getElementById('r-note').value.trim();
+
+    const errEl = document.getElementById('form-err');
+    errEl.classList.remove('on');
+
+    if (!fname || !lname) return showErr('Please enter your first and last name.');
+    if (!email || !email.includes('@')) return showErr('Please enter a valid email address.');
+    if (!school) return showErr('Please enter your school name.');
+    if (!subject) return showErr('Please enter the subject(s) you teach.');
+    if (!level) return showErr('Please select the level(s) you teach.');
+    if (!cvLink) return showErr('Please provide your CV link.');
+    if (!cvLink.startsWith('http')) return showErr('CV link must be a valid URL starting with http.');
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    try {
+      // Build quiz answers payload
+      const quizAnswers = questions.map(q => ({
+        questionId:   q.id,
+        question:     q.question,
+        answerIdx:    answers[q.id]?.idx ?? null,
+        answerText:   answers[q.id]?.text ?? null,
+      }));
+
+      await addDoc(collection(db, 'orientation_registrations'), {
+        firstName:    fname,
+        lastName:     lname,
+        fullName:     `${fname} ${lname}`,
+        email:        email.toLowerCase(),
+        school:       school,
+        subjects:     subject,
+        level:        level,
+        cvLink:       cvLink,
+        note:         note || null,
+        quizAnswers:  quizAnswers,
+        createdAt:    serverTimestamp(),
+        status:       'pending',
+      });
+
+      document.getElementById('register-form-wrap').style.display = 'none';
+      document.getElementById('submit-success').classList.add('on');
+    } catch (e) {
+      console.error('submitRegistration:', e);
+      showErr('Something went wrong. Please try again.');
+      btn.disabled = false;
+      btn.textContent = 'Submit Registration';
+    }
+  };
+
+  function showErr(msg) {
+    const el = document.getElementById('form-err');
+    el.textContent = msg;
+    el.classList.add('on');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // ── UTIL ───────────────────────────────────────────────────────────────────
+
+  function escHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // ── TAB SWITCH ─────────────────────────────────────────────────────────────
+
+  window.switchTab = function(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b =>
+      b.classList.toggle('on', b.dataset.tab === tab)
+    );
+    document.querySelectorAll('.section').forEach(s =>
+      s.classList.toggle('on', s.id === `tab-${tab}`)
+    );
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // ── INIT ───────────────────────────────────────────────────────────────────
+
+  loadResources();
+  loadQuestions();
+</script>
+</body>
+</html>

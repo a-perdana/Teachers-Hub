@@ -48,6 +48,7 @@ const ROUTES = {
   'learning-path.html': 'learning-path',
   'my-portfolio.html': 'my-portfolio',
   'my-certificates.html': 'my-certificates',
+  'orientation.html': 'orientation',
   // Subject Leader Tracker pages
   'igcse-math-tracker.html': 'igcse-math-tracker',
   'igcse-biology-tracker.html': 'igcse-biology-tracker',
@@ -91,6 +92,7 @@ const LINK_REWRITES = [
   [/href="my-portfolio\.html"/g,           'href="/my-portfolio"'],
   [/href="my-certificates\.html"/g,        'href="/my-certificates"'],
   // Subject Leader Tracker pages
+  [/href="orientation\.html"/g,                  'href="/orientation"'],
   [/href="igcse-math-tracker\.html"/g,          'href="/igcse-math-tracker"'],
   [/href="igcse-biology-tracker\.html"/g,       'href="/igcse-biology-tracker"'],
   [/href="igcse-chemistry-tracker\.html"/g,     'href="/igcse-chemistry-tracker"'],
