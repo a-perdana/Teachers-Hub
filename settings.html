@@ -271,6 +271,30 @@
 .settings-msg.err  { display:block; background:rgba(220,38,38,.08); color:#dc2626; border:1px solid rgba(220,38,38,.18); }
 .settings-msg.warn { display:block; background:rgba(245,158,11,.1); color:#d97706; border:1px solid rgba(245,158,11,.22); }
 
+/* Toast */
+#settingsToast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+  padding: 11px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.13);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .22s, transform .22s;
+  pointer-events: none;
+}
+#settingsToast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+#settingsToast.ok  { background:#059669; color:#fff; }
+#settingsToast.err { background:#dc2626; color:#fff; }
+
 /* ── Teaching Profile specific ─────────────────────────────────── */
 .combo-grid-wrap { margin-bottom: 16px; }
 .combo-grid-hint {
@@ -720,13 +744,7 @@
         <div id="sClassEditors"></div>
       </div>
 
-      <div>
-        <button class="settings-save-btn" id="sTeachingBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          Save Teaching Profile
-        </button>
-        <div class="settings-msg" id="sTeachingMsg"></div>
-      </div>
+      <div class="settings-msg" id="sTeachingMsg"></div>
     </div>
 
     <!-- ── Personal Info ─────────────────────────────────────────── -->
@@ -1098,6 +1116,7 @@ function renderComboGrid() {
           cell.classList.add('on');
         }
         renderClassEditors();
+        if (window.saveTeachingProfile) window.saveTeachingProfile({ silent: true });
       });
       row.appendChild(cell);
     });
@@ -1164,11 +1183,13 @@ function renderClassEditors() {
     function addToMy(name) {
       if (!_slClasses[key].includes(name)) _slClasses[key].push(name);
       renderBoth();
+      if (window.saveTeachingProfile) window.saveTeachingProfile({ silent: true });
     }
 
     function removeFromMy(name) {
       _slClasses[key] = _slClasses[key].filter(n => n !== name);
       renderBoth();
+      if (window.saveTeachingProfile) window.saveTeachingProfile({ silent: true });
     }
 
     function renderBoth() {
@@ -1314,6 +1335,18 @@ function renderClassEditors() {
   });
 }
 
+// ── Toast ─────────────────────────────────────────────────────────
+let _toastTimer = null;
+function showToast(text, type = 'ok') {
+  const el = document.getElementById('settingsToast');
+  if (!el) return;
+  clearTimeout(_toastTimer);
+  el.textContent = text;
+  el.className = type;
+  requestAnimationFrame(() => el.classList.add('show'));
+  _toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
+}
+
 // ── Show / hide message ───────────────────────────────────────────
 function showMsg(id, text, type) {
   const el = document.getElementById(id);
@@ -1372,33 +1405,14 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   document.getElementById('sSchool').addEventListener('change', async (e) => {
     await loadSchoolClasses(db, e.target.value);
     renderClassEditors();
+    if (window.saveTeachingProfile) window.saveTeachingProfile({ silent: true });
   });
 
   window.saveTeachingProfile = async function saveTeachingProfile({ silent = false } = {}) {
     const schoolSel = document.getElementById('sSchool');
     const schoolId  = schoolSel.value.trim();
     const school    = schoolSel.selectedOptions[0]?.dataset.name || window._schoolMap[schoolId] || schoolId;
-    const btn = document.getElementById('sTeachingBtn');
-    if (!schoolId) { if (!silent) showMsg('sTeachingMsg', 'Please select your school.', 'err'); return false; }
-    if (!_activeCombos.size) { if (!silent) showMsg('sTeachingMsg', 'Tick at least one subject to teach.', 'err'); return false; }
-
-    if (!silent) {
-      const missing = [];
-      _activeCombos.forEach(combo => {
-        const [lv, sv] = combo.split('_');
-        const key = slKey(lv, sv);
-        if (!Array.isArray(_slClasses[key]) || !_slClasses[key].length) {
-          missing.push(`${lvLabel(lv)} ${svLabel(sv)}`);
-          const grp = document.querySelector(`[data-key="${key}"]`);
-          if (grp) grp.classList.add('missing');
-        }
-      });
-      if (missing.length) {
-        showMsg('sTeachingMsg', `Add at least one class for: ${missing.join(', ')}`, 'err');
-        document.querySelector('.class-group.missing')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        return false;
-      }
-    }
+    if (!schoolId || !_activeCombos.size) return false;
 
     const teaching_combos = [..._activeCombos];
     const levelsSet = new Set(), subjectsSet = new Set();
@@ -1409,7 +1423,6 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
       classFields[key] = Array.isArray(_slClasses[key]) ? _slClasses[key] : [];
     }));
 
-    if (!silent) { btn.disabled = true; btn.textContent = 'Saving…'; }
     try {
       await setDoc(doc(db, 'users', user.uid),
         { school, schoolId, teaching_combos, subjects: [...subjectsSet], classes: [...levelsSet], ...classFields },
@@ -1419,20 +1432,13 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
       loadTeachingState(window.userProfile);
       renderProgress(window.userProfile);
       document.getElementById('sTeachingBanner').style.display = 'none';
-      if (!silent) showMsg('sTeachingMsg', 'Teaching profile saved ✓', 'ok');
+      if (!silent) showToast('Teaching profile saved ✓');
       return true;
     } catch (e) {
-      if (!silent) showMsg('sTeachingMsg', 'Failed to save. Try again.', 'err');
+      showToast('Failed to save', 'err');
       return false;
-    } finally {
-      if (!silent) {
-        btn.disabled = false;
-        btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Save Teaching Profile`;
-      }
     }
-  }
-
-  document.getElementById('sTeachingBtn').addEventListener('click', () => window.saveTeachingProfile());
+  };
 
   // ── Personal Info ─────────────────────────────────────────────
   document.getElementById('sDisplayName').value = profile.displayName || '';
@@ -1581,5 +1587,6 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   else window._pendingFeedbackSetup = doFeedbackSetup;
 });
 </script>
+<div id="settingsToast"></div>
 </body>
 </html>
