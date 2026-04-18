@@ -2202,37 +2202,59 @@ async function buildClassSelector() {
   const select = document.getElementById('classSelect');
   if (!wrap || !select) return;
 
-  const p = window.userProfile;
-  const profileClasses =
-    (Array.isArray(p?.igcse_biology_classes) && p.igcse_biology_classes.length) ? p.igcse_biology_classes :
-    (Array.isArray(p?.igcse_classes)          && p.igcse_classes.length)          ? p.igcse_classes          :
-    null;
+  const p       = window.userProfile;
+  const isAdmin = p?.role_teachershub === 'teachers_admin';
+  const COMBO   = 'igcse_biology';
 
-  let schoolClasses = [];
-  const schoolId = p?.schoolId;
-  if (schoolId) {
-    try {
-      const snap = await getDocs(query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section')));
-      snap.forEach(d => schoolClasses.push({ id: d.id, ...d.data() }));
-    } catch { /* ignore */ }
+  if (!isAdmin) {
+    const combos = Array.isArray(p?.teaching_combos) ? p.teaching_combos : [];
+    if (!combos.includes(COMBO)) {
+      _showNotAssigned('IGCSE Biology', 'igcse');
+      return;
+    }
   }
 
-  const effectiveList = profileClasses ||
-    (schoolClasses.length ? schoolClasses.map(c => c.name) : classList);
+  let effectiveList = [];
+  if (isAdmin) {
+    const schoolId = p?.schoolId;
+    if (schoolId) {
+      try {
+        const snap = await getDocs(query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section')));
+        snap.forEach(d => effectiveList.push(d.data().name));
+      } catch { /* ignore */ }
+    }
+    if (!effectiveList.length) effectiveList = classList;
+  } else {
+    effectiveList = Array.isArray(p?.igcse_biology_classes) ? p.igcse_biology_classes : [];
+  }
 
   wrap.style.display = effectiveList.length > 0 ? 'flex' : 'none';
-
-  if (effectiveList.length > 0) {
-    select.innerHTML = '<option value="default">All Classes</option>';
-    effectiveList.forEach(cls => {
-      const opt = document.createElement('option');
-      opt.value = cls;
-      opt.textContent = cls;
-      if (cls === currentClass) opt.selected = true;
-      select.appendChild(opt);
-    });
-  }
+  select.innerHTML = '<option value="default">All Classes</option>';
+  effectiveList.forEach(cls => {
+    const opt = document.createElement('option');
+    opt.value = cls;
+    opt.textContent = cls;
+    if (cls === currentClass) opt.selected = true;
+    select.appendChild(opt);
+  });
   if (currentClass === 'default') select.value = 'default';
+}
+
+function _showNotAssigned(subjectLabel, levelLabel) {
+  const topbar = document.querySelector('.pacing-topbar');
+  const main   = document.querySelector('.main');
+  if (topbar) topbar.style.display = 'none';
+  if (main)   main.style.display   = 'none';
+  const msg = document.createElement('div');
+  msg.style.cssText = 'display:flex;flex-direction:column;align-items:center;justify-content:center;height:calc(100vh - 60px);font-family:"DM Sans",sans-serif;text-align:center;padding:24px';
+  msg.innerHTML = `
+    <div style="font-size:2.5rem;margin-bottom:16px">📋</div>
+    <h2 style="font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:8px">${subjectLabel} not assigned</h2>
+    <p style="font-size:0.875rem;color:var(--ink-3);max-width:360px;line-height:1.6;margin-bottom:20px">
+      This pacing guide is not part of your profile. If you teach ${subjectLabel} (${levelLabel}), update your profile in Settings.
+    </p>
+    <a href="index.html" style="padding:9px 20px;background:var(--accent);color:#fff;border-radius:8px;font-size:0.85rem;font-weight:600;text-decoration:none">Back to Dashboard</a>`;
+  document.body.appendChild(msg);
 }
 
 function switchClass(cls) {
