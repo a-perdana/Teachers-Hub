@@ -1120,7 +1120,7 @@ function renderComboGrid() {
           cell.classList.add('on');
         }
         renderClassEditors();
-        if (window.saveTeachingProfile) window.saveTeachingProfile({ silent: true });
+        if (window.saveTeachingProfile) window.saveTeachingProfile({ toast: true });
       });
       row.appendChild(cell);
     });
@@ -1187,13 +1187,13 @@ function renderClassEditors() {
     function addToMy(name) {
       if (!_slClasses[key].includes(name)) _slClasses[key].push(name);
       renderBoth();
-      if (window.saveTeachingProfile) window.saveTeachingProfile({ silent: true });
+      if (window.saveTeachingProfile) window.saveTeachingProfile({ toast: true });
     }
 
     function removeFromMy(name) {
       _slClasses[key] = _slClasses[key].filter(n => n !== name);
       renderBoth();
-      if (window.saveTeachingProfile) window.saveTeachingProfile({ silent: true });
+      if (window.saveTeachingProfile) window.saveTeachingProfile({ toast: true });
     }
 
     function renderBoth() {
@@ -1312,7 +1312,7 @@ function renderClassEditors() {
         _schoolClasses.sort((a, b) => a.grade - b.grade || a.section.localeCompare(b.section));
         if (!_slClasses[key].includes(className)) _slClasses[key].push(className);
         renderClassEditors();
-        if (window.saveTeachingProfile) await window.saveTeachingProfile({ silent: true });
+        if (window.saveTeachingProfile) await window.saveTeachingProfile({ toast: true });
       } catch { newErr.textContent = 'Failed to save. Try again.'; }
       finally { saveNewBtn.disabled = false; }
     };
@@ -1406,14 +1406,16 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     renderClassEditors();
   })();
 
-  // When school changes, reload class pool
+  // When school changes, reset my classes and reload pool
   document.getElementById('sSchool').addEventListener('change', async (e) => {
+    // Clear all class selections — classes belong to a specific school
+    Object.keys(_slClasses).forEach(k => { _slClasses[k] = []; });
     await loadSchoolClasses(db, e.target.value);
     renderClassEditors();
-    if (window.saveTeachingProfile) window.saveTeachingProfile({ silent: true });
+    if (window.saveTeachingProfile) window.saveTeachingProfile({ toast: true });
   });
 
-  window.saveTeachingProfile = async function saveTeachingProfile({ silent = false } = {}) {
+  window.saveTeachingProfile = async function saveTeachingProfile({ toast = false } = {}) {
     const schoolSel = document.getElementById('sSchool');
     const schoolId  = schoolSel.value.trim();
     const school    = schoolSel.selectedOptions[0]?.dataset.name || window._schoolMap[schoolId] || schoolId;
@@ -1437,7 +1439,7 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
       loadTeachingState(window.userProfile);
       renderProgress(window.userProfile);
       document.getElementById('sTeachingBanner').style.display = 'none';
-      if (!silent) showToast('Teaching profile saved ✓');
+      if (toast) showToast('Saved ✓');
       return true;
     } catch (e) {
       showToast('Failed to save', 'err');
