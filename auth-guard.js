@@ -442,15 +442,29 @@ onAuthStateChanged(auth, async (user) => {
   // 5b. Profile setup prompt if school/subjects/classes/th_sub_roles are missing
   if (!profileComplete(profile)) {
     const { school, schoolId, subjects, classes, myClasses, th_sub_roles } = await promptForProfile(profile);
-    await setDoc(userRef, { school, schoolId, subjects, classes, th_sub_roles, myClasses }, { merge: true });
-    profile.school       = school;
-    profile.schoolId     = schoolId;
-    profile.subjects     = subjects;
-    profile.classes      = classes;
-    profile.th_sub_roles = th_sub_roles;
-    profile.myClasses    = myClasses;
 
-    // Sync selected classes to shared school pool
+    // Build teaching_combos and distribute myClasses into per-combo fields
+    // (settings.html reads {level}_{subject}_classes[], not the flat myClasses array)
+    const teaching_combos = [];
+    const classFields = {};
+    const cambridgeSubjectValues = CAMBRIDGE_SUBJECT_OPTIONS.map(o => o.value);
+    classes.forEach(lv => {
+      subjects.filter(sv => cambridgeSubjectValues.includes(sv)).forEach(sv => {
+        teaching_combos.push(`${lv}_${sv}`);
+        classFields[`${lv}_${sv}_classes`] = Array.isArray(myClasses) ? [...myClasses] : [];
+      });
+    });
+
+    await setDoc(userRef, { school, schoolId, subjects, classes, th_sub_roles, teaching_combos, ...classFields }, { merge: true });
+    profile.school          = school;
+    profile.schoolId        = schoolId;
+    profile.subjects        = subjects;
+    profile.classes         = classes;
+    profile.th_sub_roles    = th_sub_roles;
+    profile.teaching_combos = teaching_combos;
+    Object.assign(profile, classFields);
+
+    // Sync newly-defined classes to shared school pool
     if (schoolId && Array.isArray(myClasses) && myClasses.length) {
       try {
         const classesRef = collection(db, 'schools', schoolId, 'classes');
