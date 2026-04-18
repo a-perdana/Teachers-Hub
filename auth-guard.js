@@ -20,7 +20,7 @@ import { initializeApp, getApps }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp, getDocs, query, orderBy }
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, query, orderBy }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // ── Platform identity ─────────────────────────────────────────────
@@ -142,19 +142,8 @@ async function promptForProfile(profile) {
     snap.forEach(d => schoolDocs.push({ id: d.id, name: d.data().name || d.id }));
   } catch { /* fall through */ }
 
-  // Fetch school classes if user already has a school selected
-  let existingSchoolClasses = [];
   const existingSchoolId = profile.schoolId ||
     schoolDocs.find(s => s.name === profile.school)?.id;
-  if (existingSchoolId) {
-    try {
-      const snap = await getDocs(query(
-        collection(db, 'schools', existingSchoolId, 'classes'),
-        orderBy('grade'), orderBy('section')
-      ));
-      snap.forEach(d => existingSchoolClasses.push({ id: d.id, ...d.data() }));
-    } catch { /* ignore */ }
-  }
 
   return new Promise(resolve => {
     const existing = {
@@ -162,10 +151,8 @@ async function promptForProfile(profile) {
       schoolId:    existingSchoolId    || '',
       subjects:    Array.isArray(profile.subjects)    ? profile.subjects    : [],
       classes:     Array.isArray(profile.classes)     ? profile.classes     : [],
-      myClasses:   Array.isArray(profile.myClasses)   ? profile.myClasses   : [],
       th_sub_roles: Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [],
     };
-    let _schoolClasses = [...existingSchoolClasses]; // mutable, updated on school change
 
     // Detect existing "other" subject (any value not in the known options list)
     const knownValues     = SUBJECT_OPTIONS.map(o => o.value);
@@ -198,13 +185,6 @@ async function promptForProfile(profile) {
           <option value="">— Select your school —</option>
           ${schoolDocs.map(s => `<option value="${s.id}" data-name="${s.name.replace(/"/g,'&quot;')}"${existing.schoolId===s.id?' selected':''}>${s.name}</option>`).join('')}
         </select>
-
-        <div id="_classPickSection" style="margin-bottom:22px;${existingSchoolClasses.length===0?'display:none':''}">
-          <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:6px">My classes <span style="color:#8888a8;font-weight:400">(optional)</span></label>
-          <div id="_classPickWrap" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px">
-            ${existingSchoolClasses.map(c => `<button type="button" class="_chip ${existing.myClasses.includes(c.name)?'_chip-on':''}" data-group="myClasses" data-value="${c.name}">${c.name}</button>`).join('')}
-          </div>
-        </div>
 
         <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:12px">Subjects you teach <span style="color:#dc2626">*</span></label>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:22px">
@@ -255,31 +235,6 @@ async function promptForProfile(profile) {
     document.body.appendChild(overlay);
     document.body.style.visibility = 'visible';
 
-    // When school changes → load that school's classes
-    overlay.querySelector('#_schoolInput').addEventListener('change', async (e) => {
-      const schoolId = e.target.value;
-      const section  = overlay.querySelector('#_classPickSection');
-      const wrap     = overlay.querySelector('#_classPickWrap');
-      if (!schoolId) { section.style.display = 'none'; _schoolClasses = []; return; }
-      _schoolClasses = [];
-      wrap.innerHTML = '<span style="font-size:0.82rem;color:#8888a8">Loading…</span>';
-      section.style.display = '';
-      try {
-        const snap = await getDocs(query(
-          collection(db, 'schools', schoolId, 'classes'),
-          orderBy('grade'), orderBy('section')
-        ));
-        snap.forEach(d => _schoolClasses.push({ id: d.id, ...d.data() }));
-      } catch { /* ignore */ }
-      if (_schoolClasses.length === 0) {
-        wrap.innerHTML = '<span style="font-size:0.82rem;color:#8888a8">No classes defined for this school yet.</span>';
-      } else {
-        wrap.innerHTML = _schoolClasses.map(c =>
-          `<button type="button" class="_chip" data-group="myClasses" data-value="${c.name}">${c.name}</button>`
-        ).join('');
-      }
-    });
-
     // Chip toggle
     overlay.addEventListener('click', e => {
       const chip = e.target.closest('._chip');
@@ -308,7 +263,6 @@ async function promptForProfile(profile) {
       const otherSubjects = otherRaw ? otherRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
       const subjects      = [...chipSubjects, ...otherSubjects];
       const classes       = [...overlay.querySelectorAll('._chip[data-group="classes"]._chip-on')].map(c => c.dataset.value);
-      const myClasses     = [...overlay.querySelectorAll('._chip[data-group="myClasses"]._chip-on')].map(c => c.dataset.value);
       const th_sub_roles = [
         overlay.querySelector('#_chkSubjectTeacher').checked ? 'subject_teacher' : null,
         overlay.querySelector('#_chkSubjectLeader').checked  ? 'subject_leader'  : null,
@@ -322,7 +276,7 @@ async function promptForProfile(profile) {
 
       overlay.remove();
       document.body.style.visibility = 'hidden';
-      resolve({ school, schoolId, subjects, classes, myClasses, th_sub_roles });
+      resolve({ school, schoolId, subjects, classes, th_sub_roles });
     });
   });
 }
@@ -400,31 +354,13 @@ onAuthStateChanged(auth, async (user) => {
 
   // 5b. Profile setup prompt if school/subjects/classes/th_sub_roles are missing
   if (!profileComplete(profile)) {
-    const { school, schoolId, subjects, classes, myClasses, th_sub_roles } = await promptForProfile(profile);
-    await setDoc(userRef, { school, schoolId, subjects, classes, myClasses, th_sub_roles }, { merge: true });
+    const { school, schoolId, subjects, classes, th_sub_roles } = await promptForProfile(profile);
+    await setDoc(userRef, { school, schoolId, subjects, classes, th_sub_roles }, { merge: true });
     profile.school       = school;
     profile.schoolId     = schoolId;
     profile.subjects     = subjects;
     profile.classes      = classes;
-    profile.myClasses    = myClasses;
     profile.th_sub_roles = th_sub_roles;
-
-    // Sync selected classes into the shared school pool so all teachers see them
-    if (schoolId && Array.isArray(myClasses) && myClasses.length) {
-      try {
-        const classesRef = collection(db, 'schools', schoolId, 'classes');
-        const existing = await getDocs(query(classesRef, orderBy('grade')));
-        const existingNames = new Set(existing.docs.map(d => d.data().name));
-        await Promise.all(myClasses
-          .filter(name => !existingNames.has(name))
-          .map(name => {
-            const grade = parseInt(name, 10) || 0;
-            const section = name.replace(/^\d+\s*/, '');
-            return addDoc(classesRef, { name, grade, section, createdBy: user.uid, createdAt: serverTimestamp() });
-          })
-        );
-      } catch (e) { console.warn('Could not sync classes to school pool:', e); }
-    }
   }
 
   // 5c. Approval check (teachers_admin bypasses — they are always approved)
