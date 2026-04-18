@@ -91,14 +91,29 @@ function initNavbar() {
         trigger.setAttribute('aria-expanded', String(!isOpen));
 
         if (!isOpen) {
+          // Reset first so getBoundingClientRect reflects natural position
+          panel.style.left = '';
+          panel.style.right = '';
+          panel.style.maxWidth = '';
           requestAnimationFrame(function() {
-            const rect = panel.getBoundingClientRect();
-            if (rect.right > window.innerWidth - 8) {
-              panel.style.left = 'auto';
-              panel.style.right = '0';
+            const nav = document.getElementById('nav');
+            const navRect = nav ? nav.getBoundingClientRect() : { left: 0, right: window.innerWidth };
+            const triggerRect = trigger.getBoundingClientRect();
+            const panelW = panel.offsetWidth;
+            const vw = window.innerWidth;
+            // Try anchoring to trigger left; if it overflows right, shift left
+            let left = 0; // relative to wrap (trigger)
+            const absLeft = triggerRect.left + left;
+            const absRight = absLeft + panelW;
+            if (absRight > vw - 8) {
+              // Shift so right edge aligns with nav right edge
+              const shift = absRight - (navRect.right - 8);
+              left = Math.max(-triggerRect.left + navRect.left, -shift);
+              panel.style.left = left + 'px';
+              panel.style.right = 'auto';
             } else {
-              panel.style.left = '';
-              panel.style.right = '';
+              panel.style.left = '0';
+              panel.style.right = 'auto';
             }
           });
         }
