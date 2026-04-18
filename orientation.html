@@ -826,6 +826,11 @@
           <input class="form-input" id="r-cv" type="url" placeholder="https://drive.google.com/…" />
           <p class="form-hint">Share a public Google Drive link to your CV.</p>
         </div>
+        <div class="form-row">
+          <label class="form-label" for="r-linkedin">LinkedIn Profile</label>
+          <input class="form-input" id="r-linkedin" type="url" placeholder="https://linkedin.com/in/your-name" />
+          <p class="form-hint">Optional — helps us learn more about your background.</p>
+        </div>
         <div class="form-row" style="margin-bottom:0">
           <label class="form-label" for="r-note">Anything else you'd like us to know</label>
           <textarea class="form-textarea" id="r-note" placeholder="Optional — teaching background, certifications, questions, etc."></textarea>
@@ -1180,8 +1185,9 @@
       .map(cb => cb.value);
     const levelOther = document.getElementById('r-level-other').value.trim();
     const level = [...levelChecked, ...(levelOther ? [levelOther] : [])].join(', ');
-    const cvLink  = document.getElementById('r-cv').value.trim();
-    const note    = document.getElementById('r-note').value.trim();
+    const cvLink   = document.getElementById('r-cv').value.trim();
+    const linkedin = document.getElementById('r-linkedin').value.trim();
+    const note     = document.getElementById('r-note').value.trim();
 
     const errEl = document.getElementById('form-err');
     errEl.classList.remove('on');
@@ -1217,6 +1223,7 @@
         subjects:     subject,
         level:        level,
         cvLink:       cvLink,
+        linkedIn:     linkedin || null,
         note:         note || null,
         photoUrl:     resolvedPhotoUrl || null,
         quizAnswers:  quizAnswers,
