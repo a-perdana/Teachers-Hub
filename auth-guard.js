@@ -145,6 +145,15 @@ async function promptForProfile(profile) {
   const existingSchoolId = profile.schoolId ||
     schoolDocs.find(s => s.name === profile.school)?.id;
 
+  // Pre-load classes for existing school
+  let _setupSchoolClasses = [];
+  if (existingSchoolId) {
+    try {
+      const snap = await getDocs(query(collection(db, 'schools', existingSchoolId, 'classes'), orderBy('grade'), orderBy('section')));
+      snap.forEach(d => _setupSchoolClasses.push({ id: d.id, ...d.data() }));
+    } catch { /* ignore */ }
+  }
+
   return new Promise(resolve => {
     const existing = {
       school:      profile.school      || '',
@@ -153,6 +162,11 @@ async function promptForProfile(profile) {
       classes:     Array.isArray(profile.classes)     ? profile.classes     : [],
       th_sub_roles: Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [],
     };
+    // Selected class names from profile (any *_classes field)
+    const existingClassNames = new Set(
+      Object.entries(profile).filter(([k]) => k.endsWith('_classes') && Array.isArray(profile[k]))
+        .flatMap(([,v]) => v)
+    );
 
     // Detect existing "other" subject (any value not in the known options list)
     const knownValues     = SUBJECT_OPTIONS.map(o => o.value);
@@ -205,6 +219,13 @@ async function promptForProfile(profile) {
 
         </div>
 
+        <div id="_classSection" style="margin-bottom:22px;${_setupSchoolClasses.length===0?'display:none':''}">
+          <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:6px">My classes <span style="color:#8888a8;font-weight:400">(optional — you can add more later in Settings)</span></label>
+          <div id="_classChipWrap" style="display:flex;flex-wrap:wrap;gap:7px">
+            ${_setupSchoolClasses.map(c => `<button type="button" class="_chip ${existingClassNames.has(c.name)?'_chip-on':''}" data-group="myClasses" data-value="${c.name}">${c.name}</button>`).join('')}
+          </div>
+        </div>
+
         <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:10px">Your role <span style="color:#dc2626">*</span></label>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px">
           <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding:12px 14px;border:1.5px solid #e0ddd6;border-radius:10px;transition:border-color .15s" id="_roleSubjectTeacher">
@@ -235,6 +256,28 @@ async function promptForProfile(profile) {
     document.body.appendChild(overlay);
     document.body.style.visibility = 'visible';
 
+    // When school changes → reload class chips
+    overlay.querySelector('#_schoolInput').addEventListener('change', async (e) => {
+      const schoolId = e.target.value;
+      const section  = overlay.querySelector('#_classSection');
+      const wrap     = overlay.querySelector('#_classChipWrap');
+      if (!schoolId) { section.style.display = 'none'; return; }
+      wrap.innerHTML = '<span style="font-size:0.82rem;color:#8888a8">Loading…</span>';
+      section.style.display = '';
+      _setupSchoolClasses = [];
+      try {
+        const snap = await getDocs(query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section')));
+        snap.forEach(d => _setupSchoolClasses.push({ id: d.id, ...d.data() }));
+      } catch { /* ignore */ }
+      if (_setupSchoolClasses.length === 0) {
+        section.style.display = 'none';
+      } else {
+        wrap.innerHTML = _setupSchoolClasses.map(c =>
+          `<button type="button" class="_chip" data-group="myClasses" data-value="${c.name}">${c.name}</button>`
+        ).join('');
+      }
+    });
+
     // Chip toggle
     overlay.addEventListener('click', e => {
       const chip = e.target.closest('._chip');
@@ -263,6 +306,7 @@ async function promptForProfile(profile) {
       const otherSubjects = otherRaw ? otherRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
       const subjects      = [...chipSubjects, ...otherSubjects];
       const classes       = [...overlay.querySelectorAll('._chip[data-group="classes"]._chip-on')].map(c => c.dataset.value);
+      const myClasses     = [...overlay.querySelectorAll('._chip[data-group="myClasses"]._chip-on')].map(c => c.dataset.value);
       const th_sub_roles = [
         overlay.querySelector('#_chkSubjectTeacher').checked ? 'subject_teacher' : null,
         overlay.querySelector('#_chkSubjectLeader').checked  ? 'subject_leader'  : null,
@@ -276,7 +320,7 @@ async function promptForProfile(profile) {
 
       overlay.remove();
       document.body.style.visibility = 'hidden';
-      resolve({ school, schoolId, subjects, classes, th_sub_roles });
+      resolve({ school, schoolId, subjects, classes, myClasses, th_sub_roles });
     });
   });
 }
@@ -354,13 +398,30 @@ onAuthStateChanged(auth, async (user) => {
 
   // 5b. Profile setup prompt if school/subjects/classes/th_sub_roles are missing
   if (!profileComplete(profile)) {
-    const { school, schoolId, subjects, classes, th_sub_roles } = await promptForProfile(profile);
+    const { school, schoolId, subjects, classes, myClasses, th_sub_roles } = await promptForProfile(profile);
     await setDoc(userRef, { school, schoolId, subjects, classes, th_sub_roles }, { merge: true });
     profile.school       = school;
     profile.schoolId     = schoolId;
     profile.subjects     = subjects;
     profile.classes      = classes;
     profile.th_sub_roles = th_sub_roles;
+
+    // Sync selected classes to shared school pool
+    if (schoolId && Array.isArray(myClasses) && myClasses.length) {
+      try {
+        const classesRef = collection(db, 'schools', schoolId, 'classes');
+        const existing   = await getDocs(query(classesRef, orderBy('grade')));
+        const poolNames  = new Set(existing.docs.map(d => d.data().name));
+        await Promise.all(myClasses
+          .filter(name => !poolNames.has(name))
+          .map(name => addDoc(classesRef, {
+            name, grade: parseInt(name, 10) || 0,
+            section: name.replace(/^\d+\s*/, ''),
+            createdBy: user.uid, createdAt: serverTimestamp(),
+          }))
+        );
+      } catch (e) { console.warn('Could not sync classes to pool:', e); }
+    }
   }
 
   // 5c. Approval check (teachers_admin bypasses — they are always approved)
