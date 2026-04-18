@@ -120,10 +120,12 @@
 .settings-content {
   flex: 1;
   min-width: 0;
-  padding: 36px 40px 80px;
-  max-width: 740px;
   height: 100%;
   overflow-y: auto;
+}
+.settings-content-inner {
+  padding: 36px 40px 80px;
+  max-width: 740px;
 }
 .settings-panel { display: none; }
 .settings-panel.active { display: block; }
@@ -645,7 +647,7 @@
 @media (max-width: 768px) {
   .settings-sidebar { display: none; }
   .settings-mobile-tabs { display: flex; }
-  .settings-content { padding: 20px 16px 60px; max-width: none; }
+  .settings-content-inner { padding: 20px 16px 60px; max-width: none; }
 }
 </style>
 </head>
@@ -704,6 +706,7 @@
 
   <!-- Main content -->
   <main class="settings-content" id="sMainContent">
+  <div class="settings-content-inner">
 
     <!-- ── Teaching Profile ──────────────────────────────────────── -->
     <div class="settings-panel active" id="sPanel-teaching">
@@ -920,6 +923,7 @@
       </div>
     </div>
 
+  </div>
   </main>
 </div>
 
@@ -1343,7 +1347,8 @@ function showToast(text, type = 'ok') {
   clearTimeout(_toastTimer);
   el.textContent = text;
   el.className = type;
-  requestAnimationFrame(() => el.classList.add('show'));
+  // double rAF ensures transition fires after class swap
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
   _toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
 }
 
