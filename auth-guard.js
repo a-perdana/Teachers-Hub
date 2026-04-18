@@ -187,80 +187,84 @@ async function promptForProfile(profile) {
     const overlay = document.createElement('div');
     overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(28,28,46,0.82);display:flex;align-items:center;justify-content:center;padding:24px;font-family:"DM Sans",sans-serif';
     overlay.innerHTML = `
-      <div style="background:#fff;border-radius:20px;padding:36px 40px;width:100%;max-width:700px;box-shadow:0 24px 64px rgba(0,0,0,0.40);max-height:90vh;overflow-y:auto">
-        <div style="margin-bottom:22px">
-          <h2 style="font-size:1.35rem;font-weight:700;color:#1c1c2e;margin-bottom:6px">Set up your profile</h2>
-          <p style="font-size:0.875rem;color:#8888a8;line-height:1.5">Tell us about your school, the classes you teach, and your role so we can set up your account correctly.</p>
+      <div style="background:#fff;border-radius:20px;padding:32px 36px;width:100%;max-width:860px;box-shadow:0 24px 64px rgba(0,0,0,0.40)">
+        <div style="margin-bottom:20px">
+          <h2 style="font-size:1.3rem;font-weight:700;color:#1c1c2e;margin-bottom:4px">Set up your profile</h2>
+          <p style="font-size:0.85rem;color:#8888a8;line-height:1.5">Tell us about your school, the classes you teach, and your role.</p>
         </div>
 
-        <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:6px">School name <span style="color:#dc2626">*</span></label>
-        <select id="_schoolInput"
-          style="width:100%;padding:10px 14px;border:1.5px solid #e0ddd6;border-radius:10px;font-size:0.95rem;color:#1c1c2e;outline:none;box-sizing:border-box;margin-bottom:16px;background:#fff;appearance:auto">
-          <option value="">— Select your school —</option>
-          ${schoolDocs.map(s => `<option value="${s.id}" data-name="${s.name.replace(/"/g,'&quot;')}"${existing.schoolId===s.id?' selected':''}>${s.name}</option>`).join('')}
-        </select>
-
-        <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:12px">Subjects you teach <span style="color:#dc2626">*</span></label>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:22px">
-
-          <div style="border:1.5px solid #e0ddd6;border-radius:12px;padding:14px 16px">
-            <div style="font-size:0.75rem;font-weight:700;color:#8888a8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">Cambridge Subjects</div>
-            <div id="_cambridgeChips" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px">${cambridgeChips}</div>
-            <div style="font-size:0.75rem;font-weight:700;color:#44445a;margin-bottom:6px">Curriculum levels <span style="color:#dc2626">*</span></div>
-            <div id="_classChips" style="display:flex;flex-wrap:wrap;gap:7px">${classChips}</div>
+        <div style="display:grid;grid-template-columns:220px 1fr;gap:16px;margin-bottom:16px;align-items:start">
+          <div>
+            <label style="display:block;font-size:0.78rem;font-weight:600;color:#44445a;margin-bottom:5px">School name <span style="color:#dc2626">*</span></label>
+            <select id="_schoolInput"
+              style="width:100%;padding:9px 12px;border:1.5px solid #e0ddd6;border-radius:10px;font-size:0.88rem;color:#1c1c2e;outline:none;box-sizing:border-box;background:#fff;appearance:auto">
+              <option value="">— Select school —</option>
+              ${schoolDocs.map(s => `<option value="${s.id}" data-name="${s.name.replace(/"/g,'&quot;')}"${existing.schoolId===s.id?' selected':''}>${s.name}</option>`).join('')}
+            </select>
           </div>
 
-          <div style="border:1.5px solid #e0ddd6;border-radius:12px;padding:14px 16px">
-            <div style="font-size:0.75rem;font-weight:700;color:#8888a8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">Non-Cambridge Subjects</div>
-            <div id="_nonCambridgeChips" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px">${nonCambridgeChips}</div>
+          <div id="_classSection" style="border:1.5px solid #e0ddd6;border-radius:12px;padding:12px 14px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px">
+              <div style="font-size:0.73rem;font-weight:700;color:#8888a8;text-transform:uppercase;letter-spacing:0.06em">My Classes</div>
+              <span style="font-size:0.73rem;color:#b0b0c8">optional — add more later in Settings</span>
+            </div>
+            <div id="_classChipWrap" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;min-height:26px">
+              ${_setupSchoolClasses.length > 0
+                ? _setupSchoolClasses.map(c => `<button type="button" class="_chip ${existingClassNames.has(c.name)?'_chip-on':''}" data-group="myClasses" data-value="${c.name}">${c.name}</button>`).join('')
+                : '<span id="_noClassesMsg" style="font-size:0.8rem;color:#b0b0c8;font-style:italic;align-self:center">No classes defined for this school yet.</span>'
+              }
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;border-top:1px solid #f0eee9;padding-top:8px">
+              <input id="_newClassInput" type="text" placeholder="Define new class (e.g. 10 Stanford)"
+                style="flex:1;padding:6px 11px;border:1.5px solid #e0ddd6;border-radius:8px;font-size:0.8rem;color:#1c1c2e;outline:none;background:#fafafa;box-sizing:border-box">
+              <button type="button" id="_addClassBtn"
+                style="padding:6px 14px;border:1.5px dashed #6c5ce7;border-radius:8px;font-size:0.8rem;font-weight:600;color:#6c5ce7;background:#faf9ff;cursor:pointer;white-space:nowrap;flex-shrink:0">+ Define</button>
+            </div>
+          </div>
+        </div>
+
+        <label style="display:block;font-size:0.78rem;font-weight:600;color:#44445a;margin-bottom:10px">Subjects you teach <span style="color:#dc2626">*</span></label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+
+          <div style="border:1.5px solid #e0ddd6;border-radius:12px;padding:12px 14px">
+            <div style="font-size:0.73rem;font-weight:700;color:#8888a8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">Cambridge Subjects</div>
+            <div id="_cambridgeChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">${cambridgeChips}</div>
+            <div style="font-size:0.73rem;font-weight:700;color:#44445a;margin-bottom:6px">Curriculum levels <span style="color:#dc2626">*</span></div>
+            <div id="_classChips" style="display:flex;flex-wrap:wrap;gap:6px">${classChips}</div>
+          </div>
+
+          <div style="border:1.5px solid #e0ddd6;border-radius:12px;padding:12px 14px">
+            <div style="font-size:0.73rem;font-weight:700;color:#8888a8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">Non-Cambridge Subjects</div>
+            <div id="_nonCambridgeChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">${nonCambridgeChips}</div>
             <input id="_otherSubjectInput" type="text" placeholder="Other (e.g. PE, Art, IT…)" value="${existingOther.replace(/"/g,'&quot;')}"
-              style="width:100%;padding:8px 12px;border:1.5px solid #e0ddd6;border-radius:9px;font-size:0.84rem;color:#1c1c2e;outline:none;box-sizing:border-box">
+              style="width:100%;padding:7px 11px;border:1.5px solid #e0ddd6;border-radius:9px;font-size:0.82rem;color:#1c1c2e;outline:none;box-sizing:border-box">
           </div>
 
         </div>
 
-        <div id="_classSection" style="margin-bottom:22px;border:1.5px solid #e0ddd6;border-radius:12px;padding:14px 16px">
-          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px">
-            <div style="font-size:0.75rem;font-weight:700;color:#8888a8;text-transform:uppercase;letter-spacing:0.06em">My Classes</div>
-            <span style="font-size:0.75rem;color:#b0b0c8;font-weight:400">optional — add more later in Settings</span>
-          </div>
-          <div id="_classChipWrap" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;min-height:28px">
-            ${_setupSchoolClasses.length > 0
-              ? _setupSchoolClasses.map(c => `<button type="button" class="_chip ${existingClassNames.has(c.name)?'_chip-on':''}" data-group="myClasses" data-value="${c.name}">${c.name}</button>`).join('')
-              : '<span id="_noClassesMsg" style="font-size:0.81rem;color:#b0b0c8;font-style:italic;align-self:center">No classes defined for this school yet.</span>'
-            }
-          </div>
-          <div style="display:flex;gap:7px;align-items:center;border-top:1px solid #f0eee9;padding-top:10px">
-            <input id="_newClassInput" type="text" placeholder="Define new class (e.g. 10 Stanford)"
-              style="flex:1;padding:7px 12px;border:1.5px solid #e0ddd6;border-radius:8px;font-size:0.82rem;color:#1c1c2e;outline:none;background:#fafafa;box-sizing:border-box">
-            <button type="button" id="_addClassBtn"
-              style="padding:7px 16px;border:1.5px dashed #6c5ce7;border-radius:8px;font-size:0.82rem;font-weight:600;color:#6c5ce7;background:#faf9ff;cursor:pointer;white-space:nowrap;flex-shrink:0">+ Define</button>
-          </div>
-        </div>
-
-        <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:10px">Your role <span style="color:#dc2626">*</span></label>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px">
-          <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding:12px 14px;border:1.5px solid #e0ddd6;border-radius:10px;transition:border-color .15s" id="_roleSubjectTeacher">
-            <input type="checkbox" id="_chkSubjectTeacher" value="subject_teacher" style="margin-top:2px;accent-color:#6c5ce7;width:16px;height:16px;flex-shrink:0" ${existing.th_sub_roles.includes('subject_teacher') ? 'checked' : ''}>
+        <label style="display:block;font-size:0.78rem;font-weight:600;color:#44445a;margin-bottom:8px">Your role <span style="color:#dc2626">*</span></label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px">
+          <label style="display:flex;align-items:flex-start;gap:11px;cursor:pointer;padding:11px 13px;border:1.5px solid #e0ddd6;border-radius:10px;transition:border-color .15s" id="_roleSubjectTeacher">
+            <input type="checkbox" id="_chkSubjectTeacher" value="subject_teacher" style="margin-top:2px;accent-color:#6c5ce7;width:15px;height:15px;flex-shrink:0" ${existing.th_sub_roles.includes('subject_teacher') ? 'checked' : ''}>
             <div>
-              <div style="font-size:0.875rem;font-weight:600;color:#1c1c2e">Subject Teacher</div>
-              <div style="font-size:0.78rem;color:#8888a8;margin-top:2px">I teach subjects to students and follow pacing guides.</div>
+              <div style="font-size:0.85rem;font-weight:600;color:#1c1c2e">Subject Teacher</div>
+              <div style="font-size:0.76rem;color:#8888a8;margin-top:2px">I teach subjects to students and follow pacing guides.</div>
             </div>
           </label>
-          <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding:12px 14px;border:1.5px solid #e0ddd6;border-radius:10px;transition:border-color .15s" id="_roleSubjectLeader">
-            <input type="checkbox" id="_chkSubjectLeader" value="subject_leader" style="margin-top:2px;accent-color:#6c5ce7;width:16px;height:16px;flex-shrink:0" ${existing.th_sub_roles.includes('subject_leader') ? 'checked' : ''}>
+          <label style="display:flex;align-items:flex-start;gap:11px;cursor:pointer;padding:11px 13px;border:1.5px solid #e0ddd6;border-radius:10px;transition:border-color .15s" id="_roleSubjectLeader">
+            <input type="checkbox" id="_chkSubjectLeader" value="subject_leader" style="margin-top:2px;accent-color:#6c5ce7;width:15px;height:15px;flex-shrink:0" ${existing.th_sub_roles.includes('subject_leader') ? 'checked' : ''}>
             <div>
-              <div style="font-size:0.875rem;font-weight:600;color:#1c1c2e">Subject Leader</div>
-              <div style="font-size:0.78rem;color:#8888a8;margin-top:2px">I oversee a subject department and coordinate pacing across teachers.</div>
+              <div style="font-size:0.85rem;font-weight:600;color:#1c1c2e">Subject Leader</div>
+              <div style="font-size:0.76rem;color:#8888a8;margin-top:2px">I oversee a subject department and coordinate pacing across teachers.</div>
             </div>
           </label>
         </div>
 
-        <p id="_profileErr" style="font-size:0.82rem;color:#dc2626;min-height:18px;margin-bottom:12px"></p>
-        <button id="_profileBtn" style="width:100%;padding:12px;background:linear-gradient(135deg,#7c3aed,#0891b2);color:#fff;border:none;border-radius:10px;font-size:0.95rem;font-weight:600;cursor:pointer">Save & Continue →</button>
+        <p id="_profileErr" style="font-size:0.82rem;color:#dc2626;min-height:18px;margin-bottom:10px"></p>
+        <button id="_profileBtn" style="width:100%;padding:11px;background:linear-gradient(135deg,#7c3aed,#0891b2);color:#fff;border:none;border-radius:10px;font-size:0.93rem;font-weight:600;cursor:pointer">Save & Continue →</button>
       </div>
       <style>
-        ._chip{padding:6px 13px;border-radius:20px;border:1.5px solid #e0ddd6;background:#f7f6f3;color:#44445a;font-size:0.82rem;font-weight:500;cursor:pointer;transition:all .15s}
+        ._chip{padding:5px 12px;border-radius:20px;border:1.5px solid #e0ddd6;background:#f7f6f3;color:#44445a;font-size:0.8rem;font-weight:500;cursor:pointer;transition:all .15s}
         ._chip:hover{border-color:#6c5ce7;color:#6c5ce7}
         ._chip-on{background:#ede9fe;border-color:#6c5ce7;color:#6c5ce7;font-weight:600}
       </style>`;
@@ -435,12 +439,13 @@ onAuthStateChanged(auth, async (user) => {
   // 5b. Profile setup prompt if school/subjects/classes/th_sub_roles are missing
   if (!profileComplete(profile)) {
     const { school, schoolId, subjects, classes, myClasses, th_sub_roles } = await promptForProfile(profile);
-    await setDoc(userRef, { school, schoolId, subjects, classes, th_sub_roles }, { merge: true });
+    await setDoc(userRef, { school, schoolId, subjects, classes, th_sub_roles, myClasses }, { merge: true });
     profile.school       = school;
     profile.schoolId     = schoolId;
     profile.subjects     = subjects;
     profile.classes      = classes;
     profile.th_sub_roles = th_sub_roles;
+    profile.myClasses    = myClasses;
 
     // Sync selected classes to shared school pool
     if (schoolId && Array.isArray(myClasses) && myClasses.length) {
