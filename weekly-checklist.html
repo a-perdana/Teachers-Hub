@@ -833,6 +833,7 @@ async function toggleTask(taskId) {
   myProgress[taskId] = { ...prev, checked };
   render();
   await saveProgress();
+  showToast(checked ? '✓ Task checked' : 'Task unchecked');
 }
 
 // ── Save note ─────────────────────────────────────────────────────
@@ -1117,6 +1118,7 @@ async function toggleEssential(id) {
     academicYear: ACADEMIC_YEAR, platform: currentPlatform,
     essentials: myEssProgress, updatedAt: serverTimestamp(),
   }, { merge: true });
+  showToast(myEssProgress[id].checked ? '✓ Essential checked' : 'Essential unchecked');
 }
 
 document.getElementById('essPrev').addEventListener('click', () => { essPage--; renderEssentials(); });
@@ -1159,15 +1161,7 @@ document.addEventListener('keydown', e => {
 // ── Journal ───────────────────────────────────────────────────────
 (function initJournal() {
   const editor = document.getElementById('journalEditor');
-  const toast  = document.getElementById('journalToast');
   let saveTimer = null;
-  let toastTimer = null;
-
-  function showToast() {
-    clearTimeout(toastTimer);
-    toast.classList.add('show');
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
-  }
 
   const toolbar = {
     jBold:      () => document.execCommand('bold'),
@@ -1194,7 +1188,7 @@ document.addEventListener('keydown', e => {
       academicYear: ACADEMIC_YEAR, platform: currentPlatform,
       journalHtml: editor.innerHTML, updatedAt: serverTimestamp(),
     }, { merge: true });
-    showToast();
+    showToast('Journal saved.');
   }
 
   editor.addEventListener('input', () => {
