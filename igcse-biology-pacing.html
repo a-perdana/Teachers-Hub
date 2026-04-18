@@ -2197,19 +2197,28 @@ function deleteNote(ci, ti) {
 // -----------------------------------------------------------
 // CLASS SELECTOR
 // -----------------------------------------------------------
-function buildClassSelector() {
+async function buildClassSelector() {
   const wrap   = document.getElementById('classSelectorWrap');
   const select = document.getElementById('classSelect');
   if (!wrap || !select) return;
 
-  // Prefer subject-specific class list (new format), fall back to shared
-  // igcse_classes (old format, pre-migration), then admin global list.
   const p = window.userProfile;
   const profileClasses =
     (Array.isArray(p?.igcse_biology_classes) && p.igcse_biology_classes.length) ? p.igcse_biology_classes :
     (Array.isArray(p?.igcse_classes)          && p.igcse_classes.length)          ? p.igcse_classes          :
     null;
-  const effectiveList = profileClasses || classList;
+
+  let schoolClasses = [];
+  const schoolId = p?.schoolId;
+  if (schoolId) {
+    try {
+      const snap = await getDocs(query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section')));
+      snap.forEach(d => schoolClasses.push({ id: d.id, ...d.data() }));
+    } catch { /* ignore */ }
+  }
+
+  const effectiveList = profileClasses ||
+    (schoolClasses.length ? schoolClasses.map(c => c.name) : classList);
 
   wrap.style.display = effectiveList.length > 0 ? 'flex' : 'none';
 
@@ -2546,7 +2555,7 @@ function applyRole(r) {
   role = 'teacher'; // TH is teacher-only; role param kept for shared-JS compatibility
   const tr = document.getElementById('teacherResetBtn');
   if (tr) tr.style.display = 'inline-block';
-  buildClassSelector();
+  await buildClassSelector();
   render();
 }
 
@@ -2679,6 +2688,8 @@ import {
   setDoc,
   onSnapshot,
   serverTimestamp,
+  query,
+  orderBy,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // -- Module-level state --------------------------------------------

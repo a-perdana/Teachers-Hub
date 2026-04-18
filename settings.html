@@ -379,6 +379,17 @@
 
 .class-group.missing .class-add-input { border-color: #dc2626; }
 .class-group.missing .class-group-label { color: #dc2626; }
+.class-new-toggle {
+  background: none; border: none; padding: 0;
+  font-size: 12px; color: #6c5ce7; cursor: pointer;
+  margin-top: 4px; font-family: 'DM Sans', sans-serif;
+  text-decoration: underline; text-underline-offset: 2px;
+}
+.class-new-row {
+  display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap;
+}
+.class-grade-input { max-width: 100px; }
+.class-new-err { font-size: 11.5px; color: #dc2626; }
 .class-empty-hint {
   font-size: 11.5px;
   color: #d97706;
@@ -913,8 +924,22 @@ document.getElementById('sPwToggle').addEventListener('click', function() {
 });
 
 // ── Teaching Profile state ────────────────────────────────────────
-let _activeCombos = new Set();
-let _slClasses    = {};
+let _activeCombos  = new Set();
+let _slClasses     = {};      // key → [className, ...]  (teacher's selections per combo)
+let _schoolClasses = [];      // [{id, name, grade, section}] loaded from schools/{id}/classes
+
+async function loadSchoolClasses(db, schoolId) {
+  _schoolClasses = [];
+  if (!schoolId) return;
+  try {
+    const snap = await getDocs(
+      query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section'))
+    );
+    snap.forEach(d => {
+      _schoolClasses.push({ id: d.id, ...d.data() });
+    });
+  } catch { /* leave empty */ }
+}
 
 function loadTeachingState(p) {
   _activeCombos = new Set();
@@ -1040,41 +1065,143 @@ function renderClassEditors() {
       list.forEach((cls, idx) => {
         const tag = document.createElement('span');
         tag.className = 'class-tag';
-        tag.innerHTML = `${cls}<button class="class-tag-remove" title="Remove">×</button>`;
+        tag.innerHTML = `${cls} <button class="class-tag-remove" title="Remove">×</button>`;
         tag.querySelector('.class-tag-remove').addEventListener('click', () => {
           _slClasses[key].splice(idx, 1);
           renderTags();
+          rebuildDropdown();
         });
         tagsWrap.appendChild(tag);
       });
     }
-    renderTags();
 
-    const addRow = document.createElement('div');
-    addRow.className = 'class-add-row';
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.className = 'class-add-input';
-    input.placeholder = 'e.g. 10A, 9Cam  (comma-separated)';
-    const addBtn = document.createElement('button');
-    addBtn.type = 'button';
-    addBtn.className = 'class-add-btn';
-    addBtn.textContent = '+';
+    // ── Dropdown: pick from school's class pool ───────────────────
+    const pickRow = document.createElement('div');
+    pickRow.className = 'class-add-row';
 
-    const doAdd = () => {
-      const val = input.value.trim();
-      if (!val) return;
-      val.split(',').map(x => x.trim()).filter(Boolean).forEach(x => {
-        if (!_slClasses[key].includes(x)) _slClasses[key].push(x);
+    const sel = document.createElement('select');
+    sel.className = 'class-add-input';
+
+    function rebuildDropdown() {
+      const selected = new Set(_slClasses[key] || []);
+      sel.innerHTML = '';
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.textContent = _schoolClasses.length
+        ? '— Pick a class —'
+        : '— No classes yet for this school —';
+      sel.appendChild(placeholder);
+      _schoolClasses.forEach(c => {
+        if (selected.has(c.name)) return; // already added
+        const opt = document.createElement('option');
+        opt.value = c.name;
+        opt.textContent = c.name;
+        sel.appendChild(opt);
       });
-      input.value = '';
+    }
+    rebuildDropdown();
+
+    const pickBtn = document.createElement('button');
+    pickBtn.type = 'button';
+    pickBtn.className = 'class-add-btn';
+    pickBtn.textContent = '+';
+
+    const doPick = () => {
+      const val = sel.value.trim();
+      if (!val) return;
+      if (!_slClasses[key].includes(val)) _slClasses[key].push(val);
+      sel.value = '';
       renderTags();
+      rebuildDropdown();
     };
-    addBtn.addEventListener('click', doAdd);
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doAdd(); } });
-    addRow.appendChild(input);
-    addRow.appendChild(addBtn);
-    group.appendChild(addRow);
+    pickBtn.addEventListener('click', doPick);
+    sel.addEventListener('change', () => { if (sel.value) doPick(); });
+    pickRow.appendChild(sel);
+    pickRow.appendChild(pickBtn);
+    group.appendChild(pickRow);
+
+    // ── "Add new class" expander ──────────────────────────────────
+    const newToggle = document.createElement('button');
+    newToggle.type = 'button';
+    newToggle.className = 'class-new-toggle';
+    newToggle.textContent = '+ Define new class';
+    group.appendChild(newToggle);
+
+    const newRow = document.createElement('div');
+    newRow.className = 'class-new-row';
+    newRow.style.display = 'none';
+
+    const gradeInput = document.createElement('input');
+    gradeInput.type = 'number';
+    gradeInput.className = 'class-add-input class-grade-input';
+    gradeInput.placeholder = 'Grade (e.g. 10)';
+    gradeInput.min = 1; gradeInput.max = 13;
+
+    const sectionInput = document.createElement('input');
+    sectionInput.type = 'text';
+    sectionInput.className = 'class-add-input';
+    sectionInput.placeholder = 'Section (e.g. Stanford)';
+
+    const saveNewBtn = document.createElement('button');
+    saveNewBtn.type = 'button';
+    saveNewBtn.className = 'class-add-btn';
+    saveNewBtn.textContent = 'Save';
+
+    const newErr = document.createElement('span');
+    newErr.className = 'class-new-err';
+
+    const doSaveNew = async () => {
+      const grade = parseInt(gradeInput.value, 10);
+      const section = sectionInput.value.trim();
+      if (!grade || grade < 1 || grade > 13) { newErr.textContent = 'Enter a valid grade (1–13)'; return; }
+      if (!section) { newErr.textContent = 'Enter a section name'; return; }
+      const className = `${grade} ${section}`;
+      if (_schoolClasses.some(c => c.name === className)) { newErr.textContent = 'This class already exists'; return; }
+
+      const schoolId = document.getElementById('sSchool').value;
+      if (!schoolId) { newErr.textContent = 'Select a school first'; return; }
+
+      newErr.textContent = '';
+      saveNewBtn.disabled = true;
+      try {
+        const db = window.db;
+        const classRef = doc(collection(db, 'schools', schoolId, 'classes'));
+        await setDoc(classRef, {
+          name: className, grade, section,
+          createdBy: window.currentUser.uid,
+          createdAt: serverTimestamp(),
+        });
+        _schoolClasses.push({ id: classRef.id, name: className, grade, section });
+        _schoolClasses.sort((a, b) => a.grade - b.grade || a.section.localeCompare(b.section));
+        gradeInput.value = ''; sectionInput.value = '';
+        newRow.style.display = 'none';
+        newToggle.textContent = '+ Define new class';
+        // Auto-select the new class
+        if (!_slClasses[key].includes(className)) _slClasses[key].push(className);
+        renderTags();
+        rebuildDropdown();
+      } catch { newErr.textContent = 'Failed to save. Try again.'; }
+      finally { saveNewBtn.disabled = false; }
+    };
+
+    saveNewBtn.addEventListener('click', doSaveNew);
+    [gradeInput, sectionInput].forEach(inp =>
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doSaveNew(); } })
+    );
+
+    newToggle.addEventListener('click', () => {
+      const open = newRow.style.display !== 'none';
+      newRow.style.display = open ? 'none' : 'flex';
+      newToggle.textContent = open ? '+ Define new class' : '− Cancel';
+    });
+
+    newRow.appendChild(gradeInput);
+    newRow.appendChild(sectionInput);
+    newRow.appendChild(saveNewBtn);
+    newRow.appendChild(newErr);
+    group.appendChild(newRow);
+
+    renderTags();
     editorsEl.appendChild(group);
   });
 }
@@ -1107,7 +1234,9 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   renderComboGrid();
   renderClassEditors();
 
-  // Load schools dropdown from Firestore
+  // Load schools dropdown from Firestore; store schoolId as option value
+  // _schoolMap: id → name, used when loading school classes
+  window._schoolMap = {};
   (async () => {
     const sel = document.getElementById('sSchool');
     try {
@@ -1115,21 +1244,33 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
       sel.innerHTML = '<option value="">— Select your school —</option>';
       snap.forEach(d => {
         const name = d.data().name || d.id;
+        window._schoolMap[d.id] = name;
         const opt = document.createElement('option');
-        opt.value = name;
+        opt.value = d.id;
+        opt.dataset.name = name;
         opt.textContent = name;
+        if (d.id === profile.schoolId || name === profile.school) opt.selected = true;
         sel.appendChild(opt);
       });
     } catch {
       sel.innerHTML = '<option value="">Could not load schools</option>';
     }
-    sel.value = profile.school || '';
+    // After school is selected, load that school's classes
+    await loadSchoolClasses(db, sel.value);
   })();
 
+  // When school changes, reload class pool
+  document.getElementById('sSchool').addEventListener('change', async (e) => {
+    await loadSchoolClasses(db, e.target.value);
+    renderClassEditors();
+  });
+
   document.getElementById('sTeachingBtn').addEventListener('click', async () => {
-    const school = document.getElementById('sSchool').value.trim();
+    const schoolSel = document.getElementById('sSchool');
+    const schoolId  = schoolSel.value.trim();
+    const school    = schoolSel.selectedOptions[0]?.dataset.name || window._schoolMap[schoolId] || schoolId;
     const btn = document.getElementById('sTeachingBtn');
-    if (!school) { showMsg('sTeachingMsg', 'Please select your school.', 'err'); return; }
+    if (!schoolId) { showMsg('sTeachingMsg', 'Please select your school.', 'err'); return; }
     if (!_activeCombos.size) { showMsg('sTeachingMsg', 'Tick at least one subject to teach.', 'err'); return; }
 
     const missing = [];
@@ -1160,10 +1301,10 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     btn.disabled = true; btn.textContent = 'Saving…';
     try {
       await setDoc(doc(db, 'users', user.uid),
-        { school, teaching_combos, subjects: [...subjectsSet], classes: [...levelsSet], ...classFields },
+        { school, schoolId, teaching_combos, subjects: [...subjectsSet], classes: [...levelsSet], ...classFields },
         { merge: true }
       );
-      window.userProfile = { ...window.userProfile, school, teaching_combos, subjects: [...subjectsSet], classes: [...levelsSet], ...classFields };
+      window.userProfile = { ...window.userProfile, school, schoolId, teaching_combos, subjects: [...subjectsSet], classes: [...levelsSet], ...classFields };
       loadTeachingState(window.userProfile);
       renderProgress(window.userProfile);
       document.getElementById('sTeachingBanner').style.display = 'none';

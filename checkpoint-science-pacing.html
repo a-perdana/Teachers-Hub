@@ -2262,29 +2262,39 @@ function deleteNote(ci, ti) {
 // -----------------------------------------------------------
 // CLASS MANAGEMENT
 // -----------------------------------------------------------
-function buildClassSelector() {
+async function buildClassSelector() {
   const wrap   = document.getElementById('classSelectorWrap');
   const select = document.getElementById('classSelect');
   const manBtn = document.getElementById('classManageBtn');
   if (!wrap || !select) return;
 
-  // Always visible — teachers and admins both benefit from class context
   wrap.style.display = 'flex';
   if (manBtn) manBtn.style.display = role === 'admin' ? '' : 'none';
 
-  // Rebuild options
-  if (classList.length === 0) {
-    select.innerHTML = '<option value="default">All Classes</option>';
-    if (role === 'admin') {
-      // hint admin to set up classes
-      const hint = document.createElement('option');
-      hint.value = ''; hint.disabled = true;
-      hint.textContent = '— click ⚙ to add classes —';
-      select.appendChild(hint);
-    }
+  const p = window.userProfile;
+  const profileClasses =
+    (Array.isArray(p?.checkpoint_science_classes) && p.checkpoint_science_classes.length) ? p.checkpoint_science_classes : null;
+
+  let schoolClasses = [];
+  const schoolId = p?.schoolId;
+  if (!profileClasses && schoolId) {
+    try {
+      const snap = await getDocs(query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section')));
+      snap.forEach(d => schoolClasses.push({ id: d.id, ...d.data() }));
+    } catch { /* ignore */ }
+  }
+
+  const effectiveList = profileClasses ||
+    (schoolClasses.length ? schoolClasses.map(c => c.name) : classList);
+
+  select.innerHTML = '<option value="default">All Classes</option>';
+  if (effectiveList.length === 0 && role === 'admin') {
+    const hint = document.createElement('option');
+    hint.value = ''; hint.disabled = true;
+    hint.textContent = '— click ⚙ to add classes —';
+    select.appendChild(hint);
   } else {
-    select.innerHTML = '<option value="default">All Classes</option>';
-    classList.forEach(cls => {
+    effectiveList.forEach(cls => {
       const opt = document.createElement('option');
       opt.value = cls;
       opt.textContent = cls;
@@ -2310,7 +2320,7 @@ async function manageClasses() {
   if (!res) return;
   const raw = (res.classes || '').split(',').map(s => s.trim()).filter(Boolean);
   classList = [...new Set(raw)];
-  buildClassSelector();
+  await buildClassSelector();
   // Save class list to Firestore structure meta
   if (window.__fbSaveClassList) window.__fbSaveClassList(classList);
   showToast('Class groups saved');
@@ -2444,7 +2454,7 @@ function applyRole(r) {
     label.textContent = 'Teacher';
     if (resetBtn) resetBtn.style.display = 'none';
   }
-  buildClassSelector();
+  await buildClassSelector();
   render();
 }
 
@@ -2494,9 +2504,12 @@ import {
   collection,
   doc,
   getDoc,
+  getDocs,
   setDoc,
   onSnapshot,
   serverTimestamp,
+  query,
+  orderBy,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // -- Module-level state --
