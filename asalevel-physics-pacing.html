@@ -2013,12 +2013,14 @@ function setCovFilter(f) {
 // INTERACTIONS
 // -----------------------------------------------------------
 function toggleDone(ci, ti) {
+  if (currentClass === 'default') { showToast('Select a class first to save progress', 'warn'); return; }
   const cur = DATA[ci].topics[ti].status;
   DATA[ci].topics[ti].status = cur==='pending'?'inprogress':cur==='inprogress'?'done':'pending';
   saveState(); render();
 }
 
 function setStatus(ci, ti, val) {
+  if (currentClass === 'default') { showToast('Select a class first to save progress', 'warn'); return; }
   DATA[ci].topics[ti].status = val;
   saveState(); render();
 }
