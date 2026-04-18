@@ -811,7 +811,7 @@
 <script type="module">
 import { getAuth, signOut, updatePassword, EmailAuthProvider, reauthenticateWithCredential }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, updateDoc }
+import { getFirestore, doc, setDoc, updateDoc, collection, onSnapshot, addDoc, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 window.__thNavActiveKey = 'settings';
@@ -1288,11 +1288,19 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
 
   const doBadgeSetup = () => {
     if (typeof setupNavBadges === 'function') {
-      const { onSnapshot, collection } = window.__firestoreHelpers || {};
+      setupNavBadges(db, { onSnapshot, collection });
     }
   };
   if (document.getElementById('msgBoardBadge')) doBadgeSetup();
   else window._pendingBadgeSetup = doBadgeSetup;
+
+  const doFeedbackSetup = () => {
+    if (typeof initFeedback === 'function') {
+      initFeedback(db, { addDoc, collection, serverTimestamp });
+    }
+  };
+  if (document.getElementById('feedbackOverlay')) doFeedbackSetup();
+  else window._pendingFeedbackSetup = doFeedbackSetup;
 });
 </script>
 </body>
