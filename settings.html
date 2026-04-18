@@ -604,7 +604,9 @@
         <div class="settings-card-label">School</div>
         <div class="settings-input-wrap">
           <label class="settings-input-label" for="sSchool">School name <span style="color:#dc2626">*</span></label>
-          <input type="text" class="settings-input" id="sSchool" placeholder="e.g. SMA Semesta Bilingual Boarding School">
+          <select class="settings-input" id="sSchool">
+            <option value="">Loading schools…</option>
+          </select>
         </div>
       </div>
 
@@ -811,7 +813,7 @@
 <script type="module">
 import { getAuth, signOut, updatePassword, EmailAuthProvider, reauthenticateWithCredential }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, updateDoc, collection, onSnapshot, addDoc, serverTimestamp }
+import { getFirestore, doc, setDoc, updateDoc, collection, onSnapshot, addDoc, serverTimestamp, getDocs, query, orderBy }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 window.__thNavActiveKey = 'settings';
@@ -1104,12 +1106,30 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   loadTeachingState(profile);
   renderComboGrid();
   renderClassEditors();
-  document.getElementById('sSchool').value = profile.school || '';
+
+  // Load schools dropdown from Firestore
+  (async () => {
+    const sel = document.getElementById('sSchool');
+    try {
+      const snap = await getDocs(query(collection(db, 'schools'), orderBy('name')));
+      sel.innerHTML = '<option value="">— Select your school —</option>';
+      snap.forEach(d => {
+        const name = d.data().name || d.id;
+        const opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = name;
+        sel.appendChild(opt);
+      });
+    } catch {
+      sel.innerHTML = '<option value="">Could not load schools</option>';
+    }
+    sel.value = profile.school || '';
+  })();
 
   document.getElementById('sTeachingBtn').addEventListener('click', async () => {
     const school = document.getElementById('sSchool').value.trim();
     const btn = document.getElementById('sTeachingBtn');
-    if (!school) { showMsg('sTeachingMsg', 'Please enter your school name.', 'err'); return; }
+    if (!school) { showMsg('sTeachingMsg', 'Please select your school.', 'err'); return; }
     if (!_activeCombos.size) { showMsg('sTeachingMsg', 'Tick at least one subject to teach.', 'err'); return; }
 
     const missing = [];

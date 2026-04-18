@@ -20,7 +20,7 @@ import { initializeApp, getApps }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp }
+import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp, getDocs, query, orderBy }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // ── Platform identity ─────────────────────────────────────────────
@@ -134,7 +134,14 @@ function profileComplete(profile) {
   );
 }
 
-function promptForProfile(profile) {
+async function promptForProfile(profile) {
+  // Fetch schools list before showing the modal
+  let schoolOptions = [];
+  try {
+    const snap = await getDocs(query(collection(db, 'schools'), orderBy('name')));
+    snap.forEach(d => { const name = d.data().name || d.id; schoolOptions.push(name); });
+  } catch { /* fall through — show empty dropdown */ }
+
   return new Promise(resolve => {
     const existing = {
       school:      profile.school      || '',
@@ -169,8 +176,11 @@ function promptForProfile(profile) {
         </div>
 
         <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:6px">School name <span style="color:#dc2626">*</span></label>
-        <input id="_schoolInput" type="text" placeholder="e.g. SMA Semesta" value="${existing.school.replace(/"/g,'&quot;')}"
-          style="width:100%;padding:10px 14px;border:1.5px solid #e0ddd6;border-radius:10px;font-size:0.95rem;color:#1c1c2e;outline:none;box-sizing:border-box;margin-bottom:22px">
+        <select id="_schoolInput"
+          style="width:100%;padding:10px 14px;border:1.5px solid #e0ddd6;border-radius:10px;font-size:0.95rem;color:#1c1c2e;outline:none;box-sizing:border-box;margin-bottom:22px;background:#fff;appearance:auto">
+          <option value="">— Select your school —</option>
+          ${schoolOptions.map(n => `<option value="${n.replace(/"/g,'&quot;')}"${existing.school===n?' selected':''}>${n}</option>`).join('')}
+        </select>
 
         <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:12px">Subjects you teach <span style="color:#dc2626">*</span></label>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:22px">
@@ -253,7 +263,7 @@ function promptForProfile(profile) {
       ].filter(Boolean);
 
       const cambridgeSelected = chipSubjects.some(v => CAMBRIDGE_SUBJECT_OPTIONS.map(o => o.value).includes(v));
-      if (!school)                              { err.textContent = 'Please enter your school name.'; return; }
+      if (!school)                              { err.textContent = 'Please select your school.'; return; }
       if (!subjects.length)                     { err.textContent = 'Please select at least one subject.'; return; }
       if (cambridgeSelected && !classes.length) { err.textContent = 'Please select at least one curriculum level.'; return; }
       if (!th_sub_roles.length)                 { err.textContent = 'Please select your role (Subject Teacher and/or Subject Leader).'; return; }
