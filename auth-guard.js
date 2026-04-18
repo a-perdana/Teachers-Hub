@@ -408,6 +408,23 @@ onAuthStateChanged(auth, async (user) => {
     profile.classes      = classes;
     profile.myClasses    = myClasses;
     profile.th_sub_roles = th_sub_roles;
+
+    // Sync selected classes into the shared school pool so all teachers see them
+    if (schoolId && Array.isArray(myClasses) && myClasses.length) {
+      try {
+        const classesRef = collection(db, 'schools', schoolId, 'classes');
+        const existing = await getDocs(query(classesRef, orderBy('grade')));
+        const existingNames = new Set(existing.docs.map(d => d.data().name));
+        await Promise.all(myClasses
+          .filter(name => !existingNames.has(name))
+          .map(name => {
+            const grade = parseInt(name, 10) || 0;
+            const section = name.replace(/^\d+\s*/, '');
+            return addDoc(classesRef, { name, grade, section, createdBy: user.uid, createdAt: serverTimestamp() });
+          })
+        );
+      } catch (e) { console.warn('Could not sync classes to school pool:', e); }
+    }
   }
 
   // 5c. Approval check (teachers_admin bypasses — they are always approved)

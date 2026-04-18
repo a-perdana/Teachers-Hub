@@ -941,22 +941,6 @@ async function loadSchoolClasses(db, schoolId) {
   } catch (e) { console.error('loadSchoolClasses failed:', e); }
 }
 
-// Ensures classes saved in the teacher's profile are always visible
-// in the dropdown, even if the school pool hasn't been populated yet.
-function mergeProfileClassesIntoPool() {
-  const poolNames = new Set(_schoolClasses.map(c => c.name));
-  Object.values(_slClasses).forEach(arr => {
-    if (!Array.isArray(arr)) return;
-    arr.forEach(name => {
-      if (poolNames.has(name)) return;
-      const grade = parseInt(name, 10) || 0;
-      const section = name.replace(/^\d+\s*/, '');
-      _schoolClasses.push({ id: null, name, grade, section });
-      poolNames.add(name);
-    });
-  });
-  _schoolClasses.sort((a, b) => a.grade - b.grade || a.name.localeCompare(b.name));
-}
 
 function loadTeachingState(p) {
   _activeCombos = new Set();
@@ -1265,14 +1249,12 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     }
     // After school is selected, load that school's classes
     await loadSchoolClasses(db, sel.value);
-    mergeProfileClassesIntoPool();
     renderClassEditors();
   })();
 
   // When school changes, reload class pool
   document.getElementById('sSchool').addEventListener('change', async (e) => {
     await loadSchoolClasses(db, e.target.value);
-    mergeProfileClassesIntoPool();
     renderClassEditors();
   });
 
