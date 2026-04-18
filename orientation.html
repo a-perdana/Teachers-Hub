@@ -105,6 +105,37 @@
       color: var(--brand);
     }
 
+    /* ── QUESTION NOTE ── */
+    .q-note-wrap { margin-top: 14px; }
+    .q-note-toggle {
+      background: none;
+      border: none;
+      font-size: 0.82rem;
+      color: var(--ink-3);
+      cursor: pointer;
+      padding: 0;
+      font-family: inherit;
+      transition: color .15s;
+    }
+    .q-note-toggle:hover { color: var(--brand); }
+    .q-note-input {
+      display: none;
+      width: 100%;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 0.88rem;
+      color: var(--ink);
+      background: var(--paper);
+      resize: vertical;
+      min-height: 72px;
+      transition: border-color .18s;
+    }
+    .q-note-input.open { display: block; }
+    .q-note-input:focus { outline: none; border-color: var(--brand); }
+
     /* ── PHOTO UPLOAD ── */
     .photo-upload-wrap {
       display: flex;
@@ -976,7 +1007,8 @@
   // ── QUIZ ───────────────────────────────────────────────────────────────────
 
   let questions  = [];
-  let answers    = {}; // questionId -> optionIndex
+  let answers    = {}; // questionId -> { idx, text }
+  let notes      = {}; // questionId -> string
 
   async function loadQuestions() {
     try {
@@ -1018,10 +1050,24 @@
             </label>
           `).join('')}
         </div>
+        <div class="q-note-wrap">
+          <button class="q-note-toggle" onclick="toggleNote('${q.id}', this)" type="button">
+            ✏️ Add a note
+          </button>
+          <textarea class="q-note-input" id="qnote-${q.id}" placeholder="Any additional context you'd like to share…"
+            oninput="notes['${q.id}'] = this.value.trim()"></textarea>
+        </div>
       </div>
     `).join('');
     updateProgress();
   }
+
+  window.toggleNote = function(qId, btn) {
+    const ta = document.getElementById(`qnote-${qId}`);
+    const open = ta.classList.toggle('open');
+    btn.textContent = open ? '✏️ Hide note' : '✏️ Add a note';
+    if (open) ta.focus();
+  };
 
   window.selectAnswer = function(qId, optIdx, optText) {
     answers[qId] = { idx: optIdx, text: optText };
@@ -1159,6 +1205,7 @@
         question:     q.question,
         answerIdx:    answers[q.id]?.idx ?? null,
         answerText:   answers[q.id]?.text ?? null,
+        note:         notes[q.id] || null,
       }));
 
       await addDoc(collection(db, 'orientation_registrations'), {
