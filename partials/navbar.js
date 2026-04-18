@@ -35,6 +35,18 @@ function initNavbar() {
     }
   }
 
+  // Tab switching
+  document.querySelectorAll('.pd-tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      document.querySelectorAll('.pd-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.pd-tab-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      const panelId = tab.getAttribute('data-tab');
+      const panel = document.getElementById(panelId);
+      if (panel) panel.classList.add('active');
+    });
+  });
+
   // Sign out — host page sets window.authSignOut = () => signOut(auth)
   const pdSignOut = document.getElementById('pdSignOut');
   if (pdSignOut) {
