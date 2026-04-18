@@ -330,24 +330,106 @@
 }
 .class-tag-remove:hover { color: #dc2626; }
 
-.class-group { margin-bottom: 18px; }
+.class-group {
+  margin-bottom: 20px;
+  border: 1.5px solid #ede9fe;
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: #fdfcff;
+}
+.class-group.missing { border-color: #dc2626; }
 .class-group-label {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .06em;
   text-transform: uppercase;
   color: #a8a49c;
+  margin-bottom: 12px;
+}
+.class-group.missing .class-group-label { color: #dc2626; }
+
+/* Two-column layout */
+.class-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 520px) { .class-cols { grid-template-columns: 1fr; } }
+
+.class-col-head {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: #c4c0b8;
   margin-bottom: 8px;
 }
+.class-pool-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 36px;
+}
+.class-pool-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1.5px solid #e0ddd6;
+  background: #fafaf8;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #44445a;
+  cursor: pointer;
+  transition: all .13s;
+  font-family: 'DM Sans', sans-serif;
+}
+.class-pool-item:hover:not(.added) {
+  border-color: #6c5ce7;
+  background: rgba(108,92,231,0.06);
+  color: #6c5ce7;
+}
+.class-pool-item.added {
+  opacity: 0.45;
+  cursor: default;
+}
+.class-pool-item .pool-add-icon {
+  font-size: 14px;
+  color: #6c5ce7;
+  line-height: 1;
+}
+.class-pool-item.added .pool-add-icon { display: none; }
+.class-pool-empty {
+  font-size: 12px;
+  color: #b8b4ac;
+  padding: 6px 2px;
+}
+
 .class-tags-wrap {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 8px;
+  min-height: 36px;
+  align-content: flex-start;
 }
-.class-add-row {
-  display: flex;
-  gap: 8px;
+.class-tags-empty {
+  font-size: 12px;
+  color: #b8b4ac;
+  padding: 6px 2px;
+  font-style: italic;
+}
+
+/* New class form */
+.class-new-toggle {
+  background: none; border: none; padding: 0;
+  font-size: 12px; color: #6c5ce7; cursor: pointer;
+  margin-top: 10px; font-family: 'DM Sans', sans-serif;
+  text-decoration: underline; text-underline-offset: 2px;
+  display: block;
+}
+.class-new-row {
+  display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap;
 }
 .class-add-input {
   flex: 1;
@@ -369,37 +451,16 @@
   background: rgba(108,92,231,0.12);
   border: 1.5px solid rgba(108,92,231,0.3);
   color: #6c5ce7;
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
   transition: all .15s;
   font-family: 'DM Sans', sans-serif;
 }
 .class-add-btn:hover { background: rgba(108,92,231,0.2); }
-
-.class-group.missing .class-add-input { border-color: #dc2626; }
-.class-group.missing .class-group-label { color: #dc2626; }
-.class-new-toggle {
-  background: none; border: none; padding: 0;
-  font-size: 12px; color: #6c5ce7; cursor: pointer;
-  margin-top: 4px; font-family: 'DM Sans', sans-serif;
-  text-decoration: underline; text-underline-offset: 2px;
-}
-.class-new-row {
-  display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap;
-}
 .class-grade-input { max-width: 100px; }
-.class-new-err { font-size: 11.5px; color: #dc2626; }
-.class-empty-hint {
-  font-size: 11.5px;
-  color: #d97706;
-  background: rgba(245,158,11,.08);
-  border: 1px solid rgba(245,158,11,.2);
-  border-radius: 6px;
-  padding: 5px 9px;
-  margin-bottom: 8px;
-}
-.class-group.has-classes .class-empty-hint { display: none; }
+.class-new-err { font-size: 11.5px; color: #dc2626; width: 100%; }
+.class-empty-hint { display: none; }
 
 /* ── Password collapse ──────────────────────────────────────────── */
 .pw-toggle {
@@ -1047,71 +1108,92 @@ function renderClassEditors() {
     label.textContent = `${lvLabel(lv)} ${svLabel(sv)}`;
     group.appendChild(label);
 
-    const emptyHint = document.createElement('div');
-    emptyHint.className = 'class-empty-hint';
-    emptyHint.textContent = 'Add at least one class below';
-    group.appendChild(emptyHint);
-
-    const tagsWrap = document.createElement('div');
-    tagsWrap.className = 'class-tags-wrap';
-    group.appendChild(tagsWrap);
-
-    function renderTags() {
-      tagsWrap.innerHTML = '';
-      const list = _slClasses[key] || [];
-      group.classList.toggle('has-classes', list.length > 0);
-      group.classList.remove('missing');
-      list.forEach((cls, idx) => {
-        const tag = document.createElement('span');
-        tag.className = 'class-tag';
-        tag.innerHTML = `${cls} <button class="class-tag-remove" title="Remove">×</button>`;
-        tag.querySelector('.class-tag-remove').addEventListener('click', () => {
-          _slClasses[key].splice(idx, 1);
-          renderTags();
-          rebuildDropdown();
-        });
-        tagsWrap.appendChild(tag);
-      });
-    }
-
-    // ── Dropdown: pick from school's class pool ───────────────────
-    const pickRow = document.createElement('div');
-    pickRow.className = 'class-add-row';
-
-    const sel = document.createElement('select');
-    sel.className = 'class-add-input';
-
     const GRADE_RANGE = { checkpoint: [7, 8], igcse: [9, 10], asalevel: [11, 12] };
 
-    function rebuildDropdown() {
+    // ── Two-column layout ─────────────────────────────────────────
+    const cols = document.createElement('div');
+    cols.className = 'class-cols';
+
+    // Left col — school pool
+    const leftCol = document.createElement('div');
+    const leftHead = document.createElement('div');
+    leftHead.className = 'class-col-head';
+    leftHead.textContent = 'School classes';
+    const poolList = document.createElement('div');
+    poolList.className = 'class-pool-list';
+    leftCol.appendChild(leftHead);
+    leftCol.appendChild(poolList);
+
+    // Right col — my classes
+    const rightCol = document.createElement('div');
+    const rightHead = document.createElement('div');
+    rightHead.className = 'class-col-head';
+    rightHead.textContent = 'My classes';
+    const tagsWrap = document.createElement('div');
+    tagsWrap.className = 'class-tags-wrap';
+    rightCol.appendChild(rightHead);
+    rightCol.appendChild(tagsWrap);
+
+    cols.appendChild(leftCol);
+    cols.appendChild(rightCol);
+    group.appendChild(cols);
+
+    function addToMy(name) {
+      if (!_slClasses[key].includes(name)) _slClasses[key].push(name);
+      renderBoth();
+    }
+
+    function removeFromMy(name) {
+      _slClasses[key] = _slClasses[key].filter(n => n !== name);
+      renderBoth();
+    }
+
+    function renderBoth() {
       const selected = new Set(_slClasses[key] || []);
       const [minG, maxG] = GRADE_RANGE[lv] || [1, 13];
       const filtered = _schoolClasses.filter(c => c.grade >= minG && c.grade <= maxG);
-      sel.innerHTML = '';
-      const placeholder = document.createElement('option');
-      placeholder.value = '';
-      placeholder.textContent = filtered.length ? '— Pick a class —' : '— No classes yet for this level —';
-      sel.appendChild(placeholder);
-      filtered.forEach(c => {
-        const opt = document.createElement('option');
-        opt.value = c.name;
-        opt.textContent = selected.has(c.name) ? `${c.name} ✓` : c.name;
-        opt.disabled = selected.has(c.name);
-        sel.appendChild(opt);
-      });
-    }
-    rebuildDropdown();
+      group.classList.remove('missing');
 
-    sel.addEventListener('change', () => {
-      const val = sel.value.trim();
-      if (!val) return;
-      if (!_slClasses[key].includes(val)) _slClasses[key].push(val);
-      sel.value = '';
-      renderTags();
-      rebuildDropdown();
-    });
-    pickRow.appendChild(sel);
-    group.appendChild(pickRow);
+      // Pool list
+      poolList.innerHTML = '';
+      if (filtered.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'class-pool-empty';
+        empty.textContent = 'No classes defined yet — use "+ Define new class" below.';
+        poolList.appendChild(empty);
+      } else {
+        filtered.forEach(c => {
+          const item = document.createElement('div');
+          item.className = 'class-pool-item' + (selected.has(c.name) ? ' added' : '');
+          item.innerHTML = `<span>${c.name}</span><span class="pool-add-icon">+</span>`;
+          if (!selected.has(c.name)) {
+            item.addEventListener('click', () => addToMy(c.name));
+          }
+          poolList.appendChild(item);
+        });
+      }
+
+      // My classes tags
+      tagsWrap.innerHTML = '';
+      if (selected.size === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'class-tags-empty';
+        empty.textContent = 'None selected yet';
+        tagsWrap.appendChild(empty);
+      } else {
+        [...selected].forEach(name => {
+          const tag = document.createElement('span');
+          tag.className = 'class-tag';
+          tag.innerHTML = `${name} <button class="class-tag-remove" title="Remove">×</button>`;
+          tag.querySelector('.class-tag-remove').addEventListener('click', () => removeFromMy(name));
+          tagsWrap.appendChild(tag);
+        });
+      }
+    }
+    renderBoth();
+
+    // keep renderTags as alias for legacy callers (doSaveNew → renderClassEditors re-renders anyway)
+    const renderTags = renderBoth;
 
     // ── "Add new class" expander ──────────────────────────────────
     const newToggle = document.createElement('button');
