@@ -2241,14 +2241,12 @@ async function buildClassSelector() {
 }
 
 function _showNotAssigned(subjectLabel, levelLabel) {
-  const topbar   = document.querySelector('.pacing-topbar');
-  const sidebar  = document.querySelector('.sidebar');
-  const main     = document.querySelector('.main');
-  if (topbar)  topbar.style.display  = 'none';
-  if (sidebar) sidebar.style.display = 'none';
-  if (main)    main.style.display    = 'none';
+  const layout = document.getElementById('appLayout');
+  const toggle = document.getElementById('sidebarToggle');
+  if (layout) layout.style.display = 'none';
+  if (toggle) toggle.style.display = 'none';
   const msg = document.createElement('div');
-  msg.style.cssText = 'display:flex;flex-direction:column;align-items:center;justify-content:center;height:calc(100vh - 60px);font-family:"DM Sans",sans-serif;text-align:center;padding:24px';
+  msg.style.cssText = 'position:fixed;inset:0;top:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:"DM Sans",sans-serif;text-align:center;padding:24px;background:var(--bg,#f5f4f0)';
   msg.innerHTML = `
     <div style="font-size:2.5rem;margin-bottom:16px">📋</div>
     <h2 style="font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:8px">${subjectLabel} not assigned</h2>
