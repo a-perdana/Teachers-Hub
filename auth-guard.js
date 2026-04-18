@@ -207,7 +207,7 @@ async function promptForProfile(profile) {
             <div style="font-size:0.73rem;font-weight:700;color:#8888a8;text-transform:uppercase;letter-spacing:0.06em">My Classes</div>
             <span style="font-size:0.73rem;color:#b0b0c8">optional — add more later in Settings</span>
           </div>
-          <div id="_classChipWrap" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px;min-height:26px">
+          <div id="_classChipWrap" style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px;min-height:26px">
             ${_setupSchoolClasses.length > 0
               ? _setupSchoolClasses.map(c => `<button type="button" class="_chip ${existingClassNames.has(c.name)?'_chip-on':''}" data-group="myClasses" data-value="${c.name}">${c.name}</button>`).join('')
               : '<span id="_noClassesMsg" style="font-size:0.8rem;color:#b0b0c8;font-style:italic;align-self:center">No classes defined for this school yet.</span>'
@@ -227,7 +227,7 @@ async function promptForProfile(profile) {
 
           <div style="border:1.5px solid #e0ddd6;border-radius:12px;padding:12px 14px">
             <div style="font-size:0.73rem;font-weight:700;color:#8888a8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">Cambridge Subjects</div>
-            <div id="_cambridgeChips" style="display:flex;flex-direction:column;gap:5px">${cambridgeChips}</div>
+            <div id="_cambridgeChips" style="display:grid;grid-template-columns:1fr 1fr;gap:5px">${cambridgeChips}</div>
           </div>
 
           <div style="border:1.5px solid #e0ddd6;border-radius:12px;padding:12px 14px">
