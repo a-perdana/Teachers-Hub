@@ -20,7 +20,7 @@ import { initializeApp, getApps }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, collection, getDocs, query, orderBy }
+import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp, getDocs, query, orderBy }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // ── Platform identity ─────────────────────────────────────────────
