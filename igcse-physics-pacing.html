@@ -913,6 +913,8 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 </a>
 
 <script>
+const role = 'teacher';
+
 // ============================================================
 // SUBJECT CONFIG — only this block changes per subject file
 // ============================================================
@@ -1070,8 +1072,10 @@ var HOLIDAY_RANGES   = [];   // [{start:"2025-12-20", end:"2026-01-03"}, ...]
 
 // Fetch academic year settings + holidays from Firestore (single call at startup)
 async function loadCalendarSettings(db) {
+  const { getDoc: _getDoc, getDocs: _getDocs, collection: _col, doc: _doc } = window.__fbFS || {};
+  if (!_getDoc) return;
   try {
-    const settingsSnap = await getDoc(doc(db, 'calendar_settings', 'current'));
+    const settingsSnap = await _getDoc(_doc(db, 'calendar_settings', 'current'));
     if (settingsSnap.exists()) {
       const d = settingsSnap.data();
       if (d.academicYearStart)    TERM_START_DATE = d.academicYearStart;
@@ -1080,7 +1084,7 @@ async function loadCalendarSettings(db) {
   } catch (e) { console.warn('Could not load calendar_settings:', e); }
 
   try {
-    const evSnap = await getDocs(collection(db, 'calendar_events'));
+    const evSnap = await _getDocs(_col(db, 'calendar_events'));
     HOLIDAY_RANGES = [];
     evSnap.forEach(d => {
       const ev = d.data();
@@ -2838,6 +2842,9 @@ function _startSnapshot(uid) {
     }
   }, 8000);
 }
+
+// -- Expose Firestore helpers for use in plain <script> blocks -----
+window.__fbFS = { getDoc, getDocs, collection, doc, query, orderBy };
 
 // -- Save to Firestore ---------------------------------------------
 window.__fbSaveState = async function(data) {
