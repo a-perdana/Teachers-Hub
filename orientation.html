@@ -561,15 +561,27 @@
           <input class="form-input" id="r-subject" type="text" placeholder="e.g. Mathematics, Physics" />
         </div>
         <div class="form-row" style="margin-bottom:0">
-          <label class="form-label" for="r-level">Level(s) Taught <span class="req">*</span></label>
-          <select class="form-select" id="r-level">
-            <option value="">Select level…</option>
-            <option>Cambridge Primary</option>
-            <option>Cambridge Lower Secondary (Checkpoint)</option>
-            <option>Cambridge IGCSE</option>
-            <option>Cambridge AS / A-Level</option>
-            <option>Multiple levels</option>
-          </select>
+          <label class="form-label">Level(s) Taught <span class="req">*</span></label>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
+            <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer">
+              <input type="checkbox" value="Cambridge Primary" style="accent-color:var(--brand);width:16px;height:16px" />
+              Cambridge Primary
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer">
+              <input type="checkbox" value="Cambridge Lower Secondary (Checkpoint)" style="accent-color:var(--brand);width:16px;height:16px" />
+              Cambridge Lower Secondary (Checkpoint)
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer">
+              <input type="checkbox" value="Cambridge IGCSE" style="accent-color:var(--brand);width:16px;height:16px" />
+              Cambridge IGCSE
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer">
+              <input type="checkbox" value="Cambridge AS / A-Level" style="accent-color:var(--brand);width:16px;height:16px" />
+              Cambridge AS / A-Level
+            </label>
+          </div>
+          <input class="form-input" id="r-level-other" type="text" placeholder="Other (e.g. Olympiad courses, IB, National curriculum…)" />
+          <p class="form-hint">Tick all that apply, or describe your programme below.</p>
         </div>
       </div>
 
@@ -792,7 +804,10 @@
     const email   = document.getElementById('r-email').value.trim();
     const school  = document.getElementById('r-school').value.trim();
     const subject = document.getElementById('r-subject').value.trim();
-    const level   = document.getElementById('r-level').value;
+    const levelChecked = Array.from(document.querySelectorAll('#tab-register input[type="checkbox"]:checked'))
+      .map(cb => cb.value);
+    const levelOther = document.getElementById('r-level-other').value.trim();
+    const level = [...levelChecked, ...(levelOther ? [levelOther] : [])].join(', ');
     const cvLink  = document.getElementById('r-cv').value.trim();
     const note    = document.getElementById('r-note').value.trim();
 
@@ -803,7 +818,7 @@
     if (!email || !email.includes('@')) return showErr('Please enter a valid email address.');
     if (!school) return showErr('Please enter your school name.');
     if (!subject) return showErr('Please enter the subject(s) you teach.');
-    if (!level) return showErr('Please select the level(s) you teach.');
+    if (!level) return showErr('Please select at least one level, or describe your programme.');
     if (!cvLink) return showErr('Please provide your CV link.');
     if (!cvLink.startsWith('http')) return showErr('CV link must be a valid URL starting with http.');
 
