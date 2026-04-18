@@ -136,19 +136,36 @@ function profileComplete(profile) {
 
 async function promptForProfile(profile) {
   // Fetch schools list before showing the modal
-  let schoolOptions = [];
+  let schoolDocs = []; // [{id, name}]
   try {
     const snap = await getDocs(query(collection(db, 'schools'), orderBy('name')));
-    snap.forEach(d => { const name = d.data().name || d.id; schoolOptions.push(name); });
-  } catch { /* fall through — show empty dropdown */ }
+    snap.forEach(d => schoolDocs.push({ id: d.id, name: d.data().name || d.id }));
+  } catch { /* fall through */ }
+
+  // Fetch school classes if user already has a school selected
+  let existingSchoolClasses = [];
+  const existingSchoolId = profile.schoolId ||
+    schoolDocs.find(s => s.name === profile.school)?.id;
+  if (existingSchoolId) {
+    try {
+      const snap = await getDocs(query(
+        collection(db, 'schools', existingSchoolId, 'classes'),
+        orderBy('grade'), orderBy('section')
+      ));
+      snap.forEach(d => existingSchoolClasses.push({ id: d.id, ...d.data() }));
+    } catch { /* ignore */ }
+  }
 
   return new Promise(resolve => {
     const existing = {
       school:      profile.school      || '',
+      schoolId:    existingSchoolId    || '',
       subjects:    Array.isArray(profile.subjects)    ? profile.subjects    : [],
       classes:     Array.isArray(profile.classes)     ? profile.classes     : [],
+      myClasses:   Array.isArray(profile.myClasses)   ? profile.myClasses   : [],
       th_sub_roles: Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [],
     };
+    let _schoolClasses = [...existingSchoolClasses]; // mutable, updated on school change
 
     // Detect existing "other" subject (any value not in the known options list)
     const knownValues     = SUBJECT_OPTIONS.map(o => o.value);
@@ -177,10 +194,17 @@ async function promptForProfile(profile) {
 
         <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:6px">School name <span style="color:#dc2626">*</span></label>
         <select id="_schoolInput"
-          style="width:100%;padding:10px 14px;border:1.5px solid #e0ddd6;border-radius:10px;font-size:0.95rem;color:#1c1c2e;outline:none;box-sizing:border-box;margin-bottom:22px;background:#fff;appearance:auto">
+          style="width:100%;padding:10px 14px;border:1.5px solid #e0ddd6;border-radius:10px;font-size:0.95rem;color:#1c1c2e;outline:none;box-sizing:border-box;margin-bottom:16px;background:#fff;appearance:auto">
           <option value="">— Select your school —</option>
-          ${schoolOptions.map(n => `<option value="${n.replace(/"/g,'&quot;')}"${existing.school===n?' selected':''}>${n}</option>`).join('')}
+          ${schoolDocs.map(s => `<option value="${s.id}" data-name="${s.name.replace(/"/g,'&quot;')}"${existing.schoolId===s.id?' selected':''}>${s.name}</option>`).join('')}
         </select>
+
+        <div id="_classPickSection" style="margin-bottom:22px;${existingSchoolClasses.length===0?'display:none':''}">
+          <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:6px">My classes <span style="color:#8888a8;font-weight:400">(optional)</span></label>
+          <div id="_classPickWrap" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px">
+            ${existingSchoolClasses.map(c => `<button type="button" class="_chip ${existing.myClasses.includes(c.name)?'_chip-on':''}" data-group="myClasses" data-value="${c.name}">${c.name}</button>`).join('')}
+          </div>
+        </div>
 
         <label style="display:block;font-size:0.82rem;font-weight:600;color:#44445a;margin-bottom:12px">Subjects you teach <span style="color:#dc2626">*</span></label>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:22px">
@@ -231,6 +255,31 @@ async function promptForProfile(profile) {
     document.body.appendChild(overlay);
     document.body.style.visibility = 'visible';
 
+    // When school changes → load that school's classes
+    overlay.querySelector('#_schoolInput').addEventListener('change', async (e) => {
+      const schoolId = e.target.value;
+      const section  = overlay.querySelector('#_classPickSection');
+      const wrap     = overlay.querySelector('#_classPickWrap');
+      if (!schoolId) { section.style.display = 'none'; _schoolClasses = []; return; }
+      _schoolClasses = [];
+      wrap.innerHTML = '<span style="font-size:0.82rem;color:#8888a8">Loading…</span>';
+      section.style.display = '';
+      try {
+        const snap = await getDocs(query(
+          collection(db, 'schools', schoolId, 'classes'),
+          orderBy('grade'), orderBy('section')
+        ));
+        snap.forEach(d => _schoolClasses.push({ id: d.id, ...d.data() }));
+      } catch { /* ignore */ }
+      if (_schoolClasses.length === 0) {
+        wrap.innerHTML = '<span style="font-size:0.82rem;color:#8888a8">No classes defined for this school yet.</span>';
+      } else {
+        wrap.innerHTML = _schoolClasses.map(c =>
+          `<button type="button" class="_chip" data-group="myClasses" data-value="${c.name}">${c.name}</button>`
+        ).join('');
+      }
+    });
+
     // Chip toggle
     overlay.addEventListener('click', e => {
       const chip = e.target.closest('._chip');
@@ -251,26 +300,29 @@ async function promptForProfile(profile) {
     const err = overlay.querySelector('#_profileErr');
 
     btn.addEventListener('click', () => {
-      const school        = overlay.querySelector('#_schoolInput').value.trim();
+      const schoolSel     = overlay.querySelector('#_schoolInput');
+      const schoolId      = schoolSel.value.trim();
+      const school        = schoolSel.selectedOptions[0]?.dataset.name || schoolId;
       const chipSubjects  = [...overlay.querySelectorAll('._chip[data-group="subjects"]._chip-on')].map(c => c.dataset.value);
       const otherRaw      = overlay.querySelector('#_otherSubjectInput').value.trim();
       const otherSubjects = otherRaw ? otherRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
       const subjects      = [...chipSubjects, ...otherSubjects];
       const classes       = [...overlay.querySelectorAll('._chip[data-group="classes"]._chip-on')].map(c => c.dataset.value);
+      const myClasses     = [...overlay.querySelectorAll('._chip[data-group="myClasses"]._chip-on')].map(c => c.dataset.value);
       const th_sub_roles = [
         overlay.querySelector('#_chkSubjectTeacher').checked ? 'subject_teacher' : null,
         overlay.querySelector('#_chkSubjectLeader').checked  ? 'subject_leader'  : null,
       ].filter(Boolean);
 
       const cambridgeSelected = chipSubjects.some(v => CAMBRIDGE_SUBJECT_OPTIONS.map(o => o.value).includes(v));
-      if (!school)                              { err.textContent = 'Please select your school.'; return; }
+      if (!schoolId)                            { err.textContent = 'Please select your school.'; return; }
       if (!subjects.length)                     { err.textContent = 'Please select at least one subject.'; return; }
       if (cambridgeSelected && !classes.length) { err.textContent = 'Please select at least one curriculum level.'; return; }
       if (!th_sub_roles.length)                 { err.textContent = 'Please select your role (Subject Teacher and/or Subject Leader).'; return; }
 
       overlay.remove();
       document.body.style.visibility = 'hidden';
-      resolve({ school, subjects, classes, th_sub_roles });
+      resolve({ school, schoolId, subjects, classes, myClasses, th_sub_roles });
     });
   });
 }
@@ -348,11 +400,13 @@ onAuthStateChanged(auth, async (user) => {
 
   // 5b. Profile setup prompt if school/subjects/classes/th_sub_roles are missing
   if (!profileComplete(profile)) {
-    const { school, subjects, classes, th_sub_roles } = await promptForProfile(profile);
-    await setDoc(userRef, { school, subjects, classes, th_sub_roles }, { merge: true });
+    const { school, schoolId, subjects, classes, myClasses, th_sub_roles } = await promptForProfile(profile);
+    await setDoc(userRef, { school, schoolId, subjects, classes, myClasses, th_sub_roles }, { merge: true });
     profile.school       = school;
+    profile.schoolId     = schoolId;
     profile.subjects     = subjects;
     profile.classes      = classes;
+    profile.myClasses    = myClasses;
     profile.th_sub_roles = th_sub_roles;
   }
 
