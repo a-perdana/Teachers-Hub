@@ -43,26 +43,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
   currentUID = user.uid;
   currentProfile = profile;
 
-  // Access check: subject_leader or teachers_admin
-  const subRoles = profile.th_sub_roles || [];
-  const isAdmin = profile.role_teachershub === 'teachers_admin';
-  if (!isAdmin && !subRoles.includes('subject_leader')) {
-    document.getElementById('loadingScreen').innerHTML = `
-      <div style="text-align:center;padding:60px 20px">
-        <h2 style="font-size:1.1rem;color:var(--ink);margin-bottom:8px">Access Restricted</h2>
-        <p style="font-size:.82rem;color:var(--ink-2);line-height:1.6">
-          This page is only available to <strong>Subject Leaders</strong> and <strong>Coordinators</strong>.<br>
-          Contact your administrator if you believe this is an error.
-        </p>
-        <a href="index.html" style="display:inline-block;margin-top:16px;font-size:.78rem;color:var(--accent)">← Back to Dashboard</a>
-      </div>`;
-    return;
-  }
-
-  // Load calendar settings
-  loadCalendarSettings(db);
-
-  // Load navbar
+  // Load navbar for all users (including denied ones)
   const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
   fetch('/partials/navbar.html')
     .then(r => r.text())
@@ -79,6 +60,26 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
       if (aEl && typeof buildAvatarEl === 'function') buildAvatarEl(aEl, user);
       if (wEl) wEl.style.display = 'flex';
     });
+
+  // Access check: subject_leader or teachers_admin
+  const subRoles = profile.th_sub_roles || [];
+  const isAdmin = profile.role_teachershub === 'teachers_admin';
+  if (!isAdmin && !subRoles.includes('subject_leader')) {
+    document.getElementById('loadingScreen').innerHTML = `
+      <div style="text-align:center;padding:80px 24px;max-width:420px;margin:0 auto">
+        <div style="width:56px;height:56px;border-radius:14px;background:#fff0f0;border:1px solid #f5c6c1;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:1.5rem;">🔒</div>
+        <h2 style="font-size:1.15rem;font-weight:700;color:var(--ink);margin-bottom:10px">Access Restricted</h2>
+        <p style="font-size:.84rem;color:var(--ink-2);line-height:1.7;margin-bottom:24px">
+          This page is only available to <strong>Subject Leaders</strong> and <strong>Coordinators</strong>.<br>
+          Contact your administrator if you believe this is an error.
+        </p>
+        <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:8px;background:var(--ink);color:white;font-size:.82rem;font-weight:600;text-decoration:none;">← Back to Dashboard</a>
+      </div>`;
+    return;
+  }
+
+  // Load calendar settings
+  loadCalendarSettings(db);
 
   // Expose signOut
   import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js').then(({ signOut }) => {
