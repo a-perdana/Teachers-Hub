@@ -393,7 +393,6 @@ let syllabusFilter = 'all'; // 'all' | 'core' | 'extended'
 // Format: { paper1: 'YYYY-MM-DD', paper2: 'YYYY-MM-DD', paper4: 'YYYY-MM-DD' }
 var examDates = JSON.parse(localStorage.getItem(window.PACING_CONFIG.examLocalKey) || 'null') || {};
 
-const PAGE_SIZE = 5;
 const chPageMap = {}; // ci -> current 0-based page index (topic pagination)
 
 // Chapter-level pagination — page size is dynamic in gallery mode (2 rows × cols)
@@ -506,12 +505,6 @@ function getPaceStatus(topic) {
   return 'upcoming';
 }
 
-const PACE_LABELS = {
-  overdue:  'Overdue',
-  behind:   'Behind',
-  'on-track': 'This week',
-  upcoming: 'Upcoming',
-};
 
 function renderPaceBadge(topic) {
   const status = getPaceStatus(topic);
@@ -603,19 +596,7 @@ function _chapterYearOptions() { // kept for pacing-shared.js compatibility
   return [{v:'Year 9',l:'Year 9'},{v:'Year 10',l:'Year 10',def:true}];
 }
 
-function parseObjCodes(objStr, syllabusRefs) {
-  const fromRefs = Array.isArray(syllabusRefs) ? syllabusRefs.filter(Boolean) : [];
-  // Build prefix pattern dynamically from CH-managed objPrefixes; fallback to C/E
-  const prefixes = _objPrefixes.length ? _objPrefixes : ['C', 'E'];
-  const pfxPattern = prefixes.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
-  const re = new RegExp(`(?:${pfxPattern})\\d+\\.\\d+`, 'g');
-  const matches = objStr ? (objStr.match(re) || []) : [];
-  return [...new Set([...fromRefs, ...matches])];
-}
 
-function allTopics() {
-  return DATA.flatMap((ch, ci) => ch.topics.map((t, ti) => ({ch: ci, ti, ...t})));
-}
 
 function _renderObjCell(obj) {
   if (!obj) return '-';
@@ -625,12 +606,6 @@ function _renderObjCell(obj) {
 function _objNeedsSeeMore(obj) {
   var isHtml = obj && obj.indexOf('<') !== -1 && obj.indexOf('>') !== -1;
   return obj && obj.length > 120 && !isHtml;
-}
-function escHtml(str) {
-  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-function safeUrl(url) {
-  return /^https?:\/\//i.test(url) ? url : '#';
 }
 
 // -----------------------------------------------------------
@@ -2013,19 +1988,6 @@ function renderPaperBadge(t) {
   return ''; // no codes — no badge
 }
 
-// -----------------------------------------------------------
-// TOAST
-// -----------------------------------------------------------
-let toastTimer;
-function showToast(msg, type) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.remove('warn');
-  if (type) t.classList.add(type);
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { t.classList.remove('show', 'warn'); }, 2200);
-}
 
 // -----------------------------------------------------------
 // MAIN RENDER

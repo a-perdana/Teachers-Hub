@@ -1,6 +1,6 @@
 // =============================================================
 // pacing-shared.js — shared JS for all pacing guide pages
-// Injected via <!-- PACING_SHARED_JS --> placeholder.
+// Injected via <!-- PACING_SHARED_JS --> placeholder (build-time).
 //
 // Each page defines these config variables BEFORE this script:
 //   window.PACING_CONFIG = {
@@ -13,6 +13,50 @@
 //     hasSyllabusFilter: true,  // IGCSE only — shows Core/Extended UI
 //   };
 // =============================================================
+
+// ── Shared constants ─────────────────────────────────────────
+// Topic-level pagination (list mode: 5, gallery mode: dynamic via getChapterPageSize)
+var PAGE_SIZE = 5;
+
+// Pace alert label map — used by renderPaceBadge() in all pages
+var PACE_LABELS = {
+  overdue:    'Overdue',
+  behind:     'Behind',
+  'on-track': 'This week',
+  upcoming:   'Upcoming',
+};
+
+// ── Utility helpers ──────────────────────────────────────────
+function escHtml(str) {
+  return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function safeUrl(url) {
+  return /^https?:\/\//i.test(url) ? url : '#';
+}
+
+function allTopics() {
+  return DATA.flatMap((ch, ci) => ch.topics.map((t, ti) => ({ ch: ci, ti, ...t })));
+}
+
+function parseObjCodes(objStr, syllabusRefs) {
+  const fromRefs = Array.isArray(syllabusRefs) ? syllabusRefs.filter(Boolean) : [];
+  const prefixes = (typeof _objPrefixes !== 'undefined' && _objPrefixes.length) ? _objPrefixes : ['C', 'E'];
+  const pfxPattern = prefixes.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+  const re = new RegExp(`(?:${pfxPattern})\\d+\\.\\d+`, 'g');
+  const matches = objStr ? (objStr.match(re) || []) : [];
+  return [...new Set([...fromRefs, ...matches])];
+}
+
+function showToast(msg, type) {
+  var el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'toast' + (type ? ' toast-' + type : '');
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(function() { el.classList.remove('show'); }, 2400);
+}
 
 // ── Exam Countdown ──────────────────────────────────────────
 function renderExamCountdown() {
