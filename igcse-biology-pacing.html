@@ -2040,53 +2040,14 @@ let sharedStructure = null;   // chapters/topics without statuses
 let userStatuses    = {};     // { "chId.tId": status, "note.chId.tId": note, ... }
 
 // -- Stable key helpers --------------------------------------------
-// New format: "chId.tId"  (uses topic's stable id from Firestore structure)
-// Legacy fallback: "ci-ti" (index-based, kept for migration only)
+// Key format: "chId.tId" (stable Firestore IDs)
 function _topicKey(chId, tId)      { return `${chId}.${tId}`; }
 function _prefixKey(pfx, chId, tId){ return `${pfx}.${chId}.${tId}`; }
 
-// Migrate a raw statuses map: rewrite any legacy "ci-ti" keys → "chId.tId"
-// using the current sharedStructure as the lookup table.
-function _migrateLegacyKeys(rawStatuses) {
-  const migrated = {};
-  const legacyPattern  = /^(\d+)-(\d+)$/;
-  const legacyPrefixed = /^(note|diag|actual)-(\d+)-(\d+)$/;
-
-  Object.entries(rawStatuses).forEach(([k, v]) => {
-    let m;
-    if ((m = k.match(legacyPattern))) {
-      const ci = parseInt(m[1]), ti = parseInt(m[2]);
-      const ch = sharedStructure[ci], t = ch?.topics?.[ti];
-      if (ch?.id && t?.id) migrated[_topicKey(ch.id, t.id)] = v;
-      // else discard — orphan from deleted chapter/topic
-    } else if ((m = k.match(legacyPrefixed))) {
-      const pfx = m[1], ci = parseInt(m[2]), ti = parseInt(m[3]);
-      const ch = sharedStructure[ci], t = ch?.topics?.[ti];
-      if (ch?.id && t?.id) migrated[_prefixKey(pfx, ch.id, t.id)] = v;
-    } else {
-      migrated[k] = v; // already new format or unknown — keep as-is
-    }
-  });
-  return migrated;
-}
 
 // -- Merge shared structure + per-user statuses → window.DATA ------
 async function _mergeAndRender(isFirstLoad) {
   if (!sharedStructure) return;
-
-  // Migrate legacy ci-ti keys once, then persist so next load skips migration
-  const hasLegacy = Object.keys(userStatuses).some(k => /^\d+-\d+$/.test(k) || /^(note|diag|actual)-\d+-\d+$/.test(k));
-  if (hasLegacy) {
-    userStatuses = _migrateLegacyKeys(userStatuses);
-    // Persist migrated keys so future loads start clean
-    const progressKey = currentClass && currentClass !== 'default'
-      ? `statuses_${currentClass.replace(/\s/g,'_')}`
-      : 'statuses';
-    setDoc(doc(window.db, 'userProgress', currentUID),
-      { [progressKey]: userStatuses, updatedAt: serverTimestamp() },
-      { merge: true }
-    ).catch(e => console.warn('Migration persist error:', e));
-  }
 
   window.DATA = sharedStructure.map((ch) => ({
     ...ch,

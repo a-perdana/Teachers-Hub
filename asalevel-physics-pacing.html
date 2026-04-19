@@ -57,18 +57,18 @@
   <div class="pacing-nav">
 
     <div class="pacing-brand">
-      <div class="pacing-brand-mark">AS</div>
+      <div class="pacing-brand-mark" id="brandMark">AS</div>
       <div class="pacing-brand-text">
-        <h1>Cambridge AS &amp; A Level Physics</h1>
-        <p>9702 · Year 11-12</p>
+        <h1 id="brandTitle">Cambridge AS &amp; A Level Physics</h1>
+        <p id="brandSub">9702 · Year 11-12</p>
       </div>
     </div>
     <nav class="pacing-breadcrumb" aria-label="Breadcrumb">
       <a href="index.html">Teachers Hub</a>
       <span class="pacing-breadcrumb-sep">›</span>
-      <span>AS &amp; A Level</span>
+      <span id="breadcrumbLevel">AS &amp; A Level</span>
       <span class="pacing-breadcrumb-sep">›</span>
-      <span class="pacing-breadcrumb-current">Physics</span>
+      <span class="pacing-breadcrumb-current" id="breadcrumbCurrent">Physics</span>
     </nav>
   </div>
   <div class="pacing-topbar-right">
@@ -347,6 +347,20 @@ window.PACING_CONFIG = {
   ],
   hasSyllabusFilter: false,
 };
+// Populate subject-specific HTML from PACING_CONFIG (runs immediately)
+(function initSubjectConfig() {
+  var mark = document.getElementById('brandMark');
+  var title = document.getElementById('brandTitle');
+  var sub   = document.getElementById('brandSub');
+  var bLevel = document.getElementById('breadcrumbLevel');
+  var bCur  = document.getElementById('breadcrumbCurrent');
+  if (mark)   mark.textContent   = 'AS';
+  if (title)  title.textContent  = 'Cambridge AS & A Level Physics';
+  if (sub)    sub.textContent    = '9702 · Year 11–12';
+  if (bLevel) bLevel.textContent = 'AS & A Level';
+  if (bCur)   bCur.textContent   = 'Physics';
+})();
+
 
 // -----------------------------------------------------------
 // STATE  (var so the Firebase module can write window.DATA)
