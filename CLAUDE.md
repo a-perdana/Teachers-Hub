@@ -248,7 +248,10 @@ FIREBASE_APP_ID
 | `base.css`                   | Shared design system (DM Sans, CSS variables, components)  |
 | `partials/navbar.html`       | Shared navbar HTML partial (light theme)                   |
 | `partials/navbar.js`         | Navbar init (`initNavbar()`), badge logic (`setupNavBadges()`), feedback button |
-| `partials/pacing-shared.js`  | Shared JS for all pacing pages (exam countdown, variance, GLH) |
+| `partials/pacing-shared.js`  | Shared JS for all pacing pages — injected via `<!-- PACING_SHARED_JS -->`. Contains: utility helpers (`escHtml`, `safeUrl`, `allTopics`, `parseObjCodes`, `showToast`), constants (`PAGE_SIZE`, `PACE_LABELS`, `DIAG_LABELS`), exam countdown, syllabus filter, diagnostic tags, coord notes, actual hours, variance report, GLH projection |
+| `partials/pacing-page.css`   | Shared CSS for all 11 pacing pages — linked via `<link>`. Each page keeps only a minimal `:root` block with `--accent`, `--accent-2`, `--accent-dark` and semantic color variables |
+| `partials/pacing-tracker-core.js` | Shared ES module for all 11 tracker pages — access check, data loading, all render functions |
+| `partials/pacing-tracker-core.css` | Shared CSS for all 11 tracker pages |
 | `firebase-config.js`         | Local dev config (gitignored)                              |
 | `firebase-config.example.js` | Template for firebase-config.js                            |
 | `vercel.json`                | Vercel deployment config (build cmd, output dir)           |
@@ -258,7 +261,7 @@ FIREBASE_APP_ID
 
 ## Pacing Pages — Feature Reference
 
-All IGCSE pacing pages share a common architecture via `partials/pacing-shared.js` and `SUBJECT_CONFIG`:
+All 11 pacing pages share a common architecture via `partials/pacing-page.css` (shared CSS) and `partials/pacing-shared.js` (shared JS, build-time injected). Each page defines `window.PACING_CONFIG` and runs `initSubjectConfig()` to populate the topbar from config rather than hardcoded HTML.
 
 **Topic status states:** `pending` → `inprogress` → `done` → `pending` (cycle via checkbox). `revisit` is a 4th state set via the status pill (amber, means needs re-teaching; outside the cycle).
 
@@ -339,6 +342,7 @@ The `_pending*` callbacks handle the race between navbar fetch completing and `a
 - **Use `authReady` event** to gate all Firestore reads in page scripts — never call `window.db` before the event fires.
 - **`central_documents` collection, not `documents`** — use the renamed collection name when linking to CentralHub documents.
 - **`pacing-hub.html` is deleted** — its content was moved to `index.html` cards. Do not recreate it.
-- **Shared pacing logic lives in `partials/pacing-shared.js`** — exam countdown, syllabus filter, diagnostic tags, coord notes, actual hours, variance report, GLH projection. Do not duplicate this logic inline in individual pacing pages.
+- **Shared pacing logic lives in `partials/pacing-shared.js`** — utility helpers (`escHtml`, `safeUrl`, `allTopics`, `parseObjCodes`, `showToast`), constants (`PAGE_SIZE=5`, `PACE_LABELS`, `DIAG_LABELS`), exam countdown, syllabus filter, diagnostic tags, coord notes, actual hours, variance report, GLH projection. Do not duplicate any of these inline in individual pacing pages.
+- **Shared pacing CSS lives in `partials/pacing-page.css`** — all layout, sidebar, chapter blocks, table, modals. Each page's `<style>` block contains only `:root` with accent + semantic color variables. Do not add page-level CSS that belongs in the shared file.
 - **`<!-- PACING_SHARED_CSS -->` and `<!-- PACING_SHARED_JS -->`** are build-time placeholders in pacing pages — VS Code CSS linter flags the HTML comment inside `<style>` as an error, but browsers handle it correctly. Do not remove these placeholders.
 - **Competency framework IDs** — domain IDs: `smc`, `lcp`, `afl`, `icp`, `pie`, `cce`. Competency IDs: `smc-1..4`, `lcp-1..4`, `afl-1..4`, `icp-1..4`, `pie-1..4`, `cce-1..4`. Grounded in Cambridge Teacher Standards 2019 + Permendiknas No.16/2007. Do NOT revert to old IDs (`cur-1`, `asm-1` etc.) — Firestore data uses new IDs.
