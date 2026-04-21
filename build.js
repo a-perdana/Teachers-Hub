@@ -248,9 +248,9 @@ Object.entries(IGCSE_SUBJECTS).forEach(([filename, cfg]) => {
 });
 
 // ============================================================
-// Checkpoint + AS/A-Level pacing pages — from checkpoint-pacing-template.html
+// Checkpoint pacing pages — from checkpoint-pacing-template.html
 // ============================================================
-const CHECKPOINT_ASALEVEL_SUBJECTS = {
+const CHECKPOINT_SUBJECTS = {
   'checkpoint-math-pacing.html': {
     pageTitle: 'Cambridge Secondary Checkpoint Mathematics — Pacing Guide',
     accentVars: '--accent: #c0392b;\n  --accent-2: #fdf0ef;\n  --accent-dark: #a93224;',
@@ -338,6 +338,12 @@ const CHECKPOINT_ASALEVEL_SUBJECTS = {
   ],
 };`,
   },
+};
+
+// ============================================================
+// AS/A-Level pacing pages — from asalevel-pacing-template.html
+// ============================================================
+const ASALEVEL_SUBJECTS = {
   'asalevel-math-pacing.html': {
     pageTitle: 'Cambridge AS & A Level Mathematics — Pacing Guide',
     accentVars: '--accent: #c0392b;\n  --accent-2: #fdf0ef;\n  --accent-dark: #a93224;',
@@ -463,10 +469,10 @@ const CHECKPOINT_ASALEVEL_SUBJECTS = {
   },
 };
 
-// Generate checkpoint + AS/A-Level pages from template
+// Generate Checkpoint pages from checkpoint-pacing-template.html
 const cpTemplate = fs.readFileSync(path.join(__dirname, 'checkpoint-pacing-template.html'), 'utf8');
-const generatedCpAsal = {};
-Object.entries(CHECKPOINT_ASALEVEL_SUBJECTS).forEach(([filename, cfg]) => {
+const generatedCheckpoint = {};
+Object.entries(CHECKPOINT_SUBJECTS).forEach(([filename, cfg]) => {
   let html = cpTemplate
     .replace('{{PAGE_TITLE}}', cfg.pageTitle)
     .replace('{{ACCENT_VARS}}', cfg.accentVars)
@@ -484,7 +490,31 @@ Object.entries(CHECKPOINT_ASALEVEL_SUBJECTS).forEach(([filename, cfg]) => {
     .replace(/p\?\.\{\{CLASSES_FIELD\}\}/g, `p?.${cfg.classesField}`)
     .replace(/p\.{{CLASSES_FIELD}}/g, `p.${cfg.classesField}`)
     .replace(/\{\{PROGRESS_KEY\}\}/g, cfg.progressKey);
-  generatedCpAsal[filename] = html;
+  generatedCheckpoint[filename] = html;
+});
+
+// Generate AS/A-Level pages from asalevel-pacing-template.html
+const asTemplate = fs.readFileSync(path.join(__dirname, 'asalevel-pacing-template.html'), 'utf8');
+const generatedAsALevel = {};
+Object.entries(ASALEVEL_SUBJECTS).forEach(([filename, cfg]) => {
+  let html = asTemplate
+    .replace('{{PAGE_TITLE}}', cfg.pageTitle)
+    .replace('{{ACCENT_VARS}}', cfg.accentVars)
+    .replace('{{BRAND_MARK}}', cfg.brandMark)
+    .replace('{{BRAND_TITLE}}', cfg.brandTitle)
+    .replace('{{BRAND_SUB}}', cfg.brandSub)
+    .replace('{{BREADCRUMB_LEVEL}}', cfg.breadcrumbLevel)
+    .replace('{{BREADCRUMB_CURRENT}}', cfg.breadcrumbCurrent)
+    .replace('{{TRACKER_HREF}}', cfg.trackerHref)
+    .replace(/\{\{YEAR_A\}\}/g, cfg.yearA)
+    .replace(/\{\{YEAR_B\}\}/g, cfg.yearB)
+    .replace('{{SUBJECT_CONFIG}}', cfg.subjectConfig)
+    .replace("'{{COMBO}}'", `'${cfg.combo}'`)
+    .replace('{{NOT_ASSIGNED_CALL}}', cfg.notAssignedCall)
+    .replace(/p\?\.\{\{CLASSES_FIELD\}\}/g, `p?.${cfg.classesField}`)
+    .replace(/p\.{{CLASSES_FIELD}}/g, `p.${cfg.classesField}`)
+    .replace(/\{\{PROGRESS_KEY\}\}/g, cfg.progressKey);
+  generatedAsALevel[filename] = html;
 });
 
 // Read firebase-env partial once (used for placeholder injection)
@@ -495,7 +525,7 @@ const pacingSharedCss = '<style>\n' + fs.readFileSync(path.join(__dirname, 'part
 const pacingSharedJs  = '<script src="/partials/pacing-shared.js"></script>';
 
 function processFile(filename) {
-  let html = generatedIgcse[filename] || generatedCpAsal[filename] || fs.readFileSync(path.join(__dirname, filename), 'utf8');
+  let html = generatedIgcse[filename] || generatedCheckpoint[filename] || generatedAsALevel[filename] || fs.readFileSync(path.join(__dirname, filename), 'utf8');
 
   // Inject firebase-env partial where placeholder comment exists
   html = html.replace(/<!-- FIREBASE_ENV -->/g, firebaseEnvPartial);
