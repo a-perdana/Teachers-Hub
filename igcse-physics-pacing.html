@@ -286,7 +286,7 @@ const SUBJECT_CONFIG = {
   // Firestore
   collection:      'physics_pacing',
   docId:           'year9-10',
-  syllabusPrefix:  '0625',        // prefix used in igcse_syllabus doc IDs
+  syllabusPrefix:  '0625',        // prefix used in cambridge_syllabus doc IDs
 
   // Display
   subjectKey:      'physics',     // used as key in cross-subject maps
@@ -1817,7 +1817,7 @@ function showObj(ci, ti) {
   document.getElementById('objModalTitle').textContent = t.topic;
   document.getElementById('objModalSub').textContent   = ch.chapter;
 
-  // Try to render rich syllabus data from igcse_syllabus index
+  // Try to render rich syllabus data from cambridge_syllabus index
   const codes = parseObjCodes(objRaw, t.syllabusRefs);
   if (codes.length && typeof syllabusIndex !== 'undefined' && Object.keys(syllabusIndex).length) {
     const sections = codes.map(code => {
@@ -2250,10 +2250,10 @@ window.__fbSwitchClass = function(cls) {
 // -- Syllabus loader ------------------------------------------------
 async function loadSyllabus() {
   try {
-    const snap = await getDocs(collection(window.db, 'igcse_syllabus'));
+    const snap = await getDocs(collection(window.db, 'cambridge_syllabus'));
     snap.forEach(d => { window.syllabusIndex[d.id] = d.data(); });
   } catch (e) {
-    console.warn('Could not load igcse_syllabus:', e);
+    console.warn('Could not load cambridge_syllabus:', e);
   }
 }
 

@@ -164,7 +164,7 @@ const isAdmin = profile?.role_teachershub === 'teachers_admin';
 | `biology_pacing/year9-10` | IGCSE biology pacing — same structure as math_pacing. | central_admin (write) |
 | `chemistry_pacing/year9-10` | IGCSE chemistry pacing — same structure as math_pacing. | central_admin (write) |
 | `physics_pacing/year9-10` | IGCSE physics pacing — same structure as math_pacing. | central_admin (write) |
-| `igcse_syllabus/{docId}` | Syllabus reference items indexed by objective code (e.g. C1.1). Loaded once at startup. | read-only here |
+| `cambridge_syllabus/{docId}` | Syllabus reference items indexed by objective code (e.g. C1.1). Loaded once at startup. | read-only here |
 | `userProgress/{uid}`    | Per-teacher pacing progress. Each teacher writes only their own doc. Fields: `statuses`, `statuses_<class>` maps keyed by `ci-ti`. | owner (teacher) |
 | `user_competencies/{uid}` | Teacher competency progress. Fields: `earned` (map of compId → `{level, date}`), `matDone` (map of matId → bool). Written by the owner, read by `learning-path.html` and `competency-framework.html`. | owner (teacher) |
 | `competency_evidence/{docId}` | Evidence submissions for competency level certification. Fields: `uid`, `platform` (`'teachers'`), `compId`, `compName`, `domain`, `level`, `description`, `fileUrl`, `fileName`, `status` (`'pending'`\|`'approved'`\|`'rejected'`), `reviewerNote`, `createdAt`, `updatedAt`. Written by teacher (create), reviewed by `teachers_admin` via competency-admin in Central Hub. | owner (create), central_admin (review) |
