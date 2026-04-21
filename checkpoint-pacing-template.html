@@ -3,15 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cambridge Secondary Checkpoint English — Pacing Guide</title>
+<title>{{PAGE_TITLE}}</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
 <link rel="stylesheet" href="base.css">
 <link rel="stylesheet" href="partials/pacing-page.css">
 <style>
 :root {
-  --accent:       #2980b9;
-  --accent-2:     #e8f4fd;
-  --accent-dark:  #1f6fa3;
+  {{ACCENT_VARS}}
   --green:   #1e7a4a;
   --green-2: #e6f5ed;
   --blue:    #1a5fa8;
@@ -56,18 +54,18 @@
   <div class="pacing-nav">
 
     <div class="pacing-brand">
-      <div class="pacing-brand-mark" id="brandMark">CP</div>
+      <div class="pacing-brand-mark" id="brandMark">{{BRAND_MARK}}</div>
       <div class="pacing-brand-text">
-        <h1 id="brandTitle">Cambridge Checkpoint English</h1>
-        <p id="brandSub">1111 · Year 7–8</p>
+        <h1 id="brandTitle">{{BRAND_TITLE}}</h1>
+        <p id="brandSub">{{BRAND_SUB}}</p>
       </div>
     </div>
     <nav class="pacing-breadcrumb" aria-label="Breadcrumb">
       <a href="index.html">Teachers Hub</a>
       <span class="pacing-breadcrumb-sep">›</span>
-      <span id="breadcrumbLevel">Checkpoint</span>
+      <span id="breadcrumbLevel">{{BREADCRUMB_LEVEL}}</span>
       <span class="pacing-breadcrumb-sep">›</span>
-      <span class="pacing-breadcrumb-current" id="breadcrumbCurrent">English</span>
+      <span class="pacing-breadcrumb-current" id="breadcrumbCurrent">{{BREADCRUMB_CURRENT}}</span>
     </nav>
   </div>
   <div class="pacing-topbar-right">
@@ -75,24 +73,15 @@
       <div class="prog-bar-wrap"><div class="prog-bar-fill" id="topProgBar"></div></div>
       <div class="prog-text"><strong id="topProgDone">0</strong> / <span id="topProgTotal">0</span> topics</div>
     </div>
-
     <div id="paceSummaryPill" class="pace-summary-pill" style="display:none" title="Pace status based on current school week"></div>
-
-    <a href="checkpoint-english-tracker.html" id="trackerLink" class="tracker-link-btn" style="display:none" title="Subject Leader Tracker"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg> Tracker</a>
+    <a href="{{TRACKER_HREF}}" id="trackerLink" class="tracker-link-btn" style="display:none" title="Subject Leader Tracker"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg> Tracker</a>
 
     <div class="class-selector-wrap" id="classSelectorWrap">
-
       <label class="class-selector-label" for="classSelect">Class:</label>
-
       <select class="class-select" id="classSelect" onchange="switchClass(this.value)">
-
         <option value="default">All Classes</option>
-
       </select>
-
-
     </div>
-
   </div>
 </header>
 
@@ -104,7 +93,7 @@
   <button class="exam-manage-btn" id="examManageBtn" onclick="manageExamDates()" title="Set Cambridge exam dates">&#9998; Set Dates</button>
 </div>
 
-<!-- â"€â"€ LAYOUT â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
+<!-- -- LAYOUT ------------------------------------ -->
 <div class="layout" id="appLayout">
 <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Toggle sidebar" aria-label="Toggle sidebar">
   <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
@@ -129,8 +118,8 @@
       <div class="sidebar-label">Year</div>
       <div class="chips" id="yearChips">
         <div class="chip on" data-year="all" tabindex="0" role="button">All</div>
-        <div class="chip" data-year="Year 7" tabindex="0" role="button">Year 7</div>
-        <div class="chip" data-year="Year 8" tabindex="0" role="button">Year 8</div>
+        <div class="chip" data-year="{{YEAR_A}}" tabindex="0" role="button">{{YEAR_A}}</div>
+        <div class="chip" data-year="{{YEAR_B}}" tabindex="0" role="button">{{YEAR_B}}</div>
       </div>
     </div>
     <div class="sidebar-section">
@@ -181,29 +170,22 @@
       </div>
       <div id="chapterPaginatorMount"></div>
     </div>
+
     <!-- COVERAGE PANEL -->
     <div class="panel" id="panel-coverage">
       <div id="coverageReport"></div>
     </div>
 
-    <!-- HOURS REPORT PANEL -->
+    <!-- VARIANCE / HOURS REPORT PANEL -->
     <div class="panel" id="panel-variance">
       <div id="varianceReport"></div>
     </div>
 
     <!-- WEEKLY PANEL -->
     <div class="panel" id="panel-weekly">
-            <div class="cross-subj-bar">
+      <div class="cross-subj-bar" id="crossSubjBar">
         <span class="cross-subj-label">Show subjects:</span>
-        <button class="cross-chip on" data-subj="english" onclick="toggleCrossSubj('english',this)">
-          <span class="cross-chip-dot" style="background:var(--accent)"></span>English
-        </button>
-        <button class="cross-chip" data-subj="math" onclick="toggleCrossSubj('math',this)">
-          <span class="cross-chip-dot" style="background:var(--accent)"></span>Mathematics
-        </button>
-        <button class="cross-chip" data-subj="science" onclick="toggleCrossSubj('science',this)">
-          <span class="cross-chip-dot" style="background:#1a5fa8"></span>Science
-        </button>
+        <!-- chips injected by initSubjectConfig() -->
         <span id="crossSubjLoadingNote" style="font-size:.65rem;color:var(--ink-3);display:none">Loading other subjects…</span>
       </div>
       <div class="week-grid" id="weekGrid"></div>
@@ -216,7 +198,7 @@
   <div class="modal">
     <div class="modal-head">
       <div class="modal-head-text">
-        <h3 id="objModalTitle">Objectives</h3>
+        <h3 id="objModalTitle">Cambridge Objectives</h3>
         <p id="objModalSub"></p>
       </div>
       <div style="display:flex;align-items:center;gap:5px;flex-shrink:0">
@@ -257,7 +239,7 @@
 }
 .home-float:hover {
   color: white; background: var(--accent); border-color: var(--accent);
-  box-shadow: 0 6px 24px rgba(39,174,96,0.4); transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(192,57,43,0.4); transform: translateY(-2px);
 }
 .home-float svg { width: 18px; height: 18px; }
 /* ─── CONFIRM MODAL ──────────────────────────── */
@@ -334,67 +316,53 @@
 <script>
 const role = 'teacher';
 
-// -----------------------------------------------------------
-// SEED DATA - empty until seeded from Excel via seedFirestore
-// -----------------------------------------------------------
-var RAW_DATA = [];
+// ============================================================
+// SUBJECT CONFIG — generated by build.js per subject
+// ============================================================
+{{SUBJECT_CONFIG}}
+// ============================================================
 
 window.PACING_CONFIG = {
-  examLocalKey: 'checkpoint_english_exam_dates',
-  examPapers: [
-    { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
-    { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
-  ],
+  examLocalKey:      SUBJECT_CONFIG.examLocalKey,
+  examPapers:        SUBJECT_CONFIG.examPapers,
   hasSyllabusFilter: false,
 };
-// Populate subject-specific HTML from PACING_CONFIG (runs immediately)
-(function initSubjectConfig() {
-  var mark = document.getElementById('brandMark');
-  var title = document.getElementById('brandTitle');
-  var sub   = document.getElementById('brandSub');
-  var bLevel = document.getElementById('breadcrumbLevel');
-  var bCur  = document.getElementById('breadcrumbCurrent');
-  if (mark)   mark.textContent   = 'CP';
-  if (title)  title.textContent  = 'Cambridge Checkpoint English';
-  if (sub)    sub.textContent    = '1111 · Year 7–8';
-  if (bLevel) bLevel.textContent = 'Checkpoint';
-  if (bCur)   bCur.textContent   = 'English';
-})();
 
+// Populate cross-subject chips and topbar from SUBJECT_CONFIG (runs immediately)
+(function initSubjectConfig() {
+  const cfg = SUBJECT_CONFIG;
+  const bar = document.getElementById('crossSubjBar');
+  const loadingNote = document.getElementById('crossSubjLoadingNote');
+  if (bar && loadingNote) {
+    const selfChip = document.createElement('button');
+    selfChip.className = 'cross-chip on';
+    selfChip.dataset.subj = cfg.subjectKey;
+    selfChip.onclick = function() { toggleCrossSubj(cfg.subjectKey, this); };
+    selfChip.innerHTML = `<span class="cross-chip-dot" style="background:${cfg.accentColor}"></span>${cfg.label}`;
+    bar.insertBefore(selfChip, loadingNote);
+    cfg.crossSubjects.forEach(s => {
+      const chip = document.createElement('button');
+      chip.className = 'cross-chip';
+      chip.dataset.subj = s.key;
+      chip.onclick = function() { toggleCrossSubj(s.key, this); };
+      chip.innerHTML = `<span class="cross-chip-dot" style="background:${s.color}"></span>${s.label}`;
+      bar.insertBefore(chip, loadingNote);
+    });
+  }
+})();
 
 // -----------------------------------------------------------
 // STATE  (var so the Firebase module can write window.DATA)
 // -----------------------------------------------------------
 var DATA = [];
 
-// Class-based progress
-var currentClass = 'default'; // 'default' = shared / all classes
-var classList    = [];        // fallback class list from Firestore structure meta
-
-// Cross-subject weekly data cache
-var crossSubjData = {
-  math: null, 
-  science: null
-};
-var crossSubjActive = {
-  english: true,
-  math: false,
-  science: false
-};
-
-// Cross-subject Firestore collection map
-const CROSS_SUBJ_COLLECTIONS = {
-  math: { col: 'checkpoint_math_pacing', doc: 'year7-8', label: 'Mathematics' },
-  science: { col: 'checkpoint_science_pacing', doc: 'year7-8', label: 'Science' }
-};
+let filterYear   = 'all';
+let filterStatus = 'all';
+let searchQ      = '';
 
 // Cambridge Exam Dates — stored in localStorage (per-browser, admin-set)
 // Format: { paper1: 'YYYY-MM-DD', paper2: 'YYYY-MM-DD' }
 var examDates = JSON.parse(localStorage.getItem(window.PACING_CONFIG.examLocalKey) || 'null') || {};
-
-let filterYear   = 'all';
-let filterStatus = 'all';
-let searchQ      = '';
 
 const chPageMap = {}; // ci -> current 0-based page index (topic pagination)
 
@@ -410,6 +378,20 @@ if (_layoutEl && localStorage.getItem(_pacingPrefix + '_sidebar') === 'collapsed
   _layoutEl.classList.add('sidebar-collapsed');
 }
 syncTopbarPadding();
+
+// Class-based progress
+var currentClass = 'default'; // 'default' = shared / all classes
+var classList    = [];        // fallback class list from Firestore structure meta
+
+// Cross-subject state — driven by SUBJECT_CONFIG
+var crossSubjData   = Object.fromEntries(SUBJECT_CONFIG.crossSubjects.map(s => [s.key, null]));
+var crossSubjActive = Object.fromEntries([
+  [SUBJECT_CONFIG.subjectKey, true],
+  ...SUBJECT_CONFIG.crossSubjects.map(s => [s.key, false]),
+]);
+const CROSS_SUBJ_COLLECTIONS = Object.fromEntries(
+  SUBJECT_CONFIG.crossSubjects.map(s => [s.key, { col: s.col, doc: s.doc, label: s.label }])
+);
 
 function getGalleryCols() {
   const wrap = document.getElementById('chBlocksWrap');
@@ -499,12 +481,12 @@ function renderPaceSummary() {
 }
 
 // -----------------------------------------------------------
-// FEATURE 1: EXAM COUNTDOWN
+// ÖZELLIK 1: EXAM COUNTDOWN
 // -----------------------------------------------------------
 async function manageExamDates() {
   const res = await _showCm({
     title: 'Set Cambridge Exam Dates',
-    msg: 'Enter Cambridge Secondary Checkpoint English exam dates (leave blank to skip).',
+    msg: 'Enter Cambridge Checkpoint Mathematics exam dates (leave blank to skip).',
     fields: [
       { id: 'paper1', label: 'Paper 1 date (YYYY-MM-DD)', type: 'date', val: examDates.paper1 || '' },
       { id: 'paper2', label: 'Paper 2 date (YYYY-MM-DD)', type: 'date', val: examDates.paper2 || '' },
@@ -514,25 +496,25 @@ async function manageExamDates() {
   if (!res) return;
   if (res.paper1) examDates.paper1 = res.paper1;
   if (res.paper2) examDates.paper2 = res.paper2;
-  localStorage.setItem('checkpoint_english_exam_dates', JSON.stringify(examDates));
+  localStorage.setItem('checkpoint_math_exam_dates', JSON.stringify(examDates));
   renderExamCountdown();
   showToast('Exam dates saved');
 }
 
 // -----------------------------------------------------------
-// FEATURE 2: DIAGNOSTIC TAG
+// ÖZELLIK 2: DIAGNOSTIC TAG
 // -----------------------------------------------------------
 
 // Close diag dropdown on outside click
 
 // -----------------------------------------------------------
-// FEATURE 3: COORDINATOR PUBLIC NOTE
+// ÖZELLIK 3: COORDINATOR PUBLIC NOTE
 // -----------------------------------------------------------
 // -----------------------------------------------------------
-// FEATURE 4: ACTUAL HOURS + VARIANCE REPORT
+// ÖZELLIK 4: ACTUAL HOURS + VARIANCE REPORT
 // -----------------------------------------------------------
 // -----------------------------------------------------------
-// PERSIST
+// PERSIST - delegates to Firebase module
 // -----------------------------------------------------------
 function saveState() {
   if (window.__fbSaveState) return window.__fbSaveState(DATA);
@@ -579,7 +561,7 @@ function _cmDone(ok) {
 function _chapterYearOptions() {
   var existing = DATA.map(function(ch){return ch.year;}).filter(function(y,i,a){return y&&a.indexOf(y)===i;});
   if (existing.length) return existing.map(function(y,i){return {v:y,l:y,def:i===existing.length-1};});
-  return [{v:'Year 9',l:'Year 9'},{v:'Year 10',l:'Year 10',def:true}];
+  return [{v:SUBJECT_CONFIG.yearA,l:SUBJECT_CONFIG.yearA},{v:SUBJECT_CONFIG.yearB,l:SUBJECT_CONFIG.yearB,def:true}];
 }
 
 
@@ -598,14 +580,15 @@ function _objNeedsSeeMore(obj) {
 // RENDER - SIDEBAR NAV
 // -----------------------------------------------------------
 function renderNav() {
-  const y9  = DATA.filter(ch => ch.year === 'Year 7');
-  const y10 = DATA.filter(ch => ch.year === 'Year 8');
+  const yearA = SUBJECT_CONFIG.yearA;
+  const yearB = SUBJECT_CONFIG.yearB;
+  const yA  = DATA.filter(ch => ch.year === yearA);
+  const yB  = DATA.filter(ch => ch.year === yearB);
 
   function buildItems(arr) {
     return arr.map(ch => {
       const ci   = DATA.indexOf(ch);
       const done = ch.topics.filter(t => t.status === 'done').length;
-      const pct  = ch.topics.length ? Math.round(done / ch.topics.length * 100) : 0;
       return `<div class="ch-nav-item" onclick="scrollToChapter(${ci})" id="nav-${ci}">
         <span class="ch-nav-num">${ci+1}</span>
         <span class="ch-nav-title">${ch.chapter.replace(/^\d+\.\s*/, '')}</span>
@@ -614,14 +597,9 @@ function renderNav() {
     }).join('');
   }
 
-  const nav = document.getElementById('chNav');
-  if (!DATA.length) {
-    nav.innerHTML = '<div style="padding:16px;font-size:.72rem;color:var(--ink-3);text-align:center;">No chapters yet</div>';
-    return;
-  }
-  nav.innerHTML = `
-    <div class="ch-nav-group"><div class="ch-nav-group-label">Year 7</div>${buildItems(y9)}</div>
-    <div class="ch-nav-group"><div class="ch-nav-group-label">Year 8</div>${buildItems(y10)}</div>`;
+  document.getElementById('chNav').innerHTML = `
+    <div class="ch-nav-group"><div class="ch-nav-group-label">${yearA}</div>${buildItems(yA)}</div>
+    <div class="ch-nav-group"><div class="ch-nav-group-label">${yearB}</div>${buildItems(yB)}</div>`;
 }
 
 // -----------------------------------------------------------
@@ -630,7 +608,7 @@ function renderNav() {
 function renderProgress() {
   const all  = allTopics();
   const done = all.filter(t => t.status === 'done').length;
-  const pct  = all.length ? Math.round(done / all.length * 100) : 0;
+  const pct  = Math.round(done / all.length * 100);
   document.getElementById('topProgBar').style.width  = pct + '%';
   document.getElementById('topProgDone').textContent  = done;
   document.getElementById('topProgTotal').textContent = all.length;
@@ -712,6 +690,7 @@ function renderPacing() {
               return pageTopics.map(({t, ti}) => {
                 const codes   = parseObjCodes(t.objective, t.syllabusRefs);
                 const rowClass = t.status === 'done' ? 'done-row' : t.status === 'inprogress' ? 'inprogress-row' : '';
+                const isCoord  = role === 'admin';
                 const hasRes   = (t.resources || []).length > 0;
                 return `
                 <tr class="${rowClass}" id="row-${ci}-${ti}">
@@ -721,20 +700,20 @@ function renderPacing() {
                   </td>
                   <td class="topic-cell">
                     <div class="topic-name ${t.status==='done'?'struck':''} editable"
-                      contenteditable="false"
+                      contenteditable="${isCoord}"
                       data-field="topic" data-ci="${ci}" data-ti="${ti}"
                       onblur="saveEdit(this,${ci},${ti},'topic')"
                       onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
                     >${escHtml(t.topic)}</div>
                     ${codes.length ? `<div class="obj-codes">${codes.map(c => `<span class="obj-code" onclick="showObj(${ci},${ti})">${c}</span>`).join('')}</div>` : ''}
                     <div class="topic-obj-line editable"
-                      contenteditable="false"
+                      contenteditable="${isCoord}"
                       data-field="objective" data-ci="${ci}" data-ti="${ti}"
                       onblur="saveEdit(this,${ci},${ti},'objective')"
                     >${_renderObjCell(t.objective)}${_objNeedsSeeMore(t.objective) ? ` <span class="obj-code" style="cursor:pointer" onclick="event.stopPropagation();showObj(${ci},${ti})">see full</span>` : ''}</div>
                     <div class="topic-meta-line">
                       <span class="meta-pill meta-pill-hours editable"
-                        contenteditable="false"
+                        contenteditable="${isCoord}"
                         data-field="hour" data-ci="${ci}" data-ti="${ti}"
                         onblur="saveEdit(this,${ci},${ti},'hour')"
                         onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
@@ -770,8 +749,7 @@ function renderPacing() {
                       </div>
                     </div>
                   </td>
-                </tr>
-`;
+                </tr>`;
               }).join('');
             })()}
             <tr class="add-topic-row">
@@ -829,7 +807,7 @@ function renderPacing() {
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="opacity:.35"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
         </div>
         <p style="font-weight:500;color:var(--ink-2);margin-bottom:6px;">No topics yet</p>
-        <p style="font-size:.75rem;line-height:1.6;">The coordinator hasn't added any content yet.<br>Please check back later.</p>
+        <p style="font-size:.75rem;line-height:1.6;">No content added yet. An admin can add topics from this page.<br>Please check back later.</p>
       </div>`;
     } else {
       html = `<div class="empty"><div class="empty-icon"></div><p>No topics match your filters.</p></div>`;
@@ -975,7 +953,7 @@ function toggleCrossSubj(subj, btn) {
   btn.classList.toggle('on', crossSubjActive[subj]);
 
   // Lazy-load from Firestore if first activation
-  if (crossSubjActive[subj] && subj !== 'english' && crossSubjData[subj] === null) {
+  if (crossSubjActive[subj] && subj !== SUBJECT_CONFIG.subjectKey && crossSubjData[subj] === null) {
     const note = document.getElementById('crossSubjLoadingNote');
     if (note) note.style.display = 'inline';
     const col = CROSS_SUBJ_COLLECTIONS[subj];
@@ -1007,28 +985,28 @@ function toggleCrossSubj(subj, btn) {
 function renderWeekly() {
   const weekMap = {};
 
-  // English topics (always active if crossSubjActive.english)
-  if (crossSubjActive.english) {
+  // Self subject topics (always active)
+  const selfKey = SUBJECT_CONFIG.subjectKey;
+  if (crossSubjActive[selfKey]) {
     DATA.forEach(ch => {
       ch.topics.forEach(t => {
         const w = t.week ? String(t.week) : null;
         if (!w) return;
-        if (!weekMap[w]) weekMap[w] = { mathHours: 0, subjTopics: {} };
-        if (!weekMap[w].subjTopics.english) weekMap[w].subjTopics.english = [];
-        weekMap[w].subjTopics.english.push({ name: t.topic, chapter: ch.chapter, year: ch.year,  hour: t.duration ?? t.hour ?? 0 });
-        weekMap[w].mathHours += (t.duration ?? t.hour ?? 0);
+        if (!weekMap[w]) weekMap[w] = { subjTopics: {} };
+        if (!weekMap[w].subjTopics[selfKey]) weekMap[w].subjTopics[selfKey] = [];
+        weekMap[w].subjTopics[selfKey].push({ name: t.topic, chapter: ch.chapter, year: ch.year, hour: t.duration ?? t.hour ?? 0 });
       });
     });
   }
 
-  // Other subjects
-  ['math', 'science'].forEach(subj => {
+  // Cross subjects
+  SUBJECT_CONFIG.crossSubjects.map(s => s.key).forEach(subj => {
     if (!crossSubjActive[subj] || !crossSubjData[subj]) return;
     crossSubjData[subj].forEach(ch => {
       (ch.topics || []).forEach(t => {
         const w = t.week ? String(t.week) : null;
         if (!w) return;
-        if (!weekMap[w]) weekMap[w] = { mathHours: 0, subjTopics: {} };
+        if (!weekMap[w]) weekMap[w] = { subjTopics: {} };
         if (!weekMap[w].subjTopics[subj]) weekMap[w].subjTopics[subj] = [];
         weekMap[w].subjTopics[subj].push({ name: t.topic, chapter: ch.chapter || '', year: ch.year || '', hour: t.duration ?? t.hour ?? 0 });
       });
@@ -1039,16 +1017,14 @@ function renderWeekly() {
     parseInt(a.replace(/\D/g,'')) - parseInt(b.replace(/\D/g,''))
   );
 
-  const subjColors = {
-  english: 'var(--accent)',
-  math: 'var(--accent)',
-  science: '#1a5fa8'
-};
-  const subjLabels = {
-  english: 'English',
-  math: 'Mathematics',
-  science: 'Science'
-};
+  const subjColors = Object.fromEntries([
+    [selfKey, SUBJECT_CONFIG.accentColor],
+    ...SUBJECT_CONFIG.crossSubjects.map(s => [s.key, s.color]),
+  ]);
+  const subjLabels = Object.fromEntries([
+    [selfKey, SUBJECT_CONFIG.label],
+    ...SUBJECT_CONFIG.crossSubjects.map(s => [s.key, s.label]),
+  ]);
   const MAX_HOURS = 12; // max expected hours per week for load bar
 
   if (!weeks.length) {
@@ -1068,7 +1044,7 @@ function renderWeekly() {
     const isCurrent = wNum === currentWeek;
 
     let sectionsHtml = '';
-    ['english', 'math', 'science'].forEach(subj => {
+    [selfKey, ...SUBJECT_CONFIG.crossSubjects.map(s => s.key)].forEach(subj => {
       const topics = wData.subjTopics[subj];
       if (!topics || !topics.length) return;
       const showSep = Object.keys(wData.subjTopics).length > 1;
@@ -1159,7 +1135,7 @@ function renderCoverage() {
 
     <div class="cov-filter-bar">
       <button class="cov-filter-chip${coverageFilter==='all'?' on':''}" onclick="setCovFilter('all')">All (${total})</button>
-      <button class="cov-filter-chip${coverageFilter==='covered'?' on':''}" onclick="setCovFilter('covered')">Covered (${covered})</button>
+      <button class="cov-filter-chip${coverageFilter==='covered'?' on':''}" onclick="setCovFilter('covered')" style="${coverageFilter==='covered'?'':''}">Covered (${covered})</button>
       <button class="cov-filter-chip${coverageFilter==='partial'?' on':''}" onclick="setCovFilter('partial')">In Progress (${partial})</button>
       <button class="cov-filter-chip${coverageFilter==='uncovered'?' on':''}" onclick="setCovFilter('uncovered')" style="color:${coverageFilter==='uncovered'?'':'var(--accent)'}">Not Started (${uncov})</button>
     </div>
@@ -1257,8 +1233,8 @@ function addChapter() {
   if (role !== 'admin') return;
   const name = prompt('Chapter name:');
   if (!name || !name.trim()) return;
-  const year = prompt('Year (Year 7 or Year 8):', 'Year 8');
-  DATA.push({ chapter: name.trim(), year: (year || 'Year 8').trim(), topics: [] });
+  const year = prompt(`Year (${SUBJECT_CONFIG.yearA} or ${SUBJECT_CONFIG.yearB}):`, SUBJECT_CONFIG.yearB);
+  DATA.push({ chapter: name.trim(), year: (year || SUBJECT_CONFIG.yearB).trim(), topics: [] });
   saveState(); render();
   showToast('Chapter added');
 }
@@ -1392,7 +1368,7 @@ function scrollToChapter(ci) {
     el.classList.remove('collapsed');
     // Flash the chapter header briefly to draw attention
     el.style.transition = 'box-shadow .2s';
-    el.style.boxShadow = '0 0 0 3px rgba(41,128,185,.35)';
+    el.style.boxShadow = '0 0 0 3px rgba(192,57,43,.35)';
     setTimeout(() => { el.style.boxShadow = ''; }, 1200);
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 60);
@@ -1446,12 +1422,12 @@ async function buildClassSelector() {
 
   const p       = window.userProfile;
   const isAdmin = p?.role_teachershub === 'teachers_admin';
-  const COMBO   = 'checkpoint_english';
+  const COMBO   = '{{COMBO}}';
 
   if (!isAdmin) {
     const combos = Array.isArray(p?.teaching_combos) ? p.teaching_combos : [];
     if (!combos.includes(COMBO)) {
-      _showNotAssigned('Checkpoint English', 'checkpoint');
+      {{NOT_ASSIGNED_CALL}}
       return;
     }
   }
@@ -1467,7 +1443,7 @@ async function buildClassSelector() {
     }
     if (!effectiveList.length) effectiveList = classList;
   } else {
-    effectiveList = Array.isArray(p?.checkpoint_english_classes) ? p.checkpoint_english_classes : [];
+    effectiveList = Array.isArray(p?.{{CLASSES_FIELD}}) ? p.{{CLASSES_FIELD}} : [];
   }
 
   wrap.style.display = effectiveList.length > 0 ? 'flex' : 'none';
@@ -1524,20 +1500,19 @@ function handleSearch(val) {
   _searchDebounce = setTimeout(() => { renderPacing(); renderNav(); }, 180);
 }
 
-// Keyboard handlers
 document.addEventListener('keydown', function(e) {
   if (e.key==='Enter' && document.getElementById('cmModal').classList.contains('open')) {
     if (document.activeElement && document.activeElement.tagName==='TEXTAREA') return;
     _cmDone(true);
   }
-});
-document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     document.getElementById('objModal').classList.remove('open');
     if (document.getElementById('cmModal').classList.contains('open')) _cmDone(false);
     closeSidebar();
   }
 });
+
+// Year chips
 document.getElementById('yearChips').addEventListener('click', e => {
   const chip = e.target.closest('[data-year]');
   if (!chip) return;
@@ -1568,6 +1543,7 @@ function switchView(view, btn) {
 function switchViewById(view) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
   document.getElementById('panel-' + view).classList.add('on');
+  if (view === 'coverage') renderCoverage();
 }
 
 // -----------------------------------------------------------
@@ -1578,19 +1554,24 @@ function showObj(ci, ti) {
   _objCi=ci; _objTi=ti;
   const ch    = DATA[ci];
   const t     = ch.topics[ti];
-  const parts = (t.objective||'').split(/\n\n+/).filter(Boolean);
-
+  const objRaw = t.objective || '';
   document.getElementById('objModalTitle').textContent = t.topic;
   document.getElementById('objModalSub').textContent   = ch.chapter;
-  document.getElementById('objModalBody').innerHTML    = parts.map(p => {
-    const colonIdx = p.indexOf(':');
-    const code = colonIdx > -1 ? p.substring(0, colonIdx) : '';
-    const desc = colonIdx > -1 ? p.substring(colonIdx+1).trim() : p;
-    return `<div class="obj-entry">
-      ${code ? `<div class="obj-entry-code">${escHtml(code)}</div>` : ''}
-      <div class="obj-entry-text">${escHtml(desc)}</div>
-    </div>`;
-  }).join('') || '<p style="color:var(--ink-3);font-size:.8rem">No objectives listed for this topic.</p>';
+  if (/<[a-z]/i.test(objRaw)) {
+    document.getElementById('objModalBody').innerHTML = objRaw ||
+      '<p style="color:var(--ink-3);font-size:.8rem">No objectives listed for this topic.</p>';
+  } else {
+    const parts = objRaw.split(/\n\n+/).filter(Boolean);
+    document.getElementById('objModalBody').innerHTML = parts.map(p => {
+      const colonIdx = p.indexOf(':');
+      const code = colonIdx > -1 ? p.substring(0, colonIdx) : '';
+      const desc = colonIdx > -1 ? p.substring(colonIdx+1).trim() : p;
+      return `<div class="obj-entry">
+        ${code ? `<div class="obj-entry-code">${escHtml(code)}</div>` : ''}
+        <div class="obj-entry-text">${escHtml(desc)}</div>
+      </div>`;
+    }).join('') || '<p style="color:var(--ink-3);font-size:.8rem">No objectives listed for this topic.</p>';
+  }
 
   var flat=allTopics(),idx=flat.findIndex(function(x){return x.ch===ci&&x.ti===ti;});
   var posEl=document.getElementById('objModalPos'),prevB=document.getElementById('objModalPrev'),nextB=document.getElementById('objModalNext');
@@ -1662,18 +1643,21 @@ let userStatuses    = {};
 
 // -- Merge shared structure + per-user statuses → window.DATA --
 async function _mergeAndRender(isFirstLoad) {
-  window.DATA = (sharedStructure || []).map((ch, ci) => ({
+  if (!sharedStructure) return;
+  window.DATA = sharedStructure.map((ch, ci) => ({
     ...ch,
-    topics: (ch.topics || []).map((t, ti) => ({
+    topics: ch.topics.map((t, ti) => ({
       ...t,
-      status:     userStatuses[`${ci}-${ti}`] || 'pending',
-      note:       userStatuses[`note-${ci}-${ti}`]  || '',
-      diag:       userStatuses[`diag-${ci}-${ti}`]  || '',
-      actualHour: userStatuses[`actual-${ci}-${ti}`] != null ? Number(userStatuses[`actual-${ci}-${ti}`]) : null,
+      status:     userStatuses[`${ci}-${ti}`]           || 'pending',
+      note:       userStatuses[`note-${ci}-${ti}`]       || '',
+      diag:       userStatuses[`diag-${ci}-${ti}`]       || '',
+      actualHour: userStatuses[`actual-${ci}-${ti}`] != null
+                    ? Number(userStatuses[`actual-${ci}-${ti}`]) : null,
+      // coordNote comes from sharedStructure (admin-written, same for all users)
     })),
   }));
   if (isFirstLoad) {
-    document.getElementById('loadingScreen').style.display = 'none';
+    const _ls = document.getElementById('loadingScreen'); if (_ls) _ls.style.display = 'none';
     await buildClassSelector();
     render();
   } else {
@@ -1689,8 +1673,9 @@ function _startSnapshot(uid) {
   currentUID  = uid;
 
   const db           = window.db;
-  const structureRef = doc(db, 'checkpoint_english_pacing', 'year7-8');
+  const structureRef = doc(db, SUBJECT_CONFIG.collection, SUBJECT_CONFIG.docId);
   const userProgRef  = doc(db, 'userProgress', currentUID);
+
   let firstLoad      = true;
   let structureReady = false;
   let progressReady  = false;
@@ -1702,6 +1687,7 @@ function _startSnapshot(uid) {
     _mergeAndRender(fl);
   }
 
+  // Shared structure listener
   unsubStructure = onSnapshot(structureRef, (snap) => {
     clearTimeout(_loadTimeout);
     sharedStructure = snap.exists() && Array.isArray(snap.data().chapters)
@@ -1716,19 +1702,18 @@ function _startSnapshot(uid) {
     console.error('Structure snapshot error:', err);
     sharedStructure = [];
     structureReady  = true;
-    document.getElementById('loadingScreen').style.display = 'none';
+    const _lsErr = document.getElementById('loadingScreen'); if (_lsErr) _lsErr.style.display = 'none';
     await buildClassSelector();
     render();
     showToast('Firestore connection error');
   });
 
-  // Per-user progress listener - key is class-scoped
+  // Per-user progress listener — key is class-scoped
   function _progressKey() {
     return currentClass && currentClass !== 'default'
-      ? `checkpoint_english_statuses_${currentClass.replace(/\s/g,'_')}`
-      : 'checkpoint_english_statuses';
+      ? `{{PROGRESS_KEY}}_${currentClass.replace(/\s/g,'_')}`
+      : '{{PROGRESS_KEY}}';
   }
-
   unsubUserProg = onSnapshot(userProgRef, (snap) => {
     clearTimeout(_loadTimeout);
     userStatuses  = (snap.exists() && snap.data()[_progressKey()])
@@ -1749,7 +1734,7 @@ function _startSnapshot(uid) {
       userStatuses    = userStatuses    || {};
       structureReady  = true;
       progressReady   = true;
-      document.getElementById('loadingScreen').style.display = 'none';
+      const _ls = document.getElementById('loadingScreen'); if (_ls) _ls.style.display = 'none';
       await buildClassSelector();
       render();
     }
@@ -1762,33 +1747,33 @@ window.__fbSaveState = async function(data) {
 
   const db = window.db;
 
-  // 1. Save this user's progress
+  // 1. Build this user's status + notes map (skip 'pending' status to keep doc lean)
   const newStatuses = {};
   data.forEach((ch, ci) => {
-    (ch.topics || []).forEach((t, ti) => {
+    ch.topics.forEach((t, ti) => {
       if (t.status && t.status !== 'pending') {
         newStatuses[`${ci}-${ti}`] = t.status;
       }
       if (t.note && t.note.trim()) {
         newStatuses[`note-${ci}-${ti}`] = t.note.trim();
       }
-      if (t.diag) {
-        newStatuses[`diag-${ci}-${ti}`] = t.diag;
+      if (t.diag && t.diag.trim()) {
+        newStatuses[`diag-${ci}-${ti}`] = t.diag.trim();
       }
       if (t.actualHour !== null && t.actualHour !== undefined) {
         newStatuses[`actual-${ci}-${ti}`] = t.actualHour;
       }
     });
   });
+
   // 2. Save user's own progress (class-scoped key)
   const progressKey = currentClass && currentClass !== 'default'
-    ? `checkpoint_english_statuses_${currentClass.replace(/\s/g,'_')}`
-    : 'checkpoint_english_statuses';
+    ? `{{PROGRESS_KEY}}_${currentClass.replace(/\s/g,'_')}`
+    : '{{PROGRESS_KEY}}';
   try {
     await setDoc(
       doc(db, 'userProgress', currentUID),
-      { [progressKey]: newStatuses, updatedAt: serverTimestamp() },
-      { merge: true }
+      { [progressKey]: newStatuses, updatedAt: serverTimestamp() }
     );
   } catch(e) {
     console.error('User progress save error:', e);
@@ -1796,6 +1781,14 @@ window.__fbSaveState = async function(data) {
     return;
   }
 
+};
+
+// -- Class switching: reload user progress from class-specific sub-key --
+window.__fbSwitchClass = function(cls) {
+  // Re-merge DATA with the class-scoped statuses
+  if (!sharedStructure) return;
+  currentClass = cls;
+  _startSnapshot(currentUID);
 };
 
 // -- One-shot document fetch for cross-subject data --
@@ -1806,13 +1799,6 @@ window.__fbGetDoc = async function(colName, docName) {
     return snap.data().chapters;
   }
   return [];
-};
-
-// -- Class switching: reload user progress from class-specific sub-key --
-window.__fbSwitchClass = function(cls) {
-  if (!sharedStructure) return;
-  currentClass = cls;
-  _startSnapshot(currentUID);
 };
 
 // -- auth-guard dispatches authReady when auth + role confirmed --

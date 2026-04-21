@@ -247,6 +247,246 @@ Object.entries(IGCSE_SUBJECTS).forEach(([filename, cfg]) => {
   generatedIgcse[filename] = html;
 });
 
+// ============================================================
+// Checkpoint + AS/A-Level pacing pages — from checkpoint-pacing-template.html
+// ============================================================
+const CHECKPOINT_ASALEVEL_SUBJECTS = {
+  'checkpoint-math-pacing.html': {
+    pageTitle: 'Cambridge Secondary Checkpoint Mathematics — Pacing Guide',
+    accentVars: '--accent: #c0392b;\n  --accent-2: #fdf0ef;\n  --accent-dark: #a93224;',
+    brandMark: 'CP', brandTitle: 'Cambridge Checkpoint Mathematics',
+    brandSub: '1112 \u00b7 Year 7\u20138', breadcrumbLevel: 'Checkpoint', breadcrumbCurrent: 'Mathematics',
+    trackerHref: 'checkpoint-math-tracker.html',
+    yearA: 'Year 7', yearB: 'Year 8',
+    combo: 'checkpoint_math', classesField: 'checkpoint_math_classes',
+    notAssignedCall: "_showNotAssigned('Checkpoint Mathematics', 'checkpoint')",
+    progressKey: 'checkpoint_math_statuses',
+    subjectConfig: `const SUBJECT_CONFIG = {
+  collection:   'checkpoint_math_pacing',
+  docId:        'year7-8',
+  subjectKey:   'math',
+  label:        'Mathematics',
+  accentColor:  'var(--accent)',
+  yearA:        'Year 7',
+  yearB:        'Year 8',
+  examLocalKey: 'checkpoint_math_exam_dates',
+  examPapers: [
+    { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
+    { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
+  ],
+  crossSubjects: [
+    { key: 'english', col: 'checkpoint_english_pacing', doc: 'year7-8', label: 'English', color: '#2980b9' },
+    { key: 'science', col: 'checkpoint_science_pacing',  doc: 'year7-8', label: 'Science', color: '#27ae60' },
+  ],
+};`,
+  },
+  'checkpoint-english-pacing.html': {
+    pageTitle: 'Cambridge Secondary Checkpoint English — Pacing Guide',
+    accentVars: '--accent: #2980b9;\n  --accent-2: #e8f4fd;\n  --accent-dark: #1f6fa3;',
+    brandMark: 'CP', brandTitle: 'Cambridge Checkpoint English',
+    brandSub: '1111 \u00b7 Year 7\u20138', breadcrumbLevel: 'Checkpoint', breadcrumbCurrent: 'English',
+    trackerHref: 'checkpoint-english-tracker.html',
+    yearA: 'Year 7', yearB: 'Year 8',
+    combo: 'checkpoint_english', classesField: 'checkpoint_english_classes',
+    notAssignedCall: "_showNotAssigned('Checkpoint English', 'checkpoint')",
+    progressKey: 'checkpoint_english_statuses',
+    subjectConfig: `const SUBJECT_CONFIG = {
+  collection:   'checkpoint_english_pacing',
+  docId:        'year7-8',
+  subjectKey:   'english',
+  label:        'English',
+  accentColor:  'var(--accent)',
+  yearA:        'Year 7',
+  yearB:        'Year 8',
+  examLocalKey: 'checkpoint_english_exam_dates',
+  examPapers: [
+    { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
+    { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
+  ],
+  crossSubjects: [
+    { key: 'math',    col: 'checkpoint_math_pacing',    doc: 'year7-8', label: 'Mathematics', color: '#c0392b' },
+    { key: 'science', col: 'checkpoint_science_pacing', doc: 'year7-8', label: 'Science',     color: '#27ae60' },
+  ],
+};`,
+  },
+  'checkpoint-science-pacing.html': {
+    pageTitle: 'Cambridge Secondary Checkpoint Science — Pacing Guide',
+    accentVars: '--accent: #27ae60;\n  --accent-2: #e9f7ef;\n  --accent-dark: #1e8449;',
+    brandMark: 'CP', brandTitle: 'Cambridge Checkpoint Science',
+    brandSub: '1113 \u00b7 Year 7\u20138', breadcrumbLevel: 'Checkpoint', breadcrumbCurrent: 'Science',
+    trackerHref: 'checkpoint-science-tracker.html',
+    yearA: 'Year 7', yearB: 'Year 8',
+    combo: 'checkpoint_science', classesField: 'checkpoint_science_classes',
+    notAssignedCall: "_showNotAssigned('Checkpoint Science', 'checkpoint')",
+    progressKey: 'checkpoint_science_statuses',
+    subjectConfig: `const SUBJECT_CONFIG = {
+  collection:   'checkpoint_science_pacing',
+  docId:        'year7-8',
+  subjectKey:   'science',
+  label:        'Science',
+  accentColor:  'var(--accent)',
+  yearA:        'Year 7',
+  yearB:        'Year 8',
+  examLocalKey: 'checkpoint_science_exam_dates',
+  examPapers: [
+    { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
+    { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
+  ],
+  crossSubjects: [
+    { key: 'math',    col: 'checkpoint_math_pacing',    doc: 'year7-8', label: 'Mathematics', color: '#c0392b' },
+    { key: 'english', col: 'checkpoint_english_pacing', doc: 'year7-8', label: 'English',     color: '#2980b9' },
+  ],
+};`,
+  },
+  'asalevel-math-pacing.html': {
+    pageTitle: 'Cambridge AS & A Level Mathematics — Pacing Guide',
+    accentVars: '--accent: #c0392b;\n  --accent-2: #fdf0ef;\n  --accent-dark: #a93224;',
+    brandMark: 'AS', brandTitle: 'Cambridge AS & A Level Mathematics',
+    brandSub: '9709 \u00b7 Year 11\u201312', breadcrumbLevel: 'AS & A Level', breadcrumbCurrent: 'Mathematics',
+    trackerHref: 'asalevel-math-tracker.html',
+    yearA: 'Year 11', yearB: 'Year 12',
+    combo: 'asalevel_math', classesField: 'asalevel_math_classes',
+    notAssignedCall: "_showNotAssigned('AS & A Level Mathematics', 'asalevel')",
+    progressKey: 'asmath_statuses',
+    subjectConfig: `const SUBJECT_CONFIG = {
+  collection:   'asalevel_math_pacing',
+  docId:        'year11-12',
+  subjectKey:   'math',
+  label:        'Mathematics',
+  accentColor:  'var(--accent)',
+  yearA:        'Year 11',
+  yearB:        'Year 12',
+  examLocalKey: 'asalevel_math_exam_dates',
+  examPapers: [
+    { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
+    { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
+    { key: 'paper3', label: 'Paper 3', cls: 'paper3' },
+  ],
+  crossSubjects: [
+    { key: 'biology',   col: 'asalevel_biology_pacing',   doc: 'year11-12', label: 'Biology',   color: '#27ae60' },
+    { key: 'chemistry', col: 'asalevel_chemistry_pacing', doc: 'year11-12', label: 'Chemistry', color: '#e67e22' },
+  ],
+};`,
+  },
+  'asalevel-biology-pacing.html': {
+    pageTitle: 'Cambridge AS & A Level Biology — Pacing Guide',
+    accentVars: '--accent: #27ae60;\n  --accent-2: #e9f7ef;\n  --accent-dark: #1e8449;',
+    brandMark: 'AS', brandTitle: 'Cambridge AS & A Level Biology',
+    brandSub: '9700 \u00b7 Year 11\u201312', breadcrumbLevel: 'AS & A Level', breadcrumbCurrent: 'Biology',
+    trackerHref: 'asalevel-biology-tracker.html',
+    yearA: 'Year 11', yearB: 'Year 12',
+    combo: 'asalevel_biology', classesField: 'asalevel_biology_classes',
+    notAssignedCall: "_showNotAssigned('AS & A Level Biology', 'asalevel')",
+    progressKey: 'asbio_statuses',
+    subjectConfig: `const SUBJECT_CONFIG = {
+  collection:   'asalevel_biology_pacing',
+  docId:        'year11-12',
+  subjectKey:   'biology',
+  label:        'Biology',
+  accentColor:  'var(--accent)',
+  yearA:        'Year 11',
+  yearB:        'Year 12',
+  examLocalKey: 'asalevel_biology_exam_dates',
+  examPapers: [
+    { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
+    { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
+    { key: 'paper3', label: 'Paper 3', cls: 'paper3' },
+    { key: 'paper4', label: 'Paper 4', cls: 'paper4' },
+  ],
+  crossSubjects: [
+    { key: 'math',      col: 'asalevel_math_pacing',      doc: 'year11-12', label: 'Mathematics', color: '#c0392b' },
+    { key: 'chemistry', col: 'asalevel_chemistry_pacing', doc: 'year11-12', label: 'Chemistry',   color: '#e67e22' },
+  ],
+};`,
+  },
+  'asalevel-chemistry-pacing.html': {
+    pageTitle: 'Cambridge AS & A Level Chemistry — Pacing Guide',
+    accentVars: '--accent: #e67e22;\n  --accent-2: #fef5e7;\n  --accent-dark: #ca6f1e;',
+    brandMark: 'AS', brandTitle: 'Cambridge AS & A Level Chemistry',
+    brandSub: '9701 \u00b7 Year 11\u201312', breadcrumbLevel: 'AS & A Level', breadcrumbCurrent: 'Chemistry',
+    trackerHref: 'asalevel-chemistry-tracker.html',
+    yearA: 'Year 11', yearB: 'Year 12',
+    combo: 'asalevel_chemistry', classesField: 'asalevel_chemistry_classes',
+    notAssignedCall: "_showNotAssigned('AS & A Level Chemistry', 'asalevel')",
+    progressKey: 'aschem_statuses',
+    subjectConfig: `const SUBJECT_CONFIG = {
+  collection:   'asalevel_chemistry_pacing',
+  docId:        'year11-12',
+  subjectKey:   'chemistry',
+  label:        'Chemistry',
+  accentColor:  'var(--accent)',
+  yearA:        'Year 11',
+  yearB:        'Year 12',
+  examLocalKey: 'asalevel_chemistry_exam_dates',
+  examPapers: [
+    { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
+    { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
+    { key: 'paper3', label: 'Paper 3', cls: 'paper3' },
+    { key: 'paper4', label: 'Paper 4', cls: 'paper4' },
+  ],
+  crossSubjects: [
+    { key: 'math',    col: 'asalevel_math_pacing',    doc: 'year11-12', label: 'Mathematics', color: '#c0392b' },
+    { key: 'biology', col: 'asalevel_biology_pacing', doc: 'year11-12', label: 'Biology',     color: '#27ae60' },
+  ],
+};`,
+  },
+  'asalevel-physics-pacing.html': {
+    pageTitle: 'Cambridge AS & A Level Physics — Pacing Guide',
+    accentVars: '--accent: #2980b9;\n  --accent-2: #e8f4fd;\n  --accent-dark: #1f6fa3;',
+    brandMark: 'AS', brandTitle: 'Cambridge AS & A Level Physics',
+    brandSub: '9702 \u00b7 Year 11\u201312', breadcrumbLevel: 'AS & A Level', breadcrumbCurrent: 'Physics',
+    trackerHref: 'asalevel-physics-tracker.html',
+    yearA: 'Year 11', yearB: 'Year 12',
+    combo: 'asalevel_physics', classesField: 'asalevel_physics_classes',
+    notAssignedCall: "_showNotAssigned('AS & A Level Physics', 'asalevel')",
+    progressKey: 'asphys_statuses',
+    subjectConfig: `const SUBJECT_CONFIG = {
+  collection:   'asalevel_physics_pacing',
+  docId:        'year11-12',
+  subjectKey:   'physics',
+  label:        'Physics',
+  accentColor:  'var(--accent)',
+  yearA:        'Year 11',
+  yearB:        'Year 12',
+  examLocalKey: 'asalevel_physics_exam_dates',
+  examPapers: [
+    { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
+    { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
+    { key: 'paper3', label: 'Paper 3', cls: 'paper3' },
+    { key: 'paper4', label: 'Paper 4', cls: 'paper4' },
+  ],
+  crossSubjects: [
+    { key: 'math',    col: 'asalevel_math_pacing',    doc: 'year11-12', label: 'Mathematics', color: '#c0392b' },
+    { key: 'biology', col: 'asalevel_biology_pacing', doc: 'year11-12', label: 'Biology',     color: '#27ae60' },
+  ],
+};`,
+  },
+};
+
+// Generate checkpoint + AS/A-Level pages from template
+const cpTemplate = fs.readFileSync(path.join(__dirname, 'checkpoint-pacing-template.html'), 'utf8');
+const generatedCpAsal = {};
+Object.entries(CHECKPOINT_ASALEVEL_SUBJECTS).forEach(([filename, cfg]) => {
+  let html = cpTemplate
+    .replace('{{PAGE_TITLE}}', cfg.pageTitle)
+    .replace('{{ACCENT_VARS}}', cfg.accentVars)
+    .replace('{{BRAND_MARK}}', cfg.brandMark)
+    .replace('{{BRAND_TITLE}}', cfg.brandTitle)
+    .replace('{{BRAND_SUB}}', cfg.brandSub)
+    .replace('{{BREADCRUMB_LEVEL}}', cfg.breadcrumbLevel)
+    .replace('{{BREADCRUMB_CURRENT}}', cfg.breadcrumbCurrent)
+    .replace('{{TRACKER_HREF}}', cfg.trackerHref)
+    .replace(/\{\{YEAR_A\}\}/g, cfg.yearA)
+    .replace(/\{\{YEAR_B\}\}/g, cfg.yearB)
+    .replace('{{SUBJECT_CONFIG}}', cfg.subjectConfig)
+    .replace("'{{COMBO}}'", `'${cfg.combo}'`)
+    .replace('{{NOT_ASSIGNED_CALL}}', cfg.notAssignedCall)
+    .replace(/p\?\.\{\{CLASSES_FIELD\}\}/g, `p?.${cfg.classesField}`)
+    .replace(/p\.{{CLASSES_FIELD}}/g, `p.${cfg.classesField}`)
+    .replace(/\{\{PROGRESS_KEY\}\}/g, cfg.progressKey);
+  generatedCpAsal[filename] = html;
+});
+
 // Read firebase-env partial once (used for placeholder injection)
 const firebaseEnvPartial = fs.readFileSync(path.join(__dirname, 'partials', 'firebase-env.html'), 'utf8');
 
@@ -255,7 +495,7 @@ const pacingSharedCss = '<style>\n' + fs.readFileSync(path.join(__dirname, 'part
 const pacingSharedJs  = '<script src="/partials/pacing-shared.js"></script>';
 
 function processFile(filename) {
-  let html = generatedIgcse[filename] || fs.readFileSync(path.join(__dirname, filename), 'utf8');
+  let html = generatedIgcse[filename] || generatedCpAsal[filename] || fs.readFileSync(path.join(__dirname, filename), 'utf8');
 
   // Inject firebase-env partial where placeholder comment exists
   html = html.replace(/<!-- FIREBASE_ENV -->/g, firebaseEnvPartial);
