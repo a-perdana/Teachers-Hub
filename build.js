@@ -108,6 +108,145 @@ const LINK_REWRITES = [
   [/href="settings\.html"/g,                    'href="/settings"'],
 ];
 
+// ============================================================
+// IGCSE pacing pages — generated from igcse-pacing-template.html
+// ============================================================
+const IGCSE_SUBJECTS = {
+  'igcse-math-pacing.html': {
+    accentVars: '--accent: #c0392b;\n  --accent-2: #fdf0ef;\n  --accent-dark: #a93224;',
+    trackerHref: 'igcse-math-tracker.html',
+    combo: 'igcse_math',
+    classesField: 'igcse_math_classes',
+    notAssignedCall: "_showNotAssigned('IGCSE Mathematics', 'igcse')",
+    subjectConfig: `const SUBJECT_CONFIG = {
+  collection:      'math_pacing',
+  docId:           'year9-10',
+  syllabusPrefix:  '0580',
+  subjectKey:      'math',
+  label:           'Mathematics',
+  code:            '0580',
+  qualifier:       'Core & Extended',
+  years:           'Year 9\u201310',
+  accentColor:     'var(--accent)',
+  examLocalKey:    'igcse_math_exam_dates',
+  examPapers: [
+    { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
+    { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
+    { key: 'paper4', label: 'Paper 4', cls: 'paper4' },
+  ],
+  hasSyllabusFilter: true,
+  crossSubjects: [
+    { key: 'biology',   col: 'biology_pacing',  doc: 'year9-10', label: 'Biology',   color: '#1a5fa8' },
+    { key: 'chemistry', col: 'chemistry_pacing', doc: 'year9-10', label: 'Chemistry', color: '#6c3fa0' },
+  ],
+};`,
+  },
+  'igcse-biology-pacing.html': {
+    accentVars: '--accent: #27ae60;\n  --accent-2: #e9f7ef;\n  --accent-dark: #1e8449;',
+    trackerHref: 'igcse-biology-tracker.html',
+    combo: 'igcse_biology',
+    classesField: 'igcse_biology_classes',
+    notAssignedCall: "_showNotAssigned('IGCSE Biology', 'igcse')",
+    subjectConfig: `const SUBJECT_CONFIG = {
+  collection:      'biology_pacing',
+  docId:           'year9-10',
+  syllabusPrefix:  '0610',
+  subjectKey:      'biology',
+  label:           'Biology',
+  code:            '0610',
+  qualifier:       'Core & Extended',
+  years:           'Year 9\u201310',
+  accentColor:     'var(--accent)',
+  examLocalKey:    'igcse_biology_exam_dates',
+  examPapers: [
+    { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
+    { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
+    { key: 'paper4', label: 'Paper 4', cls: 'paper4' },
+  ],
+  hasSyllabusFilter: true,
+  crossSubjects: [
+    { key: 'math',      col: 'math_pacing',      doc: 'year9-10', label: 'Mathematics', color: '#c0392b' },
+    { key: 'chemistry', col: 'chemistry_pacing',  doc: 'year9-10', label: 'Chemistry',   color: '#e67e22' },
+  ],
+};`,
+  },
+  'igcse-chemistry-pacing.html': {
+    accentVars: '--accent: #e67e22;\n  --accent-2: #fef5e7;\n  --accent-dark: #ca6f1e;',
+    trackerHref: 'igcse-chemistry-tracker.html',
+    combo: 'igcse_chemistry',
+    classesField: 'igcse_chemistry_classes',
+    notAssignedCall: "_showNotAssigned('IGCSE Chemistry', 'igcse')",
+    subjectConfig: `const SUBJECT_CONFIG = {
+  collection:      'chemistry_pacing',
+  docId:           'year9-10',
+  syllabusPrefix:  '0970',
+  subjectKey:      'chemistry',
+  label:           'Chemistry',
+  code:            '0970',
+  qualifier:       'Core & Extended',
+  years:           'Year 9\u201310',
+  accentColor:     'var(--accent)',
+  examLocalKey:    'igcse_chemistry_exam_dates',
+  examPapers: [
+    { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
+    { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
+    { key: 'paper4', label: 'Paper 4', cls: 'paper4' },
+    { key: 'paper6', label: 'Paper 6 (Practical)', cls: 'paper6' },
+  ],
+  hasSyllabusFilter: true,
+  crossSubjects: [
+    { key: 'math',    col: 'math_pacing',    doc: 'year9-10', label: 'Mathematics', color: '#c0392b' },
+    { key: 'biology', col: 'biology_pacing', doc: 'year9-10', label: 'Biology',     color: '#27ae60' },
+  ],
+};`,
+  },
+  'igcse-physics-pacing.html': {
+    accentVars: '--accent: #2980b9;\n  --accent-2: #e8f4fd;\n  --accent-dark: #1f6fa3;',
+    trackerHref: 'igcse-physics-tracker.html',
+    combo: 'igcse_physics',
+    classesField: 'igcse_physics_classes',
+    notAssignedCall: "_showNotAssigned('IGCSE Physics', 'igcse')",
+    subjectConfig: `const SUBJECT_CONFIG = {
+  collection:      'physics_pacing',
+  docId:           'year9-10',
+  syllabusPrefix:  '0625',
+  subjectKey:      'physics',
+  label:           'Physics',
+  code:            '0625',
+  qualifier:       'Core & Extended',
+  years:           'Year 9\u201310',
+  accentColor:     'var(--accent)',
+  examLocalKey:    'igcse_physics_exam_dates',
+  examPapers: [
+    { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
+    { key: 'paper2', label: 'Paper 2', cls: 'paper2' },
+    { key: 'paper4', label: 'Paper 4', cls: 'paper4' },
+    { key: 'paper6', label: 'Paper 6 (Practical)', cls: 'paper6' },
+  ],
+  hasSyllabusFilter: true,
+  crossSubjects: [
+    { key: 'math',    col: 'math_pacing',    doc: 'year9-10', label: 'Mathematics', color: '#c0392b' },
+    { key: 'biology', col: 'biology_pacing', doc: 'year9-10', label: 'Biology',     color: '#27ae60' },
+  ],
+};`,
+  },
+};
+
+// Generate IGCSE subject pages from template into a temp in-memory map
+const igcseTemplate = fs.readFileSync(path.join(__dirname, 'igcse-pacing-template.html'), 'utf8');
+const generatedIgcse = {}; // filename -> html string
+Object.entries(IGCSE_SUBJECTS).forEach(([filename, cfg]) => {
+  let html = igcseTemplate
+    .replace('{{ACCENT_VARS}}', cfg.accentVars)
+    .replace('{{TRACKER_HREF}}', cfg.trackerHref)
+    .replace('{{SUBJECT_CONFIG}}', cfg.subjectConfig)
+    .replace("'{{COMBO}}'", `'${cfg.combo}'`)
+    .replace('{{NOT_ASSIGNED_CALL}}', cfg.notAssignedCall)
+    .replace(/p\?\.\{\{CLASSES_FIELD\}\}/g, `p?.${cfg.classesField}`)
+    .replace(/p\.{{CLASSES_FIELD}}/g, `p.${cfg.classesField}`);
+  generatedIgcse[filename] = html;
+});
+
 // Read firebase-env partial once (used for placeholder injection)
 const firebaseEnvPartial = fs.readFileSync(path.join(__dirname, 'partials', 'firebase-env.html'), 'utf8');
 
@@ -116,7 +255,7 @@ const pacingSharedCss = '<style>\n' + fs.readFileSync(path.join(__dirname, 'part
 const pacingSharedJs  = '<script src="/partials/pacing-shared.js"></script>';
 
 function processFile(filename) {
-  let html = fs.readFileSync(path.join(__dirname, filename), 'utf8');
+  let html = generatedIgcse[filename] || fs.readFileSync(path.join(__dirname, filename), 'utf8');
 
   // Inject firebase-env partial where placeholder comment exists
   html = html.replace(/<!-- FIREBASE_ENV -->/g, firebaseEnvPartial);
