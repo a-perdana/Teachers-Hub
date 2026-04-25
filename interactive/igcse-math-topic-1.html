@@ -105,48 +105,149 @@ body {
 }
 
 /* ================================================================
-   TABS
+   LAYOUT — SIDEBAR + CONTENT
    ================================================================ */
-.tab-bar {
-  background: var(--navy);
-  padding: 0 24px;
+.app-body {
   display: flex;
-  gap: 2px;
-  overflow-x: auto;
-  border-bottom: 3px solid #1a56db;
+  height: calc(100vh - 64px);
 }
-.tab-bar::-webkit-scrollbar { height: 3px; }
-.tab-bar::-webkit-scrollbar-thumb { background: var(--blue); }
 
-.tab-btn {
-  background: transparent;
-  border: none;
-  color: rgba(255,255,255,0.55);
-  padding: 12px 20px;
-  font-size: 0.88rem;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  border-bottom: 3px solid transparent;
-  margin-bottom: -3px;
-  transition: all 0.15s;
-  font-family: var(--font-body);
+/* ── Sidebar ── */
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: width 0.25s ease, min-width 0.25s ease;
+  position: relative;
+  z-index: 50;
+  scrollbar-width: thin;
+  scrollbar-color: #1a56db transparent;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #1a56db; border-radius: 2px; }
+
+.sidebar.collapsed { width: 52px; min-width: 52px; }
+
+.sidebar-header {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
 }
-.tab-btn:hover { color: rgba(255,255,255,0.85); }
-.tab-btn.active {
+.sidebar-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  white-space: nowrap;
+  overflow: hidden;
+  transition: opacity 0.2s;
+}
+.sidebar.collapsed .sidebar-title { opacity: 0; }
+
+.sidebar-toggle {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  font-size: 1rem;
+  flex-shrink: 0;
+  line-height: 1;
+  transition: color 0.15s, background 0.15s;
+}
+.sidebar-toggle:hover { color: white; background: rgba(255,255,255,0.1); }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  color: rgba(255,255,255,0.55);
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: var(--font-body);
+  transition: background 0.15s, color 0.15s;
+  border-left: 3px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.9); }
+.nav-item.active {
+  background: rgba(26,86,219,0.25);
   color: white;
-  border-bottom-color: #60a5fa;
-  background: rgba(255,255,255,0.06);
+  border-left-color: #60a5fa;
+}
+.nav-item .nav-icon { font-size: 1.1rem; flex-shrink: 0; }
+.nav-item .nav-label { overflow: hidden; text-overflow: ellipsis; transition: opacity 0.2s; }
+.sidebar.collapsed .nav-label { opacity: 0; width: 0; }
+
+/* ── Content area ── */
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #e8edf5;
 }
 
-/* ================================================================
-   LAYOUT
-   ================================================================ */
-.module { display: none; padding: 24px 20px; max-width: 940px; margin: 0 auto; }
+.module { display: none; padding: 24px 20px; max-width: 900px; margin: 0 auto; }
 .module.active { display: block; }
+
+/* ── Mobile overlay ── */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 40;
+}
+.sidebar-overlay.visible { display: block; }
+
+/* ── Hamburger (mobile only) ── */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  margin-right: 8px;
+}
+
+@media (max-width: 768px) {
+  .hamburger { display: block; }
+  .app-body { position: relative; }
+  .sidebar {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    height: calc(100vh - 64px);
+    width: 260px;
+    min-width: 260px;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 45;
+  }
+  .sidebar.mobile-open { transform: translateX(0); }
+  .sidebar.collapsed { width: 260px; min-width: 260px; }
+  .sidebar.collapsed .nav-label { opacity: 1; width: auto; }
+  .sidebar.collapsed .sidebar-title { opacity: 1; }
+  .content-area { width: 100%; }
+}
 
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
@@ -685,30 +786,53 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
      ============================================================ -->
 <header class="app-header">
   <div class="brand">
-    <span class="brand-badge">0580</span>
-    <span class="brand-title">Topic 1 <span class="brand-sub">· Cambridge IGCSE Mathematics</span></span>
+    <button class="hamburger" onclick="sidebarMobileToggle()" aria-label="Menu">☰</button>
+    <a href="igcse-math-index.html" style="text-decoration:none;display:flex;align-items:center;gap:10px;">
+      <span class="brand-badge">0580</span>
+      <span class="brand-title">Topic 1 — Number <span class="brand-sub">· Cambridge IGCSE</span></span>
+    </a>
   </div>
   <button id="teacherToggle" onclick="toggleTeacherMode()">👨‍🏫 Teacher Mode: OFF</button>
 </header>
 
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="sidebarMobileToggle()"></div>
+
+<div class="app-body">
+
 <!-- ============================================================
-     TAB BAR
+     SIDEBAR
      ============================================================ -->
-<nav class="tab-bar">
-  <button class="tab-btn active" onclick="showModule(0)">🌳 Prime Factor Lab</button>
-  <button class="tab-btn" onclick="showModule(1)">🍕 Fraction Builder</button>
-  <button class="tab-btn" onclick="showModule(2)">🔬 Standard Form</button>
-  <button class="tab-btn" onclick="showModule(3)">⚖️ Ratio Challenge</button>
-  <button class="tab-btn" onclick="showModule(4)">🎯 Estimation Game</button>
-  <button class="tab-btn" onclick="showModule(5)">🔢 Number Types</button>
-  <button class="tab-btn" onclick="showModule(6)">⚡ Indices Lab</button>
-  <button class="tab-btn" onclick="showModule(7)">🟥 Powers & Roots</button>
-  <button class="tab-btn" onclick="showModule(8)">🧮 BODMAS Engine</button>
-  <button class="tab-btn" onclick="showModule(9)">💹 Percentages</button>
-  <button class="tab-btn" onclick="showModule(10)">🚀 Rates</button>
-  <button class="tab-btn" onclick="showModule(11)">📏 Limits</button>
-  <button class="tab-btn" onclick="showModule(12)">🕐 Time & Money</button>
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <span class="sidebar-title">Topic 1 — Number</span>
+    <button class="sidebar-toggle" onclick="sidebarToggle()" title="Collapse">◀</button>
+  </div>
+  <button class="nav-item active" onclick="showModule(0)"><span class="nav-icon">🌳</span><span class="nav-label">Prime Factor Lab</span></button>
+  <button class="nav-item" onclick="showModule(1)"><span class="nav-icon">🍕</span><span class="nav-label">Fraction Builder</span></button>
+  <button class="nav-item" onclick="showModule(2)"><span class="nav-icon">🔬</span><span class="nav-label">Standard Form</span></button>
+  <button class="nav-item" onclick="showModule(3)"><span class="nav-icon">⚖️</span><span class="nav-label">Ratio Challenge</span></button>
+  <button class="nav-item" onclick="showModule(4)"><span class="nav-icon">🎯</span><span class="nav-label">Estimation Game</span></button>
+  <button class="nav-item" onclick="showModule(5)"><span class="nav-icon">🔢</span><span class="nav-label">Number Types</span></button>
+  <button class="nav-item" onclick="showModule(6)"><span class="nav-icon">⚡</span><span class="nav-label">Indices Lab</span></button>
+  <button class="nav-item" onclick="showModule(7)"><span class="nav-icon">🟥</span><span class="nav-label">Powers & Roots</span></button>
+  <button class="nav-item" onclick="showModule(8)"><span class="nav-icon">🧮</span><span class="nav-label">BODMAS Engine</span></button>
+  <button class="nav-item" onclick="showModule(9)"><span class="nav-icon">💹</span><span class="nav-label">Percentages</span></button>
+  <button class="nav-item" onclick="showModule(10)"><span class="nav-icon">🚀</span><span class="nav-label">Rates</span></button>
+  <button class="nav-item" onclick="showModule(11)"><span class="nav-icon">📏</span><span class="nav-label">Limits of Accuracy</span></button>
+  <button class="nav-item" onclick="showModule(12)"><span class="nav-icon">🕐</span><span class="nav-label">Time & Money</span></button>
+
+  <!-- Back to chapter index -->
+  <div style="margin-top:auto;padding:14px;border-top:1px solid rgba(255,255,255,0.08);">
+    <a href="igcse-math-index.html" style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.4);font-size:0.8rem;text-decoration:none;padding:8px 0;transition:color 0.15s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">
+      <span>◀</span><span class="nav-label">All Chapters</span>
+    </a>
+  </div>
 </nav>
+
+<!-- ============================================================
+     CONTENT AREA
+     ============================================================ -->
+<div class="content-area" id="contentArea">
 
 <!-- ============================================================
      MODULE 1 · PRIME FACTOR LAB
@@ -1934,8 +2058,23 @@ function clearHints(listId) { document.getElementById(listId).innerHTML = ''; }
 // ================================================================
 function showModule(idx) {
   document.querySelectorAll('.module').forEach((m, i) => m.classList.toggle('active', i === idx));
-  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+  document.querySelectorAll('.nav-item').forEach((b, i) => b.classList.toggle('active', i === idx));
+  document.getElementById('contentArea').scrollTop = 0;
   updateTPanels();
+}
+
+function sidebarToggle() {
+  const sb = document.getElementById('sidebar');
+  const btn = sb.querySelector('.sidebar-toggle');
+  sb.classList.toggle('collapsed');
+  btn.textContent = sb.classList.contains('collapsed') ? '▶' : '◀';
+}
+
+function sidebarMobileToggle() {
+  const sb = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sb.classList.toggle('mobile-open');
+  overlay.classList.toggle('visible');
 }
 
 // ================================================================
@@ -4329,5 +4468,7 @@ function init() {
 
 document.addEventListener('DOMContentLoaded', init);
 </script>
+</div><!-- end .content-area -->
+</div><!-- end .app-body -->
 </body>
 </html>

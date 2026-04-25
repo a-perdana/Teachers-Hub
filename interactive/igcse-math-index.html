@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IGCSE Mathematics 0580 — Interactive Labs</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:    #0f2044;
+  --blue:    #1a56db;
+  --blue-lt: #3b82f6;
+  --cyan:    #06b6d4;
+  --green:   #16a34a;
+  --amber:   #d97706;
+  --slate:   #f1f5f9;
+  --white:   #ffffff;
+  --text:    #1e293b;
+  --muted:   #64748b;
+  --border:  #e2e8f0;
+  --card-bg: #ffffff;
+  --radius:  14px;
+  --shadow:  0 2px 12px rgba(0,0,0,0.07);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --font-head: 'Georgia', 'Times New Roman', serif;
+  --font-body: 'Trebuchet MS', 'Gill Sans', sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background: #e8edf5;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.app-header {
+  background: var(--navy);
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 64px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.brand-badge {
+  background: var(--blue);
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 3px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.brand-title {
+  font-family: var(--font-head);
+  font-size: 1.15rem;
+  color: white;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+.header-sub {
+  color: rgba(255,255,255,0.45);
+  font-size: 0.82rem;
+  margin-left: auto;
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, var(--navy) 0%, #1a3a6b 60%, #0c2d5a 100%);
+  padding: 56px 32px 48px;
+  text-align: center;
+  color: white;
+}
+.hero-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 12px;
+}
+.hero h1 {
+  font-family: var(--font-head);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 400;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.hero p {
+  color: rgba(255,255,255,0.65);
+  font-size: 1rem;
+  max-width: 540px;
+  margin: 0 auto 24px;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  text-align: center;
+}
+.hero-stat .num {
+  font-family: var(--font-head);
+  font-size: 2rem;
+  color: var(--cyan);
+  display: block;
+  line-height: 1;
+}
+.hero-stat .lbl {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ── GRID ── */
+.grid-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+.section-title {
+  font-family: var(--font-head);
+  font-size: 1.05rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border);
+}
+.chapters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* ── CHAPTER CARD ── */
+.chapter-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.18s, box-shadow 0.18s;
+  border: 1px solid var(--border);
+  position: relative;
+}
+.chapter-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+.chapter-card.available:hover .card-arrow { opacity: 1; transform: translateX(3px); }
+
+.card-stripe {
+  height: 5px;
+  background: var(--blue);
+}
+.chapter-card.available .card-stripe { background: var(--blue); }
+.chapter-card.soon .card-stripe { background: var(--border); }
+
+.card-body {
+  padding: 20px 20px 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.card-num {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.card-icon {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  line-height: 1;
+}
+.card-title {
+  font-family: var(--font-head);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.card-desc {
+  font-size: 0.83rem;
+  color: var(--muted);
+  line-height: 1.5;
+  flex: 1;
+}
+.card-footer {
+  padding: 12px 20px;
+  background: var(--slate);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-modules {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+.card-status {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.status-available {
+  background: #dcfce7;
+  color: var(--green);
+}
+.status-soon {
+  background: #fef9c3;
+  color: #a16207;
+}
+.card-arrow {
+  position: absolute;
+  bottom: 14px;
+  right: 20px;
+  font-size: 1.1rem;
+  color: var(--blue);
+  opacity: 0;
+  transition: opacity 0.18s, transform 0.18s;
+}
+
+/* ── FOOTER ── */
+.page-footer {
+  text-align: center;
+  padding: 32px 24px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 600px) {
+  .app-header { padding: 0 16px; }
+  .hero { padding: 40px 16px 32px; }
+  .hero-stats { gap: 20px; }
+  .grid-section { padding: 32px 16px; }
+  .chapters-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <span class="brand-badge">IGCSE</span>
+  <span class="brand-title">Mathematics 0580</span>
+  <span class="header-sub">Cambridge International</span>
+</header>
+
+<div class="hero">
+  <p class="hero-eyebrow">Interactive Learning Labs</p>
+  <h1>IGCSE Mathematics</h1>
+  <p>Hands-on explorations for every topic in the Cambridge 0580 syllabus. Pick a chapter to start.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="num">9</span>
+      <span class="lbl">Chapters</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">100+</span>
+      <span class="lbl">Modules</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">0580</span>
+      <span class="lbl">Cambridge Code</span>
+    </div>
+  </div>
+</div>
+
+<main class="grid-section">
+  <p class="section-title">All Chapters</p>
+  <div class="chapters-grid">
+
+    <!-- Topic 1 — AVAILABLE -->
+    <a class="chapter-card available" href="igcse-math-topic-1.html">
+      <div class="card-stripe"></div>
+      <div class="card-body">
+        <div class="card-num">Topic 1</div>
+        <div class="card-icon">🔢</div>
+        <div class="card-title">Number</div>
+        <div class="card-desc">Primes, fractions, standard form, ratio, estimation, indices, BODMAS, percentages, rates, limits of accuracy, time and money.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-modules">13 modules</span>
+        <span class="card-status status-available">Ready</span>
+      </div>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <!-- Topic 2 — COMING SOON -->
+    <div class="chapter-card soon">
+      <div class="card-stripe"></div>
+      <div class="card-body">
+        <div class="card-num">Topic 2</div>
+        <div class="card-icon">🔤</div>
+        <div class="card-title">Algebra & Graphs</div>
+        <div class="card-desc">Expressions, equations, inequalities, sequences, functions, graphs, quadratics, simultaneous equations.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-modules">~13 modules</span>
+        <span class="card-status status-soon">Coming soon</span>
+      </div>
+    </div>
+
+    <!-- Topic 3 -->
+    <div class="chapter-card soon">
+      <div class="card-stripe"></div>
+      <div class="card-body">
+        <div class="card-num">Topic 3</div>
+        <div class="card-icon">📐</div>
+        <div class="card-title">Coordinate Geometry</div>
+        <div class="card-desc">Gradient, midpoint, distance, equation of a line, parallel and perpendicular lines.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-modules">~8 modules</span>
+        <span class="card-status status-soon">Coming soon</span>
+      </div>
+    </div>
+
+    <!-- Topic 4 -->
+    <div class="chapter-card soon">
+      <div class="card-stripe"></div>
+      <div class="card-body">
+        <div class="card-num">Topic 4</div>
+        <div class="card-icon">📏</div>
+        <div class="card-title">Geometry</div>
+        <div class="card-desc">Angles, polygons, circles, constructions, similarity, congruence, symmetry and transformations.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-modules">~14 modules</span>
+        <span class="card-status status-soon">Coming soon</span>
+      </div>
+    </div>
+
+    <!-- Topic 5 -->
+    <div class="chapter-card soon">
+      <div class="card-stripe"></div>
+      <div class="card-body">
+        <div class="card-num">Topic 5</div>
+        <div class="card-icon">📐</div>
+        <div class="card-title">Mensuration</div>
+        <div class="card-desc">Perimeter, area, surface area and volume of 2D and 3D shapes, arc length and sector area.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-modules">~10 modules</span>
+        <span class="card-status status-soon">Coming soon</span>
+      </div>
+    </div>
+
+    <!-- Topic 6 -->
+    <div class="chapter-card soon">
+      <div class="card-stripe"></div>
+      <div class="card-body">
+        <div class="card-num">Topic 6</div>
+        <div class="card-icon">📐</div>
+        <div class="card-title">Trigonometry</div>
+        <div class="card-desc">Right-angled triangles, sine rule, cosine rule, area of triangle, bearings, 3D trigonometry.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-modules">~10 modules</span>
+        <span class="card-status status-soon">Coming soon</span>
+      </div>
+    </div>
+
+    <!-- Topic 7 -->
+    <div class="chapter-card soon">
+      <div class="card-stripe"></div>
+      <div class="card-body">
+        <div class="card-num">Topic 7</div>
+        <div class="card-icon">🔀</div>
+        <div class="card-title">Transformations & Vectors</div>
+        <div class="card-desc">Translation, reflection, rotation, enlargement, column vectors, vector arithmetic and geometry.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-modules">~10 modules</span>
+        <span class="card-status status-soon">Coming soon</span>
+      </div>
+    </div>
+
+    <!-- Topic 8 -->
+    <div class="chapter-card soon">
+      <div class="card-stripe"></div>
+      <div class="card-body">
+        <div class="card-num">Topic 8</div>
+        <div class="card-icon">📊</div>
+        <div class="card-title">Probability</div>
+        <div class="card-desc">Relative frequency, tree diagrams, Venn diagrams, combined events, conditional probability.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-modules">~9 modules</span>
+        <span class="card-status status-soon">Coming soon</span>
+      </div>
+    </div>
+
+    <!-- Topic 9 -->
+    <div class="chapter-card soon">
+      <div class="card-stripe"></div>
+      <div class="card-body">
+        <div class="card-num">Topic 9</div>
+        <div class="card-icon">📈</div>
+        <div class="card-title">Statistics</div>
+        <div class="card-desc">Mean, median, mode, range, frequency tables, histograms, cumulative frequency, box plots, scatter diagrams.</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-modules">~12 modules</span>
+        <span class="card-status status-soon">Coming soon</span>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="page-footer">
+  Cambridge IGCSE Mathematics (0580) · Interactive revision tool · Eduversal Teachers Hub
+</footer>
+
+</body>
+</html>
