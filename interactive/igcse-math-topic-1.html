@@ -2581,7 +2581,9 @@ function clearHints(listId) { document.getElementById(listId).innerHTML = ''; }
 // NAVIGATION
 // ================================================================
 function showModule(idx) {
-  document.querySelectorAll('.module').forEach((m, i) => m.classList.toggle('active', i === idx));
+  document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+  const target = document.getElementById('mod-' + idx);
+  if (target) target.classList.add('active');
   document.querySelectorAll('.nav-item').forEach((b, i) => b.classList.toggle('active', i === idx));
   document.getElementById('contentArea').scrollTop = 0;
   updateTPanels();
