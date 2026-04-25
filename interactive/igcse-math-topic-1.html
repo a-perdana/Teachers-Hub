@@ -820,6 +820,9 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
   <button class="nav-item" onclick="showModule(10)"><span class="nav-icon">🚀</span><span class="nav-label">Rates</span></button>
   <button class="nav-item" onclick="showModule(11)"><span class="nav-icon">📏</span><span class="nav-label">Limits of Accuracy</span></button>
   <button class="nav-item" onclick="showModule(12)"><span class="nav-icon">🕐</span><span class="nav-label">Time & Money</span></button>
+  <button class="nav-item" onclick="showModule(13)"><span class="nav-icon">🔵</span><span class="nav-label">Sets & Venn Diagrams</span></button>
+  <button class="nav-item" onclick="showModule(14)"><span class="nav-icon">🔁</span><span class="nav-label">Recurring Decimals</span></button>
+  <button class="nav-item" onclick="showModule(15)"><span class="nav-icon">√</span><span class="nav-label">Surds</span></button>
 
   <!-- Back to chapter index -->
   <div style="margin-top:auto;padding:14px;border-top:1px solid rgba(255,255,255,0.08);">
@@ -1291,6 +1294,393 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     </div>
     <ul class="hint-list" id="tm-fx-hints"></ul>
     <div class="feedback" id="tm-fx-fb"></div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     MODULE 14 · SETS & VENN DIAGRAMS
+     ============================================================ -->
+<section class="module" id="mod-13">
+
+  <div class="progress-card">
+    <span class="prog-label">🔵 Sets &amp; Venn Diagrams</span>
+    <div class="prog-track"><div class="prog-fill" id="sv-bar"></div></div>
+    <span class="prog-count" id="sv-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-13">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Sets &amp; Venn Diagrams</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> "A ∪ B means only the overlap." Students confuse union with intersection. Stress: union = <em>everything in either set</em> (all three coloured regions).</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Selecting only one circle for A ∪ B. Prompt: "Is every element of A included? Every element of B? Then it's the union."</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> Forgetting the outside region for A' (complement of A). Complement = everything in ξ that is NOT in A — includes B only AND the outside.</div>
+      <div class="tp-item"><strong>❌ Misconception 4:</strong> Treating A ∩ B as empty when circles overlap but students shade neither side. Remind: overlap region exists only when elements belong to both sets simultaneously.</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Use concrete contexts first — "A = {students who play football}, B = {students who play chess}" — then map onto the diagram. Always establish ξ (universal set) before defining A and B.</div>
+      <div class="tp-item"><strong>✅ Extension:</strong> Ask students to write set notation for the shaded region after they select it. Connect to probability: P(A ∩ B) = n(A ∩ B) / n(ξ).</div>
+    </div>
+  </div>
+
+  <!-- ── INTRO CARD ── -->
+  <div class="card">
+    <div class="card-title">🔵 Sets &amp; Venn Diagrams</div>
+    <div class="card-desc">
+      A <strong>set</strong> is a collection of distinct objects. We use Venn diagrams to show relationships between sets inside a universal set ξ.<br><br>
+      <strong>Key notation:</strong> &nbsp;
+      <span style="background:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:4px;font-weight:700;margin-right:6px;">A ∪ B</span> union (in A <em>or</em> B or both) &nbsp;|&nbsp;
+      <span style="background:#dcfce7;color:#166534;padding:2px 8px;border-radius:4px;font-weight:700;margin-right:6px;">A ∩ B</span> intersection (in A <em>and</em> B) &nbsp;|&nbsp;
+      <span style="background:#fef9c3;color:#854d0e;padding:2px 8px;border-radius:4px;font-weight:700;">A'</span> complement (NOT in A)
+    </div>
+  </div>
+
+  <!-- ── VENN EXPLORER ── -->
+  <div class="card">
+    <div class="card-title">Part 1 — Venn Diagram Explorer</div>
+    <div class="card-desc" style="margin-bottom:16px;">
+      The universal set ξ = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}.<br>
+      A = {2, 3, 5, 7} (prime numbers) &nbsp;·&nbsp; B = {2, 4, 6, 8} (even numbers).
+    </div>
+
+    <!-- Venn SVG -->
+    <div style="position:relative;display:flex;justify-content:center;margin-bottom:18px;">
+      <svg id="sv-venn" viewBox="0 0 420 240" width="420" height="240" style="max-width:100%;font-family:var(--font-body);">
+        <!-- Universal set border -->
+        <rect x="4" y="4" width="412" height="232" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+        <text x="14" y="22" font-size="13" fill="#94a3b8" font-weight="700">ξ</text>
+
+        <!-- Circle A -->
+        <circle id="sv-cA" cx="155" cy="120" r="85" fill="rgba(59,130,246,0.15)" stroke="#3b82f6" stroke-width="2.5" style="cursor:pointer;" onclick="svRegionClick('A')"/>
+        <!-- Circle B -->
+        <circle id="sv-cB" cx="265" cy="120" r="85" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="2.5" style="cursor:pointer;" onclick="svRegionClick('B')"/>
+
+        <!-- Invisible hit target for intersection -->
+        <ellipse id="sv-cAB" cx="210" cy="120" rx="40" ry="70" fill="transparent" style="cursor:pointer;" onclick="svRegionClick('AB')"/>
+
+        <!-- Labels -->
+        <text x="105" y="116" font-size="15" fill="#1e40af" font-weight="700" text-anchor="middle" pointer-events="none">A only</text>
+        <text x="105" y="134" font-size="12" fill="#1e40af" text-anchor="middle" pointer-events="none">{3, 5, 7}</text>
+        <text x="210" y="112" font-size="15" fill="#065f46" font-weight="700" text-anchor="middle" pointer-events="none">A∩B</text>
+        <text x="210" y="130" font-size="12" fill="#065f46" text-anchor="middle" pointer-events="none">{2}</text>
+        <text x="315" y="116" font-size="15" fill="#065f46" font-weight="700" text-anchor="middle" pointer-events="none">B only</text>
+        <text x="315" y="134" font-size="12" fill="#065f46" text-anchor="middle" pointer-events="none">{4, 6, 8}</text>
+
+        <!-- Outside label -->
+        <text x="380" y="220" font-size="12" fill="#64748b" text-anchor="middle" pointer-events="none">Outside</text>
+        <text x="380" y="234" font-size="11" fill="#64748b" text-anchor="middle" pointer-events="none">{1,9,10}</text>
+        <!-- Outside hit rect (corners) -->
+        <rect id="sv-cOut" x="4" y="4" width="412" height="232" rx="12" fill="transparent" style="cursor:pointer;" onclick="svRegionClick('Out')"/>
+      </svg>
+    </div>
+
+    <!-- Region buttons -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;justify-content:center;">
+      <button class="btn btn-secondary" onclick="svRegionClick('A')" id="sv-btn-A">A only</button>
+      <button class="btn btn-secondary" onclick="svRegionClick('AB')" id="sv-btn-AB">A ∩ B</button>
+      <button class="btn btn-secondary" onclick="svRegionClick('B')" id="sv-btn-B">B only</button>
+      <button class="btn btn-secondary" onclick="svRegionClick('Out')" id="sv-btn-Out">Outside (ξ − A − B)</button>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;justify-content:center;">
+      <button class="btn btn-primary" onclick="svAsk()">🎲 Ask me a question</button>
+      <button class="btn btn-secondary" onclick="svClear()">↺ Clear</button>
+    </div>
+
+    <div id="sv-question-row" style="display:none;background:var(--slate);border-radius:10px;padding:14px;margin-bottom:10px;text-align:center;">
+      <span style="font-size:1.1rem;font-weight:700;color:var(--navy);" id="sv-question-text"></span><br>
+      <span style="font-size:0.82rem;color:var(--muted);">Click the region(s) on the diagram or use the buttons above, then press Check.</span>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-success" id="sv-check-btn" onclick="svCheck()" style="display:none;">✓ Check Answer</button>
+      <button class="btn btn-hint" id="sv-hint-btn" onclick="svHint()" style="display:none;">💡 Hint</button>
+    </div>
+    <ul class="hint-list" id="sv-hints"></ul>
+    <div class="feedback" id="sv-fb"></div>
+  </div>
+
+  <!-- ── SET NOTATION BUILDER ── -->
+  <div class="card">
+    <div class="card-title">Part 2 — Set Notation Challenge</div>
+    <div class="card-desc" style="margin-bottom:16px;">
+      Read the shaded diagram and choose the correct set notation. Uses the same sets A and B as above.
+    </div>
+    <div id="sv-nc-diagram" style="display:flex;justify-content:center;margin-bottom:16px;">
+      <!-- filled by svNcNew() -->
+    </div>
+    <div id="sv-nc-options" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:12px;"></div>
+    <div class="feedback" id="sv-nc-fb"></div>
+    <button class="btn btn-secondary" style="display:block;margin:8px auto 0;" onclick="svNcNew()">↺ New Question</button>
+  </div>
+
+  <!-- ── ELEMENT SORTER ── -->
+  <div class="card">
+    <div class="card-title">Part 3 — Element Sorter</div>
+    <div class="card-desc" style="margin-bottom:14px;">
+      ξ = {1 … 12}. &nbsp; A = {multiples of 3} &nbsp;·&nbsp; B = {multiples of 4}.<br>
+      A number will be shown. Click where it belongs.
+    </div>
+    <div style="text-align:center;margin-bottom:18px;">
+      <span style="font-size:3rem;font-weight:700;color:var(--navy);" id="sv-el-num">?</span>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:12px;">
+      <button class="btn btn-secondary" onclick="svElCheck('A')">A only</button>
+      <button class="btn btn-secondary" onclick="svElCheck('AB')">A ∩ B</button>
+      <button class="btn btn-secondary" onclick="svElCheck('B')">B only</button>
+      <button class="btn btn-secondary" onclick="svElCheck('Out')">Outside</button>
+    </div>
+    <div class="feedback" id="sv-el-fb"></div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     MODULE 15 · RECURRING DECIMALS
+     ============================================================ -->
+<section class="module" id="mod-14">
+
+  <div class="progress-card">
+    <span class="prog-label">🔁 Recurring Decimals</span>
+    <div class="prog-track"><div class="prog-fill" id="rd-bar"></div></div>
+    <span class="prog-count" id="rd-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-14">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Recurring Decimals</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> Writing 0.3̄ as 0.3 (terminating). Stress the dot/bar notation — 0.3̄ = 0.333… is an <em>infinite</em> decimal, not 3 tenths.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Multiplying by 10 regardless of how many digits recur. Two recurring digits → ×100; one → ×10. The rule: multiply so the recurring block lines up and cancels.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> Not simplifying the fraction fully. After finding x = p/q, always check HCF(p,q). e.g. 27/99 → 3/11, not left as 27/99.</div>
+      <div class="tp-item"><strong>❌ Misconception 4:</strong> Stopping after subtraction without solving for x. 9x = 3 → students must still divide: x = 3/9 = 1/3.</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Walk through x = 0.333…, 10x = 3.333…, 10x−x = 3 → 9x = 3 → x = 1/3 as the template. Then vary recurring block length systematically.</div>
+      <div class="tp-item"><strong>✅ Extension:</strong> Mixed recurring decimals like 0.1̄6̄ (= 1/6) require more careful setup: 100x − 10x = 90x. Good extension for Extended tier.</div>
+    </div>
+  </div>
+
+  <!-- ── INTRO ── -->
+  <div class="card">
+    <div class="card-title">🔁 Recurring Decimals → Fractions</div>
+    <div class="card-desc">
+      A <strong>recurring decimal</strong> has one or more digits that repeat forever (shown with a dot or bar above).<br>
+      The algebraic method converts any recurring decimal into an exact fraction in three steps.
+    </div>
+    <div style="background:var(--slate);border-radius:10px;padding:16px 20px;margin-top:12px;">
+      <div style="font-weight:700;margin-bottom:8px;color:var(--navy);">Method — example: 0.3̄ (= 0.333…)</div>
+      <div style="font-family:var(--font-mono);font-size:0.92rem;line-height:2;">
+        <div>Let &nbsp;<strong>x</strong> = 0.333…</div>
+        <div>Then <strong>10x</strong> = 3.333…</div>
+        <div style="border-top:1px solid var(--border);padding-top:6px;margin-top:4px;">Subtract: &nbsp;10x − x = 3.333… − 0.333…</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>9x = 3</strong></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>x = 3/9 = <span style="color:var(--blue);">1/3</span></strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GUIDED WORKED EXAMPLE ── -->
+  <div class="card">
+    <div class="card-title">Part 1 — Step-by-Step Converter</div>
+    <div class="card-desc" style="margin-bottom:14px;">
+      Choose a recurring decimal. The tool will guide you through the algebra one step at a time.
+    </div>
+
+    <div class="input-row" style="margin-bottom:14px;">
+      <label class="bold">Recurring decimal:</label>
+      <select id="rd-select" class="inp-sm" onchange="rdLoad()">
+        <option value="0.333" data-mult="10" data-diff="3" data-denom="9"  data-simp="1/3"  data-block="1">0.3̄ &nbsp;= 0.333…</option>
+        <option value="0.666" data-mult="10" data-diff="6" data-denom="9"  data-simp="2/3"  data-block="1">0.6̄ &nbsp;= 0.666…</option>
+        <option value="0.272727" data-mult="100" data-diff="27" data-denom="99" data-simp="3/11" data-block="2">0.2̄7̄ = 0.272727…</option>
+        <option value="0.181818" data-mult="100" data-diff="18" data-denom="99" data-simp="2/11" data-block="2">0.1̄8̄ = 0.181818…</option>
+        <option value="0.090909" data-mult="100" data-diff="9"  data-denom="99" data-simp="1/11" data-block="2">0.0̄9̄ = 0.090909…</option>
+        <option value="0.142857" data-mult="1000000" data-diff="142857" data-denom="999999" data-simp="1/7" data-block="6">0.1̄4̄2̄8̄5̄7̄ = 0.142857…</option>
+        <option value="0.166" data-mult="100" data-diff="15" data-denom="90" data-simp="1/6"  data-block="mixed">0.16̄ = 0.1666… (mixed)</option>
+        <option value="0.416" data-mult="100" data-diff="37" data-denom="90" data-simp="5/12" data-block="mixed">0.41̄6̄ = 0.4166… (mixed)</option>
+      </select>
+      <button class="btn btn-primary" onclick="rdLoad()">▶ Start</button>
+    </div>
+
+    <div id="rd-steps-container" style="display:none;">
+      <!-- Step 1 -->
+      <div class="step-row" id="rd-step-1" style="display:none;">
+        <div style="background:#f0f9ff;border-left:4px solid var(--blue);border-radius:8px;padding:14px 16px;margin-bottom:10px;">
+          <div style="font-weight:700;color:var(--navy);margin-bottom:6px;">Step 1 — Let x = the decimal</div>
+          <div id="rd-s1-text" style="font-family:var(--font-mono);font-size:0.95rem;"></div>
+        </div>
+        <button class="btn btn-primary" onclick="rdStep(2)">Next step →</button>
+      </div>
+
+      <!-- Step 2 -->
+      <div id="rd-step-2" style="display:none;">
+        <div style="background:#f0fdf4;border-left:4px solid var(--green);border-radius:8px;padding:14px 16px;margin-bottom:10px;">
+          <div style="font-weight:700;color:var(--navy);margin-bottom:6px;">Step 2 — Multiply to align the recurring block</div>
+          <div id="rd-s2-text" style="font-family:var(--font-mono);font-size:0.95rem;margin-bottom:10px;"></div>
+          <div class="input-row">
+            <label class="bold">What do we multiply x by?</label>
+            <input type="number" id="rd-mult-input" class="inp-sm" placeholder="10 or 100…" min="1" onkeydown="if(event.key==='Enter')rdCheckMult()"/>
+            <button class="btn btn-success" onclick="rdCheckMult()">✓ Check</button>
+            <button class="btn btn-hint" onclick="rdMultHint()">💡 Hint</button>
+          </div>
+          <ul class="hint-list" id="rd-mult-hints"></ul>
+          <div class="feedback" id="rd-mult-fb"></div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div id="rd-step-3" style="display:none;">
+        <div style="background:#fffbeb;border-left:4px solid var(--amber);border-radius:8px;padding:14px 16px;margin-bottom:10px;">
+          <div style="font-weight:700;color:var(--navy);margin-bottom:6px;">Step 3 — Subtract to eliminate the recurring part</div>
+          <div id="rd-s3-text" style="font-family:var(--font-mono);font-size:0.95rem;margin-bottom:10px;"></div>
+          <div class="input-row">
+            <label class="bold">After subtraction, the numerator is:</label>
+            <input type="number" id="rd-diff-input" class="inp-sm" placeholder="e.g. 3" onkeydown="if(event.key==='Enter')rdCheckDiff()"/>
+            <label class="bold" style="margin-left:4px;">and denominator is:</label>
+            <input type="number" id="rd-denom-input" class="inp-sm" placeholder="e.g. 9" onkeydown="if(event.key==='Enter')rdCheckDiff()"/>
+            <button class="btn btn-success" onclick="rdCheckDiff()">✓ Check</button>
+            <button class="btn btn-hint" onclick="rdDiffHint()">💡 Hint</button>
+          </div>
+          <ul class="hint-list" id="rd-diff-hints"></ul>
+          <div class="feedback" id="rd-diff-fb"></div>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div id="rd-step-4" style="display:none;">
+        <div style="background:#fdf4ff;border-left:4px solid #a855f7;border-radius:8px;padding:14px 16px;margin-bottom:10px;">
+          <div style="font-weight:700;color:var(--navy);margin-bottom:6px;">Step 4 — Simplify the fraction</div>
+          <div id="rd-s4-text" style="font-family:var(--font-mono);font-size:0.95rem;margin-bottom:10px;"></div>
+          <div class="input-row">
+            <label class="bold">Simplified fraction (e.g. 1/3):</label>
+            <input type="text" id="rd-simp-input" class="inp-sm" placeholder="p/q" onkeydown="if(event.key==='Enter')rdCheckSimp()"/>
+            <button class="btn btn-success" onclick="rdCheckSimp()">✓ Check</button>
+            <button class="btn btn-hint" onclick="rdSimpHint()">💡 Hint</button>
+          </div>
+          <ul class="hint-list" id="rd-simp-hints"></ul>
+          <div class="feedback" id="rd-simp-fb"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── QUICK QUIZ ── -->
+  <div class="card">
+    <div class="card-title">Part 2 — Quick Conversion Quiz</div>
+    <div class="card-desc" style="margin-bottom:14px;">
+      Convert the recurring decimal to a fraction in its simplest form. Type your answer as <code>p/q</code>.
+    </div>
+    <div id="rd-quiz-question" style="text-align:center;font-size:1.8rem;font-weight:700;color:var(--navy);margin-bottom:18px;">—</div>
+    <div class="input-row" style="justify-content:center;">
+      <input type="text" id="rd-quiz-input" class="inp-sm" placeholder="e.g. 1/3" style="width:110px;" onkeydown="if(event.key==='Enter')rdQuizCheck()"/>
+      <button class="btn btn-success" onclick="rdQuizCheck()">✓ Check</button>
+      <button class="btn btn-hint" onclick="rdQuizHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="rdQuizNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="rd-quiz-hints"></ul>
+    <div class="feedback" id="rd-quiz-fb"></div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     MODULE 16 · SURDS
+     ============================================================ -->
+<section class="module" id="mod-15">
+
+  <div class="progress-card">
+    <span class="prog-label">√ Surds</span>
+    <div class="prog-track"><div class="prog-fill" id="su-bar"></div></div>
+    <span class="prog-count" id="su-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-15">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Surds</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> "√8 = 4" — students confuse squaring and square-rooting. √8 ≈ 2.83, not 4. Stress: √8 = √(4×2) = 2√2.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Leaving surds unsimplified (e.g. √12 instead of 2√3). Insist on finding the <em>largest</em> square factor — spotting 4 in 12 rather than just 2.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> Rationalising as 1/√2 = 1/2 (squaring numerator too). Remind: multiply numerator AND denominator by √2 → √2/2.</div>
+      <div class="tp-item"><strong>❌ Misconception 4:</strong> Adding surds incorrectly: √2 + √3 ≠ √5. Surds can only be combined if they have the same radicand (like terms).</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Make a list of perfect squares (1,4,9,16,25,36,49,64,81,100). For any surd √n, ask: "What's the largest perfect square that divides n?" That factor comes outside the root.</div>
+      <div class="tp-item"><strong>✅ Extension:</strong> (a+√b)(a−√b) = a²−b — difference of two squares eliminates the surd. This underpins conjugate rationalisation for expressions like 1/(1+√2).</div>
+    </div>
+  </div>
+
+  <!-- ── INTRO ── -->
+  <div class="card">
+    <div class="card-title">√ Surds</div>
+    <div class="card-desc">
+      A <strong>surd</strong> is an irrational root that cannot be simplified to a rational number (e.g. √2, √3, √5).<br>
+      We simplify surds by pulling out the largest perfect-square factor, and rationalise denominators by multiplying by the surd.
+    </div>
+    <div style="background:var(--slate);border-radius:10px;padding:16px 20px;margin-top:12px;font-family:var(--font-mono);font-size:0.91rem;line-height:2.1;">
+      <div><strong>Simplify:</strong> &nbsp;√12 = √(4×3) = √4 × √3 = <span style="color:var(--blue);">2√3</span></div>
+      <div><strong>Rationalise:</strong> &nbsp;1/√3 = (1×√3)/(√3×√3) = √3/3 = <span style="color:var(--blue);">√3/3</span></div>
+    </div>
+  </div>
+
+  <!-- ── SIMPLIFY ── -->
+  <div class="card">
+    <div class="card-title">Part 1 — Simplify the Surd</div>
+    <div class="card-desc" style="margin-bottom:14px;">
+      Enter the simplified form as <strong>a√b</strong> — e.g. type <code>2√3</code> or <code>2r3</code> (use r for √ if needed).
+    </div>
+
+    <div style="text-align:center;margin-bottom:20px;">
+      <span style="font-size:2.4rem;font-weight:700;color:var(--navy);" id="su-simp-q">√?</span>
+    </div>
+
+    <!-- Step-by-step scaffold -->
+    <div id="su-scaffold" style="background:#f8fafc;border-radius:10px;padding:16px;margin-bottom:16px;display:none;">
+      <div style="font-weight:700;color:var(--navy);margin-bottom:10px;">Step-by-step:</div>
+      <div id="su-scaf-text" style="font-family:var(--font-mono);font-size:0.9rem;line-height:2;"></div>
+    </div>
+
+    <div class="input-row" style="justify-content:center;flex-wrap:wrap;">
+      <label class="bold">Simplified form:</label>
+      <input type="text" id="su-simp-input" class="inp-sm" placeholder="e.g. 2√3 or 2r3" style="width:130px;" onkeydown="if(event.key==='Enter')suSimpCheck()"/>
+      <button class="btn btn-success" onclick="suSimpCheck()">✓ Check</button>
+      <button class="btn btn-hint" onclick="suSimpHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="suSimpNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="su-simp-hints"></ul>
+    <div class="feedback" id="su-simp-fb"></div>
+  </div>
+
+  <!-- ── RATIONALISE ── -->
+  <div class="card">
+    <div class="card-title">Part 2 — Rationalise the Denominator</div>
+    <div class="card-desc" style="margin-bottom:14px;">
+      Express with a rational denominator. Write answer as <strong>a√b / c</strong> — e.g. type <code>√3/3</code> or <code>2√5/5</code>.
+    </div>
+
+    <div style="text-align:center;margin-bottom:20px;">
+      <span style="font-size:2.2rem;font-weight:700;color:var(--navy);" id="su-rat-q">?</span>
+    </div>
+
+    <div class="input-row" style="justify-content:center;flex-wrap:wrap;">
+      <label class="bold">Rationalised form:</label>
+      <input type="text" id="su-rat-input" class="inp-sm" placeholder="e.g. √2/2" style="width:140px;" onkeydown="if(event.key==='Enter')suRatCheck()"/>
+      <button class="btn btn-success" onclick="suRatCheck()">✓ Check</button>
+      <button class="btn btn-hint" onclick="suRatHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="suRatNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="su-rat-hints"></ul>
+    <div class="feedback" id="su-rat-fb"></div>
+  </div>
+
+  <!-- ── LIKE SURDS ── -->
+  <div class="card">
+    <div class="card-title">Part 3 — Combine Like Surds</div>
+    <div class="card-desc" style="margin-bottom:14px;">
+      First simplify each surd, then collect like terms. Type the final simplified answer.
+    </div>
+    <div style="text-align:center;margin-bottom:20px;">
+      <span style="font-size:1.9rem;font-weight:700;color:var(--navy);" id="su-comb-q">?</span>
+    </div>
+    <div class="input-row" style="justify-content:center;flex-wrap:wrap;">
+      <label class="bold">Answer:</label>
+      <input type="text" id="su-comb-input" class="inp-sm" placeholder="e.g. 5√2" style="width:130px;" onkeydown="if(event.key==='Enter')suCombCheck()"/>
+      <button class="btn btn-success" onclick="suCombCheck()">✓ Check</button>
+      <button class="btn btn-hint" onclick="suCombHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="suCombNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="su-comb-hints"></ul>
+    <div class="feedback" id="su-comb-fb"></div>
   </div>
 
 </section>
@@ -1983,7 +2373,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 // GLOBAL STATE
 // ================================================================
 let teacherMode = false;
-const scores = { pf: 0, fr: 0, sf: 0, rt: 0, eg: 0, nt: 0, il: 0, pr: 0, bo: 0, pc: 0, ra: 0, lm: 0, tm: 0 };
+const scores = { pf: 0, fr: 0, sf: 0, rt: 0, eg: 0, nt: 0, il: 0, pr: 0, bo: 0, pc: 0, ra: 0, lm: 0, tm: 0, sv: 0, rd: 0, su: 0 };
 
 // ================================================================
 // UTILITIES
@@ -4435,6 +4825,889 @@ function qfCheck() {
 }
 
 // ================================================================
+// ================================================================
+// MODULE 14 · SETS & VENN DIAGRAMS
+// ================================================================
+// ================================================================
+
+// ── Shared set data ──
+// Explorer (Part 1): ξ={1..10}, A={2,3,5,7}, B={2,4,6,8}
+const SV_A   = new Set([2,3,5,7]);
+const SV_B   = new Set([2,4,6,8]);
+const SV_XI  = new Set([1,2,3,4,5,6,7,8,9,10]);
+// Region membership helpers
+function svInA(x)  { return SV_A.has(x); }
+function svInB(x)  { return SV_B.has(x); }
+function svRegion(x) {
+  if (svInA(x) && svInB(x)) return 'AB';
+  if (svInA(x))              return 'A';
+  if (svInB(x))              return 'B';
+  return 'Out';
+}
+
+// ── Part 1 state ──
+let svSelected = new Set(); // 'A','AB','B','Out'
+let svCurrentQ = null;      // { text, correct:Set, key }
+
+const SV_QUESTIONS = [
+  {
+    text: 'Select the region for A ∩ B',
+    key: 'intersection',
+    correct: new Set(['AB']),
+    hints: [
+      'A ∩ B means "in A AND in B simultaneously".',
+      'Only the overlapping (middle) region satisfies both conditions.',
+      'A ∩ B = {2} — the only prime that is also even.'
+    ]
+  },
+  {
+    text: 'Select ALL regions that belong to A ∪ B',
+    key: 'union',
+    correct: new Set(['A','AB','B']),
+    hints: [
+      'A ∪ B means "in A OR in B (or both)".',
+      'You must select all three coloured regions — A only, A∩B, and B only.',
+      'A ∪ B = {2,3,4,5,6,7,8} — every element that appears in either set.'
+    ]
+  },
+  {
+    text: "Select ALL regions that belong to A' (complement of A)",
+    key: 'complement-A',
+    correct: new Set(['B','Out']),
+    hints: [
+      "A' means everything in ξ that is NOT in A.",
+      'A contains {2,3,5,7}. Everything else is in A\'.',
+      "A' includes B only = {4,6,8} and Outside = {1,9,10}. The overlap {2} is in A, so it is excluded."
+    ]
+  },
+  {
+    text: "Select ALL regions that belong to B' (complement of B)",
+    key: 'complement-B',
+    correct: new Set(['A','Out']),
+    hints: [
+      "B' means everything in ξ that is NOT in B.",
+      'B contains {2,4,6,8}. Everything else is in B\'.',
+      "B' includes A only = {3,5,7} and Outside = {1,9,10}."
+    ]
+  },
+  {
+    text: 'Select the region for A only (elements in A but NOT in B)',
+    key: 'A-only',
+    correct: new Set(['A']),
+    hints: [
+      'A only = A − B = elements in A that are not in B.',
+      'From A = {2,3,5,7}, remove any that are also in B. Only 2 is even, so remove it.',
+      'A only = {3, 5, 7} — the left crescent of the diagram.'
+    ]
+  },
+  {
+    text: 'Select ALL regions outside both A and B',
+    key: 'outside',
+    correct: new Set(['Out']),
+    hints: [
+      'Outside means not in A and not in B.',
+      'From ξ = {1..10}, remove A∪B = {2,3,4,5,6,7,8}.',
+      'Outside = {1, 9, 10} — the rectangular border region.'
+    ]
+  }
+];
+
+// ── Venn highlight helpers ──
+function svHighlightRegions(regions) {
+  const inA  = regions.has('A') || regions.has('AB');
+  const inB  = regions.has('B') || regions.has('AB');
+  const inAB = regions.has('AB');
+
+  // Recolour circles based on selection
+  document.getElementById('sv-cA').setAttribute('fill',
+    inA ? 'rgba(59,130,246,0.45)' : 'rgba(59,130,246,0.15)');
+  document.getElementById('sv-cB').setAttribute('fill',
+    inB ? 'rgba(16,185,129,0.45)' : 'rgba(16,185,129,0.15)');
+
+  // Outer rect flashes amber when Outside selected
+  const outerRect = document.getElementById('sv-cOut');
+  if (regions.has('Out')) {
+    outerRect.setAttribute('fill', 'rgba(217,119,6,0.12)');
+  } else {
+    outerRect.setAttribute('fill', 'transparent');
+  }
+
+  // Button active states
+  ['A','AB','B','Out'].forEach(r => {
+    const btn = document.getElementById('sv-btn-' + r);
+    if (btn) btn.className = regions.has(r) ? 'btn btn-primary' : 'btn btn-secondary';
+  });
+}
+
+function svRegionClick(region) {
+  if (svSelected.has(region)) {
+    svSelected.delete(region);
+  } else {
+    svSelected.add(region);
+  }
+  svHighlightRegions(svSelected);
+  fbHide('sv-fb');
+}
+
+function svClear() {
+  svSelected.clear();
+  svHighlightRegions(svSelected);
+  svCurrentQ = null;
+  document.getElementById('sv-question-row').style.display = 'none';
+  document.getElementById('sv-check-btn').style.display = 'none';
+  document.getElementById('sv-hint-btn').style.display = 'none';
+  clearHints('sv-hints');
+  fbHide('sv-fb');
+}
+
+function svAsk() {
+  svClear();
+  const q = SV_QUESTIONS[Math.floor(Math.random() * SV_QUESTIONS.length)];
+  svCurrentQ = q;
+  document.getElementById('sv-question-text').textContent = q.text;
+  document.getElementById('sv-question-row').style.display = 'block';
+  document.getElementById('sv-check-btn').style.display = 'inline-block';
+  document.getElementById('sv-hint-btn').style.display = 'inline-block';
+  clearHints('sv-hints');
+}
+
+function svCheck() {
+  if (!svCurrentQ) { fb('sv-fb', '⚠️ Press "Ask me a question" first.', 'hint'); return; }
+  if (svSelected.size === 0) { fb('sv-fb', '⚠️ Click at least one region first.', 'hint'); return; }
+
+  const q = svCurrentQ;
+  const got = svSelected;
+  const want = q.correct;
+
+  // Check set equality
+  const correct = got.size === want.size && [...want].every(r => got.has(r));
+
+  if (correct) {
+    fb('sv-fb', `✅ Correct! ${svExplain(q.key)}`, 'correct');
+    addScore('sv', 10);
+    return;
+  }
+
+  // Misconception detection
+  if (q.key === 'union' && got.size === 1 && (got.has('A') || got.has('B'))) {
+    fb('sv-fb', '🤔 <strong>For A ∪ B you need to select ALL regions in either set</strong> — A only, A∩B, and B only. Union means "in A or B or both"!', 'wrong'); return;
+  }
+  if (q.key === 'union' && got.size === 1 && got.has('AB')) {
+    fb('sv-fb', '🤔 <strong>That\'s the intersection, not the union.</strong> A ∩ B is just the middle overlap. A ∪ B includes every element that appears in A or B — select all three coloured regions.', 'wrong'); return;
+  }
+  if (q.key === 'intersection' && (got.has('A') || got.has('B'))) {
+    fb('sv-fb', '🤔 <strong>A ∩ B is only the overlap — the middle region.</strong> Elements in A only or B only are NOT in both sets simultaneously.', 'wrong'); return;
+  }
+  if ((q.key === 'complement-A' || q.key === 'complement-B') && !got.has('Out')) {
+    fb('sv-fb', '🤔 <strong>Don\'t forget the outside region!</strong> The complement includes every part of ξ not in the set — the far crescent AND the outside rectangle.', 'wrong'); return;
+  }
+
+  // Generic wrong
+  const wantLabels = { A:'A only', AB:'A∩B', B:'B only', Out:'Outside' };
+  const wantStr = [...want].map(r => wantLabels[r]).join(' + ');
+  fb('sv-fb', `❌ Not quite. The correct region(s): <strong>${wantStr}</strong>. ${svExplain(q.key)}`, 'wrong');
+}
+
+function svExplain(key) {
+  const explanations = {
+    'intersection':  'A ∩ B = {2} — the only element in both A and B.',
+    'union':         'A ∪ B = {2,3,4,5,6,7,8} — every element in A or B or both.',
+    'complement-A':  "A' = {1,4,6,8,9,10} — everything in ξ not in A.",
+    'complement-B':  "B' = {1,3,5,7,9,10} — everything in ξ not in B.",
+    'A-only':        'A only = {3,5,7} — in A but not in B.',
+    'outside':       'Outside = {1,9,10} — in ξ but neither in A nor B.'
+  };
+  return explanations[key] || '';
+}
+
+function svHint() {
+  if (!svCurrentQ) return;
+  const hints = svCurrentQ.hints;
+  const shown = document.querySelectorAll('#sv-hints li').length;
+  if (shown < hints.length) addHint('sv-hints', hints[shown]);
+  else fb('sv-fb', '💡 No more hints available.', 'hint');
+}
+
+// ── Part 2 — Notation Challenge ──
+// Diagrams: describe which regions are shaded and ask for notation
+const SV_NC_ITEMS = [
+  {
+    shaded: ['AB'],
+    label: 'A ∩ B',
+    distractors: ['A ∪ B', "A'", 'A only']
+  },
+  {
+    shaded: ['A','AB','B'],
+    label: 'A ∪ B',
+    distractors: ['A ∩ B', "A'", 'B only']
+  },
+  {
+    shaded: ['B','Out'],
+    label: "A'",
+    distractors: ['A ∪ B', "B'", 'A ∩ B']
+  },
+  {
+    shaded: ['A','Out'],
+    label: "B'",
+    distractors: ['A ∪ B', "A'", 'A ∩ B']
+  },
+  {
+    shaded: ['A'],
+    label: 'A only (A − B)',
+    distractors: ['A ∪ B', 'A ∩ B', "A'"]
+  },
+  {
+    shaded: ['B'],
+    label: 'B only (B − A)',
+    distractors: ['A ∪ B', 'A ∩ B', "B'"]
+  }
+];
+
+function svNcMiniSvg(shaded) {
+  const sA  = shaded.includes('A')  || shaded.includes('AB');
+  const sB  = shaded.includes('B')  || shaded.includes('AB');
+  const sAB = shaded.includes('AB');
+  const sOut= shaded.includes('Out');
+  return `<svg viewBox="0 0 200 120" width="200" height="120" style="max-width:100%;">
+    <rect x="2" y="2" width="196" height="116" rx="8" fill="${sOut?'rgba(217,119,6,0.18)':'#f8fafc'}" stroke="#cbd5e1" stroke-width="1.5"/>
+    <circle cx="72" cy="60" r="44" fill="${sA?'rgba(59,130,246,0.5)':'rgba(59,130,246,0.1)'}" stroke="#3b82f6" stroke-width="1.8"/>
+    <circle cx="128" cy="60" r="44" fill="${sB?'rgba(16,185,129,0.5)':'rgba(16,185,129,0.1)'}" stroke="#10b981" stroke-width="1.8"/>
+    <text x="48" y="57" font-size="11" fill="${sA?'#1e40af':'#3b82f6'}" font-weight="700" text-anchor="middle">A</text>
+    <text x="100" y="57" font-size="10" fill="${sAB?'#064e3b':'#6b7280'}" font-weight="700" text-anchor="middle">∩</text>
+    <text x="152" y="57" font-size="11" fill="${sB?'#065f46':'#10b981'}" font-weight="700" text-anchor="middle">B</text>
+    <text x="186" y="18" font-size="10" fill="#94a3b8" font-weight="700">ξ</text>
+  </svg>`;
+}
+
+function svNcNew() {
+  const item = SV_NC_ITEMS[Math.floor(Math.random() * SV_NC_ITEMS.length)];
+  document.getElementById('sv-nc-diagram').innerHTML = svNcMiniSvg(item.shaded);
+  fbHide('sv-nc-fb');
+
+  // Shuffle options
+  const opts = [item.label, ...item.distractors].sort(() => Math.random() - 0.5);
+  const container = document.getElementById('sv-nc-options');
+  container.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-secondary';
+    btn.textContent = opt;
+    btn.onclick = () => {
+      container.querySelectorAll('.btn').forEach(b => b.className = 'btn btn-secondary');
+      btn.className = 'btn btn-primary';
+      if (opt === item.label) {
+        fb('sv-nc-fb', `✅ Correct! The shaded region is <strong>${item.label}</strong>.`, 'correct');
+        addScore('sv', 8);
+      } else {
+        // Misconception: chose intersection when union shaded
+        if (item.shaded.length >= 3 && opt === 'A ∩ B') {
+          fb('sv-nc-fb', '🤔 <strong>All three regions are shaded — that\'s the union, not the intersection.</strong> A ∩ B would shade only the middle overlap.', 'wrong');
+        } else if (item.label === 'A ∩ B' && opt === 'A ∪ B') {
+          fb('sv-nc-fb', '🤔 <strong>Only the middle overlap is shaded — that\'s the intersection.</strong> A ∪ B would shade all three coloured regions.', 'wrong');
+        } else {
+          fb('sv-nc-fb', `❌ Not quite. The correct notation is <strong>${item.label}</strong>.`, 'wrong');
+        }
+      }
+    };
+    container.appendChild(btn);
+  });
+}
+
+// ── Part 3 — Element Sorter ──
+// ξ={1..12}, A=multiples of 3, B=multiples of 4
+const SV_EL_A   = new Set([3,6,9,12]);
+const SV_EL_B   = new Set([4,8,12]);
+const SV_EL_XI  = [1,2,3,4,5,6,7,8,9,10,11,12];
+let svElQueue   = [];
+
+function svElRegion(x) {
+  const inA = SV_EL_A.has(x), inB = SV_EL_B.has(x);
+  if (inA && inB) return 'AB';
+  if (inA)        return 'A';
+  if (inB)        return 'B';
+  return 'Out';
+}
+
+function svElNext() {
+  if (svElQueue.length === 0) svElQueue = [...SV_EL_XI].sort(() => Math.random() - 0.5);
+  const n = svElQueue.pop();
+  document.getElementById('sv-el-num').textContent = n;
+  document.getElementById('sv-el-num').dataset.val = n;
+  fbHide('sv-el-fb');
+}
+
+function svElCheck(chosen) {
+  const n = parseInt(document.getElementById('sv-el-num').dataset.val, 10);
+  if (isNaN(n)) return;
+  const correct = svElRegion(n);
+  const labels = { A:'A only (multiples of 3, not 4)', AB:'A ∩ B (multiples of both 3 and 4)', B:'B only (multiples of 4, not 3)', Out:'Outside (not a multiple of 3 or 4)' };
+
+  if (chosen === correct) {
+    fb('sv-el-fb', `✅ Correct! ${n} belongs to <strong>${labels[correct]}</strong>.`, 'correct');
+    addScore('sv', 5);
+    setTimeout(svElNext, 900);
+  } else {
+    // Misconception: 12 is multiple of both — student picks A or B only
+    if (n === 12 && (chosen === 'A' || chosen === 'B')) {
+      fb('sv-el-fb', `🤔 <strong>12 is a multiple of both 3 and 4!</strong> It belongs in A ∩ B — the overlap region.`, 'wrong');
+    } else if (correct === 'Out' && chosen !== 'Out') {
+      fb('sv-el-fb', `🤔 <strong>${n} is neither a multiple of 3 nor 4.</strong> It belongs outside both circles.`, 'wrong');
+    } else {
+      fb('sv-el-fb', `❌ Not quite. ${n} → <strong>${labels[correct]}</strong>.`, 'wrong');
+    }
+  }
+}
+
+function svInit() {
+  svNcNew();
+  svElNext();
+}
+
+// ================================================================
+// ================================================================
+// MODULE 15 · RECURRING DECIMALS
+// ================================================================
+// ================================================================
+
+let rdCurrent = null; // { mult, diff, denom, simp, display, block }
+let rdQuizCurrent = null;
+
+// GCD helper for simplification check
+function rdGcd(a, b) { return b === 0 ? a : rdGcd(b, a % b); }
+
+// Normalise "p/q" input → { p, q } or null
+function rdParseFrac(s) {
+  const m = s.trim().match(/^(-?\d+)\s*\/\s*(-?\d+)$/);
+  if (!m) return null;
+  return { p: parseInt(m[1], 10), q: parseInt(m[2], 10) };
+}
+
+// Are two fractions equal (after full reduction)?
+function rdFracEqual(p1, q1, p2, q2) {
+  if (q1 === 0 || q2 === 0) return false;
+  const g1 = rdGcd(Math.abs(p1), Math.abs(q1));
+  const g2 = rdGcd(Math.abs(p2), Math.abs(q2));
+  return (p1/g1 === p2/g2) && (q1/g1 === q2/g2);
+}
+
+function rdLoad() {
+  const sel = document.getElementById('rd-select');
+  const opt = sel.options[sel.selectedIndex];
+  rdCurrent = {
+    display: opt.text.trim(),
+    mult:    parseInt(opt.dataset.mult, 10),
+    diff:    parseInt(opt.dataset.diff, 10),
+    denom:   parseInt(opt.dataset.denom, 10),
+    simp:    opt.dataset.simp,   // "p/q" string
+    block:   opt.dataset.block,
+    value:   opt.value
+  };
+
+  // Parse simp into p/q
+  const sp = rdParseFrac(rdCurrent.simp);
+  rdCurrent.simpP = sp ? sp.p : null;
+  rdCurrent.simpQ = sp ? sp.q : null;
+
+  // Show container and step 1
+  document.getElementById('rd-steps-container').style.display = 'block';
+  ['rd-step-1','rd-step-2','rd-step-3','rd-step-4'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
+  ['rd-mult-fb','rd-diff-fb','rd-simp-fb'].forEach(id => fbHide(id));
+  ['rd-mult-hints','rd-diff-hints','rd-simp-hints'].forEach(id => clearHints(id));
+
+  // Populate step 1 text
+  const decStr = rdCurrent.display.split('=')[1]?.trim() || rdCurrent.value + '…';
+  document.getElementById('rd-s1-text').textContent = `Let x = ${decStr}`;
+
+  document.getElementById('rd-step-1').style.display = 'block';
+}
+
+function rdStep(n) {
+  if (!rdCurrent) return;
+  const decStr = rdCurrent.display.split('=')[1]?.trim() || rdCurrent.value + '…';
+
+  if (n === 2) {
+    document.getElementById('rd-s2-text').innerHTML =
+      `x = ${decStr}<br>We need to multiply x by <strong>?</strong> so the recurring part lines up and cancels when we subtract.`;
+    document.getElementById('rd-step-2').style.display = 'block';
+    document.getElementById('rd-mult-input').value = '';
+    document.getElementById('rd-mult-input').focus();
+  }
+  if (n === 3) {
+    const mx = rdCurrent.mult;
+    const mxVal = (parseFloat(rdCurrent.value) * mx).toFixed(6).replace(/\.?0+$/, '');
+    document.getElementById('rd-s3-text').innerHTML =
+      `${mx}x = ${mxVal}…<br>x &nbsp;= ${decStr}<br><br>` +
+      `Subtract: ${mx}x − x = ${mxVal}… − ${decStr}<br>` +
+      `<strong>${mx - 1 > 0 ? mx - 1 : mx}x − ${mx - 1 > 0 ? '' : '…'} = ?</strong><br><br>` +
+      `Enter the result: <em>numerator</em> (top) and <em>denominator</em> (bottom) of x.`;
+    document.getElementById('rd-step-3').style.display = 'block';
+    document.getElementById('rd-diff-input').value = '';
+    document.getElementById('rd-denom-input').value = '';
+    document.getElementById('rd-diff-input').focus();
+  }
+  if (n === 4) {
+    document.getElementById('rd-s4-text').innerHTML =
+      `x = ${rdCurrent.diff}/${rdCurrent.denom}<br>Now divide both numerator and denominator by their HCF to simplify.`;
+    document.getElementById('rd-step-4').style.display = 'block';
+    document.getElementById('rd-simp-input').value = '';
+    document.getElementById('rd-simp-input').focus();
+  }
+}
+
+function rdCheckMult() {
+  if (!rdCurrent) return;
+  const val = parseInt(document.getElementById('rd-mult-input').value, 10);
+  if (isNaN(val)) { fb('rd-mult-fb', '⚠️ Enter a number (10, 100, etc.).', 'hint'); return; }
+
+  if (val === rdCurrent.mult) {
+    fb('rd-mult-fb', `✅ Correct! Multiplying by ${val} shifts the decimal so the recurring block aligns perfectly.`, 'correct');
+    addScore('rd', 5);
+    setTimeout(() => rdStep(3), 700);
+  } else if (val === 10 && rdCurrent.mult !== 10) {
+    fb('rd-mult-fb', `🤔 ×10 only shifts one decimal place. This decimal has <strong>${rdCurrent.block} recurring digit(s)</strong> — you need ×${rdCurrent.mult} to align the full block.`, 'wrong');
+  } else if (val === 100 && rdCurrent.mult !== 100) {
+    fb('rd-mult-fb', `🤔 ×100 shifts two places. The recurring block here has ${rdCurrent.block} digit(s) — try ×${rdCurrent.mult}.`, 'wrong');
+  } else {
+    fb('rd-mult-fb', `❌ Not quite. The right multiplier is <strong>${rdCurrent.mult}</strong>. Count the number of digits in the repeating block — use 10 for 1 digit, 100 for 2 digits, etc.`, 'wrong');
+  }
+}
+
+function rdMultHint() {
+  const hints = [
+    'Count how many digits repeat (the recurring block).',
+    rdCurrent.block === 'mixed'
+      ? 'For mixed recurring decimals (e.g. 0.16̄), multiply by 100 then by 10 and subtract.'
+      : `The block has ${rdCurrent.block} digit(s) → multiply by 10^${rdCurrent.block} = ${rdCurrent.mult}.`,
+    `The correct multiplier is ${rdCurrent.mult}.`
+  ];
+  const shown = document.querySelectorAll('#rd-mult-hints li').length;
+  if (shown < hints.length) addHint('rd-mult-hints', hints[shown]);
+}
+
+function rdCheckDiff() {
+  if (!rdCurrent) return;
+  const numVal  = parseInt(document.getElementById('rd-diff-input').value, 10);
+  const denomVal= parseInt(document.getElementById('rd-denom-input').value, 10);
+  if (isNaN(numVal) || isNaN(denomVal)) { fb('rd-diff-fb', '⚠️ Enter both numerator and denominator.', 'hint'); return; }
+
+  // Accept unsimplified but mathematically equal fraction
+  if (rdFracEqual(numVal, denomVal, rdCurrent.diff, rdCurrent.denom)) {
+    fb('rd-diff-fb', `✅ Correct! After subtracting, x = ${numVal}/${denomVal}. Now simplify.`, 'correct');
+    addScore('rd', 5);
+    setTimeout(() => rdStep(4), 700);
+  } else if (numVal === rdCurrent.diff && denomVal !== rdCurrent.denom) {
+    fb('rd-diff-fb', `🤔 Numerator ${numVal} is right, but the denominator should be <strong>${rdCurrent.denom}</strong> (= ${rdCurrent.mult} − 1 for purely recurring, or ${rdCurrent.mult} − ${rdCurrent.mult/10} for mixed).`, 'wrong');
+  } else if (denomVal === rdCurrent.denom && numVal !== rdCurrent.diff) {
+    fb('rd-diff-fb', `🤔 Denominator ${denomVal} is right, but check the subtraction: ${rdCurrent.mult}x − x = ${rdCurrent.denom}x, and the recurring tails cancel leaving <strong>${rdCurrent.diff}</strong>.`, 'wrong');
+  } else {
+    fb('rd-diff-fb', `❌ The result of the subtraction is x = ${rdCurrent.diff}/${rdCurrent.denom}. Make sure the recurring tails cancel fully before subtracting.`, 'wrong');
+  }
+}
+
+function rdDiffHint() {
+  const hints = [
+    `Write out ${rdCurrent.mult}x and x aligned on the decimal point — the recurring tails are identical and cancel.`,
+    `${rdCurrent.mult}x − x = ${rdCurrent.denom}x = ${rdCurrent.diff} (the non-recurring part).`,
+    `So x = ${rdCurrent.diff}/${rdCurrent.denom}. Now simplify.`
+  ];
+  const shown = document.querySelectorAll('#rd-diff-hints li').length;
+  if (shown < hints.length) addHint('rd-diff-hints', hints[shown]);
+}
+
+function rdCheckSimp() {
+  if (!rdCurrent) return;
+  const raw = document.getElementById('rd-simp-input').value.trim();
+
+  // Accept integer answers (e.g. if simp = "1/1")
+  const frac = rdParseFrac(raw);
+  if (!frac) { fb('rd-simp-fb', '⚠️ Write your answer as p/q (e.g. 1/3).', 'hint'); return; }
+
+  const { p, q } = frac;
+  const sp = rdCurrent.simpP, sq = rdCurrent.simpQ;
+
+  if (rdFracEqual(p, q, sp, sq)) {
+    // Check fully simplified
+    const g = rdGcd(Math.abs(p), Math.abs(q));
+    if (g > 1) {
+      fb('rd-simp-fb', `🤔 That's mathematically correct but not fully simplified. Divide both by ${g} to get <strong>${p/g}/${q/g}</strong>.`, 'wrong');
+      return;
+    }
+    fb('rd-simp-fb', `✅ Excellent! The fraction is <strong>${rdCurrent.simp}</strong>. Well done — you converted a recurring decimal using pure algebra!`, 'correct');
+    addScore('rd', 10);
+  } else if (rdFracEqual(p, q, rdCurrent.diff, rdCurrent.denom)) {
+    // Not simplified
+    const g = rdGcd(Math.abs(rdCurrent.diff), Math.abs(rdCurrent.denom));
+    fb('rd-simp-fb', `🤔 That fraction is correct but not in simplest form. HCF(${rdCurrent.diff},${rdCurrent.denom}) = ${g} — divide both by ${g}.`, 'wrong');
+  } else {
+    fb('rd-simp-fb', `❌ Not quite. The answer is <strong>${rdCurrent.simp}</strong>. Check your simplification — find HCF(${rdCurrent.diff},${rdCurrent.denom}) first.`, 'wrong');
+  }
+}
+
+function rdSimpHint() {
+  const g = rdGcd(Math.abs(rdCurrent.diff), Math.abs(rdCurrent.denom));
+  const hints = [
+    `List factors of ${rdCurrent.diff} and ${rdCurrent.denom} to find their HCF.`,
+    `HCF(${rdCurrent.diff}, ${rdCurrent.denom}) = ${g}. Divide both numerator and denominator by ${g}.`,
+    `The simplified answer is <strong>${rdCurrent.simp}</strong>.`
+  ];
+  const shown = document.querySelectorAll('#rd-simp-hints li').length;
+  if (shown < hints.length) addHint('rd-simp-hints', hints[shown]);
+}
+
+// ── Part 2 — Quick Quiz ──
+const RD_QUIZ = [
+  { display: '0.3̄',      simp: '1/3',   mult: 10,  diff: 3,   denom: 9,   block: 1 },
+  { display: '0.6̄',      simp: '2/3',   mult: 10,  diff: 6,   denom: 9,   block: 1 },
+  { display: '0.9̄',      simp: '1/1',   mult: 10,  diff: 9,   denom: 9,   block: 1 },
+  { display: '0.2̄7̄',     simp: '3/11',  mult: 100, diff: 27,  denom: 99,  block: 2 },
+  { display: '0.0̄9̄',     simp: '1/11',  mult: 100, diff: 9,   denom: 99,  block: 2 },
+  { display: '0.1̄8̄',     simp: '2/11',  mult: 100, diff: 18,  denom: 99,  block: 2 },
+  { display: '0.1̄',      simp: '1/9',   mult: 10,  diff: 1,   denom: 9,   block: 1 },
+  { display: '0.4̄',      simp: '4/9',   mult: 10,  diff: 4,   denom: 9,   block: 1 },
+  { display: '0.5̄',      simp: '5/9',   mult: 10,  diff: 5,   denom: 9,   block: 1 },
+  { display: '0.1̄4̄2̄8̄5̄7̄', simp: '1/7',   mult: 1000000, diff: 142857, denom: 999999, block: 6 },
+];
+
+function rdQuizNew() {
+  rdQuizCurrent = RD_QUIZ[Math.floor(Math.random() * RD_QUIZ.length)];
+  document.getElementById('rd-quiz-question').textContent = rdQuizCurrent.display + ' = ?';
+  document.getElementById('rd-quiz-input').value = '';
+  document.getElementById('rd-quiz-input').focus();
+  clearHints('rd-quiz-hints');
+  fbHide('rd-quiz-fb');
+}
+
+function rdQuizCheck() {
+  if (!rdQuizCurrent) return;
+  const raw = document.getElementById('rd-quiz-input').value.trim();
+
+  // Detect common error: plain decimal typed without fraction
+  if (raw.includes('.')) {
+    fb('rd-quiz-fb', '⚠️ Write your answer as a fraction p/q, not as a decimal. Use the algebraic method to convert first.', 'hint'); return;
+  }
+
+  const frac = rdParseFrac(raw);
+  if (!frac) { fb('rd-quiz-fb', '⚠️ Write your answer in the form p/q (e.g. 1/3).', 'hint'); return; }
+
+  const sp = rdParseFrac(rdQuizCurrent.simp);
+  if (!sp) return;
+
+  if (rdFracEqual(frac.p, frac.q, sp.p, sp.q)) {
+    const g = rdGcd(Math.abs(frac.p), Math.abs(frac.q));
+    if (g > 1) {
+      fb('rd-quiz-fb', `🤔 Correct value but not fully simplified — divide both by ${g} to get <strong>${rdQuizCurrent.simp}</strong>.`, 'wrong'); return;
+    }
+    fb('rd-quiz-fb', `✅ Correct! ${rdQuizCurrent.display} = <strong>${rdQuizCurrent.simp}</strong>`, 'correct');
+    addScore('rd', 8);
+    setTimeout(rdQuizNew, 1200);
+  } else {
+    // Misconception: student wrote 0.3 = 3/10 style
+    if (frac.q === 10 || frac.q === 100) {
+      fb('rd-quiz-fb', `🤔 <strong>${frac.p}/${frac.q} is for a terminating decimal</strong>, not a recurring one. Use the algebraic method: let x = the decimal, multiply by ${rdQuizCurrent.mult}, subtract, then simplify.`, 'wrong');
+    } else {
+      fb('rd-quiz-fb', `❌ Not quite. The answer is <strong>${rdQuizCurrent.simp}</strong>. Hint: let x = ${rdQuizCurrent.display}, multiply by ${rdQuizCurrent.mult}, subtract to get ${rdQuizCurrent.diff}/${rdQuizCurrent.denom}, then simplify.`, 'wrong');
+    }
+  }
+}
+
+function rdQuizHint() {
+  if (!rdQuizCurrent) return;
+  const q = rdQuizCurrent;
+  const sp = rdParseFrac(q.simp);
+  const hints = [
+    `Let x = ${q.display}. Multiply both sides by ${q.mult}.`,
+    `After subtracting: x = ${q.diff}/${q.denom}.`,
+    `HCF(${q.diff},${q.denom}) = ${rdGcd(q.diff,q.denom)} → simplified: <strong>${q.simp}</strong>.`
+  ];
+  const shown = document.querySelectorAll('#rd-quiz-hints li').length;
+  if (shown < hints.length) addHint('rd-quiz-hints', hints[shown]);
+}
+
+// ================================================================
+// ================================================================
+// MODULE 16 · SURDS
+// ================================================================
+// ================================================================
+
+// ── Helpers ──
+function suGcd(a, b) { return b === 0 ? a : suGcd(b, a % b); }
+
+// Largest perfect-square factor of n
+function suLargestSqFactor(n) {
+  let best = 1;
+  for (let i = 2; i * i <= n; i++) {
+    if (n % (i * i) === 0) best = i * i;
+  }
+  return best;
+}
+
+// Parse "a√b" or "a r b" or "√b" or "r b" → { a, b } or null
+// Also accepts "ar b" and "a√ b"
+function suParseSurd(s) {
+  s = s.trim().replace(/\s+/g, '').replace(/r/g, '√');
+  // Match: optional-integer √ integer  OR  integer (no surd = a√1)
+  const m = s.match(/^(\d+)?√(\d+)$/) || s.match(/^√(\d+)$/);
+  if (!m) {
+    // plain integer?
+    const pi = s.match(/^(\d+)$/);
+    if (pi) return { a: parseInt(pi[1], 10), b: 1 };
+    return null;
+  }
+  if (m.length === 2) return { a: 1, b: parseInt(m[1], 10) };
+  return { a: parseInt(m[1] || '1', 10), b: parseInt(m[2], 10) };
+}
+
+// Parse rationalised form: "a√b/c" or "√b/c" or "a/c" → { a, b, c }
+function suParseRat(s) {
+  s = s.trim().replace(/\s+/g, '').replace(/r/g, '√');
+  // a√b/c
+  let m = s.match(/^(\d+)?√(\d+)\/(\d+)$/);
+  if (m) return { a: parseInt(m[1]||'1',10), b: parseInt(m[2],10), c: parseInt(m[3],10) };
+  // √b/c (a=1)
+  m = s.match(/^√(\d+)\/(\d+)$/);
+  if (m) return { a: 1, b: parseInt(m[1],10), c: parseInt(m[2],10) };
+  // a/c (no surd in numerator)
+  m = s.match(/^(\d+)\/(\d+)$/);
+  if (m) return { a: parseInt(m[1],10), b: 1, c: parseInt(m[2],10) };
+  return null;
+}
+
+// Are two surd answers a1√b1 == a2√b2?
+function suSurdEqual(a1,b1, a2,b2) {
+  // Normalise: expand to decimal-free comparison (a²b must be equal)
+  return a1*a1*b1 === a2*a2*b2 && b1 === b2 && a1 === a2;
+}
+
+// ── Part 1 — Simplify ──
+const SU_SIMP = [
+  { n: 8,   a: 2, b: 2,  sqf: 4  },
+  { n: 12,  a: 2, b: 3,  sqf: 4  },
+  { n: 18,  a: 3, b: 2,  sqf: 9  },
+  { n: 20,  a: 2, b: 5,  sqf: 4  },
+  { n: 27,  a: 3, b: 3,  sqf: 9  },
+  { n: 32,  a: 4, b: 2,  sqf: 16 },
+  { n: 45,  a: 3, b: 5,  sqf: 9  },
+  { n: 48,  a: 4, b: 3,  sqf: 16 },
+  { n: 50,  a: 5, b: 2,  sqf: 25 },
+  { n: 72,  a: 6, b: 2,  sqf: 36 },
+  { n: 75,  a: 5, b: 3,  sqf: 25 },
+  { n: 98,  a: 7, b: 2,  sqf: 49 },
+  { n: 200, a: 10,b: 2,  sqf: 100 },
+];
+let suSimpCurrent = null;
+
+function suSimpNew() {
+  suSimpCurrent = SU_SIMP[Math.floor(Math.random() * SU_SIMP.length)];
+  document.getElementById('su-simp-q').textContent = '√' + suSimpCurrent.n;
+  document.getElementById('su-simp-input').value = '';
+  document.getElementById('su-scaffold').style.display = 'none';
+  clearHints('su-simp-hints');
+  fbHide('su-simp-fb');
+}
+
+function suSimpCheck() {
+  if (!suSimpCurrent) return;
+  const raw = document.getElementById('su-simp-input').value.trim();
+  const { n, a, b } = suSimpCurrent;
+
+  // Common error: plain integer (e.g. √8 = 4)
+  const asInt = parseInt(raw, 10);
+  if (!isNaN(asInt) && raw.match(/^\d+$/)) {
+    if (asInt === Math.round(Math.sqrt(n))) {
+      fb('su-simp-fb', `🤔 <strong>√${n} ≠ ${asInt}.</strong> ${asInt}² = ${asInt*asInt} ≠ ${n}. A surd stays as a surd — it's irrational. The correct simplified form is ${a}√${b}.`, 'wrong'); return;
+    }
+    fb('su-simp-fb', `⚠️ Write the answer in surd form (e.g. 2√3), not as a plain integer.`, 'hint'); return;
+  }
+
+  const parsed = suParseSurd(raw);
+  if (!parsed) { fb('su-simp-fb', '⚠️ Format: a√b (e.g. 2√3 or 2r3). Use r if √ is unavailable.', 'hint'); return; }
+
+  const { a: ga, b: gb } = parsed;
+  // Check value equality: ga²·gb = n
+  if (ga * ga * gb !== n) {
+    fb('su-simp-fb', `❌ That doesn't equal √${n}. Check: (${ga})²×${gb} = ${ga*ga*gb} ≠ ${n}.`, 'wrong'); return;
+  }
+  // Check fully simplified: gb should have no perfect-square factor > 1
+  const lsf = suLargestSqFactor(gb);
+  if (lsf > 1) {
+    fb('su-simp-fb', `🤔 <strong>Not fully simplified.</strong> √${gb} can be further simplified — ${gb} has a square factor of ${lsf}. Pull out √${lsf} = ${Math.sqrt(lsf)} and multiply it into the coefficient.`, 'wrong'); return;
+  }
+  if (ga === a && gb === b) {
+    fb('su-simp-fb', `✅ Correct! √${n} = √(${suSimpCurrent.sqf} × ${b}) = ${a}√${b}`, 'correct');
+    addScore('su', 8);
+    // Show scaffold for learning
+    document.getElementById('su-scaf-text').innerHTML =
+      `√${n} = √(${suSimpCurrent.sqf} × ${b})<br>` +
+      `&nbsp;&nbsp;&nbsp; = √${suSimpCurrent.sqf} × √${b}<br>` +
+      `&nbsp;&nbsp;&nbsp; = ${a} × √${b}<br>` +
+      `&nbsp;&nbsp;&nbsp; = <strong>${a}√${b}</strong>`;
+    document.getElementById('su-scaffold').style.display = 'block';
+  } else {
+    // Correct value but different form (shouldn't happen after above checks, but guard)
+    fb('su-simp-fb', `✅ Correct value! Conventionally written as <strong>${a}√${b}</strong>.`, 'correct');
+    addScore('su', 8);
+  }
+}
+
+function suSimpHint() {
+  if (!suSimpCurrent) return;
+  const { n, a, b, sqf } = suSimpCurrent;
+  const hints = [
+    `List the perfect square numbers: 1, 4, 9, 16, 25, 36, 49, 64, 81, 100… Which is the largest that divides ${n}?`,
+    `${sqf} divides ${n} exactly and is a perfect square. So √${n} = √(${sqf} × ${b}) = √${sqf} × √${b}.`,
+    `√${sqf} = ${a}. So the answer is <strong>${a}√${b}</strong>.`
+  ];
+  const shown = document.querySelectorAll('#su-simp-hints li').length;
+  if (shown < hints.length) addHint('su-simp-hints', hints[shown]);
+}
+
+// ── Part 2 — Rationalise ──
+const SU_RAT = [
+  { display: '1/√2',  a: 1, b: 2,  c: 1, resA: 1, resB: 2, resC: 2  }, // → √2/2
+  { display: '1/√3',  a: 1, b: 3,  c: 1, resA: 1, resB: 3, resC: 3  }, // → √3/3
+  { display: '1/√5',  a: 1, b: 5,  c: 1, resA: 1, resB: 5, resC: 5  }, // → √5/5
+  { display: '2/√2',  a: 2, b: 2,  c: 1, resA: 1, resB: 2, resC: 1  }, // → √2
+  { display: '3/√3',  a: 3, b: 3,  c: 1, resA: 1, resB: 3, resC: 1  }, // → √3
+  { display: '4/√2',  a: 4, b: 2,  c: 1, resA: 2, resB: 2, resC: 1  }, // → 2√2
+  { display: '6/√3',  a: 6, b: 3,  c: 1, resA: 2, resB: 3, resC: 1  }, // → 2√3
+  { display: '5/√5',  a: 5, b: 5,  c: 1, resA: 1, resB: 5, resC: 1  }, // → √5
+  { display: '3/√2',  a: 3, b: 2,  c: 1, resA: 3, resB: 2, resC: 2  }, // → 3√2/2
+  { display: '10/√5', a:10, b: 5,  c: 1, resA: 2, resB: 5, resC: 1  }, // → 2√5
+];
+let suRatCurrent = null;
+
+function suRatNew() {
+  suRatCurrent = SU_RAT[Math.floor(Math.random() * SU_RAT.length)];
+  document.getElementById('su-rat-q').textContent = suRatCurrent.display;
+  document.getElementById('su-rat-input').value = '';
+  clearHints('su-rat-hints');
+  fbHide('su-rat-fb');
+}
+
+function suRatCheck() {
+  if (!suRatCurrent) return;
+  const raw = document.getElementById('su-rat-input').value.trim();
+  const { a, b, resA, resB, resC, display } = suRatCurrent;
+
+  // Misconception: 1/√2 = 1/2
+  if (raw === `${a}/${b}` || raw === `${Math.floor(a/b)}`) {
+    fb('su-rat-fb', `🤔 <strong>That's not right.</strong> To rationalise, multiply top and bottom by √${b} — don't just square the bottom. The numerator also gets multiplied by √${b}.`, 'wrong'); return;
+  }
+
+  const parsed = suParseRat(raw);
+  if (!parsed) {
+    // Maybe they wrote just "√b" (c=1 implied)
+    const sp = suParseSurd(raw);
+    if (sp) {
+      if (sp.a === resA && sp.b === resB && resC === 1) {
+        fb('su-rat-fb', `✅ Correct! ${display} = <strong>${resA > 1 ? resA : ''}√${resB}</strong>`, 'correct');
+        addScore('su', 8);
+        return;
+      }
+    }
+    fb('su-rat-fb', '⚠️ Write as a√b/c (e.g. √3/3 or 2√5/5). Use r for √ if needed.', 'hint'); return;
+  }
+
+  const { a: pa, b: pb, c: pc } = parsed;
+  // Normalise: pa√pb / pc — check value equals resA√resB / resC
+  // Value: pa²·pb / pc² == resA²·resB / resC²
+  const lhs = pa * pa * pb * resC * resC;
+  const rhs = resA * resA * resB * pc * pc;
+  if (lhs !== rhs || pb !== resB) {
+    fb('su-rat-fb', `❌ That doesn't equal ${display}. Check: multiply numerator and denominator by √${b} and simplify.`, 'wrong'); return;
+  }
+  // Check simplified
+  const g = suGcd(pa, pc);
+  if (g > 1 || suLargestSqFactor(pb) > 1) {
+    fb('su-rat-fb', `🤔 Correct value but not fully simplified. Divide through by HCF or simplify the surd further.`, 'wrong'); return;
+  }
+  const dispAns = (resA > 1 ? resA : '') + '√' + resB + (resC > 1 ? '/' + resC : '');
+  fb('su-rat-fb', `✅ Correct! ${display} = <strong>${dispAns}</strong> (multiply top and bottom by √${b}).`, 'correct');
+  addScore('su', 8);
+}
+
+function suRatHint() {
+  if (!suRatCurrent) return;
+  const { a, b, resA, resB, resC, display } = suRatCurrent;
+  const dispAns = (resA > 1 ? resA : '') + '√' + resB + (resC > 1 ? '/' + resC : '');
+  const hints = [
+    `Multiply both numerator and denominator by √${b}. This removes the surd from the denominator because √${b} × √${b} = ${b}.`,
+    `Numerator becomes ${a} × √${b} = ${a > 1 ? a : ''}√${b}. Denominator becomes ${b}.`,
+    `Then simplify: the answer is <strong>${dispAns}</strong>.`
+  ];
+  const shown = document.querySelectorAll('#su-rat-hints li').length;
+  if (shown < hints.length) addHint('su-rat-hints', hints[shown]);
+}
+
+// ── Part 3 — Combine Like Surds ──
+const SU_COMB = [
+  { q: '√8 + √2',       resA: 3, resB: 2, steps: ['√8 = 2√2', '2√2 + √2 = 3√2'] },
+  { q: '√12 + √3',      resA: 3, resB: 3, steps: ['√12 = 2√3', '2√3 + √3 = 3√3'] },
+  { q: '√18 − √2',      resA: 2, resB: 2, steps: ['√18 = 3√2', '3√2 − √2 = 2√2'] },
+  { q: '√50 + √8',      resA: 7, resB: 2, steps: ['√50 = 5√2', '√8 = 2√2', '5√2 + 2√2 = 7√2'] },
+  { q: '√75 − √27',     resA: 2, resB: 3, steps: ['√75 = 5√3', '√27 = 3√3', '5√3 − 3√3 = 2√3'] },
+  { q: '2√3 + √27',     resA: 5, resB: 3, steps: ['√27 = 3√3', '2√3 + 3√3 = 5√3'] },
+  { q: '√32 + √18',     resA: 7, resB: 2, steps: ['√32 = 4√2', '√18 = 3√2', '4√2 + 3√2 = 7√2'] },
+  { q: '3√2 − √8',      resA: 1, resB: 2, steps: ['√8 = 2√2', '3√2 − 2√2 = √2'] },
+  { q: '√45 + √20',     resA: 5, resB: 5, steps: ['√45 = 3√5', '√20 = 2√5', '3√5 + 2√5 = 5√5'] },
+  { q: '√72 − √50',     resA: 1, resB: 2, steps: ['√72 = 6√2', '√50 = 5√2', '6√2 − 5√2 = √2'] },
+];
+let suCombCurrent = null;
+
+function suCombNew() {
+  suCombCurrent = SU_COMB[Math.floor(Math.random() * SU_COMB.length)];
+  document.getElementById('su-comb-q').textContent = suCombCurrent.q;
+  document.getElementById('su-comb-input').value = '';
+  clearHints('su-comb-hints');
+  fbHide('su-comb-fb');
+}
+
+function suCombCheck() {
+  if (!suCombCurrent) return;
+  const raw = document.getElementById('su-comb-input').value.trim();
+  const { q, resA, resB, steps } = suCombCurrent;
+
+  // Detect √a + √b ≠ √(a+b) error
+  const wrongSqrt = raw.match(/^√(\d+)$/) || raw.match(/^r(\d+)$/);
+  if (wrongSqrt) {
+    fb('su-comb-fb', `🤔 <strong>You cannot add surds under one root!</strong> √a + √b ≠ √(a+b). Simplify each surd first, then collect like terms.`, 'wrong'); return;
+  }
+
+  const parsed = suParseSurd(raw.replace(/r/g, '√'));
+  if (!parsed) { fb('su-comb-fb', '⚠️ Write the answer as a√b (e.g. 5√2 or 5r2).', 'hint'); return; }
+
+  if (parsed.a === resA && parsed.b === resB) {
+    const stepsHtml = steps.map(s => `→ ${s}`).join('<br>');
+    fb('su-comb-fb', `✅ Correct! <strong>${resA}${resB > 1 ? '√'+resB : ''}</strong><br><span style="font-size:0.85rem;color:var(--muted);">${stepsHtml}</span>`, 'correct');
+    addScore('su', 10);
+  } else if (parsed.b !== resB) {
+    fb('su-comb-fb', `🤔 The surds in this expression all simplify to have √${resB} — check your simplification of each term.`, 'wrong');
+  } else {
+    fb('su-comb-fb', `❌ Coefficient wrong. Simplify each surd to √${resB} form, then add/subtract the coefficients.`, 'wrong');
+  }
+}
+
+function suCombHint() {
+  if (!suCombCurrent) return;
+  const { q, steps, resA, resB } = suCombCurrent;
+  const hints = [
+    `Simplify each surd in "${q}" separately first. Find the largest square factor of each radicand.`,
+    steps.length > 1 ? steps[0] + '. Now ' + steps[1] : steps[0],
+    `Final answer: <strong>${resA}${resB > 1 ? '√'+resB : ''}</strong>`
+  ];
+  const shown = document.querySelectorAll('#su-comb-hints li').length;
+  if (shown < hints.length) addHint('su-comb-hints', hints[shown]);
+}
+
+function suInit() {
+  suSimpNew();
+  suRatNew();
+  suCombNew();
+}
+
+// ================================================================
 // INIT
 // ================================================================
 function init() {
@@ -4464,6 +5737,12 @@ function init() {
   lmBoundsNew(); lmEiNew(); lmCombNew();
   // M13 – time & money
   tmTimeNew(); tmClockNew(); tmFxNew();
+  // M14 – sets & venn diagrams
+  svInit();
+  // M15 – recurring decimals
+  rdQuizNew();
+  // M16 – surds
+  suInit();
 }
 
 document.addEventListener('DOMContentLoaded', init);
