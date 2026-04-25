@@ -703,6 +703,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
   <button class="tab-btn" onclick="showModule(5)">🔢 Number Types</button>
   <button class="tab-btn" onclick="showModule(6)">⚡ Indices Lab</button>
   <button class="tab-btn" onclick="showModule(7)">🟥 Powers & Roots</button>
+  <button class="tab-btn" onclick="showModule(8)">🧮 BODMAS Engine</button>
 </nav>
 
 <!-- ============================================================
@@ -1093,6 +1094,79 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 </section>
 
 <!-- ============================================================
+     MODULE 9 · BODMAS ENGINE
+     ============================================================ -->
+<section class="module" id="mod-8">
+
+  <div class="progress-card">
+    <span class="prog-label">🧮 BODMAS Engine</span>
+    <div class="prog-track"><div class="prog-fill" id="bo-bar"></div></div>
+    <span class="prog-count" id="bo-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-8">
+    <div class="tp-header">👨‍🏫 Teacher Notes — BODMAS Engine</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> Left-to-right regardless of operator. Students compute 3 + 4 × 2 = 14 by doing 3+4=7 first. Emphasise: multiplication before addition always, unless brackets override.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Ignoring brackets. Students see (2+3)² and compute 2 + 9 = 11 instead of 5² = 25. Brackets <em>must</em> be resolved first, no exceptions.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> "Division before multiplication" — BODMAS D comes before M but they are equal priority, evaluated left-to-right. Same for A/S.</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Colour-code each operation type. Make students underline brackets first, circle powers second, before touching any arithmetic.</div>
+    </div>
+  </div>
+
+  <!-- BODMAS reference strip -->
+  <div class="card">
+    <div class="card-title">📋 BODMAS Order</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+      <div style="background:#1a56db;color:white;border-radius:8px;padding:10px 16px;text-align:center;flex:1;min-width:70px;"><div style="font-size:1.4rem;font-weight:900;">B</div><div style="font-size:0.72rem;opacity:0.85;">Brackets</div></div>
+      <div style="background:#7c3aed;color:white;border-radius:8px;padding:10px 16px;text-align:center;flex:1;min-width:70px;"><div style="font-size:1.4rem;font-weight:900;">O</div><div style="font-size:0.72rem;opacity:0.85;">Orders (powers/roots)</div></div>
+      <div style="background:#0891b2;color:white;border-radius:8px;padding:10px 16px;text-align:center;flex:1;min-width:70px;"><div style="font-size:1.4rem;font-weight:900;">D</div><div style="font-size:0.72rem;opacity:0.85;">Division</div></div>
+      <div style="background:#0891b2;color:white;border-radius:8px;padding:10px 16px;text-align:center;flex:1;min-width:70px;"><div style="font-size:1.4rem;font-weight:900;">M</div><div style="font-size:0.72rem;opacity:0.85;">Multiplication</div></div>
+      <div style="background:#16a34a;color:white;border-radius:8px;padding:10px 16px;text-align:center;flex:1;min-width:70px;"><div style="font-size:1.4rem;font-weight:900;">A</div><div style="font-size:0.72rem;opacity:0.85;">Addition</div></div>
+      <div style="background:#16a34a;color:white;border-radius:8px;padding:10px 16px;text-align:center;flex:1;min-width:70px;"><div style="font-size:1.4rem;font-weight:900;">S</div><div style="font-size:0.72rem;opacity:0.85;">Subtraction</div></div>
+    </div>
+    <div class="feedback fb-info mt-12" style="display:block;">D and M are <strong>equal priority</strong> — work left to right. Same for A and S. Only B and O have strict priority over everything below.</div>
+  </div>
+
+  <!-- Step-by-step challenge -->
+  <div class="card">
+    <div class="card-title">🧮 Step-by-Step Challenge</div>
+    <div class="card-desc">Work through the expression one BODMAS step at a time. At each step, identify <em>what to calculate next</em> and enter the result.</div>
+    <div class="problem-display" id="bo-problem" style="font-size:1.6rem; letter-spacing:0.03em;"></div>
+    <div id="bo-step-info" class="feedback fb-info" style="display:none; margin-top:10px;"></div>
+    <div id="bo-step-area" style="margin-top:14px; display:none;">
+      <div class="bold" style="margin-bottom:6px;" id="bo-step-prompt"></div>
+      <div class="input-row">
+        <input type="number" id="bo-step-in" class="inp-md" placeholder="Result of this step" step="any"
+               onkeydown="if(event.key==='Enter')boStepCheck()" />
+        <button class="btn btn-success"   onclick="boStepCheck()">✓ Check</button>
+        <button class="btn btn-hint"      onclick="boHint()">💡 Hint</button>
+      </div>
+      <ul class="hint-list" id="bo-hints"></ul>
+      <div class="feedback" id="bo-step-fb"></div>
+    </div>
+    <div id="bo-step-log" style="margin-top:14px;"></div>
+    <div class="input-row mt-12">
+      <button class="btn btn-secondary" onclick="boNew()">↺ New Problem</button>
+    </div>
+  </div>
+
+  <!-- Left-to-right trap -->
+  <div class="card">
+    <div class="card-title">⚠️ Order of Operations Trap</div>
+    <div class="card-desc">These expressions catch students who work strictly left-to-right. Choose the <strong>correct answer</strong>.</div>
+    <div class="problem-display" id="bo-trap-q" style="font-size:1.6rem;"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0;" id="bo-trap-opts"></div>
+    <div class="input-row">
+      <button class="btn btn-success"   onclick="boTrapConfirm()">✓ Confirm</button>
+      <button class="btn btn-secondary" onclick="boTrapNew()">↺ New</button>
+    </div>
+    <div class="feedback" id="bo-trap-fb"></div>
+  </div>
+
+</section>
+
+<!-- ============================================================
      MODULE 8 · POWERS AND ROOTS
      ============================================================ -->
 <section class="module" id="mod-7">
@@ -1411,7 +1485,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 // GLOBAL STATE
 // ================================================================
 let teacherMode = false;
-const scores = { pf: 0, fr: 0, sf: 0, rt: 0, eg: 0, nt: 0, il: 0, pr: 0 };
+const scores = { pf: 0, fr: 0, sf: 0, rt: 0, eg: 0, nt: 0, il: 0, pr: 0, bo: 0 };
 
 // ================================================================
 // UTILITIES
@@ -2443,6 +2517,288 @@ function prQrCheck() {
 
 // ================================================================
 // ================================================================
+// MODULE 9 · BODMAS ENGINE
+// ================================================================
+// ================================================================
+
+/*
+  Each problem is defined as an ordered list of steps.
+  Each step has:
+    prompt   – what the student sees ("Calculate the bracket: 2 + 3")
+    answer   – numeric correct answer for this step
+    type     – 'bracket'|'power'|'mult'|'div'|'add'|'sub'
+    ltrWrong – value a student gets doing left-to-right (optional)
+    bracketIgnored – value if student skips brackets (optional)
+    expressionAfter – updated expression string shown after this step
+*/
+const BO_PROBLEMS = [
+  {
+    display: '3 + 4 × 2',
+    steps: [
+      { prompt: 'Step 1 (M): Calculate 4 × 2', answer: 8, type:'mult',
+        ltrWrong: 14, ltrExplain: 'It looks like you did 3+4=7 first, then ×2=14. Remember: multiplication before addition!',
+        expressionAfter: '3 + 8' },
+      { prompt: 'Step 2 (A): Calculate 3 + 8', answer: 11, type:'add',
+        expressionAfter: '11' },
+    ],
+    finalAnswer: 11,
+  },
+  {
+    display: '(2 + 3)² − 4',
+    steps: [
+      { prompt: 'Step 1 (B): Calculate the bracket: 2 + 3', answer: 5, type:'bracket',
+        bracketIgnored: 13, bracketExplain: 'It seems you computed 2 + 3² − 4 = 2 + 9 − 4 = 7, ignoring the brackets. Brackets must be resolved first — always!',
+        expressionAfter: '5² − 4' },
+      { prompt: 'Step 2 (O): Calculate 5²', answer: 25, type:'power',
+        expressionAfter: '25 − 4' },
+      { prompt: 'Step 3 (S): Calculate 25 − 4', answer: 21, type:'sub',
+        expressionAfter: '21' },
+    ],
+    finalAnswer: 21,
+  },
+  {
+    display: '10 − 2 × 3 + 1',
+    steps: [
+      { prompt: 'Step 1 (M): Calculate 2 × 3', answer: 6, type:'mult',
+        ltrWrong: 25, ltrExplain: 'Working left-to-right gives (10−2)×3+1 = 24+1 = 25. But multiplication must happen before subtraction/addition.',
+        expressionAfter: '10 − 6 + 1' },
+      { prompt: 'Step 2 (A/S left-to-right): Calculate 10 − 6', answer: 4, type:'sub',
+        expressionAfter: '4 + 1' },
+      { prompt: 'Step 3 (A): Calculate 4 + 1', answer: 5, type:'add',
+        expressionAfter: '5' },
+    ],
+    finalAnswer: 5,
+  },
+  {
+    display: '(−3 + 7) × 2²',
+    steps: [
+      { prompt: 'Step 1 (B): Calculate the bracket: −3 + 7', answer: 4, type:'bracket',
+        expressionAfter: '4 × 2²' },
+      { prompt: 'Step 2 (O): Calculate 2²', answer: 4, type:'power',
+        expressionAfter: '4 × 4' },
+      { prompt: 'Step 3 (M): Calculate 4 × 4', answer: 16, type:'mult',
+        expressionAfter: '16' },
+    ],
+    finalAnswer: 16,
+  },
+  {
+    display: '20 ÷ (2 + 3) × 2',
+    steps: [
+      { prompt: 'Step 1 (B): Calculate the bracket: 2 + 3', answer: 5, type:'bracket',
+        expressionAfter: '20 ÷ 5 × 2' },
+      { prompt: 'Step 2 (D, left-to-right): Calculate 20 ÷ 5', answer: 4, type:'div',
+        expressionAfter: '4 × 2' },
+      { prompt: 'Step 3 (M): Calculate 4 × 2', answer: 8, type:'mult',
+        expressionAfter: '8' },
+    ],
+    finalAnswer: 8,
+  },
+  {
+    display: '3² + (4 − 1) × 2',
+    steps: [
+      { prompt: 'Step 1 (B): Calculate the bracket: 4 − 1', answer: 3, type:'bracket',
+        expressionAfter: '3² + 3 × 2' },
+      { prompt: 'Step 2 (O): Calculate 3²', answer: 9, type:'power',
+        expressionAfter: '9 + 3 × 2' },
+      { prompt: 'Step 3 (M): Calculate 3 × 2', answer: 6, type:'mult',
+        expressionAfter: '9 + 6' },
+      { prompt: 'Step 4 (A): Calculate 9 + 6', answer: 15, type:'add',
+        expressionAfter: '15' },
+    ],
+    finalAnswer: 15,
+  },
+  {
+    display: '(−2)² + 3 × (5 − 8)',
+    steps: [
+      { prompt: 'Step 1 (B): Calculate 5 − 8', answer: -3, type:'bracket',
+        expressionAfter: '(−2)² + 3 × (−3)' },
+      { prompt: 'Step 2 (O): Calculate (−2)²', answer: 4, type:'power',
+        expressionAfter: '4 + 3 × (−3)' },
+      { prompt: 'Step 3 (M): Calculate 3 × (−3)', answer: -9, type:'mult',
+        expressionAfter: '4 + (−9)' },
+      { prompt: 'Step 4 (A): Calculate 4 + (−9)', answer: -5, type:'add',
+        expressionAfter: '−5' },
+    ],
+    finalAnswer: -5,
+  },
+  {
+    display: '6 + 12 ÷ (2² − 1)',
+    steps: [
+      { prompt: 'Step 1 (B+O): Calculate 2² inside the bracket', answer: 4, type:'power',
+        expressionAfter: '6 + 12 ÷ (4 − 1)' },
+      { prompt: 'Step 2 (B): Complete the bracket: 4 − 1', answer: 3, type:'bracket',
+        expressionAfter: '6 + 12 ÷ 3' },
+      { prompt: 'Step 3 (D): Calculate 12 ÷ 3', answer: 4, type:'div',
+        expressionAfter: '6 + 4' },
+      { prompt: 'Step 4 (A): Calculate 6 + 4', answer: 10, type:'add',
+        expressionAfter: '10' },
+    ],
+    finalAnswer: 10,
+  },
+];
+
+// Trap questions — multiple choice, wrong options are common mistakes
+const BO_TRAPS = [
+  { display:'3 + 4 × 2', correct:11,
+    options:[11,14,10], labels:['11','14 (left-to-right error)','10'],
+    explain:'Multiplication first: 4×2=8, then 3+8=11. Not 3+4=7 then ×2=14.' },
+  { display:'(5 − 2)²', correct:9,
+    options:[9,7,23], labels:['9','7 (bracket ignored: 5−2²=5−4=1? No…)','23 (5²−2=23)'],
+    explain:'Bracket first: 5−2=3. Then 3²=9. Not 5²−2=23.' },
+  { display:'2 + 3 × 4 − 1', correct:13,
+    options:[13,19,11], labels:['13','19 (left-to-right)','11'],
+    explain:'M first: 3×4=12. Then left-to-right: 2+12=14, 14−1=13.' },
+  { display:'10 ÷ 2 × 5', correct:25,
+    options:[25,1,10], labels:['25','1 (division then multiply reversed)','10'],
+    explain:'D and M equal priority — left-to-right: 10÷2=5, then 5×5=25. Not 10÷(2×5)=1.' },
+  { display:'(−3)²', correct:9,
+    options:[9,-9,-6], labels:['9','−9 (forgot to square the negative)','−6 (doubled)'],
+    explain:'(−3)² = (−3)×(−3) = +9. Squaring a negative always gives a positive.' },
+  { display:'4 + 6 ÷ 2', correct:7,
+    options:[7,5,8], labels:['7','5 (left-to-right: (4+6)÷2=5)','8'],
+    explain:'Division before addition: 6÷2=3 first, then 4+3=7.' },
+];
+
+let boState = { prob: null, stepIdx: 0, hi: 0, log: [] };
+let boTrapCurrent = null, boTrapSelected = null;
+
+const BO_TYPE_COLOUR = {
+  bracket:'#1a56db', power:'#7c3aed', mult:'#0891b2', div:'#0891b2', add:'#16a34a', sub:'#16a34a'
+};
+
+function boNew() {
+  boState.prob = BO_PROBLEMS[Math.floor(Math.random() * BO_PROBLEMS.length)];
+  boState.stepIdx = 0; boState.hi = 0; boState.log = [];
+  fbHide('bo-step-fb');
+  clearHints('bo-hints');
+  document.getElementById('bo-step-in').value = '';
+  document.getElementById('bo-problem').textContent = boState.prob.display;
+  document.getElementById('bo-step-log').innerHTML = '';
+  document.getElementById('bo-step-area').style.display = 'block';
+  document.getElementById('bo-step-info').style.display = 'none';
+  boRenderStep();
+}
+
+function boRenderStep() {
+  const step = boState.prob.steps[boState.stepIdx];
+  const colour = BO_TYPE_COLOUR[step.type] || '#1e293b';
+  document.getElementById('bo-step-prompt').innerHTML =
+    `<span style="color:${colour}; font-size:1.05rem;">${step.prompt}</span>`;
+  document.getElementById('bo-step-in').value = '';
+  document.getElementById('bo-step-in').focus();
+  clearHints('bo-hints');
+  boState.hi = 0;
+  fbHide('bo-step-fb');
+}
+
+function boStepCheck() {
+  const step = boState.prob.steps[boState.stepIdx];
+  const stu = parseFloat(document.getElementById('bo-step-in').value);
+  if (isNaN(stu)) { fb('bo-step-fb','⚠️ Enter a number.','hint'); return; }
+
+  // Misconception: ignored brackets
+  if (step.bracketIgnored !== undefined && Math.abs(stu - step.bracketIgnored) < 0.01) {
+    fb('bo-step-fb', `🤔 ${step.bracketExplain}`, 'wrong'); return;
+  }
+  // Misconception: left-to-right
+  if (step.ltrWrong !== undefined && Math.abs(stu - step.ltrWrong) < 0.01) {
+    fb('bo-step-fb', `🤔 ${step.ltrExplain}`, 'wrong'); return;
+  }
+
+  if (Math.abs(stu - step.answer) < 0.001) {
+    // Log the completed step
+    const logEntry = document.createElement('div');
+    logEntry.style.cssText = 'display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:8px;background:#f0fdf4;border-left:4px solid #16a34a;margin-bottom:6px;font-size:0.9rem;';
+    logEntry.innerHTML = `<span style="color:#16a34a;font-weight:700;">✓</span> <span>${step.prompt} = <strong>${step.answer}</strong></span> <span class="mono" style="color:var(--muted);margin-left:auto;">→ ${step.expressionAfter}</span>`;
+    document.getElementById('bo-step-log').appendChild(logEntry);
+
+    boState.stepIdx++;
+
+    if (boState.stepIdx >= boState.prob.steps.length) {
+      // All steps done
+      document.getElementById('bo-step-area').style.display = 'none';
+      const info = document.getElementById('bo-step-info');
+      info.style.display = 'block';
+      info.innerHTML = `🎉 <strong>Complete!</strong> ${boState.prob.display} = <strong>${boState.prob.finalAnswer}</strong>. All BODMAS steps applied correctly.`;
+      addScore('bo', 15);
+    } else {
+      // Update displayed expression and move to next step
+      document.getElementById('bo-problem').textContent = step.expressionAfter;
+      fb('bo-step-fb', `✅ Correct! Expression is now: <strong>${step.expressionAfter}</strong>`, 'correct');
+      boRenderStep();
+    }
+  } else {
+    fb('bo-step-fb', `❌ Not quite. Double-check: ${step.prompt.replace(/Step \d+ \([A-Z/+]+\): /,'')}`, 'wrong');
+  }
+}
+
+function boHint() {
+  if (!boState.prob) return;
+  const step = boState.prob.steps[boState.stepIdx];
+  const typeHints = {
+    bracket: 'Brackets come first — work out everything inside the ( ) before anything else.',
+    power:   'Orders (powers/roots) come second — calculate the index next.',
+    mult:    'Multiplication comes before addition and subtraction.',
+    div:     'Division comes before addition and subtraction.',
+    add:     'Now only addition/subtraction remain — work left-to-right.',
+    sub:     'Now only addition/subtraction remain — work left-to-right.',
+  };
+  const hints = [
+    typeHints[step.type],
+    `The operation to perform: ${step.prompt.replace(/Step \d+ \([^)]+\): /,'')}`,
+    `Answer for this step: ${step.answer}`,
+  ];
+  if (boState.hi < hints.length) addHint('bo-hints', hints[boState.hi++]);
+}
+
+// ── Trap questions ──
+function boTrapNew() {
+  boTrapCurrent = BO_TRAPS[Math.floor(Math.random() * BO_TRAPS.length)];
+  boTrapSelected = null;
+  fbHide('bo-trap-fb');
+  document.getElementById('bo-trap-q').textContent = boTrapCurrent.display + ' = ?';
+
+  const container = document.getElementById('bo-trap-opts');
+  container.innerHTML = '';
+  boTrapCurrent.options.forEach((val, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-secondary';
+    btn.innerHTML = boTrapCurrent.labels[i];
+    btn.dataset.idx = i;
+    btn.onclick = () => {
+      container.querySelectorAll('.btn').forEach(b => b.className = 'btn btn-secondary');
+      btn.className = 'btn btn-primary';
+      boTrapSelected = i;
+    };
+    container.appendChild(btn);
+  });
+}
+
+function boTrapCheck() {
+  // auto-called on answer select — but we also have no check button; let's make it trigger on second click
+}
+
+// Override: clicking again confirms
+document.addEventListener('DOMContentLoaded', () => {
+  // Re-attach trap options to check on second click via dedicated button (added below)
+});
+
+function boTrapConfirm() {
+  if (!boTrapCurrent || boTrapSelected === null) { fb('bo-trap-fb','⚠️ Select an answer first.','hint'); return; }
+  const correctIdx = boTrapCurrent.options.indexOf(boTrapCurrent.correct);
+  if (boTrapSelected === correctIdx) {
+    fb('bo-trap-fb', `✅ Correct! ${boTrapCurrent.explain}`, 'correct');
+    addScore('bo', 5);
+  } else {
+    const wrongVal = boTrapCurrent.options[boTrapSelected];
+    fb('bo-trap-fb',
+      `❌ ${wrongVal} is a common mistake. ${boTrapCurrent.explain}`,
+      'wrong');
+  }
+}
+
+// ================================================================
+// ================================================================
 // MODULE 7 · INDICES LAB
 // ================================================================
 // ================================================================
@@ -2867,6 +3223,8 @@ function init() {
   ilLoad(0); ilAddNew();
   // M8 – powers & roots
   prBuildTables(); prPowNew(); prRootNew(); prQrNew();
+  // M9 – BODMAS engine
+  boNew(); boTrapNew();
 }
 
 document.addEventListener('DOMContentLoaded', init);
