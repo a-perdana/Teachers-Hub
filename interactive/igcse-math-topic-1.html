@@ -701,6 +701,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
   <button class="tab-btn" onclick="showModule(3)">⚖️ Ratio Challenge</button>
   <button class="tab-btn" onclick="showModule(4)">🎯 Estimation Game</button>
   <button class="tab-btn" onclick="showModule(5)">🔢 Number Types</button>
+  <button class="tab-btn" onclick="showModule(6)">⚡ Indices Lab</button>
 </nav>
 
 <!-- ============================================================
@@ -1091,6 +1092,104 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 </section>
 
 <!-- ============================================================
+     MODULE 7 · INDICES LAB
+     ============================================================ -->
+<section class="module" id="mod-6">
+
+  <div class="progress-card">
+    <span class="prog-label">⚡ Indices Lab</span>
+    <div class="prog-track"><div class="prog-fill" id="il-bar"></div></div>
+    <span class="prog-count" id="il-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-6">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Indices Lab</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> aᵐ + aⁿ = aᵐ⁺ⁿ — the most common error. Index laws apply to <em>multiplication only</em>, never addition. e.g. 2³ + 2² = 8 + 4 = 12, not 2⁵ = 32.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Negative index = negative number. a⁻ⁿ means the <em>reciprocal</em> 1/aⁿ — the result is positive (for positive a). 2⁻³ = 1/8, not −8.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> (aᵐ)ⁿ = aᵐ⁺ⁿ — confusing the power rule with multiplication rule. Raise a power to a power → multiply indices.</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Always expand first: 2³ × 2² = (2×2×2) × (2×2) = 2⁵. Let students <em>see</em> why the rule works before applying it abstractly.</div>
+    </div>
+  </div>
+
+  <!-- Rule selector -->
+  <div class="card">
+    <div class="card-title">⚡ Indices Lab</div>
+    <div class="card-desc">Select a rule to practise, then simplify the expression step by step.</div>
+    <div class="gap-row">
+      <button class="btn btn-primary"   onclick="ilLoad(0)">aᵐ × aⁿ</button>
+      <button class="btn btn-primary"   onclick="ilLoad(1)">aᵐ ÷ aⁿ</button>
+      <button class="btn btn-primary"   onclick="ilLoad(2)">(aᵐ)ⁿ</button>
+      <button class="btn btn-primary"   onclick="ilLoad(3)">a⁻ⁿ</button>
+    </div>
+  </div>
+
+  <!-- Question card -->
+  <div class="card">
+    <div class="card-title" id="il-rule-label">Rule 1 — Multiplying</div>
+    <div class="problem-display" id="il-question" style="font-size:1.8rem;"></div>
+
+    <!-- Normal answer (base + index) -->
+    <div id="il-panel-normal">
+      <div class="card-desc" style="margin-top:12px;">Write your answer as a single power: base<sup>index</sup></div>
+      <div class="input-row">
+        <input type="text"   id="il-base-in" class="inp-sm" placeholder="base"  style="text-align:center;" onkeydown="if(event.key==='Enter')ilCheck()" />
+        <span style="font-size:1.4rem;font-weight:700;font-family:var(--font-mono);">^</span>
+        <input type="number" id="il-exp-in"  class="inp-sm" placeholder="index" style="text-align:center;" onkeydown="if(event.key==='Enter')ilCheck()" />
+        <button class="btn btn-success"   onclick="ilCheck()">✓ Check</button>
+        <button class="btn btn-hint"      onclick="ilHint()">💡 Hint</button>
+        <button class="btn btn-secondary" onclick="ilNew()">↺ New</button>
+      </div>
+    </div>
+
+    <!-- Negative index answer (fraction) -->
+    <div id="il-panel-neg" style="display:none;">
+      <div class="card-desc" style="margin-top:12px;">Write your answer as a fraction: numerator / denominator</div>
+      <div class="input-row">
+        <input type="number" id="il-frac-num" class="inp-sm" placeholder="top"    style="text-align:center;" onkeydown="if(event.key==='Enter')ilCheck()" />
+        <span style="font-size:1.5rem;font-weight:900;color:var(--muted);">/</span>
+        <input type="number" id="il-frac-den" class="inp-sm" placeholder="bottom" style="text-align:center;" onkeydown="if(event.key==='Enter')ilCheck()" />
+        <button class="btn btn-success"   onclick="ilCheck()">✓ Check</button>
+        <button class="btn btn-hint"      onclick="ilHint()">💡 Hint</button>
+        <button class="btn btn-secondary" onclick="ilNew()">↺ New</button>
+      </div>
+    </div>
+
+    <ul class="hint-list" id="il-hints"></ul>
+    <div class="feedback" id="il-fb"></div>
+  </div>
+
+  <!-- Rules reference card -->
+  <div class="card">
+    <div class="card-title">📋 Index Laws — Reference</div>
+    <table class="compare-table">
+      <thead><tr><th>Rule</th><th>Law</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Multiply</td><td class="mono">aᵐ × aⁿ = aᵐ⁺ⁿ</td><td class="mono">2³ × 2⁴ = 2⁷</td></tr>
+        <tr><td>Divide</td> <td class="mono">aᵐ ÷ aⁿ = aᵐ⁻ⁿ</td><td class="mono">3⁵ ÷ 3² = 3³</td></tr>
+        <tr><td>Power</td>  <td class="mono">(aᵐ)ⁿ = aᵐⁿ</td>  <td class="mono">(5²)³ = 5⁶</td></tr>
+        <tr><td>Negative</td><td class="mono">a⁻ⁿ = 1/aⁿ</td>  <td class="mono">4⁻² = 1/16</td></tr>
+        <tr><td>Zero</td>   <td class="mono">a⁰ = 1</td>       <td class="mono">7⁰ = 1</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Addition misconception challenge -->
+  <div class="card">
+    <div class="card-title">⚠️ Spot the Mistake</div>
+    <div class="card-desc">Can you simplify this using index laws? Type the index if possible, or type <strong>cannot</strong> if it cannot be simplified to a single power.</div>
+    <div class="problem-display" id="il-add-question" style="font-size:1.4rem; padding:16px;"></div>
+    <div class="input-row">
+      <input type="text" id="il-add-in" class="inp-md" placeholder='index or "cannot"' onkeydown="if(event.key==='Enter')ilAddCheck()" />
+      <button class="btn btn-success"   onclick="ilAddCheck()">✓ Check</button>
+      <button class="btn btn-secondary" onclick="ilAddNew()">↺ New</button>
+    </div>
+    <div class="feedback" id="il-add-fb"></div>
+  </div>
+
+</section>
+
+<!-- ============================================================
      MODULE 6 · NUMBER TYPES EXPLORER
      ============================================================ -->
 <section class="module" id="mod-5">
@@ -1220,7 +1319,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 // GLOBAL STATE
 // ================================================================
 let teacherMode = false;
-const scores = { pf: 0, fr: 0, sf: 0, rt: 0, eg: 0, nt: 0 };
+const scores = { pf: 0, fr: 0, sf: 0, rt: 0, eg: 0, nt: 0, il: 0 };
 
 // ================================================================
 // UTILITIES
@@ -2074,6 +2173,186 @@ function rndCheck() {
 
 // ================================================================
 // ================================================================
+// MODULE 7 · INDICES LAB
+// ================================================================
+// ================================================================
+
+const IL_RULES = [
+  {
+    id: 'mult',
+    label: 'Rule 1 — Multiplying: aᵐ × aⁿ = aᵐ⁺ⁿ',
+    template: (a,m,n) => ({ question:`Simplify: ${a}<sup>${m}</sup> × ${a}<sup>${n}</sup>`, answerBase:a, answerExp:m+n, hint1:`Same base (${a}), so ADD the indices.`, hint2:`${m} + ${n} = ${m+n}`, hint3:`Answer: ${a}<sup>${m+n}</sup>` }),
+    misconception: (a,m,n,stuExp) => stuExp === m*n ? `🤔 You multiplied the indices (${m} × ${n} = ${m*n}). When <em>multiplying</em> powers with the same base, you <strong>add</strong> the indices: ${m} + ${n} = ${m+n}.` : stuExp === m+n+1 || stuExp === m+n-1 ? `Almost! Double-check your addition: ${m} + ${n} = ${m+n}.` : null,
+  },
+  {
+    id: 'div',
+    label: 'Rule 2 — Dividing: aᵐ ÷ aⁿ = aᵐ⁻ⁿ',
+    template: (a,m,n) => ({ question:`Simplify: ${a}<sup>${m}</sup> ÷ ${a}<sup>${n}</sup>`, answerBase:a, answerExp:m-n, hint1:`Same base (${a}), so SUBTRACT the indices.`, hint2:`${m} − ${n} = ${m-n}`, hint3:`Answer: ${a}<sup>${m-n}</sup>` }),
+    misconception: (a,m,n,stuExp) => stuExp === m+n ? `🤔 You added the indices — that's the multiplication rule. When <em>dividing</em>, subtract: ${m} − ${n} = ${m-n}.` : stuExp === Math.round(m/n) ? `🤔 You divided the indices. Subtract them instead: ${m} − ${n} = ${m-n}.` : null,
+  },
+  {
+    id: 'power',
+    label: 'Rule 3 — Power of a power: (aᵐ)ⁿ = aᵐⁿ',
+    template: (a,m,n) => ({ question:`Simplify: (${a}<sup>${m}</sup>)<sup>${n}</sup>`, answerBase:a, answerExp:m*n, hint1:`Raise a power to a power — MULTIPLY the indices.`, hint2:`${m} × ${n} = ${m*n}`, hint3:`Answer: ${a}<sup>${m*n}</sup>` }),
+    misconception: (a,m,n,stuExp) => stuExp === m+n ? `🤔 You added the indices. For a power of a power, <strong>multiply</strong>: ${m} × ${n} = ${m*n}.` : null,
+  },
+  {
+    id: 'neg',
+    label: 'Rule 4 — Negative indices: a⁻ⁿ = 1/aⁿ',
+    template: (a,m,n) => ({ question:`Write as a fraction: ${a}<sup>−${n}</sup>`, answerBase:a, answerExp:-n, isNeg:true, fracNum:1, fracDen:Math.pow(a,n), hint1:`A negative index means "one over". a<sup>−n</sup> = 1 ÷ aⁿ`, hint2:`${a}<sup>−${n}</sup> = 1 ÷ ${a}<sup>${n}</sup> = 1/${Math.pow(a,n)}`, hint3:`Answer: 1/${Math.pow(a,n)}` }),
+    misconception: (a,m,n,stuNum,stuDen) => {
+      if (stuNum === -1 && stuDen === Math.pow(a,n)) return `Almost — the numerator should be 1, not −1. The negative is in the index, not the fraction itself: ${a}<sup>−${n}</sup> = 1/${Math.pow(a,n)}.`;
+      if (stuNum === 1 && stuDen === a*n) return `🤔 Watch the denominator: ${a}<sup>${n}</sup> means ${a} raised to the power ${n} = ${Math.pow(a,n)}, not ${a}×${n} = ${a*n}.`;
+      if (stuNum === -a && stuDen === n) return `🤔 A negative index does <strong>not</strong> make the base negative. It means reciprocal: 1/${Math.pow(a,n)}.`;
+      return null;
+    },
+  },
+];
+
+// Addition misconception pool (aᵐ + aⁿ ≠ aᵐ⁺ⁿ)
+const IL_ADD_POOL = [
+  { base:2, m:3, n:2 }, { base:3, m:2, n:3 }, { base:5, m:2, n:1 },
+  { base:2, m:4, n:3 }, { base:4, m:2, n:2 },
+];
+
+let ilState = {
+  ruleIdx: 0, a: 2, m: 3, n: 2,
+  hi: 0, done: false,
+};
+let ilAddState = null;
+
+function ilGenParams(ruleIdx) {
+  const bases   = [2,3,4,5];
+  const a = bases[Math.floor(Math.random() * bases.length)];
+  let m, n;
+  if (ruleIdx === 0) { m = Math.floor(Math.random()*4)+2; n = Math.floor(Math.random()*3)+1; }
+  else if (ruleIdx === 1) { m = Math.floor(Math.random()*4)+4; n = Math.floor(Math.random()*3)+1; }
+  else if (ruleIdx === 2) { m = Math.floor(Math.random()*3)+2; n = Math.floor(Math.random()*3)+2; }
+  else { m = 0; n = Math.floor(Math.random()*3)+1; }
+  return { a, m, n };
+}
+
+function ilLoad(ruleIdx) {
+  ilState.ruleIdx = ruleIdx;
+  const p = ilGenParams(ruleIdx);
+  ilState.a = p.a; ilState.m = p.m; ilState.n = p.n;
+  ilState.hi = 0; ilState.done = false;
+  clearHints('il-hints'); fbHide('il-fb');
+
+  const rule = IL_RULES[ruleIdx];
+  const tmpl = rule.template(p.a, p.m, p.n);
+  ilState.tmpl = tmpl;
+
+  document.getElementById('il-question').innerHTML = tmpl.question;
+  document.getElementById('il-rule-label').textContent = rule.label;
+
+  // Show/hide input panels
+  document.getElementById('il-panel-normal').style.display = tmpl.isNeg ? 'none' : 'block';
+  document.getElementById('il-panel-neg').style.display    = tmpl.isNeg ? 'block' : 'none';
+
+  document.getElementById('il-base-in').value = '';
+  document.getElementById('il-exp-in').value  = '';
+  document.getElementById('il-frac-num').value = '';
+  document.getElementById('il-frac-den').value = '';
+}
+
+function ilCheck() {
+  const rule = IL_RULES[ilState.ruleIdx];
+  const tmpl = ilState.tmpl;
+  const { a, m, n } = ilState;
+
+  if (tmpl.isNeg) {
+    const sNum = parseInt(document.getElementById('il-frac-num').value);
+    const sDen = parseInt(document.getElementById('il-frac-den').value);
+    if (isNaN(sNum) || isNaN(sDen)) { fb('il-fb','⚠️ Fill both numerator and denominator.','hint'); return; }
+
+    const mis = rule.misconception(a,m,n,sNum,sDen);
+    if (mis) { fb('il-fb', mis, 'wrong'); return; }
+
+    if (sNum === 1 && sDen === tmpl.fracDen) {
+      fb('il-fb', `✅ Correct! ${a}<sup>−${n}</sup> = 1/${tmpl.fracDen}. A negative index means "take the reciprocal and make the index positive".`, 'correct');
+      addScore('il', 10); ilState.done = true;
+    } else {
+      fb('il-fb', `❌ Not quite. ${a}<sup>−${n}</sup> = 1 ÷ ${a}<sup>${n}</sup> = 1/${tmpl.fracDen}.`, 'wrong');
+    }
+    return;
+  }
+
+  const sBase = document.getElementById('il-base-in').value.trim();
+  const sExp  = parseInt(document.getElementById('il-exp-in').value);
+
+  if (!sBase || isNaN(sExp)) { fb('il-fb','⚠️ Fill both base and index.','hint'); return; }
+
+  // Base misconception
+  if (sBase !== String(a)) {
+    fb('il-fb', `⚠️ The base stays as <strong>${a}</strong> — only the indices change when applying rules of indices.`, 'hint'); return;
+  }
+
+  const mis = rule.misconception(a, m, n, sExp);
+  if (mis) { fb('il-fb', mis, 'wrong'); return; }
+
+  if (sExp === tmpl.answerExp) {
+    fb('il-fb', `✅ Correct! ${a}<sup>${m}</sup> operation ${a}<sup>${n}</sup> = ${a}<sup>${tmpl.answerExp}</sup>`, 'correct');
+    addScore('il', 10); ilState.done = true;
+  } else {
+    fb('il-fb', `❌ Not quite. Check the rule: ${IL_RULES[ilState.ruleIdx].label}. The index should be ${tmpl.answerExp}.`, 'wrong');
+  }
+}
+
+function ilHint() {
+  const tmpl = ilState.tmpl;
+  const hints = [tmpl.hint1, tmpl.hint2, tmpl.hint3];
+  if (ilState.hi < hints.length) addHint('il-hints', hints[ilState.hi++]);
+}
+
+function ilNew() { ilLoad(ilState.ruleIdx); }
+
+// Addition misconception challenge
+function ilAddNew() {
+  ilAddState = IL_ADD_POOL[Math.floor(Math.random() * IL_ADD_POOL.length)];
+  const {base:a, m, n} = ilAddState;
+  fbHide('il-add-fb');
+  document.getElementById('il-add-in').value = '';
+  document.getElementById('il-add-question').innerHTML =
+    `What is ${a}<sup>${m}</sup> + ${a}<sup>${n}</sup>?<br/>
+     <span class="text-muted" style="font-size:0.85rem;">Enter the index only (assuming the answer is ${a}<sup>?</sup>), or type "cannot" if it cannot be simplified.</span>`;
+}
+
+function ilAddCheck() {
+  if (!ilAddState) return;
+  const {base:a, m, n} = ilAddState;
+  const raw = document.getElementById('il-add-in').value.trim().toLowerCase();
+
+  const exact = Math.pow(a,m) + Math.pow(a,n);
+
+  if (raw === 'cannot' || raw === 'cannot simplify') {
+    fb('il-add-fb',
+      `✅ Exactly right! <strong>aᵐ + aⁿ cannot be simplified using index laws.</strong><br/>
+       ${a}<sup>${m}</sup> + ${a}<sup>${n}</sup> = ${Math.pow(a,m)} + ${Math.pow(a,n)} = ${exact}.<br/>
+       Index laws only apply to <em>multiplication and division</em> — not addition or subtraction.`,
+      'correct');
+    addScore('il', 10);
+    return;
+  }
+
+  const stu = parseInt(raw);
+  if (!isNaN(stu) && stu === m+n) {
+    fb('il-add-fb',
+      `🤔 <strong>This is the most common indices mistake!</strong><br/>
+       aᵐ + aⁿ = a<sup>m+n</sup> is <strong>WRONG</strong>. That rule only works for <em>multiplication</em> (aᵐ × aⁿ).<br/>
+       ${a}<sup>${m}</sup> + ${a}<sup>${n}</sup> = ${Math.pow(a,m)} + ${Math.pow(a,n)} = ${exact}. You cannot write this as a single power of ${a}.`,
+      'wrong');
+    return;
+  }
+
+  fb('il-add-fb',
+    `❌ Not right. Try typing <strong>cannot</strong> — addition of powers with the same base cannot be simplified using index laws.<br/>
+     ${a}<sup>${m}</sup> + ${a}<sup>${n}</sup> = ${Math.pow(a,m)} + ${Math.pow(a,n)} = ${exact} (a plain sum, not a power).`,
+    'wrong');
+}
+
+// ================================================================
+// ================================================================
 // MODULE 6 · NUMBER TYPES EXPLORER
 // ================================================================
 // ================================================================
@@ -2314,6 +2593,8 @@ function init() {
   egNew(); rndNew();
   // M6 – number types
   qfNew();
+  // M7 – indices lab
+  ilLoad(0); ilAddNew();
 }
 
 document.addEventListener('DOMContentLoaded', init);
