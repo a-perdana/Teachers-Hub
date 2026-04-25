@@ -702,6 +702,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
   <button class="tab-btn" onclick="showModule(4)">🎯 Estimation Game</button>
   <button class="tab-btn" onclick="showModule(5)">🔢 Number Types</button>
   <button class="tab-btn" onclick="showModule(6)">⚡ Indices Lab</button>
+  <button class="tab-btn" onclick="showModule(7)">🟥 Powers & Roots</button>
 </nav>
 
 <!-- ============================================================
@@ -1092,6 +1093,97 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 </section>
 
 <!-- ============================================================
+     MODULE 8 · POWERS AND ROOTS
+     ============================================================ -->
+<section class="module" id="mod-7">
+
+  <div class="progress-card">
+    <span class="prog-label">🟥 Powers & Roots</span>
+    <div class="prog-track"><div class="prog-fill" id="pr-bar"></div></div>
+    <span class="prog-count" id="pr-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-7">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Powers & Roots</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> √16 = 8. Students halve instead of finding the square root. Remind: "What number times itself gives 16?" 4 × 4 = 16, so √16 = 4.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> 3² = 6. Squaring means multiplying by itself: 3 × 3 = 9, not 3 × 2. The index tells you <em>how many times</em> to use 3 as a factor.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> ∛27 = 9. Students apply square root logic (÷ 3) instead of asking "what cubed gives 27?" 3 × 3 × 3 = 27, so ∛27 = 3.</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Build a squares/cubes reference table first (1–15 for squares, 1–5 for cubes). Fluent recall is the foundation for all index work.</div>
+    </div>
+  </div>
+
+  <!-- Squares & Cubes table -->
+  <div class="card">
+    <div class="card-title">📋 Reference — Squares & Cubes</div>
+    <div class="two-col">
+      <div>
+        <table class="compare-table">
+          <thead><tr><th>n</th><th>n² (square)</th><th>√n²</th></tr></thead>
+          <tbody id="pr-sq-table"></tbody>
+        </table>
+      </div>
+      <div>
+        <table class="compare-table">
+          <thead><tr><th>n</th><th>n³ (cube)</th><th>∛n³</th></tr></thead>
+          <tbody id="pr-cb-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Powers practice -->
+  <div class="card">
+    <div class="card-title">🟥 Powers Practice</div>
+    <div class="card-desc">Calculate the power shown. Type your answer and check.</div>
+    <div class="problem-display" id="pr-pow-q" style="font-size:2rem;">—</div>
+    <div class="input-row">
+      <input type="number" id="pr-pow-in" class="inp-md" placeholder="Answer" onkeydown="if(event.key==='Enter')prPowCheck()" />
+      <button class="btn btn-success"   onclick="prPowCheck()">✓ Check</button>
+      <button class="btn btn-hint"      onclick="prPowHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="prPowNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="pr-pow-hints"></ul>
+    <div class="feedback" id="pr-pow-fb"></div>
+  </div>
+
+  <!-- Roots practice -->
+  <div class="card">
+    <div class="card-title">√ Roots Practice</div>
+    <div class="card-desc">Find the square root or cube root. Think: "What number raised to that power gives this?"</div>
+    <div class="problem-display" id="pr-root-q" style="font-size:2rem;">—</div>
+    <div class="input-row">
+      <input type="number" id="pr-root-in" class="inp-md" placeholder="Answer" onkeydown="if(event.key==='Enter')prRootCheck()" />
+      <button class="btn btn-success"   onclick="prRootCheck()">✓ Check</button>
+      <button class="btn btn-hint"      onclick="prRootHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="prRootNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="pr-root-hints"></ul>
+    <div class="feedback" id="pr-root-fb"></div>
+  </div>
+
+  <!-- Quick recall -->
+  <div class="card">
+    <div class="card-title">⚡ Quick Recall Challenge</div>
+    <div class="card-desc">Answer as fast as you can — mixed squares, cubes, square roots, and cube roots. Hit Enter to move on.</div>
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:12px;">
+      <div class="problem-display" id="pr-qr-q" style="font-size:2rem;flex:1;min-width:160px;margin:0;"></div>
+      <div style="text-align:center;">
+        <div class="prog-label" style="color:var(--muted);">Streak</div>
+        <div id="pr-streak" style="font-size:2rem;font-weight:900;color:var(--blue);">0</div>
+      </div>
+    </div>
+    <div class="input-row">
+      <input type="number" id="pr-qr-in" class="inp-md" placeholder="Answer" onkeydown="if(event.key==='Enter')prQrCheck()" />
+      <button class="btn btn-success"   onclick="prQrCheck()">✓</button>
+      <button class="btn btn-secondary" onclick="prQrNew()">↺ Skip</button>
+    </div>
+    <div class="feedback" id="pr-qr-fb"></div>
+  </div>
+
+</section>
+
+<!-- ============================================================
      MODULE 7 · INDICES LAB
      ============================================================ -->
 <section class="module" id="mod-6">
@@ -1319,7 +1411,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 // GLOBAL STATE
 // ================================================================
 let teacherMode = false;
-const scores = { pf: 0, fr: 0, sf: 0, rt: 0, eg: 0, nt: 0, il: 0 };
+const scores = { pf: 0, fr: 0, sf: 0, rt: 0, eg: 0, nt: 0, il: 0, pr: 0 };
 
 // ================================================================
 // UTILITIES
@@ -2173,6 +2265,184 @@ function rndCheck() {
 
 // ================================================================
 // ================================================================
+// MODULE 8 · POWERS AND ROOTS
+// ================================================================
+// ================================================================
+
+const PR_SQUARES = Array.from({length:15}, (_,i) => ({ n:i+1, sq:(i+1)**2 }));
+const PR_CUBES   = Array.from({length:5},  (_,i) => ({ n:i+1, cb:(i+1)**3 }));
+
+// Powers pool: { base, exp, answer, type:'sq'|'cb'|'pow' }
+const PR_POW_POOL = [
+  ...PR_SQUARES.map(({n,sq}) => ({ display:`${n}<sup>2</sup>`, base:n, exp:2, answer:sq, type:'sq' })),
+  ...PR_CUBES.map(({n,cb})   => ({ display:`${n}<sup>3</sup>`, base:n, exp:3, answer:cb, type:'cb' })),
+  { display:`2<sup>4</sup>`, base:2, exp:4, answer:16,  type:'pow' },
+  { display:`2<sup>5</sup>`, base:2, exp:5, answer:32,  type:'pow' },
+  { display:`3<sup>4</sup>`, base:3, exp:4, answer:81,  type:'pow' },
+  { display:`10<sup>2</sup>`,base:10,exp:2, answer:100, type:'pow' },
+  { display:`10<sup>3</sup>`,base:10,exp:3, answer:1000,type:'pow' },
+];
+
+// Roots pool: { display, answer, rootType:'sq'|'cb', radicand }
+const PR_ROOT_POOL = [
+  ...PR_SQUARES.map(({n,sq}) => ({ display:`√${sq}`,  answer:n, rootType:'sq', radicand:sq })),
+  ...PR_CUBES.map(({n,cb})   => ({ display:`∛${cb}`,  answer:n, rootType:'cb', radicand:cb })),
+];
+
+let prPow  = null, prPowHi  = 0;
+let prRoot = null, prRootHi = 0;
+let prQr   = null, prStreak = 0;
+
+function prBuildTables() {
+  const sqTbody = document.getElementById('pr-sq-table');
+  sqTbody.innerHTML = PR_SQUARES.map(({n,sq}) =>
+    `<tr><td>${n}</td><td class="mono bold" style="color:var(--navy);">${sq}</td><td class="mono" style="color:var(--green);">${n}</td></tr>`
+  ).join('');
+  const cbTbody = document.getElementById('pr-cb-table');
+  cbTbody.innerHTML = PR_CUBES.map(({n,cb}) =>
+    `<tr><td>${n}</td><td class="mono bold" style="color:var(--navy);">${cb}</td><td class="mono" style="color:var(--green);">${n}</td></tr>`
+  ).join('');
+}
+
+// ── Powers practice ──
+function prPowNew() {
+  prPow = PR_POW_POOL[Math.floor(Math.random() * PR_POW_POOL.length)];
+  prPowHi = 0; clearHints('pr-pow-hints'); fbHide('pr-pow-fb');
+  document.getElementById('pr-pow-in').value = '';
+  document.getElementById('pr-pow-q').innerHTML = prPow.display;
+}
+
+function prPowCheck() {
+  if (!prPow) return;
+  const stu = parseInt(document.getElementById('pr-pow-in').value);
+  if (isNaN(stu)) { fb('pr-pow-fb','⚠️ Enter a number.','hint'); return; }
+
+  // Misconception: squaring = doubling
+  if (prPow.exp === 2 && stu === prPow.base * 2) {
+    fb('pr-pow-fb',
+      `🤔 <strong>${prPow.base}² ≠ ${prPow.base} × 2.</strong> Squaring means multiplying a number by <em>itself</em>: ${prPow.base} × ${prPow.base} = ${prPow.answer}. The index 2 means "use ${prPow.base} as a factor twice".`,
+      'wrong'); return;
+  }
+  // Misconception: cubing = tripling
+  if (prPow.exp === 3 && stu === prPow.base * 3) {
+    fb('pr-pow-fb',
+      `🤔 <strong>${prPow.base}³ ≠ ${prPow.base} × 3.</strong> Cubing means ${prPow.base} × ${prPow.base} × ${prPow.base} = ${prPow.answer}, not ${prPow.base * 3}.`,
+      'wrong'); return;
+  }
+
+  if (stu === prPow.answer) {
+    fb('pr-pow-fb', `✅ Correct! ${prPow.display.replace(/<[^>]+>/g,'^')} = ${prPow.answer}`, 'correct');
+    addScore('pr', 5);
+  } else {
+    fb('pr-pow-fb', `❌ Not quite. ${prPow.base}^${prPow.exp} = ${Array(prPow.exp).fill(prPow.base).join(' × ')} = ${prPow.answer}.`, 'wrong');
+  }
+}
+
+function prPowHint() {
+  if (!prPow) return;
+  const expansion = Array(prPow.exp).fill(prPow.base).join(' × ');
+  const hints = [
+    `${prPow.base}<sup>${prPow.exp}</sup> means multiply ${prPow.base} by itself ${prPow.exp} time${prPow.exp>1?'s':''}.`,
+    `Expand: ${expansion} = ?`,
+    `Answer: ${expansion} = ${prPow.answer}`,
+  ];
+  if (prPowHi < hints.length) addHint('pr-pow-hints', hints[prPowHi++]);
+}
+
+// ── Roots practice ──
+function prRootNew() {
+  prRoot = PR_ROOT_POOL[Math.floor(Math.random() * PR_ROOT_POOL.length)];
+  prRootHi = 0; clearHints('pr-root-hints'); fbHide('pr-root-fb');
+  document.getElementById('pr-root-in').value = '';
+  document.getElementById('pr-root-q').textContent = prRoot.display;
+}
+
+function prRootCheck() {
+  if (!prRoot) return;
+  const stu = parseInt(document.getElementById('pr-root-in').value);
+  if (isNaN(stu)) { fb('pr-root-fb','⚠️ Enter a number.','hint'); return; }
+
+  // Misconception: √n = n/2
+  if (prRoot.rootType === 'sq' && stu === prRoot.radicand / 2) {
+    fb('pr-root-fb',
+      `🤔 <strong>√${prRoot.radicand} ≠ ${prRoot.radicand}/2 = ${prRoot.radicand/2}.</strong> The square root asks: "what number times itself gives ${prRoot.radicand}?" ${prRoot.answer} × ${prRoot.answer} = ${prRoot.radicand}, so √${prRoot.radicand} = ${prRoot.answer}.`,
+      'wrong'); return;
+  }
+  // Misconception: ∛n = n/3
+  if (prRoot.rootType === 'cb' && stu === Math.round(prRoot.radicand / 3)) {
+    fb('pr-root-fb',
+      `🤔 <strong>∛${prRoot.radicand} ≠ ${prRoot.radicand}/3.</strong> The cube root asks: "what cubed gives ${prRoot.radicand}?" ${prRoot.answer}³ = ${prRoot.radicand}, so ∛${prRoot.radicand} = ${prRoot.answer}.`,
+      'wrong'); return;
+  }
+  // Square root of square applied to cube
+  if (prRoot.rootType === 'cb' && stu === Math.round(Math.sqrt(prRoot.radicand))) {
+    fb('pr-root-fb',
+      `🤔 You found the square root, but this asks for the <strong>cube root</strong> (∛). What number multiplied by itself <em>three times</em> gives ${prRoot.radicand}?`,
+      'wrong'); return;
+  }
+
+  if (stu === prRoot.answer) {
+    fb('pr-root-fb', `✅ Correct! ${prRoot.display} = ${prRoot.answer}`, 'correct');
+    addScore('pr', 5);
+  } else {
+    const exp = prRoot.rootType === 'sq' ? 2 : 3;
+    fb('pr-root-fb', `❌ Not quite. Ask: what number^${exp} = ${prRoot.radicand}? Answer: ${prRoot.answer}.`, 'wrong');
+  }
+}
+
+function prRootHint() {
+  if (!prRoot) return;
+  const isSq = prRoot.rootType === 'sq';
+  const hints = [
+    isSq ? `Think: "? × ? = ${prRoot.radicand}"` : `Think: "? × ? × ? = ${prRoot.radicand}"`,
+    isSq ? `Try numbers near ${Math.round(Math.sqrt(prRoot.radicand))}…` : `Try numbers 1–5: 1³=1, 2³=8, 3³=27, 4³=64, 5³=125`,
+    `Answer: ${prRoot.display} = ${prRoot.answer}`,
+  ];
+  if (prRootHi < hints.length) addHint('pr-root-hints', hints[prRootHi++]);
+}
+
+// ── Quick recall ──
+const PR_QR_POOL = [...PR_POW_POOL, ...PR_ROOT_POOL];
+
+function prQrNew() {
+  prQr = PR_QR_POOL[Math.floor(Math.random() * PR_QR_POOL.length)];
+  fbHide('pr-qr-fb');
+  document.getElementById('pr-qr-in').value = '';
+  document.getElementById('pr-qr-q').innerHTML = prQr.display;
+}
+
+function prQrCheck() {
+  if (!prQr) return;
+  const stu = parseInt(document.getElementById('pr-qr-in').value);
+  if (isNaN(stu)) { fb('pr-qr-fb','⚠️ Enter a number.','hint'); return; }
+
+  const correct = prQr.answer;
+
+  // Squaring = doubling intercept
+  if (prQr.exp === 2 && stu === prQr.base * 2) {
+    prStreak = 0; document.getElementById('pr-streak').textContent = prStreak;
+    fb('pr-qr-fb', `🤔 ${prQr.base}² means ${prQr.base}×${prQr.base} = ${correct}, not ${prQr.base}×2 = ${stu}.`, 'wrong'); return;
+  }
+  // √ halving intercept
+  if (prQr.rootType === 'sq' && stu === prQr.radicand / 2) {
+    prStreak = 0; document.getElementById('pr-streak').textContent = prStreak;
+    fb('pr-qr-fb', `🤔 √${prQr.radicand} ≠ ${prQr.radicand}/2. Ask: what ×itself = ${prQr.radicand}? Answer: ${correct}.`, 'wrong'); return;
+  }
+
+  if (stu === correct) {
+    prStreak++;
+    document.getElementById('pr-streak').textContent = prStreak;
+    fb('pr-qr-fb', `✅ ${prStreak >= 5 ? '🔥 ' : ''}Correct!${prStreak >= 5 ? ' ' + prStreak + ' in a row!' : ''}`, 'correct');
+    addScore('pr', prStreak >= 5 ? 10 : 5);
+    setTimeout(prQrNew, 800);
+  } else {
+    prStreak = 0; document.getElementById('pr-streak').textContent = prStreak;
+    fb('pr-qr-fb', `❌ Answer was ${correct}.`, 'wrong');
+  }
+}
+
+// ================================================================
+// ================================================================
 // MODULE 7 · INDICES LAB
 // ================================================================
 // ================================================================
@@ -2595,6 +2865,8 @@ function init() {
   qfNew();
   // M7 – indices lab
   ilLoad(0); ilAddNew();
+  // M8 – powers & roots
+  prBuildTables(); prPowNew(); prRootNew(); prQrNew();
 }
 
 document.addEventListener('DOMContentLoaded', init);
