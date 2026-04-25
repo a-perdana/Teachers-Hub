@@ -817,4 +817,17 @@ if (fs.existsSync(resourcesSrcDir)) {
   });
 }
 
+// Copy interactive/ folder to dist (standalone HTML tools, no auth)
+const interactiveSrcDir = path.join(__dirname, 'interactive');
+const interactiveDistDir = path.join(distDir, 'interactive');
+if (fs.existsSync(interactiveSrcDir)) {
+  if (!fs.existsSync(interactiveDistDir)) {
+    fs.mkdirSync(interactiveDistDir, { recursive: true });
+  }
+  fs.readdirSync(interactiveSrcDir).forEach(file => {
+    fs.copyFileSync(path.join(interactiveSrcDir, file), path.join(interactiveDistDir, file));
+    console.log(`Copied: dist/interactive/${file}`);
+  });
+}
+
 console.log('Build completed successfully!');

@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 1 · IGCSE 0580 Mathematics</title>
+<style>
+/* ================================================================
+   RESET & DESIGN TOKENS
+   ================================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:    #0f2044;
+  --blue:    #1a56db;
+  --blue-lt: #3b82f6;
+  --cyan:    #06b6d4;
+  --green:   #16a34a;
+  --amber:   #d97706;
+  --red:     #dc2626;
+  --slate:   #f1f5f9;
+  --white:   #ffffff;
+  --text:    #1e293b;
+  --muted:   #64748b;
+  --border:  #e2e8f0;
+  --card-bg: #ffffff;
+  --radius:  12px;
+  --shadow:  0 2px 12px rgba(0,0,0,0.07);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --font-head: 'Georgia', 'Times New Roman', serif;
+  --font-body: 'Trebuchet MS', 'Gill Sans', sans-serif;
+  --font-mono: 'Courier New', monospace;
+}
+
+body {
+  font-family: var(--font-body);
+  background: #e8edf5;
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ================================================================
+   HEADER
+   ================================================================ */
+.app-header {
+  background: var(--navy);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.app-header .brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand-badge {
+  background: var(--blue);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 3px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.brand-title {
+  font-family: var(--font-head);
+  font-size: 1.15rem;
+  color: white;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+.brand-sub {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+  margin-left: 4px;
+}
+
+#teacherToggle {
+  background: rgba(255,255,255,0.1);
+  border: 1.5px solid rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.85);
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  font-family: var(--font-body);
+}
+#teacherToggle:hover { background: rgba(255,255,255,0.18); }
+#teacherToggle.tm-on {
+  background: #fbbf24;
+  color: #78350f;
+  border-color: #f59e0b;
+}
+
+/* ================================================================
+   TABS
+   ================================================================ */
+.tab-bar {
+  background: var(--navy);
+  padding: 0 24px;
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  border-bottom: 3px solid #1a56db;
+}
+.tab-bar::-webkit-scrollbar { height: 3px; }
+.tab-bar::-webkit-scrollbar-thumb { background: var(--blue); }
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.55);
+  padding: 12px 20px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -3px;
+  transition: all 0.15s;
+  font-family: var(--font-body);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tab-btn:hover { color: rgba(255,255,255,0.85); }
+.tab-btn.active {
+  color: white;
+  border-bottom-color: #60a5fa;
+  background: rgba(255,255,255,0.06);
+}
+
+/* ================================================================
+   LAYOUT
+   ================================================================ */
+.module { display: none; padding: 24px 20px; max-width: 940px; margin: 0 auto; }
+.module.active { display: block; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+
+/* ================================================================
+   CARDS
+   ================================================================ */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.card-title {
+  font-family: var(--font-head);
+  font-size: 1.15rem;
+  color: var(--navy);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 16px; }
+
+/* ================================================================
+   PROGRESS BAR
+   ================================================================ */
+.progress-card {
+  background: var(--navy);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.prog-label { color: rgba(255,255,255,0.7); font-size: 0.82rem; font-weight: 600; white-space: nowrap; }
+.prog-track {
+  flex: 1;
+  background: rgba(255,255,255,0.12);
+  border-radius: 10px;
+  height: 8px;
+  overflow: hidden;
+}
+.prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  border-radius: 10px;
+  transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  width: 0%;
+}
+.prog-count { color: #60a5fa; font-weight: 700; font-size: 0.88rem; white-space: nowrap; }
+
+/* ================================================================
+   TEACHER PANEL
+   ================================================================ */
+.teacher-panel {
+  display: none;
+  background: #fffbeb;
+  border: 2px dashed #f59e0b;
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin-bottom: 18px;
+}
+.teacher-panel.tp-visible { display: block; }
+.tp-header {
+  font-weight: 700;
+  color: #92400e;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media (max-width: 600px) { .tp-grid { grid-template-columns: 1fr; } }
+.tp-item {
+  background: #fef3c7;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.84rem;
+  color: #78350f;
+  line-height: 1.5;
+  border-left: 3px solid #f59e0b;
+}
+.tp-item strong { color: #92400e; }
+
+/* ================================================================
+   FEEDBACK BOXES
+   ================================================================ */
+.feedback {
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  display: none;
+  animation: slideIn 0.2s ease;
+}
+@keyframes slideIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.feedback.show { display: block; }
+.feedback.fb-correct  { background: #f0fdf4; border-left: 4px solid #16a34a; color: #15803d; display: block; }
+.feedback.fb-wrong    { background: #fef2f2; border-left: 4px solid #dc2626; color: #b91c1c; display: block; }
+.feedback.fb-hint     { background: #fffbeb; border-left: 4px solid #d97706; color: #92400e; display: block; }
+.feedback.fb-info     { background: #eff6ff; border-left: 4px solid #3b82f6; color: #1d4ed8; display: block; }
+
+/* ================================================================
+   INPUTS & BUTTONS
+   ================================================================ */
+.input-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+
+input[type="number"], input[type="text"] {
+  padding: 9px 13px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: var(--font-body);
+  color: var(--text);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  background: white;
+}
+input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,219,0.1); }
+input.inp-sm  { width: 90px; }
+input.inp-md  { width: 130px; }
+input.inp-lg  { width: 180px; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font-body);
+  white-space: nowrap;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: var(--blue); color: white; }
+.btn-primary:hover { background: #1d4ed8; }
+.btn-success { background: var(--green); color: white; }
+.btn-success:hover { background: #15803d; }
+.btn-hint    { background: #f59e0b; color: white; }
+.btn-hint:hover { background: #d97706; }
+.btn-secondary { background: var(--slate); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: #e2e8f0; }
+.btn-danger  { background: #dc2626; color: white; }
+
+/* ================================================================
+   PROGRESSIVE HINTS LIST
+   ================================================================ */
+.hint-list { list-style: none; margin-top: 10px; }
+.hint-item {
+  background: #fffbeb;
+  border-left: 3px solid #f59e0b;
+  padding: 9px 14px;
+  margin: 5px 0;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.88rem;
+  color: #78350f;
+  display: none;
+  animation: slideIn 0.2s ease;
+}
+.hint-item.revealed { display: block; }
+
+/* ================================================================
+   STEP TRACKER
+   ================================================================ */
+.step-row { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.step-pip {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  border: 2px solid transparent;
+  transition: all 0.3s;
+}
+.step-pip.done    { background: var(--green);  color: white; }
+.step-pip.current { background: var(--blue); color: white; border-color: #93c5fd; box-shadow: 0 0 0 3px rgba(59,130,246,0.2); }
+
+/* ================================================================
+   MODULE 1 — PRIME FACTOR LAB
+   ================================================================ */
+.factor-tree-container {
+  background: #f8faff;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  padding: 18px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.9;
+  white-space: pre;
+  overflow-x: auto;
+  min-height: 80px;
+  color: #1e3a8a;
+}
+.prime-bubble {
+  display: inline-block;
+  background: #dbeafe;
+  color: #1d4ed8;
+  border-radius: 50px;
+  padding: 2px 10px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  margin: 2px;
+  border: 2px solid #93c5fd;
+  animation: popIn 0.3s cubic-bezier(.18,.89,.32,1.28);
+}
+@keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.result-expression {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--navy);
+  background: #eff6ff;
+  border-radius: 10px;
+  padding: 14px;
+  margin: 12px 0;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+}
+
+.big-question {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--blue);
+  background: #eff6ff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  border-left: 5px solid var(--blue);
+}
+
+/* ================================================================
+   MODULE 2 — FRACTION BUILDER
+   ================================================================ */
+.fraction-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 12px 0;
+}
+.frac-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--navy);
+  font-family: var(--font-mono);
+}
+.frac-line { width: 100%; border-top: 3px solid var(--navy); margin: 2px 0; }
+.frac-val { line-height: 1.2; }
+.frac-equals { font-size: 2rem; font-weight: 300; color: var(--muted); }
+
+.seg-track {
+  display: flex;
+  height: 48px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 12px 0;
+  gap: 2px;
+  background: #e2e8f0;
+}
+.seg-unit {
+  flex: 1;
+  background: #e2e8f0;
+  transition: background 0.3s, transform 0.3s;
+  position: relative;
+}
+.seg-unit.seg-filled { background: var(--blue); }
+.seg-unit:hover { filter: brightness(1.1); }
+
+.percent-bar-track {
+  width: 100%;
+  height: 28px;
+  background: #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+.percent-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1a56db, #06b6d4);
+  border-radius: 6px;
+  transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  display: flex; align-items: center; justify-content: flex-end;
+  padding-right: 10px;
+  color: white;
+  font-weight: 700;
+  font-size: 0.82rem;
+  min-width: 42px;
+}
+
+.equiv-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+  text-align: center;
+}
+.equiv-box {
+  background: var(--slate);
+  border-radius: 8px;
+  padding: 14px;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+.equiv-box.correct-box { border-color: var(--green); background: #f0fdf4; }
+.equiv-label { font-size: 0.75rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+.equiv-value { font-size: 1.4rem; font-weight: 700; color: var(--navy); font-family: var(--font-mono); }
+
+/* ================================================================
+   MODULE 3 — STANDARD FORM
+   ================================================================ */
+.sf-big {
+  font-family: var(--font-mono);
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--navy);
+  background: #eff6ff;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 14px 0;
+  letter-spacing: 0.05em;
+  border: 1px solid #bfdbfe;
+}
+.sf-big .coeff-part { color: var(--blue); }
+.sf-big .times-part { color: var(--muted); font-size: 1.6rem; }
+.sf-big .base-part  { color: #6b7280; font-size: 1.5rem; }
+.sf-big .pow-part   { font-size: 1.2rem; vertical-align: super; color: var(--red); }
+
+.ordinary-display {
+  font-family: var(--font-mono);
+  font-size: 1.9rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--navy);
+  padding: 14px;
+}
+.dp-move-label {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.slider-wrapper { padding: 8px 0; }
+input[type="range"] {
+  width: 100%;
+  height: 5px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--border);
+  border-radius: 3px;
+  outline: none;
+  margin: 6px 0;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  background: var(--blue);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(26,86,219,0.4);
+}
+.slider-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); }
+
+/* ================================================================
+   MODULE 4 — RATIO
+   ================================================================ */
+.scenario-box {
+  background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+  border-radius: 10px;
+  padding: 18px 20px;
+  border: 1px solid #bfdbfe;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+.ratio-display {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--blue);
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+}
+.ratio-parts-visual {
+  display: flex;
+  gap: 4px;
+  margin: 12px 0;
+  flex-wrap: wrap;
+}
+.ratio-block {
+  height: 36px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  flex: 1;
+  min-width: 24px;
+  transition: all 0.4s;
+}
+
+.ratio-answer-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.ratio-answer-row:last-child { border-bottom: none; }
+.ratio-part-label {
+  font-weight: 600;
+  color: var(--text);
+  min-width: 110px;
+  font-size: 0.9rem;
+}
+
+/* ================================================================
+   MODULE 5 — ESTIMATION
+   ================================================================ */
+.problem-display {
+  font-size: 1.8rem;
+  font-weight: 900;
+  text-align: center;
+  color: var(--navy);
+  background: var(--slate);
+  border-radius: 10px;
+  padding: 22px;
+  margin: 12px 0;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+.round-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.9rem;
+}
+.round-row:last-child { border-bottom: none; }
+.round-original { font-weight: 700; min-width: 80px; font-family: var(--font-mono); }
+.round-arrow { color: var(--muted); }
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 14px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.compare-table th {
+  background: var(--navy);
+  color: rgba(255,255,255,0.9);
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: left;
+  letter-spacing: 0.05em;
+}
+.compare-table td {
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+}
+.compare-table tr:nth-child(even) td { background: var(--slate); }
+.compare-table tr:last-child td { border-bottom: none; }
+
+.rounding-badge {
+  display: inline-block;
+  background: #eff6ff;
+  color: var(--blue);
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  padding: 2px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+/* ================================================================
+   UTILITIES
+   ================================================================ */
+.gap-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+.text-center { text-align: center; }
+.text-muted  { color: var(--muted); font-size: 0.85rem; }
+.mt-8  { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mt-20 { margin-top: 20px; }
+.bold  { font-weight: 700; }
+.mono  { font-family: var(--font-mono); }
+.tag {
+  display: inline-block;
+  background: #eff6ff;
+  color: var(--blue);
+  border-radius: 5px;
+  padding: 1px 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+sup { font-size: 0.65em; }
+
+/* Correct / incorrect color overlays for inputs */
+input.inp-correct { border-color: var(--green) !important; background: #f0fdf4; }
+input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; }
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="app-header">
+  <div class="brand">
+    <span class="brand-badge">0580</span>
+    <span class="brand-title">Topic 1 <span class="brand-sub">· Cambridge IGCSE Mathematics</span></span>
+  </div>
+  <button id="teacherToggle" onclick="toggleTeacherMode()">👨‍🏫 Teacher Mode: OFF</button>
+</header>
+
+<!-- ============================================================
+     TAB BAR
+     ============================================================ -->
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="showModule(0)">🌳 Prime Factor Lab</button>
+  <button class="tab-btn" onclick="showModule(1)">🍕 Fraction Builder</button>
+  <button class="tab-btn" onclick="showModule(2)">🔬 Standard Form</button>
+  <button class="tab-btn" onclick="showModule(3)">⚖️ Ratio Challenge</button>
+  <button class="tab-btn" onclick="showModule(4)">🎯 Estimation Game</button>
+</nav>
+
+<!-- ============================================================
+     MODULE 1 · PRIME FACTOR LAB
+     ============================================================ -->
+<section class="module active" id="mod-0">
+
+  <div class="progress-card">
+    <span class="prog-label">🌳 Prime Factor Lab</span>
+    <div class="prog-track"><div class="prog-fill" id="pf-bar"></div></div>
+    <span class="prog-count" id="pf-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-0">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Prime Factor Lab</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> "1 is a prime number." — A prime must have exactly <em>two</em> distinct factors (1 and itself). 1 has only one.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Choosing composite factors (e.g. "24 = 4 × 6"). Push students: "Is your factor prime? Keep splitting!"</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> Confusing factors and multiples. A factor of 24 must divide 24 exactly — no remainder.</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy:</strong> After the tree, extend immediately to HCF/LCM using index notation. Ask: "Which primes appear in both?" </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌳 Prime Factor Lab</div>
+    <div class="card-desc">Enter any number (2–500) and build its prime factor tree step by step. The system will guide you to use only prime factors.</div>
+    <div class="input-row">
+      <label class="bold">Number (2–500):</label>
+      <input type="number" id="pf-input" class="inp-sm" min="2" max="500" value="60" />
+      <button class="btn btn-primary" onclick="pfStart()">▶ Start</button>
+      <button class="btn btn-secondary" onclick="pfReset()">↺ Reset</button>
+    </div>
+  </div>
+
+  <div id="pf-workspace" style="display:none;">
+    <div class="two-col">
+
+      <!-- Left: interactive step -->
+      <div class="card" style="height:fit-content;">
+        <div class="card-title">Step-by-step Factorisation</div>
+        <div class="step-row" id="pf-steps"></div>
+
+        <div id="pf-prompt" class="big-question" style="display:none;"></div>
+
+        <div class="input-row" id="pf-input-row">
+          <label class="bold">Prime factor:</label>
+          <input type="number" id="pf-f" class="inp-sm" min="2" placeholder="e.g. 2" onkeydown="if(event.key==='Enter')pfCheckFactor()" />
+          <button class="btn btn-success" onclick="pfCheckFactor()">✓ Check</button>
+          <button class="btn btn-hint" onclick="pfHint()">💡 Hint</button>
+        </div>
+        <ul class="hint-list" id="pf-hints"></ul>
+        <div class="feedback" id="pf-fb"></div>
+      </div>
+
+      <!-- Right: tree + result -->
+      <div>
+        <div class="card">
+          <div class="card-title">Factor Tree</div>
+          <div class="factor-tree-container" id="pf-tree">Awaiting input…</div>
+          <div id="pf-primes-row" class="mt-12" style="display:none;">
+            <div class="text-muted" style="margin-bottom:6px;">Prime factors found:</div>
+            <div id="pf-bubbles"></div>
+          </div>
+        </div>
+        <div id="pf-result-card" class="card" style="display:none;">
+          <div class="card-title">✅ Complete!</div>
+          <div class="result-expression" id="pf-expression"></div>
+          <div class="feedback fb-correct" id="pf-complete-msg"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HCF / LCM extension -->
+    <div class="card" id="pf-ext" style="display:none;">
+      <div class="card-title">🔗 Extension: HCF & LCM</div>
+      <div class="card-desc">Use prime factorisation to find the HCF and LCM of your number and a second number.</div>
+      <div class="input-row">
+        <label class="bold">Second number:</label>
+        <input type="number" id="pf-n2" class="inp-sm" min="2" max="500" placeholder="e.g. 84" />
+        <button class="btn btn-primary" onclick="pfHCFLCM()">Calculate HCF & LCM</button>
+      </div>
+      <div class="feedback" id="pf-hcf-fb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MODULE 2 · FRACTION BUILDER
+     ============================================================ -->
+<section class="module" id="mod-1">
+
+  <div class="progress-card">
+    <span class="prog-label">🍕 Fraction Builder</span>
+    <div class="prog-track"><div class="prog-fill" id="fr-bar"></div></div>
+    <span class="prog-count" id="fr-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-1">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Fraction Builder</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> 1/3 = 0.3. Students truncate recurring decimals. Show that 0.3 × 3 = 0.9, not 1. Use the "multiply back" check.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> 2/3 = 0.6. Same issue — it's 0.6̄ = 0.666… Use the visual bar to show it goes just past 66%.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> Simplification: dividing only the numerator, or using a common factor that is not the HCF.</div>
+      <div class="tp-item"><strong>❌ Misconception 4:</strong> Percentage conversion: multiplying by 10 not 100. "× 10 gives you tens, × 100 gives you per cent (out of 100)."</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🍕 Fraction Builder</div>
+    <div class="card-desc">Adjust the fraction below and watch all representations update live. Then test yourself on each conversion.</div>
+    <div class="input-row" style="justify-content:center; gap:18px;">
+      <div style="text-align:center;">
+        <div class="text-muted" style="font-size:0.78rem; margin-bottom:4px;">NUMERATOR</div>
+        <input type="number" id="fr-num" class="inp-sm" min="0" max="99" value="1" oninput="frLive()" style="text-align:center; font-size:1.3rem; font-weight:700;" />
+      </div>
+      <div style="font-size:2rem; font-weight:300; color:var(--muted); padding-top:18px;">/</div>
+      <div style="text-align:center;">
+        <div class="text-muted" style="font-size:0.78rem; margin-bottom:4px;">DENOMINATOR</div>
+        <input type="number" id="fr-den" class="inp-sm" min="1" max="99" value="4" oninput="frLive()" style="text-align:center; font-size:1.3rem; font-weight:700;" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Visual -->
+  <div class="card">
+    <div class="card-title">Visual Representation</div>
+    <div class="seg-track" id="fr-segs"></div>
+    <div class="percent-bar-track mt-8">
+      <div class="percent-bar-fill" id="fr-pbar" style="width:25%">25%</div>
+    </div>
+    <div class="equiv-row" id="fr-equiv">
+      <div class="equiv-box" id="fr-eq-frac"><div class="equiv-label">Fraction</div><div class="equiv-value" id="fr-ev-frac">1/4</div></div>
+      <div class="equiv-box" id="fr-eq-dec"><div class="equiv-label">Decimal</div><div class="equiv-value" id="fr-ev-dec">0.25</div></div>
+      <div class="equiv-box" id="fr-eq-pct"><div class="equiv-label">Percentage</div><div class="equiv-value" id="fr-ev-pct">25%</div></div>
+    </div>
+    <div id="fr-recurring-msg" class="feedback fb-info mt-12" style="display:none;"></div>
+  </div>
+
+  <!-- Conversion challenge -->
+  <div class="card">
+    <div class="card-title">🧩 Conversion Challenge</div>
+    <div class="card-desc">Based on the fraction above — enter its decimal and percentage values. Do <em>not</em> look at the display above!</div>
+
+    <div style="margin-bottom:16px;">
+      <label class="bold">Decimal value:</label>
+      <div class="input-row">
+        <input type="text" id="fr-dec-in" class="inp-md" placeholder="e.g. 0.25" onkeydown="if(event.key==='Enter')frCheckDec()" />
+        <button class="btn btn-success" onclick="frCheckDec()">✓ Check</button>
+      </div>
+      <div class="feedback" id="fr-dec-fb"></div>
+    </div>
+
+    <hr class="divider">
+
+    <div>
+      <label class="bold">Percentage value (just the number, no % sign):</label>
+      <div class="input-row">
+        <input type="text" id="fr-pct-in" class="inp-md" placeholder="e.g. 25" onkeydown="if(event.key==='Enter')frCheckPct()" />
+        <span class="bold" style="font-size:1.2rem;">%</span>
+        <button class="btn btn-success" onclick="frCheckPct()">✓ Check</button>
+      </div>
+      <div class="feedback" id="fr-pct-fb"></div>
+    </div>
+  </div>
+
+  <!-- Simplification -->
+  <div class="card">
+    <div class="card-title">✂️ Simplification Challenge</div>
+    <div class="card-desc">Simplify the current fraction to its lowest terms. Find the HCF of numerator and denominator.</div>
+    <div class="input-row">
+      <input type="number" id="fr-sn" class="inp-sm" placeholder="top" style="text-align:center;" onkeydown="if(event.key==='Enter')frCheckSimp()" />
+      <span style="font-size:1.5rem; font-weight:900; color:var(--muted);">/</span>
+      <input type="number" id="fr-sd" class="inp-sm" placeholder="bottom" style="text-align:center;" onkeydown="if(event.key==='Enter')frCheckSimp()" />
+      <button class="btn btn-success" onclick="frCheckSimp()">✓ Check</button>
+      <button class="btn btn-hint" onclick="frHint()">💡 Hint</button>
+    </div>
+    <ul class="hint-list" id="fr-hints"></ul>
+    <div class="feedback" id="fr-simp-fb"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MODULE 3 · STANDARD FORM
+     ============================================================ -->
+<section class="module" id="mod-2">
+
+  <div class="progress-card">
+    <span class="prog-label">🔬 Standard Form</span>
+    <div class="prog-track"><div class="prog-fill" id="sf-bar"></div></div>
+    <span class="prog-count" id="sf-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-2">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Standard Form</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> Coefficient out of range — 12 × 10³ instead of 1.2 × 10⁴. The rule: <em>1 ≤ A &lt; 10, always.</em></div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Wrong sign on the power. For 0.003 students write 3 × 10³ instead of 3 × 10⁻³. Use the slider to show "less than 1 → negative power".</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> Counting decimal moves in the wrong direction. Emphasise: moving right = getting bigger = positive power.</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Use the slider live in class. Move it left and right, pausing to ask: "Did the power go up or down? Why?"</div>
+    </div>
+  </div>
+
+  <!-- Simulator -->
+  <div class="card">
+    <div class="card-title">🔬 Standard Form Simulator</div>
+    <div class="card-desc">Use the slider and coefficient input to explore how standard form connects to ordinary numbers. Watch the decimal point move!</div>
+
+    <div class="two-col" style="align-items:start;">
+      <div>
+        <div style="margin-bottom:12px;">
+          <label class="bold">Power of 10 — <span style="color:var(--red);" id="sf-pow-lbl">3</span></label>
+          <div class="slider-wrapper">
+            <input type="range" id="sf-slider" min="-6" max="9" value="3" oninput="sfSlider()">
+          </div>
+          <div class="slider-labels"><span>10⁻⁶</span><span>10⁰</span><span>10⁹</span></div>
+        </div>
+        <div>
+          <label class="bold">Coefficient A &nbsp;<span class="tag">1 ≤ A &lt; 10</span></label>
+          <div class="input-row">
+            <input type="number" id="sf-coeff" class="inp-sm" value="3.5" min="1" max="9.99" step="0.1" oninput="sfSlider()" />
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="sf-big" id="sf-std-disp">
+          <span class="coeff-part">3.5</span><span class="times-part"> × </span><span class="base-part">10</span><span class="pow-part">3</span>
+        </div>
+        <div style="text-align:center; font-size:0.82rem; color:var(--muted); margin-bottom:6px;">= ordinary number</div>
+        <div class="ordinary-display" id="sf-ord-disp">3,500</div>
+        <div class="dp-move-label" id="sf-dp-label">Decimal moves 3 places right</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Convert ordinary → SF -->
+  <div class="card">
+    <div class="card-title">📝 Challenge 1: Ordinary → Standard Form</div>
+    <div class="card-desc">Convert the number below into standard form. Remember: 1 ≤ A &lt; 10.</div>
+    <div class="problem-display" id="sf-ch1-disp">456,000</div>
+    <div class="input-row">
+      <input type="number" id="sf-a1" class="inp-sm" placeholder="A" step="0.001" onkeydown="if(event.key==='Enter')sfCheck1()" />
+      <span style="font-size:1.3rem; font-weight:700; font-family:var(--font-mono);">× 10</span>
+      <input type="number" id="sf-n1" class="inp-sm" placeholder="n" onkeydown="if(event.key==='Enter')sfCheck1()" />
+      <button class="btn btn-success" onclick="sfCheck1()">✓ Check</button>
+      <button class="btn btn-hint" onclick="sfHint1()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="sfNewCh1()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="sf-hints1"></ul>
+    <div class="feedback" id="sf-fb1"></div>
+  </div>
+
+  <!-- Convert SF → ordinary -->
+  <div class="card">
+    <div class="card-title">📝 Challenge 2: Standard Form → Ordinary</div>
+    <div class="card-desc">Write the standard form number below as an ordinary number.</div>
+    <div class="sf-big" id="sf-ch2-disp">2.7 × 10³</div>
+    <div class="input-row">
+      <input type="text" id="sf-a2" class="inp-lg" placeholder="Ordinary number" onkeydown="if(event.key==='Enter')sfCheck2()" />
+      <button class="btn btn-success" onclick="sfCheck2()">✓ Check</button>
+      <button class="btn btn-secondary" onclick="sfNewCh2()">↺ New</button>
+    </div>
+    <div class="feedback" id="sf-fb2"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MODULE 4 · RATIO CHALLENGE
+     ============================================================ -->
+<section class="module" id="mod-3">
+
+  <div class="progress-card">
+    <span class="prog-label">⚖️ Ratio Challenge</span>
+    <div class="prog-track"><div class="prog-fill" id="rt-bar"></div></div>
+    <span class="prog-count" id="rt-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-3">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Ratio Challenge</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> Adding parts to total instead of finding one part. Guided question: "How many parts total? What is ONE part worth?"</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Writing the ratio number as the answer (e.g., writing "3" instead of the actual share when ratio is 3:1).</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> "2:3 means two-thirds." Ratio 2:3 means 2 parts out of 5, not 2 out of 3. Always find total parts first.</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Use the colour-block visual — count the total blocks, then ask what one block is worth.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚖️ Scenario</div>
+    <div class="scenario-box" id="rt-scenario">Loading scenario…</div>
+    <div class="mt-12">
+      <div class="text-muted" style="margin-bottom:6px;">Parts visualised (one block = 1 part):</div>
+      <div class="ratio-parts-visual" id="rt-visual"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧩 Your Answers</div>
+    <div class="card-desc">Work out how much each person/item receives. Show your working step-by-step.</div>
+    <div id="rt-inputs"></div>
+    <div class="input-row mt-12">
+      <button class="btn btn-success" onclick="rtCheck()">✓ Check Answers</button>
+      <button class="btn btn-hint" onclick="rtHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="rtNew()">↺ New Challenge</button>
+    </div>
+    <ul class="hint-list" id="rt-hints"></ul>
+    <div class="feedback" id="rt-fb"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✂️ Simplify a Ratio</div>
+    <div class="card-desc">Enter any ratio and simplify it to its lowest terms (divide both parts by their HCF).</div>
+    <div class="input-row">
+      <input type="number" id="rt-r1" class="inp-sm" value="12" min="1" style="text-align:center;" />
+      <span style="font-size:1.5rem; font-weight:900; color:var(--muted);">:</span>
+      <input type="number" id="rt-r2" class="inp-sm" value="18" min="1" style="text-align:center;" />
+      <button class="btn btn-primary" onclick="rtSimplify()">Simplify</button>
+    </div>
+    <div class="feedback" id="rt-simp-fb"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MODULE 5 · ESTIMATION GAME
+     ============================================================ -->
+<section class="module" id="mod-4">
+
+  <div class="progress-card">
+    <span class="prog-label">🎯 Estimation Game</span>
+    <div class="prog-track"><div class="prog-fill" id="eg-bar"></div></div>
+    <span class="prog-count" id="eg-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-4">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Estimation Game</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> Rounding to nearest 10 when 1 significant figure is needed. E.g. 48.3 → 50 (nearest 10) but 1 sf = 50 too here — ask: what about 312? 1 sf = 300, not 310.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Computing the exact answer and calling it an estimate. Emphasise: round FIRST, then calculate with the rounded values.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> Rounding 2.5 down to 2. At 0.5 we always round UP. "Halfway? Round up!" Enforce this in the rounding practice.</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Make estimation a two-step process visible on page: (1) round each number, (2) calculate with rounded numbers. Never skip step 1.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 Estimation Challenge</div>
+    <div class="card-desc">Round each number to <strong>1 significant figure</strong>, then use those rounded values to estimate the answer.</div>
+    <div class="problem-display" id="eg-problem">Loading…</div>
+
+    <div style="background:var(--slate); border-radius:10px; padding:16px; margin-bottom:14px;">
+      <div class="bold" style="margin-bottom:10px;">Step 1 — Round each number to 1 significant figure:</div>
+      <div id="eg-round-rows"></div>
+    </div>
+
+    <div style="background:var(--slate); border-radius:10px; padding:16px;">
+      <div class="bold" style="margin-bottom:10px;">Step 2 — Calculate with your rounded numbers:</div>
+      <div class="input-row">
+        <input type="number" id="eg-est-in" class="inp-md" placeholder="Your estimate" onkeydown="if(event.key==='Enter')egCheck()" />
+        <button class="btn btn-success" onclick="egCheck()">✓ Submit</button>
+        <button class="btn btn-hint" onclick="egHint()">💡 Hint</button>
+        <button class="btn btn-secondary" onclick="egNew()">↺ New Problem</button>
+      </div>
+    </div>
+    <ul class="hint-list" id="eg-hints"></ul>
+    <div class="feedback" id="eg-fb"></div>
+    <div id="eg-compare-wrap" style="display:none;">
+      <table class="compare-table" id="eg-table">
+        <thead>
+          <tr>
+            <th>Original</th><th>Rounded (1 sf)</th><th>Your Estimate</th><th>Exact Answer</th><th>Accuracy</th>
+          </tr>
+        </thead>
+        <tbody id="eg-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Rounding Practice -->
+  <div class="card">
+    <div class="card-title">🔢 Rounding Practice</div>
+    <div class="card-desc">Practise rounding to different degrees of accuracy — decimal places and significant figures.</div>
+    <div class="problem-display" id="rnd-problem" style="font-size:1.1rem; padding:16px;">Loading…</div>
+    <div class="input-row">
+      <input type="number" id="rnd-in" class="inp-md" placeholder="Rounded answer" step="any" onkeydown="if(event.key==='Enter')rndCheck()" />
+      <button class="btn btn-success" onclick="rndCheck()">✓ Check</button>
+      <button class="btn btn-secondary" onclick="rndNew()">↺ New</button>
+    </div>
+    <div class="feedback" id="rnd-fb"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+'use strict';
+
+// ================================================================
+// GLOBAL STATE
+// ================================================================
+let teacherMode = false;
+const scores = { pf: 0, fr: 0, sf: 0, rt: 0, eg: 0 };
+
+// ================================================================
+// UTILITIES
+// ================================================================
+function gcd(a, b) {
+  a = Math.abs(Math.round(a)); b = Math.abs(Math.round(b));
+  while (b) { let t = b; b = a % b; a = t; } return a;
+}
+function lcm(a, b) { return Math.abs(a * b) / gcd(a, b); }
+
+function isPrime(n) {
+  if (n < 2) return false; if (n === 2) return true;
+  if (n % 2 === 0) return false;
+  for (let i = 3; i <= Math.sqrt(n); i += 2) if (n % i === 0) return false;
+  return true;
+}
+function smallestPF(n) {
+  if (n < 2) return n;
+  for (let i = 2; i <= Math.sqrt(n); i++) if (n % i === 0) return i;
+  return n;
+}
+function primeFactors(n) {
+  const f = []; let d = 2;
+  while (d * d <= n) { while (n % d === 0) { f.push(d); n /= d; } d++; }
+  if (n > 1) f.push(n); return f;
+}
+function getFactors(n) {
+  const f = [];
+  for (let i = 1; i <= n; i++) if (n % i === 0) f.push(i);
+  return f;
+}
+function roundSF(n, sf) {
+  if (n === 0) return 0;
+  const m = Math.floor(Math.log10(Math.abs(n)));
+  const k = Math.pow(10, sf - 1 - m);
+  return Math.round(n * k) / k;
+}
+function isRecurring(num, den) {
+  const g = gcd(num, den); let d = den / g;
+  while (d % 2 === 0) d /= 2;
+  while (d % 5 === 0) d /= 5;
+  return d !== 1;
+}
+function niceNumber(n) {
+  if (Math.abs(n) >= 1e9 || (Math.abs(n) < 0.0001 && n !== 0)) return n.toExponential(4);
+  if (Number.isInteger(n)) return n.toLocaleString('en-GB');
+  return parseFloat(n.toPrecision(7)).toLocaleString('en-GB');
+}
+
+// ================================================================
+// FEEDBACK
+// ================================================================
+function fb(id, msg, type) {
+  const el = document.getElementById(id);
+  el.className = 'feedback fb-' + type;
+  el.innerHTML = msg;
+}
+function fbHide(id) {
+  const el = document.getElementById(id);
+  el.className = 'feedback'; el.innerHTML = '';
+}
+function addHint(listId, msg) {
+  const li = document.createElement('li');
+  li.className = 'hint-item revealed';
+  li.innerHTML = '💡 ' + msg;
+  document.getElementById(listId).appendChild(li);
+}
+function clearHints(listId) { document.getElementById(listId).innerHTML = ''; }
+
+// ================================================================
+// NAVIGATION
+// ================================================================
+function showModule(idx) {
+  document.querySelectorAll('.module').forEach((m, i) => m.classList.toggle('active', i === idx));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+  updateTPanels();
+}
+
+// ================================================================
+// TEACHER MODE
+// ================================================================
+function toggleTeacherMode() {
+  teacherMode = !teacherMode;
+  const btn = document.getElementById('teacherToggle');
+  btn.textContent = teacherMode ? '👨‍🏫 Teacher Mode: ON' : '👨‍🏫 Teacher Mode: OFF';
+  btn.className = teacherMode ? 'tm-on' : '';
+  updateTPanels();
+}
+function updateTPanels() {
+  document.querySelectorAll('.teacher-panel').forEach(p => {
+    p.classList.toggle('tp-visible', teacherMode);
+  });
+}
+
+// ================================================================
+// PROGRESS
+// ================================================================
+function addScore(mod, pts) {
+  scores[mod] += pts;
+  const pct = Math.min(100, scores[mod]);
+  document.getElementById(mod + '-bar').style.width = pct + '%';
+  document.getElementById(mod + '-score').textContent = scores[mod] + ' pts';
+}
+
+// ================================================================
+// ================================================================
+// MODULE 1 · PRIME FACTOR LAB
+// ================================================================
+// ================================================================
+let pf = { orig: 0, remaining: 0, factors: [], tree: [], hi: 0, done: false };
+
+function pfStart() {
+  const n = parseInt(document.getElementById('pf-input').value);
+  if (isNaN(n) || n < 2 || n > 500) { alert('Please enter 2–500.'); return; }
+  pf = { orig: n, remaining: n, factors: [], tree: [], hi: 0, done: false };
+  document.getElementById('pf-workspace').style.display = 'block';
+  document.getElementById('pf-result-card').style.display = 'none';
+  document.getElementById('pf-ext').style.display = 'none';
+  document.getElementById('pf-primes-row').style.display = 'none';
+  document.getElementById('pf-tree').textContent = '  ' + n;
+  clearHints('pf-hints'); fbHide('pf-fb');
+  pfRenderSteps(); pfUpdatePrompt();
+}
+
+function pfReset() {
+  document.getElementById('pf-workspace').style.display = 'none';
+  document.getElementById('pf-input').value = 60;
+}
+
+function pfRenderSteps() {
+  const row = document.getElementById('pf-steps');
+  row.innerHTML = '';
+  pf.factors.forEach(f => {
+    const d = document.createElement('div');
+    d.className = 'step-pip done'; d.title = 'Prime: ' + f;
+    d.textContent = f; row.appendChild(d);
+  });
+  if (!pf.done) {
+    const d = document.createElement('div');
+    d.className = 'step-pip current'; d.textContent = '?';
+    row.appendChild(d);
+  }
+}
+
+function pfUpdatePrompt() {
+  const el = document.getElementById('pf-prompt');
+  if (pf.done) { el.style.display = 'none'; document.getElementById('pf-input-row').style.display = 'none'; return; }
+  el.style.display = 'block';
+  if (isPrime(pf.remaining)) {
+    // Auto-collect the last prime
+    pf.factors.push(pf.remaining);
+    pf.tree.push(`  ${'  '.repeat(pf.factors.length - 1)}↘ ${pf.remaining} ← prime`);
+    pf.remaining = 1;
+    pfBuildTree();
+    pfComplete();
+  } else {
+    el.textContent = `Find a prime factor of ${pf.remaining}`;
+  }
+}
+
+function pfCheckFactor() {
+  if (pf.done) return;
+  const f = parseInt(document.getElementById('pf-f').value);
+  document.getElementById('pf-f').value = '';
+
+  if (isNaN(f)) { fb('pf-fb', '⚠️ Please enter a number.', 'hint'); return; }
+
+  // Misconception: 1 is prime
+  if (f === 1) {
+    fb('pf-fb', '🤔 <strong>1 is not a prime number.</strong> A prime has exactly two different factors: 1 and itself. The number 1 only has one factor. Try 2, 3, 5, 7…', 'wrong'); return;
+  }
+  // Not a factor
+  if (pf.remaining % f !== 0) {
+    fb('pf-fb', `❌ ${f} does not divide ${pf.remaining} exactly. Check: does ${pf.remaining} ÷ ${f} give a whole number with no remainder?`, 'wrong'); return;
+  }
+  // Factor but composite
+  if (!isPrime(f)) {
+    fb('pf-fb', `⚠️ ${f} divides ${pf.remaining}, but it's <strong>not prime</strong> — it can be split further! For example, ${f} = ${smallestPF(f)} × ${f / smallestPF(f)}. You need <em>prime</em> factors.`, 'hint'); return;
+  }
+
+  // Correct prime factor!
+  pf.factors.push(f);
+  pf.remaining = pf.remaining / f;
+  pf.hi = 0;
+  clearHints('pf-hints');
+  pfBuildTree();
+
+  const nextMsg = isPrime(pf.remaining)
+    ? `✅ Correct! ${f} is prime. The remaining factor (${pf.remaining}) is also prime — it will be added automatically.`
+    : `✅ Correct! ${f} is a prime factor. Now factorise <strong>${pf.remaining}</strong>.`;
+  fb('pf-fb', nextMsg, 'correct');
+  pfRenderSteps();
+  pfUpdatePrompt();
+
+  // Show bubbles
+  document.getElementById('pf-primes-row').style.display = 'block';
+  document.getElementById('pf-bubbles').innerHTML = pf.factors.map(f2 =>
+    `<span class="prime-bubble">${f2}</span>`).join('');
+
+  addScore('pf', 5);
+}
+
+function pfBuildTree() {
+  const indent = n => '  '.repeat(n);
+  let lines = [`${indent(0)}${pf.orig}`];
+  let cur = pf.orig;
+  pf.factors.forEach((f, i) => {
+    const rest = cur / f;
+    if (rest === 1 || isPrime(rest)) {
+      lines.push(`${indent(i + 1)}├─ ${f} (prime)`);
+      if (rest !== 1 && isPrime(rest)) lines.push(`${indent(i + 1)}└─ ${rest} (prime)`);
+    } else {
+      lines.push(`${indent(i + 1)}├─ ${f} (prime)`);
+      lines.push(`${indent(i + 1)}└─ ${rest} ← factor next`);
+    }
+    cur = rest;
+  });
+  document.getElementById('pf-tree').textContent = lines.join('\n');
+}
+
+function pfComplete() {
+  pf.done = true;
+  document.getElementById('pf-input-row').style.display = 'none';
+  document.getElementById('pf-prompt').style.display = 'none';
+
+  // Build expression with powers
+  const count = {};
+  pf.factors.forEach(f => count[f] = (count[f] || 0) + 1);
+  const exprPlain = Object.entries(count).sort((a,b) => a[0]-b[0])
+    .map(([b, e]) => e > 1 ? `${b}^${e}` : b).join(' × ');
+  const exprHtml = Object.entries(count).sort((a,b) => a[0]-b[0])
+    .map(([b, e]) => e > 1 ? `${b}<sup>${e}</sup>` : b).join(' × ');
+
+  document.getElementById('pf-expression').innerHTML =
+    `${pf.orig} = ${exprHtml}`;
+
+  document.getElementById('pf-complete-msg').innerHTML =
+    `Prime factors: ${pf.factors.join(' × ')} = ${pf.orig}<br/>
+     Written in index form: <strong>${exprHtml}</strong>`;
+
+  document.getElementById('pf-result-card').style.display = 'block';
+  document.getElementById('pf-ext').style.display = 'block';
+  pfRenderSteps();
+  addScore('pf', 10);
+}
+
+function pfHint() {
+  if (pf.done) return;
+  const n = pf.remaining;
+  const hints = [
+    `Try the smallest prime first: Is <strong>${n}</strong> even? (divisible by 2?)`,
+    `Not by 2? Try 3: add the digits of ${n}. If the digit sum is divisible by 3, so is ${n}.`,
+    `Not 2 or 3? Try 5: does ${n} end in 0 or 5?`,
+    `You only need to check primes up to √${n} ≈ ${Math.ceil(Math.sqrt(n))}. The smallest prime factor of ${n} is <strong>${smallestPF(n)}</strong>.`,
+  ];
+  if (pf.hi < hints.length) { addHint('pf-hints', hints[pf.hi++]); }
+}
+
+function pfHCFLCM() {
+  const a = pf.orig;
+  const b = parseInt(document.getElementById('pf-n2').value);
+  if (isNaN(b) || b < 2 || b > 500) { fb('pf-hcf-fb', '⚠️ Enter a valid number 2–500.', 'hint'); return; }
+  const h = gcd(a, b);
+  const l = lcm(a, b);
+  const fa = primeFactors(a), fb2 = primeFactors(b);
+  fb('pf-hcf-fb',
+    `<strong>${a}</strong> = ${fa.join(' × ')}<br/>
+     <strong>${b}</strong> = ${fb2.join(' × ')}<br/><hr style="margin:8px 0; border-color:#bfdbfe;">
+     <strong>HCF = ${h}</strong> — use the <em>lowest power</em> of each common prime.<br/>
+     <strong>LCM = ${l}</strong> — use the <em>highest power</em> of each prime from either number.`,
+    'info');
+  addScore('pf', 5);
+}
+
+// ================================================================
+// ================================================================
+// MODULE 2 · FRACTION BUILDER
+// ================================================================
+// ================================================================
+let frHi = 0;
+
+function frLive() {
+  const num = parseInt(document.getElementById('fr-num').value) || 0;
+  const den = parseInt(document.getElementById('fr-den').value) || 1;
+  if (den === 0) return;
+
+  const val = num / den;
+  const pct = Math.min(100, Math.max(0, val * 100));
+  const recurring = isRecurring(num, den);
+
+  // Segments
+  const segs = document.getElementById('fr-segs');
+  segs.innerHTML = '';
+  const maxSegs = Math.min(den, 30);
+  for (let i = 0; i < maxSegs; i++) {
+    const d = document.createElement('div');
+    d.className = 'seg-unit' + (i < num ? ' seg-filled' : '');
+    segs.appendChild(d);
+  }
+  if (den > 30) {
+    segs.innerHTML = '<span style="padding:12px; color:var(--muted); font-size:0.8rem; font-style:italic;">Denominator too large for segment view</span>';
+  }
+
+  // Percent bar
+  const pBar = document.getElementById('fr-pbar');
+  pBar.style.width = Math.min(100, pct) + '%';
+  pBar.textContent = pct.toFixed(1) + '%';
+
+  // Equivalent boxes
+  document.getElementById('fr-ev-frac').textContent = `${num}/${den}`;
+  document.getElementById('fr-ev-dec').textContent = recurring ? val.toFixed(6) + '…' : val.toFixed(4).replace(/\.?0+$/, '');
+  document.getElementById('fr-ev-pct').textContent = pct.toFixed(2).replace(/\.?0+$/, '') + '%';
+
+  // Recurring notice
+  const rmsg = document.getElementById('fr-recurring-msg');
+  if (recurring && den > 1) {
+    rmsg.style.display = 'block';
+    rmsg.innerHTML = `⚠️ <strong>${num}/${den} is a recurring decimal.</strong> The decimal never terminates: ${val.toFixed(8)}…<br/>
+      A common mistake: writing ${(Math.floor(val * 10) / 10)} instead of ${val.toFixed(6)}… — always check by multiplying back by ${den}!`;
+  } else {
+    rmsg.style.display = 'none';
+  }
+
+  fbHide('fr-dec-fb'); fbHide('fr-pct-fb'); fbHide('fr-simp-fb');
+  frHi = 0; clearHints('fr-hints');
+}
+
+function frCheckDec() {
+  const num = parseInt(document.getElementById('fr-num').value);
+  const den = parseInt(document.getElementById('fr-den').value);
+  const raw = document.getElementById('fr-dec-in').value.trim();
+  const student = parseFloat(raw);
+  const exact = num / den;
+  const recurring = isRecurring(num, den);
+
+  if (isNaN(student)) { fb('fr-dec-fb', '⚠️ Please enter a decimal number.', 'hint'); return; }
+
+  // Misconception: entered percentage
+  if (Math.abs(student - exact * 100) < 0.5 && student > 1 && exact < 1) {
+    fb('fr-dec-fb', `⚠️ That looks like the <strong>percentage</strong> value (${student}%). For the decimal, divide by 100 → ${(student / 100).toFixed(4)}`, 'wrong'); return;
+  }
+  // Misconception: recurring decimal truncated
+  if (recurring && Math.abs(student - exact) > 0.0009 && Math.abs(student * den - num) < 0.6) {
+    fb('fr-dec-fb',
+      `🤔 Close — but ${num}/${den} is a <strong>recurring decimal</strong>!<br/>
+       Check: ${student} × ${den} = ${(student * den).toFixed(4)} ≠ ${num}.<br/>
+       The correct decimal is ${exact.toFixed(8)}… (the ${den > 9 ? 'digits repeat' : 'digit repeats'}).`,
+      'wrong'); return;
+  }
+  // Tolerance: allow 3 sig figs for recurring
+  const tol = recurring ? 0.001 : 0.00001;
+  if (Math.abs(student - exact) <= tol) {
+    fb('fr-dec-fb', `✅ Correct! ${num}/${den} = ${recurring ? exact.toFixed(6) + '…' : exact}`, 'correct');
+    addScore('fr', 5);
+  } else {
+    fb('fr-dec-fb', `❌ Not quite. To convert: divide ${num} ÷ ${den}. Ask: how many times does ${den} go into ${num}?`, 'wrong');
+  }
+}
+
+function frCheckPct() {
+  const num = parseInt(document.getElementById('fr-num').value);
+  const den = parseInt(document.getElementById('fr-den').value);
+  const student = parseFloat(document.getElementById('fr-pct-in').value);
+  const exact = (num / den) * 100;
+
+  if (isNaN(student)) { fb('fr-pct-fb', '⚠️ Enter a number (without % sign).', 'hint'); return; }
+  // Misconception: multiply by 10 not 100
+  if (Math.abs(student - exact / 10) < 0.2) {
+    fb('fr-pct-fb', `⚠️ You may have multiplied by <strong>10</strong> instead of <strong>100</strong>. Percentage means "out of 100", so always multiply the decimal by 100.`, 'wrong'); return;
+  }
+  if (Math.abs(student - exact) < 0.05) {
+    fb('fr-pct-fb', `✅ Correct! ${num}/${den} = ${exact.toFixed(2)}%`, 'correct');
+    addScore('fr', 5);
+  } else {
+    fb('fr-pct-fb', `❌ Not quite. Convert to decimal first: ${num}/${den} = ${(num/den).toFixed(4)}. Then × 100 = ${exact.toFixed(2)}%.`, 'wrong');
+  }
+}
+
+function frCheckSimp() {
+  const num = parseInt(document.getElementById('fr-num').value);
+  const den = parseInt(document.getElementById('fr-den').value);
+  const sn = parseInt(document.getElementById('fr-sn').value);
+  const sd = parseInt(document.getElementById('fr-sd').value);
+
+  if (isNaN(sn) || isNaN(sd) || sd === 0) { fb('fr-simp-fb', '⚠️ Fill both boxes.', 'hint'); return; }
+
+  const g = gcd(num, den);
+  const cn = num / g, cd = den / g;
+
+  // Equivalent but not fully simplified
+  if (sn * den === sd * num && gcd(sn, sd) > 1) {
+    fb('fr-simp-fb',
+      `⚠️ ${sn}/${sd} is equivalent to ${num}/${den}, but <strong>not fully simplified</strong>! Both ${sn} and ${sd} share a common factor of ${gcd(sn, sd)}. Divide both by ${gcd(sn, sd)} again.`,
+      'hint'); return;
+  }
+  // Divided only numerator
+  if (sn === cn && sd === den && g > 1) {
+    fb('fr-simp-fb', `⚠️ You divided the numerator by ${g}, but forgot the denominator! Both must be divided by the same number.`, 'hint'); return;
+  }
+  // Correct
+  if (sn === cn && sd === cd) {
+    fb('fr-simp-fb', `✅ Correct! HCF(${num}, ${den}) = ${g}. Dividing both by ${g} gives ${cn}/${cd}.`, 'correct');
+    addScore('fr', 5);
+  } else if (sn * den !== sd * num) {
+    fb('fr-simp-fb', `❌ ${sn}/${sd} is not equivalent to ${num}/${den}. You must divide both top and bottom by the <em>same</em> number.`, 'wrong');
+  } else {
+    fb('fr-simp-fb', `❌ Not the simplest form yet. The HCF of ${num} and ${den} is ${g}. Divide both by ${g}.`, 'wrong');
+  }
+}
+
+function frHint() {
+  const num = parseInt(document.getElementById('fr-num').value);
+  const den = parseInt(document.getElementById('fr-den').value);
+  const g = gcd(num, den);
+  const hints = [
+    `Find the HCF (Highest Common Factor) of ${num} and ${den}.`,
+    `Factors of ${num}: ${getFactors(num).join(', ')}`,
+    `Factors of ${den}: ${getFactors(den).join(', ')}`,
+    `The HCF is <strong>${g}</strong>. Divide both numerator and denominator by ${g}: ${num}/${g} = ${num/g}, ${den}/${g} = ${den/g}.`,
+  ];
+  if (frHi < hints.length) addHint('fr-hints', hints[frHi++]);
+}
+
+// ================================================================
+// ================================================================
+// MODULE 3 · STANDARD FORM
+// ================================================================
+// ================================================================
+let sfCh1 = { coeff: 0, pow: 0 };
+let sfCh2 = { coeff: 0, pow: 0 };
+let sfHi1 = 0;
+
+const superMap = {'-9':'⁻⁹','-8':'⁻⁸','-7':'⁻⁷','-6':'⁻⁶','-5':'⁻⁵','-4':'⁻⁴','-3':'⁻³','-2':'⁻²','-1':'⁻¹',
+  '0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','10':'¹⁰'};
+function sup(n) { return superMap[n.toString()] || `^${n}`; }
+
+function sfSlider() {
+  let pow = parseInt(document.getElementById('sf-slider').value);
+  let coeff = parseFloat(document.getElementById('sf-coeff').value);
+  if (isNaN(coeff)) coeff = 1;
+  coeff = Math.max(1, Math.min(9.99, coeff));
+
+  document.getElementById('sf-pow-lbl').textContent = pow;
+  document.getElementById('sf-std-disp').innerHTML =
+    `<span class="coeff-part">${coeff}</span><span class="times-part"> × </span><span class="base-part">10</span><span class="pow-part">${pow}</span>`;
+
+  const val = coeff * Math.pow(10, pow);
+  document.getElementById('sf-ord-disp').textContent = niceNumber(val);
+
+  const dir = pow >= 0 ? 'right' : 'left';
+  const abs = Math.abs(pow);
+  document.getElementById('sf-dp-label').textContent =
+    `Decimal point moves ${abs} place${abs !== 1 ? 's' : ''} to the ${dir}`;
+}
+
+function sfBuildStdDisp(c, p) {
+  return `<span class="coeff-part">${c}</span><span class="times-part"> × </span><span class="base-part">10</span><span class="pow-part">${p}</span>`;
+}
+
+function sfNewCh1() {
+  const pows = [-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7];
+  sfCh1.pow = pows[Math.floor(Math.random() * pows.length)];
+  sfCh1.coeff = parseFloat((Math.random() * 8.9 + 1.0).toFixed(2));
+  sfHi1 = 0; clearHints('sf-hints1'); fbHide('sf-fb1');
+  document.getElementById('sf-a1').value = '';
+  document.getElementById('sf-n1').value = '';
+
+  const n = sfCh1.coeff * Math.pow(10, sfCh1.pow);
+  let disp;
+  if (Math.abs(n) >= 0.001 && Math.abs(n) < 10000000) {
+    disp = parseFloat(n.toPrecision(5)).toString();
+    if (Math.abs(n) >= 1000) disp = parseFloat(disp).toLocaleString('en-GB');
+  } else {
+    // Display as ordinary without standard form look
+    disp = n.toFixed(Math.max(0, -sfCh1.pow + 2));
+  }
+  document.getElementById('sf-ch1-disp').textContent = disp;
+}
+
+function sfCheck1() {
+  const aIn = parseFloat(document.getElementById('sf-a1').value);
+  const nIn = parseInt(document.getElementById('sf-n1').value);
+  if (isNaN(aIn) || isNaN(nIn)) { fb('sf-fb1', '⚠️ Enter both A and n.', 'hint'); return; }
+
+  // Misconception: A out of range
+  if (aIn < 1 || aIn >= 10) {
+    fb('sf-fb1',
+      `⚠️ In standard form, the coefficient A must be <strong>1 ≤ A &lt; 10</strong>.<br/>
+       You entered A = ${aIn}. ${aIn >= 10 ? 'Move the decimal left and increase n by 1.' : 'Move the decimal right and decrease n by 1.'}`,
+      'wrong'); return;
+  }
+
+  const student = aIn * Math.pow(10, nIn);
+  const exact = sfCh1.coeff * Math.pow(10, sfCh1.pow);
+  const tol = Math.abs(exact) * 0.005 + 1e-10;
+
+  if (Math.abs(student - exact) <= tol) {
+    fb('sf-fb1', `✅ Correct! The answer is ${aIn} × 10${sup(nIn)}`, 'correct');
+    sfHi1 = 0; addScore('sf', 10);
+  } else {
+    // Check wrong sign
+    const wrongSign = aIn * Math.pow(10, -nIn);
+    if (Math.abs(wrongSign - exact) <= tol) {
+      fb('sf-fb1', `⚠️ Your coefficient is right, but the <strong>sign of the power is wrong</strong>! ${exact < 1 ? 'Numbers smaller than 1 need a negative power.' : 'This number is large, so the power is positive.'}`, 'wrong');
+    } else {
+      fb('sf-fb1', `❌ Not quite. ${aIn} × 10${sup(nIn)} = ${niceNumber(student)}, but the number is ${niceNumber(exact)}. Recount the decimal moves.`, 'wrong');
+    }
+  }
+}
+
+function sfHint1() {
+  const n = sfCh1.coeff * Math.pow(10, sfCh1.pow);
+  const log = Math.log10(Math.abs(n));
+  const p = Math.floor(log);
+  const c = n / Math.pow(10, p);
+  const hints = [
+    `Step 1: Find where the decimal goes so A is between 1 and 10.`,
+    `Step 2: Count how many places the decimal moves. Right → positive power. Left → negative power.`,
+    `Step 3: The correct A is approximately ${c.toFixed(3)}. How many places did you move?`,
+    `Full answer: ${c.toFixed(3)} × 10${sup(p)}`,
+  ];
+  if (sfHi1 < hints.length) addHint('sf-hints1', hints[sfHi1++]);
+}
+
+function sfNewCh2() {
+  const pows = [-5,-4,-3,-2,-1,0,1,2,3,4,5];
+  sfCh2.pow = pows[Math.floor(Math.random() * pows.length)];
+  sfCh2.coeff = parseFloat((Math.random() * 8.9 + 1.0).toFixed(1));
+  document.getElementById('sf-a2').value = '';
+  fbHide('sf-fb2');
+  document.getElementById('sf-ch2-disp').innerHTML = sfBuildStdDisp(sfCh2.coeff, sfCh2.pow);
+}
+
+function sfCheck2() {
+  const raw = document.getElementById('sf-a2').value.trim().replace(/,/g, '');
+  const student = parseFloat(raw);
+  const exact = sfCh2.coeff * Math.pow(10, sfCh2.pow);
+  if (isNaN(student)) { fb('sf-fb2', '⚠️ Please enter a number.', 'hint'); return; }
+
+  const tol = Math.abs(exact) * 0.01 + 1e-12;
+  if (Math.abs(student - exact) <= tol) {
+    fb('sf-fb2', `✅ Correct! ${sfCh2.coeff} × 10${sup(sfCh2.pow)} = ${niceNumber(exact)}`, 'correct');
+    addScore('sf', 5);
+  } else {
+    const wrongDir = sfCh2.coeff * Math.pow(10, -sfCh2.pow);
+    if (Math.abs(student - wrongDir) < Math.abs(wrongDir) * 0.02 + 1e-10) {
+      fb('sf-fb2', `⚠️ You moved the decimal in the <strong>wrong direction</strong>! Negative power → small number (move left). Positive power → large number (move right).`, 'wrong');
+    } else {
+      fb('sf-fb2', `❌ Not quite. Move the decimal ${Math.abs(sfCh2.pow)} places to the ${sfCh2.pow >= 0 ? 'right' : 'left'}. Answer: ${niceNumber(exact)}`, 'wrong');
+    }
+  }
+}
+
+// ================================================================
+// ================================================================
+// MODULE 4 · RATIO CHALLENGE
+// ================================================================
+// ================================================================
+const ratioScenarios = [
+  { emoji:'🍰', title:'Recipe', context:'A cake recipe uses flour and sugar in the ratio <strong>3 : 1</strong>. Total ingredients: <strong>240 g</strong>.',
+    ratio:[3,1], total:240, unit:'g', parts:['Flour','Sugar'], colors:['#3b82f6','#f59e0b'] },
+  { emoji:'💰', title:'Prize Money', context:'Three friends share prize money in the ratio <strong>2 : 3 : 5</strong>. Total prize: <strong>£500</strong>.',
+    ratio:[2,3,5], total:500, unit:'£', parts:['Friend A','Friend B','Friend C'], colors:['#3b82f6','#10b981','#8b5cf6'] },
+  { emoji:'🎨', title:'Paint Mixing', context:'Blue and yellow paint are mixed in the ratio <strong>5 : 2</strong>. Total paint needed: <strong>350 ml</strong>.',
+    ratio:[5,2], total:350, unit:'ml', parts:['Blue paint','Yellow paint'], colors:['#3b82f6','#fbbf24'] },
+  { emoji:'🏫', title:'Class', context:'Boys and girls in a class are in the ratio <strong>3 : 4</strong>. Total students: <strong>35</strong>.',
+    ratio:[3,4], total:35, unit:'students', parts:['Boys','Girls'], colors:['#6366f1','#ec4899'] },
+  { emoji:'🧪', title:'Solution', context:'A chemical solution uses water, acid, and base in ratio <strong>10 : 3 : 2</strong>. Total volume: <strong>450 ml</strong>.',
+    ratio:[10,3,2], total:450, unit:'ml', parts:['Water','Acid','Base'], colors:['#06b6d4','#ef4444','#a78bfa'] },
+  { emoji:'🏃', title:'Athletics', context:'Training time is split between running, rest, and warm-up in ratio <strong>5 : 2 : 1</strong>. Total time: <strong>120 minutes</strong>.',
+    ratio:[5,2,1], total:120, unit:'min', parts:['Running','Rest','Warm-up'], colors:['#16a34a','#64748b','#f59e0b'] },
+];
+
+let rt = null, rtHi = 0;
+
+function rtNew() {
+  rt = ratioScenarios[Math.floor(Math.random() * ratioScenarios.length)];
+  rtHi = 0; clearHints('rt-hints'); fbHide('rt-fb');
+
+  document.getElementById('rt-scenario').innerHTML =
+    `<span style="font-size:1.5rem;">${rt.emoji}</span>
+     <strong style="font-size:1.05rem;">${rt.title}</strong><br/>
+     <span>${rt.context}</span><br/>
+     <span class="mono bold" style="font-size:1.1rem;">Ratio: ${rt.ratio.join(' : ')} &nbsp;|&nbsp; Total: ${rt.total} ${rt.unit}</span>`;
+
+  // Visual blocks
+  const vis = document.getElementById('rt-visual');
+  vis.innerHTML = '';
+  const totalParts = rt.ratio.reduce((a,b) => a+b, 0);
+  rt.ratio.forEach((r, i) => {
+    for (let j = 0; j < r; j++) {
+      const bl = document.createElement('div');
+      bl.className = 'ratio-block';
+      bl.style.background = rt.colors[i];
+      bl.title = `${rt.parts[i]} (${r} part${r>1?'s':''})`;
+      vis.appendChild(bl);
+    }
+  });
+
+  // Input rows
+  const inp = document.getElementById('rt-inputs');
+  inp.innerHTML = rt.parts.map((p, i) => `
+    <div class="ratio-answer-row">
+      <div class="ratio-part-label">
+        <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${rt.colors[i]};margin-right:6px;vertical-align:middle;"></span>
+        ${p}:
+      </div>
+      <input type="number" id="rt-ans-${i}" class="inp-sm" placeholder="0" onkeydown="if(event.key==='Enter')rtCheck()" />
+      <span class="text-muted">${rt.unit}</span>
+    </div>
+  `).join('');
+}
+
+function rtCheck() {
+  if (!rt) return;
+  const totalParts = rt.ratio.reduce((a,b)=>a+b,0);
+  const onePart = rt.total / totalParts;
+  const correct = rt.ratio.map(r => r * onePart);
+
+  let msgs = [], allOk = true, sum = 0;
+  for (let i = 0; i < rt.parts.length; i++) {
+    const v = parseFloat(document.getElementById(`rt-ans-${i}`).value);
+    if (isNaN(v)) { allOk = false; msgs.push(`⚠️ ${rt.parts[i]}: no answer`); continue; }
+    sum += v;
+    if (Math.abs(v - correct[i]) < 0.05) {
+      msgs.push(`✅ ${rt.parts[i]}: ${v} ${rt.unit}`);
+    } else {
+      allOk = false;
+      if (v === rt.ratio[i]) {
+        msgs.push(`❌ ${rt.parts[i]}: you wrote the <em>ratio number</em> (${v}), not the actual share. One part = ${onePart.toFixed(3)}.`);
+      } else if (Math.abs(v - rt.total / rt.parts.length) < 0.05) {
+        msgs.push(`❌ ${rt.parts[i]}: you divided equally (${v}). Ratio means <em>proportional</em>, not equal!`);
+      } else {
+        msgs.push(`❌ ${rt.parts[i]}: got ${v}, expected ${correct[i].toFixed(2)}`);
+      }
+    }
+  }
+
+  if (Math.abs(sum - rt.total) > 0.1 && sum > 0) {
+    msgs.push(`⚠️ Your values total ${sum.toFixed(2)}, but should be ${rt.total}. Check your arithmetic!`);
+    allOk = false;
+  }
+
+  const type = allOk ? 'correct' : 'wrong';
+  const extra = allOk
+    ? `<br/><em>Method: Total parts = ${totalParts}. One part = ${rt.total} ÷ ${totalParts} = ${onePart.toFixed(3)} ${rt.unit}</em>`
+    : '';
+  fb('rt-fb', msgs.join('<br/>') + extra, type);
+  if (allOk) addScore('rt', 10);
+}
+
+function rtHint() {
+  if (!rt) return;
+  const tp = rt.ratio.reduce((a,b)=>a+b,0);
+  const op = rt.total / tp;
+  const hints = [
+    `Step 1: Count the total number of parts. ${rt.ratio.join(' + ')} = <strong>${tp} parts</strong>`,
+    `Step 2: Find the value of ONE part. One part = ${rt.total} ÷ ${tp} = <strong>${op.toFixed(4)} ${rt.unit}</strong>`,
+    `Step 3: Multiply one part by each ratio number: ${rt.parts.map((p,i)=>`${p} = ${rt.ratio[i]} × ${op.toFixed(3)}`).join(' | ')}`,
+    `Answers: ${rt.parts.map((p,i)=>`${p} = ${(rt.ratio[i]*op).toFixed(2)}`).join(' | ')} ${rt.unit}`,
+  ];
+  if (rtHi < hints.length) addHint('rt-hints', hints[rtHi++]);
+}
+
+function rtSimplify() {
+  const r1 = parseInt(document.getElementById('rt-r1').value);
+  const r2 = parseInt(document.getElementById('rt-r2').value);
+  if (isNaN(r1)||isNaN(r2)||r1<=0||r2<=0) { fb('rt-simp-fb','⚠️ Enter two positive integers.','hint'); return; }
+  const g = gcd(r1,r2);
+  fb('rt-simp-fb',
+    `HCF(${r1}, ${r2}) = ${g}<br/>
+     ${r1} ÷ ${g} = ${r1/g} &nbsp;|&nbsp; ${r2} ÷ ${g} = ${r2/g}<br/>
+     <strong>${r1} : ${r2} = ${r1/g} : ${r2/g}</strong>`,
+    g === 1 ? 'info' : 'correct');
+}
+
+// ================================================================
+// ================================================================
+// MODULE 5 · ESTIMATION GAME
+// ================================================================
+// ================================================================
+const estProblems = [
+  { nums:[48.3,19.7], op:'+' }, { nums:[312,29], op:'×' },
+  { nums:[8934,47], op:'÷' },   { nums:[5.7,0.38], op:'×' },
+  { nums:[9870,3.14], op:'÷' }, { nums:[476,23,89], op:'+' },
+  { nums:[52.8,18.4], op:'×' }, { nums:[99.6,48.2], op:'-' },
+  { nums:[0.78,0.41], op:'+' }, { nums:[4820,19], op:'÷' },
+];
+const rndProblems = [
+  { n:3.746,  dp:2,  desc:'3.746 to 2 decimal places' },
+  { n:48392,  sf:2,  desc:'48,392 to 2 significant figures' },
+  { n:0.004567,sf:2, desc:'0.004567 to 2 significant figures' },
+  { n:7.3456, dp:1,  desc:'7.3456 to 1 decimal place' },
+  { n:12345,  sf:3,  desc:'12,345 to 3 significant figures' },
+  { n:2.995,  dp:2,  desc:'2.995 to 2 decimal places' },
+  { n:0.0552, sf:1,  desc:'0.0552 to 1 significant figure' },
+  { n:999.5,  sf:2,  desc:'999.5 to 2 significant figures' },
+  { n:0.00849,sf:2,  desc:'0.00849 to 2 significant figures' },
+  { n:450,    sf:1,  desc:'450 to 1 significant figure' },
+];
+
+let eg = null, egHi = 0;
+let rnd = null;
+
+function opStr(op, nums) {
+  if (op === '+') return nums.join(' + ');
+  if (op === '-') return nums[0] + ' − ' + nums[1];
+  if (op === '×') return nums.join(' × ');
+  if (op === '÷') return nums[0] + ' ÷ ' + nums[1];
+}
+function opCalc(op, nums) {
+  if (op === '+') return nums.reduce((a,b)=>a+b,0);
+  if (op === '-') return nums[0] - nums[1];
+  if (op === '×') return nums.reduce((a,b)=>a*b,1);
+  if (op === '÷') return nums[0] / nums[1];
+}
+
+function egNew() {
+  eg = estProblems[Math.floor(Math.random() * estProblems.length)];
+  egHi = 0; clearHints('eg-hints'); fbHide('eg-fb');
+  document.getElementById('eg-est-in').value = '';
+  document.getElementById('eg-compare-wrap').style.display = 'none';
+
+  document.getElementById('eg-problem').textContent = opStr(eg.op, eg.nums);
+
+  // Rounding input rows
+  document.getElementById('eg-round-rows').innerHTML = eg.nums.map((n, i) => `
+    <div class="round-row">
+      <span class="round-original">${n}</span>
+      <span class="round-arrow">→ rounds to →</span>
+      <input type="number" id="eg-rnd-${i}" class="inp-sm" placeholder="1 sf" step="any" onkeydown="if(event.key==='Enter')egCheck()" />
+      <span class="rounding-badge">1 sig. fig.</span>
+    </div>
+  `).join('');
+}
+
+function egCheck() {
+  if (!eg) return;
+
+  const rounded = [];
+  const errors = [];
+  for (let i = 0; i < eg.nums.length; i++) {
+    const rv = parseFloat(document.getElementById(`eg-rnd-${i}`).value);
+    const correct = roundSF(eg.nums[i], 1);
+    if (isNaN(rv)) { errors.push(`⚠️ Round all numbers first (row ${i+1}).`); break; }
+    if (Math.abs(rv - correct) > Math.abs(correct) * 0.05 + 0.0001) {
+      const nearTen = Math.round(eg.nums[i] / 10) * 10;
+      if (Math.abs(rv - nearTen) < 1 && Math.abs(nearTen - correct) > 1) {
+        errors.push(`⚠️ ${eg.nums[i]} rounded to <strong>1 significant figure</strong> is <strong>${correct}</strong>, not ${rv}.<br/>Nearest 10 is different from 1 sf. Count just the first non-zero digit.`);
+      } else {
+        errors.push(`⚠️ ${eg.nums[i]} rounded to 1 sf is <strong>${correct}</strong>, not ${rv}.`);
+      }
+    }
+    rounded.push(rv);
+  }
+  if (errors.length) { fb('eg-fb', errors.join('<br/>'), 'hint'); return; }
+
+  const expectedEst = opCalc(eg.op, rounded);
+  const exact = opCalc(eg.op, eg.nums);
+  const studentEst = parseFloat(document.getElementById('eg-est-in').value);
+
+  if (isNaN(studentEst)) { fb('eg-fb', '⚠️ Enter your estimate.', 'hint'); return; }
+
+  // Misconception: typed exact answer
+  if (Math.abs(studentEst - exact) < Math.abs(exact) * 0.0001) {
+    fb('eg-fb', `⚠️ That's the exact answer! For estimation, calculate using your <em>rounded</em> numbers: ${opStr(eg.op, rounded)} = ${expectedEst.toFixed(3)}`, 'hint'); return;
+  }
+
+  const pctOff = Math.abs(studentEst - expectedEst) / (Math.abs(expectedEst) + 0.001) * 100;
+  const accPct = Math.abs(studentEst - exact) / (Math.abs(exact) + 0.001) * 100;
+
+  // Show comparison table
+  document.getElementById('eg-compare-wrap').style.display = 'block';
+  document.getElementById('eg-tbody').innerHTML = `
+    <tr>
+      <td>${eg.nums.join(', ')}</td>
+      <td>${rounded.join(', ')}</td>
+      <td>${studentEst}</td>
+      <td>${exact.toPrecision(5)}</td>
+      <td style="color:${accPct<25?'#16a34a':'#dc2626'}; font-weight:700;">${accPct.toFixed(1)}% off</td>
+    </tr>
+  `;
+
+  let type, msg;
+  if (pctOff < 5) {
+    type = 'correct';
+    msg = `✅ Excellent! Using rounded values: ${opStr(eg.op, rounded)} = ${expectedEst.toFixed(3)}. Exact = ${exact.toPrecision(5)}. Your estimate is ${accPct.toFixed(1)}% off — well within acceptable range!`;
+    addScore('eg', 10);
+  } else if (pctOff < 20) {
+    type = 'hint';
+    msg = `👍 Close! Expected estimate: ${opStr(eg.op, rounded)} = ${expectedEst.toFixed(3)}. Your calculation may have a small arithmetic error. Exact = ${exact.toPrecision(5)}.`;
+    addScore('eg', 5);
+  } else {
+    type = 'wrong';
+    msg = `❌ Your estimate is too far from what the rounded numbers give. Using your rounded numbers: ${opStr(eg.op, rounded)} = ${expectedEst.toFixed(3)}. Check your arithmetic.`;
+  }
+  fb('eg-fb', msg, type);
+}
+
+function egHint() {
+  if (!eg) return;
+  const r = eg.nums.map(n => roundSF(n, 1));
+  const est = opCalc(eg.op, r);
+  const hints = [
+    `Step 1: Round each number to 1 significant figure: ${eg.nums.map((n,i)=>`${n} → ${r[i]}`).join(', ')}`,
+    `Step 2: Perform the operation: ${opStr(eg.op, r)}`,
+    `Step 3: Result = <strong>${est.toPrecision(3)}</strong>`,
+  ];
+  if (egHi < hints.length) addHint('eg-hints', hints[egHi++]);
+}
+
+// ──── Rounding Practice ────
+function rndNew() {
+  rnd = rndProblems[Math.floor(Math.random() * rndProblems.length)];
+  document.getElementById('rnd-problem').innerHTML =
+    `Round <strong class="mono">${rnd.n}</strong> to ${rnd.desc.split('to ')[1]}`;
+  document.getElementById('rnd-in').value = '';
+  fbHide('rnd-fb');
+}
+
+function rndCheck() {
+  if (!rnd) return;
+  const student = parseFloat(document.getElementById('rnd-in').value);
+  if (isNaN(student)) { fb('rnd-fb', '⚠️ Enter a number.', 'hint'); return; }
+
+  let correct;
+  if (rnd.dp !== undefined) {
+    correct = parseFloat(rnd.n.toFixed(rnd.dp));
+  } else {
+    correct = roundSF(rnd.n, rnd.sf);
+  }
+
+  if (Math.abs(student - correct) < 1e-9) {
+    fb('rnd-fb', `✅ Correct! ${rnd.n} → <strong>${correct}</strong>`, 'correct');
+    addScore('eg', 3);
+  } else {
+    // Halfway misconception
+    const halfTest = rnd.dp !== undefined
+      ? parseFloat((rnd.n - 0.5 * Math.pow(10, -rnd.dp)).toFixed(rnd.dp))
+      : null;
+    if (halfTest !== null && Math.abs(student - halfTest) < 1e-9) {
+      fb('rnd-fb', `⚠️ When the next digit is exactly 5, always round <strong>up</strong>! ${rnd.n} → ${correct}`, 'wrong');
+    } else {
+      const method = rnd.sf
+        ? `Count ${rnd.sf} significant figure${rnd.sf>1?'s':''}. Leading zeros don't count!`
+        : `Look at the digit in decimal place ${rnd.dp+1} to decide whether to round up or down.`;
+      fb('rnd-fb', `❌ Expected <strong>${correct}</strong>. ${method}`, 'wrong');
+    }
+  }
+}
+
+// ================================================================
+// INIT
+// ================================================================
+function init() {
+  // M1 – default factorisation
+  pfStart();
+  // M2 – live update
+  frLive();
+  // M3 – slider + challenges
+  sfSlider(); sfNewCh1(); sfNewCh2();
+  // M4 – ratio
+  rtNew();
+  // M5 – estimation + rounding
+  egNew(); rndNew();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
