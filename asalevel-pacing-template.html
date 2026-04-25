@@ -29,7 +29,7 @@
 </head>
 <body>
 
-<!-- â"€â"€ LOADING SCREEN â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
+<!-- ── LOADING SCREEN ─────────────────────────────────────── -->
 <div id="loadingScreen" style="
   position:fixed;inset:0;background:var(--ink);
   display:flex;align-items:center;justify-content:center;z-index:99999;
@@ -193,7 +193,7 @@
   </main>
 </div>
 
-<!-- â"€â"€ OBJECTIVES MODAL â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
+<!-- ── OBJECTIVES MODAL ───────────────────────────────────── -->
 <div class="modal-bg" id="objModal" onclick="closeObjModal(event)">
   <div class="modal">
     <div class="modal-head">
@@ -226,7 +226,7 @@
 </div>
 <div class="toast" id="toast"></div>
 
-<!-- â"€â"€ HOME BUTTON â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ -->
+<!-- ── HOME BUTTON ────────────────────────────────────────── -->
 <style>
 .home-float {
   position: fixed; bottom: 22px; left: 22px;
@@ -350,6 +350,21 @@ window.PACING_CONFIG = {
     });
   }
 })();
+
+// -----------------------------------------------------------
+// SYLLABUS INDEX  (loaded from cambridge_syllabus by Firebase module)
+// -----------------------------------------------------------
+var syllabusIndex = {};
+
+function lookupSyllabus(prefix, code) {
+  const exact = prefix ? prefix + '_' + code : code;
+  if (syllabusIndex[exact]) return { key: exact, entry: syllabusIndex[exact] };
+  if (syllabusIndex[code]) return { key: code, entry: syllabusIndex[code] };
+  for (const k of Object.keys(syllabusIndex)) {
+    if (k.endsWith(code) || code.endsWith(k)) return { key: k, entry: syllabusIndex[k] };
+  }
+  return { key: exact, entry: null };
+}
 
 // -----------------------------------------------------------
 // STATE  (var so the Firebase module can write window.DATA)
@@ -692,6 +707,26 @@ function renderPacing() {
                 const rowClass = t.status === 'done' ? 'done-row' : t.status === 'inprogress' ? 'inprogress-row' : '';
                 const isCoord  = role === 'admin';
                 const hasRes   = (t.resources || []).length > 0;
+                const hasSyllabus = codes.length && Object.keys(syllabusIndex).length > 0;
+                const sylInlineHtml = hasSyllabus
+                  ? codes.map(code => {
+                      const { key, entry } = lookupSyllabus(SUBJECT_CONFIG.syllabusPrefix || '', code);
+                      const topicText = entry ? escHtml(entry.topicArea || '') : '';
+                      const titleText = entry ? escHtml(entry.title || '') : '';
+                      const content   = entry?.content || [];
+                      const descText  = entry?.description
+                        ? escHtml(entry.description)
+                        : content.length
+                          ? escHtml(content.slice(0, 3).join('; ') + (content.length > 3 ? ' …' : ''))
+                          : '';
+                      return `<div class="syl-inline-line">
+                        <span class="sil-code" onclick="showObj(${ci},${ti})" title="View full syllabus detail">${escHtml(code)}</span>
+                        ${topicText ? `<span class="sil-topic">${topicText}</span>` : ''}
+                        <span class="sil-title">${titleText}</span>
+                        ${descText ? `<div class="sil-desc">${descText}</div>` : ''}
+                      </div>`;
+                    }).join('')
+                  : '';
                 return `
                 <tr class="${rowClass}" id="row-${ci}-${ti}">
                   <td>
@@ -705,12 +740,15 @@ function renderPacing() {
                       onblur="saveEdit(this,${ci},${ti},'topic')"
                       onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
                     >${escHtml(t.topic)}</div>
-                    ${codes.length ? `<div class="obj-codes">${codes.map(c => `<span class="obj-code" onclick="showObj(${ci},${ti})">${c}</span>`).join('')}</div>` : ''}
-                    <div class="topic-obj-line editable"
+                    ${hasSyllabus
+                      ? `<div class="syl-inline-block">${sylInlineHtml}</div>`
+                      : (codes.length ? `<div class="obj-codes">${codes.map(c => `<span class="obj-code" onclick="showObj(${ci},${ti})">${c}</span>`).join('')}</div>` : '')
+                    }
+                    ${!hasSyllabus ? `<div class="topic-obj-line editable"
                       contenteditable="${isCoord}"
                       data-field="objective" data-ci="${ci}" data-ti="${ti}"
                       onblur="saveEdit(this,${ci},${ti},'objective')"
-                    >${_renderObjCell(t.objective)}${_objNeedsSeeMore(t.objective) ? ` <span class="obj-code" style="cursor:pointer" onclick="event.stopPropagation();showObj(${ci},${ti})">see full</span>` : ''}</div>
+                    >${_renderObjCell(t.objective)}${_objNeedsSeeMore(t.objective) ? ` <span class="obj-code" style="cursor:pointer" onclick="event.stopPropagation();showObj(${ci},${ti})">see full</span>` : ''}</div>` : ''}
                     <div class="topic-meta-line">
                       <span class="meta-pill meta-pill-hours editable"
                         contenteditable="${isCoord}"
@@ -1557,7 +1595,38 @@ function showObj(ci, ti) {
   const objRaw = t.objective || '';
   document.getElementById('objModalTitle').textContent = t.topic;
   document.getElementById('objModalSub').textContent   = ch.chapter;
-  if (/<[a-z]/i.test(objRaw)) {
+
+  const codes = parseObjCodes(objRaw, t.syllabusRefs);
+  if (codes.length && Object.keys(syllabusIndex).length) {
+    const sections = codes.map(code => {
+      const { key, entry } = lookupSyllabus(SUBJECT_CONFIG.syllabusPrefix || '', code);
+      const titleText   = entry ? escHtml(entry.title || '') : '';
+      const topicText   = entry ? escHtml(entry.topicArea || '') : '';
+      const description = entry?.description ? escHtml(entry.description) : '';
+      const content     = entry?.content || [];
+      const notes       = entry?.notes || entry?.notesExamples || [];
+      const descHtml    = description ? `<p class="syl-description" style="margin:8px 0 10px">${description}</p>` : '';
+      const contentHtml = content.length
+        ? `<p class="syl-section-label" style="margin-top:10px">Learning Objectives</p>
+           <ul class="syl-content-list">${content.map(c => `<li>${escHtml(c)}</li>`).join('')}</ul>` : '';
+      const notesHtml   = notes.length
+        ? `<p class="syl-section-label" style="margin-top:10px">Notes and Examples</p>
+           <ul class="syl-notes-list">${notes.map(n => `<li>${escHtml(n)}</li>`).join('')}</ul>` : '';
+      return `<div class="obj-syl-section">
+        <div class="obj-syl-header">
+          <span class="srl-code">${escHtml(code)}</span>
+          ${topicText ? `<span class="srl-topic">${topicText}</span>` : ''}
+          ${titleText ? `<span class="obj-syl-title">${titleText}</span>` : ''}
+        </div>
+        ${descHtml}
+        ${contentHtml || notesHtml
+          ? `<div class="obj-syl-body">${contentHtml}${notesHtml}</div>`
+          : (!entry ? `<p style="font-size:.75rem;color:var(--ink-3);margin-top:6px">No syllabus data found for this code.</p>` : '')}
+      </div>`;
+    }).join('');
+    document.getElementById('objModalBody').innerHTML = sections ||
+      '<p style="color:var(--ink-3);font-size:.8rem">No objectives listed for this topic.</p>';
+  } else if (/<[a-z]/i.test(objRaw)) {
     document.getElementById('objModalBody').innerHTML = objRaw ||
       '<p style="color:var(--ink-3);font-size:.8rem">No objectives listed for this topic.</p>';
   } else {
@@ -1802,7 +1871,7 @@ window.__fbGetDoc = async function(colName, docName) {
 };
 
 // -- auth-guard dispatches authReady when auth + role confirmed --
-document.addEventListener('authReady', ({ detail: { user, profile } }) => {
+document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
   // Show tracker link for subject leaders
   const _thSubs = profile.th_sub_roles || [];
   if (_thSubs.includes('subject_leader')) {
@@ -1828,6 +1897,15 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
       if (aEl && typeof buildAvatarEl === 'function') buildAvatarEl(aEl, user);
       if (wEl) wEl.style.display = 'flex';
     });
+
+  // Load cambridge_syllabus index for inline objective descriptions
+  try {
+    const snap = await getDocs(collection(window.db, 'cambridge_syllabus'));
+    snap.forEach(d => { window.syllabusIndex[d.id] = d.data(); });
+    if (window.DATA && window.DATA.length) render();
+  } catch(e) {
+    console.warn('Could not load cambridge_syllabus:', e);
+  }
 
   _startSnapshot(user.uid);
 });
