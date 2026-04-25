@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AS/A Level Physics — Subject Leader Tracker</title>
+<title>{{PAGE_TITLE}}</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
 <link rel="stylesheet" href="base.css">
 <link rel="stylesheet" href="partials/pacing-tracker-core.css">
-<style>:root { --accent: #2980b9; --accent-2: #e8f4fd; }</style>
+<style>:root { {{ACCENT_VARS}} }</style>
 
 <script src="partials/navbar.js"></script>
 <!-- FIREBASE_ENV -->
@@ -20,14 +20,14 @@
 <!-- TRACKER CONFIG -->
 <script>
 window.TRACKER_CONFIG = {
-  collection:     'asalevel_physics_pacing',
-  docId:          'year11-12',
-  subjectKey:     'physics',
-  label:          'Physics',
-  code:           '9702',
-  qualifier:      'AS & A Level',
-  years:          'Year 11–12',
-  curriculum:     'asalevel',
+  collection:  '{{COLLECTION}}',
+  docId:       '{{DOC_ID}}',
+  subjectKey:  '{{SUBJECT_KEY}}',
+  label:       '{{LABEL}}',
+  code:        '{{CODE}}',
+  qualifier:   '{{QUALIFIER}}',
+  years:       '{{YEARS}}',
+  curriculum:  '{{CURRICULUM}}',
 };
 </script>
 
@@ -36,13 +36,13 @@ window.TRACKER_CONFIG = {
   <div class="tracker-brand">
     <div class="tracker-brand-mark">SL</div>
     <div class="tracker-brand-text">
-      <h1>AS/A Level Physics — Tracker</h1>
+      <h1>{{HEADING}}</h1>
       <nav class="tracker-breadcrumb">
         <a href="index.html">Teachers Hub</a>
         <span>›</span>
         <span>Subject Leader</span>
         <span>›</span>
-        <span>AS/A Level Physics</span>
+        <span>{{BREADCRUMB}}</span>
       </nav>
     </div>
   </div>

@@ -49,18 +49,18 @@ const ROUTES = {
   'my-portfolio.html': 'my-portfolio',
   'my-certificates.html': 'my-certificates',
   'orientation.html': 'orientation',
-  // Subject Leader Tracker pages
-  'igcse-math-tracker.html': 'igcse-math-tracker',
-  'igcse-biology-tracker.html': 'igcse-biology-tracker',
-  'igcse-chemistry-tracker.html': 'igcse-chemistry-tracker',
-  'igcse-physics-tracker.html': 'igcse-physics-tracker',
-  'checkpoint-math-tracker.html': 'checkpoint-math-tracker',
-  'checkpoint-english-tracker.html': 'checkpoint-english-tracker',
-  'checkpoint-science-tracker.html': 'checkpoint-science-tracker',
-  'asalevel-math-tracker.html': 'asalevel-math-tracker',
-  'asalevel-biology-tracker.html': 'asalevel-biology-tracker',
-  'asalevel-chemistry-tracker.html': 'asalevel-chemistry-tracker',
-  'asalevel-physics-tracker.html': 'asalevel-physics-tracker',
+  // Subject Leader Tracker pages (generated from tracker-template.html)
+  'igcse-math-tracker.html':        'igcse-math-tracker',
+  'igcse-biology-tracker.html':     'igcse-biology-tracker',
+  'igcse-chemistry-tracker.html':   'igcse-chemistry-tracker',
+  'igcse-physics-tracker.html':     'igcse-physics-tracker',
+  'checkpoint-math-tracker.html':   'checkpoint-math-tracker',
+  'checkpoint-english-tracker.html':'checkpoint-english-tracker',
+  'checkpoint-science-tracker.html':'checkpoint-science-tracker',
+  'asalevel-math-tracker.html':     'asalevel-math-tracker',
+  'asalevel-biology-tracker.html':  'asalevel-biology-tracker',
+  'asalevel-chemistry-tracker.html':'asalevel-chemistry-tracker',
+  'asalevel-physics-tracker.html':  'asalevel-physics-tracker',
   'settings.html': 'settings',
 };
 
@@ -517,6 +517,184 @@ Object.entries(ASALEVEL_SUBJECTS).forEach(([filename, cfg]) => {
   generatedAsALevel[filename] = html;
 });
 
+// ============================================================
+// Tracker pages — generated from tracker-template.html
+// ============================================================
+const TRACKER_SUBJECTS = {
+  'igcse-math-tracker.html': {
+    pageTitle:   'IGCSE Mathematics — Subject Leader Tracker',
+    accentVars:  '--accent: #c0392b; --accent-2: #fce8e6;',
+    collection:  'math_pacing',
+    docId:       'year9-10',
+    subjectKey:  'math',
+    label:       'Mathematics',
+    code:        '0580',
+    qualifier:   'Core & Extended',
+    years:       'Year 9–10',
+    curriculum:  'igcse',
+    heading:     'IGCSE Mathematics — Tracker',
+    breadcrumb:  'IGCSE Mathematics',
+  },
+  'igcse-biology-tracker.html': {
+    pageTitle:   'IGCSE Biology — Subject Leader Tracker',
+    accentVars:  '--accent: #27ae60; --accent-2: #e9f7ef;',
+    collection:  'biology_pacing',
+    docId:       'year9-10',
+    subjectKey:  'biology',
+    label:       'Biology',
+    code:        '0610',
+    qualifier:   'Core & Extended',
+    years:       'Year 9–10',
+    curriculum:  'igcse',
+    heading:     'IGCSE Biology — Tracker',
+    breadcrumb:  'IGCSE Biology',
+  },
+  'igcse-chemistry-tracker.html': {
+    pageTitle:   'IGCSE Chemistry — Subject Leader Tracker',
+    accentVars:  '--accent: #e67e22; --accent-2: #fef3e2;',
+    collection:  'chemistry_pacing',
+    docId:       'year9-10',
+    subjectKey:  'chemistry',
+    label:       'Chemistry',
+    code:        '0620',
+    qualifier:   'Core & Extended',
+    years:       'Year 9–10',
+    curriculum:  'igcse',
+    heading:     'IGCSE Chemistry — Tracker',
+    breadcrumb:  'IGCSE Chemistry',
+  },
+  'igcse-physics-tracker.html': {
+    pageTitle:   'IGCSE Physics — Subject Leader Tracker',
+    accentVars:  '--accent: #2980b9; --accent-2: #e8f4fd;',
+    collection:  'physics_pacing',
+    docId:       'year9-10',
+    subjectKey:  'physics',
+    label:       'Physics',
+    code:        '0625',
+    qualifier:   'Core & Extended',
+    years:       'Year 9–10',
+    curriculum:  'igcse',
+    heading:     'IGCSE Physics — Tracker',
+    breadcrumb:  'IGCSE Physics',
+  },
+  'checkpoint-math-tracker.html': {
+    pageTitle:   'Checkpoint Mathematics — Subject Leader Tracker',
+    accentVars:  '--accent: #c0392b; --accent-2: #fce8e6;',
+    collection:  'checkpoint_math_pacing',
+    docId:       'year7-8',
+    subjectKey:  'math',
+    label:       'Mathematics',
+    code:        '0862',
+    qualifier:   'Checkpoint',
+    years:       'Year 7–8',
+    curriculum:  'checkpoint',
+    heading:     'Checkpoint Mathematics — Tracker',
+    breadcrumb:  'Checkpoint Mathematics',
+  },
+  'checkpoint-english-tracker.html': {
+    pageTitle:   'Checkpoint English — Subject Leader Tracker',
+    accentVars:  '--accent: #8e44ad; --accent-2: #f5eef8;',
+    collection:  'checkpoint_english_pacing',
+    docId:       'year7-8',
+    subjectKey:  'english',
+    label:       'English',
+    code:        '0861',
+    qualifier:   'Checkpoint',
+    years:       'Year 7–8',
+    curriculum:  'checkpoint',
+    heading:     'Checkpoint English — Tracker',
+    breadcrumb:  'Checkpoint English',
+  },
+  'checkpoint-science-tracker.html': {
+    pageTitle:   'Checkpoint Science — Subject Leader Tracker',
+    accentVars:  '--accent: #16a085; --accent-2: #e8f8f5;',
+    collection:  'checkpoint_science_pacing',
+    docId:       'year7-8',
+    subjectKey:  'science',
+    label:       'Science',
+    code:        '0893',
+    qualifier:   'Checkpoint',
+    years:       'Year 7–8',
+    curriculum:  'checkpoint',
+    heading:     'Checkpoint Science — Tracker',
+    breadcrumb:  'Checkpoint Science',
+  },
+  'asalevel-math-tracker.html': {
+    pageTitle:   'AS/A Level Mathematics — Subject Leader Tracker',
+    accentVars:  '--accent: #c0392b; --accent-2: #fce8e6;',
+    collection:  'asalevel_math_pacing',
+    docId:       'year11-12',
+    subjectKey:  'math',
+    label:       'Mathematics',
+    code:        '9709',
+    qualifier:   'AS & A Level',
+    years:       'Year 11–12',
+    curriculum:  'asalevel',
+    heading:     'AS/A Level Mathematics — Tracker',
+    breadcrumb:  'AS/A Level Mathematics',
+  },
+  'asalevel-biology-tracker.html': {
+    pageTitle:   'AS/A Level Biology — Subject Leader Tracker',
+    accentVars:  '--accent: #27ae60; --accent-2: #e9f7ef;',
+    collection:  'asalevel_biology_pacing',
+    docId:       'year11-12',
+    subjectKey:  'biology',
+    label:       'Biology',
+    code:        '9700',
+    qualifier:   'AS & A Level',
+    years:       'Year 11–12',
+    curriculum:  'asalevel',
+    heading:     'AS/A Level Biology — Tracker',
+    breadcrumb:  'AS/A Level Biology',
+  },
+  'asalevel-chemistry-tracker.html': {
+    pageTitle:   'AS/A Level Chemistry — Subject Leader Tracker',
+    accentVars:  '--accent: #e67e22; --accent-2: #fef3e2;',
+    collection:  'asalevel_chemistry_pacing',
+    docId:       'year11-12',
+    subjectKey:  'chemistry',
+    label:       'Chemistry',
+    code:        '9701',
+    qualifier:   'AS & A Level',
+    years:       'Year 11–12',
+    curriculum:  'asalevel',
+    heading:     'AS/A Level Chemistry — Tracker',
+    breadcrumb:  'AS/A Level Chemistry',
+  },
+  'asalevel-physics-tracker.html': {
+    pageTitle:   'AS/A Level Physics — Subject Leader Tracker',
+    accentVars:  '--accent: #2980b9; --accent-2: #e8f4fd;',
+    collection:  'asalevel_physics_pacing',
+    docId:       'year11-12',
+    subjectKey:  'physics',
+    label:       'Physics',
+    code:        '9702',
+    qualifier:   'AS & A Level',
+    years:       'Year 11–12',
+    curriculum:  'asalevel',
+    heading:     'AS/A Level Physics — Tracker',
+    breadcrumb:  'AS/A Level Physics',
+  },
+};
+
+const trackerTemplate = fs.readFileSync(path.join(__dirname, 'tracker-template.html'), 'utf8');
+const generatedTrackers = {};
+Object.entries(TRACKER_SUBJECTS).forEach(([filename, cfg]) => {
+  generatedTrackers[filename] = trackerTemplate
+    .replace('{{PAGE_TITLE}}',   cfg.pageTitle)
+    .replace('{{ACCENT_VARS}}',  cfg.accentVars)
+    .replace('{{COLLECTION}}',   cfg.collection)
+    .replace('{{DOC_ID}}',       cfg.docId)
+    .replace('{{SUBJECT_KEY}}',  cfg.subjectKey)
+    .replace('{{LABEL}}',        cfg.label)
+    .replace('{{CODE}}',         cfg.code)
+    .replace('{{QUALIFIER}}',    cfg.qualifier)
+    .replace('{{YEARS}}',        cfg.years)
+    .replace('{{CURRICULUM}}',   cfg.curriculum)
+    .replace('{{HEADING}}',      cfg.heading)
+    .replace('{{BREADCRUMB}}',   cfg.breadcrumb);
+});
+
 // Read firebase-env partial once (used for placeholder injection)
 const firebaseEnvPartial = fs.readFileSync(path.join(__dirname, 'partials', 'firebase-env.html'), 'utf8');
 
@@ -525,7 +703,7 @@ const pacingSharedCss = '<style>\n' + fs.readFileSync(path.join(__dirname, 'part
 const pacingSharedJs  = '<script src="/partials/pacing-shared.js"></script>';
 
 function processFile(filename) {
-  let html = generatedIgcse[filename] || generatedCheckpoint[filename] || generatedAsALevel[filename] || fs.readFileSync(path.join(__dirname, filename), 'utf8');
+  let html = generatedIgcse[filename] || generatedCheckpoint[filename] || generatedAsALevel[filename] || generatedTrackers[filename] || fs.readFileSync(path.join(__dirname, filename), 'utf8');
 
   // Inject firebase-env partial where placeholder comment exists
   html = html.replace(/<!-- FIREBASE_ENV -->/g, firebaseEnvPartial);
