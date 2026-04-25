@@ -831,6 +831,8 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
   <button class="nav-item" onclick="showModule(21)"><span class="nav-icon">🔢</span><span class="nav-label">Ordering & Magnitude</span></button>
   <button class="nav-item" onclick="showModule(22)"><span class="nav-icon">🖩</span><span class="nav-label">Calculator & Notation</span></button>
   <button class="nav-item" onclick="showModule(23)"><span class="nav-icon">🏆</span><span class="nav-label">Exam Challenge</span></button>
+  <button class="nav-item" onclick="showModule(24)"><span class="nav-icon">📈</span><span class="nav-label">Exponential Growth &amp; Decay</span></button>
+  <button class="nav-item" onclick="showModule(25)"><span class="nav-icon">🔗</span><span class="nav-label">Algebraic Proportion</span></button>
 
   <!-- Back to chapter index -->
   <div style="margin-top:auto;padding:14px;border-top:1px solid rgba(255,255,255,0.08);">
@@ -7764,6 +7766,7 @@ function ecReset() {
   const container = document.getElementById('ec-container');
   container.innerHTML = '';
   const pool = [...EC_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 5);
+  window._ecPool = pool;
   pool.forEach((q, i) => ecBuildQuestion(q, i, container));
 }
 
@@ -7845,6 +7848,753 @@ function ecInit() {
   pool.forEach((q, i) => ecBuildQuestion(q, i, container));
   ecUpdateScore();
 }
+</script>
+
+<!-- ============================================================
+     MODULE 24 · EXPONENTIAL GROWTH & DECAY
+     ============================================================ -->
+<section class="module" id="mod-24">
+
+  <div class="progress-card">
+    <span class="prog-label">📈 Exponential Growth &amp; Decay</span>
+    <div class="prog-track"><div class="prog-fill" id="eg2-bar"></div></div>
+    <span class="prog-count" id="eg2-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-24">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Exponential Growth &amp; Decay</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> Using P×r×n (simple interest) instead of P×rⁿ (compound). Simple grows linearly; exponential grows multiplicatively each period.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Confusing growth multiplier (e.g. 1.05) with decay multiplier (e.g. 0.95). Growth &gt; 1, decay &lt; 1. Both are positive.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> Adding percentages: "5% for 3 years = 15% total." Wrong — compound: 1.05³ = 1.1576 → 15.76%, not 15%.</div>
+      <div class="tp-item"><strong>✅ Strategy:</strong> Write multiplier first. Growth: m = 1 + r/100. Decay: m = 1 − r/100. Final = P × mⁿ. Always build a year-by-year table to verify.</div>
+    </div>
+  </div>
+
+  <!-- Card 1: Theory -->
+  <div class="card">
+    <div class="card-title">📈 The Exponential Model</div>
+    <div class="card-desc" style="margin-bottom:12px;">
+      Exponential change applies the same multiplier every period — giving a curve, not a straight line.
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:4px;">
+      <div style="background:#f0fdf4;border-left:4px solid var(--green);border-radius:8px;padding:14px 16px;">
+        <div style="font-weight:700;color:var(--green);margin-bottom:8px;">📈 Growth</div>
+        <div style="font-family:var(--font-mono);font-size:0.88rem;line-height:2;">
+          Final = P × (1 + r/100)ⁿ<br>
+          Multiplier m &gt; 1<br><br>
+          <em>Example:</em> £2 000 at 3% for 4 yrs<br>
+          m = 1.03<br>
+          = 2000 × 1.03⁴<br>
+          = 2000 × 1.12551<br>
+          = <strong style="color:var(--green);">£2 251.02</strong>
+        </div>
+      </div>
+      <div style="background:#fef2f2;border-left:4px solid var(--red);border-radius:8px;padding:14px 16px;">
+        <div style="font-weight:700;color:var(--red);margin-bottom:8px;">📉 Decay</div>
+        <div style="font-family:var(--font-mono);font-size:0.88rem;line-height:2;">
+          Final = P × (1 − r/100)ⁿ<br>
+          Multiplier m &lt; 1<br><br>
+          <em>Example:</em> Car £12 000, −8%/yr, 3 yrs<br>
+          m = 0.92<br>
+          = 12000 × 0.92³<br>
+          = 12000 × 0.77869<br>
+          = <strong style="color:var(--red);">£9 344.26</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2: Calculator -->
+  <div class="card">
+    <div class="card-title">Part 1 — Growth &amp; Decay Calculator</div>
+    <div class="card-desc" style="margin-bottom:14px;">Enter the values below and press Calculate to see the year-by-year table and final amount.</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:14px;">
+      <div>
+        <label class="bold" style="display:block;margin-bottom:4px;">Initial value P:</label>
+        <input type="number" id="eg2-P" class="inp-sm" value="1000" min="0" step="any" style="width:100%;" />
+      </div>
+      <div>
+        <label class="bold" style="display:block;margin-bottom:4px;">Rate r (%):</label>
+        <input type="number" id="eg2-r" class="inp-sm" value="5" min="0" max="100" step="any" style="width:100%;" />
+      </div>
+      <div>
+        <label class="bold" style="display:block;margin-bottom:4px;">Periods n:</label>
+        <input type="number" id="eg2-n" class="inp-sm" value="4" min="1" max="10" step="1" style="width:100%;" />
+      </div>
+      <div>
+        <label class="bold" style="display:block;margin-bottom:4px;">Type:</label>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:0.85rem;">
+            <input type="radio" name="eg2-type" value="growth" id="eg2-growth" checked /> Growth
+          </label>
+          <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:0.85rem;">
+            <input type="radio" name="eg2-type" value="decay" id="eg2-decay" /> Decay
+          </label>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="eg2Calc()">▶ Calculate</button>
+    <div id="eg2-calc-out" style="display:none;margin-top:14px;">
+      <div id="eg2-calc-summary" style="background:var(--slate);border-radius:8px;padding:12px 16px;margin-bottom:10px;font-size:0.9rem;"></div>
+      <div style="overflow-x:auto;">
+        <table id="eg2-calc-table" style="width:100%;border-collapse:collapse;font-size:0.84rem;">
+          <thead>
+            <tr style="background:var(--navy);color:white;">
+              <th style="padding:6px 12px;text-align:left;">Period</th>
+              <th style="padding:6px 12px;text-align:right;">Start Value</th>
+              <th style="padding:6px 12px;text-align:right;">Change</th>
+              <th style="padding:6px 12px;text-align:right;">End Value</th>
+            </tr>
+          </thead>
+          <tbody id="eg2-calc-tbody"></tbody>
+        </table>
+      </div>
+      <div id="eg2-calc-final" style="margin-top:10px;font-size:1rem;font-weight:700;color:var(--navy);text-align:center;"></div>
+    </div>
+  </div>
+
+  <!-- Card 3: Identify Growth or Decay -->
+  <div class="card">
+    <div class="card-title">Part 2 — Identify &amp; Solve</div>
+    <div class="card-desc" style="margin-bottom:10px;">For each scenario: identify Growth or Decay, enter the multiplier, then calculate the final value.</div>
+    <div class="problem-display" id="eg2-q-text" style="font-size:0.95rem;padding:12px 16px;line-height:1.6;">—</div>
+
+    <div id="eg2-step1" style="margin-top:12px;">
+      <div style="font-weight:700;font-size:0.85rem;color:var(--navy);margin-bottom:6px;">Step 1 — Growth or Decay?</div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-secondary" id="eg2-btn-growth" onclick="eg2StepOne('growth')">📈 Growth</button>
+        <button class="btn btn-secondary" id="eg2-btn-decay"  onclick="eg2StepOne('decay')">📉 Decay</button>
+      </div>
+    </div>
+
+    <div id="eg2-step2" style="margin-top:12px;display:none;">
+      <div style="font-weight:700;font-size:0.85rem;color:var(--navy);margin-bottom:6px;">Step 2 — What is the multiplier?</div>
+      <div class="input-row">
+        <label class="bold">Multiplier m =</label>
+        <input type="number" id="eg2-mult-input" class="inp-sm" step="0.01" placeholder="e.g. 0.80" style="width:110px;" onkeydown="if(event.key==='Enter')eg2StepTwo()" />
+        <button class="btn btn-success" onclick="eg2StepTwo()">✓ Check</button>
+        <button class="btn btn-hint" onclick="eg2Hint(2)">💡 Hint</button>
+      </div>
+    </div>
+
+    <div id="eg2-step3" style="margin-top:12px;display:none;">
+      <div style="font-weight:700;font-size:0.85rem;color:var(--navy);margin-bottom:6px;">Step 3 — Calculate the final value:</div>
+      <div class="input-row">
+        <label class="bold" id="eg2-step3-label">Final value =</label>
+        <input type="number" id="eg2-ans-input" class="inp-sm" step="any" placeholder="to 2 d.p." style="width:130px;" onkeydown="if(event.key==='Enter')eg2StepThree()" />
+        <button class="btn btn-success" onclick="eg2StepThree()">✓ Check</button>
+        <button class="btn btn-hint" onclick="eg2Hint(3)">💡 Hint</button>
+      </div>
+    </div>
+
+    <ul class="hint-list" id="eg2-hints"></ul>
+    <div class="feedback" id="eg2-fb"></div>
+    <button class="btn btn-secondary" style="margin-top:10px;" onclick="eg2QNew()">↺ New Scenario</button>
+  </div>
+
+  <!-- Card 4: Find n -->
+  <div class="card">
+    <div class="card-title">Part 3 — Find the Number of Periods</div>
+    <div class="card-desc" style="margin-bottom:10px;">Work out after how many whole periods the condition is first met. Use trial: substitute n = 1, 2, 3… into the formula.</div>
+    <div class="problem-display" id="eg2-fn-q" style="font-size:0.95rem;padding:12px 16px;line-height:1.6;">—</div>
+    <div class="input-row" style="margin-top:10px;">
+      <label class="bold">n (whole periods) =</label>
+      <input type="number" id="eg2-fn-input" class="inp-sm" step="1" min="1" placeholder="integer" style="width:100px;" onkeydown="if(event.key==='Enter')eg2FnCheck()" />
+      <button class="btn btn-success" onclick="eg2FnCheck()">✓ Check</button>
+      <button class="btn btn-hint"    onclick="eg2FnHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="eg2FnNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="eg2-fn-hints"></ul>
+    <div class="feedback" id="eg2-fn-fb"></div>
+    <div id="eg2-fn-table" style="display:none;overflow-x:auto;margin-top:12px;"></div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     MODULE 25 · ALGEBRAIC PROPORTION
+     ============================================================ -->
+<section class="module" id="mod-25">
+
+  <div class="progress-card">
+    <span class="prog-label">🔗 Algebraic Proportion</span>
+    <div class="prog-track"><div class="prog-fill" id="ap-bar"></div></div>
+    <span class="prog-count" id="ap-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-25">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Algebraic Proportion</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> Writing y = kx without finding k. Students stop at the proportionality statement and never substitute to find the constant.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Confusing direct (more x → more y) with inverse (more x → less y). Use a table of values to test which fits.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> y ∝ x² — "double x → double y". Wrong: double x → quadruple y (k(2x)² = 4kx²). The scale factor must be squared.</div>
+      <div class="tp-item"><strong>✅ 3-step method:</strong> (1) Write the statement y = k·f(x). (2) Substitute known x and y to find k. (3) Write the equation and substitute the new x.</div>
+    </div>
+  </div>
+
+  <!-- Card 1: Reference table -->
+  <div class="card">
+    <div class="card-title">🔗 Proportionality Types</div>
+    <div style="overflow-x:auto;margin-top:10px;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+        <thead>
+          <tr style="background:var(--navy);color:white;">
+            <th style="padding:8px 14px;text-align:left;">Type</th>
+            <th style="padding:8px 14px;text-align:left;">Statement</th>
+            <th style="padding:8px 14px;text-align:left;">Equation</th>
+            <th style="padding:8px 14px;text-align:left;">Double x → y…</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#f0fdf4;">
+            <td style="padding:7px 14px;font-weight:700;">Direct</td>
+            <td style="padding:7px 14px;font-family:var(--font-mono);">y ∝ x</td>
+            <td style="padding:7px 14px;font-family:var(--font-mono);">y = kx</td>
+            <td style="padding:7px 14px;">doubles (×2)</td>
+          </tr>
+          <tr style="background:#eff6ff;">
+            <td style="padding:7px 14px;font-weight:700;">Squared</td>
+            <td style="padding:7px 14px;font-family:var(--font-mono);">y ∝ x²</td>
+            <td style="padding:7px 14px;font-family:var(--font-mono);">y = kx²</td>
+            <td style="padding:7px 14px;">quadruples (×4)</td>
+          </tr>
+          <tr style="background:#fefce8;">
+            <td style="padding:7px 14px;font-weight:700;">Square Root</td>
+            <td style="padding:7px 14px;font-family:var(--font-mono);">y ∝ √x</td>
+            <td style="padding:7px 14px;font-family:var(--font-mono);">y = k√x</td>
+            <td style="padding:7px 14px;">×√2 ≈ ×1.414</td>
+          </tr>
+          <tr style="background:#fff7ed;">
+            <td style="padding:7px 14px;font-weight:700;">Inverse</td>
+            <td style="padding:7px 14px;font-family:var(--font-mono);">y ∝ 1/x</td>
+            <td style="padding:7px 14px;font-family:var(--font-mono);">y = k/x</td>
+            <td style="padding:7px 14px;">halves (×½)</td>
+          </tr>
+          <tr style="background:#fdf4ff;">
+            <td style="padding:7px 14px;font-weight:700;">Inverse Squared</td>
+            <td style="padding:7px 14px;font-family:var(--font-mono);">y ∝ 1/x²</td>
+            <td style="padding:7px 14px;font-family:var(--font-mono);">y = k/x²</td>
+            <td style="padding:7px 14px;">quarters (×¼)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Card 2: Find the equation -->
+  <div class="card">
+    <div class="card-title">Part 1 — Find the Equation &amp; Solve</div>
+    <div class="card-desc" style="margin-bottom:10px;">Follow the 3-step method: identify type → find k → find the unknown.</div>
+    <div class="problem-display" id="ap-q-text" style="font-size:0.95rem;padding:12px 16px;line-height:1.6;">—</div>
+
+    <!-- Step 1 -->
+    <div id="ap-step1" style="margin-top:12px;">
+      <div style="font-weight:700;font-size:0.85rem;color:var(--navy);margin-bottom:6px;">Step 1 — What type of proportion?</div>
+      <div class="input-row" style="flex-wrap:wrap;gap:8px;">
+        <select id="ap-type-select" class="inp-sm">
+          <option value="">— choose —</option>
+          <option value="x">y ∝ x</option>
+          <option value="x2">y ∝ x²</option>
+          <option value="sqrtx">y ∝ √x</option>
+          <option value="inv">y ∝ 1/x</option>
+          <option value="invx2">y ∝ 1/x²</option>
+        </select>
+        <button class="btn btn-success" onclick="apStep1Check()">✓ Confirm</button>
+        <button class="btn btn-hint" onclick="apHint(1)">💡 Hint</button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="ap-step2" style="margin-top:12px;display:none;">
+      <div style="font-weight:700;font-size:0.85rem;color:var(--navy);margin-bottom:6px;">Step 2 — Find k. Substitute the known pair.</div>
+      <div class="input-row" style="flex-wrap:wrap;gap:8px;">
+        <label class="bold">k =</label>
+        <input type="number" id="ap-k-input" class="inp-sm" step="any" placeholder="value of k" style="width:110px;" onkeydown="if(event.key==='Enter')apStep2Check()" />
+        <button class="btn btn-success" onclick="apStep2Check()">✓ Check</button>
+        <button class="btn btn-hint" onclick="apHint(2)">💡 Hint</button>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div id="ap-step3" style="margin-top:12px;display:none;">
+      <div style="font-weight:700;font-size:0.85rem;color:var(--navy);margin-bottom:6px;" id="ap-step3-label">Step 3 — Find y when x = ?</div>
+      <div class="input-row" style="flex-wrap:wrap;gap:8px;">
+        <label class="bold">y =</label>
+        <input type="number" id="ap-ans-input" class="inp-sm" step="any" placeholder="answer" style="width:110px;" onkeydown="if(event.key==='Enter')apStep3Check()" />
+        <button class="btn btn-success" onclick="apStep3Check()">✓ Check</button>
+        <button class="btn btn-hint" onclick="apHint(3)">💡 Hint</button>
+      </div>
+    </div>
+
+    <ul class="hint-list" id="ap-hints"></ul>
+    <div class="feedback" id="ap-fb"></div>
+    <button class="btn btn-secondary" style="margin-top:10px;" onclick="apNew()">↺ New Question</button>
+  </div>
+
+  <!-- Card 3: Direct vs Inverse -->
+  <div class="card">
+    <div class="card-title">Part 2 — Direct or Inverse?</div>
+    <div class="card-desc" style="margin-bottom:10px;">Read each scenario and decide the type of proportionality.</div>
+    <div class="problem-display" id="ap-dv-q" style="font-size:0.95rem;padding:12px 16px;line-height:1.5;">—</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;" id="ap-dv-opts"></div>
+    <div class="feedback" id="ap-dv-fb"></div>
+    <button class="btn btn-secondary" style="margin-top:8px;" onclick="apDvNew()">↺ New</button>
+  </div>
+
+  <!-- Card 4: Scale Factor Challenge -->
+  <div class="card">
+    <div class="card-title">Part 3 — Scale Factor Challenge</div>
+    <div class="card-desc" style="margin-bottom:10px;">When x changes by a given factor, what happens to y? Choose the correct answer.</div>
+    <div class="problem-display" id="ap-sf-q" style="font-size:0.95rem;padding:12px 16px;">—</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;" id="ap-sf-opts"></div>
+    <div class="feedback" id="ap-sf-fb"></div>
+    <button class="btn btn-secondary" style="margin-top:8px;" onclick="apSfNew()">↺ New</button>
+  </div>
+
+</section>
+
+<script>
+// ================================================================
+// MODULES 24–25 · JAVASCRIPT
+// ================================================================
+Object.assign(scores, { eg2: 0, ap: 0 });
+
+// ================================================================
+// MODULE 24 · EXPONENTIAL GROWTH & DECAY
+// ================================================================
+
+// --- Card 2: Calculator ---
+function eg2Calc() {
+  const P = parseFloat(document.getElementById('eg2-P').value);
+  const r = parseFloat(document.getElementById('eg2-r').value);
+  const n = parseInt(document.getElementById('eg2-n').value, 10);
+  const type = document.querySelector('input[name="eg2-type"]:checked').value;
+  if (isNaN(P) || isNaN(r) || isNaN(n) || P <= 0 || r <= 0 || n < 1) {
+    alert('Please enter valid positive numbers for P, r, and n.'); return;
+  }
+  if (n > 10) { alert('Please enter n ≤ 10 to keep the table manageable.'); return; }
+  const m = type === 'growth' ? 1 + r / 100 : 1 - r / 100;
+  const tbody = document.getElementById('eg2-calc-tbody');
+  tbody.innerHTML = '';
+  let val = P;
+  for (let i = 1; i <= n; i++) {
+    const start = val;
+    const change = start * (type === 'growth' ? r / 100 : -r / 100);
+    const end = start * m;
+    const row = document.createElement('tr');
+    row.style.background = i % 2 === 0 ? '#f8fafc' : 'white';
+    row.innerHTML = `<td style="padding:5px 12px;">${i}</td>
+      <td style="padding:5px 12px;text-align:right;">${start.toFixed(2)}</td>
+      <td style="padding:5px 12px;text-align:right;color:${type==='growth'?'var(--green)':'var(--red)'};">${type==='growth'?'+':''}${change.toFixed(2)}</td>
+      <td style="padding:5px 12px;text-align:right;font-weight:${i===n?'700':'400'};">${end.toFixed(2)}</td>`;
+    tbody.appendChild(row);
+    val = end;
+  }
+  document.getElementById('eg2-calc-summary').innerHTML =
+    `Multiplier: <strong>${m.toFixed(4)}</strong> &nbsp;·&nbsp; Formula: ${P} × ${m.toFixed(4)}<sup>${n}</sup>`;
+  document.getElementById('eg2-calc-final').textContent =
+    `After ${n} period${n>1?'s':''}, the value is ${val.toFixed(2)}`;
+  document.getElementById('eg2-calc-out').style.display = 'block';
+}
+
+// --- Card 3: Identify & Solve ---
+const EG2_POOL = [
+  { text: 'A bacteria colony starts at 500 and doubles every hour. What is the count after 4 hours?',
+    type: 'growth', mult: 2, P: 500, n: 4, ans: 500 * Math.pow(2, 4),
+    unit: 'bacteria', multHint: '×2 (doubles each hour — this is growth)' },
+  { text: 'A radioactive substance loses 20% of its mass per year. Initial mass = 80 g. Find the mass after 3 years.',
+    type: 'decay', mult: 0.80, P: 80, n: 3, ans: 80 * Math.pow(0.80, 3),
+    unit: 'g', multHint: '0.80 (loses 20%, so 80% remains — this is decay)' },
+  { text: 'An investment of £5 000 grows at 6% per year. Find its value after 5 years.',
+    type: 'growth', mult: 1.06, P: 5000, n: 5, ans: 5000 * Math.pow(1.06, 5),
+    unit: '£', multHint: '1.06 (grows by 6% — this is growth)' },
+  { text: 'A town\'s population of 40 000 decreases by 3% per year. Find the population after 10 years.',
+    type: 'decay', mult: 0.97, P: 40000, n: 10, ans: 40000 * Math.pow(0.97, 10),
+    unit: 'people', multHint: '0.97 (loses 3%, so 97% remains — this is decay)' },
+  { text: 'A virus spreads: the count triples every day. Initial count = 10. Find the count after 5 days.',
+    type: 'growth', mult: 3, P: 10, n: 5, ans: 10 * Math.pow(3, 5),
+    unit: 'virus particles', multHint: '×3 (triples each day — this is growth)' },
+  { text: 'A machine worth £25 000 depreciates at 12% per year. Find its value after 4 years.',
+    type: 'decay', mult: 0.88, P: 25000, n: 4, ans: 25000 * Math.pow(0.88, 4),
+    unit: '£', multHint: '0.88 (loses 12%, so 88% remains — this is decay)' },
+];
+let eg2Q = null, eg2Step = 0, eg2Hi = 0;
+
+function eg2QNew() {
+  eg2Q = EG2_POOL[Math.floor(Math.random() * EG2_POOL.length)];
+  eg2Step = 1; eg2Hi = 0;
+  clearHints('eg2-hints'); fbHide('eg2-fb');
+  document.getElementById('eg2-q-text').textContent = eg2Q.text;
+  document.getElementById('eg2-step1').style.display = 'block';
+  document.getElementById('eg2-step2').style.display = 'none';
+  document.getElementById('eg2-step3').style.display = 'none';
+  document.getElementById('eg2-btn-growth').className = 'btn btn-secondary';
+  document.getElementById('eg2-btn-decay').className  = 'btn btn-secondary';
+  document.getElementById('eg2-mult-input').value = '';
+  document.getElementById('eg2-ans-input').value  = '';
+}
+
+function eg2StepOne(chosen) {
+  if (eg2Step !== 1) return;
+  document.getElementById('eg2-btn-growth').className = 'btn btn-secondary';
+  document.getElementById('eg2-btn-decay').className  = 'btn btn-secondary';
+  document.getElementById(chosen === 'growth' ? 'eg2-btn-growth' : 'eg2-btn-decay').className = 'btn btn-primary';
+  if (chosen === eg2Q.type) {
+    fb('eg2-fb', `✅ Correct — this is ${eg2Q.type}! The multiplier will be ${eg2Q.type === 'growth' ? '> 1' : '< 1'}.`, 'correct');
+    addScore('eg2', 5);
+    eg2Step = 2;
+    document.getElementById('eg2-step2').style.display = 'block';
+    document.getElementById('eg2-mult-input').focus();
+  } else {
+    const opposite = chosen === 'growth' ? 'decay' : 'growth';
+    fb('eg2-fb', `🤔 Not quite — look at what happens each period. Does the value go up (growth, m > 1) or down (decay, m < 1)?`, 'wrong');
+  }
+}
+
+function eg2StepTwo() {
+  if (eg2Step !== 2) return;
+  const got = parseFloat(document.getElementById('eg2-mult-input').value);
+  if (isNaN(got)) { fb('eg2-fb', '⚠️ Enter the multiplier.', 'hint'); return; }
+  const corr = eg2Q.mult;
+  if (Math.abs(got - corr) < 0.005) {
+    fb('eg2-fb', `✅ Multiplier correct: m = ${corr}. Now calculate the final value.`, 'correct');
+    addScore('eg2', 5);
+    eg2Step = 3;
+    document.getElementById('eg2-step3-label').textContent =
+      `Step 3 — Final = ${eg2Q.P} × ${corr}^${eg2Q.n} =`;
+    document.getElementById('eg2-step3').style.display = 'block';
+    document.getElementById('eg2-ans-input').focus();
+  } else if (Math.abs(got - (1 + (corr < 1 ? -(1 - corr) : (corr - 1)))) < 0.001 && eg2Q.type === 'decay' && got > 1) {
+    fb('eg2-fb', `🤔 That's a growth multiplier. For decay, subtract the rate from 1: m = 1 − ${Math.round((1-corr)*100)}/100 = ${corr}.`, 'wrong');
+  } else {
+    fb('eg2-fb', `🤔 Check: ${eg2Q.multHint}`, 'wrong');
+  }
+}
+
+function eg2StepThree() {
+  if (eg2Step !== 3) return;
+  const got = parseFloat(document.getElementById('eg2-ans-input').value);
+  if (isNaN(got)) { fb('eg2-fb', '⚠️ Enter the final value.', 'hint'); return; }
+  const ans = eg2Q.ans;
+  const eps = Math.abs(ans) * 0.005 + 0.01;
+
+  // Misconception: simple multiplication (P × r × n)
+  const simple = eg2Q.P * (eg2Q.type === 'growth' ? 1 + eg2Q.mult * eg2Q.n - 1 : 1);
+  if (Math.abs(got - eg2Q.P * eg2Q.mult * eg2Q.n) < eps) {
+    fb('eg2-fb', `🤔 You multiplied P × m × n — that's not exponential! Raise m to the power n: ${eg2Q.P} × ${eg2Q.mult}^${eg2Q.n} = ${ans.toFixed(2)}.`, 'wrong'); return;
+  }
+  if (Math.abs(got - ans) < eps) {
+    fb('eg2-fb', `✅ Correct! Final = ${eg2Q.P} × ${eg2Q.mult}^${eg2Q.n} = <strong>${ans.toFixed(2)} ${eg2Q.unit}</strong>`, 'correct');
+    addScore('eg2', 5);
+    eg2Step = 0;
+  } else {
+    fb('eg2-fb', `❌ Not quite. ${eg2Q.P} × ${eg2Q.mult}^${eg2Q.n} = ${ans.toFixed(2)} ${eg2Q.unit}.`, 'wrong');
+  }
+}
+
+function eg2Hint(step) {
+  const q = eg2Q; if (!q) return;
+  let hints;
+  if (step === 2) {
+    hints = [
+      `${q.type === 'growth' ? 'Growth' : 'Decay'} multiplier: m = 1 ${q.type === 'growth' ? '+' : '−'} r/100.`,
+      `r = ${Math.round(Math.abs(q.mult - 1) * 100)}%, so m = 1 ${q.type === 'growth' ? '+' : '−'} ${Math.round(Math.abs(q.mult - 1) * 100)}/100 = ${q.mult}.`,
+      `Multiplier = ${q.mult}`
+    ];
+  } else {
+    hints = [
+      `Formula: Final = P × m^n = ${q.P} × ${q.mult}^${q.n}.`,
+      `${q.mult}^${q.n} = ${Math.pow(q.mult, q.n).toFixed(6)}.`,
+      `Answer: ${q.ans.toFixed(2)} ${q.unit}`
+    ];
+  }
+  const shown = document.querySelectorAll('#eg2-hints li').length;
+  if (shown < hints.length) addHint('eg2-hints', hints[shown]);
+}
+
+// --- Card 4: Find n ---
+const EG2_FN_POOL = [
+  { text: '£3 000 is invested at 5% per year compound interest. After how many complete years does it first exceed £4 000?',
+    P: 3000, m: 1.05, condition: 'exceeds', threshold: 4000, ans: 7,
+    unit: '£', condWord: '>' },
+  { text: 'A town\'s population starts at 50 000 and grows at 2% per year. After how many complete years does it first exceed 60 000?',
+    P: 50000, m: 1.02, condition: 'exceeds', threshold: 60000, ans: 10,
+    unit: 'people', condWord: '>' },
+  { text: 'A car is worth £15 000 and loses 10% of its value per year. After how many complete years does it first fall below £10 000?',
+    P: 15000, m: 0.90, condition: 'below', threshold: 10000, ans: 5,
+    unit: '£', condWord: '<' },
+  { text: 'A radioactive sample starts at 200 g and loses 25% per year. After how many complete years is it first below 50 g?',
+    P: 200, m: 0.75, condition: 'below', threshold: 50, ans: 6,
+    unit: 'g', condWord: '<' },
+];
+let eg2Fn = null, eg2FnHi = 0;
+
+function eg2FnNew() {
+  eg2Fn = EG2_FN_POOL[Math.floor(Math.random() * EG2_FN_POOL.length)];
+  eg2FnHi = 0; clearHints('eg2-fn-hints'); fbHide('eg2-fn-fb');
+  document.getElementById('eg2-fn-q').textContent = eg2Fn.text;
+  document.getElementById('eg2-fn-input').value = '';
+  document.getElementById('eg2-fn-table').style.display = 'none';
+  document.getElementById('eg2-fn-table').innerHTML = '';
+}
+
+function eg2FnCheck() {
+  if (!eg2Fn) return;
+  const got = parseInt(document.getElementById('eg2-fn-input').value, 10);
+  if (isNaN(got) || got < 1) { fb('eg2-fn-fb', '⚠️ Enter a positive whole number.', 'hint'); return; }
+  const { P, m, threshold, ans, unit, condWord } = eg2Fn;
+
+  // Build verification table up to got+1 years
+  const showN = Math.min(got + 1, 12);
+  const tableDiv = document.getElementById('eg2-fn-table');
+  let html = `<table style="width:100%;border-collapse:collapse;font-size:0.82rem;"><thead>
+    <tr style="background:var(--navy);color:white;">
+      <th style="padding:5px 10px;text-align:left;">Year</th>
+      <th style="padding:5px 10px;text-align:right;">Value (${unit})</th>
+      <th style="padding:5px 10px;text-align:center;">Condition met?</th>
+    </tr></thead><tbody>`;
+  let val = P;
+  for (let i = 1; i <= showN; i++) {
+    val = P * Math.pow(m, i);
+    const met = condWord === '>' ? val > threshold : val < threshold;
+    html += `<tr style="background:${met ? '#dcfce7' : (i%2===0?'#f8fafc':'white')}">
+      <td style="padding:5px 10px;">${i}</td>
+      <td style="padding:5px 10px;text-align:right;">${val.toFixed(2)}</td>
+      <td style="padding:5px 10px;text-align:center;">${met ? '✅ Yes' : '—'}</td>
+    </tr>`;
+  }
+  html += '</tbody></table>';
+  tableDiv.innerHTML = html;
+  tableDiv.style.display = 'block';
+
+  if (got === ans) {
+    fb('eg2-fn-fb', `✅ Correct! After exactly <strong>${ans}</strong> year${ans>1?'s':''}, the condition is first met (see table).`, 'correct');
+    addScore('eg2', 10);
+  } else {
+    const checkVal = P * Math.pow(m, got);
+    const prevVal  = P * Math.pow(m, got - 1);
+    const prevMet  = condWord === '>' ? prevVal > threshold : prevVal < threshold;
+    const thisMet  = condWord === '>' ? checkVal > threshold : checkVal < threshold;
+    if (thisMet && !prevMet) {
+      fb('eg2-fn-fb', `✅ Correct value! The answer is <strong>${got}</strong> years.`, 'correct');
+      addScore('eg2', 10);
+    } else {
+      fb('eg2-fn-fb', `❌ Not quite. After ${got} years, value = ${checkVal.toFixed(2)} ${unit}. The condition is ${thisMet ? 'already' : 'not yet'} met. Try n = ${ans}.`, 'wrong');
+    }
+  }
+}
+
+function eg2FnHint() {
+  if (!eg2Fn) return;
+  const { P, m, threshold, ans, condWord } = eg2Fn;
+  const prev = P * Math.pow(m, ans - 1);
+  const atAns = P * Math.pow(m, ans);
+  const hints = [
+    `Use trial: substitute n = 1, 2, 3… into Final = ${P} × ${m}^n. Stop when the value first ${condWord === '>' ? 'exceeds' : 'falls below'} ${threshold}.`,
+    `At n = ${ans-1}: value ≈ ${prev.toFixed(2)} (condition NOT met). At n = ${ans}: value ≈ ${atAns.toFixed(2)} (condition MET).`,
+    `Answer: n = ${ans} years.`
+  ];
+  if (eg2FnHi < hints.length) addHint('eg2-fn-hints', hints[eg2FnHi++]);
+}
+
+function eg2Init() {
+  eg2QNew();
+  eg2FnNew();
+}
+
+// ================================================================
+// MODULE 25 · ALGEBRAIC PROPORTION
+// ================================================================
+
+// --- Card 2: Find the equation ---
+const AP_POOL = [
+  { typeKey: 'x',     typeLabel: 'y ∝ x',    xGiven: 3,  yGiven: 15, xFind: 7,   k: 5,   ans: 35,   kFormula: 'y/x',    fxFind: x => x,      fx: 'y = 5x' },
+  { typeKey: 'x2',    typeLabel: 'y ∝ x²',   xGiven: 4,  yGiven: 48, xFind: 6,   k: 3,   ans: 108,  kFormula: 'y/x²',   fxFind: x => x*x,    fx: 'y = 3x²' },
+  { typeKey: 'sqrtx', typeLabel: 'y ∝ √x',   xGiven: 25, yGiven: 20, xFind: 100, k: 4,   ans: 40,   kFormula: 'y/√x',   fxFind: x => Math.sqrt(x), fx: 'y = 4√x' },
+  { typeKey: 'inv',   typeLabel: 'y ∝ 1/x',  xGiven: 4,  yGiven: 6,  xFind: 8,   k: 24,  ans: 3,    kFormula: 'y×x',    fxFind: x => 1/x,    fx: 'y = 24/x' },
+  { typeKey: 'invx2', typeLabel: 'y ∝ 1/x²', xGiven: 2,  yGiven: 5,  xFind: 10,  k: 20,  ans: 0.2,  kFormula: 'y×x²',   fxFind: x => 1/(x*x), fx: 'y = 20/x²' },
+  { typeKey: 'x2',    typeLabel: 'y ∝ x²',   xGiven: 2,  yGiven: 12, xFind: 5,   k: 3,   ans: 75,   kFormula: 'y/x²',   fxFind: x => x*x,    fx: 'y = 3x²' },
+  { typeKey: 'inv',   typeLabel: 'y ∝ 1/x',  xGiven: 3,  yGiven: 10, xFind: 15,  k: 30,  ans: 2,    kFormula: 'y×x',    fxFind: x => 1/x,    fx: 'y = 30/x' },
+  { typeKey: 'sqrtx', typeLabel: 'y ∝ √x',   xGiven: 9,  yGiven: 9,  xFind: 16,  k: 3,   ans: 12,   kFormula: 'y/√x',   fxFind: x => Math.sqrt(x), fx: 'y = 3√x' },
+];
+let apQ = null, apStep = 0, apHi = 0;
+
+function apNew() {
+  apQ = AP_POOL[Math.floor(Math.random() * AP_POOL.length)];
+  apStep = 1; apHi = 0;
+  clearHints('ap-hints'); fbHide('ap-fb');
+  document.getElementById('ap-q-text').innerHTML =
+    `Given that <strong>${apQ.typeLabel}</strong>... wait, identify the type first!<br>
+     When x = ${apQ.xGiven}, y = ${apQ.yGiven}. Find y when x = ${apQ.xFind}.`;
+  // Reset steps
+  document.getElementById('ap-step1').style.display = 'block';
+  document.getElementById('ap-step2').style.display = 'none';
+  document.getElementById('ap-step3').style.display = 'none';
+  document.getElementById('ap-type-select').value = '';
+  document.getElementById('ap-k-input').value = '';
+  document.getElementById('ap-ans-input').value = '';
+}
+
+function apStep1Check() {
+  const chosen = document.getElementById('ap-type-select').value;
+  if (!chosen) { fb('ap-fb', '⚠️ Select a proportion type.', 'hint'); return; }
+  if (chosen === apQ.typeKey) {
+    fb('ap-fb', `✅ Correct type: <strong>${apQ.typeLabel}</strong> → equation form: ${apQ.fx.split('=')[0]}= k·f(x).`, 'correct');
+    addScore('ap', 5);
+    apStep = 2;
+    document.getElementById('ap-step2').style.display = 'block';
+    document.getElementById('ap-k-input').focus();
+  } else {
+    fb('ap-fb', `🤔 Not quite. Look at the relationship: does y grow proportionally to x, x², √x, or inversely? The correct type is ${apQ.typeLabel}.`, 'wrong');
+  }
+}
+
+function apStep2Check() {
+  if (apStep !== 2) return;
+  const got = parseFloat(document.getElementById('ap-k-input').value);
+  if (isNaN(got)) { fb('ap-fb', '⚠️ Enter the value of k.', 'hint'); return; }
+  if (Math.abs(got - apQ.k) < 0.01) {
+    fb('ap-fb', `✅ k = ${apQ.k}. Equation: <strong>${apQ.fx}</strong>. Now find y when x = ${apQ.xFind}.`, 'correct');
+    addScore('ap', 5);
+    apStep = 3;
+    document.getElementById('ap-step3-label').textContent = `Step 3 — Using ${apQ.fx}, find y when x = ${apQ.xFind}:`;
+    document.getElementById('ap-step3').style.display = 'block';
+    document.getElementById('ap-ans-input').focus();
+  } else {
+    fb('ap-fb', `🤔 Not quite. Substitute x = ${apQ.xGiven}, y = ${apQ.yGiven} into ${apQ.typeLabel} to find k. k = y ÷ f(${apQ.xGiven}) = ${apQ.yGiven} ÷ ${apQ.fxFind(apQ.xGiven).toFixed(4)} = ${apQ.k}.`, 'wrong');
+  }
+}
+
+function apStep3Check() {
+  if (apStep !== 3) return;
+  const got = parseFloat(document.getElementById('ap-ans-input').value);
+  if (isNaN(got)) { fb('ap-fb', '⚠️ Enter your answer for y.', 'hint'); return; }
+  const tol = Math.abs(apQ.ans) * 0.01 + 0.01;
+  if (Math.abs(got - apQ.ans) < tol) {
+    fb('ap-fb', `✅ Correct! ${apQ.fx}, x = ${apQ.xFind} → y = <strong>${apQ.ans}</strong>`, 'correct');
+    addScore('ap', 5);
+    apStep = 0;
+  } else {
+    fb('ap-fb', `❌ Not quite. Substitute x = ${apQ.xFind} into ${apQ.fx}: y = ${apQ.k} × ${apQ.fxFind(apQ.xFind).toFixed(4)} = ${apQ.ans}.`, 'wrong');
+  }
+}
+
+function apHint(step) {
+  const q = apQ; if (!q) return;
+  let hints;
+  if (step === 1) {
+    hints = [
+      `Look at the question context. Does y grow faster than x (squared), slower (root), or fall as x rises (inverse)?`,
+      `The question is about ${q.typeLabel}.`,
+      `Select: ${q.typeLabel}`
+    ];
+  } else if (step === 2) {
+    const fval = q.fxFind(q.xGiven);
+    hints = [
+      `Rearrange ${q.typeLabel} to y = k·f(x). Substitute x = ${q.xGiven}, y = ${q.yGiven}.`,
+      `k = ${q.yGiven} ÷ f(${q.xGiven}) = ${q.yGiven} ÷ ${fval.toFixed(4)}`,
+      `k = ${q.k}`
+    ];
+  } else {
+    hints = [
+      `Use your equation ${q.fx} and substitute x = ${q.xFind}.`,
+      `y = ${q.k} × ${q.fxFind(q.xFind).toFixed(4)}`,
+      `y = ${q.ans}`
+    ];
+  }
+  const shown = document.querySelectorAll('#ap-hints li').length;
+  if (shown < hints.length) addHint('ap-hints', hints[shown]);
+}
+
+// --- Card 3: Direct vs Inverse ---
+const AP_DV_POOL = [
+  { text: 'The cost of petrol and the number of litres bought.',
+    correct: 'y ∝ x', explanation: 'More litres → higher cost. Direct proportion.' },
+  { text: 'The time to complete a job and the number of workers (same total work).',
+    correct: 'y ∝ 1/x', explanation: 'More workers → less time. Inverse proportion.' },
+  { text: 'The area of a square and its side length.',
+    correct: 'y ∝ x²', explanation: 'Area = side² — quadratic (direct, squared).' },
+  { text: 'The speed of a journey and the time taken (fixed distance).',
+    correct: 'y ∝ 1/x', explanation: 'Higher speed → less time (d = fixed). Inverse.' },
+  { text: 'The distance fallen by an object and the square of the time fallen.',
+    correct: 'y ∝ x²', explanation: 'd = ½gt² — distance ∝ t². Direct, squared.' },
+  { text: 'The brightness of a light source and the square of the distance from it.',
+    correct: 'y ∝ 1/x²', explanation: 'Inverse square law: B ∝ 1/d². Inverse squared.' },
+];
+let apDv = null;
+function apDvNew() {
+  apDv = AP_DV_POOL[Math.floor(Math.random() * AP_DV_POOL.length)];
+  fbHide('ap-dv-fb');
+  document.getElementById('ap-dv-q').textContent = apDv.text;
+  const opts = ['y ∝ x', 'y ∝ x²', 'y ∝ √x', 'y ∝ 1/x', 'y ∝ 1/x²'];
+  const container = document.getElementById('ap-dv-opts');
+  container.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-secondary';
+    btn.textContent = opt;
+    btn.onclick = () => {
+      container.querySelectorAll('.btn').forEach(b => b.className = 'btn btn-secondary');
+      btn.className = 'btn btn-primary';
+      if (opt === apDv.correct) {
+        fb('ap-dv-fb', `✅ Correct! <strong>${apDv.correct}</strong>. ${apDv.explanation}`, 'correct');
+        addScore('ap', 5);
+      } else {
+        fb('ap-dv-fb', `❌ Not quite. ${apDv.explanation} Answer: <strong>${apDv.correct}</strong>.`, 'wrong');
+      }
+    };
+    container.appendChild(btn);
+  });
+}
+
+// --- Card 4: Scale Factor Challenge ---
+const AP_SF_POOL = [
+  { q: 'y ∝ x². If x is tripled, y is multiplied by…', correct: '9', distractors: ['3', '6', '27'], explanation: '(3x)² = 9x² — the scale factor is squared.' },
+  { q: 'y ∝ √x. If x is multiplied by 4, y is multiplied by…', correct: '2', distractors: ['4', '8', '√2'], explanation: '√(4x) = 2√x — square root of 4 = 2.' },
+  { q: 'y ∝ 1/x². If x is halved, y is multiplied by…', correct: '4', distractors: ['2', '½', '¼'], explanation: '1/(x/2)² = 4/x² — halving x quadruples y.' },
+  { q: 'y ∝ x. If x is multiplied by 5, y is multiplied by…', correct: '5', distractors: ['10', '25', '√5'], explanation: 'Direct proportion: y scales by the same factor as x.' },
+  { q: 'y ∝ 1/x. If x is multiplied by 3, y is multiplied by…', correct: '1/3', distractors: ['3', '9', '1/9'], explanation: 'Inverse: tripling x gives y = k/(3x) = (1/3)·(k/x).' },
+  { q: 'y ∝ x². If x is halved, y is multiplied by…', correct: '1/4', distractors: ['1/2', '2', '4'], explanation: '(x/2)² = x²/4 — halving x quarters y.' },
+];
+let apSf = null;
+function apSfNew() {
+  apSf = AP_SF_POOL[Math.floor(Math.random() * AP_SF_POOL.length)];
+  fbHide('ap-sf-fb');
+  document.getElementById('ap-sf-q').textContent = apSf.q;
+  const opts = [apSf.correct, ...apSf.distractors].sort(() => Math.random() - 0.5);
+  const container = document.getElementById('ap-sf-opts');
+  container.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-secondary';
+    btn.style.minWidth = '72px';
+    btn.textContent = opt;
+    btn.onclick = () => {
+      container.querySelectorAll('.btn').forEach(b => b.className = 'btn btn-secondary');
+      btn.className = 'btn btn-primary';
+      if (opt === apSf.correct) {
+        fb('ap-sf-fb', `✅ Correct! ×${apSf.correct}. ${apSf.explanation}`, 'correct');
+        addScore('ap', 8);
+      } else {
+        fb('ap-sf-fb', `❌ Answer: ×${apSf.correct}. ${apSf.explanation}`, 'wrong');
+      }
+    };
+    container.appendChild(btn);
+  });
+}
+
+function apInit() {
+  apNew();
+  apDvNew();
+  apSfNew();
+}
+
+// ─── Add to page init ───
+document.addEventListener('DOMContentLoaded', () => {
+  eg2Init();
+  apInit();
+});
 </script>
 
 </div><!-- end .content-area -->
