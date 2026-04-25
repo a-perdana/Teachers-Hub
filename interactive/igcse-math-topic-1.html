@@ -823,6 +823,14 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
   <button class="nav-item" onclick="showModule(13)"><span class="nav-icon">🔵</span><span class="nav-label">Sets & Venn Diagrams</span></button>
   <button class="nav-item" onclick="showModule(14)"><span class="nav-icon">🔁</span><span class="nav-label">Recurring Decimals</span></button>
   <button class="nav-item" onclick="showModule(15)"><span class="nav-icon">√</span><span class="nav-label">Surds</span></button>
+  <button class="nav-item" onclick="showModule(16)"><span class="nav-icon">📐</span><span class="nav-label">Bounds & Number Lines</span></button>
+  <button class="nav-item" onclick="showModule(17)"><span class="nav-icon">🔭</span><span class="nav-label">Standard Form Ops</span></button>
+  <button class="nav-item" onclick="showModule(18)"><span class="nav-icon">⚙️</span><span class="nav-label">Index Laws</span></button>
+  <button class="nav-item" onclick="showModule(19)"><span class="nav-icon">💰</span><span class="nav-label">Profit, Loss & Interest</span></button>
+  <button class="nav-item" onclick="showModule(20)"><span class="nav-icon">⚖️</span><span class="nav-label">Proportion</span></button>
+  <button class="nav-item" onclick="showModule(21)"><span class="nav-icon">🔢</span><span class="nav-label">Ordering & Magnitude</span></button>
+  <button class="nav-item" onclick="showModule(22)"><span class="nav-icon">🖩</span><span class="nav-label">Calculator & Notation</span></button>
+  <button class="nav-item" onclick="showModule(23)"><span class="nav-icon">🏆</span><span class="nav-label">Exam Challenge</span></button>
 
   <!-- Back to chapter index -->
   <div style="margin-top:auto;padding:14px;border-top:1px solid rgba(255,255,255,0.08);">
@@ -6410,10 +6418,1435 @@ function init() {
   suInit(); suMulNew();
   // Number ordering (inside M6 – Number Types)
   noNew();
+  // M16–23 new modules
+  bnNew(); bnSpNew();
+  sfoMdNew(); sfoAsNew(); sfoFixNew();
+  ixNew(); ixMixNew();
+  plNew(); plMsNew();
+  ppSliderUpdate(); ppNew();
+  omNew(); omCmpNew();
+  caNew(); caPrNew();
+  ecInit();
 }
 
 document.addEventListener('DOMContentLoaded', init);
 </script>
+
+<!-- MODULE 16 · BOUNDS & NUMBER LINES -->
+<section class="module" id="mod-16">
+  <div class="progress-card">
+    <span class="prog-label">📐 Bounds &amp; Number Lines</span>
+    <div class="prog-track"><div class="prog-fill" id="bn-bar"></div></div>
+    <span class="prog-count" id="bn-score">0 pts</span>
+  </div>
+  <div class="teacher-panel" id="tp-16">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Bounds &amp; Number Lines</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> Using the rounded value as exact — e.g. treating 3.7 cm as precisely 3.7 cm. Stress: the true value lies in an interval, not at a point.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Forgetting ± half a unit. If rounded to nearest 0.1, the half-unit is 0.05, not 0.1.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> Speed bound confusion — max speed = max distance ÷ MIN time (students often use max÷max).</div>
+      <div class="tp-item"><strong>✅ Strategy:</strong> Always establish the precision first (nearest mm, nearest 10, 1 d.p., etc.), halve it, then add/subtract from the rounded value.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📐 Bounds &amp; Number Lines</div>
+    <div class="card-desc">Given a rounded measurement, find its lower and upper bounds and see them on a number line.</div>
+  </div>
+
+  <!-- Part 1: Find bounds -->
+  <div class="card">
+    <div class="card-title">Part 1 — Calculate Bounds</div>
+    <div class="card-desc" style="margin-bottom:10px;">A value is given with its rounding precision. Calculate the lower bound (LB) and upper bound (UB).</div>
+    <div class="problem-display" id="bn-q" style="font-size:1rem;padding:12px 16px;">—</div>
+    <div class="input-row" style="flex-wrap:wrap;gap:10px;">
+      <label class="bold">Lower bound:</label>
+      <input type="number" id="bn-lb" class="inp-sm" step="any" placeholder="LB" onkeydown="if(event.key==='Enter')bnCheck()" />
+      <label class="bold">Upper bound:</label>
+      <input type="number" id="bn-ub" class="inp-sm" step="any" placeholder="UB" onkeydown="if(event.key==='Enter')bnCheck()" />
+    </div>
+    <div class="input-row" style="margin-top:8px;">
+      <button class="btn btn-success" onclick="bnCheck()">✓ Check</button>
+      <button class="btn btn-hint"    onclick="bnHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="bnNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="bn-hints"></ul>
+    <div class="feedback" id="bn-fb"></div>
+    <!-- Number line -->
+    <div id="bn-line-wrap" style="display:none;margin-top:18px;">
+      <div style="font-weight:700;color:var(--navy);margin-bottom:8px;font-size:0.9rem;">Number line:</div>
+      <div style="position:relative;height:54px;padding:0 8px;">
+        <div style="position:absolute;bottom:18px;left:8px;right:8px;height:3px;background:var(--navy);border-radius:2px;"></div>
+        <div id="bn-interval" style="position:absolute;bottom:18px;height:3px;background:var(--blue);border-radius:2px;"></div>
+        <div id="bn-lb-tick" style="position:absolute;bottom:12px;width:2px;height:15px;background:var(--blue);"></div>
+        <div id="bn-ub-tick" style="position:absolute;bottom:12px;width:2px;height:15px;background:var(--blue);"></div>
+        <div id="bn-mid-tick" style="position:absolute;bottom:10px;width:2px;height:10px;background:var(--amber);"></div>
+        <div id="bn-lb-lbl" style="position:absolute;bottom:0;font-size:0.72rem;color:var(--blue);font-weight:700;transform:translateX(-50%);"></div>
+        <div id="bn-mid-lbl" style="position:absolute;bottom:0;font-size:0.72rem;color:var(--amber);font-weight:700;transform:translateX(-50%);"></div>
+        <div id="bn-ub-lbl" style="position:absolute;bottom:0;font-size:0.72rem;color:var(--blue);font-weight:700;transform:translateX(-50%);"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Part 2: Speed bounds -->
+  <div class="card">
+    <div class="card-title">Part 2 — Speed Bounds</div>
+    <div class="card-desc" style="margin-bottom:10px;">Distance and time are both rounded. Find the maximum possible speed (km/h).<br><span style="color:var(--muted);font-size:0.82rem;">Max speed = upper bound of distance ÷ lower bound of time.</span></div>
+    <div class="problem-display" id="bn-sp-q" style="font-size:1rem;padding:12px 16px;">—</div>
+    <div class="input-row">
+      <label class="bold">Max speed (km/h, 3 s.f.):</label>
+      <input type="number" id="bn-sp-input" class="inp-sm" step="any" onkeydown="if(event.key==='Enter')bnSpCheck()" />
+      <button class="btn btn-success" onclick="bnSpCheck()">✓ Check</button>
+      <button class="btn btn-hint"    onclick="bnSpHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="bnSpNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="bn-sp-hints"></ul>
+    <div class="feedback" id="bn-sp-fb"></div>
+  </div>
+</section>
+
+<!-- MODULE 17 · STANDARD FORM OPERATIONS -->
+<section class="module" id="mod-17">
+  <div class="progress-card">
+    <span class="prog-label">🔭 Standard Form Operations</span>
+    <div class="prog-track"><div class="prog-fill" id="sfo-bar"></div></div>
+    <span class="prog-count" id="sfo-score">0 pts</span>
+  </div>
+  <div class="teacher-panel" id="tp-17">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Standard Form Operations</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> Not normalising — leaving answer as 24 × 10⁵ instead of 2.4 × 10⁶. Always check 1 ≤ A &lt; 10.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Adding powers on multiplication: (3×10²)×(2×10³) ≠ 6×10⁵ if coefficient ≥ 10. Multiply coefficients first, then adjust.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> Adding in standard form without aligning powers — must convert to same power before adding coefficients.</div>
+      <div class="tp-item"><strong>✅ Strategy:</strong> Multiply: combine coefficients × combine powers. Add/subtract: match powers first, then combine coefficients, then normalise.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔭 Standard Form Operations</div>
+    <div class="card-desc">Multiply, divide, and add numbers written in standard form (scientific notation). Always normalise: 1 ≤ coefficient &lt; 10.</div>
+  </div>
+
+  <!-- Part 1: Multiply / Divide -->
+  <div class="card">
+    <div class="card-title">Part 1 — Multiply &amp; Divide</div>
+    <div class="card-desc" style="margin-bottom:10px;">Enter your answer as: coefficient (1 ≤ A &lt; 10) and power of 10.</div>
+    <div class="problem-display" id="sfo-md-q" style="font-size:1.1rem;padding:12px 16px;letter-spacing:0.03em;">—</div>
+    <div class="input-row" style="flex-wrap:wrap;gap:8px;">
+      <label class="bold">A =</label>
+      <input type="number" id="sfo-md-coeff" class="inp-sm" step="any" placeholder="e.g. 3.6" style="width:90px;" />
+      <label class="bold">× 10 ^</label>
+      <input type="number" id="sfo-md-pow" class="inp-sm" placeholder="e.g. 5" style="width:70px;" onkeydown="if(event.key==='Enter')sfoMdCheck()" />
+    </div>
+    <div class="input-row" style="margin-top:8px;">
+      <button class="btn btn-success" onclick="sfoMdCheck()">✓ Check</button>
+      <button class="btn btn-hint"    onclick="sfoMdHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="sfoMdNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="sfo-md-hints"></ul>
+    <div class="feedback" id="sfo-md-fb"></div>
+  </div>
+
+  <!-- Part 2: Add / Subtract -->
+  <div class="card">
+    <div class="card-title">Part 2 — Add &amp; Subtract</div>
+    <div class="card-desc" style="margin-bottom:10px;">Align powers first, then add/subtract coefficients. Give answer in standard form.</div>
+    <div class="problem-display" id="sfo-as-q" style="font-size:1.1rem;padding:12px 16px;">—</div>
+    <div class="input-row" style="flex-wrap:wrap;gap:8px;">
+      <label class="bold">A =</label>
+      <input type="number" id="sfo-as-coeff" class="inp-sm" step="any" placeholder="1–9.9" style="width:90px;" />
+      <label class="bold">× 10 ^</label>
+      <input type="number" id="sfo-as-pow" class="inp-sm" placeholder="n" style="width:70px;" onkeydown="if(event.key==='Enter')sfoAsCheck()" />
+    </div>
+    <div class="input-row" style="margin-top:8px;">
+      <button class="btn btn-success" onclick="sfoAsCheck()">✓ Check</button>
+      <button class="btn btn-hint"    onclick="sfoAsHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="sfoAsNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="sfo-as-hints"></ul>
+    <div class="feedback" id="sfo-as-fb"></div>
+  </div>
+
+  <!-- Part 3: Fix the mistake -->
+  <div class="card">
+    <div class="card-title">Part 3 — Fix the Mistake</div>
+    <div class="card-desc" style="margin-bottom:10px;">A student has made an error. Identify what went wrong and give the correct answer.</div>
+    <div id="sfo-fix-q" style="background:#fef2f2;border-left:4px solid var(--red);border-radius:8px;padding:14px;margin-bottom:12px;font-family:var(--font-mono);"></div>
+    <div id="sfo-fix-opts" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;"></div>
+    <div class="feedback" id="sfo-fix-fb"></div>
+    <button class="btn btn-secondary" style="margin-top:6px;" onclick="sfoFixNew()">↺ New</button>
+  </div>
+</section>
+
+<!-- MODULE 18 · INDEX LAWS -->
+<section class="module" id="mod-18">
+  <div class="progress-card">
+    <span class="prog-label">⚙️ Index Laws</span>
+    <div class="prog-track"><div class="prog-fill" id="ix-bar"></div></div>
+    <span class="prog-count" id="ix-score">0 pts</span>
+  </div>
+  <div class="teacher-panel" id="tp-18">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Index Laws</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> aᵐ × aⁿ = a^(m×n) — students multiply the powers instead of adding them.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> (aᵐ)ⁿ = a^(m+n) — students add instead of multiply.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> a⁻ⁿ = negative number — stress it means 1/aⁿ, always positive for a &gt; 0.</div>
+      <div class="tp-item"><strong>❌ Misconception 4:</strong> a^(1/2) = a/2 — fractional index means root: a^(1/n) = ⁿ√a.</div>
+      <div class="tp-item"><strong>✅ Laws summary:</strong> aᵐ×aⁿ=a^(m+n) · aᵐ÷aⁿ=a^(m−n) · (aᵐ)ⁿ=a^(mn) · a⁰=1 · a^(−n)=1/aⁿ · a^(p/q)=ᵠ√(aᵖ)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ Index Laws</div>
+    <div class="card-desc">All six index laws in one place. Simplify expressions step by step.</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-top:12px;font-family:var(--font-mono);font-size:0.82rem;">
+      <div style="background:#eff6ff;padding:8px 12px;border-radius:8px;">aᵐ × aⁿ = a^(m+n)</div>
+      <div style="background:#f0fdf4;padding:8px 12px;border-radius:8px;">aᵐ ÷ aⁿ = a^(m−n)</div>
+      <div style="background:#fefce8;padding:8px 12px;border-radius:8px;">(aᵐ)ⁿ = a^(m×n)</div>
+      <div style="background:#fdf4ff;padding:8px 12px;border-radius:8px;">a⁰ = 1</div>
+      <div style="background:#fff7ed;padding:8px 12px;border-radius:8px;">a⁻ⁿ = 1/aⁿ</div>
+      <div style="background:#f0f9ff;padding:8px 12px;border-radius:8px;">a^(p/q) = ᵠ√(aᵖ)</div>
+    </div>
+  </div>
+
+  <!-- Part 1: Simplify -->
+  <div class="card">
+    <div class="card-title">Part 1 — Simplify the Expression</div>
+    <div class="card-desc" style="margin-bottom:10px;">Identify the law used and write the simplified form. Enter the final exponent (or decimal for fractional results).</div>
+    <div class="problem-display" id="ix-q" style="font-size:1.4rem;padding:12px 16px;letter-spacing:0.05em;">—</div>
+    <div id="ix-law-hint" style="font-size:0.8rem;color:var(--muted);margin:6px 0 10px;"></div>
+    <div class="input-row" style="flex-wrap:wrap;gap:8px;">
+      <label class="bold" id="ix-answer-label">Answer:</label>
+      <input type="text" id="ix-answer" class="inp-sm" placeholder="e.g. 5 or 1/8 or 2" style="width:120px;" onkeydown="if(event.key==='Enter')ixCheck()" />
+    </div>
+    <div class="input-row" style="margin-top:8px;">
+      <button class="btn btn-success" onclick="ixCheck()">✓ Check</button>
+      <button class="btn btn-hint"    onclick="ixHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="ixNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="ix-hints"></ul>
+    <div class="feedback" id="ix-fb"></div>
+  </div>
+
+  <!-- Part 2: Mixed difficulty -->
+  <div class="card">
+    <div class="card-title">Part 2 — Mixed Challenge</div>
+    <div class="card-desc" style="margin-bottom:10px;">Multi-law problems — may need two steps. Enter the evaluated value.</div>
+    <div class="problem-display" id="ix-mix-q" style="font-size:1.3rem;padding:12px 16px;">—</div>
+    <div class="input-row" style="flex-wrap:wrap;gap:8px;">
+      <label class="bold">Value:</label>
+      <input type="text" id="ix-mix-answer" class="inp-sm" placeholder="e.g. 8 or 1/4" style="width:120px;" onkeydown="if(event.key==='Enter')ixMixCheck()" />
+    </div>
+    <div class="input-row" style="margin-top:8px;">
+      <button class="btn btn-success" onclick="ixMixCheck()">✓ Check</button>
+      <button class="btn btn-hint"    onclick="ixMixHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="ixMixNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="ix-mix-hints"></ul>
+    <div class="feedback" id="ix-mix-fb"></div>
+  </div>
+</section>
+
+<!-- MODULE 19 · PROFIT, LOSS & INTEREST -->
+<section class="module" id="mod-19">
+  <div class="progress-card">
+    <span class="prog-label">💰 Profit, Loss &amp; Interest</span>
+    <div class="prog-track"><div class="prog-fill" id="pl-bar"></div></div>
+    <span class="prog-count" id="pl-score">0 pts</span>
+  </div>
+  <div class="teacher-panel" id="tp-19">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Profit, Loss &amp; Interest</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> % profit = profit ÷ selling price. Correct: % profit = profit ÷ <em>cost price</em> × 100.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Reverse %: subtracting the % from the final price. Must divide by the multiplier.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> Compound interest — using P × r × n (simple interest formula). CI re-invests each period.</div>
+      <div class="tp-item"><strong>✅ Formulae:</strong> %Profit = (SP−CP)/CP × 100 · SI = Prt/100 · CI: A = P(1+r/100)ⁿ</div>
+    </div>
+  </div>
+
+  <!-- Part 1: Profit & Loss -->
+  <div class="card">
+    <div class="card-title">Part 1 — Profit &amp; Loss</div>
+    <div class="card-desc" style="margin-bottom:10px;">Find the percentage profit or loss on a transaction.</div>
+    <div class="problem-display" id="pl-q" style="font-size:1rem;padding:12px 16px;">—</div>
+    <!-- Visual before/after bars -->
+    <div style="display:flex;gap:16px;align-items:flex-end;margin:14px 0;flex-wrap:wrap;">
+      <div style="flex:1;min-width:120px;">
+        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:4px;font-weight:700;">Cost Price</div>
+        <div id="pl-bar-cp" style="height:60px;background:var(--blue);border-radius:6px 6px 0 0;transition:height 0.3s;"></div>
+        <div id="pl-bar-cp-lbl" style="font-size:0.78rem;text-align:center;margin-top:4px;font-weight:700;color:var(--blue);">—</div>
+      </div>
+      <div style="flex:1;min-width:120px;">
+        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:4px;font-weight:700;">Selling Price</div>
+        <div id="pl-bar-sp" style="height:60px;background:var(--green);border-radius:6px 6px 0 0;transition:height 0.3s;"></div>
+        <div id="pl-bar-sp-lbl" style="font-size:0.78rem;text-align:center;margin-top:4px;font-weight:700;color:var(--green);">—</div>
+      </div>
+      <div style="flex:1;min-width:120px;">
+        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:4px;font-weight:700;" id="pl-diff-label">Profit/Loss</div>
+        <div id="pl-bar-diff" style="height:30px;background:var(--amber);border-radius:6px 6px 0 0;transition:height 0.3s;"></div>
+        <div id="pl-bar-diff-lbl" style="font-size:0.78rem;text-align:center;margin-top:4px;font-weight:700;color:var(--amber);">—</div>
+      </div>
+    </div>
+    <div class="input-row" style="flex-wrap:wrap;gap:8px;">
+      <label class="bold" id="pl-ask">% profit:</label>
+      <input type="number" id="pl-input" class="inp-sm" step="0.01" placeholder="e.g. 25.00" onkeydown="if(event.key==='Enter')plCheck()" />
+      <button class="btn btn-success" onclick="plCheck()">✓ Check</button>
+      <button class="btn btn-hint"    onclick="plHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="plNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="pl-hints"></ul>
+    <div class="feedback" id="pl-fb"></div>
+  </div>
+
+  <!-- Part 2: Multi-step -->
+  <div class="card">
+    <div class="card-title">Part 2 — Multi-step Real-life Problems</div>
+    <div class="card-desc" style="margin-bottom:10px;">Combines percentage change, reverse percentage, and interest in a realistic scenario.</div>
+    <div class="problem-display" id="pl-ms-q" style="font-size:1rem;padding:12px 16px;line-height:1.6;">—</div>
+    <div class="input-row" style="flex-wrap:wrap;gap:8px;">
+      <label class="bold" id="pl-ms-ask">Answer: £</label>
+      <input type="number" id="pl-ms-input" class="inp-sm" step="0.01" onkeydown="if(event.key==='Enter')plMsCheck()" />
+      <button class="btn btn-success" onclick="plMsCheck()">✓ Check</button>
+      <button class="btn btn-hint"    onclick="plMsHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="plMsNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="pl-ms-hints"></ul>
+    <div class="feedback" id="pl-ms-fb"></div>
+  </div>
+</section>
+
+<!-- MODULE 20 · PROPORTION -->
+<section class="module" id="mod-20">
+  <div class="progress-card">
+    <span class="prog-label">⚖️ Direct &amp; Inverse Proportion</span>
+    <div class="prog-track"><div class="prog-fill" id="pp-bar"></div></div>
+    <span class="prog-count" id="pp-score">0 pts</span>
+  </div>
+  <div class="teacher-panel" id="tp-20">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Proportion</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>Direct:</strong> y ∝ x → y = kx. As x doubles, y doubles. k = y/x (constant).</div>
+      <div class="tp-item"><strong>Inverse:</strong> y ∝ 1/x → y = k/x. As x doubles, y halves. k = xy (constant).</div>
+      <div class="tp-item"><strong>❌ Misconception:</strong> Treating inverse proportion as direct — if y decreases as x increases it is NOT y = kx.</div>
+      <div class="tp-item"><strong>✅ Strategy:</strong> Always find k first using the given pair, then substitute the unknown.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚖️ Proportion Explorer</div>
+    <div class="card-desc">Move the slider to see how direct and inverse proportion behave. Watch k stay constant.</div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:14px;">
+      <div>
+        <label class="bold" style="display:block;margin-bottom:6px;">Type:</label>
+        <select id="pp-type" class="inp-sm" onchange="ppSliderUpdate()">
+          <option value="direct">Direct (y = kx)</option>
+          <option value="inverse">Inverse (y = k/x)</option>
+        </select>
+      </div>
+      <div style="flex:1;min-width:180px;">
+        <label class="bold" style="display:block;margin-bottom:6px;">x = <span id="pp-x-val">5</span></label>
+        <input type="range" id="pp-slider" min="1" max="20" value="5" style="width:100%;" oninput="ppSliderUpdate()" />
+      </div>
+    </div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;">
+      <div style="background:#eff6ff;padding:12px 18px;border-radius:10px;flex:1;min-width:120px;text-align:center;">
+        <div style="font-size:0.75rem;color:var(--muted);font-weight:700;margin-bottom:4px;">x</div>
+        <div id="pp-disp-x" style="font-size:1.6rem;font-weight:700;color:var(--blue);">5</div>
+      </div>
+      <div style="background:#f0fdf4;padding:12px 18px;border-radius:10px;flex:1;min-width:120px;text-align:center;">
+        <div style="font-size:0.75rem;color:var(--muted);font-weight:700;margin-bottom:4px;">y</div>
+        <div id="pp-disp-y" style="font-size:1.6rem;font-weight:700;color:var(--green);">—</div>
+      </div>
+      <div style="background:#fef9c3;padding:12px 18px;border-radius:10px;flex:1;min-width:120px;text-align:center;">
+        <div style="font-size:0.75rem;color:var(--muted);font-weight:700;margin-bottom:4px;">k (constant)</div>
+        <div id="pp-disp-k" style="font-size:1.6rem;font-weight:700;color:var(--amber);">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Part 1: Find k and solve -->
+  <div class="card">
+    <div class="card-title">Part 1 — Find k, then Solve</div>
+    <div class="card-desc" style="margin-bottom:10px;">Use the given pair to find k, then calculate the unknown.</div>
+    <div class="problem-display" id="pp-q" style="font-size:1rem;padding:12px 16px;">—</div>
+    <div class="input-row" style="flex-wrap:wrap;gap:8px;">
+      <label class="bold">k =</label>
+      <input type="number" id="pp-k-input" class="inp-sm" step="any" placeholder="constant" style="width:90px;" />
+      <label class="bold" id="pp-unknown-label">Answer:</label>
+      <input type="number" id="pp-ans-input" class="inp-sm" step="any" placeholder="value" style="width:90px;" onkeydown="if(event.key==='Enter')ppCheck()" />
+    </div>
+    <div class="input-row" style="margin-top:8px;">
+      <button class="btn btn-success" onclick="ppCheck()">✓ Check</button>
+      <button class="btn btn-hint"    onclick="ppHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="ppNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="pp-hints"></ul>
+    <div class="feedback" id="pp-fb"></div>
+  </div>
+</section>
+
+<!-- MODULE 21 · ORDERING & MAGNITUDE -->
+<section class="module" id="mod-21">
+  <div class="progress-card">
+    <span class="prog-label">🔢 Ordering &amp; Magnitude</span>
+    <div class="prog-track"><div class="prog-fill" id="om-bar"></div></div>
+    <span class="prog-count" id="om-score">0 pts</span>
+  </div>
+  <div class="teacher-panel" id="tp-21">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Ordering &amp; Magnitude</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> Ordering standard form by coefficient only — 9×10² &gt; 1×10³ is WRONG. Compare powers first.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Negative numbers — students place −0.5 &gt; −0.1 because 0.5 &gt; 0.1. On a number line, closer to 0 = larger for negatives.</div>
+      <div class="tp-item"><strong>✅ Strategy:</strong> Convert all to decimals/standard form, then compare. Draw the number line if uncertain.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔢 Ordering &amp; Magnitude</div>
+    <div class="card-desc">Order a mixed set of numbers including standard form, fractions, and negative values. Click cards in order from smallest to largest.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Part 1 — Order the Numbers</div>
+    <div class="card-desc" style="margin-bottom:10px;">Click cards in ascending order (smallest first). Each click assigns the next rank.</div>
+    <div id="om-cards" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;justify-content:center;"></div>
+    <div style="background:var(--slate);border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:0.83rem;color:var(--muted);">
+      Your order: <span id="om-order-display" style="font-weight:700;color:var(--navy);">click cards above</span>
+    </div>
+    <div class="input-row" style="justify-content:center;">
+      <button class="btn btn-success" onclick="omCheck()">✓ Check</button>
+      <button class="btn btn-hint"    onclick="omHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="omNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="om-hints"></ul>
+    <div class="feedback" id="om-fb"></div>
+  </div>
+
+  <!-- Part 2: Insert < or > -->
+  <div class="card">
+    <div class="card-title">Part 2 — Insert &lt; or &gt;</div>
+    <div class="card-desc" style="margin-bottom:10px;">Choose the correct inequality sign between the two numbers.</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin:16px 0;flex-wrap:wrap;">
+      <span style="font-size:1.8rem;font-weight:700;color:var(--navy);" id="om-cmp-a">—</span>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-secondary" id="om-lt-btn" onclick="omCmpClick('&lt;')">&lt;</button>
+        <button class="btn btn-secondary" id="om-gt-btn" onclick="omCmpClick('&gt;')">&gt;</button>
+      </div>
+      <span style="font-size:1.8rem;font-weight:700;color:var(--navy);" id="om-cmp-b">—</span>
+    </div>
+    <div class="feedback" id="om-cmp-fb"></div>
+    <button class="btn btn-secondary" style="display:block;margin:8px auto 0;" onclick="omCmpNew()">↺ New</button>
+  </div>
+</section>
+
+<!-- MODULE 22 · CALCULATOR & NOTATION -->
+<section class="module" id="mod-22">
+  <div class="progress-card">
+    <span class="prog-label">🖩 Calculator &amp; Notation</span>
+    <div class="prog-track"><div class="prog-fill" id="ca-bar"></div></div>
+    <span class="prog-count" id="ca-score">0 pts</span>
+  </div>
+  <div class="teacher-panel" id="tp-22">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Calculator &amp; Notation</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>Key skill:</strong> Reading "3.5E6" on a calculator display as 3.5 × 10⁶. The E means "× 10^".</div>
+      <div class="tp-item"><strong>❌ Misconception:</strong> Writing 3.5E6 as the final answer. Always convert to proper standard form or ordinary number as the question requires.</div>
+      <div class="tp-item"><strong>❌ Premature rounding:</strong> Rounding intermediate steps. Instruct students to keep full precision until the final step.</div>
+      <div class="tp-item"><strong>✅ Strategy:</strong> After any calculation, check: is the coefficient 1 ≤ A &lt; 10? If not, adjust the power accordingly.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🖩 Scientific Notation on a Calculator</div>
+    <div class="card-desc">A calculator shows numbers in E-notation (e.g. <strong>3.5E6</strong> = 3.5 × 10⁶). Practice converting between calculator display and standard form.</div>
+  </div>
+
+  <!-- Part 1: E-notation → standard form -->
+  <div class="card">
+    <div class="card-title">Part 1 — Read the Calculator Display</div>
+    <div class="card-desc" style="margin-bottom:12px;">Convert the calculator E-notation to standard form (A × 10ⁿ). Enter coefficient and power.</div>
+    <div style="background:#1e293b;color:#4ade80;font-family:var(--font-mono);font-size:2rem;padding:16px 24px;border-radius:10px;text-align:center;letter-spacing:0.1em;margin-bottom:16px;" id="ca-display">—</div>
+    <div class="input-row" style="flex-wrap:wrap;gap:8px;">
+      <label class="bold">A =</label>
+      <input type="number" id="ca-coeff" class="inp-sm" step="any" placeholder="e.g. 3.5" style="width:90px;" />
+      <label class="bold">× 10 ^</label>
+      <input type="number" id="ca-pow" class="inp-sm" placeholder="n" style="width:70px;" onkeydown="if(event.key==='Enter')caCheck()" />
+    </div>
+    <div class="input-row" style="margin-top:8px;">
+      <button class="btn btn-success" onclick="caCheck()">✓ Check</button>
+      <button class="btn btn-hint"    onclick="caHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="caNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="ca-hints"></ul>
+    <div class="feedback" id="ca-fb"></div>
+  </div>
+
+  <!-- Part 2: Avoid premature rounding -->
+  <div class="card">
+    <div class="card-title">Part 2 — Avoid Premature Rounding</div>
+    <div class="card-desc" style="margin-bottom:10px;">A calculation is shown. Two answers are given — one rounds too early, one keeps precision. Choose the correct final answer.</div>
+    <div id="ca-pr-q" style="background:var(--slate);border-radius:10px;padding:14px;margin-bottom:12px;font-family:var(--font-mono);font-size:0.9rem;line-height:1.8;"></div>
+    <div id="ca-pr-opts" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:10px;"></div>
+    <div class="feedback" id="ca-pr-fb"></div>
+    <button class="btn btn-secondary" style="display:block;margin:8px auto 0;" onclick="caPrNew()">↺ New</button>
+  </div>
+</section>
+
+<!-- MODULE 23 · EXAM CHALLENGE -->
+<section class="module" id="mod-23">
+  <div class="progress-card">
+    <span class="prog-label">🏆 Exam Challenge</span>
+    <div class="prog-track"><div class="prog-fill" id="ec-bar"></div></div>
+    <span class="prog-count" id="ec-score">0 pts</span>
+  </div>
+  <div class="teacher-panel" id="tp-23">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Exam Challenge</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>Purpose:</strong> Multi-step exam-style questions that integrate standard form, percentages, bounds, and indices — as seen in Cambridge 0580 Paper 2/4.</div>
+      <div class="tp-item"><strong>Mark scheme logic:</strong> Method marks (M) awarded for correct working even if the final answer is wrong. Encourage students to show all steps.</div>
+      <div class="tp-item"><strong>✅ Strategy:</strong> Read the whole question first, identify the topic areas needed, then work systematically. Check units throughout.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏆 Mixed Exam Challenge</div>
+    <div class="card-desc">Multi-step problems worth 3–4 marks each, combining number topics. Each question reveals the working step by step after you answer.</div>
+  </div>
+
+  <div id="ec-container">
+    <!-- Questions injected by JS -->
+  </div>
+
+  <div class="card" style="text-align:center;">
+    <div id="ec-score-display" style="font-size:1.4rem;font-weight:700;color:var(--navy);margin-bottom:10px;">Score: 0 / 0 marks</div>
+    <div id="ec-progress-bar" style="background:var(--border);border-radius:6px;height:10px;margin-bottom:14px;"><div id="ec-progress-fill" style="height:10px;background:var(--blue);border-radius:6px;width:0%;transition:width 0.4s;"></div></div>
+    <button class="btn btn-primary" onclick="ecReset()">↺ New Challenge Set</button>
+  </div>
+</section>
+
+<script>
+// ================================================================
+// ================================================================
+// MODULES 16–23 · JAVASCRIPT
+// ================================================================
+// ================================================================
+
+// Extend score object
+Object.assign(scores, { bn: 0, sfo: 0, ix: 0, pl: 0, pp: 0, om: 0, ca: 0, ec: 0 });
+
+// Extend addScore to handle new keys
+const _origAddScore = addScore;
+// addScore already handles any key in scores, no override needed.
+
+// ================================================================
+// MODULE 16 · BOUNDS & NUMBER LINES
+// ================================================================
+const BN_POOL = [
+  { desc: 'A length is measured as 7.4 cm, rounded to the nearest 0.1 cm.', val: 7.4, half: 0.05, unit: 'cm' },
+  { desc: 'A mass is 230 g, rounded to the nearest 10 g.', val: 230, half: 5, unit: 'g' },
+  { desc: 'A time is 3.50 s, rounded to the nearest 0.01 s.', val: 3.50, half: 0.005, unit: 's' },
+  { desc: 'A distance is 48 km, rounded to the nearest km.', val: 48, half: 0.5, unit: 'km' },
+  { desc: 'A temperature is 20°C, rounded to the nearest degree.', val: 20, half: 0.5, unit: '°C' },
+  { desc: 'A speed is 60 mph, rounded to the nearest 5 mph.', val: 60, half: 2.5, unit: 'mph' },
+  { desc: 'A length is 4.00 m, rounded to the nearest 0.01 m.', val: 4.00, half: 0.005, unit: 'm' },
+];
+let bnQ = null, bnHi = 0;
+
+function bnNew() {
+  bnQ = BN_POOL[Math.floor(Math.random() * BN_POOL.length)];
+  bnHi = 0; clearHints('bn-hints'); fbHide('bn-fb');
+  document.getElementById('bn-q').textContent = bnQ.desc;
+  document.getElementById('bn-lb').value = '';
+  document.getElementById('bn-ub').value = '';
+  document.getElementById('bn-line-wrap').style.display = 'none';
+}
+function bnCheck() {
+  if (!bnQ) return;
+  const lb = parseFloat(document.getElementById('bn-lb').value);
+  const ub = parseFloat(document.getElementById('bn-ub').value);
+  if (isNaN(lb) || isNaN(ub)) { fb('bn-fb', '⚠️ Enter both bounds.', 'hint'); return; }
+  const { val, half, unit } = bnQ;
+  const corLB = val - half, corUB = val + half;
+  const eps = half * 0.01 + 1e-9;
+
+  let lbOk = Math.abs(lb - corLB) < eps;
+  let ubOk = Math.abs(ub - corUB) < eps;
+
+  if (!lbOk && Math.abs(lb - val) < eps) { fb('bn-fb', '🤔 <strong>Lower bound is wrong.</strong> You used the rounded value itself. Subtract half the precision unit: LB = ' + val + ' − ' + half + ' = ' + corLB + ' ' + unit, 'wrong'); return; }
+  if (!ubOk && Math.abs(ub - val) < eps) { fb('bn-fb', '🤔 <strong>Upper bound is wrong.</strong> You used the rounded value itself. Add half the precision unit: UB = ' + val + ' + ' + half + ' = ' + corUB + ' ' + unit, 'wrong'); return; }
+  if (Math.abs(lb - (val - half*2)) < eps) { fb('bn-fb', '🤔 You subtracted a full unit instead of half. The half-interval is ' + half + ', not ' + (half*2) + '.', 'wrong'); return; }
+
+  if (lbOk && ubOk) {
+    fb('bn-fb', '✅ Correct! LB = ' + corLB + ' ' + unit + ', UB = ' + corUB + ' ' + unit, 'correct');
+    addScore('bn', 10);
+    bnDrawLine(corLB, val, corUB);
+  } else if (lbOk) {
+    fb('bn-fb', '🤔 Lower bound correct, but UB should be ' + corUB + ' ' + unit, 'wrong');
+  } else if (ubOk) {
+    fb('bn-fb', '🤔 Upper bound correct, but LB should be ' + corLB + ' ' + unit, 'wrong');
+  } else {
+    fb('bn-fb', '❌ Both bounds wrong. LB = ' + corLB + ', UB = ' + corUB + ' ' + unit, 'wrong');
+  }
+}
+function bnDrawLine(lb, mid, ub) {
+  const wrap = document.getElementById('bn-line-wrap');
+  wrap.style.display = 'block';
+  const pad = (ub - lb) * 0.6;
+  const lineMin = lb - pad, lineMax = ub + pad;
+  const range = lineMax - lineMin;
+  function pct(v) { return ((v - lineMin) / range * 94 + 3) + '%'; }
+  document.getElementById('bn-lb-tick').style.left = pct(lb);
+  document.getElementById('bn-ub-tick').style.left = pct(ub);
+  document.getElementById('bn-mid-tick').style.left = pct(mid);
+  document.getElementById('bn-interval').style.left = pct(lb);
+  document.getElementById('bn-interval').style.width = ((ub - lb) / range * 94) + '%';
+  document.getElementById('bn-lb-lbl').style.left = pct(lb);
+  document.getElementById('bn-lb-lbl').textContent = lb;
+  document.getElementById('bn-ub-lbl').style.left = pct(ub);
+  document.getElementById('bn-ub-lbl').textContent = ub;
+  document.getElementById('bn-mid-lbl').style.left = pct(mid);
+  document.getElementById('bn-mid-lbl').textContent = mid;
+}
+function bnHint() {
+  if (!bnQ) return;
+  const { val, half, unit } = bnQ;
+  const hints = [
+    'Find the precision (what the value is rounded to). The half-interval = precision ÷ 2.',
+    'Half of the precision = ' + half + ' ' + unit + '. Subtract from ' + val + ' for LB, add for UB.',
+    'LB = ' + (val - half) + ' ' + unit + ', UB = ' + (val + half) + ' ' + unit
+  ];
+  if (bnHi < hints.length) addHint('bn-hints', hints[bnHi++]);
+}
+
+// Speed bounds
+const BN_SP_POOL = [
+  { dist: 150, distPrec: 1, time: 2.5, timePrec: 0.1 },
+  { dist: 80,  distPrec: 5, time: 1.2, timePrec: 0.1 },
+  { dist: 240, distPrec: 10, time: 3.0, timePrec: 0.5 },
+  { dist: 60,  distPrec: 1, time: 0.8, timePrec: 0.1 },
+];
+let bnSp = null, bnSpHi = 0;
+
+function bnSpNew() {
+  bnSp = BN_SP_POOL[Math.floor(Math.random() * BN_SP_POOL.length)];
+  bnSpHi = 0; clearHints('bn-sp-hints'); fbHide('bn-sp-fb');
+  document.getElementById('bn-sp-q').textContent =
+    `Distance = ${bnSp.dist} km (nearest ${bnSp.distPrec} km). Time = ${bnSp.time} h (nearest ${bnSp.timePrec} h). Find the maximum possible speed.`;
+  document.getElementById('bn-sp-input').value = '';
+}
+function bnSpCheck() {
+  if (!bnSp) return;
+  const { dist, distPrec, time, timePrec } = bnSp;
+  const ubD = dist + distPrec / 2;
+  const lbT = time - timePrec / 2;
+  const maxSpd = ubD / lbT;
+  const raw = parseFloat(document.getElementById('bn-sp-input').value);
+  if (isNaN(raw)) { fb('bn-sp-fb', '⚠️ Enter a number.', 'hint'); return; }
+
+  // Misconception: max/max
+  const wrongSpd = (dist + distPrec/2) / (time + timePrec/2);
+  if (Math.abs(raw - wrongSpd) < 0.05) { fb('bn-sp-fb', '🤔 <strong>Max speed = max distance ÷ MIN time</strong>, not max÷max. To maximise a ratio, use the largest numerator and smallest denominator.', 'wrong'); return; }
+  if (Math.abs(raw - dist/time) < 0.05) { fb('bn-sp-fb', '🤔 You used the rounded values. Use the upper bound of distance (' + ubD + ') and lower bound of time (' + lbT + ').', 'wrong'); return; }
+  if (Math.abs(raw - maxSpd) < 0.5) {
+    fb('bn-sp-fb', `✅ Correct! Max speed = ${ubD} ÷ ${lbT} = ${maxSpd.toFixed(3)} km/h`, 'correct');
+    addScore('bn', 12);
+  } else {
+    fb('bn-sp-fb', `❌ Answer: ${maxSpd.toFixed(3)} km/h. Use UB of distance (${ubD}) ÷ LB of time (${lbT}).`, 'wrong');
+  }
+}
+function bnSpHint() {
+  if (!bnSp) return;
+  const { dist, distPrec, time, timePrec } = bnSp;
+  const ubD = dist + distPrec / 2, lbT = time - timePrec / 2;
+  const hints = [
+    'To MAXIMISE a fraction, maximise the top and minimise the bottom.',
+    `Upper bound of distance = ${dist} + ${distPrec/2} = ${ubD} km. Lower bound of time = ${time} − ${timePrec/2} = ${lbT} h.`,
+    `Max speed = ${ubD} ÷ ${lbT} = ${(ubD/lbT).toFixed(3)} km/h`
+  ];
+  if (bnSpHi < hints.length) addHint('bn-sp-hints', hints[bnSpHi++]);
+}
+
+// ================================================================
+// MODULE 17 · STANDARD FORM OPERATIONS
+// ================================================================
+function sfNorm(coeff, pow) {
+  // Returns normalised {coeff, pow} where 1 ≤ coeff < 10
+  if (coeff === 0) return { coeff: 0, pow: 0 };
+  const exp = Math.floor(Math.log10(Math.abs(coeff)));
+  return { coeff: coeff / Math.pow(10, exp), pow: pow + exp };
+}
+
+const SFO_MD_POOL = [
+  { a: 3, pa: 4, b: 2, pb: 3, op: 'mul' },
+  { a: 5, pa: 6, b: 4, pb: 2, op: 'mul' },
+  { a: 6, pa: 7, b: 3, pb: -2, op: 'mul' },
+  { a: 8, pa: 5, b: 4, pb: 3, op: 'div' },
+  { a: 9, pa: 8, b: 3, pb: 5, op: 'div' },
+  { a: 7.2, pa: 4, b: 2, pb: 2, op: 'mul' },
+  { a: 5, pa: 3, b: 4, pb: -5, op: 'mul' },
+  { a: 6.4, pa: 7, b: 3.2, pb: 4, op: 'div' },
+];
+let sfoMd = null, sfoMdHi = 0;
+
+function sfoMdNew() {
+  sfoMd = SFO_MD_POOL[Math.floor(Math.random() * SFO_MD_POOL.length)];
+  sfoMdHi = 0; clearHints('sfo-md-hints'); fbHide('sfo-md-fb');
+  document.getElementById('sfo-md-coeff').value = '';
+  document.getElementById('sfo-md-pow').value = '';
+  const { a, pa, b, pb, op } = sfoMd;
+  const sign = op === 'mul' ? '×' : '÷';
+  document.getElementById('sfo-md-q').innerHTML =
+    `(${a} × 10<sup>${pa}</sup>) ${sign} (${b} × 10<sup>${pb}</sup>)`;
+}
+function sfoMdCheck() {
+  if (!sfoMd) return;
+  const { a, pa, b, pb, op } = sfoMd;
+  let rawC, rawP;
+  if (op === 'mul') { rawC = a * b; rawP = pa + pb; }
+  else { rawC = a / b; rawP = pa - pb; }
+  const ans = sfNorm(rawC, rawP);
+
+  const gC = parseFloat(document.getElementById('sfo-md-coeff').value);
+  const gP = parseInt(document.getElementById('sfo-md-pow').value, 10);
+  if (isNaN(gC) || isNaN(gP)) { fb('sfo-md-fb', '⚠️ Enter coefficient and power.', 'hint'); return; }
+
+  // Misconception: forgot to normalise (correct value, wrong form)
+  if (Math.abs(gC * Math.pow(10, gP) - ans.coeff * Math.pow(10, ans.pow)) < Math.abs(ans.coeff * Math.pow(10, ans.pow)) * 0.001) {
+    if (gC < 1 || gC >= 10) {
+      fb('sfo-md-fb', `🤔 <strong>Correct value but not normalised.</strong> The coefficient must satisfy 1 ≤ A < 10. Adjust: ${ans.coeff.toFixed(4)} × 10<sup>${ans.pow}</sup>.`, 'wrong'); return;
+    }
+    fb('sfo-md-fb', `✅ Correct! Answer: ${ans.coeff.toFixed(4).replace(/\.?0+$/, '')} × 10<sup>${ans.pow}</sup>`, 'correct');
+    addScore('sfo', 10);
+  } else {
+    // Misconception: added powers on mul instead of adding
+    const wrongPow = op === 'mul' ? pa * pb : pa + pb;
+    if (gP === wrongPow) {
+      const opWord = op === 'mul' ? 'multiply' : 'subtract';
+      fb('sfo-md-fb', `🤔 Wrong power. When multiplying in standard form, <strong>add</strong> the powers (${pa} + ${pb} = ${pa+pb}), then normalise. Don't multiply them.`, 'wrong');
+    } else {
+      fb('sfo-md-fb', `❌ Not quite. ${op === 'mul' ? 'Multiply' : 'Divide'} coefficients: ${a}${op==='mul'?'×':'÷'}${b} = ${rawC.toFixed(4)}. ${op==='mul'?'Add':'Subtract'} powers: ${pa}${op==='mul'?'+':'-'}${pb} = ${op==='mul'?pa+pb:pa-pb}. Then normalise.`, 'wrong');
+    }
+  }
+}
+function sfoMdHint() {
+  if (!sfoMd) return;
+  const { a, pa, b, pb, op } = sfoMd;
+  let rawC, rawP;
+  if (op === 'mul') { rawC = a * b; rawP = pa + pb; }
+  else { rawC = a / b; rawP = pa - pb; }
+  const ans = sfNorm(rawC, rawP);
+  const hints = [
+    op === 'mul' ? `Multiply the coefficients: ${a} × ${b} = ${rawC}. Add the powers: ${pa} + ${pb} = ${rawP}.`
+                 : `Divide the coefficients: ${a} ÷ ${b} = ${rawC.toFixed(4)}. Subtract the powers: ${pa} − ${pb} = ${rawP}.`,
+    `Result so far: ${rawC.toFixed(4)} × 10<sup>${rawP}</sup>. Check: is the coefficient between 1 and 10?`,
+    `Normalised: ${ans.coeff.toFixed(4).replace(/\.?0+$/, '')} × 10<sup>${ans.pow}</sup>`
+  ];
+  if (sfoMdHi < hints.length) addHint('sfo-md-hints', hints[sfoMdHi++]);
+}
+
+const SFO_AS_POOL = [
+  { a: 3.2, pa: 5, b: 1.5, pb: 5, op: 'add' },
+  { a: 6.0, pa: 4, b: 2.0, pb: 3, op: 'add' },
+  { a: 5.0, pa: 6, b: 3.0, pb: 6, op: 'sub' },
+  { a: 8.4, pa: 7, b: 4.0, pb: 6, op: 'add' },
+  { a: 9.0, pa: 5, b: 4.5, pb: 4, op: 'sub' },
+];
+let sfoAs = null, sfoAsHi = 0;
+
+function sfoAsNew() {
+  sfoAs = SFO_AS_POOL[Math.floor(Math.random() * SFO_AS_POOL.length)];
+  sfoAsHi = 0; clearHints('sfo-as-hints'); fbHide('sfo-as-fb');
+  document.getElementById('sfo-as-coeff').value = '';
+  document.getElementById('sfo-as-pow').value = '';
+  const { a, pa, b, pb, op } = sfoAs;
+  const sign = op === 'add' ? '+' : '−';
+  document.getElementById('sfo-as-q').innerHTML =
+    `(${a} × 10<sup>${pa}</sup>) ${sign} (${b} × 10<sup>${pb}</sup>)`;
+}
+function sfoAsCheck() {
+  if (!sfoAs) return;
+  const { a, pa, b, pb, op } = sfoAs;
+  // Convert both to same power (use the larger)
+  const maxP = Math.max(pa, pb);
+  const aAdj = a * Math.pow(10, pa - maxP);
+  const bAdj = b * Math.pow(10, pb - maxP);
+  const sumC = op === 'add' ? aAdj + bAdj : aAdj - bAdj;
+  const ans = sfNorm(sumC, maxP);
+
+  const gC = parseFloat(document.getElementById('sfo-as-coeff').value);
+  const gP = parseInt(document.getElementById('sfo-as-pow').value, 10);
+  if (isNaN(gC) || isNaN(gP)) { fb('sfo-as-fb', '⚠️ Enter coefficient and power.', 'hint'); return; }
+
+  const gVal = gC * Math.pow(10, gP);
+  const ansVal = ans.coeff * Math.pow(10, ans.pow);
+
+  if (Math.abs(gVal - ansVal) < ansVal * 0.001) {
+    if (gC < 1 || gC >= 10) {
+      fb('sfo-as-fb', `🤔 Correct value but coefficient ${gC} is not normalised. Answer: ${ans.coeff.toFixed(4).replace(/\.?0+$/, '')} × 10<sup>${ans.pow}</sup>`, 'wrong'); return;
+    }
+    fb('sfo-as-fb', `✅ Correct! Answer: ${ans.coeff.toFixed(4).replace(/\.?0+$/, '')} × 10<sup>${ans.pow}</sup>`, 'correct');
+    addScore('sfo', 10);
+  } else {
+    fb('sfo-as-fb', `❌ Convert to the same power first (10<sup>${maxP}</sup>): ${aAdj} ${op==='add'?'+':'−'} ${bAdj} = ${sumC}. Then normalise.`, 'wrong');
+  }
+}
+function sfoAsHint() {
+  if (!sfoAs) return;
+  const { a, pa, b, pb, op } = sfoAs;
+  const maxP = Math.max(pa, pb);
+  const aAdj = a * Math.pow(10, pa - maxP);
+  const bAdj = b * Math.pow(10, pb - maxP);
+  const sumC = op === 'add' ? aAdj + bAdj : aAdj - bAdj;
+  const ans = sfNorm(sumC, maxP);
+  const hints = [
+    `To add/subtract in standard form, convert both to the same power. Use 10<sup>${maxP}</sup>.`,
+    `${a} × 10<sup>${pa}</sup> = ${aAdj} × 10<sup>${maxP}</sup>. ${b} × 10<sup>${pb}</sup> = ${bAdj} × 10<sup>${maxP}</sup>.`,
+    `${op === 'add' ? 'Sum' : 'Difference'}: ${sumC} × 10<sup>${maxP}</sup> → normalised: ${ans.coeff.toFixed(4).replace(/\.?0+$/,'')} × 10<sup>${ans.pow}</sup>`
+  ];
+  if (sfoAsHi < hints.length) addHint('sfo-as-hints', hints[sfoAsHi++]);
+}
+
+const SFO_FIX_POOL = [
+  { problem: '(4 × 10³) × (3 × 10²) = 12 × 10⁵', error: 'Coefficient not normalised (12 ≥ 10)', correct: '1.2 × 10⁶', distractors: ['4 × 10⁶', '12 × 10⁶', '1.2 × 10⁵'] },
+  { problem: '(6 × 10⁵) ÷ (2 × 10³) = 3 × 10⁸', error: 'Powers subtracted wrong (should be 5−3=2, not 5+3=8)', correct: '3 × 10²', distractors: ['3 × 10³', '3 × 10⁸', '0.3 × 10³'] },
+  { problem: '(2.5 × 10⁴) + (5 × 10³) = 7.5 × 10⁷', error: 'Powers added instead of aligning', correct: '3 × 10⁴', distractors: ['7.5 × 10⁴', '3 × 10³', '2.5 × 10⁷'] },
+  { problem: '(8 × 10⁻²) × (5 × 10³) = 4 × 10¹', error: 'Coefficient 8×5=40 not normalised', correct: '4 × 10¹', distractors: ['40 × 10¹', '4 × 10²', '4 × 10⁰'] },
+];
+let sfoFix = null;
+function sfoFixNew() {
+  sfoFix = SFO_FIX_POOL[Math.floor(Math.random() * SFO_FIX_POOL.length)];
+  fbHide('sfo-fix-fb');
+  document.getElementById('sfo-fix-q').innerHTML =
+    `<strong>Student answer:</strong> ${sfoFix.problem}<br><span style="color:var(--red);font-size:0.85rem;">❌ This is wrong. What is the correct answer?</span>`;
+  const opts = [sfoFix.correct, ...sfoFix.distractors].sort(() => Math.random() - 0.5);
+  const container = document.getElementById('sfo-fix-opts');
+  container.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-secondary';
+    btn.innerHTML = opt;
+    btn.onclick = () => {
+      container.querySelectorAll('.btn').forEach(b => b.className = 'btn btn-secondary');
+      btn.className = 'btn btn-primary';
+      if (opt === sfoFix.correct) {
+        fb('sfo-fix-fb', `✅ Correct! <strong>${sfoFix.correct}</strong>. Error was: ${sfoFix.error}.`, 'correct');
+        addScore('sfo', 8);
+      } else {
+        fb('sfo-fix-fb', `❌ Not quite. The error was: "${sfoFix.error}". Correct answer: <strong>${sfoFix.correct}</strong>.`, 'wrong');
+      }
+    };
+    container.appendChild(btn);
+  });
+}
+
+// ================================================================
+// MODULE 18 · INDEX LAWS
+// ================================================================
+const IX_POOL = [
+  { q: '3⁴ × 3²', law: 'aᵐ × aⁿ = a^(m+n)', hint1: 'Same base: add the powers.', hint2: '4 + 2 = 6', ans: '3⁶', numAns: Math.pow(3,6), evalType: 'power', base: 3, exp: 6 },
+  { q: '5⁷ ÷ 5³', law: 'aᵐ ÷ aⁿ = a^(m−n)', hint1: 'Same base division: subtract the powers.', hint2: '7 − 3 = 4', ans: '5⁴', numAns: Math.pow(5,4), evalType: 'power', base: 5, exp: 4 },
+  { q: '(2³)⁴', law: '(aᵐ)ⁿ = a^(m×n)', hint1: 'Power of a power: multiply the indices.', hint2: '3 × 4 = 12', ans: '2¹²', numAns: Math.pow(2,12), evalType: 'power', base: 2, exp: 12 },
+  { q: '7⁰', law: 'a⁰ = 1', hint1: 'Any non-zero base to the power 0 equals 1.', hint2: '7⁰ = 1', ans: '1', numAns: 1, evalType: 'value' },
+  { q: '4⁻²', law: 'a⁻ⁿ = 1/aⁿ', hint1: 'Negative index means reciprocal.', hint2: '4⁻² = 1/4² = 1/16', ans: '1/16', numAns: 1/16, evalType: 'fraction' },
+  { q: '27^(1/3)', law: 'a^(1/n) = ⁿ√a', hint1: 'Fractional index 1/3 means cube root.', hint2: '∛27 = 3', ans: '3', numAns: 3, evalType: 'value' },
+  { q: '8^(2/3)', law: 'a^(p/q) = ᵠ√(aᵖ)', hint1: 'Root first, then power: (∛8)² = 2² = 4', hint2: '(∛8)² = 4', ans: '4', numAns: 4, evalType: 'value' },
+  { q: '2⁻³', law: 'a⁻ⁿ = 1/aⁿ', hint1: '2⁻³ = 1/2³', hint2: '1/8', ans: '1/8', numAns: 1/8, evalType: 'fraction' },
+  { q: '6³ × 6⁻¹', law: 'aᵐ × aⁿ = a^(m+n)', hint1: 'Add the powers: 3 + (−1) = 2', hint2: '6²', ans: '36', numAns: 36, evalType: 'value' },
+  { q: '16^(3/4)', law: 'a^(p/q) = ᵠ√(aᵖ)', hint1: '⁴√16 = 2, then 2³ = 8', hint2: '8', ans: '8', numAns: 8, evalType: 'value' },
+];
+let ixQ = null, ixHi = 0;
+
+function ixNew() {
+  ixQ = IX_POOL[Math.floor(Math.random() * IX_POOL.length)];
+  ixHi = 0; clearHints('ix-hints'); fbHide('ix-fb');
+  document.getElementById('ix-q').textContent = ixQ.q;
+  document.getElementById('ix-law-hint').textContent = 'Law: ' + ixQ.law;
+  document.getElementById('ix-answer-label').textContent = 'Evaluate:';
+  document.getElementById('ix-answer').value = '';
+}
+function ixParseAnswer(s) {
+  s = s.trim();
+  const frac = s.match(/^(\d+)\/(\d+)$/);
+  if (frac) return parseInt(frac[1]) / parseInt(frac[2]);
+  return parseFloat(s);
+}
+function ixCheck() {
+  if (!ixQ) return;
+  const raw = document.getElementById('ix-answer').value.trim();
+  const got = ixParseAnswer(raw);
+  const { numAns, q, law, ans, evalType } = ixQ;
+  if (isNaN(got)) { fb('ix-fb', '⚠️ Enter a number or fraction (e.g. 1/8).', 'hint'); return; }
+
+  // Misconception detection
+  if (evalType === 'power' && ixQ.base) {
+    const wrongMul = ixQ.base !== undefined && Math.abs(got - Math.pow(ixQ.base, ixQ.exp * (ixQ.exp || 1))) < 0.001;
+  }
+  if (Math.abs(got - numAns) < Math.abs(numAns) * 0.001 + 0.0001) {
+    fb('ix-fb', `✅ Correct! ${q} = <strong>${ans}</strong>`, 'correct');
+    addScore('ix', 8);
+  } else {
+    // Check common mistake for negative index
+    if (evalType === 'fraction' && got < 0) {
+      fb('ix-fb', `🤔 <strong>Negative index ≠ negative number.</strong> a⁻ⁿ = 1/aⁿ (a positive reciprocal). Answer: ${ans}`, 'wrong');
+    } else if (evalType === 'value' && ixQ.law.includes('a⁰') && got !== 0) {
+      fb('ix-fb', `🤔 <strong>Any base to the power 0 = 1</strong>, not 0 or the base itself. Answer: 1`, 'wrong');
+    } else {
+      fb('ix-fb', `❌ Not quite. Law: ${law}. Answer: <strong>${ans}</strong>`, 'wrong');
+    }
+  }
+}
+function ixHint() {
+  if (!ixQ) return;
+  const hints = [ixQ.hint1, ixQ.hint2, `Answer: ${ixQ.ans}`];
+  if (ixHi < hints.length) addHint('ix-hints', hints[ixHi++]);
+}
+
+// Mixed
+const IX_MIX_POOL = [
+  { q: '(2³ × 2⁴) ÷ 2⁵', steps: '2^(3+4) ÷ 2⁵ = 2⁷ ÷ 2⁵ = 2²', ans: 4 },
+  { q: '(3²)³ ÷ 3⁴', steps: '3^(2×3) ÷ 3⁴ = 3⁶ ÷ 3⁴ = 3²', ans: 9 },
+  { q: '4^(1/2) × 4^(3/2)', steps: '4^(1/2 + 3/2) = 4² = 16', ans: 16 },
+  { q: '(5⁻² × 5⁴)', steps: '5^(−2+4) = 5²', ans: 25 },
+  { q: '27^(1/3) × 9^(1/2)', steps: '3 × 3 = 9', ans: 9 },
+  { q: '(2⁴)^(1/2)', steps: '2^(4 × 1/2) = 2² = 4', ans: 4 },
+  { q: '8^(−1/3)', steps: '1/(8^(1/3)) = 1/2', ans: 0.5 },
+];
+let ixMix = null, ixMixHi = 0;
+function ixMixNew() {
+  ixMix = IX_MIX_POOL[Math.floor(Math.random() * IX_MIX_POOL.length)];
+  ixMixHi = 0; clearHints('ix-mix-hints'); fbHide('ix-mix-fb');
+  document.getElementById('ix-mix-q').textContent = ixMix.q;
+  document.getElementById('ix-mix-answer').value = '';
+}
+function ixMixCheck() {
+  if (!ixMix) return;
+  const got = ixParseAnswer(document.getElementById('ix-mix-answer').value);
+  if (isNaN(got)) { fb('ix-mix-fb', '⚠️ Enter a number or fraction.', 'hint'); return; }
+  if (Math.abs(got - ixMix.ans) < Math.abs(ixMix.ans) * 0.001 + 0.0001) {
+    fb('ix-mix-fb', `✅ Correct! ${ixMix.q} = <strong>${ixMix.ans}</strong>. Working: ${ixMix.steps}`, 'correct');
+    addScore('ix', 12);
+  } else {
+    fb('ix-mix-fb', `❌ Not quite. Working: ${ixMix.steps} = ${ixMix.ans}`, 'wrong');
+  }
+}
+function ixMixHint() {
+  if (!ixMix) return;
+  const hints = ['Apply the laws step by step — left to right. Identify each operation type first.', ixMix.steps, `Final answer: ${ixMix.ans}`];
+  if (ixMixHi < hints.length) addHint('ix-mix-hints', hints[ixMixHi++]);
+}
+
+// ================================================================
+// MODULE 19 · PROFIT, LOSS & INTEREST
+// ================================================================
+const PL_POOL = [
+  { cp: 40, sp: 50, type: 'profit' },
+  { cp: 80, sp: 60, type: 'loss' },
+  { cp: 120, sp: 150, type: 'profit' },
+  { cp: 200, sp: 170, type: 'loss' },
+  { cp: 25, sp: 30, type: 'profit' },
+  { cp: 500, sp: 450, type: 'loss' },
+  { cp: 64, sp: 80, type: 'profit' },
+];
+let plQ = null, plHi = 0;
+function plNew() {
+  plQ = PL_POOL[Math.floor(Math.random() * PL_POOL.length)];
+  plHi = 0; clearHints('pl-hints'); fbHide('pl-fb');
+  const { cp, sp, type } = plQ;
+  document.getElementById('pl-q').textContent =
+    `A trader buys an item for £${cp} and sells it for £${sp}. Calculate the percentage ${type}.`;
+  document.getElementById('pl-ask').textContent = `% ${type}:`;
+  document.getElementById('pl-input').value = '';
+  // Update bars
+  const maxH = 100, scale = maxH / Math.max(cp, sp);
+  document.getElementById('pl-bar-cp').style.height = (cp * scale) + 'px';
+  document.getElementById('pl-bar-sp').style.height = (sp * scale) + 'px';
+  const diff = Math.abs(sp - cp);
+  document.getElementById('pl-bar-diff').style.height = (diff * scale) + 'px';
+  document.getElementById('pl-bar-diff').style.background = type === 'profit' ? 'var(--green)' : 'var(--red)';
+  document.getElementById('pl-bar-cp-lbl').textContent = '£' + cp;
+  document.getElementById('pl-bar-sp-lbl').textContent = '£' + sp;
+  document.getElementById('pl-bar-diff-lbl').textContent = '£' + diff;
+  document.getElementById('pl-bar-diff-lbl').style.color = type === 'profit' ? 'var(--green)' : 'var(--red)';
+  document.getElementById('pl-diff-label').textContent = type === 'profit' ? 'Profit' : 'Loss';
+}
+function plCheck() {
+  if (!plQ) return;
+  const { cp, sp, type } = plQ;
+  const diff = Math.abs(sp - cp);
+  const ans = diff / cp * 100;
+  const got = parseFloat(document.getElementById('pl-input').value);
+  if (isNaN(got)) { fb('pl-fb', '⚠️ Enter a percentage.', 'hint'); return; }
+  // Misconception: used selling price as denominator
+  const wrongAns = diff / sp * 100;
+  if (Math.abs(got - wrongAns) < 0.1) {
+    fb('pl-fb', `🤔 <strong>% ${type} = (${type}) ÷ Cost Price × 100</strong>, not ÷ selling price. CP = £${cp}. Answer: ${ans.toFixed(2)}%`, 'wrong'); return;
+  }
+  if (Math.abs(got - ans) < 0.1) {
+    fb('pl-fb', `✅ Correct! ${type === 'profit' ? 'Profit' : 'Loss'} = £${diff}. % = ${diff}/${cp} × 100 = <strong>${ans.toFixed(2)}%</strong>`, 'correct');
+    addScore('pl', 8);
+  } else {
+    fb('pl-fb', `❌ Answer: (£${diff} ÷ £${cp}) × 100 = <strong>${ans.toFixed(2)}%</strong>`, 'wrong');
+  }
+}
+function plHint() {
+  if (!plQ) return;
+  const { cp, sp, type } = plQ;
+  const diff = Math.abs(sp - cp);
+  const hints = [
+    `% ${type} = (${type} ÷ cost price) × 100. NEVER use selling price as the denominator.`,
+    `${type === 'profit' ? 'Profit' : 'Loss'} = £${sp} − £${cp} = £${diff}. Cost price = £${cp}.`,
+    `(£${diff} ÷ £${cp}) × 100 = ${(diff/cp*100).toFixed(2)}%`
+  ];
+  if (plHi < hints.length) addHint('pl-hints', hints[plHi++]);
+}
+
+const PL_MS_POOL = [
+  { context: 'A car bought for £8 000 depreciates by 15% each year. Find its value after 2 years.', ans: 8000 * 0.85 * 0.85, hint1: 'Each year: × 0.85 (100% − 15%)', hint2: 'After 1 yr: £6 800. After 2 yrs: £6 800 × 0.85', hint3: '£5 780', ask: 'Value after 2 years: £' },
+  { context: 'A shop reduces its prices by 20%, then offers a further 10% off the reduced price. Find the overall % reduction on an original price of £500.', ans: 500 * 0.8 * 0.9, hint1: '20% off then 10% off ≠ 30% off. Apply each multiplier.', hint2: '£500 × 0.80 × 0.90', hint3: '£360', ask: 'Final price: £' },
+  { context: 'A bank offers 3% per year compound interest. £2 000 is invested for 3 years. Find the total interest earned.', ans: 2000 * (1.03 ** 3) - 2000, hint1: 'A = 2000(1.03)³. Total interest = A − P.', hint2: '2000 × 1.03³ = 2000 × 1.092727 = £2185.45', hint3: 'Interest = £185.45', ask: 'Interest earned: £' },
+  { context: 'After a 25% increase a phone costs £375. What was the original price?', ans: 375 / 1.25, hint1: '375 = original × 1.25. Divide both sides by 1.25.', hint2: 'Original = 375 ÷ 1.25', hint3: '£300', ask: 'Original price: £' },
+];
+let plMs = null, plMsHi = 0;
+function plMsNew() {
+  plMs = PL_MS_POOL[Math.floor(Math.random() * PL_MS_POOL.length)];
+  plMsHi = 0; clearHints('pl-ms-hints'); fbHide('pl-ms-fb');
+  document.getElementById('pl-ms-q').textContent = plMs.context;
+  document.getElementById('pl-ms-ask').textContent = plMs.ask;
+  document.getElementById('pl-ms-input').value = '';
+}
+function plMsCheck() {
+  if (!plMs) return;
+  const got = parseFloat(document.getElementById('pl-ms-input').value);
+  if (isNaN(got)) { fb('pl-ms-fb', '⚠️ Enter a number.', 'hint'); return; }
+  if (Math.abs(got - plMs.ans) < Math.abs(plMs.ans) * 0.005 + 0.01) {
+    fb('pl-ms-fb', `✅ Correct! Answer: <strong>£${plMs.ans.toFixed(2)}</strong>`, 'correct');
+    addScore('pl', 12);
+  } else {
+    fb('pl-ms-fb', `❌ Not quite. Answer: £${plMs.ans.toFixed(2)}. ${plMs.hint1}`, 'wrong');
+  }
+}
+function plMsHint() {
+  if (!plMs) return;
+  const hints = [plMs.hint1, plMs.hint2, plMs.hint3];
+  if (plMsHi < hints.length) addHint('pl-ms-hints', hints[plMsHi++]);
+}
+
+// ================================================================
+// MODULE 20 · PROPORTION
+// ================================================================
+const PP_K = 30; // slider uses k=30 for demo
+function ppSliderUpdate() {
+  const type = document.getElementById('pp-type').value;
+  const x = parseInt(document.getElementById('pp-slider').value, 10);
+  document.getElementById('pp-x-val').textContent = x;
+  document.getElementById('pp-disp-x').textContent = x;
+  const y = type === 'direct' ? PP_K * x : PP_K / x;
+  document.getElementById('pp-disp-y').textContent = y.toFixed(2);
+  document.getElementById('pp-disp-k').textContent = type === 'direct' ? 'k = ' + PP_K : 'k = ' + PP_K;
+}
+
+const PP_POOL = [
+  { context: 'y is directly proportional to x. When x = 4, y = 20. Find y when x = 7.', type: 'direct', xGiven: 4, yGiven: 20, xFind: 7, ans: 35, k: 5 },
+  { context: 'y is inversely proportional to x. When x = 3, y = 12. Find y when x = 9.', type: 'inverse', xGiven: 3, yGiven: 12, xFind: 9, ans: 4, k: 36 },
+  { context: 'y is directly proportional to x. When x = 6, y = 42. Find x when y = 63.', type: 'direct', xGiven: 6, yGiven: 42, xFind: null, yFind: 63, ans: 9, k: 7 },
+  { context: 'y is inversely proportional to x. When x = 5, y = 8. Find y when x = 20.', type: 'inverse', xGiven: 5, yGiven: 8, xFind: 20, ans: 2, k: 40 },
+  { context: 'y ∝ x. When x = 9, y = 27. Find y when x = 15.', type: 'direct', xGiven: 9, yGiven: 27, xFind: 15, ans: 45, k: 3 },
+  { context: 'y ∝ 1/x. When x = 4, y = 15. Find y when x = 12.', type: 'inverse', xGiven: 4, yGiven: 15, xFind: 12, ans: 5, k: 60 },
+];
+let ppQ = null, ppHi = 0;
+function ppNew() {
+  ppQ = PP_POOL[Math.floor(Math.random() * PP_POOL.length)];
+  ppHi = 0; clearHints('pp-hints'); fbHide('pp-fb');
+  document.getElementById('pp-q').textContent = ppQ.context;
+  document.getElementById('pp-unknown-label').textContent = 'Answer:';
+  document.getElementById('pp-k-input').value = '';
+  document.getElementById('pp-ans-input').value = '';
+}
+function ppCheck() {
+  if (!ppQ) return;
+  const kGot = parseFloat(document.getElementById('pp-k-input').value);
+  const ansGot = parseFloat(document.getElementById('pp-ans-input').value);
+  if (isNaN(kGot) || isNaN(ansGot)) { fb('pp-fb', '⚠️ Enter both k and the answer.', 'hint'); return; }
+  const { k, ans, type, xGiven, yGiven } = ppQ;
+
+  let kOk = Math.abs(kGot - k) < 0.01;
+  let ansOk = Math.abs(ansGot - ans) < 0.01;
+
+  if (!kOk) {
+    const wrongK = type === 'direct' ? yGiven / xGiven : xGiven * yGiven;
+    if (Math.abs(kGot - (type === 'direct' ? xGiven / yGiven : 1 / (xGiven * yGiven))) < 0.01) {
+      fb('pp-fb', `🤔 k is upside down! For ${type} proportion, k = ${type === 'direct' ? 'y ÷ x' : 'x × y'} = ${k}.`, 'wrong'); return;
+    }
+    fb('pp-fb', `🤔 k is wrong. For ${type} proportion, k = ${type === 'direct' ? 'y/x' : 'x×y'} = ${yGiven}${type === 'direct' ? '/'+xGiven : '×'+xGiven} = ${k}.`, 'wrong'); return;
+  }
+  if (!ansOk) {
+    fb('pp-fb', `🤔 k = ${k} is correct. Now apply: y = ${type === 'direct' ? k + ' × x' : k + ' / x'}. Answer: ${ans}.`, 'wrong'); return;
+  }
+  fb('pp-fb', `✅ Correct! k = ${k}. Answer: <strong>${ans}</strong>`, 'correct');
+  addScore('pp', 10);
+}
+function ppHint() {
+  if (!ppQ) return;
+  const { type, xGiven, yGiven, k, ans } = ppQ;
+  const hints = [
+    `${type === 'direct' ? 'Direct: y = kx → k = y/x' : 'Inverse: y = k/x → k = xy'}`,
+    `k = ${type === 'direct' ? yGiven + '/' + xGiven : yGiven + '×' + xGiven} = ${k}`,
+    `Final answer: ${ans}`
+  ];
+  if (ppHi < hints.length) addHint('pp-hints', hints[ppHi++]);
+}
+
+// ================================================================
+// MODULE 21 · ORDERING & MAGNITUDE
+// ================================================================
+const OM_POOL = [
+  { items: [
+    { disp: '3.2 × 10²', val: 320 },
+    { disp: '4.1 × 10¹', val: 41 },
+    { disp: '2.9 × 10³', val: 2900 },
+    { disp: '8.0 × 10²', val: 800 },
+  ]},
+  { items: [
+    { disp: '−0.5', val: -0.5 },
+    { disp: '−3/4', val: -0.75 },
+    { disp: '−0.1', val: -0.1 },
+    { disp: '−2/5', val: -0.4 },
+  ]},
+  { items: [
+    { disp: '1.5 × 10⁻²', val: 0.015 },
+    { disp: '3/200', val: 0.015 },
+    { disp: '0.02', val: 0.02 },
+    { disp: '2.0 × 10⁻²', val: 0.02 },
+  ]},
+  { items: [
+    { disp: '√2', val: Math.sqrt(2) },
+    { disp: '1.41', val: 1.41 },
+    { disp: '7/5', val: 1.4 },
+    { disp: '1.415', val: 1.415 },
+  ]},
+  { items: [
+    { disp: '5 × 10³', val: 5000 },
+    { disp: '4999', val: 4999 },
+    { disp: '5.1 × 10³', val: 5100 },
+    { disp: '4.9 × 10³', val: 4900 },
+  ]},
+];
+let omQ = null, omRanks = [], omHi = 0;
+
+function omNew() {
+  omQ = OM_POOL[Math.floor(Math.random() * OM_POOL.length)];
+  const shuffled = [...omQ.items].sort(() => Math.random() - 0.5);
+  omQ.shuffled = shuffled;
+  omRanks = new Array(shuffled.length).fill(null);
+  omHi = 0; clearHints('om-hints'); fbHide('om-fb');
+  document.getElementById('om-order-display').textContent = 'click cards above';
+
+  const cardsEl = document.getElementById('om-cards');
+  cardsEl.innerHTML = '';
+  shuffled.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.id = 'om-card-' + idx;
+    card.style.cssText = 'background:white;border:2px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;text-align:center;min-width:90px;transition:border-color 0.15s;';
+    card.innerHTML = `<div style="font-size:1.1rem;font-weight:700;color:var(--navy);">${item.disp}</div><div id="om-rank-${idx}" style="font-size:0.72rem;color:var(--muted);margin-top:3px;min-height:14px;"></div>`;
+    card.onclick = () => omCardClick(idx);
+    cardsEl.appendChild(card);
+  });
+  omQ._next = 1;
+}
+function omCardClick(idx) {
+  const n = omQ.shuffled.length, ordinals = ['','1st','2nd','3rd','4th','5th'];
+  if (omRanks[idx] !== null) {
+    const freed = omRanks[idx]; omRanks[idx] = null;
+    document.getElementById('om-rank-' + idx).textContent = '';
+    document.getElementById('om-card-' + idx).style.borderColor = 'var(--border)';
+    omRanks.forEach((r, i) => { if (r !== null && r > freed) { omRanks[i]--; document.getElementById('om-rank-' + i).textContent = ordinals[omRanks[i]] || ''; } });
+    omQ._next--;
+  } else {
+    if (omQ._next > n) return;
+    omRanks[idx] = omQ._next++;
+    document.getElementById('om-rank-' + idx).textContent = ordinals[omRanks[idx]] || omRanks[idx] + 'th';
+    document.getElementById('om-card-' + idx).style.borderColor = 'var(--blue)';
+  }
+  // Update display
+  const placed = omRanks.map((r, i) => ({ r, i })).filter(x => x.r !== null).sort((a,b)=>a.r-b.r);
+  document.getElementById('om-order-display').textContent = placed.map(x => omQ.shuffled[x.i].disp).join(' < ') || 'click cards above';
+  fbHide('om-fb');
+}
+function omCheck() {
+  if (!omQ) return;
+  const n = omQ.shuffled.length;
+  if (omRanks.some(r => r === null)) { fb('om-fb', '⚠️ Rank all numbers first.', 'hint'); return; }
+  const studentOrder = omRanks.map((r,i)=>({i,r})).sort((a,b)=>a.r-b.r).map(x=>x.i);
+  const correctOrder = omQ.shuffled.map((item,i)=>({i,val:item.val})).sort((a,b)=>a.val-b.val).map(x=>x.i);
+  const correct = studentOrder.every((idx,pos)=>idx===correctOrder[pos]);
+  if (correct) {
+    fb('om-fb', '✅ Correct! ' + correctOrder.map(i=>omQ.shuffled[i].disp).join(' < '), 'correct');
+    addScore('om', 10);
+  } else {
+    fb('om-fb', '❌ Not quite. Convert all to decimals first. Correct order: <strong>' + correctOrder.map(i=>omQ.shuffled[i].disp).join(' < ') + '</strong>', 'wrong');
+  }
+}
+function omHint() {
+  if (!omQ) return;
+  const correctOrder = omQ.shuffled.map((item,i)=>({i,val:item.val})).sort((a,b)=>a.val-b.val).map(x=>x.i);
+  const hints = [
+    'Convert all to decimals: ' + omQ.shuffled.map(i => i.disp + ' = ' + i.val).join(', '),
+    'For standard form, compare the power first. For negatives, closer to 0 is larger.',
+    'Correct order: ' + correctOrder.map(i=>omQ.shuffled[i].disp).join(' < ')
+  ];
+  if (omHi < hints.length) addHint('om-hints', hints[omHi++]);
+}
+
+const OM_CMP_POOL = [
+  { a: '3.5 × 10⁴', av: 35000, b: '4.0 × 10³', bv: 4000 },
+  { a: '−0.3', av: -0.3, b: '−0.25', bv: -0.25 },
+  { a: '2.1 × 10⁻³', av: 0.0021, b: '0.002', bv: 0.002 },
+  { a: '7/8', av: 0.875, b: '0.88', bv: 0.88 },
+  { a: '5 × 10⁻¹', av: 0.5, b: '1/2', bv: 0.5 },
+  { a: '−1/3', av: -1/3, b: '−0.3', bv: -0.3 },
+];
+let omCmp = null;
+function omCmpNew() {
+  omCmp = OM_CMP_POOL[Math.floor(Math.random() * OM_CMP_POOL.length)];
+  fbHide('om-cmp-fb');
+  document.getElementById('om-cmp-a').innerHTML = omCmp.a;
+  document.getElementById('om-cmp-b').innerHTML = omCmp.b;
+  document.getElementById('om-lt-btn').className = 'btn btn-secondary';
+  document.getElementById('om-gt-btn').className = 'btn btn-secondary';
+}
+function omCmpClick(sym) {
+  if (!omCmp) return;
+  const correct = omCmp.av < omCmp.bv ? '<' : omCmp.av > omCmp.bv ? '>' : '=';
+  document.getElementById('om-lt-btn').className = 'btn btn-secondary';
+  document.getElementById('om-gt-btn').className = 'btn btn-secondary';
+  document.getElementById(sym === '<' ? 'om-lt-btn' : 'om-gt-btn').className = 'btn btn-primary';
+  if (sym === correct || (correct === '=' && (sym === '<' || sym === '>'))) {
+    if (correct === '=') {
+      fb('om-cmp-fb', `🤔 Actually these are equal! ${omCmp.a} = ${omCmp.b} = ${omCmp.av}`, 'hint');
+    } else {
+      fb('om-cmp-fb', `✅ Correct! ${omCmp.a} ${correct} ${omCmp.b} (${omCmp.av.toFixed(6).replace(/\.?0+$/,'')} ${correct} ${omCmp.bv.toFixed(6).replace(/\.?0+$/,'')})`, 'correct');
+      addScore('om', 5);
+    }
+  } else {
+    fb('om-cmp-fb', `❌ ${omCmp.a} = ${omCmp.av}, ${omCmp.b} = ${omCmp.bv}. So ${omCmp.a} ${correct} ${omCmp.b}.`, 'wrong');
+  }
+}
+
+// ================================================================
+// MODULE 22 · CALCULATOR & NOTATION
+// ================================================================
+const CA_POOL = [
+  { display: '3.5E6',  coeff: 3.5, pow: 6  },
+  { display: '2.7E-3', coeff: 2.7, pow: -3 },
+  { display: '1.06E8', coeff: 1.06,pow: 8  },
+  { display: '9.0E-5', coeff: 9.0, pow: -5 },
+  { display: '4.25E4', coeff: 4.25,pow: 4  },
+  { display: '6.3E-2', coeff: 6.3, pow: -2 },
+  { display: '1.0E10', coeff: 1.0, pow: 10 },
+  { display: '7.89E3', coeff: 7.89,pow: 3  },
+];
+let caQ = null, caHi = 0;
+function caNew() {
+  caQ = CA_POOL[Math.floor(Math.random() * CA_POOL.length)];
+  caHi = 0; clearHints('ca-hints'); fbHide('ca-fb');
+  document.getElementById('ca-display').textContent = caQ.display;
+  document.getElementById('ca-coeff').value = '';
+  document.getElementById('ca-pow').value = '';
+}
+function caCheck() {
+  if (!caQ) return;
+  const gC = parseFloat(document.getElementById('ca-coeff').value);
+  const gP = parseInt(document.getElementById('ca-pow').value, 10);
+  if (isNaN(gC) || isNaN(gP)) { fb('ca-fb', '⚠️ Enter coefficient and power.', 'hint'); return; }
+  if (Math.abs(gC - caQ.coeff) < 0.001 && gP === caQ.pow) {
+    fb('ca-fb', `✅ Correct! ${caQ.display} = ${caQ.coeff} × 10<sup>${caQ.pow}</sup>`, 'correct');
+    addScore('ca', 8);
+  } else {
+    if (gC === caQ.coeff && gP !== caQ.pow) {
+      fb('ca-fb', `🤔 Coefficient right but power wrong. "${caQ.display.split('E')[1]}" means the power is ${caQ.pow}.`, 'wrong');
+    } else {
+      fb('ca-fb', `❌ ${caQ.display} = <strong>${caQ.coeff} × 10<sup>${caQ.pow}</sup></strong>. The "E" means "× 10^". The number after E is the power.`, 'wrong');
+    }
+  }
+}
+function caHint() {
+  if (!caQ) return;
+  const hints = [
+    `"E" on a calculator means "× 10^". The number after E is the exponent.`,
+    `"${caQ.display}" → coefficient = ${caQ.coeff}, exponent = ${caQ.pow}.`,
+    `Answer: ${caQ.coeff} × 10<sup>${caQ.pow}</sup>`
+  ];
+  if (caHi < hints.length) addHint('ca-hints', hints[caHi++]);
+}
+
+const CA_PR_POOL = [
+  { q: 'Calculate 1/3 + 1/7 and give answer to 3 significant figures.', step: '1/3 = 0.333…, 1/7 = 0.142857…', correct: '0.476', wrong: '0.476 (rounded 1/3 to 0.33 first gives 0.473)', correctFull: 10/21, wrongRound: 0.33 + 1/7 },
+  { q: 'Calculate (2.3 × 10⁴) × (3.7 × 10⁻²). Give answer to 3 s.f.', step: '2.3 × 3.7 × 10^(4−2) = 8.51 × 10²', correct: '851', wrong: '850 (premature rounding of 2.3 × 3.7 to 8.5)', correctFull: 2.3e4 * 3.7e-2 },
+  { q: 'Find (√2 + 1)² to 3 s.f. (do not round √2 early)', step: '√2 = 1.41421…, (√2+1)² = (2.41421…)² = 5.828…', correct: '5.83', wrong: '5.82 (rounding √2 to 1.41 first)', correctFull: Math.pow(Math.sqrt(2) + 1, 2) },
+];
+let caPr = null;
+function caPrNew() {
+  caPr = CA_PR_POOL[Math.floor(Math.random() * CA_PR_POOL.length)];
+  fbHide('ca-pr-fb');
+  document.getElementById('ca-pr-q').innerHTML =
+    `<strong>Question:</strong> ${caPr.q}<br><span style="color:var(--muted);font-size:0.82rem;">Working: ${caPr.step}</span>`;
+  const opts = [caPr.correct, caPr.wrong].sort(() => Math.random() - 0.5);
+  const container = document.getElementById('ca-pr-opts');
+  container.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-secondary';
+    btn.style.minWidth = '120px';
+    btn.textContent = opt;
+    btn.onclick = () => {
+      container.querySelectorAll('.btn').forEach(b => b.className = 'btn btn-secondary');
+      btn.className = 'btn btn-primary';
+      if (opt === caPr.correct) {
+        fb('ca-pr-fb', `✅ Correct! Keep full precision until the last step, then round. Answer: <strong>${caPr.correct}</strong>`, 'correct');
+        addScore('ca', 8);
+      } else {
+        fb('ca-pr-fb', `❌ That's the premature-rounding answer. ${caPr.wrong.includes('rounded') ? caPr.wrong : 'Keep intermediate values unrounded.'}. Correct: <strong>${caPr.correct}</strong>`, 'wrong');
+      }
+    };
+    container.appendChild(btn);
+  });
+}
+
+// ================================================================
+// MODULE 23 · EXAM CHALLENGE
+// ================================================================
+const EC_QUESTIONS = [
+  {
+    marks: 3,
+    q: 'The population of a city is 4.8 × 10⁵. The area of the city is 1.2 × 10² km². Calculate the population density (people per km²). Give your answer in standard form.',
+    steps: ['Population density = population ÷ area', '(4.8 × 10⁵) ÷ (1.2 × 10²)', '= 4 × 10³ people/km²'],
+    ans: 4000, tol: 0.5,
+    unit: 'people/km²', placeholder: 'e.g. 4000'
+  },
+  {
+    marks: 3,
+    q: 'A length is measured as 12.4 cm, rounded to 1 decimal place. A second length is measured as 8 cm, rounded to the nearest cm. Find the maximum possible total length.',
+    steps: ['UB of 12.4 = 12.45 cm', 'UB of 8 = 8.5 cm', 'Max total = 12.45 + 8.5 = 20.95 cm'],
+    ans: 20.95, tol: 0.01, unit: 'cm', placeholder: 'e.g. 20.95'
+  },
+  {
+    marks: 4,
+    q: 'A laptop costs £960 after a 20% increase. A customer gets a further 15% discount. Find the final price the customer pays.',
+    steps: ['Original price = 960 ÷ 1.20 = £800', 'Discount: 800 × 0.85 = £680'],
+    ans: 680, tol: 0.5, unit: '£', placeholder: 'e.g. 680.00'
+  },
+  {
+    marks: 3,
+    q: 'Simplify: (2³ × 4²) ÷ 8. Give your answer as a power of 2.',
+    steps: ['4² = 2⁴. 8 = 2³.', '2³ × 2⁴ = 2⁷', '2⁷ ÷ 2³ = 2⁴ = 16'],
+    ans: 16, tol: 0.01, unit: '', placeholder: 'e.g. 16'
+  },
+  {
+    marks: 4,
+    q: '£5 000 is invested at 4% compound interest per year. How many complete years until the investment first exceeds £6 000?',
+    steps: ['5000 × 1.04ⁿ > 6000 → 1.04ⁿ > 1.2', 'Try n=4: 1.04⁴ = 1.1699 (no)', 'n=5: 1.04⁵ = 1.2167 > 1.2 ✓'],
+    ans: 5, tol: 0.1, unit: 'years', placeholder: 'integer years'
+  },
+  {
+    marks: 3,
+    q: 'A car travels at a speed of v = d/t, where d = 250 km (nearest km) and t = 3.0 h (nearest 0.1 h). Find the minimum possible speed, correct to 3 significant figures.',
+    steps: ['Min speed = min distance ÷ max time', 'LB of d = 249.5 km. UB of t = 3.05 h.', '249.5 ÷ 3.05 = 81.8... ≈ 81.8 km/h'],
+    ans: 249.5 / 3.05, tol: 0.5, unit: 'km/h', placeholder: 'to 3 s.f.'
+  },
+];
+
+let ecAnswered = 0, ecCorrect = 0, ecTotalMarks = 0, ecEarned = 0;
+
+function ecReset() {
+  ecAnswered = 0; ecCorrect = 0; ecTotalMarks = 0; ecEarned = 0;
+  document.getElementById('ec-score-display').textContent = 'Score: 0 / 0 marks';
+  document.getElementById('ec-progress-fill').style.width = '0%';
+  const container = document.getElementById('ec-container');
+  container.innerHTML = '';
+  const pool = [...EC_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 5);
+  pool.forEach((q, i) => ecBuildQuestion(q, i, container));
+}
+
+function ecBuildQuestion(q, i, container) {
+  ecTotalMarks += q.marks;
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.id = 'ec-q-' + i;
+  div.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <div class="card-title" style="margin:0;">Question ${i+1}</div>
+      <span style="background:var(--navy);color:white;font-size:0.72rem;padding:3px 10px;border-radius:20px;font-weight:700;">${q.marks} marks</span>
+    </div>
+    <div style="font-size:0.95rem;line-height:1.6;color:var(--text);margin-bottom:14px;">${q.q}</div>
+    <div class="input-row" style="flex-wrap:wrap;gap:8px;">
+      <label class="bold">Answer${q.unit ? ' (' + q.unit + ')' : ''}:</label>
+      <input type="number" id="ec-ans-${i}" class="inp-sm" step="any" placeholder="${q.placeholder}" style="width:160px;" onkeydown="if(event.key==='Enter')ecCheck(${i})" />
+      <button class="btn btn-success" onclick="ecCheck(${i})">✓ Submit</button>
+      <button class="btn btn-hint" onclick="ecReveal(${i})">🔍 Show working</button>
+    </div>
+    <div id="ec-working-${i}" style="display:none;background:#f8fafc;border-left:4px solid var(--blue);border-radius:6px;padding:12px;margin-top:10px;font-family:var(--font-mono);font-size:0.85rem;line-height:1.8;"></div>
+    <div class="feedback" id="ec-fb-${i}"></div>`;
+  container.appendChild(div);
+}
+
+function ecCheck(i) {
+  const q = EC_QUESTIONS.find((_, idx) => true); // find by index in rendered order
+  const allQ = [...EC_QUESTIONS].sort(() => 0); // use full pool order
+  // Get the question for this slot from the rendered card order
+  const cards = document.querySelectorAll('[id^="ec-q-"]');
+  // Store q data on the element
+  const card = document.getElementById('ec-q-' + i);
+  if (card.dataset.answered) return;
+
+  const raw = parseFloat(document.getElementById('ec-ans-' + i).value);
+  if (isNaN(raw)) { fb('ec-fb-' + i, '⚠️ Enter a number.', 'hint'); return; }
+
+  // Retrieve stored question
+  const storedQ = window._ecPool[i];
+  const { ans, tol, marks, steps } = storedQ;
+
+  card.dataset.answered = '1';
+  ecAnswered++;
+  const workingEl = document.getElementById('ec-working-' + i);
+  workingEl.style.display = 'block';
+  workingEl.innerHTML = steps.map((s, j) => `Step ${j+1}: ${s}`).join('<br>');
+
+  if (Math.abs(raw - ans) <= tol) {
+    fb('ec-fb-' + i, `✅ Correct! +${marks} marks`, 'correct');
+    ecEarned += marks;
+    addScore('ec', marks * 3);
+  } else {
+    fb('ec-fb-' + i, `❌ Not quite. See working above. Answer: ${typeof ans === 'number' ? ans.toFixed(ans % 1 === 0 ? 0 : 2) : ans}`, 'wrong');
+  }
+  ecUpdateScore();
+}
+
+function ecReveal(i) {
+  const storedQ = window._ecPool ? window._ecPool[i] : null;
+  if (!storedQ) return;
+  const workingEl = document.getElementById('ec-working-' + i);
+  workingEl.style.display = workingEl.style.display === 'none' ? 'block' : 'none';
+  workingEl.innerHTML = storedQ.steps.map((s, j) => `Step ${j+1}: ${s}`).join('<br>');
+}
+
+function ecUpdateScore() {
+  document.getElementById('ec-score-display').textContent = `Score: ${ecEarned} / ${ecTotalMarks} marks`;
+  const pct = ecTotalMarks > 0 ? ecEarned / ecTotalMarks * 100 : 0;
+  document.getElementById('ec-progress-fill').style.width = pct + '%';
+}
+
+function ecInit() {
+  ecTotalMarks = 0; ecEarned = 0; ecAnswered = 0;
+  const pool = [...EC_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 5);
+  window._ecPool = pool;
+  ecTotalMarks = pool.reduce((s, q) => s + q.marks, 0);
+  const container = document.getElementById('ec-container');
+  container.innerHTML = '';
+  pool.forEach((q, i) => ecBuildQuestion(q, i, container));
+  ecUpdateScore();
+}
+</script>
+
 </div><!-- end .content-area -->
 </div><!-- end .app-body -->
 </body>
