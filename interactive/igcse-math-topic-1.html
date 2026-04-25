@@ -1683,6 +1683,28 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="feedback" id="su-comb-fb"></div>
   </div>
 
+  <!-- ── SURD MULTIPLICATION ── -->
+  <div class="card">
+    <div class="card-title">Part 4 — Multiply Surds</div>
+    <div class="card-desc" style="margin-bottom:12px;">
+      Use the rule: <strong>√a × √b = √(ab)</strong>. Simplify the result fully.<br>
+      Type the answer as an integer if it's a perfect square, or in <strong>a√b</strong> form.
+    </div>
+    <div style="text-align:center;margin-bottom:18px;">
+      <span style="font-size:2rem;font-weight:700;color:var(--navy);" id="su-mul-q">?</span>
+    </div>
+    <div class="input-row" style="justify-content:center;flex-wrap:wrap;">
+      <label class="bold">Answer:</label>
+      <input type="text" id="su-mul-input" class="inp-sm" placeholder="e.g. 4 or 2√3" style="width:130px;"
+             onkeydown="if(event.key==='Enter')suMulCheck()" />
+      <button class="btn btn-success" onclick="suMulCheck()">✓ Check</button>
+      <button class="btn btn-hint"   onclick="suMulHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="suMulNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="su-mul-hints"></ul>
+    <div class="feedback" id="su-mul-fb"></div>
+  </div>
+
 </section>
 
 <!-- ============================================================
@@ -1774,6 +1796,35 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     </div>
     <ul class="hint-list" id="lm-comb-hints"></ul>
     <div class="feedback" id="lm-comb-fb"></div>
+  </div>
+
+  <!-- ── REAL-LIFE APPLICATIONS ── -->
+  <div class="card">
+    <div class="card-title">Part 4 — Real-life Applications</div>
+    <div class="card-desc" style="margin-bottom:10px;">
+      Apply bounds to multi-step real-life problems. Find the <strong>maximum</strong> or <strong>minimum</strong> possible value of a derived quantity.
+    </div>
+    <div class="problem-display" id="lm-app-scenario" style="font-size:0.95rem;padding:12px 16px;line-height:1.6;">—</div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:10px;">
+      <div>
+        <label class="bold" id="lm-app-label-a">Value A bounds:</label>
+        <div id="lm-app-bounds-a" style="font-family:var(--font-mono);font-size:0.88rem;color:var(--muted);margin-top:4px;"></div>
+      </div>
+      <div>
+        <label class="bold" id="lm-app-label-b">Value B bounds:</label>
+        <div id="lm-app-bounds-b" style="font-family:var(--font-mono);font-size:0.88rem;color:var(--muted);margin-top:4px;"></div>
+      </div>
+    </div>
+    <div class="input-row">
+      <label class="bold" id="lm-app-ask">Answer:</label>
+      <input type="number" id="lm-app-input" class="inp-sm" step="any" placeholder="to 4 s.f."
+             onkeydown="if(event.key==='Enter')lmAppCheck()" />
+      <button class="btn btn-success" onclick="lmAppCheck()">✓ Check</button>
+      <button class="btn btn-hint"   onclick="lmAppHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="lmAppNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="lm-app-hints"></ul>
+    <div class="feedback" id="lm-app-fb"></div>
   </div>
 
 </section>
@@ -1977,6 +2028,62 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     </div>
     <ul class="hint-list" id="pc-int-hints"></ul>
     <div class="feedback" id="pc-int-fb"></div>
+  </div>
+
+  <!-- ── REVERSE PERCENTAGE ── -->
+  <div class="card">
+    <div class="card-title">Part 5 — Reverse Percentage</div>
+    <div class="card-desc" style="margin-bottom:10px;">
+      Given a final value <em>after</em> a percentage change, find the <strong>original</strong> value.<br>
+      Key: if increased by 20%, final = 120% of original → original = final ÷ 1.20
+    </div>
+    <div class="problem-display" id="pc-rev-scenario" style="font-size:1rem;padding:12px 16px;">—</div>
+    <div class="input-row">
+      <label class="bold">Original value: £</label>
+      <input type="number" id="pc-rev-input" class="inp-sm" step="0.01" placeholder="e.g. 50.00"
+             onkeydown="if(event.key==='Enter')pcRevCheck()" />
+      <button class="btn btn-success" onclick="pcRevCheck()">✓ Check</button>
+      <button class="btn btn-hint"   onclick="pcRevHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="pcRevNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="pc-rev-hints"></ul>
+    <div class="feedback" id="pc-rev-fb"></div>
+  </div>
+
+  <!-- ── COMPOUND INTEREST ── -->
+  <div class="card">
+    <div class="card-title">Part 6 — Compound Interest</div>
+    <div class="card-desc" style="margin-bottom:10px;">
+      Formula: <strong>A = P(1 + r/100)<sup>n</sup></strong> &nbsp;·&nbsp; P = principal, r = annual rate %, n = years.<br>
+      The interest each year is added to the principal before the next calculation.
+    </div>
+    <div class="problem-display" id="pc-ci-scenario" style="font-size:1rem;padding:12px 16px;">—</div>
+
+    <!-- Year-by-year table -->
+    <div style="overflow-x:auto;margin-bottom:12px;">
+      <table id="pc-ci-table" style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+        <thead>
+          <tr style="background:var(--navy);color:white;">
+            <th style="padding:7px 12px;text-align:left;">Year</th>
+            <th style="padding:7px 12px;text-align:right;">Opening Balance</th>
+            <th style="padding:7px 12px;text-align:right;">Interest Earned</th>
+            <th style="padding:7px 12px;text-align:right;">Closing Balance</th>
+          </tr>
+        </thead>
+        <tbody id="pc-ci-tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="input-row">
+      <label class="bold">Final amount: £</label>
+      <input type="number" id="pc-ci-input" class="inp-sm" step="0.01" placeholder="e.g. 1157.63"
+             onkeydown="if(event.key==='Enter')pcCiCheck()" />
+      <button class="btn btn-success" onclick="pcCiCheck()">✓ Check</button>
+      <button class="btn btn-hint"   onclick="pcCiHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="pcCiNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="pc-ci-hints"></ul>
+    <div class="feedback" id="pc-ci-fb"></div>
   </div>
 
 </section>
@@ -2359,6 +2466,33 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
       <button class="btn btn-secondary" onclick="qfNew()">↺ Next</button>
     </div>
     <div class="feedback" id="qf-fb"></div>
+  </div>
+
+  <!-- ── NUMBER ORDERING ── -->
+  <div class="card">
+    <div class="card-title">🔢 Number Ordering</div>
+    <div class="card-desc" style="margin-bottom:12px;">
+      Drag or rank the numbers in ascending order (smallest → largest). Use the number line below to compare.<br>
+      <span style="font-size:0.8rem;color:var(--muted);">Click the position buttons (1st, 2nd…) to assign each number its rank, then press Check.</span>
+    </div>
+
+    <!-- Number line display -->
+    <div style="position:relative;height:48px;margin:0 0 20px;border-bottom:2px solid var(--border);">
+      <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--navy);"></div>
+      <div id="no-line-labels" style="position:absolute;bottom:6px;left:0;right:0;display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);padding:0 4px;"></div>
+      <div id="no-line-markers" style="position:absolute;bottom:0;left:0;right:0;height:36px;"></div>
+    </div>
+
+    <!-- Cards to rank -->
+    <div id="no-cards" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;justify-content:center;"></div>
+
+    <div class="input-row" style="justify-content:center;">
+      <button class="btn btn-success" onclick="noCheck()">✓ Check Order</button>
+      <button class="btn btn-hint"   onclick="noHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="noNew()">↺ New Set</button>
+    </div>
+    <ul class="hint-list" id="no-hints"></ul>
+    <div class="feedback" id="no-fb"></div>
   </div>
 
 </section>
@@ -5708,6 +5842,535 @@ function suInit() {
 }
 
 // ================================================================
+// REVERSE PERCENTAGE
+// ================================================================
+const PC_REV_POOL = [
+  { context: 'After a 20% increase, a price is £144. Find the original price.', mult: 1.20, ans: 120 },
+  { context: 'After a 15% reduction, a coat costs £85. What was the original price?', mult: 0.85, ans: 100 },
+  { context: 'After a 25% increase, a salary is £37 500. Find the original salary.', mult: 1.25, ans: 30000 },
+  { context: 'After a 10% discount, a laptop costs £630. Find the original price.', mult: 0.90, ans: 700 },
+  { context: 'After a 40% increase, a house is worth £280 000. Find the original value.', mult: 1.40, ans: 200000 },
+  { context: 'After a 5% pay rise, a worker earns £2 205 per month. What was the original monthly pay?', mult: 1.05, ans: 2100 },
+  { context: 'After a 30% reduction in a sale, a TV costs £350. What was the original price?', mult: 0.70, ans: 500 },
+  { context: 'After a 12% increase, a stock is worth £560. Find its original value.', mult: 1.12, ans: 500 },
+];
+let pcRev = null, pcRevHi = 0;
+
+function pcRevNew() {
+  pcRev = PC_REV_POOL[Math.floor(Math.random() * PC_REV_POOL.length)];
+  pcRevHi = 0; clearHints('pc-rev-hints'); fbHide('pc-rev-fb');
+  document.getElementById('pc-rev-scenario').textContent = pcRev.context;
+  document.getElementById('pc-rev-input').value = '';
+}
+function pcRevCheck() {
+  if (!pcRev) return;
+  const raw = parseFloat(document.getElementById('pc-rev-input').value);
+  if (isNaN(raw)) { fb('pc-rev-fb', '⚠️ Enter a number.', 'hint'); return; }
+  const { mult, ans, context } = pcRev;
+  const pct = Math.round((mult - 1) * 100);
+  const dir = mult > 1 ? 'increase' : 'decrease';
+
+  // Misconception: student subtracted percentage instead of dividing
+  const wrong_sub = Math.round(ans * (2 - mult)); // e.g. 144 - 20% = 115.2
+  if (Math.abs(raw - wrong_sub) < 1) {
+    fb('pc-rev-fb', `🤔 <strong>Don't subtract the percentage from the final value!</strong> ${Math.abs(pct)}% of the <em>final</em> value ≠ ${Math.abs(pct)}% of the <em>original</em>. Divide by the multiplier instead: ${ans * mult} ÷ ${mult} = ${ans}.`, 'wrong'); return;
+  }
+  // Misconception: divided by percentage directly (e.g. ÷ 0.20 instead of ÷ 1.20)
+  const pct_frac = Math.abs(mult - 1);
+  const wrong_div_pct = Math.abs(raw - ans * mult / pct_frac) < 1;
+  if (wrong_div_pct && pct_frac > 0) {
+    fb('pc-rev-fb', `🤔 <strong>Wrong divisor.</strong> For a ${Math.abs(pct)}% ${dir}, the multiplier is ${mult.toFixed(2)}, not ${pct_frac.toFixed(2)}. Divide the final value by ${mult.toFixed(2)}.`, 'wrong'); return;
+  }
+  if (Math.abs(raw - ans) < 0.5) {
+    fb('pc-rev-fb', `✅ Correct! Original = ${ans * mult} ÷ ${mult} = <strong>£${ans.toLocaleString()}</strong>`, 'correct');
+    addScore('pc', 10);
+  } else {
+    fb('pc-rev-fb', `❌ Not quite. Answer: £${ans.toLocaleString()}. Divide the final value by the multiplier (${mult}).`, 'wrong');
+  }
+}
+function pcRevHint() {
+  if (!pcRev) return;
+  const { mult, ans } = pcRev;
+  const pct = Math.round(Math.abs(mult - 1) * 100);
+  const dir = mult > 1 ? 'increase' : 'decrease';
+  const hints = [
+    `A ${pct}% ${dir} means the final value = original × ${mult}. Work backwards.`,
+    `Original = final ÷ ${mult}. The final value is given in the question.`,
+    `Original = ${ans * mult} ÷ ${mult} = <strong>£${ans.toLocaleString()}</strong>.`
+  ];
+  if (pcRevHi < hints.length) addHint('pc-rev-hints', hints[pcRevHi++]);
+}
+
+// ================================================================
+// COMPOUND INTEREST (extra)
+// ================================================================
+const PC_CI_POOL = [
+  { P: 1000, r: 5, n: 3 },
+  { P: 2000, r: 4, n: 4 },
+  { P:  500, r: 10, n: 2 },
+  { P: 5000, r: 3, n: 5 },
+  { P: 1500, r: 8, n: 3 },
+  { P: 800,  r: 6, n: 4 },
+  { P: 3000, r: 2.5, n: 4 },
+];
+let pcCi = null, pcCiHi = 0;
+
+function pcCiNew() {
+  pcCi = PC_CI_POOL[Math.floor(Math.random() * PC_CI_POOL.length)];
+  pcCiHi = 0; clearHints('pc-ci-hints'); fbHide('pc-ci-fb');
+  const { P, r, n } = pcCi;
+  document.getElementById('pc-ci-scenario').textContent =
+    `£${P.toLocaleString()} is invested at ${r}% per annum compound interest for ${n} year${n>1?'s':''}. Find the final amount.`;
+  document.getElementById('pc-ci-input').value = '';
+  // Build year-by-year table
+  const tbody = document.getElementById('pc-ci-tbody');
+  tbody.innerHTML = '';
+  let bal = P;
+  for (let y = 1; y <= n; y++) {
+    const interest = bal * r / 100;
+    const closing = bal + interest;
+    const row = document.createElement('tr');
+    row.style.background = y % 2 === 0 ? '#f8fafc' : 'white';
+    row.innerHTML = `
+      <td style="padding:6px 12px;">${y}</td>
+      <td style="padding:6px 12px;text-align:right;">£${bal.toFixed(2)}</td>
+      <td style="padding:6px 12px;text-align:right;color:var(--green);">£${interest.toFixed(2)}</td>
+      <td style="padding:6px 12px;text-align:right;font-weight:${y===n?'700':'400'};">£${closing.toFixed(2)}</td>`;
+    tbody.appendChild(row);
+    bal = closing;
+  }
+  pcCi._ans = bal;
+}
+function pcCiCheck() {
+  if (!pcCi) return;
+  const raw = parseFloat(document.getElementById('pc-ci-input').value);
+  if (isNaN(raw)) { fb('pc-ci-fb', '⚠️ Enter a number.', 'hint'); return; }
+  const { P, r, n } = pcCi;
+  const ans = pcCi._ans;
+
+  // Misconception: simple interest used
+  const si = P + P * r / 100 * n;
+  if (Math.abs(raw - si) < 1) {
+    fb('pc-ci-fb', `🤔 <strong>That's simple interest!</strong> Simple interest = £${si.toFixed(2)}, but compound interest re-invests each year's interest. The correct answer is £${ans.toFixed(2)}.`, 'wrong'); return;
+  }
+  if (Math.abs(raw - ans) < 0.5) {
+    fb('pc-ci-fb', `✅ Correct! A = ${P}(1 + ${r}/100)<sup>${n}</sup> = <strong>£${ans.toFixed(2)}</strong>`, 'correct');
+    addScore('pc', 10);
+  } else {
+    fb('pc-ci-fb', `❌ Not quite. Use A = P(1 + r/100)<sup>n</sup> = ${P} × ${(1+r/100).toFixed(4)}<sup>${n}</sup> = £${ans.toFixed(2)}.`, 'wrong');
+  }
+}
+function pcCiHint() {
+  if (!pcCi) return;
+  const { P, r, n } = pcCi;
+  const mult = (1 + r / 100).toFixed(4);
+  const hints = [
+    `The formula is A = P(1 + r/100)ⁿ. Substitute P=${P}, r=${r}, n=${n}.`,
+    `Multiplier per year = 1 + ${r}/100 = ${mult}. Raise to the power ${n}.`,
+    `A = ${P} × ${mult}^${n} = £${pcCi._ans.toFixed(2)}. Check the year-by-year table above for the step-by-step calculation.`
+  ];
+  if (pcCiHi < hints.length) addHint('pc-ci-hints', hints[pcCiHi++]);
+}
+
+// ================================================================
+// SURDS — MULTIPLY
+// ================================================================
+const SU_MUL_POOL = [
+  { q: '√2 × √8',   a: 4,  b: 1, isInt: true  },   // 4
+  { q: '√3 × √3',   a: 3,  b: 1, isInt: true  },   // 3
+  { q: '√2 × √6',   a: 2,  b: 3, isInt: false },   // 2√3
+  { q: '√5 × √5',   a: 5,  b: 1, isInt: true  },   // 5
+  { q: '√3 × √12',  a: 6,  b: 1, isInt: true  },   // 6
+  { q: '√6 × √6',   a: 6,  b: 1, isInt: true  },   // 6
+  { q: '2√3 × √3',  a: 6,  b: 1, isInt: true  },   // 6
+  { q: '√2 × √18',  a: 6,  b: 1, isInt: true  },   // 6
+  { q: '√5 × √20',  a:10,  b: 1, isInt: true  },   // 10
+  { q: '3√2 × √2',  a: 6,  b: 1, isInt: true  },   // 6
+  { q: '√3 × √27',  a: 9,  b: 1, isInt: true  },   // 9
+  { q: '√6 × √24',  a:12,  b: 1, isInt: true  },   // 12
+  { q: '√2 × √10',  a: 2,  b: 5, isInt: false },   // 2√5
+  { q: '√5 × √15',  a: 5,  b: 3, isInt: false },   // 5√3
+];
+let suMul = null, suMulHi = 0;
+
+function suMulNew() {
+  suMul = SU_MUL_POOL[Math.floor(Math.random() * SU_MUL_POOL.length)];
+  suMulHi = 0;
+  document.getElementById('su-mul-q').textContent = suMul.q;
+  document.getElementById('su-mul-input').value = '';
+  clearHints('su-mul-hints'); fbHide('su-mul-fb');
+}
+function suMulCheck() {
+  if (!suMul) return;
+  const raw = document.getElementById('su-mul-input').value.trim().replace(/r/g, '√');
+  const { q, a, b, isInt } = suMul;
+  const product = a * a * b; // value²
+
+  if (isInt) {
+    // Expect integer answer
+    const parsed = parseInt(raw, 10);
+    if (!isNaN(parsed) && raw.match(/^\d+$/)) {
+      if (parsed === a) {
+        fb('su-mul-fb', `✅ Correct! ${q} = √${product} = <strong>${a}</strong> (a perfect square).`, 'correct');
+        addScore('su', 6); return;
+      }
+      if (parsed * parsed === product && parsed !== a) {
+        fb('su-mul-fb', `🤔 Close! Check your arithmetic — √${product} = ${a}, not ${parsed}.`, 'wrong'); return;
+      }
+    }
+    // They wrote surd form for an integer answer
+    const sp = suParseSurd(raw);
+    if (sp && sp.b === 1 && sp.a === a) {
+      fb('su-mul-fb', `✅ Correct! And since ${a}² = ${product}/${a}, this simplifies to the whole number <strong>${a}</strong>.`, 'correct');
+      addScore('su', 6); return;
+    }
+    fb('su-mul-fb', `❌ ${q} = √${product} = ${a}. Remember: √a × √a = a (not a²).`, 'wrong'); return;
+  }
+
+  // Surd answer
+  const sp = suParseSurd(raw);
+  if (!sp) { fb('su-mul-fb', '⚠️ Write as integer or a√b (e.g. 2√5).', 'hint'); return; }
+  if (sp.a * sp.a * sp.b !== product) {
+    fb('su-mul-fb', `❌ That doesn't equal ${q}. Multiply under the roots: √a × √b = √(ab), then simplify.`, 'wrong'); return;
+  }
+  if (suLargestSqFactor(sp.b) > 1) {
+    fb('su-mul-fb', `🤔 Correct value but not fully simplified. √${sp.b} can be simplified further.`, 'wrong'); return;
+  }
+  if (sp.a === a && sp.b === b) {
+    fb('su-mul-fb', `✅ Correct! ${q} = √${product} = <strong>${a}√${b}</strong>.`, 'correct');
+    addScore('su', 6);
+  } else {
+    fb('su-mul-fb', `✅ Correct value! The simplified form is <strong>${a}√${b}</strong>.`, 'correct');
+    addScore('su', 6);
+  }
+}
+function suMulHint() {
+  if (!suMul) return;
+  const { q, a, b, isInt } = suMul;
+  const product = a * a * b;
+  const hints = [
+    `Use √a × √b = √(ab). Multiply the numbers under each root sign together.`,
+    `Result: √${product}. ${isInt ? `${product} = ${a}² so √${product} = ${a}.` : `Largest square factor of ${product} is ${suLargestSqFactor(product)}.`}`,
+    `Answer: <strong>${a}${!isInt ? '√'+b : ''}</strong>`
+  ];
+  if (suMulHi < hints.length) addHint('su-mul-hints', hints[suMulHi++]);
+}
+
+// ================================================================
+// LIMITS OF ACCURACY — APPLICATIONS
+// ================================================================
+const LM_APP_POOL = [
+  {
+    context: 'A rectangle has length l = 8.4 cm (to 1 d.p.) and width w = 3.2 cm (to 1 d.p.). Find the MAXIMUM possible area.',
+    aName: 'Length l', aVal: 8.4, aDp: 1,
+    bName: 'Width w',  bVal: 3.2, bDp: 1,
+    op: 'mul', find: 'max',
+    formula: 'Area = l × w',
+    ans: 8.45 * 3.25,
+    unit: 'cm²'
+  },
+  {
+    context: 'A rectangle has length l = 8.4 cm (to 1 d.p.) and width w = 3.2 cm (to 1 d.p.). Find the MINIMUM possible area.',
+    aName: 'Length l', aVal: 8.4, aDp: 1,
+    bName: 'Width w',  bVal: 3.2, bDp: 1,
+    op: 'mul', find: 'min',
+    formula: 'Area = l × w',
+    ans: 8.35 * 3.15,
+    unit: 'cm²'
+  },
+  {
+    context: 'A car travels distance d = 120 km (to the nearest km) in time t = 2.0 hours (to 1 d.p.). Find the MAXIMUM possible speed.',
+    aName: 'Distance d', aVal: 120, aDp: 0,
+    bName: 'Time t',     bVal: 2.0, bDp: 1,
+    op: 'div', find: 'max',
+    formula: 'Speed = d ÷ t (max speed: max d ÷ min t)',
+    ans: 120.5 / 1.95,
+    unit: 'km/h'
+  },
+  {
+    context: 'A car travels distance d = 120 km (to the nearest km) in time t = 2.0 hours (to 1 d.p.). Find the MINIMUM possible speed.',
+    aName: 'Distance d', aVal: 120, aDp: 0,
+    bName: 'Time t',     bVal: 2.0, bDp: 1,
+    op: 'div', find: 'min',
+    formula: 'Speed = d ÷ t (min speed: min d ÷ max t)',
+    ans: 119.5 / 2.05,
+    unit: 'km/h'
+  },
+  {
+    context: 'A triangle has base b = 6.0 cm (to 1 d.p.) and height h = 4.5 cm (to 1 d.p.). Find the MAXIMUM possible area. (Area = ½bh)',
+    aName: 'Base b',   aVal: 6.0, aDp: 1,
+    bName: 'Height h', bVal: 4.5, bDp: 1,
+    op: 'halfmul', find: 'max',
+    formula: 'Area = ½ × b × h',
+    ans: 0.5 * 6.05 * 4.55,
+    unit: 'cm²'
+  },
+  {
+    context: 'A triangle has base b = 6.0 cm (to 1 d.p.) and height h = 4.5 cm (to 1 d.p.). Find the MINIMUM possible area. (Area = ½bh)',
+    aName: 'Base b',   aVal: 6.0, aDp: 1,
+    bName: 'Height h', bVal: 4.5, bDp: 1,
+    op: 'halfmul', find: 'min',
+    formula: 'Area = ½ × b × h',
+    ans: 0.5 * 5.95 * 4.45,
+    unit: 'cm²'
+  },
+  {
+    context: 'Density = mass ÷ volume. Mass m = 250 g (to nearest 10 g), volume V = 45 cm³ (to nearest cm³). Find the MAXIMUM possible density.',
+    aName: 'Mass m',    aVal: 250, aDp: -1,
+    bName: 'Volume V',  bVal: 45,  bDp: 0,
+    op: 'div', find: 'max',
+    formula: 'Density = m ÷ V (max: max m ÷ min V)',
+    ans: 255 / 44.5,
+    unit: 'g/cm³'
+  },
+];
+let lmApp = null, lmAppHi = 0;
+
+function lmHalfDp(dp) {
+  if (dp === -1) return 5;   // nearest 10 → half-interval = 5
+  return 0.5 * Math.pow(10, -dp);
+}
+function lmAppNew() {
+  lmApp = LM_APP_POOL[Math.floor(Math.random() * LM_APP_POOL.length)];
+  lmAppHi = 0; clearHints('lm-app-hints'); fbHide('lm-app-fb');
+  const { context, aName, aVal, aDp, bName, bVal, bDp } = lmApp;
+  document.getElementById('lm-app-scenario').textContent = context;
+
+  const hA = lmHalfDp(aDp), hB = lmHalfDp(bDp);
+  document.getElementById('lm-app-label-a').textContent = aName + ' bounds:';
+  document.getElementById('lm-app-bounds-a').textContent = `${aVal - hA} ≤ ${aName.split(' ')[0].toLowerCase()} < ${aVal + hA}`;
+  document.getElementById('lm-app-label-b').textContent = bName + ' bounds:';
+  document.getElementById('lm-app-bounds-b').textContent = `${bVal - hB} ≤ ${bName.split(' ')[0].toLowerCase()} < ${bVal + hB}`;
+
+  const kind = lmApp.find === 'max' ? 'Maximum' : 'Minimum';
+  document.getElementById('lm-app-ask').textContent = `${kind} possible ${lmApp.unit === 'km/h' ? 'speed' : lmApp.unit === 'g/cm³' ? 'density' : 'area'} (${lmApp.unit}):`;
+  document.getElementById('lm-app-input').value = '';
+}
+function lmAppCheck() {
+  if (!lmApp) return;
+  const raw = parseFloat(document.getElementById('lm-app-input').value);
+  if (isNaN(raw)) { fb('lm-app-fb', '⚠️ Enter a number.', 'hint'); return; }
+  const { ans, find, op, aVal, aDp, bVal, bDp, formula } = lmApp;
+  const hA = lmHalfDp(aDp), hB = lmHalfDp(bDp);
+
+  // Common error: using nominal values
+  let nominalAns;
+  if (op === 'mul') nominalAns = aVal * bVal;
+  else if (op === 'halfmul') nominalAns = 0.5 * aVal * bVal;
+  else nominalAns = aVal / bVal;
+
+  if (Math.abs(raw - nominalAns) < 0.01 * nominalAns) {
+    fb('lm-app-fb', `🤔 <strong>You used the nominal values, not the bounds!</strong> To find the ${find}imum, use the ${find === 'max' ? 'upper' : 'lower'} bounds of each measurement. ${formula}.`, 'wrong'); return;
+  }
+  if (Math.abs(raw - ans) < 0.005 * Math.abs(ans) + 0.01) {
+    fb('lm-app-fb', `✅ Correct! ${find === 'max' ? 'Maximum' : 'Minimum'} = <strong>${ans.toFixed(4)} ${lmApp.unit}</strong>`, 'correct');
+    addScore('lm', 12);
+  } else {
+    fb('lm-app-fb', `❌ Not quite. Answer: ${ans.toFixed(4)} ${lmApp.unit}. Use the correct bound for each value — ${find === 'max' ? 'upper bounds to maximise a product/numerator, lower bound to minimise a denominator' : 'lower bounds to minimise a product/numerator, upper bound to maximise a denominator'}.`, 'wrong');
+  }
+}
+function lmAppHint() {
+  if (!lmApp) return;
+  const { find, op, aVal, aDp, bVal, bDp, formula, ans } = lmApp;
+  const hA = lmHalfDp(aDp), hB = lmHalfDp(bDp);
+  const uA = aVal + hA, lA = aVal - hA;
+  const uB = bVal + hB, lB = bVal - hB;
+  const hints = [
+    `${formula}. For the ${find}imum, choose the ${find === 'max' ? 'upper' : 'lower'} bound of each measurement — but for division, use ${find === 'max' ? 'max numerator ÷ min denominator' : 'min numerator ÷ max denominator'}.`,
+    `Upper bound A = ${uA}  (lower = ${lA}). Upper bound B = ${uB}  (lower = ${lB}).`,
+    `Answer: ${ans.toFixed(4)} ${lmApp.unit}.`
+  ];
+  if (lmAppHi < hints.length) addHint('lm-app-hints', hints[lmAppHi++]);
+}
+
+// ================================================================
+// NUMBER ORDERING
+// ================================================================
+// Pool of number sets — each item: values (as fractions/decimals), display strings, actual numeric values
+const NO_POOL = [
+  {
+    items: [
+      { disp: '3/4',   val: 0.75  },
+      { disp: '0.7',   val: 0.7   },
+      { disp: '2/3',   val: 0.6667},
+      { disp: '0.68',  val: 0.68  },
+    ]
+  },
+  {
+    items: [
+      { disp: '1/3',   val: 1/3   },
+      { disp: '0.3',   val: 0.3   },
+      { disp: '0.3̄',   val: 1/3   },
+      { disp: '30%',   val: 0.30  },
+    ]
+  },
+  {
+    items: [
+      { disp: '−1/2',  val: -0.5  },
+      { disp: '−0.4',  val: -0.4  },
+      { disp: '−3/5',  val: -0.6  },
+      { disp: '−0.45', val: -0.45 },
+    ]
+  },
+  {
+    items: [
+      { disp: '5/6',   val: 5/6   },
+      { disp: '0.83',  val: 0.83  },
+      { disp: '4/5',   val: 0.8   },
+      { disp: '0.8̄3̄',  val: 5/6   },
+    ]
+  },
+  {
+    items: [
+      { disp: '1.2',   val: 1.2   },
+      { disp: '6/5',   val: 1.2   },
+      { disp: '5/4',   val: 1.25  },
+      { disp: '1.19',  val: 1.19  },
+    ]
+  },
+  {
+    items: [
+      { disp: '0.09',  val: 0.09  },
+      { disp: '1/9',   val: 1/9   },
+      { disp: '0.1',   val: 0.1   },
+      { disp: '2/19',  val: 2/19  },
+    ]
+  },
+];
+let noCurrent = null, noRanks = [], noHi = 0;
+
+function noNew() {
+  noCurrent = NO_POOL[Math.floor(Math.random() * NO_POOL.length)];
+  // Shuffle display order
+  const shuffled = [...noCurrent.items].sort(() => Math.random() - 0.5);
+  noCurrent.shuffled = shuffled;
+  noRanks = new Array(shuffled.length).fill(null);
+  noHi = 0;
+  clearHints('no-hints'); fbHide('no-fb');
+
+  // Build number line
+  const vals = shuffled.map(i => i.val);
+  const lo = Math.min(...vals), hi = Math.max(...vals);
+  const pad = (hi - lo) * 0.25 || 0.2;
+  const lineMin = lo - pad, lineMax = hi + pad;
+  noCurrent.lineMin = lineMin; noCurrent.lineMax = lineMax;
+
+  const labelsEl = document.getElementById('no-line-labels');
+  labelsEl.innerHTML = '';
+  const steps = 5;
+  for (let i = 0; i <= steps; i++) {
+    const v = lineMin + (lineMax - lineMin) * i / steps;
+    const span = document.createElement('span');
+    span.textContent = v.toFixed(2);
+    labelsEl.appendChild(span);
+  }
+
+  // Place markers
+  const markersEl = document.getElementById('no-line-markers');
+  markersEl.innerHTML = '';
+  shuffled.forEach((item, idx) => {
+    const pct = (item.val - lineMin) / (lineMax - lineMin) * 100;
+    const marker = document.createElement('div');
+    marker.style.cssText = `position:absolute;left:${pct}%;bottom:0;transform:translateX(-50%);`;
+    marker.innerHTML = `<div style="width:2px;height:12px;background:var(--blue);margin:0 auto;"></div>
+      <div style="font-size:0.68rem;color:var(--blue);text-align:center;white-space:nowrap;transform:translateX(-40%);">${item.disp}</div>`;
+    markersEl.appendChild(marker);
+  });
+
+  // Build rank cards
+  const cardsEl = document.getElementById('no-cards');
+  cardsEl.innerHTML = '';
+  shuffled.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.id = 'no-card-' + idx;
+    card.style.cssText = `background:white;border:2px solid var(--border);border-radius:10px;padding:12px 18px;cursor:pointer;text-align:center;min-width:80px;transition:border-color 0.15s;`;
+    card.innerHTML = `<div style="font-size:1.3rem;font-weight:700;color:var(--navy);">${item.disp}</div>
+      <div id="no-rank-${idx}" style="font-size:0.75rem;color:var(--muted);margin-top:4px;min-height:16px;"></div>`;
+    card.onclick = () => noCardClick(idx);
+    cardsEl.appendChild(card);
+  });
+  noCurrent._nextRank = 1;
+}
+
+function noCardClick(idx) {
+  if (!noCurrent) return;
+  const rankEl = document.getElementById('no-rank-' + idx);
+  const card = document.getElementById('no-card-' + idx);
+  const n = noCurrent.shuffled.length;
+
+  // Unassign if already ranked
+  if (noRanks[idx] !== null) {
+    const freed = noRanks[idx];
+    noRanks[idx] = null;
+    rankEl.textContent = '';
+    card.style.borderColor = 'var(--border)';
+    // Shift subsequent ranks down
+    noRanks.forEach((r, i) => {
+      if (r !== null && r > freed) {
+        noRanks[i]--;
+        document.getElementById('no-rank-' + i).textContent = 'Rank ' + noRanks[i];
+      }
+    });
+    noCurrent._nextRank--;
+    fbHide('no-fb');
+    return;
+  }
+  // Assign next rank
+  if (noCurrent._nextRank > n) return;
+  noRanks[idx] = noCurrent._nextRank++;
+  const ordinals = ['','1st','2nd','3rd','4th','5th'];
+  rankEl.textContent = ordinals[noRanks[idx]] || noRanks[idx] + 'th';
+  card.style.borderColor = 'var(--blue)';
+  fbHide('no-fb');
+}
+
+function noCheck() {
+  if (!noCurrent) return;
+  const n = noCurrent.shuffled.length;
+  if (noRanks.some(r => r === null)) { fb('no-fb', '⚠️ Assign a rank to every number first (click each card in order).', 'hint'); return; }
+
+  // Build student's order
+  const studentOrder = noRanks.map((r, i) => ({ idx: i, rank: r })).sort((a,b) => a.rank - b.rank).map(x => x.idx);
+  // Correct order: sort by actual value
+  const correctOrder = noCurrent.shuffled.map((item, i) => ({ i, val: item.val })).sort((a,b) => a.val - b.val).map(x => x.i);
+
+  const correct = studentOrder.every((idx, pos) => idx === correctOrder[pos]);
+
+  if (correct) {
+    const orderStr = correctOrder.map(i => noCurrent.shuffled[i].disp).join(' < ');
+    fb('no-fb', `✅ Correct! <strong>${orderStr}</strong>`, 'correct');
+    addScore('nt', 8);
+  } else {
+    // Build correct order display
+    const correctStr = correctOrder.map(i => noCurrent.shuffled[i].disp).join(' < ');
+    // Find first wrong position
+    let firstWrong = studentOrder.findIndex((idx, pos) => idx !== correctOrder[pos]);
+    const wrongDisp = noCurrent.shuffled[studentOrder[firstWrong]].disp;
+    const correctDisp = noCurrent.shuffled[correctOrder[firstWrong]].disp;
+
+    // Tip: if equal values exist
+    const vals = noCurrent.shuffled.map(i => i.val);
+    const hasTies = vals.some((v, i) => vals.some((w, j) => i !== j && Math.abs(v - w) < 0.0001));
+    if (hasTies) {
+      fb('no-fb', `❌ Not quite. Watch out — some numbers have the same value in different forms! Correct order: <strong>${correctStr}</strong>`, 'wrong');
+    } else {
+      fb('no-fb', `❌ Position ${firstWrong+1} is wrong. You placed <strong>${wrongDisp}</strong> there, but it should be <strong>${correctDisp}</strong>.<br>Tip: convert all to decimals first. Correct order: <strong>${correctStr}</strong>`, 'wrong');
+    }
+  }
+}
+function noHint() {
+  if (!noCurrent) return;
+  const { shuffled } = noCurrent;
+  const correctOrder = shuffled.map((item, i) => ({ i, val: item.val })).sort((a,b) => a.val - b.val).map(x => x.i);
+  const hints = [
+    'Convert all numbers to decimals to compare easily. Fractions: divide numerator by denominator.',
+    `Decimal values: ${shuffled.map(i => i.disp + ' = ' + i.val.toFixed(4)).join(', ')}.`,
+    `Correct order (smallest to largest): <strong>${correctOrder.map(i => shuffled[i].disp).join(' < ')}</strong>`
+  ];
+  if (noHi < hints.length) addHint('no-hints', hints[noHi++]);
+}
+
+// ================================================================
 // INIT
 // ================================================================
 function init() {
@@ -5730,11 +6393,11 @@ function init() {
   // M9 – BODMAS engine
   boNew(); boTrapNew();
   // M10 – percentages
-  pcOfNew(); pcChgNew(); pcPlNew(); pcIntNew();
+  pcOfNew(); pcChgNew(); pcPlNew(); pcIntNew(); pcRevNew(); pcCiNew();
   // M11 – rates
   raSdtNew(); raDenNew(); raUrNew();
   // M12 – limits of accuracy
-  lmBoundsNew(); lmEiNew(); lmCombNew();
+  lmBoundsNew(); lmEiNew(); lmCombNew(); lmAppNew();
   // M13 – time & money
   tmTimeNew(); tmClockNew(); tmFxNew();
   // M14 – sets & venn diagrams
@@ -5742,7 +6405,9 @@ function init() {
   // M15 – recurring decimals
   rdQuizNew();
   // M16 – surds
-  suInit();
+  suInit(); suMulNew();
+  // Number ordering (inside M6 – Number Types)
+  noNew();
 }
 
 document.addEventListener('DOMContentLoaded', init);
