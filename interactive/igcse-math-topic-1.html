@@ -704,6 +704,10 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
   <button class="tab-btn" onclick="showModule(6)">⚡ Indices Lab</button>
   <button class="tab-btn" onclick="showModule(7)">🟥 Powers & Roots</button>
   <button class="tab-btn" onclick="showModule(8)">🧮 BODMAS Engine</button>
+  <button class="tab-btn" onclick="showModule(9)">💹 Percentages</button>
+  <button class="tab-btn" onclick="showModule(10)">🚀 Rates</button>
+  <button class="tab-btn" onclick="showModule(11)">📏 Limits</button>
+  <button class="tab-btn" onclick="showModule(12)">🕐 Time & Money</button>
 </nav>
 
 <!-- ============================================================
@@ -1091,6 +1095,376 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     </div>
     <div class="feedback" id="rnd-fb"></div>
   </div>
+</section>
+
+<!-- ============================================================
+     MODULE 13 · TIME AND MONEY
+     ============================================================ -->
+<section class="module" id="mod-12">
+
+  <div class="progress-card">
+    <span class="prog-label">🕐 Time & Money</span>
+    <div class="prog-track"><div class="prog-fill" id="tm-bar"></div></div>
+    <span class="prog-count" id="tm-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-12">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Time & Money</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> Time uses decimal hours. 2 h 30 min ≠ 2.3 h. It is 2.5 h because 30 min = 30/60 = 0.5 h. Students subtract times as if they are decimals.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> 12:00 and 00:00 confusion. 12:00 (noon) in 24-hour is midday; 00:00 is midnight. 12 am = midnight, 12 pm = noon — students frequently swap these.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> Currency conversion direction. If £1 = 1.18 €, then to convert £ → €: multiply. To convert € → £: divide. Students often divide when they should multiply.</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy:</strong> For time arithmetic, convert everything to minutes first. For currency, draw an arrow diagram: ×rate going one way, ÷rate going the other.</div>
+    </div>
+  </div>
+
+  <!-- Time calculations -->
+  <div class="card">
+    <div class="card-title">🕐 Time Calculations</div>
+    <div class="card-desc">Calculate the time difference or convert between formats.</div>
+    <div class="scenario-box" id="tm-time-scenario">Loading…</div>
+    <div class="input-row mt-12">
+      <label class="bold" id="tm-time-label">Answer:</label>
+      <input type="text" id="tm-time-in" class="inp-md" placeholder="e.g. 2 h 45 min or 14:30"
+             onkeydown="if(event.key==='Enter')tmTimeCheck()" />
+      <button class="btn btn-success"   onclick="tmTimeCheck()">✓ Check</button>
+      <button class="btn btn-hint"      onclick="tmTimeHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="tmTimeNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="tm-time-hints"></ul>
+    <div class="feedback" id="tm-time-fb"></div>
+  </div>
+
+  <!-- 12/24 hour conversion -->
+  <div class="card">
+    <div class="card-title">🔄 12-hour ↔ 24-hour Clock</div>
+    <div class="card-desc">Convert between 12-hour and 24-hour clock formats.</div>
+    <div class="problem-display" id="tm-clock-q" style="font-size:1.8rem;"></div>
+    <div class="input-row mt-12">
+      <input type="text" id="tm-clock-in" class="inp-md" placeholder="e.g. 14:30 or 2:30 pm"
+             onkeydown="if(event.key==='Enter')tmClockCheck()" />
+      <button class="btn btn-success"   onclick="tmClockCheck()">✓ Check</button>
+      <button class="btn btn-hint"      onclick="tmClockHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="tmClockNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="tm-clock-hints"></ul>
+    <div class="feedback" id="tm-clock-fb"></div>
+  </div>
+
+  <!-- Currency conversion -->
+  <div class="card">
+    <div class="card-title">💱 Currency Conversion</div>
+    <div class="card-desc">Use the given exchange rate to convert between currencies.</div>
+    <div class="scenario-box" id="tm-fx-scenario">Loading…</div>
+    <div class="input-row mt-12">
+      <label class="bold" id="tm-fx-label">Answer:</label>
+      <input type="number" id="tm-fx-in" class="inp-md" placeholder="0.00" step="0.01"
+             onkeydown="if(event.key==='Enter')tmFxCheck()" />
+      <span id="tm-fx-unit" class="bold" style="color:var(--muted);"></span>
+      <button class="btn btn-success"   onclick="tmFxCheck()">✓ Check</button>
+      <button class="btn btn-hint"      onclick="tmFxHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="tmFxNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="tm-fx-hints"></ul>
+    <div class="feedback" id="tm-fx-fb"></div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     MODULE 12 · LIMITS OF ACCURACY
+     ============================================================ -->
+<section class="module" id="mod-11">
+
+  <div class="progress-card">
+    <span class="prog-label">📏 Limits of Accuracy</span>
+    <div class="prog-track"><div class="prog-fill" id="lm-bar"></div></div>
+    <span class="prog-count" id="lm-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-11">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Limits of Accuracy</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> Lower bound = value − rounding unit. Students write LB = 3.4 for 3.5 rounded to 1 dp. Correct: LB = 3.45 (half a unit below).</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Upper bound is included. UB = 3.55 is a strict upper bound — no measured value can equal it (it would round to 3.6). UB is excluded from the interval.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> Combining bounds: max of a sum = UB₁ + UB₂. Max of a product = UB₁ × UB₂. Max of a quotient = UB_numerator ÷ LB_denominator.</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Number line diagrams. Draw the rounding interval and shade the half-unit either side. The closed dot is LB, the open dot is UB.</div>
+    </div>
+  </div>
+
+  <!-- Concept explainer -->
+  <div class="card">
+    <div class="card-title">📏 What Are Bounds?</div>
+    <div class="feedback fb-info" style="display:block;">
+      A measurement rounded to a given accuracy has an <strong>error interval</strong>:<br/>
+      LB (lower bound) = value − ½ × rounding unit &nbsp;|&nbsp; UB (upper bound) = value + ½ × rounding unit<br/>
+      Written as: <strong>LB ≤ x &lt; UB</strong> &nbsp;(LB is included, UB is excluded)
+    </div>
+  </div>
+
+  <!-- Find bounds -->
+  <div class="card">
+    <div class="card-title">🔍 Find the Bounds</div>
+    <div class="card-desc">A measurement is given. Find its lower and upper bounds.</div>
+    <div class="problem-display" id="lm-bounds-q" style="font-size:1.4rem;"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;">
+      <div>
+        <label class="bold" style="font-size:0.88rem;">Lower bound:</label>
+        <input type="number" id="lm-lb-in" class="inp-md" style="margin-top:6px;" step="any"
+               onkeydown="if(event.key==='Enter')lmBoundsCheck()" />
+      </div>
+      <div>
+        <label class="bold" style="font-size:0.88rem;">Upper bound:</label>
+        <input type="number" id="lm-ub-in" class="inp-md" style="margin-top:6px;" step="any"
+               onkeydown="if(event.key==='Enter')lmBoundsCheck()" />
+      </div>
+    </div>
+    <div class="input-row mt-12">
+      <button class="btn btn-success"   onclick="lmBoundsCheck()">✓ Check</button>
+      <button class="btn btn-hint"      onclick="lmBoundsHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="lmBoundsNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="lm-bounds-hints"></ul>
+    <div class="feedback" id="lm-bounds-fb"></div>
+  </div>
+
+  <!-- Error interval notation -->
+  <div class="card">
+    <div class="card-title">📝 Error Interval Notation</div>
+    <div class="card-desc">Write the error interval in the form LB ≤ x &lt; UB for the measurement shown.</div>
+    <div class="problem-display" id="lm-ei-q" style="font-size:1.4rem;"></div>
+    <div class="input-row mt-12">
+      <input type="number" id="lm-ei-lb" class="inp-sm" placeholder="LB" step="any"
+             onkeydown="if(event.key==='Enter')lmEiCheck()" />
+      <span class="bold mono" style="font-size:1.1rem;">≤ x &lt;</span>
+      <input type="number" id="lm-ei-ub" class="inp-sm" placeholder="UB" step="any"
+             onkeydown="if(event.key==='Enter')lmEiCheck()" />
+      <button class="btn btn-success"   onclick="lmEiCheck()">✓ Check</button>
+      <button class="btn btn-secondary" onclick="lmEiNew()">↺ New</button>
+    </div>
+    <div class="feedback" id="lm-ei-fb"></div>
+  </div>
+
+  <!-- Combining bounds -->
+  <div class="card">
+    <div class="card-title">🔗 Combining Bounds</div>
+    <div class="card-desc">Two measurements are given. Find the maximum or minimum of the combined quantity.</div>
+    <div class="scenario-box" id="lm-comb-scenario">Loading…</div>
+    <div class="input-row mt-12">
+      <label class="bold" id="lm-comb-label">Answer:</label>
+      <input type="number" id="lm-comb-in" class="inp-md" placeholder="0.000" step="any"
+             onkeydown="if(event.key==='Enter')lmCombCheck()" />
+      <button class="btn btn-success"   onclick="lmCombCheck()">✓ Check</button>
+      <button class="btn btn-hint"      onclick="lmCombHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="lmCombNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="lm-comb-hints"></ul>
+    <div class="feedback" id="lm-comb-fb"></div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     MODULE 11 · RATES
+     ============================================================ -->
+<section class="module" id="mod-10">
+
+  <div class="progress-card">
+    <span class="prog-label">🚀 Rates</span>
+    <div class="prog-track"><div class="prog-fill" id="ra-bar"></div></div>
+    <span class="prog-count" id="ra-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-10">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Rates</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> Speed = distance × time. Students multiply instead of divide. Anchor: "Speed tells you how far in one hour — so divide distance by time."</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Density = mass + volume. Use the triangle: D = M/V. Cover the quantity you want to find and read the triangle.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> Unit confusion — mixing km and m, hours and minutes. Always convert units to the same system before substituting into formulas.</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Formula triangles for SDT and MDV. Students cover the target variable and the remaining layout shows ×or÷.</div>
+    </div>
+  </div>
+
+  <!-- Formula reference -->
+  <div class="card">
+    <div class="card-title">📋 Formula Triangles</div>
+    <div class="two-col">
+      <div style="text-align:center;">
+        <div style="font-size:0.85rem;font-weight:700;color:var(--muted);margin-bottom:8px;">SPEED · DISTANCE · TIME</div>
+        <div style="display:inline-block;position:relative;width:140px;height:110px;">
+          <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--blue);color:white;border-radius:8px;padding:6px 14px;font-weight:700;">D</div>
+          <div style="position:absolute;bottom:0;left:4px;background:#16a34a;color:white;border-radius:8px;padding:6px 12px;font-weight:700;">S</div>
+          <div style="position:absolute;bottom:0;right:4px;background:#d97706;color:white;border-radius:8px;padding:6px 12px;font-weight:700;">T</div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.2rem;color:var(--muted);">△</div>
+        </div>
+        <div class="text-muted" style="font-size:0.8rem;margin-top:8px;">S = D÷T &nbsp;|&nbsp; D = S×T &nbsp;|&nbsp; T = D÷S</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:0.85rem;font-weight:700;color:var(--muted);margin-bottom:8px;">MASS · DENSITY · VOLUME</div>
+        <div style="display:inline-block;position:relative;width:140px;height:110px;">
+          <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--blue);color:white;border-radius:8px;padding:6px 14px;font-weight:700;">M</div>
+          <div style="position:absolute;bottom:0;left:4px;background:#7c3aed;color:white;border-radius:8px;padding:6px 12px;font-weight:700;">D</div>
+          <div style="position:absolute;bottom:0;right:4px;background:#0891b2;color:white;border-radius:8px;padding:6px 12px;font-weight:700;">V</div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.2rem;color:var(--muted);">△</div>
+        </div>
+        <div class="text-muted" style="font-size:0.8rem;margin-top:8px;">D = M÷V &nbsp;|&nbsp; M = D×V &nbsp;|&nbsp; V = M÷D</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Speed / Distance / Time -->
+  <div class="card">
+    <div class="card-title">🚗 Speed, Distance, Time</div>
+    <div class="card-desc">Find the unknown quantity. Show your working — pick the right formula from the triangle.</div>
+    <div class="scenario-box" id="ra-sdt-scenario">Loading…</div>
+    <div class="input-row mt-12">
+      <label class="bold" id="ra-sdt-label">Answer:</label>
+      <input type="number" id="ra-sdt-in" class="inp-md" placeholder="0.00" step="0.01"
+             onkeydown="if(event.key==='Enter')raSdtCheck()" />
+      <span id="ra-sdt-unit" class="bold" style="color:var(--muted);"></span>
+      <button class="btn btn-success"   onclick="raSdtCheck()">✓ Check</button>
+      <button class="btn btn-hint"      onclick="raSdtHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="raSdtNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="ra-sdt-hints"></ul>
+    <div class="feedback" id="ra-sdt-fb"></div>
+  </div>
+
+  <!-- Density -->
+  <div class="card">
+    <div class="card-title">⚖️ Density, Mass, Volume</div>
+    <div class="card-desc">Use D = M ÷ V (or rearrange) to find the missing value.</div>
+    <div class="scenario-box" id="ra-den-scenario">Loading…</div>
+    <div class="input-row mt-12">
+      <label class="bold" id="ra-den-label">Answer:</label>
+      <input type="number" id="ra-den-in" class="inp-md" placeholder="0.00" step="0.001"
+             onkeydown="if(event.key==='Enter')raDenCheck()" />
+      <span id="ra-den-unit" class="bold" style="color:var(--muted);"></span>
+      <button class="btn btn-success"   onclick="raDenCheck()">✓ Check</button>
+      <button class="btn btn-hint"      onclick="raDenHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="raDenNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="ra-den-hints"></ul>
+    <div class="feedback" id="ra-den-fb"></div>
+  </div>
+
+  <!-- Unit rates -->
+  <div class="card">
+    <div class="card-title">🏷️ Unit Rate Challenge</div>
+    <div class="card-desc">Find the rate per single unit — which option gives better value?</div>
+    <div class="scenario-box" id="ra-ur-scenario">Loading…</div>
+    <div class="input-row mt-12">
+      <button class="btn btn-primary"   id="ra-ur-btnA" onclick="raUrSelect('A')">Option A</button>
+      <button class="btn btn-secondary" id="ra-ur-btnB" onclick="raUrSelect('B')">Option B</button>
+      <button class="btn btn-secondary" onclick="raUrNew()">↺ New</button>
+    </div>
+    <div class="feedback" id="ra-ur-fb"></div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     MODULE 10 · PERCENTAGE APPLICATIONS
+     ============================================================ -->
+<section class="module" id="mod-9">
+
+  <div class="progress-card">
+    <span class="prog-label">💹 Percentage Applications</span>
+    <div class="prog-track"><div class="prog-fill" id="pc-bar"></div></div>
+    <span class="prog-count" id="pc-score">0 pts</span>
+  </div>
+
+  <div class="teacher-panel" id="tp-9">
+    <div class="tp-header">👨‍🏫 Teacher Notes — Percentage Applications</div>
+    <div class="tp-grid">
+      <div class="tp-item"><strong>❌ Misconception 1:</strong> Multiplying by 10 not 100. "15% of 80 = 80 × 15 ÷ 10 = 120." Percentage means per hundred — always divide the % by 100 first.</div>
+      <div class="tp-item"><strong>❌ Misconception 2:</strong> Increase then decrease returns to start. "Increase £100 by 20% then decrease by 20% = £100." Wrong: 100 × 1.2 × 0.8 = £96.</div>
+      <div class="tp-item"><strong>❌ Misconception 3:</strong> Compound interest = simple interest × years. Compound interest compounds on the new total each year. Year 2 interest is larger than Year 1.</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Multiplier method is most powerful: increase by 15% → × 1.15; decrease by 20% → × 0.80. One multiplication, no separate steps.</div>
+    </div>
+  </div>
+
+  <!-- % of an amount -->
+  <div class="card">
+    <div class="card-title">💹 Percentage of an Amount</div>
+    <div class="card-desc">Calculate the percentage of the amount shown. Use the multiplier method: amount × (% ÷ 100).</div>
+    <div class="scenario-box" id="pc-of-scenario">Loading…</div>
+    <div class="input-row mt-12">
+      <label class="bold">Answer (£ / units):</label>
+      <input type="number" id="pc-of-in" class="inp-md" placeholder="0.00" step="0.01"
+             onkeydown="if(event.key==='Enter')pcOfCheck()" />
+      <button class="btn btn-success"   onclick="pcOfCheck()">✓ Check</button>
+      <button class="btn btn-hint"      onclick="pcOfHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="pcOfNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="pc-of-hints"></ul>
+    <div class="feedback" id="pc-of-fb"></div>
+  </div>
+
+  <!-- % increase / decrease -->
+  <div class="card">
+    <div class="card-title">📈 Percentage Increase & Decrease</div>
+    <div class="card-desc">Apply the percentage change to find the new value. Use the multiplier: increase → × (1 + r), decrease → × (1 − r) where r = %/100.</div>
+    <div class="scenario-box" id="pc-chg-scenario">Loading…</div>
+    <div class="input-row mt-12">
+      <label class="bold">New value:</label>
+      <input type="number" id="pc-chg-in" class="inp-md" placeholder="0.00" step="0.01"
+             onkeydown="if(event.key==='Enter')pcChgCheck()" />
+      <button class="btn btn-success"   onclick="pcChgCheck()">✓ Check</button>
+      <button class="btn btn-hint"      onclick="pcChgHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="pcChgNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="pc-chg-hints"></ul>
+    <div class="feedback" id="pc-chg-fb"></div>
+  </div>
+
+  <!-- Profit & Loss -->
+  <div class="card">
+    <div class="card-title">🏷️ Profit & Loss</div>
+    <div class="card-desc">Find the percentage profit or loss. Formula: (Profit or Loss ÷ Cost Price) × 100.</div>
+    <div class="scenario-box" id="pc-pl-scenario">Loading…</div>
+    <div class="input-row mt-12">
+      <label class="bold">% profit or loss:</label>
+      <input type="number" id="pc-pl-in" class="inp-md" placeholder="0.00" step="0.01"
+             onkeydown="if(event.key==='Enter')pcPlCheck()" />
+      <span class="bold" style="font-size:1.1rem;">%</span>
+      <button class="btn btn-success"   onclick="pcPlCheck()">✓ Check</button>
+      <button class="btn btn-hint"      onclick="pcPlHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="pcPlNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="pc-pl-hints"></ul>
+    <div class="feedback" id="pc-pl-fb"></div>
+  </div>
+
+  <!-- Simple & Compound Interest -->
+  <div class="card">
+    <div class="card-title">🏦 Simple vs Compound Interest</div>
+    <div class="card-desc">
+      <strong>Simple interest:</strong> I = P × r × t &nbsp;|&nbsp;
+      <strong>Compound interest:</strong> A = P × (1 + r)ᵗ
+    </div>
+    <div class="scenario-box" id="pc-int-scenario">Loading…</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;">
+      <div>
+        <label class="bold" style="font-size:0.88rem;">Simple interest total (£):</label>
+        <input type="number" id="pc-si-in" class="inp-md" style="margin-top:6px;" placeholder="0.00" step="0.01"
+               onkeydown="if(event.key==='Enter')pcIntCheck()" />
+      </div>
+      <div>
+        <label class="bold" style="font-size:0.88rem;">Compound interest total (£):</label>
+        <input type="number" id="pc-ci-in" class="inp-md" style="margin-top:6px;" placeholder="0.00" step="0.01"
+               onkeydown="if(event.key==='Enter')pcIntCheck()" />
+      </div>
+    </div>
+    <div class="input-row mt-12">
+      <button class="btn btn-success"   onclick="pcIntCheck()">✓ Check Both</button>
+      <button class="btn btn-hint"      onclick="pcIntHint()">💡 Hint</button>
+      <button class="btn btn-secondary" onclick="pcIntNew()">↺ New</button>
+    </div>
+    <ul class="hint-list" id="pc-int-hints"></ul>
+    <div class="feedback" id="pc-int-fb"></div>
+  </div>
+
 </section>
 
 <!-- ============================================================
@@ -1485,7 +1859,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 // GLOBAL STATE
 // ================================================================
 let teacherMode = false;
-const scores = { pf: 0, fr: 0, sf: 0, rt: 0, eg: 0, nt: 0, il: 0, pr: 0, bo: 0 };
+const scores = { pf: 0, fr: 0, sf: 0, rt: 0, eg: 0, nt: 0, il: 0, pr: 0, bo: 0, pc: 0, ra: 0, lm: 0, tm: 0 };
 
 // ================================================================
 // UTILITIES
@@ -2517,6 +2891,724 @@ function prQrCheck() {
 
 // ================================================================
 // ================================================================
+// MODULE 13 · TIME AND MONEY
+// ================================================================
+// ================================================================
+
+const TM_TIME_POOL = [
+  { type:'diff', start:'09:20', end:'11:45', answerMins:145, label:'How long from 09:20 to 11:45?', hint1:'Subtract: 11:45 − 09:20. Minutes: 45−20=25. Hours: 11−9=2. Total: 2 h 25 min.', hint2:'Answer: 2 h 25 min (= 145 minutes)' },
+  { type:'diff', start:'14:55', end:'17:10', answerMins:135, label:'How long from 14:55 to 17:10?', hint1:'14:55 → 15:00 = 5 min. 15:00 → 17:00 = 2 h. 17:00 → 17:10 = 10 min. Total = 2 h 15 min.', hint2:'Answer: 2 h 15 min (= 135 minutes)' },
+  { type:'diff', start:'08:40', end:'12:05', answerMins:205, label:'How long from 08:40 to 12:05?', hint1:'08:40 → 09:00 = 20 min. 09:00 → 12:00 = 3 h. 12:00 → 12:05 = 5 min. Total = 3 h 25 min.', hint2:'Answer: 3 h 25 min (= 205 minutes)' },
+  { type:'diff', start:'23:15', end:'01:30', answerMins:135, label:'How long from 23:15 to 01:30 (next day)?', hint1:'23:15 → 00:00 = 45 min. 00:00 → 01:30 = 1 h 30 min. Total = 2 h 15 min.', hint2:'Answer: 2 h 15 min (= 135 minutes)' },
+  { type:'decimal', hh:2, mm:45, label:'Write 2 hours 45 minutes as a decimal number of hours.', answerDec:2.75, hint1:'45 minutes = 45 ÷ 60 hours = 0.75 h', hint2:'Answer: 2.75 hours' },
+  { type:'decimal', hh:1, mm:30, label:'Write 1 hour 30 minutes as a decimal number of hours.', answerDec:1.5, hint1:'30 minutes = 30 ÷ 60 = 0.5 h', hint2:'Answer: 1.5 hours' },
+];
+
+const TM_CLOCK_POOL = [
+  { from12:'3:45 pm',  to24:'15:45', dir:'to24' },
+  { from12:'11:20 am', to24:'11:20', dir:'to24' },
+  { from12:'12:00 am', to24:'00:00', dir:'to24' },
+  { from12:'12:15 pm', to24:'12:15', dir:'to24' },
+  { from24:'19:30', to12:'7:30 pm',  dir:'to12' },
+  { from24:'00:45', to12:'12:45 am', dir:'to12' },
+  { from24:'13:05', to12:'1:05 pm',  dir:'to12' },
+  { from24:'12:00', to12:'12:00 pm', dir:'to12' },
+];
+
+const TM_FX_POOL = [
+  { from:'£', to:'€', rate:1.18, amount:250,  dir:'multiply', context:'Exchange rate: £1 = €1.18. Convert £250 to euros.' },
+  { from:'€', to:'£', rate:1.18, amount:295,  dir:'divide',   context:'Exchange rate: £1 = €1.18. Convert €295 to pounds.' },
+  { from:'£', to:'$', rate:1.27, amount:400,  dir:'multiply', context:'Exchange rate: £1 = $1.27. Convert £400 to dollars.' },
+  { from:'$', to:'£', rate:1.27, amount:381,  dir:'divide',   context:'Exchange rate: £1 = $1.27. Convert $381 to pounds.' },
+  { from:'£', to:'IDR', rate:20000, amount:50, dir:'multiply', context:'Exchange rate: £1 = 20,000 IDR. Convert £50 to rupiah.' },
+  { from:'IDR', to:'£', rate:20000, amount:500000, dir:'divide', context:'Exchange rate: £1 = 20,000 IDR. Convert 500,000 IDR to pounds.' },
+];
+
+let tmTime = null, tmTimeHi = 0;
+let tmClock = null, tmClockHi = 0;
+let tmFx = null, tmFxHi = 0;
+
+// ── Time calculations ──
+function tmTimeNew() {
+  tmTime = TM_TIME_POOL[Math.floor(Math.random() * TM_TIME_POOL.length)];
+  tmTimeHi = 0; clearHints('tm-time-hints'); fbHide('tm-time-fb');
+  document.getElementById('tm-time-in').value = '';
+  document.getElementById('tm-time-scenario').textContent = tmTime.label;
+  document.getElementById('tm-time-label').textContent = tmTime.type === 'decimal' ? 'Answer (hours):' : 'Answer (h and min):';
+}
+function tmTimeCheck() {
+  if (!tmTime) return;
+  const raw = document.getElementById('tm-time-in').value.trim().toLowerCase();
+  if (!raw) { fb('tm-time-fb','⚠️ Enter your answer.','hint'); return; }
+
+  if (tmTime.type === 'decimal') {
+    const stu = parseFloat(raw);
+    // Misconception: 2h 45min → 2.45
+    if (Math.abs(stu - (tmTime.hh + tmTime.mm/100)) < 0.001) {
+      fb('tm-time-fb', `🤔 ${tmTime.mm} minutes is NOT 0.${tmTime.mm} hours — time doesn't use base 10 for minutes. ${tmTime.mm} min ÷ 60 = ${(tmTime.mm/60).toFixed(4)} h. Answer: ${tmTime.answerDec} h.`, 'wrong'); return;
+    }
+    if (Math.abs(stu - tmTime.answerDec) < 0.001) {
+      fb('tm-time-fb', `✅ Correct! ${tmTime.hh} h ${tmTime.mm} min = ${tmTime.hh} + ${tmTime.mm}/60 = ${tmTime.answerDec} h`, 'correct');
+      addScore('tm', 5);
+    } else {
+      fb('tm-time-fb', `❌ Expected ${tmTime.answerDec} h. Remember: minutes ÷ 60, not ÷ 100.`, 'wrong');
+    }
+    return;
+  }
+
+  // Time difference: accept "X h Y min", "Xh Ymin", total minutes
+  const minsMatch = raw.match(/(\d+)\s*h\s*(\d+)\s*m/);
+  const onlyMins  = raw.match(/^(\d+)\s*(min|minutes|m)?$/);
+  let stuMins = null;
+  if (minsMatch) stuMins = parseInt(minsMatch[1]) * 60 + parseInt(minsMatch[2]);
+  else if (onlyMins) stuMins = parseInt(onlyMins[1]);
+
+  if (stuMins === null) { fb('tm-time-fb','⚠️ Format: "2 h 25 min" or total minutes like "145".','hint'); return; }
+
+  // Misconception: treated as decimal subtraction e.g. 11.45 − 9.20 = 2.25 → 225 min
+  const decErr = Math.round((parseFloat(tmTime.end.replace(':','.')) - parseFloat(tmTime.start.replace(':','.'))) * 100);
+  if (stuMins === decErr && decErr !== tmTime.answerMins) {
+    fb('tm-time-fb', `🤔 You subtracted the clock times as decimals (${tmTime.end.replace(':','.')} − ${tmTime.start.replace(':','.')}) — time is not base-10! 60 minutes = 1 hour. Work in minutes only, or add hours and minutes separately.`, 'wrong'); return;
+  }
+
+  if (stuMins === tmTime.answerMins) {
+    const h = Math.floor(tmTime.answerMins/60), m = tmTime.answerMins%60;
+    fb('tm-time-fb', `✅ Correct! ${h} h ${m} min (= ${tmTime.answerMins} minutes)`, 'correct');
+    addScore('tm', 5);
+  } else {
+    const h = Math.floor(tmTime.answerMins/60), m = tmTime.answerMins%60;
+    fb('tm-time-fb', `❌ Expected ${h} h ${m} min (${tmTime.answerMins} min). ${tmTime.hint1}`, 'wrong');
+  }
+}
+function tmTimeHint() {
+  if (!tmTime) return;
+  const hints = [tmTime.hint1, tmTime.hint2];
+  if (tmTimeHi < hints.length) addHint('tm-time-hints', hints[tmTimeHi++]);
+}
+
+// ── Clock conversion ──
+function tmClockNew() {
+  tmClock = TM_CLOCK_POOL[Math.floor(Math.random() * TM_CLOCK_POOL.length)];
+  tmClockHi = 0; clearHints('tm-clock-hints'); fbHide('tm-clock-fb');
+  document.getElementById('tm-clock-in').value = '';
+  const q = tmClock.dir === 'to24'
+    ? `Convert ${tmClock.from12} to 24-hour clock`
+    : `Convert ${tmClock.from24} to 12-hour clock`;
+  document.getElementById('tm-clock-q').textContent = q;
+}
+function tmClockCheck() {
+  if (!tmClock) return;
+  const raw = document.getElementById('tm-clock-in').value.trim().toLowerCase().replace(/\./g,':');
+  const correct = tmClock.dir === 'to24' ? tmClock.to24 : tmClock.to12;
+
+  // Normalise both for comparison
+  const norm = s => s.toLowerCase().replace(/\s/g,'').replace('noon','12:00pm').replace('midnight','00:00');
+  if (norm(raw) === norm(correct)) {
+    fb('tm-clock-fb', `✅ Correct! ${tmClock.dir === 'to24' ? tmClock.from12 + ' = ' + tmClock.to24 : tmClock.from24 + ' = ' + tmClock.to12}`, 'correct');
+    addScore('tm', 5);
+    return;
+  }
+
+  // Misconception: 12 am / 12 pm swap
+  if ((tmClock.from12 === '12:00 am' && raw.includes('12:00') && raw.includes('pm')) ||
+      (tmClock.from12 === '12:15 pm' && raw === '00:15')) {
+    fb('tm-clock-fb', `🤔 <strong>12 am = midnight (00:00)</strong> and <strong>12 pm = noon (12:00)</strong>. This is one of the most commonly confused facts in time!`, 'wrong'); return;
+  }
+
+  fb('tm-clock-fb', `❌ Expected: ${correct}. ${tmClock.dir === 'to24' ? 'pm times: add 12 to the hour (except 12 pm). am times: keep as-is (except 12 am = 00:xx).' : 'Hours 13–23: subtract 12 and add pm. Hour 0: use 12 am. Hour 12: use 12 pm.'}`, 'wrong');
+}
+function tmClockHint() {
+  if (!tmClock) return;
+  const hints = tmClock.dir === 'to24'
+    ? ['For pm times (except 12 pm): add 12 to the hour. For 12 am: use 00:xx.','For am times: keep the hour as-is. Pad to 2 digits.', `Answer: ${tmClock.to24}`]
+    : ['For hours 13–23: subtract 12 and write pm.','For 00:xx: write 12 am. For 12:xx: write 12 pm.',`Answer: ${tmClock.to12}`];
+  if (tmClockHi < hints.length) addHint('tm-clock-hints', hints[tmClockHi++]);
+}
+
+// ── Currency conversion ──
+function tmFxNew() {
+  tmFx = TM_FX_POOL[Math.floor(Math.random() * TM_FX_POOL.length)];
+  tmFxHi = 0; clearHints('tm-fx-hints'); fbHide('tm-fx-fb');
+  document.getElementById('tm-fx-in').value = '';
+  document.getElementById('tm-fx-scenario').textContent = tmFx.context;
+  document.getElementById('tm-fx-label').textContent = `Answer (${tmFx.to}):`;
+  document.getElementById('tm-fx-unit').textContent = tmFx.to;
+}
+function tmFxCheck() {
+  if (!tmFx) return;
+  const stu = parseFloat(document.getElementById('tm-fx-in').value);
+  if (isNaN(stu)) { fb('tm-fx-fb','⚠️ Enter a number.','hint'); return; }
+  const correct = tmFx.dir === 'multiply'
+    ? parseFloat((tmFx.amount * tmFx.rate).toFixed(2))
+    : parseFloat((tmFx.amount / tmFx.rate).toFixed(2));
+  // Misconception: divide when should multiply, or vice versa
+  const opposite = tmFx.dir === 'multiply'
+    ? parseFloat((tmFx.amount / tmFx.rate).toFixed(2))
+    : parseFloat((tmFx.amount * tmFx.rate).toFixed(2));
+  if (Math.abs(stu - opposite) < 0.05) {
+    fb('tm-fx-fb', `🤔 You went the wrong direction! To convert <strong>${tmFx.from} → ${tmFx.to}</strong>: ${tmFx.dir === 'multiply' ? `multiply by ${tmFx.rate}` : `divide by ${tmFx.rate}`}. Answer: ${correct} ${tmFx.to}.`, 'wrong'); return;
+  }
+  if (Math.abs(stu - correct) < 0.05) {
+    fb('tm-fx-fb', `✅ Correct! ${tmFx.amount} ${tmFx.from} = ${correct} ${tmFx.to} (${tmFx.dir === 'multiply' ? `× ${tmFx.rate}` : `÷ ${tmFx.rate}`})`, 'correct');
+    addScore('tm', 5);
+  } else {
+    fb('tm-fx-fb', `❌ Expected ${correct} ${tmFx.to}. ${tmFx.dir === 'multiply' ? `Multiply: ${tmFx.amount} × ${tmFx.rate}` : `Divide: ${tmFx.amount} ÷ ${tmFx.rate}`} = ${correct}.`, 'wrong');
+  }
+}
+function tmFxHint() {
+  if (!tmFx) return;
+  const correct = tmFx.dir === 'multiply' ? tmFx.amount * tmFx.rate : tmFx.amount / tmFx.rate;
+  const hints = [
+    `£1 = ${tmFx.rate} ${tmFx.to === '£' ? tmFx.from : tmFx.to}. Draw an arrow: ${tmFx.from} →${tmFx.dir==='multiply'?'×':'÷'}${tmFx.rate}→ ${tmFx.to}`,
+    `${tmFx.dir === 'multiply' ? `Multiply: ${tmFx.amount} × ${tmFx.rate}` : `Divide: ${tmFx.amount} ÷ ${tmFx.rate}`}`,
+    `Answer: ${correct.toFixed(2)} ${tmFx.to}`,
+  ];
+  if (tmFxHi < hints.length) addHint('tm-fx-hints', hints[tmFxHi++]);
+}
+
+// ================================================================
+// ================================================================
+// MODULE 12 · LIMITS OF ACCURACY
+// ================================================================
+// ================================================================
+
+function lmHalfUnit(dp) {
+  return dp === 0 ? 0.5 : parseFloat((0.5 * Math.pow(10, -dp)).toFixed(dp + 1));
+}
+
+const LM_BOUNDS_POOL = [
+  { val:3.5,  dp:1, unit:'cm',  context:'3.5 cm rounded to 1 decimal place' },
+  { val:12,   dp:0, unit:'kg',  context:'12 kg rounded to the nearest whole number' },
+  { val:0.48, dp:2, unit:'m',   context:'0.48 m rounded to 2 decimal places' },
+  { val:7.0,  dp:1, unit:'s',   context:'7.0 s rounded to 1 decimal place' },
+  { val:250,  dp:-1,unit:'g',   context:'250 g rounded to the nearest 10 g' },
+  { val:6.35, dp:2, unit:'km',  context:'6.35 km rounded to 2 decimal places' },
+  { val:100,  dp:-2,unit:'m',   context:'100 m rounded to the nearest 100 m' },
+  { val:4.8,  dp:1, unit:'L',   context:'4.8 L rounded to 1 decimal place' },
+];
+
+const LM_COMB_POOL = [
+  { aVal:8.4, aDp:1, aUnit:'cm', bVal:3.6, bDp:1, bUnit:'cm', op:'sum',  find:'max', context:'a = 8.4 cm and b = 3.6 cm, both rounded to 1 dp. Find the maximum possible value of a + b.' },
+  { aVal:8.4, aDp:1, aUnit:'cm', bVal:3.6, bDp:1, bUnit:'cm', op:'sum',  find:'min', context:'a = 8.4 cm and b = 3.6 cm, both rounded to 1 dp. Find the minimum possible value of a + b.' },
+  { aVal:12,  aDp:0, aUnit:'m',  bVal:5,   bDp:0, bUnit:'m',  op:'prod', find:'max', context:'p = 12 m and q = 5 m, both rounded to the nearest metre. Find the maximum possible area p × q.' },
+  { aVal:20,  aDp:0, aUnit:'km', bVal:4,   bDp:0, bUnit:'h',  op:'quot', find:'max', context:'Distance = 20 km (nearest km), time = 4 h (nearest hour). Find the maximum possible speed d ÷ t.' },
+  { aVal:20,  aDp:0, aUnit:'km', bVal:4,   bDp:0, bUnit:'h',  op:'quot', find:'min', context:'Distance = 20 km (nearest km), time = 4 h (nearest hour). Find the minimum possible speed d ÷ t.' },
+  { aVal:6.5, aDp:1, aUnit:'m',  bVal:2.4, bDp:1, bUnit:'m',  op:'diff', find:'max', context:'x = 6.5 m and y = 2.4 m, both rounded to 1 dp. Find the maximum possible value of x − y.' },
+];
+
+let lmBounds = null, lmBoundsHi = 0;
+let lmEi = null;
+let lmComb = null, lmCombHi = 0;
+
+function lmBoundsNew() {
+  lmBounds = LM_BOUNDS_POOL[Math.floor(Math.random() * LM_BOUNDS_POOL.length)];
+  lmBoundsHi = 0; clearHints('lm-bounds-hints'); fbHide('lm-bounds-fb');
+  document.getElementById('lm-lb-in').value = '';
+  document.getElementById('lm-ub-in').value = '';
+  document.getElementById('lm-bounds-q').textContent = lmBounds.context;
+}
+function lmBoundsCheck() {
+  if (!lmBounds) return;
+  const { val, dp } = lmBounds;
+  const half = lmHalfUnit(dp);
+  const lb = parseFloat((val - half).toFixed(Math.max(dp+1,1)));
+  const ub = parseFloat((val + half).toFixed(Math.max(dp+1,1)));
+  const stuLb = parseFloat(document.getElementById('lm-lb-in').value);
+  const stuUb = parseFloat(document.getElementById('lm-ub-in').value);
+  if (isNaN(stuLb) || isNaN(stuUb)) { fb('lm-bounds-fb','⚠️ Fill both bounds.','hint'); return; }
+
+  let msgs = []; let ok = true;
+
+  // LB misconception: LB = val - rounding unit (full unit, not half)
+  if (Math.abs(stuLb - (val - 2*half)) < 0.0001) {
+    msgs.push(`🤔 Lower bound: you subtracted the full rounding unit (${2*half}). It should be <em>half</em> the unit: ${val} − ${half} = ${lb}.`); ok = false;
+  } else if (Math.abs(stuLb - lb) < 0.0001) {
+    msgs.push(`✅ Lower bound: ${lb} correct.`);
+  } else {
+    msgs.push(`❌ Lower bound: expected ${lb}. LB = ${val} − ${half} = ${lb}.`); ok = false;
+  }
+
+  // UB misconception: student thinks UB is included (writes same as correct)
+  if (Math.abs(stuUb - ub) < 0.0001) {
+    msgs.push(`✅ Upper bound: ${ub} correct.`);
+  } else if (Math.abs(stuUb - (val + 2*half)) < 0.0001) {
+    msgs.push(`🤔 Upper bound: you added the full rounding unit. It's half: ${val} + ${half} = ${ub}.`); ok = false;
+  } else {
+    msgs.push(`❌ Upper bound: expected ${ub}. UB = ${val} + ${half} = ${ub}.`); ok = false;
+  }
+
+  const type = ok ? 'correct' : 'wrong';
+  const extra = ok ? `<br/><em>Error interval: ${lb} ≤ x &lt; ${ub}</em>` : '';
+  fb('lm-bounds-fb', msgs.join('<br/>') + extra, type);
+  if (ok) addScore('lm', 10);
+}
+function lmBoundsHint() {
+  if (!lmBounds) return;
+  const { val, dp } = lmBounds;
+  const half = lmHalfUnit(dp);
+  const hints = [
+    `The rounding unit is ${2*half} ${lmBounds.unit}. Half of that = ${half}.`,
+    `LB = ${val} − ${half} = ${(val-half).toFixed(Math.max(dp+1,1))}`,
+    `UB = ${val} + ${half} = ${(val+half).toFixed(Math.max(dp+1,1))}`,
+  ];
+  if (lmBoundsHi < hints.length) addHint('lm-bounds-hints', hints[lmBoundsHi++]);
+}
+
+function lmEiNew() {
+  lmEi = LM_BOUNDS_POOL[Math.floor(Math.random() * LM_BOUNDS_POOL.length)];
+  fbHide('lm-ei-fb');
+  document.getElementById('lm-ei-lb').value = '';
+  document.getElementById('lm-ei-ub').value = '';
+  document.getElementById('lm-ei-q').textContent = `${lmEi.val} ${lmEi.unit} (${lmEi.context.split('rounded')[1].trim().replace(/^to /,'rounded to ')})`;
+  document.getElementById('lm-ei-q').textContent = lmEi.context;
+}
+function lmEiCheck() {
+  if (!lmEi) return;
+  const { val, dp } = lmEi;
+  const half = lmHalfUnit(dp);
+  const lb = parseFloat((val - half).toFixed(Math.max(dp+1,1)));
+  const ub = parseFloat((val + half).toFixed(Math.max(dp+1,1)));
+  const stuLb = parseFloat(document.getElementById('lm-ei-lb').value);
+  const stuUb = parseFloat(document.getElementById('lm-ei-ub').value);
+  if (isNaN(stuLb) || isNaN(stuUb)) { fb('lm-ei-fb','⚠️ Fill both values.','hint'); return; }
+  if (Math.abs(stuLb - lb) < 0.0001 && Math.abs(stuUb - ub) < 0.0001) {
+    fb('lm-ei-fb', `✅ Correct! Error interval: <strong>${lb} ≤ x &lt; ${ub}</strong>`, 'correct');
+    addScore('lm', 5);
+  } else {
+    fb('lm-ei-fb', `❌ Expected ${lb} ≤ x &lt; ${ub}. Half-unit = ${half}.`, 'wrong');
+  }
+}
+
+function lmCombNew() {
+  lmComb = LM_COMB_POOL[Math.floor(Math.random() * LM_COMB_POOL.length)];
+  lmCombHi = 0; clearHints('lm-comb-hints'); fbHide('lm-comb-fb');
+  document.getElementById('lm-comb-in').value = '';
+  document.getElementById('lm-comb-scenario').textContent = lmComb.context;
+  document.getElementById('lm-comb-label').textContent = `${lmComb.find === 'max' ? 'Maximum' : 'Minimum'} value:`;
+}
+function lmCombCheck() {
+  if (!lmComb) return;
+  const { aVal, aDp, bVal, bDp, op, find } = lmComb;
+  const aHalf = lmHalfUnit(aDp), bHalf = lmHalfUnit(bDp);
+  const aLB = aVal - aHalf, aUB = aVal + aHalf;
+  const bLB = bVal - bHalf, bUB = bVal + bHalf;
+
+  let correct;
+  if (op === 'sum')  correct = find === 'max' ? aUB + bUB : aLB + bLB;
+  if (op === 'diff') correct = find === 'max' ? aUB - bLB : aLB - bUB;
+  if (op === 'prod') correct = find === 'max' ? aUB * bUB : aLB * bLB;
+  if (op === 'quot') correct = find === 'max' ? aUB / bLB : aLB / bUB;
+  correct = parseFloat(correct.toFixed(4));
+
+  const stu = parseFloat(document.getElementById('lm-comb-in').value);
+  if (isNaN(stu)) { fb('lm-comb-fb','⚠️ Enter a number.','hint'); return; }
+
+  // Common error: use nominal values
+  let nominalResult;
+  if (op === 'sum')  nominalResult = aVal + bVal;
+  if (op === 'diff') nominalResult = aVal - bVal;
+  if (op === 'prod') nominalResult = aVal * bVal;
+  if (op === 'quot') nominalResult = aVal / bVal;
+  if (Math.abs(stu - nominalResult) < 0.001) {
+    fb('lm-comb-fb', `🤔 You used the rounded values directly. For the ${find}, use the ${find === 'max' ? 'upper' : 'lower'} bounds: UB_a = ${aUB}, ${op === 'quot' || op === 'diff' ? `LB_b = ${bLB}` : `UB_b = ${bUB}`}.`, 'wrong'); return;
+  }
+
+  if (Math.abs(stu - correct) < 0.001) {
+    fb('lm-comb-fb', `✅ Correct! ${find === 'max' ? 'Maximum' : 'Minimum'} = ${correct}`, 'correct');
+    addScore('lm', 10);
+  } else {
+    fb('lm-comb-fb', `❌ Expected ${correct}. For ${find} of ${op}: use ${find==='max'&&op!=='quot'&&op!=='diff'?'UB values':'appropriate bound combination'}.`, 'wrong');
+  }
+}
+function lmCombHint() {
+  if (!lmComb) return;
+  const { aVal, aDp, bVal, bDp, op, find } = lmComb;
+  const aHalf = lmHalfUnit(aDp), bHalf = lmHalfUnit(bDp);
+  const opWord = { sum:'addition: max = UB₁+UB₂, min = LB₁+LB₂', diff:'subtraction: max = UB₁−LB₂, min = LB₁−UB₂', prod:'product: max = UB₁×UB₂, min = LB₁×LB₂', quot:'division: max = UB₁÷LB₂, min = LB₁÷UB₂' }[op];
+  const hints = [
+    `Rule for ${opWord}`,
+    `a: LB=${aVal-aHalf}, UB=${aVal+aHalf} &nbsp;|&nbsp; b: LB=${bVal-bHalf}, UB=${bVal+bHalf}`,
+  ];
+  if (lmCombHi < hints.length) addHint('lm-comb-hints', hints[lmCombHi++]);
+}
+
+// ================================================================
+// ================================================================
+// MODULE 11 · RATES
+// ================================================================
+// ================================================================
+
+const RA_SDT_POOL = [
+  { find:'S', D:240, T:3,    unit:'km/h', context:'A car travels 240 km in 3 hours. Find the average speed.' },
+  { find:'D', S:60,  T:2.5,  unit:'km',   context:'A cyclist rides at 60 km/h for 2.5 hours. Find the distance.' },
+  { find:'T', D:150, S:50,   unit:'hours',context:'A train travels 150 km at 50 km/h. How long does the journey take?' },
+  { find:'S', D:600, T:4,    unit:'km/h', context:'A plane covers 600 km in 4 hours. Find the speed.' },
+  { find:'D', S:80,  T:1.5,  unit:'km',   context:'A motorbike travels at 80 km/h for 1.5 hours. Find the distance.' },
+  { find:'T', D:36,  S:48,   unit:'hours',context:'A runner covers 36 km at 48 km/h. Find the time in hours.' },
+  { find:'S', D:45,  T:0.75, unit:'km/h', context:'A boat travels 45 km in 45 minutes (0.75 hours). Find the speed.' },
+];
+
+const RA_DEN_POOL = [
+  { find:'D', M:400, V:50,   unit:'g/cm³',  context:'A metal block has mass 400 g and volume 50 cm³. Find the density.' },
+  { find:'M', D:8,   V:25,   unit:'g',      context:'A substance has density 8 g/cm³ and volume 25 cm³. Find the mass.' },
+  { find:'V', M:630, D:7,    unit:'cm³',    context:'An iron rod has mass 630 g and density 7 g/cm³. Find the volume.' },
+  { find:'D', M:1350,V:500,  unit:'kg/m³',  context:'A concrete slab has mass 1350 kg and volume 500 m³. Find the density.' },
+  { find:'M', D:2.7, V:100,  unit:'g',      context:'Aluminium has density 2.7 g/cm³. Find the mass of 100 cm³.' },
+  { find:'V', M:192, D:8,    unit:'cm³',    context:'Copper has density 8 g/cm³. A copper object has mass 192 g. Find its volume.' },
+];
+
+const RA_UR_POOL = [
+  { context:'Which is better value?',
+    A:'400 g for £1.20', B:'650 g for £1.85',
+    rateA:1.20/400, rateB:1.85/650, unit:'£/g', better:'B',
+    explainA:'£1.20 ÷ 400 g = £0.003/g', explainB:'£1.85 ÷ 650 g = £0.00285/g — cheaper per gram' },
+  { context:'Which is better value?',
+    A:'1.5 L juice for £2.40', B:'2 L juice for £3.10',
+    rateA:2.40/1.5, rateB:3.10/2, unit:'£/L', better:'B',
+    explainA:'£2.40 ÷ 1.5 L = £1.60/L', explainB:'£3.10 ÷ 2 L = £1.55/L — cheaper per litre' },
+  { context:'Which is a faster rate?',
+    A:'120 words typed in 3 min', B:'200 words typed in 4 min',
+    rateA:120/3, rateB:200/4, unit:'words/min', better:'B',
+    explainA:'120 ÷ 3 = 40 words/min', explainB:'200 ÷ 4 = 50 words/min — faster' },
+  { context:'Which is better fuel economy?',
+    A:'300 km on 25 L', B:'420 km on 36 L',
+    rateA:25/300, rateB:36/420, unit:'L/km', better:'A',
+    explainA:'25 ÷ 300 = 0.0833 L/km — more efficient', explainB:'36 ÷ 420 = 0.0857 L/km' },
+];
+
+let raSdt = null, raSdtHi = 0;
+let raDen = null, raDenHi = 0;
+let raUr  = null, raUrSelected = null;
+
+function raSdtNew() {
+  raSdt = RA_SDT_POOL[Math.floor(Math.random() * RA_SDT_POOL.length)];
+  raSdtHi = 0; clearHints('ra-sdt-hints'); fbHide('ra-sdt-fb');
+  document.getElementById('ra-sdt-in').value = '';
+  document.getElementById('ra-sdt-scenario').textContent = raSdt.context;
+  document.getElementById('ra-sdt-label').textContent = `Find ${raSdt.find === 'S' ? 'Speed' : raSdt.find === 'D' ? 'Distance' : 'Time'}:`;
+  document.getElementById('ra-sdt-unit').textContent = raSdt.unit;
+}
+function raSdtCheck() {
+  if (!raSdt) return;
+  const stu = parseFloat(document.getElementById('ra-sdt-in').value);
+  if (isNaN(stu)) { fb('ra-sdt-fb','⚠️ Enter a number.','hint'); return; }
+  const {find, D, S, T} = raSdt;
+  const correct = find === 'S' ? D/T : find === 'D' ? S*T : D/S;
+  // Misconception: multiply instead of divide for speed/time
+  const wrong = find === 'S' ? D*T : find === 'T' ? D*S : null;
+  if (wrong !== null && Math.abs(stu - wrong) < 0.01) {
+    fb('ra-sdt-fb',
+      `🤔 You multiplied instead of dividing. For ${find === 'S' ? 'Speed = D÷T' : 'Time = D÷S'}: ${find === 'S' ? D : D} ÷ ${find === 'S' ? T : S} = ${correct.toFixed(2)} ${raSdt.unit}.`,
+      'wrong'); return;
+  }
+  if (Math.abs(stu - correct) < 0.01) {
+    fb('ra-sdt-fb', `✅ Correct! ${find} = ${find==='S'?`D÷T=${D}÷${T}`:find==='D'?`S×T=${S}×${T}`:`D÷S=${D}÷${S}`} = ${correct.toFixed(2)} ${raSdt.unit}`, 'correct');
+    addScore('ra', 5);
+  } else {
+    fb('ra-sdt-fb', `❌ Not quite. ${find==='S'?`S=D÷T=${D}÷${T}`:find==='D'?`D=S×T=${S}×${T}`:`T=D÷S=${D}÷${S}`} = ${correct.toFixed(2)} ${raSdt.unit}.`, 'wrong');
+  }
+}
+function raSdtHint() {
+  if (!raSdt) return;
+  const {find, D, S, T} = raSdt;
+  const formula = find==='S'?`S = D ÷ T = ${D} ÷ ${T}`:find==='D'?`D = S × T = ${S} × ${T}`:`T = D ÷ S = ${D} ÷ ${S}`;
+  const hints = [
+    `Cover "${find}" in the triangle — the remaining layout shows the formula.`,
+    `Formula: ${formula}`,
+    `Answer: ${(find==='S'?D/T:find==='D'?S*T:D/S).toFixed(2)} ${raSdt.unit}`,
+  ];
+  if (raSdtHi < hints.length) addHint('ra-sdt-hints', hints[raSdtHi++]);
+}
+
+function raDenNew() {
+  raDen = RA_DEN_POOL[Math.floor(Math.random() * RA_DEN_POOL.length)];
+  raDenHi = 0; clearHints('ra-den-hints'); fbHide('ra-den-fb');
+  document.getElementById('ra-den-in').value = '';
+  document.getElementById('ra-den-scenario').textContent = raDen.context;
+  document.getElementById('ra-den-label').textContent = `Find ${raDen.find === 'D' ? 'Density' : raDen.find === 'M' ? 'Mass' : 'Volume'}:`;
+  document.getElementById('ra-den-unit').textContent = raDen.unit;
+}
+function raDenCheck() {
+  if (!raDen) return;
+  const stu = parseFloat(document.getElementById('ra-den-in').value);
+  if (isNaN(stu)) { fb('ra-den-fb','⚠️ Enter a number.','hint'); return; }
+  const {find, M, D, V} = raDen;
+  const correct = find==='D' ? M/V : find==='M' ? D*V : M/D;
+  // Misconception: D = M × V
+  const wrong = find==='D' ? M*V : null;
+  if (wrong !== null && Math.abs(stu - wrong) < 0.1) {
+    fb('ra-den-fb', `🤔 Density = Mass ÷ Volume, not Mass × Volume. D = ${M} ÷ ${V} = ${correct.toFixed(3)} ${raDen.unit}.`, 'wrong'); return;
+  }
+  if (Math.abs(stu - correct) < 0.005) {
+    fb('ra-den-fb', `✅ Correct! ${find}=${find==='D'?`M÷V=${M}÷${V}`:find==='M'?`D×V=${D}×${V}`:`M÷D=${M}÷${D}`} = ${correct.toFixed(3)} ${raDen.unit}`, 'correct');
+    addScore('ra', 5);
+  } else {
+    fb('ra-den-fb', `❌ Expected ${correct.toFixed(3)} ${raDen.unit}. Formula: ${find==='D'?'D=M÷V':find==='M'?'M=D×V':'V=M÷D'}.`, 'wrong');
+  }
+}
+function raDenHint() {
+  if (!raDen) return;
+  const {find, M, D, V} = raDen;
+  const hints = [
+    `Cover "${find}" in the MDV triangle to read the formula.`,
+    `Formula: ${find==='D'?`D = M ÷ V = ${M} ÷ ${V}`:find==='M'?`M = D × V = ${D} × ${V}`:`V = M ÷ D = ${M} ÷ ${D}`}`,
+    `Answer: ${(find==='D'?M/V:find==='M'?D*V:M/D).toFixed(3)} ${raDen.unit}`,
+  ];
+  if (raDenHi < hints.length) addHint('ra-den-hints', hints[raDenHi++]);
+}
+
+function raUrNew() {
+  raUr = RA_UR_POOL[Math.floor(Math.random() * RA_UR_POOL.length)];
+  raUrSelected = null;
+  fbHide('ra-ur-fb');
+  document.getElementById('ra-ur-scenario').innerHTML =
+    `${raUr.context}<br/><strong>A:</strong> ${raUr.A} &nbsp;&nbsp; <strong>B:</strong> ${raUr.B}`;
+  document.getElementById('ra-ur-btnA').className = 'btn btn-secondary';
+  document.getElementById('ra-ur-btnB').className = 'btn btn-secondary';
+}
+function raUrSelect(opt) {
+  raUrSelected = opt;
+  document.getElementById('ra-ur-btnA').className = opt==='A' ? 'btn btn-primary' : 'btn btn-secondary';
+  document.getElementById('ra-ur-btnB').className = opt==='B' ? 'btn btn-primary' : 'btn btn-secondary';
+  // Auto-check on select
+  if (!raUr) return;
+  if (opt === raUr.better) {
+    fb('ra-ur-fb', `✅ Correct! Option ${raUr.better} is better value.<br/>${raUr.explainA}<br/>${raUr.explainB}`, 'correct');
+    addScore('ra', 5);
+  } else {
+    fb('ra-ur-fb', `❌ Option ${raUr.better} is actually better value.<br/>${raUr.explainA}<br/>${raUr.explainB}`, 'wrong');
+  }
+}
+
+// ================================================================
+// ================================================================
+// MODULE 10 · PERCENTAGE APPLICATIONS
+// ================================================================
+// ================================================================
+
+const PC_OF_POOL = [
+  { pct:15, amount:80,  unit:'£', context:'15% of £80 (shop discount)' },
+  { pct:20, amount:350, unit:'£', context:'20% of £350 (VAT calculation)' },
+  { pct:35, amount:200, unit:'g', context:'35% of 200 g (nutrition label)' },
+  { pct:8,  amount:450, unit:'£', context:'8% of £450 (service charge)' },
+  { pct:60, amount:75,  unit:'marks', context:'60% of 75 marks (exam score)' },
+  { pct:12, amount:500, unit:'£', context:'12% of £500 (commission)' },
+  { pct:5,  amount:1200,unit:'£', context:'5% of £1200 (mortgage fee)' },
+  { pct:25, amount:96,  unit:'km', context:'25% of 96 km (journey completed)' },
+];
+
+const PC_CHG_POOL = [
+  { dir:'increase', pct:20, amount:150,  unit:'£', context:'A jacket costs £150. It is increased by 20% in a sale reversal.' },
+  { dir:'decrease', pct:15, amount:240,  unit:'£', context:'A phone costs £240. It is reduced by 15% in a clearance.' },
+  { dir:'increase', pct:8,  amount:2500, unit:'£', context:'A salary of £2,500/month gets an 8% pay rise.' },
+  { dir:'decrease', pct:30, amount:80,   unit:'£', context:'A train ticket of £80 is discounted by 30% for students.' },
+  { dir:'increase', pct:5,  amount:320,  unit:'£', context:'House rent of £320/week rises by 5%.' },
+  { dir:'decrease', pct:12, amount:600,  unit:'£', context:'A laptop worth £600 depreciates by 12% in one year.' },
+  { dir:'increase', pct:25, amount:44,   unit:'kg', context:'A bag weighing 44 kg is 25% heavier when full.' },
+];
+
+const PC_PL_POOL = [
+  { cost:80,  sell:100, context:'Bought a bag for £80, sold for £100.' },
+  { cost:200, sell:170, context:'Bought a phone for £200, sold for £170.' },
+  { cost:50,  sell:65,  context:'Made a craft item for £50, sold for £65.' },
+  { cost:400, sell:340, context:'Bought a bicycle for £400, sold for £340.' },
+  { cost:120, sell:150, context:'Bought trainers for £120, sold for £150.' },
+  { cost:300, sell:255, context:'Bought a camera for £300, sold for £255.' },
+];
+
+const PC_INT_POOL = [
+  { P:1000, r:5,  t:3, context:'£1,000 invested at 5% per year for 3 years.' },
+  { P:2000, r:4,  t:2, context:'£2,000 in a savings account at 4% per year for 2 years.' },
+  { P:500,  r:10, t:4, context:'£500 deposited at 10% per year for 4 years.' },
+  { P:3000, r:3,  t:5, context:'£3,000 invested at 3% per year for 5 years.' },
+];
+
+let pcOf   = null, pcOfHi  = 0;
+let pcChg  = null, pcChgHi = 0;
+let pcPl   = null, pcPlHi  = 0;
+let pcInt  = null, pcIntHi = 0;
+
+// ── % of amount ──
+function pcOfNew() {
+  pcOf = PC_OF_POOL[Math.floor(Math.random() * PC_OF_POOL.length)];
+  pcOfHi = 0; clearHints('pc-of-hints'); fbHide('pc-of-fb');
+  document.getElementById('pc-of-in').value = '';
+  document.getElementById('pc-of-scenario').textContent = pcOf.context;
+}
+function pcOfCheck() {
+  if (!pcOf) return;
+  const stu = parseFloat(document.getElementById('pc-of-in').value);
+  const correct = pcOf.amount * pcOf.pct / 100;
+  if (isNaN(stu)) { fb('pc-of-fb','⚠️ Enter a number.','hint'); return; }
+  // ×10 instead of ÷100
+  if (Math.abs(stu - pcOf.amount * pcOf.pct / 10) < 0.01) {
+    fb('pc-of-fb', `🤔 It looks like you multiplied by ${pcOf.pct} then divided by 10. Percentage means per <em>hundred</em> — divide by 100: ${pcOf.amount} × ${pcOf.pct}/100 = ${correct}.`, 'wrong'); return;
+  }
+  // forgot to divide (used pct as decimal wrong way)
+  if (Math.abs(stu - pcOf.amount * pcOf.pct) < 0.01) {
+    fb('pc-of-fb', `🤔 You multiplied by ${pcOf.pct} directly. Convert ${pcOf.pct}% to a decimal first: ${pcOf.pct}/100 = ${pcOf.pct/100}. Then ${pcOf.amount} × ${pcOf.pct/100} = ${correct}.`, 'wrong'); return;
+  }
+  if (Math.abs(stu - correct) < 0.01) {
+    fb('pc-of-fb', `✅ Correct! ${pcOf.pct}% of ${pcOf.amount} ${pcOf.unit} = ${pcOf.amount} × ${pcOf.pct/100} = ${correct} ${pcOf.unit}`, 'correct');
+    addScore('pc', 5);
+  } else {
+    fb('pc-of-fb', `❌ Not quite. ${pcOf.pct}% of ${pcOf.amount} = ${pcOf.amount} × ${pcOf.pct/100} = ${correct} ${pcOf.unit}.`, 'wrong');
+  }
+}
+function pcOfHint() {
+  if (!pcOf) return;
+  const hints = [
+    `Convert ${pcOf.pct}% to a decimal: ${pcOf.pct} ÷ 100 = ${pcOf.pct/100}`,
+    `Multiply: ${pcOf.amount} × ${pcOf.pct/100} = ?`,
+    `Answer: ${pcOf.amount * pcOf.pct / 100} ${pcOf.unit}`,
+  ];
+  if (pcOfHi < hints.length) addHint('pc-of-hints', hints[pcOfHi++]);
+}
+
+// ── % increase / decrease ──
+function pcChgNew() {
+  pcChg = PC_CHG_POOL[Math.floor(Math.random() * PC_CHG_POOL.length)];
+  pcChgHi = 0; clearHints('pc-chg-hints'); fbHide('pc-chg-fb');
+  document.getElementById('pc-chg-in').value = '';
+  document.getElementById('pc-chg-scenario').textContent = pcChg.context;
+}
+function pcChgCheck() {
+  if (!pcChg) return;
+  const stu = parseFloat(document.getElementById('pc-chg-in').value);
+  const mult = pcChg.dir === 'increase' ? 1 + pcChg.pct/100 : 1 - pcChg.pct/100;
+  const correct = parseFloat((pcChg.amount * mult).toFixed(2));
+  if (isNaN(stu)) { fb('pc-chg-fb','⚠️ Enter a number.','hint'); return; }
+
+  // Increase/decrease confusion
+  const opposite = parseFloat((pcChg.amount * (pcChg.dir === 'increase' ? 1 - pcChg.pct/100 : 1 + pcChg.pct/100)).toFixed(2));
+  if (Math.abs(stu - opposite) < 0.02) {
+    fb('pc-chg-fb', `🤔 You applied a ${pcChg.dir === 'increase' ? 'decrease' : 'increase'} instead of a ${pcChg.dir}. For a ${pcChg.pct}% ${pcChg.dir}, multiply by ${mult}.`, 'wrong'); return;
+  }
+  // Added/subtracted % of original instead of using multiplier
+  const addErr = parseFloat((pcChg.amount + pcChg.pct).toFixed(2));
+  if (Math.abs(stu - addErr) < 0.02) {
+    fb('pc-chg-fb', `🤔 You added the percentage number directly (${pcChg.amount} + ${pcChg.pct}). First find ${pcChg.pct}% of ${pcChg.amount}: ${pcChg.amount * pcChg.pct/100} ${pcChg.unit}. Then ${pcChg.dir === 'increase' ? 'add' : 'subtract'} that.`, 'wrong'); return;
+  }
+  if (Math.abs(stu - correct) < 0.02) {
+    fb('pc-chg-fb', `✅ Correct! ${pcChg.pct}% ${pcChg.dir} on ${pcChg.amount} ${pcChg.unit}: ${pcChg.amount} × ${mult} = ${correct} ${pcChg.unit}`, 'correct');
+    addScore('pc', 5);
+  } else {
+    fb('pc-chg-fb', `❌ Not quite. Multiplier for ${pcChg.pct}% ${pcChg.dir} = ${mult}. ${pcChg.amount} × ${mult} = ${correct} ${pcChg.unit}.`, 'wrong');
+  }
+}
+function pcChgHint() {
+  if (!pcChg) return;
+  const mult = pcChg.dir === 'increase' ? 1 + pcChg.pct/100 : 1 - pcChg.pct/100;
+  const hints = [
+    `For a ${pcChg.pct}% ${pcChg.dir}, the multiplier is ${mult} (${pcChg.dir === 'increase' ? `1 + ${pcChg.pct}/100` : `1 − ${pcChg.pct}/100`}).`,
+    `Calculation: ${pcChg.amount} × ${mult} = ?`,
+    `Answer: ${parseFloat((pcChg.amount * mult).toFixed(2))} ${pcChg.unit}`,
+  ];
+  if (pcChgHi < hints.length) addHint('pc-chg-hints', hints[pcChgHi++]);
+}
+
+// ── Profit & Loss ──
+function pcPlNew() {
+  pcPl = PC_PL_POOL[Math.floor(Math.random() * PC_PL_POOL.length)];
+  pcPlHi = 0; clearHints('pc-pl-hints'); fbHide('pc-pl-fb');
+  document.getElementById('pc-pl-in').value = '';
+  const diff = pcPl.sell - pcPl.cost;
+  document.getElementById('pc-pl-scenario').textContent =
+    pcPl.context + (diff >= 0 ? ' (Profit or Loss?)' : '');
+}
+function pcPlCheck() {
+  if (!pcPl) return;
+  const stu = parseFloat(document.getElementById('pc-pl-in').value);
+  const diff = pcPl.sell - pcPl.cost;
+  const correct = parseFloat((Math.abs(diff) / pcPl.cost * 100).toFixed(2));
+  const isProfit = diff >= 0;
+  if (isNaN(stu)) { fb('pc-pl-fb','⚠️ Enter a number (positive).','hint'); return; }
+  // Used selling price as base instead of cost price
+  const wrongBase = parseFloat((Math.abs(diff) / pcPl.sell * 100).toFixed(2));
+  if (Math.abs(stu - wrongBase) < 0.1) {
+    fb('pc-pl-fb', `🤔 Always divide by the <strong>cost price</strong>, not the selling price. Cost = £${pcPl.cost}: (${Math.abs(diff)} ÷ ${pcPl.cost}) × 100 = ${correct}%.`, 'wrong'); return;
+  }
+  if (Math.abs(stu - correct) < 0.1) {
+    fb('pc-pl-fb', `✅ Correct! ${isProfit ? 'Profit' : 'Loss'} = £${Math.abs(diff)}. As a %: (${Math.abs(diff)} ÷ ${pcPl.cost}) × 100 = ${correct}% ${isProfit ? 'profit' : 'loss'}.`, 'correct');
+    addScore('pc', 5);
+  } else {
+    fb('pc-pl-fb', `❌ ${isProfit ? 'Profit' : 'Loss'} = £${Math.abs(diff)}. (${Math.abs(diff)} ÷ ${pcPl.cost}) × 100 = ${correct}%.`, 'wrong');
+  }
+}
+function pcPlHint() {
+  if (!pcPl) return;
+  const diff = Math.abs(pcPl.sell - pcPl.cost);
+  const hints = [
+    `Step 1: Find profit or loss = Selling price − Cost price = £${pcPl.sell} − £${pcPl.cost} = £${pcPl.sell - pcPl.cost}`,
+    `Step 2: Divide by the <strong>cost price</strong>: ${diff} ÷ ${pcPl.cost} = ${(diff/pcPl.cost).toFixed(4)}`,
+    `Step 3: × 100 = ${parseFloat((diff/pcPl.cost*100).toFixed(2))}%`,
+  ];
+  if (pcPlHi < hints.length) addHint('pc-pl-hints', hints[pcPlHi++]);
+}
+
+// ── Simple & Compound Interest ──
+function pcIntNew() {
+  pcInt = PC_INT_POOL[Math.floor(Math.random() * PC_INT_POOL.length)];
+  pcIntHi = 0; clearHints('pc-int-hints'); fbHide('pc-int-fb');
+  document.getElementById('pc-si-in').value = '';
+  document.getElementById('pc-ci-in').value = '';
+  document.getElementById('pc-int-scenario').textContent = pcInt.context;
+}
+function pcIntCheck() {
+  if (!pcInt) return;
+  const {P, r, t} = pcInt;
+  const rDec = r / 100;
+  const siTotal = parseFloat((P + P * rDec * t).toFixed(2));
+  const ciTotal = parseFloat((P * Math.pow(1 + rDec, t)).toFixed(2));
+
+  const stuSI = parseFloat(document.getElementById('pc-si-in').value);
+  const stuCI = parseFloat(document.getElementById('pc-ci-in').value);
+  if (isNaN(stuSI) || isNaN(stuCI)) { fb('pc-int-fb','⚠️ Fill both boxes.','hint'); return; }
+
+  const msgs = [];
+  let ok = true;
+
+  // SI checks
+  const siInterest = P * rDec * t;
+  if (Math.abs(stuSI - siInterest) < 0.02) {
+    msgs.push(`⚠️ Simple interest: you entered the interest earned (£${siInterest.toFixed(2)}), but the question asks for the <em>total</em> amount: P + I = £${siTotal}.`);
+    ok = false;
+  } else if (Math.abs(stuSI - siTotal) < 0.02) {
+    msgs.push(`✅ Simple interest total: £${siTotal} correct.`);
+  } else {
+    msgs.push(`❌ Simple interest: expected £${siTotal}. Formula: ${P} + ${P}×${rDec}×${t} = ${siTotal}.`);
+    ok = false;
+  }
+
+  // CI checks — common error: SI × t
+  const ciWrong = parseFloat((P + siInterest * t).toFixed(2));
+  if (Math.abs(stuCI - ciWrong) < 0.02) {
+    msgs.push(`🤔 Compound interest: you used simple interest × years (£${ciWrong}). Compound interest grows on the <em>new</em> total each year: P×(1+r)ᵗ = ${P}×${(1+rDec).toFixed(2)}^${t} = £${ciTotal}.`);
+    ok = false;
+  } else if (Math.abs(stuCI - ciTotal) < 0.02) {
+    msgs.push(`✅ Compound interest total: £${ciTotal} correct.`);
+  } else {
+    msgs.push(`❌ Compound interest: expected £${ciTotal}. Formula: ${P}×(1+${rDec})^${t} = £${ciTotal}.`);
+    ok = false;
+  }
+
+  fb('pc-int-fb', msgs.join('<br/>'), ok ? 'correct' : 'wrong');
+  if (ok) addScore('pc', 10);
+}
+function pcIntHint() {
+  if (!pcInt) return;
+  const {P, r, t} = pcInt;
+  const rDec = r/100;
+  const hints = [
+    `Simple interest formula: Total = P + P×r×t = ${P} + ${P}×${rDec}×${t}`,
+    `Compound interest formula: Total = P×(1+r)ᵗ = ${P}×(1+${rDec})^${t}`,
+    `Simple total = £${(P + P*rDec*t).toFixed(2)}. Compound total = £${(P*Math.pow(1+rDec,t)).toFixed(2)}.`,
+  ];
+  if (pcIntHi < hints.length) addHint('pc-int-hints', hints[pcIntHi++]);
+}
+
+// ================================================================
+// ================================================================
 // MODULE 9 · BODMAS ENGINE
 // ================================================================
 // ================================================================
@@ -3225,6 +4317,14 @@ function init() {
   prBuildTables(); prPowNew(); prRootNew(); prQrNew();
   // M9 – BODMAS engine
   boNew(); boTrapNew();
+  // M10 – percentages
+  pcOfNew(); pcChgNew(); pcPlNew(); pcIntNew();
+  // M11 – rates
+  raSdtNew(); raDenNew(); raUrNew();
+  // M12 – limits of accuracy
+  lmBoundsNew(); lmEiNew(); lmCombNew();
+  // M13 – time & money
+  tmTimeNew(); tmClockNew(); tmFxNew();
 }
 
 document.addEventListener('DOMContentLoaded', init);
