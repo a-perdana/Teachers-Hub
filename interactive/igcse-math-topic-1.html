@@ -822,14 +822,14 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
   <button class="nav-item" onclick="showModule(12)"><span class="nav-icon">🕐</span><span class="nav-label">Time & Money</span></button>
   <button class="nav-item" onclick="showModule(13)"><span class="nav-icon">🔵</span><span class="nav-label">Sets & Venn Diagrams</span></button>
   <button class="nav-item" onclick="showModule(14)"><span class="nav-icon">🔁</span><span class="nav-label">Recurring Decimals</span></button>
-  <button class="nav-item" onclick="showModule(15)"><span class="nav-icon">√</span><span class="nav-label">Surds</span></button>
+  <button class="nav-item" onclick="showModule(15)"><span class="nav-icon">🔣</span><span class="nav-label">Surds</span></button>
   <button class="nav-item" onclick="showModule(16)"><span class="nav-icon">📐</span><span class="nav-label">Bounds & Number Lines</span></button>
   <button class="nav-item" onclick="showModule(17)"><span class="nav-icon">🔭</span><span class="nav-label">Standard Form Ops</span></button>
   <button class="nav-item" onclick="showModule(18)"><span class="nav-icon">⚙️</span><span class="nav-label">Index Laws</span></button>
   <button class="nav-item" onclick="showModule(19)"><span class="nav-icon">💰</span><span class="nav-label">Profit, Loss & Interest</span></button>
   <button class="nav-item" onclick="showModule(20)"><span class="nav-icon">⚖️</span><span class="nav-label">Proportion</span></button>
   <button class="nav-item" onclick="showModule(21)"><span class="nav-icon">🔢</span><span class="nav-label">Ordering & Magnitude</span></button>
-  <button class="nav-item" onclick="showModule(22)"><span class="nav-icon">🖩</span><span class="nav-label">Calculator & Notation</span></button>
+  <button class="nav-item" onclick="showModule(22)"><span class="nav-icon">🧮</span><span class="nav-label">Calculator & Notation</span></button>
   <button class="nav-item" onclick="showModule(23)"><span class="nav-icon">🏆</span><span class="nav-label">Exam Challenge</span></button>
   <button class="nav-item" onclick="showModule(24)"><span class="nav-icon">📈</span><span class="nav-label">Exponential Growth &amp; Decay</span></button>
   <button class="nav-item" onclick="showModule(25)"><span class="nav-icon">🔗</span><span class="nav-label">Algebraic Proportion</span></button>
@@ -6429,6 +6429,8 @@ function init() {
   omNew(); omCmpNew();
   caNew(); caPrNew();
   ecInit();
+  eg2Init();
+  apInit();
 }
 
 document.addEventListener('DOMContentLoaded', init);
@@ -8590,11 +8592,6 @@ function apInit() {
   apSfNew();
 }
 
-// ─── Add to page init ───
-document.addEventListener('DOMContentLoaded', () => {
-  eg2Init();
-  apInit();
-});
 </script>
 
 </div><!-- end .content-area -->
