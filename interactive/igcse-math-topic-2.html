@@ -1,0 +1,4088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 2 · IGCSE 0580 Mathematics</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230f2044'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-size='40' font-family='serif' fill='%2306b6d4'>α</text></svg>">
+<style>
+/* ================================================================
+   RESET & DESIGN TOKENS
+   ================================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:    #0f2044;
+  --blue:    #1a56db;
+  --blue-lt: #3b82f6;
+  --cyan:    #06b6d4;
+  --green:   #16a34a;
+  --amber:   #d97706;
+  --red:     #dc2626;
+  --purple:  #7c3aed;
+  --slate:   #f1f5f9;
+  --white:   #ffffff;
+  --text:    #1e293b;
+  --muted:   #64748b;
+  --border:  #e2e8f0;
+  --card-bg: #ffffff;
+  --radius:  12px;
+  --shadow:  0 2px 12px rgba(0,0,0,0.07);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --font-head: 'Georgia', 'Times New Roman', serif;
+  --font-body: 'Trebuchet MS', 'Gill Sans', sans-serif;
+  --font-mono: 'Courier New', monospace;
+}
+
+body {
+  font-family: var(--font-body);
+  background: #e8edf5;
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ================================================================
+   HEADER
+   ================================================================ */
+.app-header {
+  background: var(--navy);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.app-header .brand { display: flex; align-items: center; gap: 12px; }
+.brand-badge {
+  background: var(--purple);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 3px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.brand-title {
+  font-family: var(--font-head);
+  font-size: 1.15rem;
+  color: white;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+.brand-sub { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-left: 4px; }
+
+#teacherToggle {
+  background: rgba(255,255,255,0.1);
+  border: 1.5px solid rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.85);
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  font-family: var(--font-body);
+}
+#teacherToggle:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.5); }
+#teacherToggle.active { background: var(--cyan); border-color: var(--cyan); color: var(--navy); }
+
+#hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 6px;
+  margin-right: 8px;
+}
+
+/* ================================================================
+   LAYOUT
+   ================================================================ */
+.app-body {
+  display: flex;
+  height: calc(100vh - 64px);
+  overflow: hidden;
+}
+
+/* ================================================================
+   SIDEBAR
+   ================================================================ */
+.sidebar {
+  width: 240px;
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: width 0.25s ease;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 50;
+}
+.sidebar.collapsed { width: 52px; }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+
+.sidebar-header {
+  padding: 16px 14px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+.sidebar-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: opacity 0.2s;
+}
+.sidebar.collapsed .sidebar-label { opacity: 0; }
+
+#collapseBtn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 2px 4px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+#collapseBtn:hover { color: white; }
+
+.nav-section-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+  padding: 12px 14px 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: opacity 0.2s;
+}
+.sidebar.collapsed .nav-section-label { opacity: 0; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-left: 3px solid transparent;
+  min-height: 40px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.nav-item:hover { background: rgba(255,255,255,0.07); }
+.nav-item.active {
+  background: rgba(59,130,246,0.18);
+  border-left-color: var(--blue-lt);
+}
+.nav-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  width: 22px;
+  text-align: center;
+  display: inline-block;
+}
+.nav-text {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.75);
+  transition: opacity 0.2s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nav-item.active .nav-text { color: white; font-weight: 600; }
+.sidebar.collapsed .nav-text { opacity: 0; }
+
+.nav-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  margin: 8px 14px;
+}
+
+.nav-back {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.45);
+  font-size: 0.78rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: color 0.2s;
+  text-decoration: none;
+}
+.nav-back:hover { color: rgba(255,255,255,0.8); }
+.sidebar.collapsed .nav-back span { opacity: 0; }
+
+/* Mobile overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 40;
+}
+
+/* ================================================================
+   CONTENT AREA
+   ================================================================ */
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 32px 48px;
+  min-width: 0;
+}
+.content-area::-webkit-scrollbar { width: 6px; }
+.content-area::-webkit-scrollbar-track { background: transparent; }
+.content-area::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+.module { display: none; }
+.module.active { display: block; }
+
+/* ================================================================
+   CARDS
+   ================================================================ */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+.card-title {
+  font-family: var(--font-head);
+  font-size: 1.15rem;
+  color: var(--navy);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card-desc { font-size: 0.88rem; color: var(--muted); margin-bottom: 18px; }
+
+/* ================================================================
+   PROGRESS CARD
+   ================================================================ */
+.progress-card {
+  background: linear-gradient(135deg, var(--navy) 0%, #1e3a6e 100%);
+  border-radius: var(--radius);
+  padding: 22px 26px;
+  margin-bottom: 20px;
+  color: white;
+  box-shadow: var(--shadow-lg);
+}
+.progress-card h2 {
+  font-family: var(--font-head);
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+.progress-card .pc-meta {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 16px;
+}
+.prog-track {
+  background: rgba(255,255,255,0.15);
+  border-radius: 99px;
+  height: 8px;
+  margin-bottom: 10px;
+}
+.prog-fill {
+  height: 8px;
+  border-radius: 99px;
+  background: var(--cyan);
+  transition: width 0.5s ease;
+}
+.prog-stats {
+  display: flex;
+  gap: 24px;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.65);
+}
+.prog-stats strong { color: white; font-size: 1rem; }
+
+/* ================================================================
+   TEACHER PANEL
+   ================================================================ */
+.teacher-panel {
+  background: #fffbeb;
+  border: 1.5px solid #fcd34d;
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  overflow: hidden;
+  display: none;
+}
+.teacher-panel.visible { display: block; }
+.tp-header {
+  background: #fef3c7;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #92400e;
+  border-bottom: 1px solid #fcd34d;
+}
+.tp-body { padding: 16px 18px; }
+.tp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 640px) { .tp-grid { grid-template-columns: 1fr; } }
+.tp-item {
+  background: white;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 0.83rem;
+  border: 1px solid #fde68a;
+}
+.tp-item strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.tp-item.misconception strong { color: var(--red); }
+.tp-item.strategy strong { color: var(--green); }
+.tp-item ul { margin: 0; padding-left: 16px; }
+.tp-item li { margin-bottom: 3px; line-height: 1.5; }
+
+/* ================================================================
+   BUTTONS
+   ================================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.18s;
+  font-family: var(--font-body);
+  line-height: 1;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--blue); color: white; }
+.btn-primary:hover { background: #1648c8; }
+.btn-secondary { background: var(--slate); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: #e2e8f0; }
+.btn-success { background: var(--green); color: white; }
+.btn-success:hover { background: #15803d; }
+.btn-hint { background: #fff7ed; color: var(--amber); border: 1.5px solid #fed7aa; }
+.btn-hint:hover { background: #ffedd5; }
+.btn-danger { background: var(--red); color: white; }
+.btn-danger:hover { background: #b91c1c; }
+.btn-purple { background: var(--purple); color: white; }
+.btn-purple:hover { background: #6d28d9; }
+.btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+
+/* ================================================================
+   INPUTS
+   ================================================================ */
+.inp-sm {
+  padding: 7px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 7px;
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color 0.18s;
+  width: 90px;
+}
+.inp-md {
+  padding: 8px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 7px;
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color 0.18s;
+  width: 160px;
+}
+.inp-lg {
+  padding: 9px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 7px;
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color 0.18s;
+  width: 100%;
+}
+.inp-sm:focus, .inp-md:focus, .inp-lg:focus { border-color: var(--blue-lt); }
+
+/* ================================================================
+   FEEDBACK
+   ================================================================ */
+.feedback {
+  margin-top: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  display: none;
+  line-height: 1.5;
+}
+.feedback.show { display: block; }
+.fb-correct { background: #f0fdf4; border: 1.5px solid #86efac; color: #166534; }
+.fb-wrong   { background: #fef2f2; border: 1.5px solid #fca5a5; color: #991b1b; }
+.fb-info    { background: #eff6ff; border: 1.5px solid #93c5fd; color: #1e40af; }
+.fb-warning { background: #fffbeb; border: 1.5px solid #fcd34d; color: #92400e; }
+
+.hint-list {
+  margin-top: 10px;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  display: none;
+}
+.hint-list.show { display: block; }
+.hint-list li { margin-bottom: 5px; font-size: 0.85rem; color: var(--text); }
+
+/* ================================================================
+   MODULE PAGE HEADER
+   ================================================================ */
+.mod-header {
+  margin-bottom: 24px;
+}
+.mod-header h1 {
+  font-family: var(--font-head);
+  font-size: 1.75rem;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.mod-header .breadcrumb {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.mod-header .breadcrumb span { color: var(--purple); font-weight: 600; }
+
+/* ================================================================
+   BADGES & CHIPS
+   ================================================================ */
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 99px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.badge-core  { background: #dbeafe; color: #1e40af; }
+.badge-ext   { background: #ede9fe; color: #5b21b6; }
+.badge-new   { background: #dcfce7; color: #166534; }
+.badge-hard  { background: #fee2e2; color: #991b1b; }
+
+/* ================================================================
+   EXPRESSION / ALGEBRA DISPLAY
+   ================================================================ */
+.expr-display {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 20px;
+  background: var(--slate);
+  border-radius: 10px;
+  margin: 16px 0;
+  letter-spacing: 0.05em;
+  color: var(--navy);
+}
+.expr-display .highlight { color: var(--blue); font-weight: 700; }
+.expr-display .sub-val { color: var(--purple); }
+
+.step-box {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 8px 0;
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+}
+.step-box .step-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+/* ================================================================
+   TABLE
+   ================================================================ */
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin: 12px 0;
+}
+.tbl th {
+  background: var(--navy);
+  color: white;
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+.tbl td { padding: 9px 14px; border-bottom: 1px solid var(--border); }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:nth-child(even) td { background: #f8fafc; }
+.tbl .mono { font-family: var(--font-mono); }
+
+/* ================================================================
+   GRAPH CANVAS
+   ================================================================ */
+.canvas-wrap {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  margin: 14px 0;
+  overflow: hidden;
+}
+canvas { max-width: 100%; }
+
+/* ================================================================
+   NUMBER LINE
+   ================================================================ */
+.nline-wrap {
+  overflow-x: auto;
+  padding: 12px 0;
+}
+svg.nline { display: block; margin: 0 auto; }
+
+/* ================================================================
+   GRID LAYOUT HELPERS
+   ================================================================ */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+@media (max-width: 700px) { .two-col, .three-col { grid-template-columns: 1fr; } }
+
+/* ================================================================
+   SCORE / STREAK DISPLAY
+   ================================================================ */
+.score-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  background: var(--slate);
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 0.85rem;
+}
+.score-bar .sc-item strong { font-size: 1.1rem; color: var(--navy); }
+.score-bar .sc-item { text-align: center; }
+.score-bar .sc-sep { width: 1px; height: 32px; background: var(--border); }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 768px) {
+  #hamburger { display: block; }
+  .sidebar {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    height: calc(100vh - 64px);
+    width: 260px !important;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 50;
+  }
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+  .sidebar-overlay { display: block; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+  .sidebar-overlay.visible { opacity: 1; pointer-events: all; }
+  .content-area { padding: 20px 16px 48px; }
+  #collapseBtn { display: none; }
+  .sidebar.collapsed { width: 260px !important; }
+  .sidebar.collapsed .nav-text, .sidebar.collapsed .sidebar-label, .sidebar.collapsed .nav-section-label { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="overlay" onclick="closeMobileNav()"></div>
+
+<!-- HEADER -->
+<header class="app-header">
+  <div class="brand">
+    <button id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
+    <span class="brand-badge">Topic 2</span>
+    <span class="brand-title">Algebra &amp; Graphs <span class="brand-sub">IGCSE 0580</span></span>
+  </div>
+  <button id="teacherToggle" onclick="toggleTeacherMode()">👩‍🏫 Teacher Mode</button>
+</header>
+
+<!-- BODY -->
+<div class="app-body">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-label">Modules</span>
+      <button id="collapseBtn" onclick="toggleSidebar()" title="Collapse">◀</button>
+    </div>
+
+    <div class="nav-section-label">Core &amp; Extended</div>
+    <div class="nav-item active" onclick="showModule(0)">
+      <span class="nav-icon">🔢</span><span class="nav-text">0 · Expression Builder</span>
+    </div>
+    <div class="nav-item" onclick="showModule(1)">
+      <span class="nav-icon">➕</span><span class="nav-text">1 · Algebra Simplifier</span>
+    </div>
+    <div class="nav-item" onclick="showModule(2)">
+      <span class="nav-icon">🔧</span><span class="nav-text">2 · Factorisation Lab</span>
+    </div>
+    <div class="nav-item" onclick="showModule(3)">
+      <span class="nav-icon">⚡</span><span class="nav-text">3 · Indices Explorer</span>
+    </div>
+    <div class="nav-item" onclick="showModule(4)">
+      <span class="nav-icon">⚖️</span><span class="nav-text">4 · Equation Solver</span>
+    </div>
+    <div class="nav-item" onclick="showModule(5)">
+      <span class="nav-icon">🔄</span><span class="nav-text">5 · Formula Rearranger</span>
+    </div>
+    <div class="nav-item" onclick="showModule(6)">
+      <span class="nav-icon">📏</span><span class="nav-text">6 · Inequalities</span>
+    </div>
+    <div class="nav-item" onclick="showModule(7)">
+      <span class="nav-icon">🔢</span><span class="nav-text">7 · Sequences Lab</span>
+    </div>
+    <div class="nav-item" onclick="showModule(8)">
+      <span class="nav-icon">🚗</span><span class="nav-text">8 · Travel Graphs</span>
+    </div>
+    <div class="nav-item" onclick="showModule(9)">
+      <span class="nav-icon">📈</span><span class="nav-text">9 · Function Grapher</span>
+    </div>
+    <div class="nav-item" onclick="showModule(10)">
+      <span class="nav-icon">✏️</span><span class="nav-text">10 · Curve Sketcher</span>
+    </div>
+
+    <div class="nav-section-label">Extended Only</div>
+    <div class="nav-item" onclick="showModule(11)">
+      <span class="nav-icon">🧮</span><span class="nav-text">11 · Algebraic Fractions</span>
+    </div>
+    <div class="nav-item" onclick="showModule(12)">
+      <span class="nav-icon">∝</span><span class="nav-text">12 · Proportion</span>
+    </div>
+    <div class="nav-item" onclick="showModule(13)">
+      <span class="nav-icon">∂</span><span class="nav-text">13 · Differentiation</span>
+    </div>
+    <div class="nav-item" onclick="showModule(14)">
+      <span class="nav-icon">𝑓</span><span class="nav-text">14 · Functions</span>
+    </div>
+
+    <div class="nav-divider"></div>
+    <div class="nav-item" onclick="showModule(15)">
+      <span class="nav-icon">🏆</span><span class="nav-text">15 · Exam Challenge</span>
+    </div>
+
+    <a class="nav-back" href="igcse-math-index.html">
+      <span class="nav-icon">◀</span><span>All Chapters</span>
+    </a>
+  </nav>
+
+  <!-- CONTENT -->
+  <main class="content-area" id="contentArea">
+
+    <!-- ============================================================
+         MODULE 0 — EXPRESSION BUILDER (C2.1 Substitution)
+         ============================================================ -->
+    <section class="module active" id="mod-0">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 · Algebra &amp; Graphs → <span>Module 0</span></div>
+        <h1>🔢 Expression Builder</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C2.1 — Algebraic Expressions &amp; Substitution</h2>
+        <div class="pc-meta">Cambridge IGCSE 0580 · Core &amp; Extended · 2025–2027 Syllabus</div>
+        <div class="prog-track"><div class="prog-fill" id="eb-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="eb-correct">0</strong> correct</div>
+          <div><strong id="eb-streak">0</strong> streak</div>
+          <div><strong id="eb-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-0">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Expression Builder</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Treating 3a² as (3a)² — squaring the coefficient too</li>
+                <li>Sign errors when substituting negatives: −(−2)² vs −(−2²)</li>
+                <li>Thinking "ab" means a + b rather than a × b</li>
+                <li>Forgetting BIDMAS/BODMAS order when substituting</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Always use brackets when substituting: replace x with (−3)</li>
+                <li>Write out each step: 3x² = 3 × (−2)² = 3 × 4 = 12</li>
+                <li>Use colour-coding: one colour per variable</li>
+                <li>Start with positive integer values, then extend to negatives/fractions</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Syllabus coverage card -->
+      <div class="card">
+        <div class="card-title">📋 Syllabus Coverage <span class="badge badge-core">Core C2.1</span> <span class="badge badge-ext">Extended E2.1</span></div>
+        <div class="card-desc">What Cambridge expects students to be able to do</div>
+        <table class="tbl">
+          <thead><tr><th>Skill</th><th>Core</th><th>Extended</th></tr></thead>
+          <tbody>
+            <tr><td>Use letters to express generalised numbers</td><td>✅</td><td>✅</td></tr>
+            <tr><td>Substitute numbers into expressions and formulas</td><td>✅</td><td>✅</td></tr>
+            <tr><td>Construct formulas from given information</td><td>✅</td><td>✅</td></tr>
+            <tr><td>Transform formulas (change of subject)</td><td>Simple</td><td>Complex</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Interactive: Substitution drill -->
+      <div class="card">
+        <div class="card-title">⚡ Substitution Drill</div>
+        <div class="card-desc">Substitute the given values and evaluate the expression. Use correct order of operations.</div>
+
+        <div class="score-bar">
+          <div class="sc-item"><strong id="eb-s-correct">0</strong><br>Correct</div>
+          <div class="sc-sep"></div>
+          <div class="sc-item"><strong id="eb-s-attempts">0</strong><br>Attempts</div>
+          <div class="sc-sep"></div>
+          <div class="sc-item"><strong id="eb-s-streak">0</strong> 🔥<br>Streak</div>
+        </div>
+
+        <div id="eb-question" class="expr-display">Loading…</div>
+
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px;">
+          <label style="font-size:0.88rem;color:var(--muted);">Your answer:</label>
+          <input type="number" id="eb-input" class="inp-sm" placeholder="?" step="any" onkeydown="if(event.key==='Enter')ebCheck()">
+          <button class="btn btn-primary" onclick="ebCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="ebHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="ebNew()">Next →</button>
+        </div>
+
+        <div id="eb-feedback" class="feedback"></div>
+        <ul id="eb-hints" class="hint-list"></ul>
+      </div>
+
+      <!-- Interactive: Build the formula -->
+      <div class="card">
+        <div class="card-title">🏗️ Construct a Formula</div>
+        <div class="card-desc">Read the word problem and write the correct algebraic formula.</div>
+        <div id="cf-question" style="background:var(--slate);padding:16px;border-radius:8px;margin-bottom:14px;font-size:0.92rem;line-height:1.7;"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <input type="text" id="cf-input" class="inp-lg" placeholder="Type your formula, e.g.  C = 5n + 3" style="max-width:320px;" onkeydown="if(event.key==='Enter')cfCheck()">
+          <button class="btn btn-primary" onclick="cfCheck()">Check ✓</button>
+          <button class="btn btn-secondary btn-sm" onclick="cfNew()">New →</button>
+        </div>
+        <div id="cf-feedback" class="feedback"></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 1 — ALGEBRA SIMPLIFIER (C2.2 Manipulation)
+         ============================================================ -->
+    <section class="module" id="mod-1">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 → <span>Module 1</span></div>
+        <h1>➕ Algebra Simplifier</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C2.2 / E2.2 — Algebraic Manipulation</h2>
+        <div class="pc-meta">Cambridge IGCSE 0580 · Core &amp; Extended · 2025–2027 Syllabus</div>
+        <div class="prog-track"><div class="prog-fill" id="as-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="as-correct">0</strong> correct</div>
+          <div><strong id="as-streak">0</strong> streak</div>
+          <div><strong id="as-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-1">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Algebra Simplifier</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>"Simplify" means getting a number — students try to solve for x</li>
+                <li>Adding unlike terms: 3x + 2y → 5xy</li>
+                <li>Expanding: 3(x + 2) → 3x + 2 (forgetting to multiply the 2)</li>
+                <li>Sign errors expanding: −2(x − 3) → −2x − 6</li>
+                <li>Double brackets: (x+3)(x−1) → x² + 3x − 3 (wrong middle term)</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Use algebra tiles or grid method for double bracket expansion</li>
+                <li>Colour-code like terms before collecting</li>
+                <li>FOIL mnemonic: First, Outer, Inner, Last</li>
+                <li>Check expansion by substituting a number back in</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simplify like terms -->
+      <div class="card">
+        <div class="card-title">🧹 Collect Like Terms</div>
+        <div class="card-desc">Simplify by collecting like terms. Write your answer in the form ax + by + c (omit zero terms).</div>
+        <div id="lt-expr" class="expr-display">Loading…</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <input type="text" id="lt-input" class="inp-md" placeholder="e.g. 5x − 2y" onkeydown="if(event.key==='Enter')ltCheck()">
+          <button class="btn btn-primary" onclick="ltCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="ltHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="ltNew()">Next →</button>
+        </div>
+        <div id="lt-feedback" class="feedback"></div>
+        <ul id="lt-hints" class="hint-list"></ul>
+      </div>
+
+      <!-- Expand single brackets -->
+      <div class="card">
+        <div class="card-title">📦 Expand Brackets</div>
+        <div class="card-desc">Expand and simplify the expression. Start with single, then double brackets.</div>
+
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+          <button class="btn btn-sm" id="exp-mode-single" onclick="setExpMode('single')" style="background:var(--blue);color:white;">Single ✓</button>
+          <button class="btn btn-sm btn-secondary" id="exp-mode-double" onclick="setExpMode('double')">Double brackets</button>
+          <button class="btn btn-sm btn-secondary" id="exp-mode-perfect" onclick="setExpMode('perfect')">Perfect square</button>
+        </div>
+
+        <div id="exp-expr" class="expr-display">Loading…</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <input type="text" id="exp-input" class="inp-md" placeholder="Expanded form" onkeydown="if(event.key==='Enter')expCheck()">
+          <button class="btn btn-primary" onclick="expCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="expHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="expNew()">Next →</button>
+        </div>
+        <div id="exp-feedback" class="feedback"></div>
+        <ul id="exp-hints" class="hint-list"></ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 2 — FACTORISATION LAB (C2.2 / E2.2)
+         ============================================================ -->
+    <section class="module" id="mod-2">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 → <span>Module 2</span></div>
+        <h1>🔧 Factorisation Lab</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C2.2 / E2.2 — Factorisation</h2>
+        <div class="pc-meta">Common factor · Difference of squares · Quadratics · Complete the square</div>
+        <div class="prog-track"><div class="prog-fill" id="fl-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="fl-correct">0</strong> correct</div>
+          <div><strong id="fl-streak">0</strong> streak</div>
+          <div><strong id="fl-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-2">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Factorisation Lab</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Partial factorisation: 6x² + 9x → 3(2x² + 3x) instead of 3x(2x + 3)</li>
+                <li>Difference of squares confusion: a² + b² is NOT factorisable over ℝ</li>
+                <li>Sign errors in quadratic factors: x² − 5x + 6 → (x−2)(x−4)</li>
+                <li>Forgetting to check: expand back to verify</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>ACE method for quadratics: find two numbers that Add to b and multiply to C (for monic)</li>
+                <li>Always extract HCF first before other factorisation</li>
+                <li>Difference of squares pattern: a²−b² = (a+b)(a−b)</li>
+                <li>Complete the square: (x + b/2)² − (b/2)² + c</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔬 Factorisation Drill</div>
+        <div class="card-desc">Choose a factorisation type and practise. Enter the fully factorised form.</div>
+
+        <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+          <button class="btn btn-sm" id="fl-mode-hcf" onclick="setFactMode('hcf')" style="background:var(--blue);color:white;">HCF</button>
+          <button class="btn btn-sm btn-secondary" id="fl-mode-dos" onclick="setFactMode('dos')">Diff. of Squares</button>
+          <button class="btn btn-sm btn-secondary" id="fl-mode-quad" onclick="setFactMode('quad')">Quadratic</button>
+          <button class="btn btn-sm btn-secondary" id="fl-mode-ax2" onclick="setFactMode('ax2')">ax²+bx+c</button>
+        </div>
+
+        <div id="fl-expr" class="expr-display">Loading…</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <input type="text" id="fl-input" class="inp-md" placeholder="Factorised form" onkeydown="if(event.key==='Enter')flCheck()">
+          <button class="btn btn-primary" onclick="flCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="flHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="flNew()">Next →</button>
+        </div>
+        <div id="fl-feedback" class="feedback"></div>
+        <ul id="fl-hints" class="hint-list"></ul>
+      </div>
+
+      <!-- Complete the square -->
+      <div class="card">
+        <div class="card-title">◻️ Complete the Square <span class="badge badge-ext">Extended</span></div>
+        <div class="card-desc">Write x² + bx + c in the form (x + p)² + q. Find p and q.</div>
+        <div id="cts-expr" class="expr-display">Loading…</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <label style="font-size:0.85rem;">p = </label>
+          <input type="number" id="cts-p" class="inp-sm" step="any" placeholder="p">
+          <label style="font-size:0.85rem;">q = </label>
+          <input type="number" id="cts-q" class="inp-sm" step="any" placeholder="q">
+          <button class="btn btn-primary" onclick="ctsCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="ctsHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="ctsNew()">Next →</button>
+        </div>
+        <div id="cts-feedback" class="feedback"></div>
+        <ul id="cts-hints" class="hint-list"></ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 3 — INDICES EXPLORER (C2.4 / E2.4)
+         ============================================================ -->
+    <section class="module" id="mod-3">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 → <span>Module 3</span></div>
+        <h1>⚡ Indices Explorer</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C2.4 / E2.4 — Indices &amp; Surds</h2>
+        <div class="pc-meta">Integer indices · Zero &amp; negative · Fractional indices (Extended)</div>
+        <div class="prog-track"><div class="prog-fill" id="ix-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="ix-correct">0</strong> correct</div>
+          <div><strong id="ix-streak">0</strong> streak</div>
+          <div><strong id="ix-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-3">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Indices Explorer</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>aᵐ × aⁿ = a^(m×n) instead of a^(m+n)</li>
+                <li>a⁰ = 0 instead of 1</li>
+                <li>a^(1/2) = a/2 — confusing fractional index with division</li>
+                <li>(ab)ⁿ vs aⁿ + bⁿ — not distributing correctly</li>
+                <li>Negative index: a⁻² = −a² instead of 1/a²</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Derive each law from expansion: a³ × a² = aaaa·aa = a⁵</li>
+                <li>Law reference card students keep for the first few weeks</li>
+                <li>Fractional indices: a^(m/n) = (ⁿ√a)ᵐ — root first, then power</li>
+                <li>Use numerical examples to verify before applying algebraically</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Laws reference -->
+      <div class="card">
+        <div class="card-title">📜 Index Laws Reference</div>
+        <div class="card-desc">Click any law to see a worked example.</div>
+        <div class="two-col">
+          <div>
+            <table class="tbl">
+              <thead><tr><th>Law</th><th>Rule</th></tr></thead>
+              <tbody>
+                <tr><td>Multiply</td><td class="mono">aᵐ × aⁿ = a^(m+n)</td></tr>
+                <tr><td>Divide</td><td class="mono">aᵐ ÷ aⁿ = a^(m−n)</td></tr>
+                <tr><td>Power of power</td><td class="mono">(aᵐ)ⁿ = a^(mn)</td></tr>
+                <tr><td>Zero index</td><td class="mono">a⁰ = 1  (a ≠ 0)</td></tr>
+                <tr><td>Negative index</td><td class="mono">a⁻ⁿ = 1/aⁿ</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <table class="tbl">
+              <thead><tr><th>Law</th><th>Rule</th></tr></thead>
+              <tbody>
+                <tr><td>Fractional (root)</td><td class="mono">a^(1/n) = ⁿ√a</td></tr>
+                <tr><td>Fractional (general)</td><td class="mono">a^(m/n) = (ⁿ√a)ᵐ</td></tr>
+                <tr><td>Product rule</td><td class="mono">(ab)ⁿ = aⁿbⁿ</td></tr>
+                <tr><td>Quotient rule</td><td class="mono">(a/b)ⁿ = aⁿ/bⁿ</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Indices drill -->
+      <div class="card">
+        <div class="card-title">⚡ Indices Drill</div>
+        <div class="card-desc">Simplify the expression. Leave your answer as a single power where possible.</div>
+
+        <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+          <button class="btn btn-sm" id="ix-mode-basic" onclick="setIxMode('basic')" style="background:var(--blue);color:white;">Basic laws</button>
+          <button class="btn btn-sm btn-secondary" id="ix-mode-neg" onclick="setIxMode('neg')">Negative</button>
+          <button class="btn btn-sm btn-secondary" id="ix-mode-frac" onclick="setIxMode('frac')">Fractional <span class="badge badge-ext" style="font-size:0.65rem;">Ext</span></button>
+          <button class="btn btn-sm btn-secondary" id="ix-mode-eval" onclick="setIxMode('eval')">Evaluate</button>
+        </div>
+
+        <div id="ix-expr" class="expr-display">Loading…</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <input type="text" id="ix-input" class="inp-md" placeholder="e.g. a⁷ or 1/x²" onkeydown="if(event.key==='Enter')ixCheck()">
+          <button class="btn btn-primary" onclick="ixCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="ixHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="ixNew()">Next →</button>
+        </div>
+        <div id="ix-feedback" class="feedback"></div>
+        <ul id="ix-hints" class="hint-list"></ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 4 — EQUATION SOLVER (C2.5 / E2.5)
+         ============================================================ -->
+    <section class="module" id="mod-4">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 → <span>Module 4</span></div>
+        <h1>⚖️ Equation Solver</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C2.5 / E2.5 — Equations</h2>
+        <div class="pc-meta">Linear · Simultaneous · Quadratic (formula &amp; completing square)</div>
+        <div class="prog-track"><div class="prog-fill" id="eq-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="eq-correct">0</strong> correct</div>
+          <div><strong id="eq-streak">0</strong> streak</div>
+          <div><strong id="eq-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-4">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Equation Solver</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Not applying the same operation to both sides</li>
+                <li>Simultaneous: adding when they should subtract (or vice versa)</li>
+                <li>Quadratic formula: forgetting ± or using wrong sign under √</li>
+                <li>Thinking ax² + bx + c = 0 always has two solutions</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Balance scale metaphor: whatever you do to one side, do to the other</li>
+                <li>Simultaneous: multiply to make coefficients equal, then eliminate</li>
+                <li>Quadratic formula: write out b²−4ac first (discriminant), then ±√</li>
+                <li>Always check solution by substituting back into original</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Linear equations -->
+      <div class="card">
+        <div class="card-title">📐 Linear Equations</div>
+        <div class="card-desc">Solve for x. Give exact answers (fractions where needed).</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+          <button class="btn btn-sm" id="eq-mode-lin" onclick="setEqMode('lin')" style="background:var(--blue);color:white;">Linear</button>
+          <button class="btn btn-sm btn-secondary" id="eq-mode-sim" onclick="setEqMode('sim')">Simultaneous</button>
+          <button class="btn btn-sm btn-secondary" id="eq-mode-quad" onclick="setEqMode('quad')">Quadratic</button>
+        </div>
+        <div id="eq-expr" class="expr-display">Loading…</div>
+        <div id="eq-two-inputs" style="display:none;margin-top:10px;">
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <label style="font-size:0.85rem;">x = </label><input type="number" id="eq-x" class="inp-sm" step="any">
+            <label style="font-size:0.85rem;">y = </label><input type="number" id="eq-y" class="inp-sm" step="any">
+            <button class="btn btn-primary" onclick="eqCheck()">Check ✓</button>
+            <button class="btn btn-hint" onclick="eqHint()">💡 Hint</button>
+            <button class="btn btn-secondary btn-sm" onclick="eqNew()">Next →</button>
+          </div>
+        </div>
+        <div id="eq-quad-inputs" style="display:none;margin-top:10px;">
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <label style="font-size:0.85rem;">x₁ = </label><input type="number" id="eq-x1" class="inp-sm" step="0.01">
+            <label style="font-size:0.85rem;">x₂ = </label><input type="number" id="eq-x2" class="inp-sm" step="0.01">
+            <button class="btn btn-primary" onclick="eqCheck()">Check ✓</button>
+            <button class="btn btn-hint" onclick="eqHint()">💡 Hint</button>
+            <button class="btn btn-secondary btn-sm" onclick="eqNew()">Next →</button>
+          </div>
+          <div style="font-size:0.78rem;color:var(--muted);margin-top:6px;">Round to 2 d.p. if necessary. Enter smaller root first.</div>
+        </div>
+        <div id="eq-one-input" style="margin-top:10px;">
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <label style="font-size:0.85rem;">x = </label><input type="number" id="eq-single" class="inp-sm" step="any" onkeydown="if(event.key==='Enter')eqCheck()">
+            <button class="btn btn-primary" onclick="eqCheck()">Check ✓</button>
+            <button class="btn btn-hint" onclick="eqHint()">💡 Hint</button>
+            <button class="btn btn-secondary btn-sm" onclick="eqNew()">Next →</button>
+          </div>
+        </div>
+        <div id="eq-feedback" class="feedback"></div>
+        <ul id="eq-hints" class="hint-list"></ul>
+      </div>
+
+      <!-- Quadratic formula reference -->
+      <div class="card">
+        <div class="card-title">📜 Quadratic Formula Reference <span class="badge badge-ext">Extended</span></div>
+        <div class="card-desc">For ax² + bx + c = 0:</div>
+        <div class="expr-display" style="font-size:1.2rem;">x = (−b ± √(b²−4ac)) / 2a</div>
+        <div style="margin-top:12px;font-size:0.88rem;color:var(--muted);">
+          <strong>Discriminant Δ = b²−4ac:</strong>
+          <ul style="margin:8px 0 0 20px;line-height:2;">
+            <li>Δ &gt; 0 → two distinct real roots</li>
+            <li>Δ = 0 → one repeated root</li>
+            <li>Δ &lt; 0 → no real roots</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 5 — FORMULA REARRANGER (C2.5 / E2.5)
+         ============================================================ -->
+    <section class="module" id="mod-5">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 → <span>Module 5</span></div>
+        <h1>🔄 Formula Rearranger</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C2.5 / E2.5 — Change of Subject</h2>
+        <div class="pc-meta">Rearrange formulas — simple and complex (with powers &amp; roots)</div>
+        <div class="prog-track"><div class="prog-fill" id="fr-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="fr-correct">0</strong> correct</div>
+          <div><strong id="fr-streak">0</strong> streak</div>
+          <div><strong id="fr-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-5">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Formula Rearranger</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Dividing rather than multiplying when clearing a denominator</li>
+                <li>Taking square root of a sum: √(a²+b²) ≠ a+b</li>
+                <li>Rearranging with two instances of the subject — must factorise first</li>
+                <li>Sign errors when moving terms across the equals sign</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>"Onion" method: peel back operations in reverse order (BIDMAS backwards)</li>
+                <li>If subject appears twice: collect on one side, factorise, then divide</li>
+                <li>Check by substituting numbers into both original and rearranged formula</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔄 Rearrangement Drill</div>
+        <div class="card-desc">Make the highlighted variable the subject of the formula.</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+          <button class="btn btn-sm" id="fr-mode-simple" onclick="setFrMode('simple')" style="background:var(--blue);color:white;">Simple</button>
+          <button class="btn btn-sm btn-secondary" id="fr-mode-power" onclick="setFrMode('power')">With powers <span class="badge badge-ext" style="font-size:0.65rem;">Ext</span></button>
+          <button class="btn btn-sm btn-secondary" id="fr-mode-double" onclick="setFrMode('double')">Subject twice <span class="badge badge-ext" style="font-size:0.65rem;">Ext</span></button>
+        </div>
+        <div id="fr-question" style="background:var(--slate);padding:16px 20px;border-radius:8px;margin-bottom:14px;font-size:0.95rem;"></div>
+        <div id="fr-expr" class="expr-display" style="font-size:1.2rem;"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px;">
+          <input type="text" id="fr-input" class="inp-lg" placeholder="Type your rearranged formula" style="max-width:360px;" onkeydown="if(event.key==='Enter')frCheck()">
+          <button class="btn btn-primary" onclick="frCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="frHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="frNew()">Next →</button>
+        </div>
+        <div id="fr-feedback" class="feedback"></div>
+        <ul id="fr-hints" class="hint-list"></ul>
+      </div>
+
+      <!-- Step-by-step worked example -->
+      <div class="card">
+        <div class="card-title">📖 Worked Example Viewer</div>
+        <div class="card-desc">Click a formula to see the step-by-step rearrangement.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+          <button class="btn btn-sm btn-secondary" onclick="showWorked(0)">v² = u² + 2as → u</button>
+          <button class="btn btn-sm btn-secondary" onclick="showWorked(1)">A = πr² → r</button>
+          <button class="btn btn-sm btn-secondary" onclick="showWorked(2)">S = n/2(a+l) → a</button>
+          <button class="btn btn-sm btn-secondary" onclick="showWorked(3)">y = mx + c → x</button>
+        </div>
+        <div id="worked-steps" style="display:none;"></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 6 — INEQUALITIES (C2.6 / E2.6)
+         ============================================================ -->
+    <section class="module" id="mod-6">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 → <span>Module 6</span></div>
+        <h1>📏 Inequalities</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C2.6 / E2.6 — Inequalities</h2>
+        <div class="pc-meta">Number line · Solve linear · List integer solutions · Two-variable graphical</div>
+        <div class="prog-track"><div class="prog-fill" id="iq-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="iq-correct">0</strong> correct</div>
+          <div><strong id="iq-streak">0</strong> streak</div>
+          <div><strong id="iq-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-6">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Inequalities</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Forgetting to flip the inequality sign when multiplying/dividing by a negative</li>
+                <li>Thinking x > 3 means x starts just after 3 (correct) vs x ≥ 3 (open vs closed circle confusion)</li>
+                <li>Writing integer solutions outside the range</li>
+                <li>Graph shading on the wrong side</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Number line: open circle for strict (&lt;/&gt;), filled circle for ≤/≥</li>
+                <li>"Flip rule": multiplying by −1 flips the direction — demonstrate with numbers first</li>
+                <li>For graphical: test point (0,0) to determine which side to shade</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solve and show on number line -->
+      <div class="card">
+        <div class="card-title">📏 Solve the Inequality</div>
+        <div class="card-desc">Solve the inequality and write the solution. Use the notation x &gt; a, x ≤ b, etc.</div>
+        <div id="iq-expr" class="expr-display">Loading…</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <input type="text" id="iq-input" class="inp-md" placeholder="e.g. x > 3" onkeydown="if(event.key==='Enter')iqCheck()">
+          <button class="btn btn-primary" onclick="iqCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="iqHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="iqNew()">Next →</button>
+        </div>
+        <div id="iq-feedback" class="feedback"></div>
+        <ul id="iq-hints" class="hint-list"></ul>
+        <!-- Number line SVG display -->
+        <div id="iq-nline" class="nline-wrap" style="display:none;margin-top:14px;"></div>
+      </div>
+
+      <!-- Integer solutions -->
+      <div class="card">
+        <div class="card-title">🔢 List Integer Solutions</div>
+        <div class="card-desc">Write all integer values of n that satisfy the inequality. Separate with commas.</div>
+        <div id="is-expr" class="expr-display">Loading…</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <input type="text" id="is-input" class="inp-lg" placeholder="e.g. −2, −1, 0, 1" style="max-width:320px;" onkeydown="if(event.key==='Enter')isCheck()">
+          <button class="btn btn-primary" onclick="isCheck()">Check ✓</button>
+          <button class="btn btn-secondary btn-sm" onclick="isNew()">Next →</button>
+        </div>
+        <div id="is-feedback" class="feedback"></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 7 — SEQUENCES LAB (C2.7 / E2.7)
+         ============================================================ -->
+    <section class="module" id="mod-7">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 → <span>Module 7</span></div>
+        <h1>🔢 Sequences Lab</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C2.7 / E2.7 — Sequences</h2>
+        <div class="pc-meta">Linear · Quadratic · Geometric · nth term formulas</div>
+        <div class="prog-track"><div class="prog-fill" id="sq-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="sq-correct">0</strong> correct</div>
+          <div><strong id="sq-streak">0</strong> streak</div>
+          <div><strong id="sq-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-7">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Sequences Lab</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Confusing the common difference with the first term in linear nth term</li>
+                <li>Geometric: multiplying ratio by n instead of raising to the power</li>
+                <li>Quadratic nth term: ignoring the second difference (should be 2a)</li>
+                <li>Assuming all sequences are linear when differences are not constant</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Linear nth term: difference → coefficient of n; then adjust constant with T(1)</li>
+                <li>Second difference for quadratic: 2a = second difference → find a first</li>
+                <li>Use table of n, T(n), differences to organise working</li>
+                <li>Geometric: identify ratio r, then T(n) = ar^(n−1)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Next term -->
+      <div class="card">
+        <div class="card-title">🔍 Find the Next Term</div>
+        <div class="card-desc">What comes next in the sequence? Identify the pattern first.</div>
+        <div id="sq-seq" class="expr-display" style="font-size:1.3rem;letter-spacing:0.08em;">Loading…</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <label style="font-size:0.88rem;color:var(--muted);">Next term:</label>
+          <input type="number" id="sq-next-input" class="inp-sm" step="any" onkeydown="if(event.key==='Enter')sqNextCheck()">
+          <button class="btn btn-primary" onclick="sqNextCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="sqNextHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="sqNextNew()">Next →</button>
+        </div>
+        <div id="sq-next-feedback" class="feedback"></div>
+        <ul id="sq-next-hints" class="hint-list"></ul>
+      </div>
+
+      <!-- nth term -->
+      <div class="card">
+        <div class="card-title">📐 Find the nth Term</div>
+        <div class="card-desc">Write a formula for the nth term T(n). Select sequence type then practice.</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+          <button class="btn btn-sm" id="sq-mode-lin" onclick="setSqMode('lin')" style="background:var(--blue);color:white;">Linear</button>
+          <button class="btn btn-sm btn-secondary" id="sq-mode-quad" onclick="setSqMode('quad')">Quadratic <span class="badge badge-ext" style="font-size:0.65rem;">Ext</span></button>
+          <button class="btn btn-sm btn-secondary" id="sq-mode-geo" onclick="setSqMode('geo')">Geometric</button>
+        </div>
+        <div id="sq-nth-seq" class="expr-display" style="font-size:1.2rem;">Loading…</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <label style="font-size:0.85rem;">T(n) = </label>
+          <input type="text" id="sq-nth-input" class="inp-md" placeholder="e.g. 3n + 1" onkeydown="if(event.key==='Enter')sqNthCheck()">
+          <button class="btn btn-primary" onclick="sqNthCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="sqNthHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="sqNthNew()">Next →</button>
+        </div>
+        <div id="sq-nth-feedback" class="feedback"></div>
+        <ul id="sq-nth-hints" class="hint-list"></ul>
+      </div>
+
+      <!-- Term finder -->
+      <div class="card">
+        <div class="card-title">🎯 Find Term Number</div>
+        <div class="card-desc">Given the nth term formula, find which term number equals the given value.</div>
+        <div id="sq-find-question" style="background:var(--slate);padding:16px;border-radius:8px;margin-bottom:12px;font-size:0.92rem;"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <label style="font-size:0.85rem;">n = </label>
+          <input type="number" id="sq-find-input" class="inp-sm" onkeydown="if(event.key==='Enter')sqFindCheck()">
+          <button class="btn btn-primary" onclick="sqFindCheck()">Check ✓</button>
+          <button class="btn btn-secondary btn-sm" onclick="sqFindNew()">Next →</button>
+        </div>
+        <div id="sq-find-feedback" class="feedback"></div>
+      </div>
+    </section>
+    <!-- ============================================================
+         MODULE 8 — TRAVEL GRAPHS (C2.9 / E2.9)
+         ============================================================ -->
+    <section class="module" id="mod-8">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 → <span>Module 8</span></div>
+        <h1>🚗 Travel Graphs</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C2.9 / E2.9 — Graphs in Practical Situations</h2>
+        <div class="pc-meta">Distance–time · Speed–time · Gradient = speed · Area = distance</div>
+        <div class="prog-track"><div class="prog-fill" id="tg-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="tg-correct">0</strong> correct</div>
+          <div><strong id="tg-streak">0</strong> streak</div>
+          <div><strong id="tg-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-8">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Travel Graphs</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Reading gradient as rise not rise/run — forgetting to divide by the time interval</li>
+                <li>Flat section of d–t graph means "stopped" not "constant speed"</li>
+                <li>Area under v–t graph gives distance, not just "area"</li>
+                <li>Negative gradient on d–t = returning, not negative speed</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Speed = gradient: always write gradient = Δy/Δx, with units km/h</li>
+                <li>Split v–t graph into trapezoids/triangles to calculate area</li>
+                <li>Sketch: label axes with units before drawing</li>
+                <li>Connect to real journey: bus stop, station, turnaround</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Distance-time canvas -->
+      <div class="card">
+        <div class="card-title">🚗 Distance–Time Graph Reader</div>
+        <div class="card-desc">Read the graph and answer the questions. Click "New Scenario" to generate a different journey.</div>
+        <div class="canvas-wrap">
+          <canvas id="dt-canvas" width="480" height="320"></canvas>
+        </div>
+        <div id="dt-questions" style="margin-top:12px;"></div>
+        <button class="btn btn-secondary btn-sm" onclick="dtNew()" style="margin-top:10px;">🔄 New Journey</button>
+        <div id="dt-feedback" class="feedback"></div>
+      </div>
+
+      <!-- Key formulae card -->
+      <div class="card">
+        <div class="card-title">📋 Key Formulae</div>
+        <table class="tbl">
+          <thead><tr><th>Formula</th><th>From Graph</th><th>Units</th></tr></thead>
+          <tbody>
+            <tr><td>Speed = Distance / Time</td><td>Gradient of d–t graph</td><td>km/h, m/s</td></tr>
+            <tr><td>Distance = Speed × Time</td><td>Area under v–t graph</td><td>km, m</td></tr>
+            <tr><td>Acceleration = Δv / Δt</td><td>Gradient of v–t graph</td><td>m/s²</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Speed calculation drill -->
+      <div class="card">
+        <div class="card-title">⚡ Speed/Time/Distance Drill</div>
+        <div class="card-desc">Calculate the missing value. Give answers to 3 s.f. where needed.</div>
+        <div id="std-question" style="background:var(--slate);padding:16px;border-radius:8px;margin-bottom:12px;font-size:0.92rem;line-height:1.7;"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <input type="number" id="std-input" class="inp-sm" step="any" onkeydown="if(event.key==='Enter')stdCheck()">
+          <span id="std-unit" style="font-size:0.88rem;color:var(--muted);"></span>
+          <button class="btn btn-primary" onclick="stdCheck()">Check ✓</button>
+          <button class="btn btn-secondary btn-sm" onclick="stdNew()">Next →</button>
+        </div>
+        <div id="std-feedback" class="feedback"></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 9 — FUNCTION GRAPHER (C2.10 / E2.10)
+         ============================================================ -->
+    <section class="module" id="mod-9">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 → <span>Module 9</span></div>
+        <h1>📈 Function Grapher</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C2.10 / E2.10 — Graphs of Functions</h2>
+        <div class="pc-meta">Tables of values · Plot points · Interpret linear &amp; non-linear graphs</div>
+        <div class="prog-track"><div class="prog-fill" id="fg-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="fg-correct">0</strong> correct</div>
+          <div><strong id="fg-streak">0</strong> streak</div>
+          <div><strong id="fg-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-9">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Function Grapher</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Joining points with straight lines on a curve (should be smooth)</li>
+                <li>Plotting (x, y) reversed — mixing up which axis is which</li>
+                <li>y-intercept confused with x-intercept</li>
+                <li>Gradient read as positive when line goes top-left to bottom-right</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Always complete the table of values before plotting</li>
+                <li>Use at least 5 points for curves; check the turning point</li>
+                <li>Gradient: count squares carefully — rise over run</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive grapher -->
+      <div class="card">
+        <div class="card-title">📊 Interactive Graph Plotter</div>
+        <div class="card-desc">Select a function type, complete the table, then see the graph plotted.</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+          <button class="btn btn-sm" id="fg-mode-lin" onclick="setFgMode('lin')" style="background:var(--blue);color:white;">Linear y=mx+c</button>
+          <button class="btn btn-sm btn-secondary" id="fg-mode-quad" onclick="setFgMode('quad')">Quadratic y=ax²+bx+c</button>
+          <button class="btn btn-sm btn-secondary" id="fg-mode-recip" onclick="setFgMode('recip')">Reciprocal y=k/x</button>
+        </div>
+        <div id="fg-func-display" style="font-size:1.1rem;font-family:var(--font-mono);text-align:center;padding:12px;background:var(--slate);border-radius:8px;margin-bottom:14px;color:var(--navy);"></div>
+        <!-- Table of values -->
+        <div style="overflow-x:auto;">
+          <table class="tbl" id="fg-table" style="min-width:400px;"></table>
+        </div>
+        <button class="btn btn-success" onclick="fgPlot()" style="margin-top:10px;">📈 Plot Graph</button>
+        <button class="btn btn-secondary btn-sm" onclick="fgNew()" style="margin-top:10px;">🔄 New Function</button>
+        <div class="canvas-wrap" style="margin-top:14px;">
+          <canvas id="fg-canvas" width="480" height="360"></canvas>
+        </div>
+        <div id="fg-feedback" class="feedback"></div>
+      </div>
+
+      <!-- Reading the graph -->
+      <div class="card">
+        <div class="card-title">🔍 Read the Graph</div>
+        <div class="card-desc">Answer questions about gradient, intercepts, and roots from a drawn graph.</div>
+        <div id="rg-question" style="background:var(--slate);padding:16px;border-radius:8px;margin-bottom:12px;font-size:0.92rem;"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <input type="number" id="rg-input" class="inp-sm" step="any" onkeydown="if(event.key==='Enter')rgCheck()">
+          <button class="btn btn-primary" onclick="rgCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="rgHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="rgNew()">Next →</button>
+        </div>
+        <div id="rg-feedback" class="feedback"></div>
+        <ul id="rg-hints" class="hint-list"></ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 10 — CURVE SKETCHER (C2.11 / E2.11)
+         ============================================================ -->
+    <section class="module" id="mod-10">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 → <span>Module 10</span></div>
+        <h1>✏️ Curve Sketcher</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C2.11 / E2.11 — Sketching Curves</h2>
+        <div class="pc-meta">Recognise &amp; sketch: linear, quadratic, cubic, reciprocal, exponential</div>
+        <div class="prog-track"><div class="prog-fill" id="cs-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="cs-correct">0</strong> correct</div>
+          <div><strong id="cs-streak">0</strong> streak</div>
+          <div><strong id="cs-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-10">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Curve Sketcher</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Sketching a quadratic as a V-shape instead of smooth parabola</li>
+                <li>Reciprocal y=1/x: forgetting it has two branches, never touches axes</li>
+                <li>Exponential y=aˣ: drawing it crossing the x-axis (it doesn't)</li>
+                <li>Cubic: drawing it going up on both sides</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>For each type: mark asymptotes, intercepts, turning points first</li>
+                <li>Recognise by equation: highest power = degree of curve</li>
+                <li>Flashcard approach: shape ↔ equation ↔ key features</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Curve recognition quiz -->
+      <div class="card">
+        <div class="card-title">🔍 Curve Recognition</div>
+        <div class="card-desc">Look at the sketched graph below and identify what type of function it shows.</div>
+        <div class="canvas-wrap">
+          <canvas id="cs-canvas" width="400" height="300"></canvas>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;" id="cs-options"></div>
+        <div id="cs-feedback" class="feedback" style="margin-top:10px;"></div>
+        <button class="btn btn-secondary btn-sm" onclick="csNew()" style="margin-top:10px;">Next Curve →</button>
+      </div>
+
+      <!-- Key features reference -->
+      <div class="card">
+        <div class="card-title">📋 Curve Type Reference</div>
+        <table class="tbl">
+          <thead><tr><th>Equation</th><th>Shape</th><th>Key Features</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">y = mx + c</td><td>Straight line</td><td>Gradient m, y-intercept c</td></tr>
+            <tr><td class="mono">y = ax² + bx + c</td><td>Parabola (∪ or ∩)</td><td>Turning point, axis of symmetry, up if a&gt;0</td></tr>
+            <tr><td class="mono">y = ax³ + …</td><td>Cubic (S-shape)</td><td>One turning each way, a&gt;0 → rises left to right</td></tr>
+            <tr><td class="mono">y = k/x</td><td>Hyperbola (2 branches)</td><td>Asymptotes x=0, y=0; never touches axes</td></tr>
+            <tr><td class="mono">y = aˣ (a&gt;1)</td><td>Exponential growth</td><td>y-intercept (0,1), always positive, asymptote y=0</td></tr>
+            <tr><td class="mono">y = a⁻ˣ (a&gt;1)</td><td>Exponential decay</td><td>Reflection of aˣ in y-axis</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Feature identification -->
+      <div class="card">
+        <div class="card-title">🎯 Identify Key Features</div>
+        <div class="card-desc">Given the equation, answer questions about key features of the curve.</div>
+        <div id="kf-question" style="background:var(--slate);padding:16px;border-radius:8px;margin-bottom:12px;font-size:0.92rem;line-height:1.7;"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <input type="text" id="kf-input" class="inp-md" placeholder="Your answer" onkeydown="if(event.key==='Enter')kfCheck()">
+          <button class="btn btn-primary" onclick="kfCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="kfHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="kfNew()">Next →</button>
+        </div>
+        <div id="kf-feedback" class="feedback"></div>
+        <ul id="kf-hints" class="hint-list"></ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 11 — ALGEBRAIC FRACTIONS (E2.3 — Extended only)
+         ============================================================ -->
+    <section class="module" id="mod-11">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 → <span>Module 11</span></div>
+        <h1>🧮 Algebraic Fractions <span class="badge badge-ext" style="font-size:0.75rem;vertical-align:middle;">Extended</span></h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>E2.3 — Algebraic Fractions</h2>
+        <div class="pc-meta">Simplify · Add/subtract · Multiply/divide · Solve equations with fractions</div>
+        <div class="prog-track"><div class="prog-fill" id="af-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="af-correct">0</strong> correct</div>
+          <div><strong id="af-streak">0</strong> streak</div>
+          <div><strong id="af-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-11">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Algebraic Fractions</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Cancelling incorrectly: (x+2)/(x+3) → 2/3 (only cancel factors, not terms)</li>
+                <li>Adding fractions by adding tops and bottoms: a/b + c/d ≠ (a+c)/(b+d)</li>
+                <li>Not factorising before simplifying</li>
+                <li>Forgetting to restrict domain when denominator = 0</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Always factorise first, then cancel common factors</li>
+                <li>Adding: find LCD, rewrite each fraction, then add numerators</li>
+                <li>Solving: multiply through by LCD to clear denominators</li>
+                <li>Check: substitute a number to verify both sides match</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">✂️ Simplify Algebraic Fractions</div>
+        <div class="card-desc">Fully simplify by factorising and cancelling common factors.</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+          <button class="btn btn-sm" id="af-mode-simp" onclick="setAfMode('simp')" style="background:var(--blue);color:white;">Simplify</button>
+          <button class="btn btn-sm btn-secondary" id="af-mode-add" onclick="setAfMode('add')">Add/Subtract</button>
+          <button class="btn btn-sm btn-secondary" id="af-mode-mult" onclick="setAfMode('mult')">Multiply/Divide</button>
+        </div>
+        <div id="af-expr" class="expr-display" style="font-size:1.2rem;">Loading…</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <input type="text" id="af-input" class="inp-lg" placeholder="Simplified form" style="max-width:340px;" onkeydown="if(event.key==='Enter')afCheck()">
+          <button class="btn btn-primary" onclick="afCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="afHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="afNew()">Next →</button>
+        </div>
+        <div id="af-feedback" class="feedback"></div>
+        <ul id="af-hints" class="hint-list"></ul>
+      </div>
+    </section>
+    <!-- ============================================================
+         MODULE 12 — PROPORTION (E2.8 — Extended)
+         ============================================================ -->
+    <section class="module" id="mod-12">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 → <span>Module 12</span></div>
+        <h1>∝ Proportion <span class="badge badge-ext" style="font-size:0.75rem;vertical-align:middle;">Extended</span></h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>E2.8 — Direct &amp; Inverse Proportion</h2>
+        <div class="pc-meta">y ∝ x · y ∝ x² · y ∝ 1/x · y ∝ √x · Find k, find missing values</div>
+        <div class="prog-track"><div class="prog-fill" id="pr-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="pr-correct">0</strong> correct</div>
+          <div><strong id="pr-streak">0</strong> streak</div>
+          <div><strong id="pr-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-12">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Proportion</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Direct proportion: assuming y ∝ x always means y = x (forgetting k)</li>
+                <li>Inverse proportion: thinking y = −kx instead of y = k/x</li>
+                <li>Not substituting to find k before using the formula</li>
+                <li>y ∝ x² vs y ∝ √x — confusing which relationship applies</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Always write y = kf(x) first, then substitute known values to find k</li>
+                <li>Direct: as x increases, y increases (k > 0)</li>
+                <li>Inverse: as x increases, y decreases; product xy = constant</li>
+                <li>Verify with a second pair of values</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reference table -->
+      <div class="card">
+        <div class="card-title">📋 Proportion Types</div>
+        <table class="tbl">
+          <thead><tr><th>Statement</th><th>Equation</th><th>Graph Shape</th></tr></thead>
+          <tbody>
+            <tr><td>y is directly proportional to x</td><td class="mono">y = kx</td><td>Straight line through origin</td></tr>
+            <tr><td>y is proportional to x²</td><td class="mono">y = kx²</td><td>Parabola through origin</td></tr>
+            <tr><td>y is proportional to √x</td><td class="mono">y = k√x</td><td>Square root curve</td></tr>
+            <tr><td>y is inversely proportional to x</td><td class="mono">y = k/x</td><td>Hyperbola</td></tr>
+            <tr><td>y is inversely proportional to x²</td><td class="mono">y = k/x²</td><td>Steeper hyperbola</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Drill -->
+      <div class="card">
+        <div class="card-title">⚡ Proportion Drill</div>
+        <div class="card-desc">Find the constant of proportionality k, then use it to find the missing value.</div>
+        <div id="pr-question" style="background:var(--slate);padding:16px;border-radius:8px;margin-bottom:12px;font-size:0.92rem;line-height:1.8;"></div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;">
+          <div>
+            <label style="font-size:0.85rem;">k = </label>
+            <input type="number" id="pr-k" class="inp-sm" step="any">
+          </div>
+          <div>
+            <label id="pr-find-label" style="font-size:0.85rem;">Find value = </label>
+            <input type="number" id="pr-find" class="inp-sm" step="any">
+          </div>
+          <button class="btn btn-primary" onclick="prCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="prHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="prNew()">Next →</button>
+        </div>
+        <div id="pr-feedback" class="feedback"></div>
+        <ul id="pr-hints" class="hint-list"></ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 13 — DIFFERENTIATION (E2.12 — Extended)
+         ============================================================ -->
+    <section class="module" id="mod-13">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 → <span>Module 13</span></div>
+        <h1>∂ Differentiation <span class="badge badge-ext" style="font-size:0.75rem;vertical-align:middle;">Extended</span></h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>E2.12 — Differentiation</h2>
+        <div class="pc-meta">dy/dx · Stationary points · Maximum &amp; minimum · Second derivative</div>
+        <div class="prog-track"><div class="prog-fill" id="diff-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="diff-correct">0</strong> correct</div>
+          <div><strong id="diff-streak">0</strong> streak</div>
+          <div><strong id="diff-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-13">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Differentiation</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>d/dx of a constant = the constant itself (should be 0)</li>
+                <li>Power rule: bringing down the power but not reducing it by 1</li>
+                <li>Thinking dy/dx = 0 always means maximum (need to check second derivative)</li>
+                <li>Differentiating y = 3 → 3 instead of 0</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Power rule: "multiply by power, reduce power by 1" — drill this mechanically first</li>
+                <li>dy/dx = 0 → find x; then use d²y/dx² to classify</li>
+                <li>d²y/dx² > 0 = minimum (smile shape); < 0 = maximum (frown)</li>
+                <li>Connect to gradient: dy/dx at a point = gradient of tangent there</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Power rule reference -->
+      <div class="card">
+        <div class="card-title">📜 Differentiation Rules</div>
+        <table class="tbl">
+          <thead><tr><th>y =</th><th>dy/dx =</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">axⁿ</td><td class="mono">naxⁿ⁻¹</td><td>5x³ → 15x²</td></tr>
+            <tr><td class="mono">c (constant)</td><td class="mono">0</td><td>7 → 0</td></tr>
+            <tr><td class="mono">f(x) + g(x)</td><td class="mono">f'(x) + g'(x)</td><td>x² + 3x → 2x + 3</td></tr>
+            <tr><td class="mono">ax</td><td class="mono">a</td><td>4x → 4</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Differentiation drill -->
+      <div class="card">
+        <div class="card-title">⚡ Differentiation Drill</div>
+        <div class="card-desc">Find dy/dx for the given function.</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+          <button class="btn btn-sm" id="diff-mode-basic" onclick="setDiffMode('basic')" style="background:var(--blue);color:white;">Basic power rule</button>
+          <button class="btn btn-sm btn-secondary" id="diff-mode-poly" onclick="setDiffMode('poly')">Polynomial</button>
+          <button class="btn btn-sm btn-secondary" id="diff-mode-stat" onclick="setDiffMode('stat')">Stationary points</button>
+        </div>
+        <div id="diff-expr" class="expr-display">Loading…</div>
+        <div id="diff-stat-question" style="display:none;font-size:0.9rem;color:var(--muted);margin:8px 0;"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <input type="text" id="diff-input" class="inp-md" placeholder="dy/dx = …" onkeydown="if(event.key==='Enter')diffCheck()">
+          <button class="btn btn-primary" onclick="diffCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="diffHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="diffNew()">Next →</button>
+        </div>
+        <div id="diff-feedback" class="feedback"></div>
+        <ul id="diff-hints" class="hint-list"></ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 14 — FUNCTIONS (E2.13 — Extended)
+         ============================================================ -->
+    <section class="module" id="mod-14">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 → <span>Module 14</span></div>
+        <h1>𝑓 Functions <span class="badge badge-ext" style="font-size:0.75rem;vertical-align:middle;">Extended</span></h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>E2.13 — Functions</h2>
+        <div class="pc-meta">Function notation · Domain &amp; range · Inverse · Composite functions</div>
+        <div class="prog-track"><div class="prog-fill" id="fn-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="fn-correct">0</strong> correct</div>
+          <div><strong id="fn-streak">0</strong> streak</div>
+          <div><strong id="fn-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-14">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Functions</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>f⁻¹(x) means 1/f(x) — it's the inverse function, not the reciprocal</li>
+                <li>fg(x) means f(x) × g(x) — it's f(g(x)), composite</li>
+                <li>Applying operations in wrong order for composite functions</li>
+                <li>Domain restrictions: not checking for division by zero or √ of negative</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Inverse: replace f(x) with y, swap x and y, rearrange for y</li>
+                <li>Composite fg(x): apply g first, then f to the result</li>
+                <li>Domain: list all x values that make the function undefined</li>
+                <li>Flowchart method for inverse — reverse the operations</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔧 Functions Drill</div>
+        <div class="card-desc">Select a skill and practise function notation.</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+          <button class="btn btn-sm" id="fn-mode-eval" onclick="setFnMode('eval')" style="background:var(--blue);color:white;">Evaluate f(a)</button>
+          <button class="btn btn-sm btn-secondary" id="fn-mode-comp" onclick="setFnMode('comp')">Composite fg(x)</button>
+          <button class="btn btn-sm btn-secondary" id="fn-mode-inv" onclick="setFnMode('inv')">Inverse f⁻¹(x)</button>
+        </div>
+        <div id="fn-question" style="background:var(--slate);padding:16px;border-radius:8px;margin-bottom:12px;font-size:0.92rem;line-height:1.8;"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <input type="text" id="fn-input" class="inp-md" placeholder="Your answer" onkeydown="if(event.key==='Enter')fnCheck()">
+          <button class="btn btn-primary" onclick="fnCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="fnHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="fnNew()">Next →</button>
+        </div>
+        <div id="fn-feedback" class="feedback"></div>
+        <ul id="fn-hints" class="hint-list"></ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 15 — EXAM CHALLENGE
+         ============================================================ -->
+    <section class="module" id="mod-15">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 2 → <span>Module 15</span></div>
+        <h1>🏆 Exam Challenge</h1>
+      </div>
+
+      <div class="progress-card" style="background:linear-gradient(135deg,#7c3aed,#1a56db);">
+        <h2>Mixed Topic 2 Questions</h2>
+        <div class="pc-meta">Cambridge-style exam questions across all Algebra &amp; Graphs topics</div>
+        <div class="prog-track"><div class="prog-fill" id="ec-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="ec-correct">0</strong> / <strong id="ec-total">10</strong> correct</div>
+          <div><strong id="ec-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🎯 Exam Question</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+          <span id="ec-badge" class="badge badge-core">Core</span>
+          <span id="ec-topic" style="font-size:0.8rem;color:var(--muted);align-self:center;"></span>
+          <span id="ec-marks" style="font-size:0.8rem;color:var(--muted);align-self:center;"></span>
+        </div>
+        <div id="ec-question" style="font-size:0.96rem;line-height:1.8;margin-bottom:16px;padding:16px;background:var(--slate);border-radius:8px;"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <input type="text" id="ec-input" class="inp-lg" placeholder="Your answer" style="max-width:360px;" onkeydown="if(event.key==='Enter')ecCheck()">
+          <button class="btn btn-primary" onclick="ecCheck()">Submit ✓</button>
+          <button class="btn btn-hint" onclick="ecHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="ecSkip()">Skip →</button>
+        </div>
+        <div id="ec-feedback" class="feedback"></div>
+        <ul id="ec-hints" class="hint-list"></ul>
+      </div>
+
+      <div class="card" id="ec-results" style="display:none;">
+        <div class="card-title">📊 Session Results</div>
+        <div id="ec-results-body"></div>
+        <button class="btn btn-purple" onclick="ecRestart()" style="margin-top:14px;">🔄 New Challenge</button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+/* ================================================================
+   NAVIGATION & TEACHER MODE
+   ================================================================ */
+let teacherMode = false;
+let sidebarCollapsed = false;
+const TOTAL_MODULES = 16;
+
+function showModule(n) {
+  document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  document.getElementById('mod-' + n).classList.add('active');
+  document.querySelectorAll('.nav-item')[n].classList.add('active');
+  document.getElementById('contentArea').scrollTo({ top: 0, behavior: 'smooth' });
+  closeMobileNav();
+  // init module on first visit
+  if (n === 0 && !window._eb_init) { ebNew(); cfNew(); window._eb_init = true; }
+  if (n === 1 && !window._as_init) { ltNew(); expNew(); window._as_init = true; }
+  if (n === 2 && !window._fl_init) { setFactMode('hcf'); ctsNew(); window._fl_init = true; }
+  if (n === 3 && !window._ix_init) { setIxMode('basic'); window._ix_init = true; }
+  if (n === 4 && !window._eq_init) { setEqMode('lin'); window._eq_init = true; }
+  if (n === 5 && !window._fr_init) { setFrMode('simple'); frNew(); window._fr_init = true; }
+  if (n === 6 && !window._iq_init) { iqNew(); isNew(); window._iq_init = true; }
+  if (n === 7 && !window._sq_init) { sqNextNew(); setSqMode('lin'); sqFindNew(); window._sq_init = true; }
+  if (n === 8 && !window._tg_init) { dtNew(); stdNew(); window._tg_init = true; }
+  if (n === 9 && !window._fg_init) { setFgMode('lin'); rgNew(); window._fg_init = true; }
+  if (n === 10 && !window._cs_init) { csNew(); kfNew(); window._cs_init = true; }
+  if (n === 11 && !window._af_init) { setAfMode('simp'); window._af_init = true; }
+  if (n === 12 && !window._pr_init) { prNew(); window._pr_init = true; }
+  if (n === 13 && !window._diff_init) { setDiffMode('basic'); window._diff_init = true; }
+  if (n === 14 && !window._fn_init) { setFnMode('eval'); window._fn_init = true; }
+  if (n === 15 && !window._ec_init) { ecStart(); window._ec_init = true; }
+}
+
+function toggleTeacherMode() {
+  teacherMode = !teacherMode;
+  document.getElementById('teacherToggle').classList.toggle('active', teacherMode);
+  document.querySelectorAll('.teacher-panel').forEach(p => p.classList.toggle('visible', teacherMode));
+}
+
+function toggleSidebar() {
+  sidebarCollapsed = !sidebarCollapsed;
+  document.getElementById('sidebar').classList.toggle('collapsed', sidebarCollapsed);
+  document.getElementById('collapseBtn').textContent = sidebarCollapsed ? '▶' : '◀';
+}
+
+function toggleMobileNav() {
+  document.getElementById('sidebar').classList.toggle('mobile-open');
+  document.getElementById('overlay').classList.toggle('visible');
+}
+
+function closeMobileNav() {
+  document.getElementById('sidebar').classList.remove('mobile-open');
+  document.getElementById('overlay').classList.remove('visible');
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeMobileNav();
+});
+
+/* ================================================================
+   UTILITY HELPERS
+   ================================================================ */
+function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a; }
+
+function showFeedback(id, msg, type) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'feedback show fb-' + type;
+}
+
+function showHints(id, hints) {
+  const el = document.getElementById(id);
+  el.innerHTML = '<strong style="font-size:0.8rem;color:var(--muted);">💡 Hints:</strong><br>' +
+    hints.map(h => `<li>${h}</li>`).join('');
+  el.className = 'hint-list show';
+}
+
+function updateProgress(prefix, correct, attempts) {
+  const pct = attempts ? Math.round(correct / attempts * 100) : 0;
+  const prog = document.getElementById(prefix + '-prog');
+  if (prog) prog.style.width = Math.min(pct, 100) + '%';
+  ['correct','streak','pct'].forEach(k => {
+    const el = document.getElementById(prefix + '-' + k);
+    if (el && k === 'pct') el.textContent = pct + '%';
+  });
+}
+
+function normaliseAlg(s) {
+  // normalise algebraic answer: remove spaces, lowercase, sort terms
+  return s.replace(/\s+/g, '').toLowerCase();
+}
+
+/* ================================================================
+   MODULE 0 — EXPRESSION BUILDER
+   ================================================================ */
+let ebState = { correct: 0, attempts: 0, streak: 0, q: null };
+
+const EB_TEMPLATES = [
+  // { fn: () => generate question, ans: number, hints: [] }
+  () => {
+    const a = rnd(1,6), b = rnd(-5,5), x = rnd(-4,4), y = rnd(-4,4);
+    const sign = b >= 0 ? '+' : '';
+    return {
+      expr: `${a}x ${sign} ${b}y`,
+      vals: `x = ${x}, y = ${y}`,
+      ans: a*x + b*y,
+      hints: [
+        `Replace x with (${x}) and y with (${y})`,
+        `= ${a} × (${x}) ${b >= 0 ? '+' : ''} ${b} × (${y})`,
+        `= ${a*x} + ${b*y}`,
+        `= ${a*x + b*y}`
+      ]
+    };
+  },
+  () => {
+    const a = rnd(1,5), x = pick([-3,-2,-1,1,2,3,4]);
+    return {
+      expr: `${a}x²`,
+      vals: `x = ${x}`,
+      ans: a*x*x,
+      hints: [
+        `Replace x with (${x})`,
+        `= ${a} × (${x})²`,
+        `= ${a} × ${x*x}`,
+        `= ${a*x*x}`
+      ]
+    };
+  },
+  () => {
+    const a = rnd(2,5), b = rnd(1,4), c = rnd(-6,6), x = rnd(-3,3);
+    const sign = c >= 0 ? '+' : '';
+    return {
+      expr: `${a}x² ${sign === '+' ? '+' : ''} ${c >= 0 ? c : c}`,
+      vals: `x = ${x}`,
+      ans: a*x*x + c,
+      hints: [
+        `Replace x with (${x})`,
+        `= ${a} × (${x})² + ${c}`,
+        `= ${a} × ${x*x} + ${c}`,
+        `= ${a*x*x + c}`
+      ]
+    };
+  },
+  () => {
+    const p = rnd(1,4), q = rnd(1,4), x = rnd(-3,3), y = rnd(-3,3);
+    return {
+      expr: `${p}x² + ${q}y²`,
+      vals: `x = ${x}, y = ${y}`,
+      ans: p*x*x + q*y*y,
+      hints: [
+        `Substitute (${x}) for x and (${y}) for y`,
+        `= ${p}×(${x})² + ${q}×(${y})²`,
+        `= ${p*x*x} + ${q*y*y}`,
+        `= ${p*x*x + q*y*y}`
+      ]
+    };
+  },
+  () => {
+    const a = rnd(1,5), b = rnd(-4,4), x = rnd(-4,4);
+    const sign = b >= 0 ? '+' : '';
+    return {
+      expr: `(${a}x ${sign} ${b})²`,
+      vals: `x = ${x}`,
+      ans: (a*x + b) ** 2,
+      hints: [
+        `First evaluate inside the bracket: ${a}×(${x}) + ${b} = ${a*x+b}`,
+        `Then square the result: (${a*x+b})² = ${(a*x+b)**2}`
+      ]
+    };
+  }
+];
+
+function ebNew() {
+  const gen = pick(EB_TEMPLATES);
+  const q = gen();
+  ebState.q = q;
+  document.getElementById('eb-question').innerHTML =
+    `Evaluate <span class="highlight">${q.expr}</span> when <span class="sub-val">${q.vals}</span>`;
+  document.getElementById('eb-input').value = '';
+  document.getElementById('eb-feedback').className = 'feedback';
+  document.getElementById('eb-hints').className = 'hint-list';
+  document.getElementById('eb-input').focus();
+}
+
+function ebCheck() {
+  const ans = parseFloat(document.getElementById('eb-input').value);
+  if (isNaN(ans)) { showFeedback('eb-feedback', 'Please enter a number.', 'warning'); return; }
+  ebState.attempts++;
+  if (ans === ebState.q.ans) {
+    ebState.correct++;
+    ebState.streak++;
+    showFeedback('eb-feedback', `✅ Correct! The answer is ${ebState.q.ans}.`, 'correct');
+    updateEbScores();
+    setTimeout(ebNew, 1400);
+  } else {
+    ebState.streak = 0;
+    showFeedback('eb-feedback', `❌ Not quite. You got ${ans}, expected ${ebState.q.ans}. Check your substitution order.`, 'wrong');
+    updateEbScores();
+  }
+}
+
+function ebHint() { showHints('eb-hints', ebState.q.hints); }
+
+function updateEbScores() {
+  document.getElementById('eb-s-correct').textContent = ebState.correct;
+  document.getElementById('eb-s-attempts').textContent = ebState.attempts;
+  document.getElementById('eb-s-streak').textContent = ebState.streak;
+  const pct = ebState.attempts ? Math.round(ebState.correct/ebState.attempts*100) : 0;
+  document.getElementById('eb-prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('eb-correct').textContent = ebState.correct;
+  document.getElementById('eb-streak').textContent = ebState.streak;
+  document.getElementById('eb-pct').textContent = pct + '%';
+}
+
+/* Construct a formula */
+const CF_QUESTIONS = [
+  { q: 'A taxi charges a fixed cost of £3.50 plus £2 per kilometre. Write a formula for the total cost C in terms of the distance d km.', ans: ['C=3.5+2d','C=2d+3.5','c=3.5+2d','c=2d+3.5'], explain: 'C = 3.50 + 2d  (fixed charge + rate × distance)' },
+  { q: 'A rectangle has length (2x + 1) cm and width x cm. Write a formula for the perimeter P.', ans: ['P=6x+2','P=2(2x+1)+2x','p=6x+2'], explain: 'P = 2(2x+1) + 2x = 6x + 2' },
+  { q: 'The number of tiles T needed to tile a floor of area A m² if each tile covers 0.25 m².', ans: ['T=4A','T=A/0.25','t=4A'], explain: 'T = A ÷ 0.25 = 4A' },
+  { q: 'A phone plan costs £15 per month plus 5p per text. Write a formula for the monthly bill B (in £) if n texts are sent.', ans: ['B=15+0.05n','B=0.05n+15','b=15+0.05n'], explain: 'B = 15 + 0.05n' },
+  { q: 'Write a formula for the nth term of the sequence 4, 7, 10, 13, … (call it T).', ans: ['T=3n+1','T=1+3n','t=3n+1'], explain: 'T = 3n + 1  (starts at 4 when n=1, increases by 3)' }
+];
+let cfIdx = 0;
+
+function cfNew() {
+  cfIdx = rnd(0, CF_QUESTIONS.length - 1);
+  document.getElementById('cf-question').textContent = CF_QUESTIONS[cfIdx].q;
+  document.getElementById('cf-input').value = '';
+  document.getElementById('cf-feedback').className = 'feedback';
+}
+
+function cfCheck() {
+  const raw = document.getElementById('cf-input').value.trim();
+  const norm = raw.replace(/\s+/g,'').toLowerCase();
+  const q = CF_QUESTIONS[cfIdx];
+  if (q.ans.some(a => a === norm)) {
+    showFeedback('cf-feedback', `✅ Correct! ${q.explain}`, 'correct');
+  } else {
+    showFeedback('cf-feedback', `Not quite. Think about: ${q.explain}`, 'wrong');
+  }
+}
+
+/* ================================================================
+   MODULE 1 — ALGEBRA SIMPLIFIER
+   ================================================================ */
+let ltState = { correct: 0, attempts: 0, streak: 0, q: null };
+let expState = { correct: 0, attempts: 0, streak: 0, q: null, mode: 'single' };
+
+/* --- Like Terms --- */
+function ltNew() {
+  const templates = [
+    () => {
+      const a=rnd(1,8),b=rnd(1,6),c=rnd(1,7),d=rnd(1,5);
+      const ra=a+c, rb=b-d;
+      const ans = (rb===0) ? `${ra}x` : rb>0 ? `${ra}x + ${rb}y` : `${ra}x - ${Math.abs(rb)}y`;
+      return { expr: `${a}x + ${b}y + ${c}x - ${d}y`, ans: [ans.replace(/\s/g,'').toLowerCase()],
+        hints: [`Group x terms: ${a}x + ${c}x = ${ra}x`, `Group y terms: ${b}y − ${d}y = ${rb}y`, `Combined: ${ans}`] };
+    },
+    () => {
+      const a=rnd(1,6),b=rnd(1,4),c=rnd(1,5);
+      const ra=a-b, ans = ra===0 ? `${c}` : ra>0 ? `${ra}x² + ${c}` : `-${Math.abs(ra)}x² + ${c}`;
+      return { expr: `${a}x² + ${c} - ${b}x²`, ans: [ans.replace(/\s/g,'').toLowerCase()],
+        hints: [`Collect x² terms: ${a}x² − ${b}x² = ${ra}x²`, `Constant stays: + ${c}`, `Result: ${ans}`] };
+    },
+    () => {
+      const a=rnd(2,6),b=rnd(1,5),c=rnd(1,4),d=rnd(1,3);
+      const ans=`${a+c}x + ${b+d}`;
+      return { expr: `${a}x + ${b} + ${c}x + ${d}`, ans: [ans.replace(/\s/g,'').toLowerCase()],
+        hints: [`x terms: ${a}x + ${c}x = ${a+c}x`, `Constants: ${b} + ${d} = ${b+d}`] };
+    }
+  ];
+  const q = pick(templates)();
+  ltState.q = q;
+  document.getElementById('lt-expr').textContent = q.expr;
+  document.getElementById('lt-input').value = '';
+  document.getElementById('lt-feedback').className = 'feedback';
+  document.getElementById('lt-hints').className = 'hint-list';
+}
+
+function ltCheck() {
+  const raw = document.getElementById('lt-input').value;
+  const norm = normaliseAlg(raw);
+  ltState.attempts++;
+  if (ltState.q.ans.includes(norm)) {
+    ltState.correct++; ltState.streak++;
+    showFeedback('lt-feedback', '✅ Correct! Like terms collected.', 'correct');
+    updateAsProgress();
+    setTimeout(ltNew, 1400);
+  } else {
+    ltState.streak = 0;
+    showFeedback('lt-feedback', `❌ Not quite. Check you only collected like terms (same letter, same power).`, 'wrong');
+    updateAsProgress();
+  }
+}
+function ltHint() { showHints('lt-hints', ltState.q.hints); }
+
+function updateAsProgress() {
+  const total = ltState.correct + expState.correct;
+  const att = ltState.attempts + expState.attempts;
+  const pct = att ? Math.round(total/att*100) : 0;
+  document.getElementById('as-prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('as-correct').textContent = total;
+  document.getElementById('as-streak').textContent = Math.max(ltState.streak, expState.streak);
+  document.getElementById('as-pct').textContent = pct + '%';
+}
+
+/* --- Expand brackets --- */
+function setExpMode(mode) {
+  expState.mode = mode;
+  ['single','double','perfect'].forEach(m => {
+    document.getElementById('exp-mode-' + m).style.background = m === mode ? 'var(--blue)' : '';
+    document.getElementById('exp-mode-' + m).style.color = m === mode ? 'white' : '';
+    document.getElementById('exp-mode-' + m).className = m === mode ? 'btn btn-sm' : 'btn btn-sm btn-secondary';
+  });
+  expNew();
+}
+
+function expNew() {
+  let q;
+  if (expState.mode === 'single') {
+    const a = rnd(2,7), b = rnd(-6,6);
+    const c = rnd(1,5), sign = b >= 0 ? '+' : '';
+    const res1 = a*c, res2 = a*b;
+    const expr = `${a}(${c}x ${sign} ${b})`;
+    const ans = res2 >= 0 ? `${res1}x + ${res2}` : `${res1}x - ${Math.abs(res2)}`;
+    q = { expr, ans: [normaliseAlg(ans)], hints: [
+      `Multiply every term inside by ${a}`,
+      `${a} × ${c}x = ${res1}x`,
+      `${a} × (${b}) = ${res2}`,
+      `Result: ${ans}`
+    ]};
+  } else if (expState.mode === 'double') {
+    const p=rnd(-5,5), q2=rnd(-5,5);
+    const expr = `(x ${p>=0?'+':''}${p})(x ${q2>=0?'+':''}${q2})`;
+    const b = p+q2, c = p*q2;
+    let ans;
+    if (b===0 && c===0) ans = 'x²';
+    else if (b===0) ans = c>0?`x² + ${c}`:`x² - ${Math.abs(c)}`;
+    else if (c===0) ans = b>0?`x² + ${b}x`:`x² - ${Math.abs(b)}x`;
+    else ans = `x²${b>0?' + '+b+'x':' - '+Math.abs(b)+'x'}${c>0?' + '+c:' - '+Math.abs(c)}`;
+    q = { expr, ans: [normaliseAlg(ans)], hints: [
+      'Use FOIL: First, Outer, Inner, Last',
+      `First: x × x = x²`,
+      `Outer: x × ${q2} = ${q2}x`,
+      `Inner: ${p} × x = ${p}x`,
+      `Last: ${p} × ${q2} = ${p*q2}`,
+      `Middle terms: ${q2}x + ${p}x = ${b}x`,
+      `Result: ${ans}`
+    ]};
+  } else { // perfect square
+    const a2=rnd(1,6), sign2=pick(['+','-']), b2=rnd(1,5);
+    const bv = sign2==='+' ? b2 : -b2;
+    const expr = sign2==='+' ? `(x + ${b2})²` : `(x - ${b2})²`;
+    const c2 = bv*bv;
+    const mid = 2*bv;
+    const ans = `x²${mid>0?' + '+mid:''+mid}x${c2>0?' + '+c2:' - '+Math.abs(c2)}`;
+    const ansSafe = `x²${mid>=0?'+'+mid:mid}x${c2>=0?'+'+c2:c2}`;
+    q = { expr, ans: [normaliseAlg(ans), normaliseAlg(ansSafe)], hints: [
+      `(a+b)² = a² + 2ab + b²`,
+      `a = x, b = ${bv}`,
+      `x² + 2(${bv})x + (${bv})²`,
+      `= ${ans}`
+    ]};
+  }
+  expState.q = q;
+  document.getElementById('exp-expr').textContent = q.expr;
+  document.getElementById('exp-input').value = '';
+  document.getElementById('exp-feedback').className = 'feedback';
+  document.getElementById('exp-hints').className = 'hint-list';
+}
+
+function expCheck() {
+  const norm = normaliseAlg(document.getElementById('exp-input').value);
+  expState.attempts++;
+  if (expState.q.ans.includes(norm)) {
+    expState.correct++; expState.streak++;
+    showFeedback('exp-feedback', '✅ Correct expansion!', 'correct');
+    updateAsProgress();
+    setTimeout(expNew, 1400);
+  } else {
+    expState.streak = 0;
+    showFeedback('exp-feedback', '❌ Not quite. Try using FOIL or the distributive law.', 'wrong');
+    updateAsProgress();
+  }
+}
+function expHint() { showHints('exp-hints', expState.q.hints); }
+
+/* ================================================================
+   MODULE 2 — FACTORISATION LAB
+   ================================================================ */
+let flState = { correct: 0, attempts: 0, streak: 0, q: null, mode: 'hcf' };
+let ctsState = { q: null };
+
+function setFactMode(mode) {
+  flState.mode = mode;
+  ['hcf','dos','quad','ax2'].forEach(m => {
+    const btn = document.getElementById('fl-mode-' + m);
+    if (!btn) return;
+    btn.className = m === mode ? 'btn btn-sm' : 'btn btn-sm btn-secondary';
+    btn.style.background = m === mode ? 'var(--blue)' : '';
+    btn.style.color = m === mode ? 'white' : '';
+  });
+  flNew();
+}
+
+function flNew() {
+  let q;
+  if (flState.mode === 'hcf') {
+    const h = rnd(2,6), a = rnd(2,7), b = rnd(1,6);
+    const expr = `${h*a}x + ${h*b}`;
+    const ans1 = `${h}(${a}x+${b})`;
+    const ans2 = `${h}(${a}x + ${b})`;
+    q = { expr, ans: [normaliseAlg(ans1), normaliseAlg(ans2)], hints: [
+      `Find the HCF of ${h*a} and ${h*b}: it's ${h}`,
+      `Factor out ${h}: ${h}(? + ?)`,
+      `${h*a} ÷ ${h} = ${a}, ${h*b} ÷ ${h} = ${b}`,
+      `Answer: ${h}(${a}x + ${b})`
+    ]};
+  } else if (flState.mode === 'dos') {
+    const a = pick([1,2,3,4,5]), b = pick([1,2,3,4,5,6]);
+    const expr = `${a===1?'':(a*a)}x² - ${b*b}`;
+    const fA = a===1?'x':`${a}x`, fB = `${b}`;
+    const ans = `(${fA}+${fB})(${fA}-${fB})`;
+    q = { expr, ans: [normaliseAlg(ans), normaliseAlg(`(${fA}-${fB})(${fA}+${fB})`)], hints: [
+      `Recognise the pattern: a² − b²`,
+      `a = ${fA}, b = ${fB}`,
+      `Formula: (a+b)(a−b)`,
+      `Answer: ${ans}`
+    ]};
+  } else if (flState.mode === 'quad') {
+    // x² + bx + c where b,c are integers, factors exist
+    const pairs = [[-1,-2],[-1,-3],[-1,-4],[1,2],[1,3],[2,3],[1,4],[-2,3],[2,-3],[-1,5],[1,-5]];
+    const [r,s] = pick(pairs);
+    const b = r+s, c = r*s;
+    const expr = `x² ${b>=0?'+ '+b:'- '+Math.abs(b)}x ${c>=0?'+ '+c:'- '+Math.abs(c)}`;
+    const ans = `(x${r>=0?'+'+r:r})(x${s>=0?'+'+s:s})`;
+    const ans2 = `(x${s>=0?'+'+s:s})(x${r>=0?'+'+r:r})`;
+    q = { expr, ans: [normaliseAlg(ans), normaliseAlg(ans2)], hints: [
+      `Find two numbers that multiply to ${c} and add to ${b}`,
+      `Those numbers are ${r} and ${s}`,
+      `Write as (x + ${r})(x + ${s})`,
+      `Verify: expand back → ${expr}`
+    ]};
+  } else { // ax²+bx+c
+    const a2=rnd(2,4), p=rnd(1,4), q2=rnd(-4,-1);
+    const b2=a2*q2+p, c2=p*q2;
+    const expr = `${a2}x² ${b2>=0?'+ '+b2:'- '+Math.abs(b2)}x ${c2>=0?'+ '+c2:'- '+Math.abs(c2)}`;
+    const ans = `(${a2}x${p>=0?'+'+p:p})(x${q2>=0?'+'+q2:q2})`;
+    const ans2 = `(x${q2>=0?'+'+q2:q2})(${a2}x${p>=0?'+'+p:p})`;
+    q = { expr, ans: [normaliseAlg(ans), normaliseAlg(ans2)], hints: [
+      `Multiply a×c = ${a2} × ${c2} = ${a2*c2}`,
+      `Find two numbers that multiply to ${a2*c2} and add to ${b2}`,
+      `Those are ${a2*q2} and ${p} — now split the middle term`,
+      `${a2}x² + ${a2*q2}x + ${p}x + ${c2}`,
+      `Group: ${a2}x(x + ${q2}) + ${p}(x + ${q2})`,
+      `Answer: (${a2}x + ${p})(x + ${q2})`
+    ]};
+  }
+  flState.q = q;
+  document.getElementById('fl-expr').textContent = q.expr;
+  document.getElementById('fl-input').value = '';
+  document.getElementById('fl-feedback').className = 'feedback';
+  document.getElementById('fl-hints').className = 'hint-list';
+}
+
+function flCheck() {
+  const norm = normaliseAlg(document.getElementById('fl-input').value);
+  flState.attempts++;
+  if (flState.q.ans.includes(norm)) {
+    flState.correct++; flState.streak++;
+    showFeedback('fl-feedback', '✅ Correct factorisation!', 'correct');
+    updateFlProgress();
+    setTimeout(flNew, 1400);
+  } else {
+    flState.streak = 0;
+    showFeedback('fl-feedback', '❌ Not quite. Try expanding your answer to check it matches the original.', 'wrong');
+    updateFlProgress();
+  }
+}
+function flHint() { showHints('fl-hints', flState.q.hints); }
+
+function updateFlProgress() {
+  const pct = flState.attempts ? Math.round(flState.correct/flState.attempts*100) : 0;
+  document.getElementById('fl-prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('fl-correct').textContent = flState.correct;
+  document.getElementById('fl-streak').textContent = flState.streak;
+  document.getElementById('fl-pct').textContent = pct + '%';
+}
+
+/* Complete the square */
+function ctsNew() {
+  const b = rnd(-8,8), c = rnd(-10,10);
+  const p = b/2, q = c - (b/2)**2;
+  ctsState.q = { b, c, p, q,
+    expr: `x² ${b>=0?'+ '+b:'- '+Math.abs(b)}x ${c>=0?'+ '+c:'- '+Math.abs(c)}`,
+    hints: [
+      `Halve the coefficient of x: ${b}/2 = ${p}`,
+      `Write (x + ${p})²`,
+      `(x + ${p})² = x² + ${b}x + ${p*p}`,
+      `Adjust constant: ${c} − ${p*p} = ${q}`,
+      `Answer: (x + ${p})² + ${q}, so p = ${p}, q = ${q}`
+    ]
+  };
+  document.getElementById('cts-expr').textContent = ctsState.q.expr;
+  document.getElementById('cts-p').value = '';
+  document.getElementById('cts-q').value = '';
+  document.getElementById('cts-feedback').className = 'feedback';
+  document.getElementById('cts-hints').className = 'hint-list';
+}
+
+function ctsCheck() {
+  const pv = parseFloat(document.getElementById('cts-p').value);
+  const qv = parseFloat(document.getElementById('cts-q').value);
+  const { p, q } = ctsState.q;
+  if (isNaN(pv) || isNaN(qv)) { showFeedback('cts-feedback','Enter both p and q.','warning'); return; }
+  if (Math.abs(pv - p) < 0.001 && Math.abs(qv - q) < 0.001) {
+    showFeedback('cts-feedback', `✅ Correct! (x + ${p})² + ${q}`, 'correct');
+    setTimeout(ctsNew, 1600);
+  } else {
+    showFeedback('cts-feedback', `❌ p should be ${p}, q should be ${q}. Remember: p = b/2, q = c − (b/2)²`, 'wrong');
+  }
+}
+function ctsHint() { showHints('cts-hints', ctsState.q.hints); }
+
+/* ================================================================
+   MODULE 3 — INDICES EXPLORER
+   ================================================================ */
+let ixState = { correct: 0, attempts: 0, streak: 0, q: null, mode: 'basic' };
+
+function setIxMode(mode) {
+  ixState.mode = mode;
+  ['basic','neg','frac','eval'].forEach(m => {
+    const btn = document.getElementById('ix-mode-' + m);
+    if (!btn) return;
+    btn.className = m === mode ? 'btn btn-sm' : 'btn btn-sm btn-secondary';
+    btn.style.background = m === mode ? 'var(--blue)' : '';
+    btn.style.color = m === mode ? 'white' : '';
+  });
+  ixNew();
+}
+
+function ixNew() {
+  let q;
+  const base = pick(['a','x','m','p']);
+  if (ixState.mode === 'basic') {
+    const type = rnd(0,2);
+    if (type === 0) {
+      const m=rnd(2,6),n=rnd(2,6);
+      q = { expr: `${base}^${m} × ${base}^${n}`, ans: [`${base}^${m+n}`,`${base}${m+n}`],
+        hints: [`Multiply same base → add exponents`,`${m} + ${n} = ${m+n}`,`Answer: ${base}^${m+n}`] };
+    } else if (type === 1) {
+      const m=rnd(5,10),n=rnd(2,4);
+      q = { expr: `${base}^${m} ÷ ${base}^${n}`, ans: [`${base}^${m-n}`,`${base}${m-n}`],
+        hints: [`Divide same base → subtract exponents`,`${m} − ${n} = ${m-n}`,`Answer: ${base}^${m-n}`] };
+    } else {
+      const m=rnd(2,5),n=rnd(2,4);
+      q = { expr: `(${base}^${m})^${n}`, ans: [`${base}^${m*n}`,`${base}${m*n}`],
+        hints: [`Power of a power → multiply exponents`,`${m} × ${n} = ${m*n}`,`Answer: ${base}^${m*n}`] };
+    }
+  } else if (ixState.mode === 'neg') {
+    const n=rnd(1,4);
+    const type=rnd(0,1);
+    if (type===0) {
+      q = { expr: `${base}^−${n}`, ans: [`1/${base}^${n}`,`1/${base}${n}`],
+        hints: [`a^−n = 1/aⁿ`,`Answer: 1/${base}^${n}`] };
+    } else {
+      q = { expr: `${base}^0`, ans: ['1'],
+        hints: [`Any non-zero base to the power 0 = 1`,`Answer: 1`] };
+    }
+  } else if (ixState.mode === 'frac') {
+    const n=pick([2,3,4]);
+    const type=rnd(0,1);
+    if (type===0) {
+      q = { expr: `${base}^(1/${n})`, ans: [`${n}√${base}`,`root${n}(${base})`],
+        hints: [`a^(1/n) = ⁿ√a (the nth root)`,`Answer: ${n}√${base}`] };
+    } else {
+      const m2=rnd(2,n-1<2?3:n-1);
+      q = { expr: `${base}^(${m2}/${n})`, ans: [`(${n}√${base})^${m2}`,`${n}root(${base})^${m2}`],
+        hints: [`a^(m/n) = (ⁿ√a)ᵐ`,`Take the ${n}th root first, then raise to the power ${m2}`] };
+    }
+  } else { // evaluate
+    const pairs = [[4,'1/2',2],[8,'1/3',2],[27,'1/3',3],[16,'1/2',4],[9,'1/2',3],[32,'1/5',2],[4,'3/2',8],[8,'2/3',4]];
+    const [base2, exp, ans] = pick(pairs);
+    q = { expr: `${base2}^(${exp})`, ans: [`${ans}`],
+      hints: [
+        `${base2}^(${exp}) means: take the appropriate root, then raise to the power`,
+        `Root: ${exp.includes('1') ? `${exp.split('/')[1]}th root of ${base2}` : 'see exponent'}`,
+        `Answer: ${ans}`
+      ]};
+  }
+  ixState.q = q;
+  document.getElementById('ix-expr').textContent = q.expr;
+  document.getElementById('ix-input').value = '';
+  document.getElementById('ix-feedback').className = 'feedback';
+  document.getElementById('ix-hints').className = 'hint-list';
+}
+
+function ixCheck() {
+  const raw = document.getElementById('ix-input').value.trim();
+  const norm = raw.replace(/\s+/g,'').toLowerCase();
+  ixState.attempts++;
+  if (ixState.q.ans.map(a=>a.toLowerCase().replace(/\s/g,'')).includes(norm)) {
+    ixState.correct++; ixState.streak++;
+    showFeedback('ix-feedback', '✅ Correct! Well done applying the index law.', 'correct');
+    updateIxProgress();
+    setTimeout(ixNew, 1400);
+  } else {
+    ixState.streak = 0;
+    showFeedback('ix-feedback', `❌ Not quite. Check the index law you need to apply.`, 'wrong');
+    updateIxProgress();
+  }
+}
+function ixHint() { showHints('ix-hints', ixState.q.hints); }
+
+function updateIxProgress() {
+  const pct = ixState.attempts ? Math.round(ixState.correct/ixState.attempts*100) : 0;
+  document.getElementById('ix-prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('ix-correct').textContent = ixState.correct;
+  document.getElementById('ix-streak').textContent = ixState.streak;
+  document.getElementById('ix-pct').textContent = pct + '%';
+}
+
+/* ================================================================
+   MODULE 8 — TRAVEL GRAPHS
+   ================================================================ */
+let tgState = { correct: 0, attempts: 0, streak: 0 };
+let dtScenario = null;
+let stdQ = null;
+
+function dtNew() {
+  const canvas = document.getElementById('dt-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = { l: 50, r: 20, t: 20, b: 40 };
+  const gw = W - pad.l - pad.r, gh = H - pad.t - pad.b;
+
+  // Generate a random journey with 3-4 segments
+  const totalTime = pick([60, 90, 120]);
+  const maxDist = pick([30, 40, 50, 60]);
+  const segments = [];
+  let t = 0, d = 0;
+  // Outward
+  const t1 = rnd(20, Math.floor(totalTime*0.4));
+  const d1 = rnd(Math.floor(maxDist*0.5), maxDist);
+  segments.push({ t0: t, d0: d, t1: t + t1, d1: d1 });
+  t += t1; d = d1;
+  // Stop
+  const t2 = rnd(5, 15);
+  segments.push({ t0: t, d0: d, t1: t + t2, d1: d });
+  t += t2;
+  // Return
+  segments.push({ t0: t, d0: d, t1: totalTime, d1: 0 });
+
+  dtScenario = { segments, totalTime, maxDist: d1 };
+
+  // Draw axes
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(pad.l, pad.t, gw, gh);
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.t + (gh * i / 4);
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + gw, y); ctx.stroke();
+    ctx.fillStyle = '#64748b'; ctx.font = '11px sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText((d1 - Math.round(d1*i/4)) + ' km', pad.l - 5, y + 4);
+  }
+  for (let i = 0; i <= 4; i++) {
+    const x = pad.l + (gw * i / 4);
+    ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, pad.t + gh); ctx.stroke();
+    ctx.fillStyle = '#64748b'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(Math.round(totalTime*i/4) + ' min', x, H - 8);
+  }
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, pad.t + gh); ctx.lineTo(pad.l + gw, pad.t + gh); ctx.stroke();
+  // Draw journey
+  ctx.strokeStyle = '#1a56db'; ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  segments.forEach((seg, i) => {
+    const x0 = pad.l + (seg.t0 / totalTime) * gw;
+    const y0 = pad.t + (1 - seg.d0 / d1) * gh;
+    const x1 = pad.l + (seg.t1 / totalTime) * gw;
+    const y1 = pad.t + (1 - seg.d1 / d1) * gh;
+    if (i === 0) ctx.moveTo(x0, y0);
+    ctx.lineTo(x1, y1);
+  });
+  ctx.stroke();
+  // Axis labels
+  ctx.fillStyle = '#0f2044'; ctx.font = 'bold 12px sans-serif';
+  ctx.textAlign = 'center'; ctx.fillText('Time (minutes)', pad.l + gw/2, H - 2);
+  ctx.save(); ctx.translate(12, pad.t + gh/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('Distance from start (km)', 0, 0); ctx.restore();
+
+  // Generate questions about the graph
+  const s0 = segments[0], s1 = segments[1], s2 = segments[2];
+  const speed1 = (s0.d1 / s0.t1 * 60).toFixed(1);
+  const speed3 = (s2.d0 / (s2.t1 - s2.t0) * 60).toFixed(1);
+  const qEls = document.getElementById('dt-questions');
+  qEls.innerHTML = `
+    <div class="two-col" style="gap:12px;margin-top:8px;">
+      <div style="background:var(--slate);padding:12px;border-radius:8px;font-size:0.88rem;">
+        <strong>Q1.</strong> How fast was the person travelling in the first segment?<br>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
+          <input type="number" id="dt-q1" class="inp-sm" step="0.1" placeholder="km/h">
+          <button class="btn btn-sm btn-primary" onclick="dtCheckQ(1, ${speed1})">Check</button>
+        </div>
+        <div id="dt-q1-fb" class="feedback" style="margin-top:6px;font-size:0.8rem;"></div>
+      </div>
+      <div style="background:var(--slate);padding:12px;border-radius:8px;font-size:0.88rem;">
+        <strong>Q2.</strong> How long did the person stop? (minutes)<br>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
+          <input type="number" id="dt-q2" class="inp-sm" placeholder="min">
+          <button class="btn btn-sm btn-primary" onclick="dtCheckQ(2, ${s1.t1 - s1.t0})">Check</button>
+        </div>
+        <div id="dt-q2-fb" class="feedback" style="margin-top:6px;font-size:0.8rem;"></div>
+      </div>
+      <div style="background:var(--slate);padding:12px;border-radius:8px;font-size:0.88rem;">
+        <strong>Q3.</strong> At what speed did they return? (km/h)<br>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
+          <input type="number" id="dt-q3" class="inp-sm" step="0.1" placeholder="km/h">
+          <button class="btn btn-sm btn-primary" onclick="dtCheckQ(3, ${speed3})">Check</button>
+        </div>
+        <div id="dt-q3-fb" class="feedback" style="margin-top:6px;font-size:0.8rem;"></div>
+      </div>
+      <div style="background:var(--slate);padding:12px;border-radius:8px;font-size:0.88rem;">
+        <strong>Q4.</strong> What was the total distance travelled? (km)<br>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
+          <input type="number" id="dt-q4" class="inp-sm" placeholder="km">
+          <button class="btn btn-sm btn-primary" onclick="dtCheckQ(4, ${s0.d1 * 2})">Check</button>
+        </div>
+        <div id="dt-q4-fb" class="feedback" style="margin-top:6px;font-size:0.8rem;"></div>
+      </div>
+    </div>`;
+}
+
+function dtCheckQ(n, ans) {
+  const v = parseFloat(document.getElementById(`dt-q${n}`).value);
+  const fb = document.getElementById(`dt-q${n}-fb`);
+  if (isNaN(v)) { fb.textContent = 'Enter a number.'; fb.className = 'feedback show fb-warning'; return; }
+  tgState.attempts++;
+  if (Math.abs(v - ans) <= Math.abs(ans) * 0.02 + 0.1) {
+    fb.textContent = `✅ Correct! (${ans})`;
+    fb.className = 'feedback show fb-correct';
+    tgState.correct++; tgState.streak++;
+  } else {
+    fb.textContent = `❌ Expected ${ans}. Hint: speed = gradient = distance ÷ time.`;
+    fb.className = 'feedback show fb-wrong';
+    tgState.streak = 0;
+  }
+  updateTgProgress();
+}
+
+function updateTgProgress() {
+  const pct = tgState.attempts ? Math.round(tgState.correct/tgState.attempts*100) : 0;
+  document.getElementById('tg-prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('tg-correct').textContent = tgState.correct;
+  document.getElementById('tg-streak').textContent = tgState.streak;
+  document.getElementById('tg-pct').textContent = pct + '%';
+}
+
+/* Speed/Time/Distance drill */
+const STD_QUESTIONS = [
+  () => { const d=rnd(60,300),s=pick([30,40,50,60,80,90,100]); const t=+(d/s).toFixed(2);
+    return { q:`A car travels <strong>${d} km</strong> at a speed of <strong>${s} km/h</strong>. How long does the journey take?`, ans:t, unit:'hours', hint:`Time = Distance ÷ Speed = ${d} ÷ ${s}` }; },
+  () => { const s=pick([30,40,50,60,80]), t=rnd(1,4); const d=s*t;
+    return { q:`A cyclist rides at <strong>${s} km/h</strong> for <strong>${t} hours</strong>. How far do they travel?`, ans:d, unit:'km', hint:`Distance = Speed × Time = ${s} × ${t}` }; },
+  () => { const d=pick([100,150,200,250,300]), t=pick([2,2.5,4,5]); const s=d/t;
+    return { q:`A train covers <strong>${d} km</strong> in <strong>${t} hours</strong>. What is its average speed?`, ans:s, unit:'km/h', hint:`Speed = Distance ÷ Time = ${d} ÷ ${t}` }; },
+  () => { const s=pick([10,12,15,20]), t=rnd(30,120); const d=+(s*t/60).toFixed(2);
+    return { q:`A runner runs at <strong>${s} km/h</strong> for <strong>${t} minutes</strong>. How far do they run?`, ans:d, unit:'km', hint:`Convert time to hours: ${t}/60. Then Distance = ${s} × ${t}/60` }; }
+];
+
+function stdNew() {
+  const gen = pick(STD_QUESTIONS);
+  stdQ = gen();
+  document.getElementById('std-question').innerHTML = stdQ.q;
+  document.getElementById('std-unit').textContent = stdQ.unit;
+  document.getElementById('std-input').value = '';
+  document.getElementById('std-feedback').className = 'feedback';
+}
+
+function stdCheck() {
+  const v = parseFloat(document.getElementById('std-input').value);
+  tgState.attempts++;
+  if (!isNaN(v) && Math.abs(v - stdQ.ans) <= Math.abs(stdQ.ans) * 0.01 + 0.05) {
+    tgState.correct++; tgState.streak++;
+    showFeedback('std-feedback', `✅ Correct! ${stdQ.ans} ${stdQ.unit}. ${stdQ.hint}`, 'correct');
+    updateTgProgress();
+    setTimeout(stdNew, 2000);
+  } else {
+    tgState.streak = 0;
+    showFeedback('std-feedback', `❌ Expected ${stdQ.ans} ${stdQ.unit}. ${stdQ.hint}`, 'wrong');
+    updateTgProgress();
+  }
+}
+
+/* ================================================================
+   MODULE 9 — FUNCTION GRAPHER
+   ================================================================ */
+let fgState = { correct: 0, attempts: 0, streak: 0, mode: 'lin', fn: null };
+let rgQ = null;
+
+function setFgMode(mode) {
+  fgState.mode = mode;
+  ['lin','quad','recip'].forEach(m => {
+    const btn = document.getElementById('fg-mode-' + m);
+    btn.className = m === mode ? 'btn btn-sm' : 'btn btn-sm btn-secondary';
+    btn.style.background = m === mode ? 'var(--blue)' : '';
+    btn.style.color = m === mode ? 'white' : '';
+  });
+  fgNew();
+}
+
+function fgNew() {
+  let fn, label, xs;
+  if (fgState.mode === 'lin') {
+    const m = rnd(-3,3), c = rnd(-5,5);
+    fn = x => m*x + c;
+    label = `y = ${m===1?'':m===-1?'-':m}x ${c>=0?'+ '+c:'- '+Math.abs(c)}`;
+    xs = [-3,-2,-1,0,1,2,3];
+  } else if (fgState.mode === 'quad') {
+    const a = pick([1,-1,2]), b = rnd(-2,2), c = rnd(-4,4);
+    fn = x => a*x*x + b*x + c;
+    label = `y = ${a===1?'':a===-1?'-':a}x² ${b>=0?'+ '+b:'- '+Math.abs(b)}x ${c>=0?'+ '+c:'- '+Math.abs(c)}`;
+    xs = [-3,-2,-1,0,1,2,3];
+  } else {
+    const k = pick([2,3,4,6,-2,-3]);
+    fn = x => x !== 0 ? k/x : null;
+    label = `y = ${k}/x`;
+    xs = [-4,-2,-1,1,2,4];
+  }
+  fgState.fn = fn;
+  document.getElementById('fg-func-display').textContent = label;
+  // Build table
+  const table = document.getElementById('fg-table');
+  const ys = xs.map(x => fn(x));
+  table.innerHTML = `<thead><tr><th>x</th>${xs.map(x=>`<th>${x}</th>`).join('')}</tr></thead>
+    <tbody><tr><td><strong>y</strong></td>${ys.map(y=>`<td>${y !== null ? y : '—'}</td>`).join('')}</tr></tbody>`;
+  // Clear canvas
+  const canvas = document.getElementById('fg-canvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#f8fafc';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#94a3b8'; ctx.font = '13px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Click "Plot Graph" to draw →', canvas.width/2, canvas.height/2);
+  document.getElementById('fg-feedback').className = 'feedback';
+}
+
+function fgPlot() {
+  const canvas = document.getElementById('fg-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W/2, cy = H/2, scale = 35;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,W,H);
+  // Grid
+  ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1;
+  for (let i = -6; i <= 6; i++) {
+    ctx.beginPath(); ctx.moveTo(cx+i*scale,0); ctx.lineTo(cx+i*scale,H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,cy+i*scale); ctx.lineTo(W,cy+i*scale); ctx.stroke();
+  }
+  // Axes
+  ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(0,cy); ctx.lineTo(W,cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx,0); ctx.lineTo(cx,H); ctx.stroke();
+  // Labels
+  ctx.fillStyle = '#64748b'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+  for (let i = -5; i <= 5; i++) {
+    if (i!==0) {
+      ctx.fillText(i, cx+i*scale, cy+14);
+      ctx.textAlign = 'right';
+      ctx.fillText(i, cx-4, cy-i*scale+4);
+      ctx.textAlign = 'center';
+    }
+  }
+  // Axis labels
+  ctx.fillStyle = '#0f2044'; ctx.font = 'bold 12px sans-serif';
+  ctx.fillText('x', W-10, cy-6);
+  ctx.textAlign = 'left'; ctx.fillText('y', cx+6, 12);
+  // Plot function
+  ctx.strokeStyle = '#1a56db'; ctx.lineWidth = 2.5;
+  if (fgState.mode === 'recip') {
+    // Two branches
+    [[-5.5,-0.1],[0.1,5.5]].forEach(([xMin,xMax]) => {
+      ctx.beginPath();
+      let first = true;
+      for (let x = xMin; x <= xMax; x += 0.05) {
+        const y = fgState.fn(x);
+        if (y === null || Math.abs(y) > 7) { first = true; continue; }
+        const px = cx + x*scale, py = cy - y*scale;
+        if (first) { ctx.moveTo(px,py); first = false; }
+        else ctx.lineTo(px,py);
+      }
+      ctx.stroke();
+    });
+  } else {
+    ctx.beginPath(); let first2 = true;
+    for (let x = -6; x <= 6; x += 0.05) {
+      const y = fgState.fn(x);
+      if (y === null || Math.abs(y) > 7) { first2 = true; continue; }
+      const px = cx + x*scale, py = cy - y*scale;
+      if (first2) { ctx.moveTo(px,py); first2 = false; }
+      else ctx.lineTo(px,py);
+    }
+    ctx.stroke();
+  }
+  showFeedback('fg-feedback', '✅ Graph plotted! Check that the shape matches your table of values.', 'correct');
+  fgState.correct++; fgState.attempts++;
+  updateFgProgress();
+}
+
+function updateFgProgress() {
+  const pct = fgState.attempts ? Math.round(fgState.correct/fgState.attempts*100) : 0;
+  document.getElementById('fg-prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('fg-correct').textContent = fgState.correct;
+  document.getElementById('fg-streak').textContent = fgState.streak;
+  document.getElementById('fg-pct').textContent = pct + '%';
+}
+
+/* Read the graph drill */
+const RG_QUESTIONS = [
+  () => { const m=rnd(-4,4), c=rnd(-5,5); return { q:`The line y = ${m}x ${c>=0?'+ '+c:'- '+Math.abs(c)} is drawn. What is the gradient?`, ans:m, hint:`Gradient = coefficient of x in y = mx + c` }; },
+  () => { const m=rnd(-3,3), c=rnd(-6,6); return { q:`The line y = ${m}x ${c>=0?'+ '+c:'- '+Math.abs(c)} is drawn. What is the y-intercept?`, ans:c, hint:`y-intercept = value of c (where graph crosses the y-axis)` }; },
+  () => { const m=rnd(1,4), c=rnd(-8,-1); const x0=-c/m; return { q:`The line y = ${m}x ${c} is drawn. At what x-value does it cross the x-axis?`, ans:x0, hint:`Set y=0: ${m}x + ${c} = 0, so x = ${-c}/${m} = ${x0}` }; },
+  () => { const a=rnd(1,3), c=rnd(-6,0); const x0s=Math.sqrt(-c/a); return { q:`The parabola y = ${a}x² ${c<0?'- '+Math.abs(c):'+ '+c} is drawn. How many x-intercepts does it have?`, ans:c<0?2:c===0?1:0, hint:`Set y=0: ${a}x² = ${-c}, x² = ${-c/a}. Count real solutions.` }; }
+];
+
+function rgNew() {
+  const gen = pick(RG_QUESTIONS);
+  rgQ = gen();
+  document.getElementById('rg-question').innerHTML = rgQ.q;
+  document.getElementById('rg-input').value = '';
+  document.getElementById('rg-feedback').className = 'feedback';
+  document.getElementById('rg-hints').className = 'hint-list';
+}
+
+function rgCheck() {
+  const v = parseFloat(document.getElementById('rg-input').value);
+  fgState.attempts++;
+  if (!isNaN(v) && Math.abs(v - rgQ.ans) < 0.01) {
+    fgState.correct++; fgState.streak++;
+    showFeedback('rg-feedback', `✅ Correct! ${rgQ.hint}`, 'correct');
+    updateFgProgress();
+    setTimeout(rgNew, 1600);
+  } else {
+    fgState.streak = 0;
+    showFeedback('rg-feedback', `❌ Expected ${rgQ.ans}. ${rgQ.hint}`, 'wrong');
+    updateFgProgress();
+  }
+}
+function rgHint() { showHints('rg-hints', [rgQ.hint]); }
+
+/* ================================================================
+   MODULE 10 — CURVE SKETCHER
+   ================================================================ */
+let csState = { correct: 0, attempts: 0, streak: 0 };
+let csCurrentType = null;
+let kfQ = null;
+
+const CURVE_TYPES = [
+  { name: 'Linear', draw: (ctx,cx,cy,sc) => {
+    ctx.strokeStyle='#1a56db'; ctx.lineWidth=2.5; ctx.beginPath();
+    ctx.moveTo(cx-5*sc, cy+5*sc*1.2); ctx.lineTo(cx+5*sc, cy-5*sc*1.2); ctx.stroke();
+  }},
+  { name: 'Quadratic (opens up)', draw: (ctx,cx,cy,sc) => {
+    ctx.strokeStyle='#16a34a'; ctx.lineWidth=2.5; ctx.beginPath();
+    for (let x=-5; x<=5; x+=0.1) { const y=x*x; const px=cx+x*sc, py=cy-y*sc*0.5;
+      if (x===-5) ctx.moveTo(px,py); else ctx.lineTo(px,py); } ctx.stroke();
+  }},
+  { name: 'Quadratic (opens down)', draw: (ctx,cx,cy,sc) => {
+    ctx.strokeStyle='#7c3aed'; ctx.lineWidth=2.5; ctx.beginPath();
+    for (let x=-5; x<=5; x+=0.1) { const y=-x*x+4; const px=cx+x*sc, py=cy-y*sc*0.5;
+      if (x===-5) ctx.moveTo(px,py); else ctx.lineTo(px,py); } ctx.stroke();
+  }},
+  { name: 'Cubic', draw: (ctx,cx,cy,sc) => {
+    ctx.strokeStyle='#d97706'; ctx.lineWidth=2.5; ctx.beginPath();
+    for (let x=-3; x<=3; x+=0.05) { const y=x*x*x; if (Math.abs(y)>6) continue;
+      const px=cx+x*sc*1.2, py=cy-y*sc*0.6;
+      if (x===-3) ctx.moveTo(px,py); else ctx.lineTo(px,py); } ctx.stroke();
+  }},
+  { name: 'Reciprocal (y=k/x)', draw: (ctx,cx,cy,sc) => {
+    ctx.strokeStyle='#dc2626'; ctx.lineWidth=2.5;
+    [[-5,-0.15],[0.15,5]].forEach(([a,b]) => {
+      ctx.beginPath(); let f=true;
+      for (let x=a; x<=b; x+=0.05) { const y=2/x; if (Math.abs(y)>5) { f=true; continue; }
+        const px=cx+x*sc, py=cy-y*sc;
+        if (f) { ctx.moveTo(px,py); f=false; } else ctx.lineTo(px,py); }
+      ctx.stroke();
+    });
+  }},
+  { name: 'Exponential (y=aˣ)', draw: (ctx,cx,cy,sc) => {
+    ctx.strokeStyle='#0891b2'; ctx.lineWidth=2.5; ctx.beginPath();
+    for (let x=-4; x<=3; x+=0.05) { const y=Math.pow(2,x); if (y>6) break;
+      const px=cx+x*sc, py=cy-y*sc;
+      if (x===-4) ctx.moveTo(px,py); else ctx.lineTo(px,py); } ctx.stroke();
+  }}
+];
+
+function csNew() {
+  const canvas = document.getElementById('cs-canvas');
+  const ctx = canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height, cx=W/2, cy=H/2, sc=28;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='#e2e8f0'; ctx.lineWidth=1;
+  for (let i=-7;i<=7;i++) {
+    ctx.beginPath(); ctx.moveTo(cx+i*sc,0); ctx.lineTo(cx+i*sc,H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,cy+i*sc); ctx.lineTo(W,cy+i*sc); ctx.stroke();
+  }
+  ctx.strokeStyle='#94a3b8'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(0,cy); ctx.lineTo(W,cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx,0); ctx.lineTo(cx,H); ctx.stroke();
+  ctx.fillStyle='#94a3b8'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('x', W-8, cy-6); ctx.fillText('y', cx+6, 12);
+
+  csCurrentType = pick(CURVE_TYPES);
+  csCurrentType.draw(ctx, cx, cy, sc);
+
+  // Answer buttons
+  const opts = [...CURVE_TYPES];
+  const shuffled = opts.sort(() => Math.random()-0.5).slice(0,4);
+  if (!shuffled.find(o=>o.name===csCurrentType.name)) { shuffled[0] = csCurrentType; }
+  shuffled.sort(() => Math.random()-0.5);
+  document.getElementById('cs-options').innerHTML = shuffled.map(o =>
+    `<button class="btn btn-secondary btn-sm" onclick="csCheck('${o.name}')">${o.name}</button>`).join('');
+  document.getElementById('cs-feedback').className = 'feedback';
+}
+
+function csCheck(name) {
+  csState.attempts++;
+  if (name === csCurrentType.name) {
+    csState.correct++; csState.streak++;
+    showFeedback('cs-feedback', `✅ Correct! That is a ${name} graph.`, 'correct');
+    updateCsProgress();
+    setTimeout(csNew, 1500);
+  } else {
+    csState.streak = 0;
+    showFeedback('cs-feedback', `❌ That was ${csCurrentType.name}. Look at the shape carefully.`, 'wrong');
+    updateCsProgress();
+  }
+}
+
+function updateCsProgress() {
+  const pct = csState.attempts ? Math.round(csState.correct/csState.attempts*100) : 0;
+  document.getElementById('cs-prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('cs-correct').textContent = csState.correct;
+  document.getElementById('cs-streak').textContent = csState.streak;
+  document.getElementById('cs-pct').textContent = pct + '%';
+}
+
+/* Key features */
+const KF_QUESTIONS = [
+  { q:'For the quadratic <strong>y = 2x² − 8x + 3</strong>, what is the x-coordinate of the turning point?', ans:'2', hint:'x at turning point = −b/(2a) = 8/(2×2) = 2', hints:['Use x = −b/(2a)','a=2, b=−8: x = 8/4 = 2'] },
+  { q:'For the exponential <strong>y = 3ˣ</strong>, what is the y-intercept (y when x=0)?', ans:'1', hint:'Any base to the power 0 = 1', hints:['Substitute x=0: y = 3⁰ = 1'] },
+  { q:'For the reciprocal <strong>y = 5/x</strong>, what is the equation of the vertical asymptote?', ans:'x=0', hint:'y = k/x is undefined when x = 0', hints:['Denominator = 0 gives the asymptote'] },
+  { q:'For the line <strong>y = −3x + 7</strong>, where does it cross the x-axis? (Give x value)', ans:'7/3', hint:'Set y=0: −3x+7=0 → x=7/3', hints:['Set y = 0 and solve for x','−3x = −7, so x = 7/3'] },
+  { q:'The parabola <strong>y = x² − 4</strong> has two x-intercepts. What are they? (write larger one)', ans:'2', hint:'x²=4, x=±2', hints:['Set y=0: x²=4','x = ±2, larger is 2'] },
+  { q:'For <strong>y = −x² + 6x − 5</strong>, does the parabola open up or down? Type "up" or "down".', ans:'down', hint:'Coefficient of x² is negative → opens down', hints:['Sign of a in ax² determines direction','a = −1 (negative) → opens downward'] }
+];
+
+function kfNew() {
+  kfQ = pick(KF_QUESTIONS);
+  document.getElementById('kf-question').innerHTML = kfQ.q;
+  document.getElementById('kf-input').value = '';
+  document.getElementById('kf-feedback').className = 'feedback';
+  document.getElementById('kf-hints').className = 'hint-list';
+}
+
+function kfCheck() {
+  const raw = document.getElementById('kf-input').value.trim().toLowerCase().replace(/\s/g,'');
+  csState.attempts++;
+  if (raw === kfQ.ans.toLowerCase().replace(/\s/g,'')) {
+    csState.correct++; csState.streak++;
+    showFeedback('kf-feedback', `✅ Correct! ${kfQ.hint}`, 'correct');
+    updateCsProgress();
+    setTimeout(kfNew, 1500);
+  } else {
+    csState.streak = 0;
+    showFeedback('kf-feedback', `❌ Expected: ${kfQ.ans}. ${kfQ.hint}`, 'wrong');
+    updateCsProgress();
+  }
+}
+function kfHint() { showHints('kf-hints', kfQ.hints); }
+
+/* ================================================================
+   MODULE 11 — ALGEBRAIC FRACTIONS
+   ================================================================ */
+let afState = { correct: 0, attempts: 0, streak: 0, mode: 'simp', q: null };
+
+const AF_QUESTIONS = {
+  simp: [
+    { expr: '(x² + 5x + 6) / (x + 3)', ans: ['x+2','(x+2)'], hints: ['Factorise numerator: (x+2)(x+3)','Cancel (x+3): leaves (x+2)'] },
+    { expr: '(x² − x − 6) / (x − 3)', ans: ['x+2'], hints: ['Numerator: (x−3)(x+2)','Cancel (x−3)'] },
+    { expr: '(2x² + 4x) / (2x)', ans: ['x+2'], hints: ['Factor out 2x from numerator: 2x(x+2)','Cancel 2x'] },
+    { expr: '(x² − 9) / (x + 3)', ans: ['x−3','x-3'], hints: ['Numerator is difference of squares: (x+3)(x−3)','Cancel (x+3)'] },
+    { expr: '(x² − 4) / (x − 2)', ans: ['x+2'], hints: ['x²−4 = (x+2)(x−2)','Cancel (x−2)'] },
+    { expr: '(6x² + 9x) / (3x)', ans: ['2x+3'], hints: ['Numerator: 3x(2x+3)','Cancel 3x'] }
+  ],
+  add: [
+    { expr: '3/(x+1) + 2/(x+1)', ans: ['5/(x+1)'], hints: ['Same denominator — add numerators: 3+2=5'] },
+    { expr: '2/x + 3/(2x)', ans: ['7/(2x)'], hints: ['LCD is 2x','Rewrite: 4/(2x) + 3/(2x) = 7/(2x)'] },
+    { expr: '1/(x+1) + 1/(x+2)', ans: ['(2x+3)/((x+1)(x+2))'], hints: ['LCD: (x+1)(x+2)','Numerator: (x+2)+(x+1) = 2x+3'] },
+    { expr: '2/(x−1) − 1/(x+1)', ans: ['(x+3)/((x−1)(x+1))','(x+3)/((x+1)(x-1))'], hints: ['LCD: (x−1)(x+1)','Numerator: 2(x+1) − (x−1) = x+3'] }
+  ],
+  mult: [
+    { expr: '(x+2)/3 × 6/(x+2)', ans: ['2'], hints: ['Cancel (x+2) and simplify 6/3=2'] },
+    { expr: '(x²−4)/(x+3) × (x+3)/(x−2)', ans: ['x+2'], hints: ['x²−4 = (x+2)(x−2)','Cancel (x+3) and (x−2)'] },
+    { expr: '(x+1)/x ÷ (x+1)/x²', ans: ['x'], hints: ['Dividing: multiply by reciprocal','= (x+1)/x × x²/(x+1) = x'] }
+  ]
+};
+
+function setAfMode(mode) {
+  afState.mode = mode;
+  ['simp','add','mult'].forEach(m => {
+    const btn = document.getElementById('af-mode-' + m);
+    btn.className = m === mode ? 'btn btn-sm' : 'btn btn-sm btn-secondary';
+    btn.style.background = m === mode ? 'var(--blue)' : '';
+    btn.style.color = m === mode ? 'white' : '';
+  });
+  afNew();
+}
+
+function afNew() {
+  const q = pick(AF_QUESTIONS[afState.mode]);
+  afState.q = q;
+  document.getElementById('af-expr').textContent = q.expr;
+  document.getElementById('af-input').value = '';
+  document.getElementById('af-feedback').className = 'feedback';
+  document.getElementById('af-hints').className = 'hint-list';
+}
+
+function afCheck() {
+  const norm = document.getElementById('af-input').value.replace(/\s+/g,'').toLowerCase();
+  afState.attempts++;
+  if (afState.q.ans.map(a=>a.toLowerCase().replace(/\s/g,'')).includes(norm)) {
+    afState.correct++; afState.streak++;
+    showFeedback('af-feedback', '✅ Correct simplification!', 'correct');
+    updateAfProgress();
+    setTimeout(afNew, 1500);
+  } else {
+    afState.streak = 0;
+    showFeedback('af-feedback', '❌ Not quite. Factorise first, then cancel common factors.', 'wrong');
+    updateAfProgress();
+  }
+}
+function afHint() { showHints('af-hints', afState.q.hints); }
+
+function updateAfProgress() {
+  const pct = afState.attempts ? Math.round(afState.correct/afState.attempts*100) : 0;
+  document.getElementById('af-prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('af-correct').textContent = afState.correct;
+  document.getElementById('af-streak').textContent = afState.streak;
+  document.getElementById('af-pct').textContent = pct + '%';
+}
+
+/* ================================================================
+   MODULE 4 — EQUATION SOLVER
+   ================================================================ */
+let eqState = { correct: 0, attempts: 0, streak: 0, q: null, mode: 'lin' };
+
+function setEqMode(mode) {
+  eqState.mode = mode;
+  ['lin','sim','quad'].forEach(m => {
+    const btn = document.getElementById('eq-mode-' + m);
+    btn.className = m === mode ? 'btn btn-sm' : 'btn btn-sm btn-secondary';
+    btn.style.background = m === mode ? 'var(--blue)' : '';
+    btn.style.color = m === mode ? 'white' : '';
+  });
+  document.getElementById('eq-one-input').style.display = mode === 'sim' || mode === 'quad' ? 'none' : 'block';
+  document.getElementById('eq-two-inputs').style.display = mode === 'sim' ? 'block' : 'none';
+  document.getElementById('eq-quad-inputs').style.display = mode === 'quad' ? 'block' : 'none';
+  eqNew();
+}
+
+function eqNew() {
+  let q;
+  if (eqState.mode === 'lin') {
+    const a = rnd(2,8), b = rnd(-12,12), c = rnd(-12,12);
+    // ax + b = c → x = (c-b)/a
+    const xNum = c - b, xDen = a;
+    const g = gcd(Math.abs(xNum), xDen);
+    const xR = xNum / g, xD = xDen / g;
+    const xStr = xD === 1 ? String(xR) : `${xR}/${xD}`;
+    q = {
+      expr: `${a}x ${b >= 0 ? '+' : ''}${b} = ${c}`,
+      ans: { single: xNum / xDen },
+      ansStr: xStr,
+      hints: [
+        `Move the constant: ${a}x = ${c} − ${b} = ${c - b}`,
+        `Divide both sides by ${a}`,
+        `x = ${c - b} ÷ ${a} = ${xStr}`
+      ]
+    };
+  } else if (eqState.mode === 'sim') {
+    const x0 = rnd(-4,4), y0 = rnd(-4,4);
+    const a1=rnd(1,4), b1=rnd(1,3);
+    const a2=rnd(1,3), b2=rnd(1,4);
+    const c1 = a1*x0 + b1*y0, c2 = a2*x0 + b2*y0;
+    q = {
+      expr: `${a1}x + ${b1}y = ${c1}\n${a2}x + ${b2}y = ${c2}`,
+      ans: { x: x0, y: y0 },
+      hints: [
+        `Multiply eq1 by ${b2} and eq2 by ${b1} to eliminate y`,
+        `Or use substitution: rearrange eq1 for x, substitute into eq2`,
+        `Solution: x = ${x0}, y = ${y0}`
+      ]
+    };
+  } else { // quad
+    const r1 = rnd(-5,5), r2 = rnd(-5,5);
+    const b2 = -(r1+r2), c2 = r1*r2;
+    const small = Math.min(r1,r2), big = Math.max(r1,r2);
+    q = {
+      expr: `x² ${b2>=0?'+ '+b2:'- '+Math.abs(b2)}x ${c2>=0?'+ '+c2:'- '+Math.abs(c2)} = 0`,
+      ans: { x1: small, x2: big },
+      hints: [
+        `Factorise or use the quadratic formula`,
+        `Discriminant: b²−4ac = ${b2*b2} − ${4*c2} = ${b2*b2-4*c2}`,
+        `√discriminant = ${Math.sqrt(b2*b2-4*c2).toFixed(2)}`,
+        `x = (${-b2} ± √${b2*b2-4*c2}) / 2`,
+        `Roots: x₁ = ${small}, x₂ = ${big}`
+      ]
+    };
+  }
+  eqState.q = q;
+  const el = document.getElementById('eq-expr');
+  el.style.whiteSpace = 'pre';
+  el.textContent = q.expr;
+  document.getElementById('eq-feedback').className = 'feedback';
+  document.getElementById('eq-hints').className = 'hint-list';
+  ['eq-single','eq-x','eq-y','eq-x1','eq-x2'].forEach(id => {
+    const el2 = document.getElementById(id);
+    if (el2) el2.value = '';
+  });
+}
+
+function eqCheck() {
+  const q = eqState.q;
+  let correct = false;
+  eqState.attempts++;
+  if (eqState.mode === 'lin') {
+    const v = parseFloat(document.getElementById('eq-single').value);
+    correct = !isNaN(v) && Math.abs(v - q.ans.single) < 0.001;
+    if (correct) showFeedback('eq-feedback', `✅ Correct! x = ${q.ansStr}`, 'correct');
+    else showFeedback('eq-feedback', `❌ Not quite. x = ${q.ansStr}`, 'wrong');
+  } else if (eqState.mode === 'sim') {
+    const xv = parseFloat(document.getElementById('eq-x').value);
+    const yv = parseFloat(document.getElementById('eq-y').value);
+    correct = Math.abs(xv - q.ans.x) < 0.01 && Math.abs(yv - q.ans.y) < 0.01;
+    if (correct) showFeedback('eq-feedback', `✅ Correct! x = ${q.ans.x}, y = ${q.ans.y}`, 'correct');
+    else showFeedback('eq-feedback', `❌ Expected x = ${q.ans.x}, y = ${q.ans.y}`, 'wrong');
+  } else {
+    const x1v = parseFloat(document.getElementById('eq-x1').value);
+    const x2v = parseFloat(document.getElementById('eq-x2').value);
+    const small = Math.min(x1v,x2v), big = Math.max(x1v,x2v);
+    correct = Math.abs(small - q.ans.x1) < 0.01 && Math.abs(big - q.ans.x2) < 0.01;
+    if (correct) showFeedback('eq-feedback', `✅ Correct! x = ${q.ans.x1} or x = ${q.ans.x2}`, 'correct');
+    else showFeedback('eq-feedback', `❌ Expected x = ${q.ans.x1} or x = ${q.ans.x2}`, 'wrong');
+  }
+  if (correct) { eqState.correct++; eqState.streak++; setTimeout(eqNew, 1500); }
+  else eqState.streak = 0;
+  updateEqProgress();
+}
+
+function eqHint() { showHints('eq-hints', eqState.q.hints); }
+
+function updateEqProgress() {
+  const pct = eqState.attempts ? Math.round(eqState.correct/eqState.attempts*100) : 0;
+  document.getElementById('eq-prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('eq-correct').textContent = eqState.correct;
+  document.getElementById('eq-streak').textContent = eqState.streak;
+  document.getElementById('eq-pct').textContent = pct + '%';
+}
+
+/* ================================================================
+   MODULE 5 — FORMULA REARRANGER
+   ================================================================ */
+let frState = { correct: 0, attempts: 0, streak: 0, q: null, mode: 'simple' };
+
+const FR_QUESTIONS = {
+  simple: [
+    { q: 'Make <strong>u</strong> the subject', expr: 'v = u + at', ans: ['u=v-at','u=v−at'], hints: ['Subtract at from both sides','u = v − at'] },
+    { q: 'Make <strong>t</strong> the subject', expr: 'v = u + at', ans: ['t=(v-u)/a','t=(v−u)/a'], hints: ['Subtract u: v − u = at','Divide by a: t = (v − u) / a'] },
+    { q: 'Make <strong>r</strong> the subject', expr: 'C = 2πr', ans: ['r=C/(2π)','r=c/(2π)'], hints: ['Divide both sides by 2π','r = C / (2π)'] },
+    { q: 'Make <strong>b</strong> the subject', expr: 'A = ½bh', ans: ['b=2A/h','b=2a/h'], hints: ['Multiply both sides by 2: 2A = bh','Divide by h: b = 2A / h'] },
+    { q: 'Make <strong>h</strong> the subject', expr: 'V = lwh', ans: ['h=V/(lw)','h=v/(lw)'], hints: ['Divide both sides by lw','h = V / (lw)'] },
+    { q: 'Make <strong>x</strong> the subject', expr: 'y = mx + c', ans: ['x=(y-c)/m','x=(y−c)/m'], hints: ['Subtract c: y − c = mx','Divide by m: x = (y − c)/m'] }
+  ],
+  power: [
+    { q: 'Make <strong>r</strong> the subject', expr: 'A = πr²', ans: ['r=√(A/π)','r=sqrt(A/π)'], hints: ['Divide by π: A/π = r²','Take square root: r = √(A/π)  (r > 0)'] },
+    { q: 'Make <strong>u</strong> the subject', expr: 'v² = u² + 2as', ans: ['u=√(v²-2as)','u=sqrt(v²−2as)'], hints: ['Subtract 2as: u² = v² − 2as','Square root: u = √(v² − 2as)'] },
+    { q: 'Make <strong>l</strong> the subject', expr: 'T = 2π√(l/g)', ans: ['l=gT²/(4π²)','l=(gT²)/(4π²)'], hints: ['Divide by 2π: T/(2π) = √(l/g)','Square both sides: T²/(4π²) = l/g','Multiply by g: l = gT²/(4π²)'] },
+    { q: 'Make <strong>r</strong> the subject', expr: 'V = (4/3)πr³', ans: ['r=∛(3V/(4π))','r=cbrt(3V/(4π))'], hints: ['Multiply by 3: 3V = 4πr³','Divide by 4π: 3V/(4π) = r³','Cube root: r = ∛(3V/(4π))'] }
+  ],
+  double: [
+    { q: 'Make <strong>x</strong> the subject', expr: 'ax + b = cx + d', ans: ['x=(d-b)/(a-c)','x=(d−b)/(a−c)'], hints: ['Collect x terms: ax − cx = d − b','Factorise: x(a − c) = d − b','Divide: x = (d − b)/(a − c)'] },
+    { q: 'Make <strong>x</strong> the subject', expr: 'p(x + q) = r(x − s)', ans: ['x=(ps+rq)/(p-r)+(rq+ps)/(p-r)','x=(rq+ps)/(p−r)'], hints: ['Expand: px + pq = rx − rs','Collect x: px − rx = −rs − pq','Factorise: x(p − r) = −rs − pq = rq + ps','x = (rq + ps)/(p − r)'] },
+    { q: 'Make <strong>x</strong> the subject', expr: 'x/a + x/b = 1', ans: ['x=ab/(a+b)','x=(ab)/(a+b)'], hints: ['Multiply through by ab: bx + ax = ab','Factorise: x(a + b) = ab','Divide: x = ab/(a + b)'] }
+  ]
+};
+
+function setFrMode(mode) {
+  frState.mode = mode;
+  ['simple','power','double'].forEach(m => {
+    const btn = document.getElementById('fr-mode-' + m);
+    btn.className = m === mode ? 'btn btn-sm' : 'btn btn-sm btn-secondary';
+    btn.style.background = m === mode ? 'var(--blue)' : '';
+    btn.style.color = m === mode ? 'white' : '';
+  });
+  frNew();
+}
+
+function frNew() {
+  const pool = FR_QUESTIONS[frState.mode];
+  const q = pick(pool);
+  frState.q = q;
+  document.getElementById('fr-question').innerHTML = q.q;
+  document.getElementById('fr-expr').textContent = q.expr;
+  document.getElementById('fr-input').value = '';
+  document.getElementById('fr-feedback').className = 'feedback';
+  document.getElementById('fr-hints').className = 'hint-list';
+}
+
+function frCheck() {
+  const norm = document.getElementById('fr-input').value.replace(/\s+/g,'').toLowerCase();
+  frState.attempts++;
+  if (frState.q.ans.map(a=>a.toLowerCase().replace(/\s/g,'')).includes(norm)) {
+    frState.correct++; frState.streak++;
+    showFeedback('fr-feedback', '✅ Correct rearrangement!', 'correct');
+    updateFrProgress();
+    setTimeout(frNew, 1500);
+  } else {
+    frState.streak = 0;
+    showFeedback('fr-feedback', `❌ Not quite. Try isolating the target variable step by step.`, 'wrong');
+    updateFrProgress();
+  }
+}
+function frHint() { showHints('fr-hints', frState.q.hints); }
+
+function updateFrProgress() {
+  const pct = frState.attempts ? Math.round(frState.correct/frState.attempts*100) : 0;
+  document.getElementById('fr-prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('fr-correct').textContent = frState.correct;
+  document.getElementById('fr-streak').textContent = frState.streak;
+  document.getElementById('fr-pct').textContent = pct + '%';
+}
+
+const WORKED_EXAMPLES = [
+  { title: 'v² = u² + 2as → make u the subject', steps: [
+    'Start: v² = u² + 2as',
+    'Subtract 2as from both sides: v² − 2as = u²',
+    'Take the square root: u = √(v² − 2as)   (taking positive root)'
+  ]},
+  { title: 'A = πr² → make r the subject', steps: [
+    'Start: A = πr²',
+    'Divide both sides by π: A/π = r²',
+    'Take the square root: r = √(A/π)   (r > 0)'
+  ]},
+  { title: 'S = n/2(a + l) → make a the subject', steps: [
+    'Start: S = n/2 × (a + l)',
+    'Multiply both sides by 2: 2S = n(a + l)',
+    'Divide by n: 2S/n = a + l',
+    'Subtract l: a = 2S/n − l'
+  ]},
+  { title: 'y = mx + c → make x the subject', steps: [
+    'Start: y = mx + c',
+    'Subtract c: y − c = mx',
+    'Divide by m: x = (y − c)/m'
+  ]}
+];
+
+function showWorked(i) {
+  const ex = WORKED_EXAMPLES[i];
+  const container = document.getElementById('worked-steps');
+  container.style.display = 'block';
+  container.innerHTML = `<div class="step-box"><div class="step-label">${ex.title}</div>${
+    ex.steps.map((s,j)=>`<div style="padding:4px 0;border-bottom:1px solid var(--border);font-size:0.92rem;">
+      <span style="color:var(--muted);font-family:var(--font-body);font-size:0.8rem;margin-right:8px;">Step ${j+1}</span>${s}</div>`).join('')
+  }</div>`;
+}
+
+/* ================================================================
+   MODULE 6 — INEQUALITIES
+   ================================================================ */
+let iqState = { correct: 0, attempts: 0, streak: 0, q: null };
+let isState = { q: null };
+
+function iqNew() {
+  // Generate: ax + b < c  or  ax - b ≥ c  (no negative multiplier for Core)
+  const a = rnd(1,6), b = rnd(-8,8), c = rnd(-8,8);
+  const ops = ['<','≤','>','≥'];
+  const op = pick(ops);
+  const xVal = (c - b) / a; // boundary value
+  const opStr = op;
+  let solStr;
+  if (op === '<') solStr = `x<${xVal}`;
+  else if (op === '≤') solStr = `x≤${xVal}`;
+  else if (op === '>') solStr = `x>${xVal}`;
+  else solStr = `x≥${xVal}`;
+  // Normalise to fraction if needed
+  const g = gcd(Math.abs(c-b), a);
+  const num = (c-b)/g, den = a/g;
+  const xStr = den === 1 ? String(num) : `${num}/${den}`;
+  const solFinal = op + xStr;
+
+  iqState.q = {
+    expr: `${a}x ${b >= 0 ? '+' : ''}${b} ${op} ${c}`,
+    ans: [op + xStr, op + ' ' + xStr],
+    boundary: xVal,
+    opSym: op,
+    xStr,
+    hints: [
+      `Subtract ${b} from both sides: ${a}x ${op} ${c - b}`,
+      `Divide both sides by ${a} (positive, so sign stays)`,
+      `x ${op} ${xStr}`
+    ]
+  };
+  document.getElementById('iq-expr').textContent = iqState.q.expr;
+  document.getElementById('iq-input').value = '';
+  document.getElementById('iq-feedback').className = 'feedback';
+  document.getElementById('iq-hints').className = 'hint-list';
+  document.getElementById('iq-nline').style.display = 'none';
+}
+
+function iqCheck() {
+  const raw = document.getElementById('iq-input').value.replace(/\s+/g,'');
+  iqState.attempts++;
+  const q = iqState.q;
+  const match = q.ans.some(a => raw.replace(/\s/g,'').toLowerCase() === a.toLowerCase());
+  if (match) {
+    iqState.correct++; iqState.streak++;
+    showFeedback('iq-feedback', `✅ Correct! x ${q.opSym} ${q.xStr}`, 'correct');
+    drawNumberLine(q.boundary, q.opSym);
+    updateIqProgress();
+    setTimeout(iqNew, 2000);
+  } else {
+    iqState.streak = 0;
+    showFeedback('iq-feedback', `❌ Expected: x ${q.opSym} ${q.xStr}. Don't forget to keep the same inequality sign.`, 'wrong');
+    updateIqProgress();
+  }
+}
+function iqHint() { showHints('iq-hints', iqState.q.hints); }
+
+function drawNumberLine(boundary, op) {
+  const container = document.getElementById('iq-nline');
+  container.style.display = 'block';
+  const w = 400, h = 60, mid = 200, scale = 25;
+  const bx = mid + boundary * scale;
+  const filled = op === '≤' || op === '≥';
+  const rightDir = op === '>' || op === '≥';
+  const arrowX = rightDir ? Math.min(bx + 140, w - 10) : Math.max(bx - 140, 10);
+  const lineStart = rightDir ? bx : arrowX;
+  const lineEnd = rightDir ? arrowX : bx;
+
+  container.innerHTML = `<svg class="nline" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+    <!-- axis -->
+    <line x1="20" y1="30" x2="${w-20}" y2="30" stroke="#94a3b8" stroke-width="2"/>
+    <!-- solution ray -->
+    <line x1="${lineStart}" y1="30" x2="${lineEnd}" y2="30" stroke="var(--blue)" stroke-width="4"/>
+    <!-- boundary circle -->
+    <circle cx="${bx}" cy="30" r="7" fill="${filled ? 'var(--blue)' : 'white'}" stroke="var(--blue)" stroke-width="2.5"/>
+    <!-- label -->
+    <text x="${bx}" y="52" text-anchor="middle" font-size="12" fill="var(--navy)">${boundary % 1 === 0 ? boundary : boundary.toFixed(2)}</text>
+    <!-- tick marks -->
+    ${[-4,-3,-2,-1,0,1,2,3,4].map(n => {
+      const nx = mid + n * scale;
+      return `<line x1="${nx}" y1="26" x2="${nx}" y2="34" stroke="#94a3b8" stroke-width="1"/>
+              <text x="${nx}" y="46" text-anchor="middle" font-size="10" fill="#94a3b8">${n}</text>`;
+    }).join('')}
+  </svg>`;
+}
+
+function updateIqProgress() {
+  const pct = iqState.attempts ? Math.round(iqState.correct/iqState.attempts*100) : 0;
+  document.getElementById('iq-prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('iq-correct').textContent = iqState.correct;
+  document.getElementById('iq-streak').textContent = iqState.streak;
+  document.getElementById('iq-pct').textContent = pct + '%';
+}
+
+/* Integer solutions */
+function isNew() {
+  const a = rnd(-5,3), b = rnd(a+3,a+7);
+  const ops1 = ['<','≤'], ops2 = ['>','≥'];
+  const op1 = pick(ops1), op2 = pick(ops2);
+  // n: op2 a  AND n op1 b
+  const lo = op2==='>'?a+1:a, hi = op1==='<'?b-1:b;
+  const integers = Array.from({length: hi-lo+1},(_,i)=>lo+i);
+  isState.q = {
+    expr: `${a} ${op2} n ${op1} ${b}`,
+    ans: integers,
+    ansStr: integers.join(', ')
+  };
+  document.getElementById('is-expr').textContent = isState.q.expr;
+  document.getElementById('is-input').value = '';
+  document.getElementById('is-feedback').className = 'feedback';
+}
+
+function isCheck() {
+  const raw = document.getElementById('is-input').value;
+  const entered = raw.split(',').map(s=>parseInt(s.trim())).filter(n=>!isNaN(n)).sort((a,b)=>a-b);
+  const expected = isState.q.ans.slice().sort((a,b)=>a-b);
+  const correct = JSON.stringify(entered) === JSON.stringify(expected);
+  if (correct) {
+    showFeedback('is-feedback', `✅ Correct! Integer solutions: ${isState.q.ansStr}`, 'correct');
+    setTimeout(isNew, 1600);
+  } else {
+    showFeedback('is-feedback', `❌ Expected: ${isState.q.ansStr}. Check the boundary values carefully — open vs closed.`, 'wrong');
+  }
+}
+
+/* ================================================================
+   MODULE 7 — SEQUENCES LAB
+   ================================================================ */
+let sqState = { correct: 0, attempts: 0, streak: 0, mode: 'lin', nthQ: null };
+let sqNextQ = null;
+let sqFindQ = null;
+
+/* Next term */
+function sqNextNew() {
+  const type = pick(['arith','geo','quad','fib']);
+  let terms, next, hints;
+  if (type === 'arith') {
+    const a = rnd(-5,10), d = rnd(-4,6);
+    terms = [a, a+d, a+2*d, a+3*d, a+4*d];
+    next = a+5*d;
+    hints = [`Find the common difference: ${d}`, `Add ${d} to the last term: ${a+4*d} + ${d} = ${next}`];
+  } else if (type === 'geo') {
+    const a = rnd(1,4);
+    const rv = pick([2,3,-2]);
+    terms = [a,a*rv,a*rv**2,a*rv**3,a*rv**4];
+    next = a*rv**5;
+    hints = [`Find the common ratio: ${rv}`, `Multiply last term by ${rv}: ${a*rv**4} × ${rv} = ${next}`];
+  } else if (type === 'quad') {
+    const a = rnd(1,3), b = rnd(-3,3), c = rnd(0,5);
+    terms = [1,2,3,4,5].map(n => a*n*n + b*n + c);
+    next = a*36 + b*6 + c;
+    const d1 = terms[1]-terms[0], d2 = terms[2]-terms[1];
+    const sd = d2-d1;
+    hints = [`First differences: ${[1,2,3,4].map(i=>terms[i]-terms[i-1]).join(', ')}`, `Second difference is constant: ${sd}`, `Add ${sd} to the last first-difference, then to last term`];
+  } else {
+    const a = rnd(1,4), b = rnd(1,4);
+    terms = [a, b, a+b, a+2*b, 2*a+3*b];
+    next = 3*a+5*b;
+    hints = [`Each term is the sum of the two before it`, `Last two terms: ${2*a+3*b-b} + ${2*a+3*b} = ${next}`];
+  }
+  sqNextQ = { terms, next, hints };
+  document.getElementById('sq-seq').textContent = terms.join(',  ') + ',  …';
+  document.getElementById('sq-next-input').value = '';
+  document.getElementById('sq-next-feedback').className = 'feedback';
+  document.getElementById('sq-next-hints').className = 'hint-list';
+}
+
+function sqNextCheck() {
+  const v = parseFloat(document.getElementById('sq-next-input').value);
+  if (isNaN(v)) return;
+  sqState.attempts++;
+  if (Math.abs(v - sqNextQ.next) < 0.01) {
+    sqState.correct++; sqState.streak++;
+    showFeedback('sq-next-feedback', `✅ Correct! Next term is ${sqNextQ.next}.`, 'correct');
+    updateSqProgress();
+    setTimeout(sqNextNew, 1400);
+  } else {
+    sqState.streak = 0;
+    showFeedback('sq-next-feedback', `❌ Expected ${sqNextQ.next}. Look for the pattern (difference or ratio).`, 'wrong');
+    updateSqProgress();
+  }
+}
+function sqNextHint() { showHints('sq-next-hints', sqNextQ.hints); }
+
+/* nth term */
+function setSqMode(mode) {
+  sqState.mode = mode;
+  ['lin','quad','geo'].forEach(m => {
+    const btn = document.getElementById('sq-mode-' + m);
+    btn.className = m === mode ? 'btn btn-sm' : 'btn btn-sm btn-secondary';
+    btn.style.background = m === mode ? 'var(--blue)' : '';
+    btn.style.color = m === mode ? 'white' : '';
+  });
+  sqNthNew();
+}
+
+function sqNthNew() {
+  let q;
+  if (sqState.mode === 'lin') {
+    const d = rnd(-5,6), c = rnd(-8,8);
+    const terms = [1,2,3,4,5].map(n => d*n + c);
+    // T(n) = dn + c
+    const ans = `${d}n${c >= 0 ? '+' + c : c}`;
+    q = { seq: terms.join(', '), ans: [ans.replace(/\s/g,'')], formula: `T(n) = ${d}n ${c>=0?'+ '+c:c}`,
+      hints: [
+        `First difference (common difference): ${d}`,
+        `Linear formula: T(n) = ${d}n + c`,
+        `Use n=1: ${d}×1 + c = ${terms[0]} → c = ${c}`,
+        `Formula: T(n) = ${d}n + ${c}`
+      ]};
+  } else if (sqState.mode === 'quad') {
+    const a = pick([1,2,-1]), b = rnd(-3,3), c = rnd(-5,5);
+    const terms = [1,2,3,4,5].map(n => a*n*n + b*n + c);
+    const ans = `${a===1?'':a}n²${b>=0?'+'+b:b}n${c>=0?'+'+c:c}`;
+    q = { seq: terms.join(', '), ans: [ans.replace(/\s/g,'')], formula: `T(n) = ${a}n² + ${b}n + ${c}`,
+      hints: [
+        `Second differences are constant: ${2*a}`,
+        `So 2a = ${2*a}, meaning a = ${a}`,
+        `Subtract an² to find the linear part`,
+        `Formula: T(n) = ${a}n² + ${b}n + ${c}`
+      ]};
+  } else { // geometric
+    const a = rnd(1,4), r = pick([2,3,-2,0.5]);
+    const terms = [1,2,3,4,5].map(n => a * r**(n-1));
+    const ans = `${a}×${r}^(n-1)`;
+    q = { seq: terms.join(', '), ans: [ans.replace(/\s/g,''),`${a}*${r}^(n-1)`], formula: `T(n) = ${a} × ${r}^(n−1)`,
+      hints: [
+        `Find the common ratio: ${r}`,
+        `First term a = ${a}`,
+        `Geometric formula: T(n) = ar^(n−1)`,
+        `T(n) = ${a} × ${r}^(n−1)`
+      ]};
+  }
+  sqState.nthQ = q;
+  document.getElementById('sq-nth-seq').textContent = q.seq + ', …';
+  document.getElementById('sq-nth-input').value = '';
+  document.getElementById('sq-nth-feedback').className = 'feedback';
+  document.getElementById('sq-nth-hints').className = 'hint-list';
+}
+
+function sqNthCheck() {
+  const norm = normaliseAlg(document.getElementById('sq-nth-input').value);
+  sqState.attempts++;
+  if (sqState.nthQ.ans.includes(norm)) {
+    sqState.correct++; sqState.streak++;
+    showFeedback('sq-nth-feedback', `✅ Correct! ${sqState.nthQ.formula}`, 'correct');
+    updateSqProgress();
+    setTimeout(sqNthNew, 1500);
+  } else {
+    sqState.streak = 0;
+    showFeedback('sq-nth-feedback', `❌ Not quite. Try using the hint.`, 'wrong');
+    updateSqProgress();
+  }
+}
+function sqNthHint() { showHints('sq-nth-hints', sqState.nthQ.hints); }
+
+/* Find term number */
+function sqFindNew() {
+  const d = rnd(2,8), c = rnd(-5,10);
+  const n = rnd(5,20);
+  const val = d*n + c;
+  sqFindQ = { n, val, formula: `T(n) = ${d}n + ${c}` };
+  document.getElementById('sq-find-question').innerHTML =
+    `The nth term of a sequence is T(n) = <strong>${d}n ${c>=0?'+ '+c:c}</strong>.<br>
+     Which term has the value <strong>${val}</strong>?`;
+  document.getElementById('sq-find-input').value = '';
+  document.getElementById('sq-find-feedback').className = 'feedback';
+}
+
+function sqFindCheck() {
+  const v = parseInt(document.getElementById('sq-find-input').value);
+  if (v === sqFindQ.n) {
+    showFeedback('sq-find-feedback', `✅ Correct! It is term number ${sqFindQ.n} (n = ${sqFindQ.n}).`, 'correct');
+    setTimeout(sqFindNew, 1500);
+  } else {
+    showFeedback('sq-find-feedback', `❌ Not quite. Set ${sqFindQ.formula} = ${sqFindQ.val} and solve for n.`, 'wrong');
+  }
+}
+
+function updateSqProgress() {
+  const pct = sqState.attempts ? Math.round(sqState.correct/sqState.attempts*100) : 0;
+  document.getElementById('sq-prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('sq-correct').textContent = sqState.correct;
+  document.getElementById('sq-streak').textContent = sqState.streak;
+  document.getElementById('sq-pct').textContent = pct + '%';
+}
+
+/* ================================================================
+   MODULE 12 — PROPORTION
+   ================================================================ */
+let prState = { correct: 0, attempts: 0, streak: 0, q: null };
+
+const PR_TEMPLATES = [
+  () => {
+    const k=rnd(2,8), x1=rnd(2,6), y1=k*x1, x2=rnd(1,8), y2=k*x2;
+    return { q:`y is directly proportional to x. When x = ${x1}, y = ${y1}.<br>Find k and find y when x = ${x2}.`, type:'direct', fn:x=>k*x, k, findX:x2, findY:y2, hints:[`Direct proportion: y = kx`,`k = y/x = ${y1}/${x1} = ${k}`,`When x = ${x2}: y = ${k} × ${x2} = ${y2}`] };
+  },
+  () => {
+    const k=rnd(2,6), x1=rnd(2,5), y1=k*x1*x1, x2=rnd(1,5), y2=k*x2*x2;
+    return { q:`y is proportional to x². When x = ${x1}, y = ${y1}.<br>Find k and find y when x = ${x2}.`, type:'square', fn:x=>k*x*x, k, findX:x2, findY:y2, hints:[`y = kx²`,`k = y/x² = ${y1}/${x1*x1} = ${k}`,`When x = ${x2}: y = ${k} × ${x2}² = ${y2}`] };
+  },
+  () => {
+    const k=rnd(6,36), x1=pick([1,2,3,4,6]), y1=k/x1, x2=pick([1,2,3,4,6]);
+    const y2=k/x2;
+    return { q:`y is inversely proportional to x. When x = ${x1}, y = ${y1}.<br>Find k and find y when x = ${x2}.`, type:'inverse', fn:x=>k/x, k, findX:x2, findY:y2, hints:[`Inverse proportion: y = k/x`,`k = xy = ${x1} × ${y1} = ${k}`,`When x = ${x2}: y = ${k}/${x2} = ${y2}`] };
+  },
+  () => {
+    const k=rnd(2,8), x1=pick([1,4,9,16]), y1=k*Math.sqrt(x1), x2=pick([1,4,9,25]);
+    const y2=k*Math.sqrt(x2);
+    return { q:`y is proportional to √x. When x = ${x1}, y = ${y1}.<br>Find k and find y when x = ${x2}.`, type:'sqrt', fn:x=>k*Math.sqrt(x), k, findX:x2, findY:y2, hints:[`y = k√x`,`k = y/√x = ${y1}/√${x1} = ${y1}/${Math.sqrt(x1)} = ${k}`,`When x = ${x2}: y = ${k}×√${x2} = ${y2}`] };
+  }
+];
+
+function prNew() {
+  const gen = pick(PR_TEMPLATES);
+  prState.q = gen();
+  document.getElementById('pr-question').innerHTML = prState.q.q;
+  document.getElementById('pr-find-label').textContent = `y when x=${prState.q.findX} = `;
+  document.getElementById('pr-k').value = '';
+  document.getElementById('pr-find').value = '';
+  document.getElementById('pr-feedback').className = 'feedback';
+  document.getElementById('pr-hints').className = 'hint-list';
+}
+
+function prCheck() {
+  const kv = parseFloat(document.getElementById('pr-k').value);
+  const fv = parseFloat(document.getElementById('pr-find').value);
+  prState.attempts++;
+  const kOk = Math.abs(kv - prState.q.k) < 0.01;
+  const fOk = Math.abs(fv - prState.q.findY) < 0.01;
+  if (kOk && fOk) {
+    prState.correct++; prState.streak++;
+    showFeedback('pr-feedback', `✅ Correct! k = ${prState.q.k}, and the missing value = ${prState.q.findY}`, 'correct');
+    updatePrProgress();
+    setTimeout(prNew, 1800);
+  } else {
+    prState.streak = 0;
+    let msg = '❌ ';
+    if (!kOk) msg += `k should be ${prState.q.k}. `;
+    if (!fOk) msg += `Missing value should be ${prState.q.findY}.`;
+    showFeedback('pr-feedback', msg, 'wrong');
+    updatePrProgress();
+  }
+}
+function prHint() { showHints('pr-hints', prState.q.hints); }
+
+function updatePrProgress() {
+  const pct = prState.attempts ? Math.round(prState.correct/prState.attempts*100) : 0;
+  document.getElementById('pr-prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('pr-correct').textContent = prState.correct;
+  document.getElementById('pr-streak').textContent = prState.streak;
+  document.getElementById('pr-pct').textContent = pct + '%';
+}
+
+/* ================================================================
+   MODULE 13 — DIFFERENTIATION
+   ================================================================ */
+let diffState = { correct: 0, attempts: 0, streak: 0, mode: 'basic', q: null };
+
+function setDiffMode(mode) {
+  diffState.mode = mode;
+  ['basic','poly','stat'].forEach(m => {
+    const btn = document.getElementById('diff-mode-' + m);
+    btn.className = m === mode ? 'btn btn-sm' : 'btn btn-sm btn-secondary';
+    btn.style.background = m === mode ? 'var(--blue)' : '';
+    btn.style.color = m === mode ? 'white' : '';
+  });
+  diffNew();
+}
+
+function diffDerivStr(coeffs) {
+  // coeffs[i] = coefficient of x^i
+  const terms = [];
+  for (let i = coeffs.length - 1; i >= 1; i--) {
+    const deriv = i * coeffs[i];
+    if (deriv === 0) continue;
+    const pow = i - 1;
+    let term;
+    if (pow === 0) term = String(deriv);
+    else if (pow === 1) term = deriv === 1 ? 'x' : deriv === -1 ? '-x' : `${deriv}x`;
+    else term = deriv === 1 ? `x^${pow}` : deriv === -1 ? `-x^${pow}` : `${deriv}x^${pow}`;
+    terms.push(term);
+  }
+  if (terms.length === 0) return '0';
+  return terms.join(' + ').replace(/\+ -/g, '- ');
+}
+
+function diffNew() {
+  const statQ = document.getElementById('diff-stat-question');
+  statQ.style.display = 'none';
+  let q;
+  if (diffState.mode === 'basic') {
+    const n = rnd(2,5), a = rnd(1,6);
+    const expr = a===1 ? `x^${n}` : `${a}x^${n}`;
+    const derivCoeff = n*a, derivPow = n-1;
+    const deriv = derivCoeff===1 ? `x^${derivPow}` : `${derivCoeff}x^${derivPow}`;
+    q = { expr, ans:[deriv.replace(/\s/g,''), `${derivCoeff}x${derivPow}`],
+      hints:[`Power rule: d/dx(axⁿ) = naxⁿ⁻¹`,`n = ${n}, a = ${a}: derivative = ${n}×${a}×x^(${n}−1)`,`= ${deriv}`] };
+  } else if (diffState.mode === 'poly') {
+    const a=rnd(1,4), b=rnd(-4,4), c=rnd(-5,5);
+    const expr = `${a}x^3 ${b>=0?'+ '+b:'- '+Math.abs(b)}x^2 ${c>=0?'+ '+c:'- '+Math.abs(c)}x`;
+    const d1=3*a, d2=2*b, d3=c;
+    const ans = `${d1}x^2${d2>=0?' + '+d2:' - '+Math.abs(d2)}x${d3>=0?' + '+d3:' - '+Math.abs(d3)}`;
+    const ansNorm = ans.replace(/\s/g,'');
+    q = { expr, ans:[ansNorm], hints:[
+      `Differentiate term by term`,
+      `d/dx(${a}x³) = ${3*a}x²`,
+      `d/dx(${b}x²) = ${2*b}x`,
+      `d/dx(${c}x) = ${c}`,
+      `dy/dx = ${ans}`
+    ]};
+  } else { // stationary points
+    const a=pick([1,-1,2,-2]), b=rnd(-4,4), c=rnd(-8,8);
+    const expr = `y = ${a===1?'':a===-1?'-':a}x^2 ${b>=0?'+ '+b:'- '+Math.abs(b)}x ${c>=0?'+ '+c:'- '+Math.abs(c)}`;
+    const x_stat = -b / (2*a);
+    const y_stat = a*x_stat*x_stat + b*x_stat + c;
+    q = { expr, ans:[`${x_stat}`.replace(/\s/g,''), `(${x_stat},${y_stat})`],
+      statAsk: `Find the stationary point (x, y).`,
+      statHint: `dy/dx = ${2*a}x + ${b}; set = 0: x = ${x_stat}`,
+      hints:[`Differentiate: dy/dx = ${2*a}x ${b>=0?'+ '+b:'- '+Math.abs(b)}`,`Set dy/dx = 0: ${2*a}x ${b>=0?'+ '+b:'- '+Math.abs(b)} = 0`,`x = ${x_stat}`,`Substitute back: y = ${y_stat}`,`Point: (${x_stat}, ${y_stat})`] };
+    statQ.textContent = q.statAsk;
+    statQ.style.display = 'block';
+    document.getElementById('diff-input').placeholder = 'e.g. (2, −3)';
+  }
+  diffState.q = q;
+  document.getElementById('diff-expr').textContent = q.expr;
+  document.getElementById('diff-input').value = '';
+  document.getElementById('diff-feedback').className = 'feedback';
+  document.getElementById('diff-hints').className = 'hint-list';
+  if (diffState.mode !== 'stat') document.getElementById('diff-input').placeholder = 'dy/dx = …';
+}
+
+function diffCheck() {
+  const norm = document.getElementById('diff-input').value.replace(/\s+/g,'').toLowerCase();
+  diffState.attempts++;
+  if (diffState.q.ans.map(a=>a.toLowerCase().replace(/\s/g,'')).includes(norm)) {
+    diffState.correct++; diffState.streak++;
+    showFeedback('diff-feedback', '✅ Correct differentiation!', 'correct');
+    updateDiffProgress();
+    setTimeout(diffNew, 1500);
+  } else {
+    diffState.streak = 0;
+    showFeedback('diff-feedback', `❌ Check your power rule application. Use the hint for guidance.`, 'wrong');
+    updateDiffProgress();
+  }
+}
+function diffHint() { showHints('diff-hints', diffState.q.hints); }
+
+function updateDiffProgress() {
+  const pct = diffState.attempts ? Math.round(diffState.correct/diffState.attempts*100) : 0;
+  document.getElementById('diff-prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('diff-correct').textContent = diffState.correct;
+  document.getElementById('diff-streak').textContent = diffState.streak;
+  document.getElementById('diff-pct').textContent = pct + '%';
+}
+
+/* ================================================================
+   MODULE 14 — FUNCTIONS
+   ================================================================ */
+let fnState = { correct: 0, attempts: 0, streak: 0, mode: 'eval', q: null };
+
+const FN_PAIRS = [
+  { fDef: 'f(x) = 2x + 3', f: x=>2*x+3, fInv: y=>(y-3)/2, fInvStr: x=>`(${x}−3)/2`, fLabel: '2x+3' },
+  { fDef: 'f(x) = x² + 1', f: x=>x*x+1, fInv: y=>Math.sqrt(y-1), fInvStr: x=>`√(${x}−1)`, fLabel: 'x²+1' },
+  { fDef: 'f(x) = 3x − 5', f: x=>3*x-5, fInv: y=>(y+5)/3, fInvStr: x=>`(${x}+5)/3`, fLabel: '3x−5' },
+  { fDef: 'f(x) = (x+4)/2', f: x=>(x+4)/2, fInv: y=>2*y-4, fInvStr: x=>`2${x}−4`, fLabel: '(x+4)/2' }
+];
+const FN_GS = [
+  { gDef: 'g(x) = x + 2', g: x=>x+2, gLabel: 'x+2' },
+  { gDef: 'g(x) = 3x', g: x=>3*x, gLabel: '3x' },
+  { gDef: 'g(x) = x²', g: x=>x*x, gLabel: 'x²' }
+];
+
+function setFnMode(mode) {
+  fnState.mode = mode;
+  ['eval','comp','inv'].forEach(m => {
+    const btn = document.getElementById('fn-mode-' + m);
+    btn.className = m === mode ? 'btn btn-sm' : 'btn btn-sm btn-secondary';
+    btn.style.background = m === mode ? 'var(--blue)' : '';
+    btn.style.color = m === mode ? 'white' : '';
+  });
+  fnNew();
+}
+
+function fnNew() {
+  const fp = pick(FN_PAIRS);
+  const x0 = rnd(-3, 5);
+  let q;
+  if (fnState.mode === 'eval') {
+    const val = fp.f(x0);
+    q = { question: `Given <strong>${fp.fDef}</strong>, find f(${x0}).`, ans: [String(val)],
+      hints: [`Substitute x = ${x0} into ${fp.fDef}`, `f(${x0}) = ${fp.fLabel.replace(/x/g,'('+x0+')')}`, `= ${val}`] };
+  } else if (fnState.mode === 'comp') {
+    const gp = pick(FN_GS);
+    const gv = gp.g(x0);
+    const fgv = fp.f(gv);
+    q = { question: `Given <strong>${fp.fDef}</strong> and <strong>${gp.gDef}</strong>,<br>find fg(${x0}).`, ans: [String(fgv)],
+      hints: [`fg means: apply g first, then f`, `g(${x0}) = ${gv}`, `f(${gv}) = ${fgv}`] };
+  } else { // inv
+    const y0 = fp.f(x0);
+    const fInvStr = fp.fInvStr(y0);
+    q = { question: `Given <strong>${fp.fDef}</strong>, find f⁻¹(${y0}).`, ans: [String(x0)],
+      hints: [`f⁻¹ reverses the function`, `If f(x) = y, then f⁻¹(y) = x`, `f(${x0}) = ${y0}, so f⁻¹(${y0}) = ${x0}`] };
+  }
+  fnState.q = q;
+  document.getElementById('fn-question').innerHTML = q.question;
+  document.getElementById('fn-input').value = '';
+  document.getElementById('fn-feedback').className = 'feedback';
+  document.getElementById('fn-hints').className = 'hint-list';
+}
+
+function fnCheck() {
+  const norm = document.getElementById('fn-input').value.trim().replace(/\s/g,'');
+  fnState.attempts++;
+  if (fnState.q.ans.map(a=>a.replace(/\s/g,'')).includes(norm)) {
+    fnState.correct++; fnState.streak++;
+    showFeedback('fn-feedback', '✅ Correct!', 'correct');
+    updateFnProgress();
+    setTimeout(fnNew, 1400);
+  } else {
+    fnState.streak = 0;
+    showFeedback('fn-feedback', `❌ Expected ${fnState.q.ans[0]}. Use the hint to see the working.`, 'wrong');
+    updateFnProgress();
+  }
+}
+function fnHint() { showHints('fn-hints', fnState.q.hints); }
+
+function updateFnProgress() {
+  const pct = fnState.attempts ? Math.round(fnState.correct/fnState.attempts*100) : 0;
+  document.getElementById('fn-prog').style.width = Math.min(pct,100) + '%';
+  document.getElementById('fn-correct').textContent = fnState.correct;
+  document.getElementById('fn-streak').textContent = fnState.streak;
+  document.getElementById('fn-pct').textContent = pct + '%';
+}
+
+/* ================================================================
+   MODULE 15 — EXAM CHALLENGE
+   ================================================================ */
+let ecState = { correct: 0, total: 0, qIdx: 0, results: [] };
+let ecQ = null;
+
+const EC_QUESTIONS = [
+  { q:'Solve: 3x + 7 = 22', ans:['5'], marks:'[2]', level:'Core', topic:'Equations', hints:['Subtract 7: 3x = 15','Divide by 3'] },
+  { q:'Factorise completely: 4x² − 16', ans:['4(x+2)(x-2)','4(x-2)(x+2)'], marks:'[2]', level:'Core', topic:'Factorisation', hints:['Factor out 4: 4(x²−4)','Difference of squares: 4(x+2)(x−2)'] },
+  { q:'The nth term of a sequence is 3n − 1. What is the 20th term?', ans:['59'], marks:'[1]', level:'Core', topic:'Sequences', hints:['Substitute n = 20','3(20) − 1 = 59'] },
+  { q:'Simplify: x³ × x⁴', ans:['x7','x^7'], marks:'[1]', level:'Core', topic:'Indices', hints:['Multiply → add powers','3 + 4 = 7'] },
+  { q:'Make r the subject: V = (4/3)πr³', ans:['r=∛(3V/(4π))','r=cbrt(3V/(4π))'], marks:'[3]', level:'Extended', topic:'Formula rearrangement', hints:['Multiply by 3: 3V = 4πr³','Divide by 4π: r³ = 3V/(4π)','Cube root both sides'] },
+  { q:'Solve the simultaneous equations: 2x + y = 7 and x − y = 2', ans:['x=3,y=1','x=3andy=1'], marks:'[3]', level:'Core', topic:'Simultaneous equations', hints:['Add the two equations: 3x = 9','x = 3, then y = 7 − 2(3) = 1'] },
+  { q:'y is inversely proportional to x². When x = 2, y = 12. Find y when x = 3.', ans:['16/3','5.33'], marks:'[3]', level:'Extended', topic:'Proportion', hints:['y = k/x²','k = 12 × 4 = 48','y = 48/9 = 16/3'] },
+  { q:'Differentiate y = 5x³ − 2x + 7 with respect to x.', ans:['15x²-2','15x^2-2'], marks:'[2]', level:'Extended', topic:'Differentiation', hints:['Power rule term by term','5x³→15x², −2x→−2, 7→0'] },
+  { q:'Solve x² − 5x + 6 = 0', ans:['x=2,x=3','x=2andx=3','2,3'], marks:'[2]', level:'Core', topic:'Quadratic equations', hints:['Factorise: (x−2)(x−3) = 0','x = 2 or x = 3'] },
+  { q:'f(x) = 4x − 1. Find f⁻¹(x).', ans:['(x+1)/4','x+1/4'], marks:'[2]', level:'Extended', topic:'Functions', hints:['Let y = 4x − 1','Add 1: y+1 = 4x','Divide by 4: x = (y+1)/4','f⁻¹(x) = (x+1)/4'] },
+  { q:'Expand and simplify: (2x + 3)(x − 5)', ans:['2x²-7x-15','2x^2-7x-15'], marks:'[2]', level:'Core', topic:'Expansion', hints:['FOIL: 2x·x + 2x·(−5) + 3·x + 3·(−5)','= 2x² − 10x + 3x − 15','= 2x² − 7x − 15'] },
+  { q:'Write x² − 6x + 4 in the form (x + p)² + q. State p and q.', ans:['p=-3,q=-5','p=−3,q=−5'], marks:'[2]', level:'Extended', topic:'Complete the square', hints:['p = −6/2 = −3','q = 4 − (−3)² = 4 − 9 = −5'] }
+];
+
+function ecStart() {
+  const shuffled = [...EC_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 10);
+  ecState = { correct: 0, total: 10, qIdx: 0, results: [], questions: shuffled };
+  document.getElementById('ec-results').style.display = 'none';
+  document.getElementById('ec-prog').style.width = '0%';
+  document.getElementById('ec-correct').textContent = '0';
+  document.getElementById('ec-total').textContent = '10';
+  document.getElementById('ec-pct').textContent = '0%';
+  ecLoadQ();
+}
+
+function ecLoadQ() {
+  const q = ecState.questions[ecState.qIdx];
+  ecQ = q;
+  document.getElementById('ec-question').innerHTML = q.q;
+  document.getElementById('ec-badge').textContent = q.level;
+  document.getElementById('ec-badge').className = q.level === 'Core' ? 'badge badge-core' : 'badge badge-ext';
+  document.getElementById('ec-topic').textContent = `📚 ${q.topic}`;
+  document.getElementById('ec-marks').textContent = `Marks: ${q.marks}`;
+  document.getElementById('ec-input').value = '';
+  document.getElementById('ec-feedback').className = 'feedback';
+  document.getElementById('ec-hints').className = 'hint-list';
+}
+
+function ecCheck() {
+  const norm = document.getElementById('ec-input').value.trim().replace(/\s+/g,'').toLowerCase();
+  const correct = ecQ.ans.map(a=>a.toLowerCase().replace(/\s/g,'')).includes(norm);
+  ecState.results.push({ q: ecQ.q, correct, given: norm, expected: ecQ.ans[0] });
+  if (correct) {
+    ecState.correct++;
+    showFeedback('ec-feedback', `✅ Correct! (${ecQ.marks})`, 'correct');
+  } else {
+    showFeedback('ec-feedback', `❌ Answer: ${ecQ.ans[0]}`, 'wrong');
+  }
+  const pct = Math.round(ecState.correct / (ecState.qIdx + 1) * 100);
+  document.getElementById('ec-prog').style.width = Math.round((ecState.qIdx+1)/ecState.total*100) + '%';
+  document.getElementById('ec-correct').textContent = ecState.correct;
+  document.getElementById('ec-pct').textContent = pct + '%';
+  setTimeout(() => {
+    ecState.qIdx++;
+    if (ecState.qIdx >= ecState.total) ecShowResults();
+    else ecLoadQ();
+  }, 1600);
+}
+
+function ecHint() { showHints('ec-hints', ecQ.hints); }
+function ecSkip() {
+  ecState.results.push({ q: ecQ.q, correct: false, given: '—', expected: ecQ.ans[0] });
+  ecState.qIdx++;
+  if (ecState.qIdx >= ecState.total) ecShowResults();
+  else ecLoadQ();
+}
+
+function ecShowResults() {
+  document.getElementById('ec-results').style.display = 'block';
+  const pct = Math.round(ecState.correct / ecState.total * 100);
+  let grade = pct >= 80 ? '🏆 Excellent' : pct >= 60 ? '👍 Good' : pct >= 40 ? '📚 Needs practice' : '⚠️ Review required';
+  document.getElementById('ec-results-body').innerHTML = `
+    <div class="score-bar" style="margin-bottom:16px;">
+      <div class="sc-item"><strong>${ecState.correct}/${ecState.total}</strong><br>Score</div>
+      <div class="sc-sep"></div>
+      <div class="sc-item"><strong>${pct}%</strong><br>Percentage</div>
+      <div class="sc-sep"></div>
+      <div class="sc-item"><strong>${grade}</strong><br>Grade</div>
+    </div>
+    ${ecState.results.map((r,i)=>`<div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:0.83rem;display:flex;gap:8px;align-items:flex-start;">
+      <span>${r.correct?'✅':'❌'}</span>
+      <div><div style="margin-bottom:2px;">${r.q}</div>
+      ${!r.correct?`<div style="color:var(--muted);">Your answer: ${r.given} · Correct: ${r.expected}</div>`:''}
+      </div></div>`).join('')}`;
+}
+
+function ecRestart() { ecStart(); }
+
+/* ================================================================
+   INIT
+   ================================================================ */
+showModule(0);
+</script>
+</body>
+</html>
