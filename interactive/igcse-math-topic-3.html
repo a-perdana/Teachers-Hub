@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 3 · IGCSE 0580 Mathematics</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230f2044'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-size='40' font-family='serif' fill='%2306b6d4'>xy</text></svg>">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:    #0f2044;
+  --blue:    #1a56db;
+  --blue-lt: #3b82f6;
+  --cyan:    #06b6d4;
+  --green:   #16a34a;
+  --amber:   #d97706;
+  --red:     #dc2626;
+  --teal:    #0d9488;
+  --slate:   #f1f5f9;
+  --white:   #ffffff;
+  --text:    #1e293b;
+  --muted:   #64748b;
+  --border:  #e2e8f0;
+  --card-bg: #ffffff;
+  --radius:  12px;
+  --shadow:  0 2px 12px rgba(0,0,0,0.07);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --font-head: 'Georgia', 'Times New Roman', serif;
+  --font-body: 'Trebuchet MS', 'Gill Sans', sans-serif;
+  --font-mono: 'Courier New', monospace;
+}
+
+body { font-family: var(--font-body); background: #e8edf5; color: var(--text); min-height: 100vh; line-height: 1.6; }
+
+/* HEADER */
+.app-header {
+  background: var(--navy); padding: 0 24px; display: flex; align-items: center;
+  justify-content: space-between; height: 64px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.3); position: sticky; top: 0; z-index: 100;
+}
+.app-header .brand { display: flex; align-items: center; gap: 12px; }
+.brand-badge {
+  background: var(--teal); color: white; font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.12em; padding: 3px 10px; border-radius: 4px; text-transform: uppercase;
+}
+.brand-title { font-family: var(--font-head); font-size: 1.15rem; color: white; font-weight: 400; letter-spacing: 0.02em; }
+.brand-sub { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-left: 4px; }
+#teacherToggle {
+  background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.85); padding: 7px 16px; border-radius: 8px;
+  font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+  white-space: nowrap; font-family: var(--font-body);
+}
+#teacherToggle:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.5); }
+#teacherToggle.active { background: var(--cyan); border-color: var(--cyan); color: var(--navy); }
+#hamburger { display: none; background: none; border: none; color: white; font-size: 1.4rem; cursor: pointer; padding: 6px; margin-right: 8px; }
+
+/* LAYOUT */
+.app-body { display: flex; height: calc(100vh - 64px); overflow: hidden; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 240px; background: var(--navy); display: flex; flex-direction: column;
+  overflow-y: auto; overflow-x: hidden; transition: width 0.25s ease; flex-shrink: 0;
+  position: relative; z-index: 50;
+}
+.sidebar.collapsed { width: 52px; }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+.sidebar-header {
+  padding: 16px 14px 8px; display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;
+}
+.sidebar-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; color: rgba(255,255,255,0.4); text-transform: uppercase; white-space: nowrap; overflow: hidden; transition: opacity 0.2s; }
+.sidebar.collapsed .sidebar-label { opacity: 0; }
+#collapseBtn { background: none; border: none; color: rgba(255,255,255,0.4); cursor: pointer; font-size: 1rem; padding: 2px 4px; line-height: 1; flex-shrink: 0; transition: color 0.2s; }
+#collapseBtn:hover { color: white; }
+.nav-section-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; color: rgba(255,255,255,0.25); text-transform: uppercase; padding: 12px 14px 4px; white-space: nowrap; overflow: hidden; transition: opacity 0.2s; }
+.sidebar.collapsed .nav-section-label { opacity: 0; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 14px; cursor: pointer; transition: background 0.15s; border-left: 3px solid transparent; min-height: 40px; white-space: nowrap; overflow: hidden; }
+.nav-item:hover { background: rgba(255,255,255,0.07); }
+.nav-item.active { background: rgba(13,148,136,0.2); border-left-color: var(--teal); }
+.nav-icon { font-size: 1rem; flex-shrink: 0; width: 22px; text-align: center; display: inline-block; }
+.nav-text { font-size: 0.82rem; color: rgba(255,255,255,0.75); transition: opacity 0.2s; overflow: hidden; text-overflow: ellipsis; }
+.nav-item.active .nav-text { color: white; font-weight: 600; }
+.sidebar.collapsed .nav-text { opacity: 0; }
+.nav-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 8px 14px; }
+.nav-back { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; color: rgba(255,255,255,0.45); font-size: 0.78rem; border-top: 1px solid rgba(255,255,255,0.08); margin-top: auto; white-space: nowrap; overflow: hidden; transition: color 0.2s; text-decoration: none; }
+.nav-back:hover { color: rgba(255,255,255,0.8); }
+.sidebar.collapsed .nav-back span { opacity: 0; }
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 40; }
+
+/* CONTENT */
+.content-area { flex: 1; overflow-y: auto; min-width: 0; }
+.content-area::-webkit-scrollbar { width: 6px; }
+.content-area::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+.module { display: none; padding: 28px 32px 48px; max-width: 900px; margin: 0 auto; }
+.module.active { display: block; }
+
+/* CARDS */
+.card { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px; border: 1px solid var(--border); }
+.card-title { font-family: var(--font-head); font-size: 1.15rem; color: var(--navy); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+.card-desc { font-size: 0.88rem; color: var(--muted); margin-bottom: 18px; }
+
+/* PROGRESS CARD */
+.progress-card {
+  background: linear-gradient(135deg, var(--navy) 0%, #0d3d38 100%);
+  border-radius: var(--radius); padding: 22px 26px; margin-bottom: 20px; color: white; box-shadow: var(--shadow-lg);
+}
+.progress-card h2 { font-family: var(--font-head); font-size: 1.25rem; font-weight: 400; margin-bottom: 4px; }
+.progress-card .pc-meta { font-size: 0.8rem; color: rgba(255,255,255,0.55); margin-bottom: 16px; }
+.prog-track { background: rgba(255,255,255,0.15); border-radius: 99px; height: 8px; margin-bottom: 10px; }
+.prog-fill { height: 8px; border-radius: 99px; background: var(--teal); transition: width 0.5s ease; }
+.prog-stats { display: flex; gap: 24px; font-size: 0.8rem; color: rgba(255,255,255,0.65); }
+.prog-stats strong { color: white; font-size: 1rem; }
+
+/* TEACHER PANEL */
+.teacher-panel { background: #fffbeb; border: 1.5px solid #fcd34d; border-radius: var(--radius); margin-bottom: 20px; overflow: hidden; display: none; }
+.teacher-panel.visible { display: block; }
+.tp-header { background: #fef3c7; padding: 12px 18px; display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.9rem; color: #92400e; border-bottom: 1px solid #fcd34d; }
+.tp-body { padding: 16px 18px; }
+.tp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) { .tp-grid { grid-template-columns: 1fr; } }
+.tp-item { background: white; border-radius: 8px; padding: 12px 14px; font-size: 0.83rem; border: 1px solid #fde68a; }
+.tp-item strong { display: block; margin-bottom: 6px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.tp-item.misconception strong { color: var(--red); }
+.tp-item.strategy strong { color: var(--green); }
+.tp-item ul { margin: 0; padding-left: 16px; }
+.tp-item li { margin-bottom: 3px; line-height: 1.5; }
+
+/* BUTTONS */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: 8px; font-size: 0.88rem; font-weight: 600; cursor: pointer; border: none; transition: all 0.18s; font-family: var(--font-body); line-height: 1; }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--blue); color: white; }
+.btn-primary:hover { background: #1648c8; }
+.btn-secondary { background: var(--slate); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: #e2e8f0; }
+.btn-success { background: var(--green); color: white; }
+.btn-hint { background: #fff7ed; color: var(--amber); border: 1.5px solid #fed7aa; }
+.btn-hint:hover { background: #ffedd5; }
+.btn-teal { background: var(--teal); color: white; }
+.btn-teal:hover { background: #0f766e; }
+.btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+
+/* INPUTS */
+.inp-sm { padding: 7px 12px; border: 1.5px solid var(--border); border-radius: 7px; font-size: 0.9rem; font-family: var(--font-body); outline: none; transition: border-color 0.18s; width: 90px; }
+.inp-md { padding: 8px 14px; border: 1.5px solid var(--border); border-radius: 7px; font-size: 0.9rem; font-family: var(--font-body); outline: none; transition: border-color 0.18s; width: 160px; }
+.inp-lg { padding: 9px 14px; border: 1.5px solid var(--border); border-radius: 7px; font-size: 0.9rem; font-family: var(--font-body); outline: none; transition: border-color 0.18s; width: 100%; }
+.inp-sm:focus, .inp-md:focus, .inp-lg:focus { border-color: var(--teal); }
+
+/* FEEDBACK */
+.feedback { margin-top: 12px; padding: 12px 16px; border-radius: 8px; font-size: 0.88rem; display: none; line-height: 1.5; }
+.feedback.show { display: block; }
+.fb-correct { background: #f0fdf4; border: 1.5px solid #86efac; color: #166534; }
+.fb-wrong   { background: #fef2f2; border: 1.5px solid #fca5a5; color: #991b1b; }
+.fb-info    { background: #eff6ff; border: 1.5px solid #93c5fd; color: #1e40af; }
+.fb-warning { background: #fffbeb; border: 1.5px solid #fcd34d; color: #92400e; }
+.hint-list { margin-top: 10px; padding: 12px 16px; background: #f8fafc; border-radius: 8px; border: 1px solid var(--border); display: none; }
+.hint-list.show { display: block; }
+.hint-list li { margin-bottom: 5px; font-size: 0.85rem; color: var(--text); }
+
+/* MODULE HEADER */
+.mod-header { margin-bottom: 24px; }
+.mod-header h1 { font-family: var(--font-head); font-size: 1.75rem; color: var(--navy); margin-bottom: 6px; }
+.mod-header .breadcrumb { font-size: 0.8rem; color: var(--muted); }
+.mod-header .breadcrumb span { color: var(--teal); font-weight: 600; }
+
+/* BADGES */
+.badge { display: inline-block; padding: 2px 9px; border-radius: 99px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; }
+.badge-core  { background: #dbeafe; color: #1e40af; }
+.badge-ext   { background: #ccfbf1; color: #0f766e; }
+.badge-new   { background: #dcfce7; color: #166534; }
+
+/* COORDINATE DISPLAY */
+.expr-display { font-family: var(--font-mono); font-size: 1.5rem; text-align: center; padding: 20px; background: var(--slate); border-radius: 10px; margin: 16px 0; letter-spacing: 0.05em; color: var(--navy); }
+.expr-display .hl { color: var(--teal); font-weight: 700; }
+
+/* CANVAS */
+.canvas-wrap { background: white; border: 1px solid var(--border); border-radius: 10px; display: flex; justify-content: center; align-items: center; padding: 12px; margin: 14px 0; overflow: hidden; }
+canvas { max-width: 100%; }
+
+/* TABLE */
+.tbl { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 12px 0; }
+.tbl th { background: var(--navy); color: white; padding: 10px 14px; text-align: left; font-weight: 600; font-size: 0.8rem; }
+.tbl td { padding: 9px 14px; border-bottom: 1px solid var(--border); }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:nth-child(even) td { background: #f8fafc; }
+.tbl .mono { font-family: var(--font-mono); }
+
+/* SCORE BAR */
+.score-bar { display: flex; align-items: center; gap: 16px; padding: 10px 16px; background: var(--slate); border-radius: 8px; margin-bottom: 16px; font-size: 0.85rem; }
+.score-bar .sc-item { text-align: center; }
+.score-bar .sc-item strong { font-size: 1.1rem; color: var(--navy); }
+.score-bar .sc-sep { width: 1px; height: 32px; background: var(--border); }
+
+/* TWO-COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+/* STEP BOX */
+.step-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin: 8px 0; }
+.step-box .step-label { font-family: var(--font-body); font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+.step-row { padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+.step-row:last-child { border-bottom: none; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  #hamburger { display: block; }
+  .sidebar { position: fixed; top: 64px; left: 0; height: calc(100vh - 64px); width: 260px !important; transform: translateX(-100%); transition: transform 0.25s ease; z-index: 50; }
+  .sidebar.mobile-open { transform: translateX(0); }
+  .sidebar-overlay { display: block; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+  .sidebar-overlay.visible { opacity: 1; pointer-events: all; }
+  .module { padding: 20px 16px 48px; }
+  #collapseBtn { display: none; }
+  .sidebar.collapsed { width: 260px !important; }
+  .sidebar.collapsed .nav-text, .sidebar.collapsed .sidebar-label, .sidebar.collapsed .nav-section-label { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="overlay" onclick="closeMobileNav()"></div>
+
+<header class="app-header">
+  <div class="brand">
+    <button id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
+    <a href="igcse-math-index.html" style="text-decoration:none;display:flex;align-items:center;gap:10px;">
+      <span class="brand-badge">Topic 3</span>
+      <span class="brand-title">Coordinate Geometry <span class="brand-sub">IGCSE 0580</span></span>
+    </a>
+  </div>
+  <button id="teacherToggle" onclick="toggleTeacherMode()">👩‍🏫 Teacher Mode</button>
+</header>
+
+<div class="app-body">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-label">Modules</span>
+      <button id="collapseBtn" onclick="toggleSidebar()" title="Collapse">◀</button>
+    </div>
+
+    <div class="nav-section-label">Core &amp; Extended</div>
+    <div class="nav-item active" onclick="showModule(0)"><span class="nav-icon">📍</span><span class="nav-text">0 · Coordinates &amp; Plotting</span></div>
+    <div class="nav-item" onclick="showModule(1)"><span class="nav-icon">📐</span><span class="nav-text">1 · Gradient</span></div>
+    <div class="nav-item" onclick="showModule(2)"><span class="nav-icon">↔️</span><span class="nav-text">2 · Midpoint &amp; Distance</span></div>
+    <div class="nav-item" onclick="showModule(3)"><span class="nav-icon">📏</span><span class="nav-text">3 · Equation of a Line</span></div>
+    <div class="nav-item" onclick="showModule(4)"><span class="nav-icon">⊕</span><span class="nav-text">4 · Parallel &amp; Perpendicular</span></div>
+
+    <div class="nav-section-label">Extended Only</div>
+    <div class="nav-item" onclick="showModule(5)"><span class="nav-icon">✂️</span><span class="nav-text">5 · Intersections</span></div>
+    <div class="nav-item" onclick="showModule(6)"><span class="nav-icon">⭕</span><span class="nav-text">6 · Loci &amp; Regions</span></div>
+
+    <div class="nav-divider"></div>
+    <div class="nav-item" onclick="showModule(7)"><span class="nav-icon">🏆</span><span class="nav-text">7 · Exam Challenge</span></div>
+
+    <a class="nav-back" href="igcse-math-index.html">
+      <span class="nav-icon">◀</span><span>All Chapters</span>
+    </a>
+  </nav>
+
+  <main class="content-area" id="contentArea">
+
+    <!-- ============================================================
+         MODULE 0 — COORDINATES & PLOTTING (C3.1)
+         ============================================================ -->
+    <section class="module active" id="mod-0">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 3 · Coordinate Geometry → <span>Module 0</span></div>
+        <h1>📍 Coordinates &amp; Plotting</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C3.1 — Cartesian Coordinates</h2>
+        <div class="pc-meta">Cambridge IGCSE 0580 · Core &amp; Extended · 2025–2027 Syllabus</div>
+        <div class="prog-track"><div class="prog-fill" id="cp-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="cp-correct">0</strong> correct</div>
+          <div><strong id="cp-streak">0</strong> streak</div>
+          <div><strong id="cp-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-0">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Coordinates &amp; Plotting</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Reversing x and y: plotting (3, 5) as 3 up, 5 right</li>
+                <li>Negative coordinates: moving right for negative x</li>
+                <li>Assuming the origin is always visible in exam questions</li>
+                <li>Confusing quadrant numbers and sign combinations</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>"Along the corridor then up the stairs" — x first, then y</li>
+                <li>Colour-code axes: red x, blue y</li>
+                <li>Quadrant mnemonics: All Students Take Calculus (signs +/+, −/+, −/−, +/−)</li>
+                <li>Always label axes and scale before plotting</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Syllabus card -->
+      <div class="card">
+        <div class="card-title">📋 Syllabus Coverage <span class="badge badge-core">Core C3.1</span> <span class="badge badge-ext">Extended E3.1</span></div>
+        <table class="tbl">
+          <thead><tr><th>Skill</th><th>Core</th><th>Extended</th></tr></thead>
+          <tbody>
+            <tr><td>Use and interpret Cartesian coordinates in 2D</td><td>✅</td><td>✅</td></tr>
+            <tr><td>Identify quadrants and read coordinates</td><td>✅</td><td>✅</td></tr>
+            <tr><td>Plot points from a table of values</td><td>✅</td><td>✅</td></tr>
+            <tr><td>Find coordinates satisfying given conditions</td><td>✅</td><td>✅</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Quadrant identifier -->
+      <div class="card">
+        <div class="card-title">🗺️ Quadrant Identifier</div>
+        <div class="card-desc">Given the point, which quadrant (I, II, III, or IV) does it lie in?</div>
+        <div class="score-bar">
+          <div class="sc-item"><strong id="cp-sc-correct">0</strong><br>Correct</div>
+          <div class="sc-sep"></div>
+          <div class="sc-item"><strong id="cp-sc-attempts">0</strong><br>Attempts</div>
+          <div class="sc-sep"></div>
+          <div class="sc-item"><strong id="cp-sc-streak">0</strong> 🔥<br>Streak</div>
+        </div>
+        <div id="cp-point" class="expr-display">Loading…</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;" id="cp-quad-btns">
+          <button class="btn btn-secondary" onclick="cpCheck('I')">Quadrant I</button>
+          <button class="btn btn-secondary" onclick="cpCheck('II')">Quadrant II</button>
+          <button class="btn btn-secondary" onclick="cpCheck('III')">Quadrant III</button>
+          <button class="btn btn-secondary" onclick="cpCheck('IV')">Quadrant IV</button>
+          <button class="btn btn-secondary" onclick="cpCheck('axis')">On an axis</button>
+        </div>
+        <div id="cp-feedback" class="feedback"></div>
+        <button class="btn btn-secondary btn-sm" onclick="cpNew()" style="margin-top:10px;">Next →</button>
+      </div>
+
+      <!-- Interactive coordinate canvas -->
+      <div class="card">
+        <div class="card-title">🎯 Plot the Point</div>
+        <div class="card-desc">Click on the grid to plot the given point. Green = correct, red = too far.</div>
+        <div id="plot-target" class="expr-display" style="font-size:1.2rem;">Loading…</div>
+        <div class="canvas-wrap">
+          <canvas id="plot-canvas" width="400" height="400" style="cursor:crosshair;" onclick="plotClick(event)"></canvas>
+        </div>
+        <div id="plot-feedback" class="feedback"></div>
+        <button class="btn btn-secondary btn-sm" onclick="plotNew()">New Point →</button>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 1 — GRADIENT (C3.2)
+         ============================================================ -->
+    <section class="module" id="mod-1">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 3 → <span>Module 1</span></div>
+        <h1>📐 Gradient</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C3.2 — Gradient of a Line</h2>
+        <div class="pc-meta">Gradient = rise ÷ run = (y₂−y₁)/(x₂−x₁)</div>
+        <div class="prog-track"><div class="prog-fill" id="gr-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="gr-correct">0</strong> correct</div>
+          <div><strong id="gr-streak">0</strong> streak</div>
+          <div><strong id="gr-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-1">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Gradient</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Swapping rise and run: computing Δx/Δy instead of Δy/Δx</li>
+                <li>Subtracting in opposite orders: (y₂−y₁)/(x₁−x₂)</li>
+                <li>Thinking horizontal lines have undefined gradient (they have 0)</li>
+                <li>Thinking vertical lines have gradient 0 (they are undefined)</li>
+                <li>Assuming gradient must be positive</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Always draw a right-angled triangle between the two points on the line</li>
+                <li>Label which point is (x₁,y₁) and which is (x₂,y₂) before substituting</li>
+                <li>Check sign: line going up-right = positive; down-right = negative</li>
+                <li>Horizontal = flat = 0 gradient; Vertical = cliff = undefined</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formula reference -->
+      <div class="card">
+        <div class="card-title">📜 Gradient Formula</div>
+        <div class="expr-display" style="font-size:1.3rem;">m = (y₂ − y₁) / (x₂ − x₁)</div>
+        <table class="tbl" style="margin-top:14px;">
+          <thead><tr><th>Type of line</th><th>Gradient</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td>Positive slope (↗)</td><td>m &gt; 0</td><td>m = 2</td></tr>
+            <tr><td>Negative slope (↘)</td><td>m &lt; 0</td><td>m = −3</td></tr>
+            <tr><td>Horizontal (→)</td><td>m = 0</td><td>y = 5</td></tr>
+            <tr><td>Vertical (↑)</td><td>undefined</td><td>x = 4</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Gradient from two points drill -->
+      <div class="card">
+        <div class="card-title">⚡ Gradient from Two Points</div>
+        <div class="card-desc">Calculate the gradient of the line passing through the two given points. Give exact answers.</div>
+        <div id="gr-question" class="expr-display">Loading…</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <label style="font-size:0.88rem;color:var(--muted);">m =</label>
+          <input type="text" id="gr-input" class="inp-sm" placeholder="e.g. 2/3" onkeydown="if(event.key==='Enter')grCheck()">
+          <button class="btn btn-primary" onclick="grCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="grHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="grNew()">Next →</button>
+        </div>
+        <div id="gr-feedback" class="feedback"></div>
+        <ul id="gr-hints" class="hint-list"></ul>
+      </div>
+
+      <!-- Gradient from graph -->
+      <div class="card">
+        <div class="card-title">📊 Read the Gradient from a Graph</div>
+        <div class="card-desc">A line is drawn on the grid. Read two clear points and calculate the gradient.</div>
+        <div class="canvas-wrap">
+          <canvas id="gr-canvas" width="400" height="320"></canvas>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <label style="font-size:0.88rem;color:var(--muted);">m =</label>
+          <input type="text" id="gr-graph-input" class="inp-sm" placeholder="e.g. −2" onkeydown="if(event.key==='Enter')grGraphCheck()">
+          <button class="btn btn-primary" onclick="grGraphCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="grGraphHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="grGraphNew()">New Line →</button>
+        </div>
+        <div id="gr-graph-feedback" class="feedback"></div>
+        <ul id="gr-graph-hints" class="hint-list"></ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 2 — MIDPOINT & DISTANCE (C3.3)
+         ============================================================ -->
+    <section class="module" id="mod-2">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 3 → <span>Module 2</span></div>
+        <h1>↔️ Midpoint &amp; Distance</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C3.3 — Midpoint &amp; Length of a Line</h2>
+        <div class="pc-meta">Midpoint = average of coordinates · Distance = Pythagoras</div>
+        <div class="prog-track"><div class="prog-fill" id="md-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="md-correct">0</strong> correct</div>
+          <div><strong id="md-streak">0</strong> streak</div>
+          <div><strong id="md-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-2">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Midpoint &amp; Distance</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Distance formula: forgetting to square-root at the end</li>
+                <li>Subtracting coordinates in wrong order for distance (doesn't matter — but confuses students)</li>
+                <li>Midpoint: adding without dividing by 2</li>
+                <li>Squaring negative differences: (−3)² = 9 not −9</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Midpoint = "meet in the middle" — average each coordinate separately</li>
+                <li>Distance: draw the right-angled triangle, then Pythagoras</li>
+                <li>Check: midpoint should lie exactly between both points on a sketch</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulae reference -->
+      <div class="card">
+        <div class="card-title">📜 Formulae Reference</div>
+        <div class="two-col">
+          <div>
+            <div class="step-box">
+              <div class="step-label">Midpoint of (x₁,y₁) and (x₂,y₂)</div>
+              <div style="font-family:var(--font-mono);font-size:1.1rem;padding:8px 0;">M = ((x₁+x₂)/2 , (y₁+y₂)/2)</div>
+            </div>
+          </div>
+          <div>
+            <div class="step-box">
+              <div class="step-label">Distance between (x₁,y₁) and (x₂,y₂)</div>
+              <div style="font-family:var(--font-mono);font-size:1.1rem;padding:8px 0;">d = √((x₂−x₁)² + (y₂−y₁)²)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Midpoint drill -->
+      <div class="card">
+        <div class="card-title">🎯 Midpoint Drill</div>
+        <div class="card-desc">Find the midpoint M of the two given points. Write as (x, y).</div>
+        <div id="md-mp-question" class="expr-display">Loading…</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <label style="font-size:0.85rem;">M = (</label>
+          <input type="number" id="md-mx" class="inp-sm" step="0.5" placeholder="x">
+          <label style="font-size:0.85rem;">,</label>
+          <input type="number" id="md-my" class="inp-sm" step="0.5" placeholder="y">
+          <label style="font-size:0.85rem;">)</label>
+          <button class="btn btn-primary" onclick="mdMpCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="mdMpHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="mdMpNew()">Next →</button>
+        </div>
+        <div id="md-mp-feedback" class="feedback"></div>
+        <ul id="md-mp-hints" class="hint-list"></ul>
+      </div>
+
+      <!-- Distance drill -->
+      <div class="card">
+        <div class="card-title">📏 Distance Drill</div>
+        <div class="card-desc">Calculate the exact length of the line segment. Give your answer in surd form where appropriate, or to 3 s.f.</div>
+        <div id="md-dist-question" class="expr-display">Loading…</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <label style="font-size:0.85rem;">d =</label>
+          <input type="text" id="md-dist-input" class="inp-md" placeholder="e.g. √50 or 7.07" onkeydown="if(event.key==='Enter')mdDistCheck()">
+          <button class="btn btn-primary" onclick="mdDistCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="mdDistHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="mdDistNew()">Next →</button>
+        </div>
+        <div id="md-dist-feedback" class="feedback"></div>
+        <ul id="md-dist-hints" class="hint-list"></ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 3 — EQUATION OF A LINE (C3.4)
+         ============================================================ -->
+    <section class="module" id="mod-3">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 3 → <span>Module 3</span></div>
+        <h1>📏 Equation of a Line</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C3.4 — Equation of a Straight Line</h2>
+        <div class="pc-meta">y = mx + c · gradient-intercept form · finding the equation</div>
+        <div class="prog-track"><div class="prog-fill" id="el-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="el-correct">0</strong> correct</div>
+          <div><strong id="el-streak">0</strong> streak</div>
+          <div><strong id="el-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-3">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Equation of a Line</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Confusing m (gradient) and c (y-intercept) in y = mx + c</li>
+                <li>Finding c by substituting x instead of y = 0</li>
+                <li>Writing the equation without simplifying (leaving fractions in m or c)</li>
+                <li>Thinking y = 3 has gradient 3 (it has gradient 0)</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Always find m first, then substitute one point to find c</li>
+                <li>Check: substitute both given points into the equation to verify</li>
+                <li>Sketch: does the line look right? Positive gradient = up-right</li>
+                <li>Rearrange ax + by = c to y = mx + c form to read off m and c</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Read m and c from equation -->
+      <div class="card">
+        <div class="card-title">🔍 Read m and c from Equation</div>
+        <div class="card-desc">Given the equation of a line, state the gradient m and y-intercept c.</div>
+        <div id="el-eq" class="expr-display">Loading…</div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <label style="font-size:0.85rem;">m =</label>
+            <input type="text" id="el-m" class="inp-sm" placeholder="gradient" onkeydown="if(event.key==='Enter')elReadCheck()">
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <label style="font-size:0.85rem;">c =</label>
+            <input type="text" id="el-c" class="inp-sm" placeholder="y-intercept" onkeydown="if(event.key==='Enter')elReadCheck()">
+          </div>
+          <button class="btn btn-primary" onclick="elReadCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="elReadHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="elReadNew()">Next →</button>
+        </div>
+        <div id="el-read-feedback" class="feedback"></div>
+        <ul id="el-read-hints" class="hint-list"></ul>
+      </div>
+
+      <!-- Find equation from two points / gradient + point -->
+      <div class="card">
+        <div class="card-title">✏️ Find the Equation of the Line</div>
+        <div class="card-desc">Write the equation in the form y = mx + c.</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+          <button class="btn btn-sm" id="el-mode-2pt" onclick="setElMode('2pt')" style="background:var(--blue);color:white;">Two points</button>
+          <button class="btn btn-sm btn-secondary" id="el-mode-mpt" onclick="setElMode('mpt')">Gradient + point</button>
+          <button class="btn btn-sm btn-secondary" id="el-mode-rearr" onclick="setElMode('rearr')">Rearrange ax+by=c</button>
+        </div>
+        <div id="el-find-question" style="background:var(--slate);padding:14px;border-radius:8px;margin-bottom:14px;font-size:0.92rem;line-height:1.7;"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <label style="font-size:0.85rem;">y =</label>
+          <input type="text" id="el-find-input" class="inp-md" placeholder="mx + c" onkeydown="if(event.key==='Enter')elFindCheck()">
+          <button class="btn btn-primary" onclick="elFindCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="elFindHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="elFindNew()">Next →</button>
+        </div>
+        <div id="el-find-feedback" class="feedback"></div>
+        <ul id="el-find-hints" class="hint-list"></ul>
+      </div>
+
+      <!-- Interactive grapher -->
+      <div class="card">
+        <div class="card-title">📊 Graph Plotter — y = mx + c</div>
+        <div class="card-desc">Adjust m and c to see the line update in real time.</div>
+        <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <label style="font-size:0.88rem;font-weight:600;">m:</label>
+            <input type="range" id="gp-m" min="-5" max="5" step="0.5" value="1" oninput="gpDraw()" style="width:120px;">
+            <span id="gp-m-val" style="font-family:var(--font-mono);font-size:0.9rem;min-width:32px;">1</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <label style="font-size:0.88rem;font-weight:600;">c:</label>
+            <input type="range" id="gp-c" min="-6" max="6" step="1" value="0" oninput="gpDraw()" style="width:120px;">
+            <span id="gp-c-val" style="font-family:var(--font-mono);font-size:0.9rem;min-width:32px;">0</span>
+          </div>
+          <div id="gp-eq" style="font-family:var(--font-mono);font-size:1rem;color:var(--teal);font-weight:700;"></div>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="gp-canvas" width="400" height="320"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 4 — PARALLEL & PERPENDICULAR (C3.5 / E3.5)
+         ============================================================ -->
+    <section class="module" id="mod-4">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 3 → <span>Module 4</span></div>
+        <h1>⊕ Parallel &amp; Perpendicular Lines</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C3.5 / E3.5 — Parallel &amp; Perpendicular Lines</h2>
+        <div class="pc-meta">Parallel: same gradient · Perpendicular: gradients multiply to −1</div>
+        <div class="prog-track"><div class="prog-fill" id="pp-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="pp-correct">0</strong> correct</div>
+          <div><strong id="pp-streak">0</strong> streak</div>
+          <div><strong id="pp-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-4">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Parallel &amp; Perpendicular</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Perpendicular gradient: negating instead of taking negative reciprocal (−m vs −1/m)</li>
+                <li>Thinking parallel lines must have the same y-intercept</li>
+                <li>Not checking: m₁ × m₂ = −1 for perpendicular</li>
+                <li>Horizontal and vertical lines: forgetting undefined/zero relationship</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Parallel = "same slope, different intercept" — easy memory</li>
+                <li>Perpendicular: "flip and negate" — reciprocal and change sign</li>
+                <li>Verify with product: m₁ × m₂ must equal −1</li>
+                <li>Draw both lines on a grid — do they look right-angled?</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key rules -->
+      <div class="card">
+        <div class="card-title">📜 Key Rules</div>
+        <div class="two-col">
+          <div class="step-box">
+            <div class="step-label">Parallel Lines</div>
+            <div style="font-size:0.92rem;line-height:1.8;">
+              Two lines are <strong>parallel</strong> if and only if they have the <strong>same gradient</strong>.<br>
+              e.g. y = 3x + 1 ∥ y = 3x − 4 (both m = 3)
+            </div>
+          </div>
+          <div class="step-box">
+            <div class="step-label">Perpendicular Lines</div>
+            <div style="font-size:0.92rem;line-height:1.8;">
+              Two lines are <strong>perpendicular</strong> if m₁ × m₂ = <strong>−1</strong>.<br>
+              Perpendicular gradient = <strong>−1/m</strong> (negative reciprocal).<br>
+              e.g. m = 2 → perp. m = −½
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Classify relationship -->
+      <div class="card">
+        <div class="card-title">🔍 Classify the Relationship</div>
+        <div class="card-desc">Are the two lines parallel, perpendicular, or neither?</div>
+        <div id="pp-pair" class="expr-display" style="font-size:1.1rem;line-height:1.9;">Loading…</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+          <button class="btn btn-secondary" onclick="ppCheck('parallel')">∥ Parallel</button>
+          <button class="btn btn-secondary" onclick="ppCheck('perpendicular')">⊥ Perpendicular</button>
+          <button class="btn btn-secondary" onclick="ppCheck('neither')">Neither</button>
+        </div>
+        <div id="pp-feedback" class="feedback"></div>
+        <button class="btn btn-secondary btn-sm" onclick="ppNew()" style="margin-top:10px;">Next →</button>
+      </div>
+
+      <!-- Find parallel / perpendicular equation -->
+      <div class="card">
+        <div class="card-title">✏️ Find the Equation</div>
+        <div class="card-desc">Find the equation of the line through the given point, parallel or perpendicular to the given line.</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+          <button class="btn btn-sm" id="pp-mode-par" onclick="setPpMode('par')" style="background:var(--blue);color:white;">Parallel</button>
+          <button class="btn btn-sm btn-secondary" id="pp-mode-perp" onclick="setPpMode('perp')">Perpendicular</button>
+        </div>
+        <div id="pp-find-question" style="background:var(--slate);padding:14px;border-radius:8px;margin-bottom:14px;font-size:0.92rem;line-height:1.7;"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <label style="font-size:0.85rem;">y =</label>
+          <input type="text" id="pp-find-input" class="inp-md" placeholder="mx + c" onkeydown="if(event.key==='Enter')ppFindCheck()">
+          <button class="btn btn-primary" onclick="ppFindCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="ppFindHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="ppFindNew()">Next →</button>
+        </div>
+        <div id="pp-find-feedback" class="feedback"></div>
+        <ul id="pp-find-hints" class="hint-list"></ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 5 — INTERSECTIONS (E3.6 — Extended)
+         ============================================================ -->
+    <section class="module" id="mod-5">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 3 → <span>Module 5</span></div>
+        <h1>✂️ Intersections <span class="badge badge-ext" style="font-size:0.75rem;vertical-align:middle;">Extended</span></h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>E3.6 — Intersection of Lines &amp; Curves</h2>
+        <div class="pc-meta">Solve simultaneously · Interpret intersections graphically</div>
+        <div class="prog-track"><div class="prog-fill" id="ix-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="ix-correct">0</strong> correct</div>
+          <div><strong id="ix-streak">0</strong> streak</div>
+          <div><strong id="ix-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-5">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Intersections</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Setting y = y but forgetting to solve the resulting equation</li>
+                <li>Parallel lines: students expect an intersection point (there isn't one)</li>
+                <li>Line meets curve: not forming the correct quadratic after substitution</li>
+                <li>Reading intersection coordinates from graph inaccurately</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Set equal: if y = f(x) and y = g(x), then f(x) = g(x) and solve</li>
+                <li>Draw both graphs first — number of intersections = number of solutions</li>
+                <li>Check solution by substituting into both original equations</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">✂️ Find the Intersection Point</div>
+        <div class="card-desc">Find the coordinates of the point where the two lines intersect.</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+          <button class="btn btn-sm" id="ix-mode-ll" onclick="setIxMode('ll')" style="background:var(--blue);color:white;">Line &amp; Line</button>
+          <button class="btn btn-sm btn-secondary" id="ix-mode-lc" onclick="setIxMode('lc')">Line &amp; Curve</button>
+        </div>
+        <div id="ix-question" style="background:var(--slate);padding:14px;border-radius:8px;margin-bottom:14px;font-size:0.92rem;line-height:1.8;"></div>
+        <div id="ix-one-input" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <label style="font-size:0.85rem;">x =</label>
+          <input type="number" id="ix-x" class="inp-sm" step="any">
+          <label style="font-size:0.85rem;">, y =</label>
+          <input type="number" id="ix-y" class="inp-sm" step="any">
+          <button class="btn btn-primary" onclick="ixCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="ixHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="ixNew()">Next →</button>
+        </div>
+        <div id="ix-two-inputs" style="display:none;">
+          <div style="font-size:0.83rem;color:var(--muted);margin-bottom:8px;">Enter both intersection points (smaller x first).</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <label style="font-size:0.83rem;">x₁=</label><input type="number" id="ix-x1" class="inp-sm" step="any">
+            <label style="font-size:0.83rem;">,y₁=</label><input type="number" id="ix-y1" class="inp-sm" step="any">
+            <label style="font-size:0.83rem;">x₂=</label><input type="number" id="ix-x2" class="inp-sm" step="any">
+            <label style="font-size:0.83rem;">,y₂=</label><input type="number" id="ix-y2" class="inp-sm" step="any">
+            <button class="btn btn-primary" onclick="ixCheck()">Check ✓</button>
+            <button class="btn btn-hint" onclick="ixHint()">💡 Hint</button>
+            <button class="btn btn-secondary btn-sm" onclick="ixNew()">Next →</button>
+          </div>
+        </div>
+        <div id="ix-feedback" class="feedback"></div>
+        <ul id="ix-hints" class="hint-list"></ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📊 Graphical Intersection Viewer</div>
+        <div class="card-desc">The graph shows two lines. Read off their intersection point.</div>
+        <div class="canvas-wrap">
+          <canvas id="ix-canvas" width="400" height="320"></canvas>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
+          <label style="font-size:0.85rem;">Intersection: (</label>
+          <input type="number" id="ix-gx" class="inp-sm" step="any">
+          <label style="font-size:0.85rem;">,</label>
+          <input type="number" id="ix-gy" class="inp-sm" step="any">
+          <label style="font-size:0.85rem;">)</label>
+          <button class="btn btn-primary" onclick="ixGraphCheck()">Check ✓</button>
+          <button class="btn btn-secondary btn-sm" onclick="ixGraphNew()">New →</button>
+        </div>
+        <div id="ix-graph-feedback" class="feedback"></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 6 — LOCI & REGIONS (E3.7)
+         ============================================================ -->
+    <section class="module" id="mod-6">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 3 → <span>Module 6</span></div>
+        <h1>⭕ Loci &amp; Regions <span class="badge badge-ext" style="font-size:0.75rem;vertical-align:middle;">Extended</span></h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>E3.7 — Loci &amp; Regions in 2D</h2>
+        <div class="pc-meta">Describe loci · Identify regions satisfying inequalities</div>
+        <div class="prog-track"><div class="prog-fill" id="lc-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="lc-correct">0</strong> correct</div>
+          <div><strong id="lc-streak">0</strong> streak</div>
+          <div><strong id="lc-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-6">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Loci &amp; Regions</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception">
+              <strong>❌ Common Misconceptions</strong>
+              <ul>
+                <li>Locus of points equidistant from two points: drawing a circle instead of a perpendicular bisector</li>
+                <li>Confusing "inside" and "outside" a circle region</li>
+                <li>Region shading: shading the wrong side of the boundary line</li>
+                <li>Forgetting dashed line for strict inequalities (&lt;, &gt;) vs solid for ≤, ≥</li>
+              </ul>
+            </div>
+            <div class="tp-item strategy">
+              <strong>✅ Teaching Strategies</strong>
+              <ul>
+                <li>Loci: always start from the definition — "set of all points satisfying a condition"</li>
+                <li>Test point (0,0): substitute into inequality to determine which side to shade</li>
+                <li>Draw boundary first (solid or dashed), then shade the correct region</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Locus description -->
+      <div class="card">
+        <div class="card-title">📖 Loci Reference</div>
+        <table class="tbl">
+          <thead><tr><th>Condition</th><th>Locus</th></tr></thead>
+          <tbody>
+            <tr><td>Fixed distance r from a point P</td><td>Circle, centre P, radius r</td></tr>
+            <tr><td>Equidistant from two points A and B</td><td>Perpendicular bisector of AB</td></tr>
+            <tr><td>Equidistant from two lines</td><td>Angle bisector of the two lines</td></tr>
+            <tr><td>Fixed distance from a line</td><td>Two parallel lines, one each side</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Locus quiz -->
+      <div class="card">
+        <div class="card-title">🎯 Identify the Locus</div>
+        <div class="card-desc">Read the description and choose the correct locus.</div>
+        <div id="lc-question" style="background:var(--slate);padding:14px 18px;border-radius:8px;margin-bottom:14px;font-size:0.92rem;line-height:1.7;"></div>
+        <div id="lc-options" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+        <div id="lc-feedback" class="feedback" style="margin-top:10px;"></div>
+        <button class="btn btn-secondary btn-sm" onclick="lcNew()" style="margin-top:10px;">Next →</button>
+      </div>
+
+      <!-- Region shading quiz -->
+      <div class="card">
+        <div class="card-title">🗺️ Identify the Region</div>
+        <div class="card-desc">A region is shaded on the graph. Which inequality describes it?</div>
+        <div class="canvas-wrap">
+          <canvas id="lc-canvas" width="400" height="320"></canvas>
+        </div>
+        <div id="lc-reg-opts" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;"></div>
+        <div id="lc-reg-feedback" class="feedback" style="margin-top:10px;"></div>
+        <button class="btn btn-secondary btn-sm" onclick="lcRegNew()" style="margin-top:10px;">New Region →</button>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE 7 — EXAM CHALLENGE
+         ============================================================ -->
+    <section class="module" id="mod-7">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 3 → <span>Module 7</span></div>
+        <h1>🏆 Exam Challenge</h1>
+      </div>
+
+      <div class="progress-card" style="background:linear-gradient(135deg,#0d9488,#1a56db);">
+        <h2>Mixed Topic 3 Questions</h2>
+        <div class="pc-meta">Cambridge-style exam questions across all Coordinate Geometry topics</div>
+        <div class="prog-track"><div class="prog-fill" id="ec-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="ec-correct">0</strong> / <strong id="ec-total">10</strong> correct</div>
+          <div><strong id="ec-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🎯 Exam Question</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+          <span id="ec-badge" class="badge badge-core">Core</span>
+          <span id="ec-topic" style="font-size:0.8rem;color:var(--muted);align-self:center;"></span>
+          <span id="ec-marks" style="font-size:0.8rem;color:var(--muted);align-self:center;"></span>
+        </div>
+        <div id="ec-question" style="font-size:0.96rem;line-height:1.8;margin-bottom:16px;padding:16px;background:var(--slate);border-radius:8px;"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <input type="text" id="ec-input" class="inp-lg" placeholder="Your answer" style="max-width:360px;" onkeydown="if(event.key==='Enter')ecCheck()">
+          <button class="btn btn-primary" onclick="ecCheck()">Submit ✓</button>
+          <button class="btn btn-hint" onclick="ecHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="ecSkip()">Skip →</button>
+        </div>
+        <div id="ec-feedback" class="feedback"></div>
+        <ul id="ec-hints" class="hint-list"></ul>
+      </div>
+
+      <div class="card" id="ec-results" style="display:none;">
+        <div class="card-title">📊 Session Results</div>
+        <div id="ec-results-body"></div>
+        <button class="btn btn-teal" onclick="ecRestart()" style="margin-top:14px;">🔄 New Challenge</button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+/* ================================================================
+   NAV & TEACHER MODE
+   ================================================================ */
+let teacherMode = false;
+let sidebarCollapsed = false;
+
+function showModule(n) {
+  document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  document.getElementById('mod-' + n).classList.add('active');
+  document.querySelectorAll('.nav-item')[n].classList.add('active');
+  document.getElementById('contentArea').scrollTo({ top: 0, behavior: 'smooth' });
+  closeMobileNav();
+  if (n === 0 && !window._cp_init) { cpNew(); plotNew(); window._cp_init = true; }
+  if (n === 1 && !window._gr_init) { grNew(); grGraphNew(); window._gr_init = true; }
+  if (n === 2 && !window._md_init) { mdMpNew(); mdDistNew(); window._md_init = true; }
+  if (n === 3 && !window._el_init) { elReadNew(); setElMode('2pt'); gpDraw(); window._el_init = true; }
+  if (n === 4 && !window._pp_init) { ppNew(); window._pp_init = true; }
+  if (n === 5 && !window._ix_init) { ixNew(); window._ix_init = true; }
+  if (n === 6 && !window._lc_init) { lcNew(); window._lc_init = true; }
+  if (n === 7 && !window._ec_init) { ecStart(); window._ec_init = true; }
+}
+
+function toggleTeacherMode() {
+  teacherMode = !teacherMode;
+  document.getElementById('teacherToggle').classList.toggle('active', teacherMode);
+  document.querySelectorAll('.teacher-panel').forEach(p => p.classList.toggle('visible', teacherMode));
+}
+function toggleSidebar() {
+  sidebarCollapsed = !sidebarCollapsed;
+  document.getElementById('sidebar').classList.toggle('collapsed', sidebarCollapsed);
+  document.getElementById('collapseBtn').textContent = sidebarCollapsed ? '▶' : '◀';
+}
+function toggleMobileNav() {
+  document.getElementById('sidebar').classList.toggle('mobile-open');
+  document.getElementById('overlay').classList.toggle('visible');
+}
+function closeMobileNav() {
+  document.getElementById('sidebar').classList.remove('mobile-open');
+  document.getElementById('overlay').classList.remove('visible');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileNav(); });
+
+/* ================================================================
+   UTILITY
+   ================================================================ */
+function rnd(a,b) { return Math.floor(Math.random()*(b-a+1))+a; }
+function pick(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+function gcd(a,b) { a=Math.abs(a); b=Math.abs(b); while(b){[a,b]=[b,a%b];} return a; }
+
+function frac(n,d) {
+  if (d === 0) return 'undefined';
+  const g = gcd(Math.abs(n), Math.abs(d));
+  const rn = n/g, rd = d/g;
+  if (rd < 0) return rd===-1 ? (rn<0?String(-rn):'-'+rn) : `${-rn}/${-rd}`;
+  if (rd === 1) return String(rn);
+  return `${rn}/${rd}`;
+}
+
+function fracVal(n,d) { return d===0 ? Infinity : n/d; }
+
+function showFeedback(id, msg, type) {
+  const el = document.getElementById(id);
+  el.innerHTML = msg; el.className = 'feedback show fb-' + type;
+}
+function showHints(id, hints) {
+  const el = document.getElementById(id);
+  el.innerHTML = '<strong style="font-size:0.8rem;color:var(--muted);">💡 Hints:</strong><br>' +
+    hints.map(h=>`<li>${h}</li>`).join('');
+  el.className = 'hint-list show';
+}
+
+function drawGrid(ctx, W, H, scale) {
+  const cx = W/2, cy = H/2;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='#e2e8f0'; ctx.lineWidth=1;
+  for (let i=-8;i<=8;i++) {
+    ctx.beginPath(); ctx.moveTo(cx+i*scale,0); ctx.lineTo(cx+i*scale,H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,cy+i*scale); ctx.lineTo(W,cy+i*scale); ctx.stroke();
+  }
+  ctx.strokeStyle='#94a3b8'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(0,cy); ctx.lineTo(W,cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx,0); ctx.lineTo(cx,H); ctx.stroke();
+  ctx.fillStyle='#94a3b8'; ctx.font='10px sans-serif';
+  for (let i=-6;i<=6;i++) {
+    if (i===0) continue;
+    ctx.textAlign='center'; ctx.fillText(i, cx+i*scale, cy+14);
+    ctx.textAlign='right';  ctx.fillText(-i, cx-4, cy+i*scale+4);
+  }
+  ctx.fillStyle='#0f2044'; ctx.font='bold 12px sans-serif';
+  ctx.textAlign='center'; ctx.fillText('x', W-8, cy-6);
+  ctx.textAlign='left';   ctx.fillText('y', cx+6, 12);
+}
+
+/* ================================================================
+   MODULE 0 — COORDINATES & PLOTTING
+   ================================================================ */
+let cpState = { correct:0, attempts:0, streak:0, q:null };
+let plotState = { target:null };
+
+function cpNew() {
+  const x = rnd(-6,6), y = rnd(-6,6);
+  let quad;
+  if (x===0||y===0) quad='axis';
+  else if (x>0&&y>0) quad='I';
+  else if (x<0&&y>0) quad='II';
+  else if (x<0&&y<0) quad='III';
+  else quad='IV';
+  cpState.q = { x, y, quad };
+  document.getElementById('cp-point').textContent = `(${x}, ${y})`;
+  document.getElementById('cp-feedback').className = 'feedback';
+}
+
+function cpCheck(ans) {
+  cpState.attempts++;
+  if (ans === cpState.q.quad) {
+    cpState.correct++; cpState.streak++;
+    const quadDesc = { I:'x>0, y>0', II:'x<0, y>0', III:'x<0, y<0', IV:'x>0, y<0', axis:'one coordinate is 0' };
+    showFeedback('cp-feedback', `✅ Correct! ${ans==='axis'?'Point lies on an axis':('Quadrant '+ans+': '+quadDesc[ans])}`, 'correct');
+    updateCpProgress();
+    setTimeout(cpNew, 1400);
+  } else {
+    cpState.streak = 0;
+    const signs = { I:'(+,+)', II:'(−,+)', III:'(−,−)', IV:'(+,−)' };
+    showFeedback('cp-feedback', `❌ That's Quadrant ${cpState.q.quad}${cpState.q.quad==='axis'?' (on an axis)':' '+signs[cpState.q.quad]}`, 'wrong');
+    updateCpProgress();
+  }
+}
+
+function updateCpProgress() {
+  const pct = cpState.attempts ? Math.round(cpState.correct/cpState.attempts*100) : 0;
+  document.getElementById('cp-prog').style.width = Math.min(pct,100)+'%';
+  document.getElementById('cp-correct').textContent = cpState.correct;
+  document.getElementById('cp-streak').textContent = cpState.streak;
+  document.getElementById('cp-pct').textContent = pct+'%';
+  document.getElementById('cp-sc-correct').textContent = cpState.correct;
+  document.getElementById('cp-sc-attempts').textContent = cpState.attempts;
+  document.getElementById('cp-sc-streak').textContent = cpState.streak;
+}
+
+/* Plot the point */
+function plotNew() {
+  const x = rnd(-5,5), y = rnd(-5,5);
+  plotState.target = { x, y };
+  document.getElementById('plot-target').innerHTML = `Plot the point <span class="hl">(${x}, ${y})</span>`;
+  document.getElementById('plot-feedback').className = 'feedback';
+  const canvas = document.getElementById('plot-canvas');
+  const ctx = canvas.getContext('2d');
+  drawGrid(ctx, canvas.width, canvas.height, 36);
+}
+
+function plotClick(e) {
+  const canvas = document.getElementById('plot-canvas');
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  const cx = canvas.width/2, cy = canvas.height/2, sc = 36;
+  const px = (e.clientX - rect.left) * scaleX;
+  const py = (e.clientY - rect.top) * scaleY;
+  const gx = Math.round((px - cx) / sc);
+  const gy = Math.round(-(py - cy) / sc);
+  const { x, y } = plotState.target;
+  const ctx = canvas.getContext('2d');
+  drawGrid(ctx, canvas.width, canvas.height, sc);
+  // Draw clicked point
+  ctx.beginPath(); ctx.arc(cx+gx*sc, cy-gy*sc, 6, 0, Math.PI*2);
+  const correct = gx===x && gy===y;
+  ctx.fillStyle = correct ? '#16a34a' : '#dc2626';
+  ctx.fill();
+  // Draw target if wrong
+  if (!correct) {
+    ctx.beginPath(); ctx.arc(cx+x*sc, cy-y*sc, 8, 0, Math.PI*2);
+    ctx.strokeStyle='#16a34a'; ctx.lineWidth=2; ctx.stroke();
+  }
+  if (correct) {
+    showFeedback('plot-feedback', `✅ Correct! You plotted (${x}, ${y}) accurately.`, 'correct');
+    setTimeout(plotNew, 1400);
+  } else {
+    showFeedback('plot-feedback', `❌ You clicked (${gx}, ${gy}). Target was (${x}, ${y}). Green circle shows the correct position.`, 'wrong');
+  }
+}
+
+/* ================================================================
+   MODULE 1 — GRADIENT
+   ================================================================ */
+let grState = { correct:0, attempts:0, streak:0, q:null };
+let grGraphState = { m:null, hints:[] };
+
+function grNew() {
+  const x1=rnd(-5,4), y1=rnd(-5,5), dx=rnd(1,6), dy=rnd(-6,6);
+  const x2=x1+dx, y2=y1+dy;
+  const g = gcd(Math.abs(dy), dx);
+  const mStr = frac(dy, dx);
+  grState.q = {
+    x1,y1,x2,y2,
+    mNum:dy, mDen:dx, mVal:dy/dx, mStr,
+    hints: [
+      `m = (y₂ − y₁) / (x₂ − x₁)`,
+      `= (${y2} − ${y1}) / (${x2} − ${x1})`,
+      `= ${dy} / ${dx}`,
+      `= ${mStr}`
+    ]
+  };
+  document.getElementById('gr-question').textContent = `A(${x1}, ${y1})  and  B(${x2}, ${y2})`;
+  document.getElementById('gr-input').value = '';
+  document.getElementById('gr-feedback').className = 'feedback';
+  document.getElementById('gr-hints').className = 'hint-list';
+}
+
+function grCheck() {
+  const raw = document.getElementById('gr-input').value.trim();
+  const q = grState.q;
+  grState.attempts++;
+  // Accept fraction or decimal
+  let correct = false;
+  if (raw === q.mStr) correct = true;
+  else {
+    const parts = raw.split('/');
+    if (parts.length === 2) {
+      const n=parseInt(parts[0]), d=parseInt(parts[1]);
+      if (!isNaN(n)&&!isNaN(d)&&d!==0) correct = Math.abs(n/d - q.mVal) < 0.001;
+    } else {
+      const v = parseFloat(raw);
+      if (!isNaN(v)) correct = Math.abs(v - q.mVal) < 0.001;
+    }
+  }
+  if (correct) {
+    grState.correct++; grState.streak++;
+    showFeedback('gr-feedback', `✅ Correct! m = ${q.mStr}`, 'correct');
+    updateGrProgress();
+    setTimeout(grNew, 1400);
+  } else {
+    grState.streak = 0;
+    showFeedback('gr-feedback', `❌ m = ${q.mStr}. Remember: (y₂−y₁)/(x₂−x₁)`, 'wrong');
+    updateGrProgress();
+  }
+}
+function grHint() { showHints('gr-hints', grState.q.hints); }
+
+function updateGrProgress() {
+  const pct = grState.attempts ? Math.round(grState.correct/grState.attempts*100) : 0;
+  document.getElementById('gr-prog').style.width = Math.min(pct,100)+'%';
+  document.getElementById('gr-correct').textContent = grState.correct;
+  document.getElementById('gr-streak').textContent = grState.streak;
+  document.getElementById('gr-pct').textContent = pct+'%';
+}
+
+function grGraphNew() {
+  const canvas = document.getElementById('gr-canvas');
+  const ctx = canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height, sc=30;
+  drawGrid(ctx, W, H, sc);
+  const cx=W/2, cy=H/2;
+  // Pick two clean integer points
+  const x1=rnd(-4,0), y1=rnd(-4,4), dx=rnd(2,5), dy=rnd(-5,5);
+  const x2=x1+dx, y2=y1+dy;
+  grGraphState.m = dy/dx;
+  grGraphState.mStr = frac(dy,dx);
+  grGraphState.hints = [
+    `Choose two grid points, e.g. (${x1},${y1}) and (${x2},${y2})`,
+    `m = (${y2}−${y1})/(${x2}−${x1}) = ${dy}/${dx} = ${grGraphState.mStr}`
+  ];
+  // Extend line across canvas
+  const slope = dy/dx;
+  const x1c = -W/sc, x2c = W/sc;
+  ctx.strokeStyle='#1a56db'; ctx.lineWidth=2.5;
+  ctx.beginPath();
+  ctx.moveTo(cx+x1c*sc, cy-(y1+slope*(x1c-x1))*sc);
+  ctx.lineTo(cx+x2c*sc, cy-(y1+slope*(x2c-x1))*sc);
+  ctx.stroke();
+  // Mark the two points
+  [[x1,y1],[x2,y2]].forEach(([px,py]) => {
+    ctx.beginPath(); ctx.arc(cx+px*sc, cy-py*sc, 5, 0, Math.PI*2);
+    ctx.fillStyle='#dc2626'; ctx.fill();
+    ctx.fillStyle='#0f2044'; ctx.font='bold 11px sans-serif'; ctx.textAlign='left';
+    ctx.fillText(`(${px},${py})`, cx+px*sc+8, cy-py*sc-4);
+  });
+  document.getElementById('gr-graph-input').value='';
+  document.getElementById('gr-graph-feedback').className='feedback';
+  document.getElementById('gr-graph-hints').className='hint-list';
+}
+
+function grGraphCheck() {
+  const raw = document.getElementById('gr-graph-input').value.trim();
+  let correct = false;
+  const parts = raw.split('/');
+  if (parts.length===2) { const n=parseInt(parts[0]),d=parseInt(parts[1]); if (!isNaN(n)&&!isNaN(d)&&d!==0) correct=Math.abs(n/d-grGraphState.m)<0.001; }
+  else { const v=parseFloat(raw); if (!isNaN(v)) correct=Math.abs(v-grGraphState.m)<0.001; }
+  grState.attempts++;
+  if (correct) {
+    grState.correct++; grState.streak++;
+    showFeedback('gr-graph-feedback', `✅ Correct! m = ${grGraphState.mStr}`, 'correct');
+    updateGrProgress();
+    setTimeout(grGraphNew, 1500);
+  } else {
+    grState.streak = 0;
+    showFeedback('gr-graph-feedback', `❌ m = ${grGraphState.mStr}. Pick two points, count the rise and run.`, 'wrong');
+    updateGrProgress();
+  }
+}
+function grGraphHint() { showHints('gr-graph-hints', grGraphState.hints); }
+
+/* ================================================================
+   MODULE 2 — MIDPOINT & DISTANCE
+   ================================================================ */
+let mdState = { correct:0, attempts:0, streak:0 };
+let mdMpQ = null, mdDistQ = null;
+
+function mdMpNew() {
+  const x1=rnd(-6,6), y1=rnd(-6,6), x2=rnd(-6,6), y2=rnd(-6,6);
+  const mx=(x1+x2)/2, my=(y1+y2)/2;
+  mdMpQ = { x1,y1,x2,y2, mx, my,
+    hints:[`Midpoint x = (${x1}+${x2})/2 = ${mx}`, `Midpoint y = (${y1}+${y2})/2 = ${my}`, `M = (${mx}, ${my})`] };
+  document.getElementById('md-mp-question').textContent = `A(${x1}, ${y1})  and  B(${x2}, ${y2})`;
+  document.getElementById('md-mx').value=''; document.getElementById('md-my').value='';
+  document.getElementById('md-mp-feedback').className='feedback';
+  document.getElementById('md-mp-hints').className='hint-list';
+}
+
+function mdMpCheck() {
+  const mx=parseFloat(document.getElementById('md-mx').value);
+  const my=parseFloat(document.getElementById('md-my').value);
+  mdState.attempts++;
+  if (!isNaN(mx)&&!isNaN(my)&&Math.abs(mx-mdMpQ.mx)<0.01&&Math.abs(my-mdMpQ.my)<0.01) {
+    mdState.correct++; mdState.streak++;
+    showFeedback('md-mp-feedback',`✅ Correct! M = (${mdMpQ.mx}, ${mdMpQ.my})`,'correct');
+    updateMdProgress(); setTimeout(mdMpNew,1400);
+  } else {
+    mdState.streak=0;
+    showFeedback('md-mp-feedback',`❌ M = (${mdMpQ.mx}, ${mdMpQ.my}). Average each coordinate separately.`,'wrong');
+    updateMdProgress();
+  }
+}
+function mdMpHint() { showHints('md-mp-hints', mdMpQ.hints); }
+
+function mdDistNew() {
+  const x1=rnd(-5,5), y1=rnd(-5,5), x2=rnd(-5,5), y2=rnd(-5,5);
+  const dx=x2-x1, dy=y2-y1;
+  const d2=dx*dx+dy*dy;
+  const d=Math.sqrt(d2);
+  const dRound=+d.toFixed(2);
+  // Surd form if perfect square
+  let surdStr = null;
+  const sq=Math.round(d); if(sq*sq===d2) surdStr=String(sq);
+  else surdStr=`√${d2}`;
+  mdDistQ = { x1,y1,x2,y2, d2, d, dRound, surdStr,
+    hints:[
+      `d = √((x₂−x₁)²+(y₂−y₁)²)`,
+      `= √((${x2}−${x1})²+(${y2}−${y1})²)`,
+      `= √(${dx*dx}+${dy*dy})`,
+      `= √${d2} ≈ ${dRound}`
+    ]};
+  document.getElementById('md-dist-question').textContent=`A(${x1}, ${y1})  and  B(${x2}, ${y2})`;
+  document.getElementById('md-dist-input').value='';
+  document.getElementById('md-dist-feedback').className='feedback';
+  document.getElementById('md-dist-hints').className='hint-list';
+}
+
+function mdDistCheck() {
+  const raw=document.getElementById('md-dist-input').value.trim().replace(/\s/g,'');
+  mdState.attempts++;
+  const q=mdDistQ;
+  // Accept surd (√50), decimal (7.07), or integer
+  let correct=false;
+  if (raw===q.surdStr||raw==='√'+q.d2) correct=true;
+  else {
+    const v=parseFloat(raw.replace('√',''));
+    if (!isNaN(v)) {
+      if (raw.startsWith('√')) correct=Math.abs(v*v-q.d2)<0.01;
+      else correct=Math.abs(v-q.dRound)<0.015||Math.abs(v-q.d)<0.015;
+    }
+  }
+  if (correct) {
+    mdState.correct++; mdState.streak++;
+    showFeedback('md-dist-feedback',`✅ Correct! d = ${q.surdStr} ≈ ${q.dRound}`,'correct');
+    updateMdProgress(); setTimeout(mdDistNew,1500);
+  } else {
+    mdState.streak=0;
+    showFeedback('md-dist-feedback',`❌ d = ${q.surdStr} ≈ ${q.dRound}`,'wrong');
+    updateMdProgress();
+  }
+}
+function mdDistHint() { showHints('md-dist-hints', mdDistQ.hints); }
+
+function updateMdProgress() {
+  const pct=mdState.attempts?Math.round(mdState.correct/mdState.attempts*100):0;
+  document.getElementById('md-prog').style.width=Math.min(pct,100)+'%';
+  document.getElementById('md-correct').textContent=mdState.correct;
+  document.getElementById('md-streak').textContent=mdState.streak;
+  document.getElementById('md-pct').textContent=pct+'%';
+}
+
+/* ================================================================
+   MODULE 3 — EQUATION OF A LINE
+   ================================================================ */
+let elState = { correct:0, attempts:0, streak:0, mode:'2pt', readQ:null, findQ:null };
+
+/* Read m and c */
+function elReadNew() {
+  const m=rnd(-5,5), c=rnd(-8,8);
+  let expr;
+  const mStr=m===1?'':m===-1?'-':String(m);
+  const cStr=c>=0?`+ ${c}`:(`- ${Math.abs(c)}`);
+  // Sometimes give rearranged form
+  const form=pick(['slope','rearr']);
+  if (form==='slope') {
+    expr=`y = ${mStr}x ${c===0?'':cStr}`.trim();
+  } else {
+    // ax - y = -c  → y = ax + c
+    const a=m, b=-1, rhs=-c;
+    expr=`${a}x - y = ${rhs}`;
+  }
+  elState.readQ={m, c, expr, form, mStr:String(m), cStr:String(c),
+    hints: form==='slope'
+      ? [`In y = mx + c, m is the coefficient of x`, `m = ${m}, c = ${c}`]
+      : [`Rearrange to y = mx + c form`, `Add y to both sides: ${a}x = y + ${rhs}`, `y = ${m}x ${cStr}`, `m = ${m}, c = ${c}`]
+  };
+  document.getElementById('el-eq').textContent=expr;
+  document.getElementById('el-m').value=''; document.getElementById('el-c').value='';
+  document.getElementById('el-read-feedback').className='feedback';
+  document.getElementById('el-read-hints').className='hint-list';
+}
+
+function elReadCheck() {
+  const mv=parseFloat(document.getElementById('el-m').value);
+  const cv=parseFloat(document.getElementById('el-c').value);
+  elState.attempts++;
+  if (Math.abs(mv-elState.readQ.m)<0.001&&Math.abs(cv-elState.readQ.c)<0.001) {
+    elState.correct++; elState.streak++;
+    showFeedback('el-read-feedback',`✅ Correct! m = ${elState.readQ.m}, c = ${elState.readQ.c}`,'correct');
+    updateElProgress(); setTimeout(elReadNew,1400);
+  } else {
+    elState.streak=0;
+    showFeedback('el-read-feedback',`❌ m = ${elState.readQ.m}, c = ${elState.readQ.c}`,'wrong');
+    updateElProgress();
+  }
+}
+function elReadHint() { showHints('el-read-hints', elState.readQ.hints); }
+
+/* Find equation */
+function setElMode(mode) {
+  elState.mode=mode;
+  ['2pt','mpt','rearr'].forEach(m=>{
+    const btn=document.getElementById('el-mode-'+m);
+    btn.className=m===mode?'btn btn-sm':'btn btn-sm btn-secondary';
+    btn.style.background=m===mode?'var(--blue)':'';
+    btn.style.color=m===mode?'white':'';
+  });
+  elFindNew();
+}
+
+function elFindNew() {
+  let q;
+  if (elState.mode==='2pt') {
+    const x1=rnd(-4,4), y1=rnd(-5,5), dx=rnd(1,5), dy=rnd(-5,5);
+    const x2=x1+dx, y2=y1+dy;
+    const mNum=dy, mDen=dx, mVal=dy/dx;
+    const mStr=frac(mNum,mDen);
+    const c=y1-mVal*x1;
+    const cStr=frac(Math.round(c*mDen)-mNum*(-x1), mDen) ;
+    // Build clean answer assuming integer c
+    const cInt=y1-mVal*x1;
+    const ans=buildLineEq(mNum,mDen,cInt);
+    q={
+      question:`Find the equation of the line passing through <strong>(${x1}, ${y1})</strong> and <strong>(${x2}, ${y2})</strong>.`,
+      m:mVal, c:cInt, ans:[ans],
+      hints:[`m = (${y2}−${y1})/(${x2}−${x1}) = ${mStr}`,`Substitute (${x1},${y1}): ${y1} = ${mStr}×${x1} + c`,`c = ${cInt}`,`y = ${ans.replace('y=','')}`]
+    };
+  } else if (elState.mode==='mpt') {
+    const m=rnd(-4,4), x0=rnd(-4,4), y0=rnd(-5,5);
+    const c=y0-m*x0;
+    const ans=buildLineEq(m,1,c);
+    q={
+      question:`A line has gradient <strong>${m}</strong> and passes through <strong>(${x0}, ${y0})</strong>. Find its equation.`,
+      m, c, ans:[ans],
+      hints:[`y = mx + c → y = ${m}x + c`,`Substitute (${x0},${y0}): ${y0} = ${m}×${x0} + c`,`c = ${y0} − ${m*x0} = ${c}`,`y = ${ans.replace('y=','')}`]
+    };
+  } else {
+    const a=rnd(1,4), b=rnd(1,4), k=rnd(-8,8);
+    // ax + by = k → y = (k-ax)/b = (k/b) - (a/b)x
+    const mNum=-a, mDen=b, cNum=k, cDen=b;
+    const mVal=mNum/mDen, cVal=cNum/cDen;
+    const ans=buildLineEq(mNum,mDen,cVal);
+    q={
+      question:`Rearrange <strong>${a}x + ${b}y = ${k}</strong> into the form y = mx + c.`,
+      m:mVal, c:cVal, ans:[ans],
+      hints:[`Subtract ${a}x: ${b}y = ${k} − ${a}x`,`Divide by ${b}: y = ${frac(-a,b)}x + ${frac(k,b)}`]
+    };
+  }
+  elState.findQ=q;
+  document.getElementById('el-find-question').innerHTML=q.question;
+  document.getElementById('el-find-input').value='';
+  document.getElementById('el-find-feedback').className='feedback';
+  document.getElementById('el-find-hints').className='hint-list';
+}
+
+function buildLineEq(mNum, mDen, c) {
+  const mVal=mNum/mDen;
+  let mPart;
+  if (mVal===1) mPart='x';
+  else if (mVal===-1) mPart='-x';
+  else if (Number.isInteger(mVal)) mPart=`${mVal}x`;
+  else mPart=`${frac(mNum,mDen)}x`;
+  const cPart=c===0?'':(c>0?`+${c}`:c);
+  return `y=${mPart}${cPart}`.replace('y=+','y=');
+}
+
+function elFindCheck() {
+  const raw=document.getElementById('el-find-input').value.trim().replace(/\s+/g,'');
+  elState.attempts++;
+  const q=elState.findQ;
+  const norm=raw.toLowerCase().replace(/\s/g,'');
+  const match=q.ans.map(a=>a.toLowerCase().replace(/\s/g,'')).includes(norm);
+  // Also accept numerical check
+  let numCheck=false;
+  const m=parseFloat(raw.replace(/.*y=/,'').split('x')[0]);
+  if (!isNaN(m)&&Math.abs(m-q.m)<0.001) {
+    const cPart=raw.replace(/.*x/,'');
+    const cv=parseFloat(cPart);
+    if (!isNaN(cv)&&Math.abs(cv-q.c)<0.001) numCheck=true;
+  }
+  if (match||numCheck) {
+    elState.correct++; elState.streak++;
+    showFeedback('el-find-feedback',`✅ Correct! ${q.ans[0]}`,'correct');
+    updateElProgress(); setTimeout(elFindNew,1500);
+  } else {
+    elState.streak=0;
+    showFeedback('el-find-feedback',`❌ Answer: ${q.ans[0]}`,'wrong');
+    updateElProgress();
+  }
+}
+function elFindHint() { showHints('el-find-hints', elState.findQ.hints); }
+
+function updateElProgress() {
+  const pct=elState.attempts?Math.round(elState.correct/elState.attempts*100):0;
+  document.getElementById('el-prog').style.width=Math.min(pct,100)+'%';
+  document.getElementById('el-correct').textContent=elState.correct;
+  document.getElementById('el-streak').textContent=elState.streak;
+  document.getElementById('el-pct').textContent=pct+'%';
+}
+
+/* Graph plotter */
+function gpDraw() {
+  const m=parseFloat(document.getElementById('gp-m').value);
+  const c=parseFloat(document.getElementById('gp-c').value);
+  document.getElementById('gp-m-val').textContent=m;
+  document.getElementById('gp-c-val').textContent=c;
+  const mStr=m===1?'':m===-1?'-':m;
+  const cStr=c===0?'':(c>0?` + ${c}`:` − ${Math.abs(c)}`);
+  document.getElementById('gp-eq').textContent=`y = ${mStr}x${cStr}`;
+  const canvas=document.getElementById('gp-canvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height, sc=28;
+  drawGrid(ctx,W,H,sc);
+  const cx=W/2, cy=H/2;
+  ctx.strokeStyle='#0d9488'; ctx.lineWidth=2.5;
+  ctx.beginPath(); let first=true;
+  for (let x=-W/sc; x<=W/sc; x+=0.05) {
+    const y=m*x+c;
+    if (Math.abs(y)>H/sc) { first=true; continue; }
+    const px=cx+x*sc, py=cy-y*sc;
+    if (first) { ctx.moveTo(px,py); first=false; } else ctx.lineTo(px,py);
+  }
+  ctx.stroke();
+  // y-intercept dot
+  ctx.beginPath(); ctx.arc(cx, cy-c*sc, 5, 0, Math.PI*2);
+  ctx.fillStyle='#dc2626'; ctx.fill();
+}
+
+/* ================================================================
+   MODULE 4 — PARALLEL & PERPENDICULAR
+   ================================================================ */
+let ppState = { correct:0, attempts:0, streak:0, classQ:null, findQ:null, mode:'par' };
+
+function ppNew() {
+  const m1num=rnd(-4,4), m1den=pick([1,1,1,2,3]);
+  const m1=m1num/m1den;
+  const type=pick(['parallel','perpendicular','neither']);
+  let m2, m2str;
+  if (type==='parallel') { m2=m1; m2str=frac(m1num,m1den); }
+  else if (type==='perpendicular') {
+    const g=gcd(Math.abs(m1num||1),m1den);
+    m2 = m1===0 ? Infinity : -m1den/m1num;
+    m2str = m1===0 ? 'undefined' : frac(-m1den,m1num);
+  } else {
+    let m2try;
+    do { m2try=rnd(-4,4); } while (Math.abs(m2try-m1)<0.01||Math.abs(m2try*m1+1)<0.01);
+    m2=m2try; m2str=String(m2try);
+  }
+  const c1=rnd(-5,5), c2=rnd(-5,5);
+  const m1str=frac(m1num,m1den);
+  ppState.classQ={type, m1str, m2str,
+    line1:`y = ${m1str}x ${c1>=0?'+ '+c1:'− '+Math.abs(c1)}`,
+    line2:`y = ${m2str}x ${c2>=0?'+ '+c2:'− '+Math.abs(c2)}`
+  };
+  document.getElementById('pp-pair').innerHTML =
+    ppState.classQ.line1+'<br>'+ppState.classQ.line2;
+  document.getElementById('pp-feedback').className='feedback';
+}
+
+function ppCheck(ans) {
+  ppState.attempts++;
+  const correct=ans===ppState.classQ.type;
+  if (correct) {
+    ppState.correct++; ppState.streak++;
+    const exp={parallel:'Same gradient → parallel',perpendicular:'Product of gradients = −1 → perpendicular',neither:'Gradients are different and don\'t multiply to −1'};
+    showFeedback('pp-feedback',`✅ Correct! ${exp[ppState.classQ.type]}`,'correct');
+    updatePpProgress(); setTimeout(ppNew,1500);
+  } else {
+    ppState.streak=0;
+    showFeedback('pp-feedback',`❌ These lines are ${ppState.classQ.type}. Check m₁ and m₂.`,'wrong');
+    updatePpProgress();
+  }
+}
+
+function setPpMode(mode) {
+  ppState.mode=mode;
+  ['par','perp'].forEach(m=>{
+    const btn=document.getElementById('pp-mode-'+m);
+    btn.className=m===mode?'btn btn-sm':'btn btn-sm btn-secondary';
+    btn.style.background=m===mode?'var(--blue)':''; btn.style.color=m===mode?'white':'';
+  });
+  ppFindNew();
+}
+
+function ppFindNew() {
+  const m=rnd(-4,4)||1, c=rnd(-5,5);
+  const x0=rnd(-4,4), y0=rnd(-5,5);
+  let newM, newMStr, ans, hints;
+  if (ppState.mode==='par') {
+    newM=m; newMStr=String(m);
+    const newC=y0-m*x0;
+    ans=buildLineEq(m,1,newC);
+    hints=[`Parallel lines have the same gradient: m = ${m}`,`y = ${m}x + c; substitute (${x0},${y0}): ${y0} = ${m}×${x0} + c`,`c = ${newC}`,`y = ${ans.replace('y=','')}`];
+  } else {
+    const perpNum=-(1), perpDen=m||1;
+    newM=-1/m; newMStr=frac(-1,m);
+    const newC=y0-newM*x0;
+    ans=buildLineEq(-1,m,newC);
+    hints=[`Perpendicular gradient = −1/m = ${newMStr}`,`y = ${newMStr}x + c; substitute (${x0},${y0})`,`c = ${+newC.toFixed(4)}`,`y = ${ans.replace('y=','')}`];
+  }
+  ppState.findQ={ans:[ans], hints, newM, newC:y0-newM*x0};
+  document.getElementById('pp-find-question').innerHTML=
+    `A line is ${ppState.mode==='par'?'<strong>parallel</strong>':'<strong>perpendicular</strong>'} to <strong>y = ${m}x ${c>=0?'+ '+c:'− '+Math.abs(c)}</strong> and passes through <strong>(${x0}, ${y0})</strong>. Find its equation.`;
+  document.getElementById('pp-find-input').value='';
+  document.getElementById('pp-find-feedback').className='feedback';
+  document.getElementById('pp-find-hints').className='hint-list';
+}
+
+function ppFindCheck() {
+  const raw=document.getElementById('pp-find-input').value.trim().replace(/\s+/g,'');
+  ppState.attempts++;
+  const norm=raw.toLowerCase().replace(/\s/g,'');
+  const match=ppState.findQ.ans.map(a=>a.toLowerCase().replace(/\s/g,'')).includes(norm);
+  if (match) {
+    ppState.correct++; ppState.streak++;
+    showFeedback('pp-find-feedback',`✅ Correct! ${ppState.findQ.ans[0]}`,'correct');
+    updatePpProgress(); setTimeout(ppFindNew,1500);
+  } else {
+    ppState.streak=0;
+    showFeedback('pp-find-feedback',`❌ Answer: ${ppState.findQ.ans[0]}`,'wrong');
+    updatePpProgress();
+  }
+}
+function ppFindHint() { showHints('pp-find-hints', ppState.findQ.hints); }
+
+function updatePpProgress() {
+  const pct=ppState.attempts?Math.round(ppState.correct/ppState.attempts*100):0;
+  document.getElementById('pp-prog').style.width=Math.min(pct,100)+'%';
+  document.getElementById('pp-correct').textContent=ppState.correct;
+  document.getElementById('pp-streak').textContent=ppState.streak;
+  document.getElementById('pp-pct').textContent=pct+'%';
+}
+
+/* ================================================================
+   MODULE 5 — INTERSECTIONS
+   ================================================================ */
+let ixState = { correct:0, attempts:0, streak:0, mode:'ll', q:null };
+let ixGraphState = { x:null, y:null };
+
+function setIxMode(mode) {
+  ixState.mode=mode;
+  ['ll','lc'].forEach(m=>{
+    const btn=document.getElementById('ix-mode-'+m);
+    btn.className=m===mode?'btn btn-sm':'btn btn-sm btn-secondary';
+    btn.style.background=m===mode?'var(--blue)':''; btn.style.color=m===mode?'white':'';
+  });
+  document.getElementById('ix-one-input').style.display=mode==='ll'?'flex':'none';
+  document.getElementById('ix-two-inputs').style.display=mode==='lc'?'block':'none';
+  ixNew();
+}
+
+function ixNew() {
+  let q;
+  if (ixState.mode==='ll') {
+    // Two lines with integer intersection
+    const x0=rnd(-4,4), y0=rnd(-4,4);
+    const m1=rnd(-3,3)||1, m2=rnd(-3,3)||2;
+    if (m1===m2) { ixNew(); return; }
+    const c1=y0-m1*x0, c2=y0-m2*x0;
+    const m1s=String(m1), m2s=String(m2), c1s=c1>=0?`+ ${c1}`:String(c1), c2s=c2>=0?`+ ${c2}`:String(c2);
+    q={
+      question:`y = ${m1s}x ${c1s}<br>y = ${m2s}x ${c2s}`,
+      ans:{x:x0, y:y0}, type:'ll',
+      hints:[`Set equal: ${m1}x ${c1s} = ${m2}x ${c2s}`,`${m1-m2}x = ${c2-c1}`,`x = ${x0}`,`y = ${m1}×${x0} ${c1s} = ${y0}`]
+    };
+  } else {
+    // Line meets quadratic y = x² + bx + c  at two points
+    const r1=rnd(-3,2), r2=rnd(r1+1,4);
+    const b=-(r1+r2), c=r1*r2;
+    const m=rnd(-2,2), k=rnd(-3,3);
+    // y = mx + k intersects y = x² + bx + c
+    // x² + (b-m)x + (c-k) = 0
+    const A=1, B=b-m, C=c-k;
+    const disc=B*B-4*A*C;
+    if (disc<0||disc!==Math.round(disc)) { ixNew(); return; }
+    const sqD=Math.round(Math.sqrt(disc));
+    if (sqD*sqD!==disc) { ixNew(); return; }
+    const x1=(-B-sqD)/2, x2=(-B+sqD)/2;
+    const y1=m*x1+k, y2=m*x2+k;
+    if (!Number.isInteger(x1)||!Number.isInteger(x2)) { ixNew(); return; }
+    q={
+      question:`y = x² ${b>=0?'+ '+b:'− '+Math.abs(b)}x ${c>=0?'+ '+c:'− '+Math.abs(c)}<br>y = ${m===1?'':m===-1?'-':m}x ${k>=0?'+ '+k:k}`,
+      ans:{x1:Math.min(x1,x2),y1:m*Math.min(x1,x2)+k, x2:Math.max(x1,x2),y2:m*Math.max(x1,x2)+k}, type:'lc',
+      hints:[`Substitute: x² + ${b}x + ${c} = ${m}x + ${k}`,`x² + ${B}x + ${C} = 0`,`Solve: x = ${x1} or x = ${x2}`,`Substitute back to find y values`]
+    };
+  }
+  ixState.q=q;
+  document.getElementById('ix-question').innerHTML=q.question;
+  ['ix-x','ix-y','ix-x1','ix-y1','ix-x2','ix-y2'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('ix-feedback').className='feedback';
+  document.getElementById('ix-hints').className='hint-list';
+}
+
+function ixCheck() {
+  ixState.attempts++;
+  const q=ixState.q;
+  let correct=false;
+  if (q.type==='ll') {
+    const xv=parseFloat(document.getElementById('ix-x').value);
+    const yv=parseFloat(document.getElementById('ix-y').value);
+    correct=Math.abs(xv-q.ans.x)<0.01&&Math.abs(yv-q.ans.y)<0.01;
+    if (correct) showFeedback('ix-feedback',`✅ Correct! Intersection at (${q.ans.x}, ${q.ans.y})`,'correct');
+    else showFeedback('ix-feedback',`❌ Intersection is at (${q.ans.x}, ${q.ans.y})`,'wrong');
+  } else {
+    const x1v=parseFloat(document.getElementById('ix-x1').value);
+    const y1v=parseFloat(document.getElementById('ix-y1').value);
+    const x2v=parseFloat(document.getElementById('ix-x2').value);
+    const y2v=parseFloat(document.getElementById('ix-y2').value);
+    const a=q.ans;
+    correct=(Math.abs(x1v-a.x1)<0.01&&Math.abs(y1v-a.y1)<0.01&&Math.abs(x2v-a.x2)<0.01&&Math.abs(y2v-a.y2)<0.01);
+    if (correct) showFeedback('ix-feedback',`✅ Correct! Points (${a.x1}, ${a.y1}) and (${a.x2}, ${a.y2})`,'correct');
+    else showFeedback('ix-feedback',`❌ Points are (${a.x1}, ${a.y1}) and (${a.x2}, ${a.y2})`,'wrong');
+  }
+  if (correct) { ixState.correct++; ixState.streak++; updateIxProgress(); setTimeout(ixNew,1600); }
+  else { ixState.streak=0; updateIxProgress(); }
+}
+function ixHint() { showHints('ix-hints', ixState.q.hints); }
+
+function updateIxProgress() {
+  const pct=ixState.attempts?Math.round(ixState.correct/ixState.attempts*100):0;
+  document.getElementById('ix-prog').style.width=Math.min(pct,100)+'%';
+  document.getElementById('ix-correct').textContent=ixState.correct;
+  document.getElementById('ix-streak').textContent=ixState.streak;
+  document.getElementById('ix-pct').textContent=pct+'%';
+}
+
+function ixGraphNew() {
+  const canvas=document.getElementById('ix-canvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height,sc=28;
+  drawGrid(ctx,W,H,sc);
+  const cx=W/2,cy=H/2;
+  const x0=rnd(-3,3), y0=rnd(-3,3);
+  const m1=rnd(-2,2)||1, m2=rnd(-2,2)||(-1);
+  if(m1===m2){ixGraphNew();return;}
+  const c1=y0-m1*x0, c2=y0-m2*x0;
+  ixGraphState={x:x0,y:y0};
+  [[m1,c1,'#1a56db'],[m2,c2,'#dc2626']].forEach(([m,c,col])=>{
+    ctx.strokeStyle=col; ctx.lineWidth=2;
+    ctx.beginPath(); let f=true;
+    for(let x=-W/sc;x<=W/sc;x+=0.05){
+      const y=m*x+c; if(Math.abs(y)>H/sc){f=true;continue;}
+      const px=cx+x*sc,py=cy-y*sc;
+      if(f){ctx.moveTo(px,py);f=false;}else ctx.lineTo(px,py);
+    } ctx.stroke();
+  });
+  ctx.beginPath(); ctx.arc(cx+x0*sc,cy-y0*sc,6,0,Math.PI*2);
+  ctx.fillStyle='#7c3aed'; ctx.fill();
+  document.getElementById('ix-gx').value=''; document.getElementById('ix-gy').value='';
+  document.getElementById('ix-graph-feedback').className='feedback';
+}
+
+function ixGraphCheck() {
+  const xv=parseFloat(document.getElementById('ix-gx').value);
+  const yv=parseFloat(document.getElementById('ix-gy').value);
+  ixState.attempts++;
+  if(Math.abs(xv-ixGraphState.x)<0.01&&Math.abs(yv-ixGraphState.y)<0.01){
+    ixState.correct++; ixState.streak++;
+    showFeedback('ix-graph-feedback',`✅ Correct! Intersection at (${ixGraphState.x}, ${ixGraphState.y})`,'correct');
+    updateIxProgress(); setTimeout(ixGraphNew,1500);
+  } else {
+    ixState.streak=0;
+    showFeedback('ix-graph-feedback',`❌ The intersection is at (${ixGraphState.x}, ${ixGraphState.y})`,'wrong');
+    updateIxProgress();
+  }
+}
+
+/* ================================================================
+   MODULE 6 — LOCI & REGIONS
+   ================================================================ */
+let lcState = { correct:0, attempts:0, streak:0, q:null, regQ:null };
+
+const LOCI_QS = [
+  { q:'What is the locus of all points that are exactly 5 cm from a fixed point P?', opts:['Circle, centre P, radius 5 cm','Perpendicular bisector of P','Line parallel to P','Square around P'], ans:'Circle, centre P, radius 5 cm' },
+  { q:'What is the locus of all points equidistant from two fixed points A and B?', opts:['Circle through A and B','Perpendicular bisector of AB','Line through A and B','Angle bisector of AB'], ans:'Perpendicular bisector of AB' },
+  { q:'What is the locus of all points exactly 3 cm from a straight line L?', opts:['A single parallel line','Two lines parallel to L, 3 cm either side','A circle of radius 3 cm','An angle bisector'], ans:'Two lines parallel to L, 3 cm either side' },
+  { q:'What is the locus of all points equidistant from two intersecting lines?', opts:['A circle at the intersection','Perpendicular bisector','Angle bisectors of the two lines','A line parallel to both'], ans:'Angle bisectors of the two lines' },
+  { q:'The locus of points closer to A than to B is:', opts:['The perpendicular bisector of AB','The region on A\'s side of the perpendicular bisector of AB','A circle centred at A','The midpoint of AB'], ans:'The region on A\'s side of the perpendicular bisector of AB' },
+  { q:'Which describes the locus of points inside a circle of radius r centred at O?', opts:['Distance from O = r','Distance from O < r','Distance from O > r','Distance from O ≤ r'], ans:'Distance from O < r' }
+];
+
+function lcNew() {
+  lcState.q = pick(LOCI_QS);
+  document.getElementById('lc-question').textContent = lcState.q.q;
+  const shuffled = [...lcState.q.opts].sort(()=>Math.random()-0.5);
+  document.getElementById('lc-options').innerHTML = shuffled.map(o=>
+    `<button class="btn btn-secondary btn-sm" onclick="lcCheck('${o.replace(/'/g,"\\'")}')"><span style="white-space:normal;text-align:left;">${o}</span></button>`
+  ).join('');
+  document.getElementById('lc-feedback').className='feedback';
+}
+
+function lcCheck(ans) {
+  lcState.attempts++;
+  if (ans === lcState.q.ans) {
+    lcState.correct++; lcState.streak++;
+    showFeedback('lc-feedback',`✅ Correct! ${lcState.q.ans}`,'correct');
+    updateLcProgress(); setTimeout(lcNew,1600);
+  } else {
+    lcState.streak=0;
+    showFeedback('lc-feedback',`❌ Correct answer: ${lcState.q.ans}`,'wrong');
+    updateLcProgress();
+  }
+}
+
+function lcRegNew() {
+  const canvas=document.getElementById('lc-canvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height,sc=26;
+  drawGrid(ctx,W,H,sc);
+  const cx=W/2,cy=H/2;
+  const m=rnd(-3,3), c=rnd(-4,4);
+  const shade=pick(['above','below']);
+  const op=shade==='above'?'>':'<';
+  // Draw boundary (dashed, strict inequality)
+  ctx.setLineDash([6,4]); ctx.strokeStyle='#1a56db'; ctx.lineWidth=2;
+  ctx.beginPath(); let f=true;
+  for(let x=-W/sc;x<=W/sc;x+=0.05){
+    const y=m*x+c; if(Math.abs(y)>H/sc){f=true;continue;}
+    const px=cx+x*sc,py=cy-y*sc;
+    if(f){ctx.moveTo(px,py);f=false;}else ctx.lineTo(px,py);
+  } ctx.stroke(); ctx.setLineDash([]);
+  // Shade region
+  ctx.fillStyle='rgba(13,148,136,0.15)';
+  ctx.beginPath();
+  if(shade==='above'){
+    ctx.moveTo(0,0); ctx.lineTo(W,0);
+    for(let x=W/sc;x>=-W/sc;x-=0.1){
+      const y=m*x+c; const px=cx+x*sc,py=cy-y*sc;
+      ctx.lineTo(px,Math.max(0,py));
+    }
+  } else {
+    ctx.moveTo(0,H); ctx.lineTo(W,H);
+    for(let x=W/sc;x>=-W/sc;x-=0.1){
+      const y=m*x+c; const px=cx+x*sc,py=cy-y*sc;
+      ctx.lineTo(px,Math.min(H,py));
+    }
+  }
+  ctx.closePath(); ctx.fill();
+  const mStr=frac(m,1), cStr=c>=0?`+ ${c}`:String(c);
+  const correctOpt=`y ${op} ${m===1?'':m===-1?'-':m}x ${c===0?'':(c>=0?'+ '+c:String(c))}`.replace(/\s+/g,' ').trim();
+  const wrong1=`y ${shade==='above'?'<':'>'} ${m}x ${cStr}`;
+  const wrong2=`y ${op} ${-m}x ${cStr}`;
+  const wrong3=`y ${op} ${m}x ${c===0?'+1':(c>0?String(c+1):String(c-1))}`;
+  const opts=[correctOpt,wrong1,wrong2,wrong3].sort(()=>Math.random()-0.5);
+  lcState.regQ={ans:correctOpt};
+  document.getElementById('lc-reg-opts').innerHTML=opts.map(o=>
+    `<button class="btn btn-secondary btn-sm" onclick="lcRegCheck('${encodeURIComponent(o)}')">${o}</button>`
+  ).join('');
+  document.getElementById('lc-reg-feedback').className='feedback';
+}
+
+function lcRegCheck(ans) {
+  const decoded=decodeURIComponent(ans);
+  lcState.attempts++;
+  if(decoded===lcState.regQ.ans){
+    lcState.correct++; lcState.streak++;
+    showFeedback('lc-reg-feedback','✅ Correct!','correct');
+    updateLcProgress(); setTimeout(lcRegNew,1500);
+  } else {
+    lcState.streak=0;
+    showFeedback('lc-reg-feedback',`❌ Correct: ${lcState.regQ.ans}`,'wrong');
+    updateLcProgress();
+  }
+}
+
+function updateLcProgress() {
+  const pct=lcState.attempts?Math.round(lcState.correct/lcState.attempts*100):0;
+  document.getElementById('lc-prog').style.width=Math.min(pct,100)+'%';
+  document.getElementById('lc-correct').textContent=lcState.correct;
+  document.getElementById('lc-streak').textContent=lcState.streak;
+  document.getElementById('lc-pct').textContent=pct+'%';
+}
+
+/* ================================================================
+   MODULE 7 — EXAM CHALLENGE
+   ================================================================ */
+let ecState = { correct:0, total:0, qIdx:0, results:[], questions:[] };
+let ecQ = null;
+
+const EC_QUESTIONS = [
+  { q:'Find the gradient of the line joining (2, 5) and (6, 13).', ans:['2'], marks:'[2]', level:'Core', topic:'Gradient', hints:['m = (13−5)/(6−2) = 8/4'] },
+  { q:'Find the midpoint of the line segment joining (−3, 4) and (7, −2).', ans:['(2,1)','(2, 1)'], marks:'[2]', level:'Core', topic:'Midpoint', hints:['x: (−3+7)/2=2, y: (4−2)/2=1'] },
+  { q:'Find the length of the line segment joining (1, 2) and (4, 6). Give exact answer.', ans:['5','√25'], marks:'[2]', level:'Core', topic:'Distance', hints:['d = √((4−1)²+(6−2)²) = √(9+16) = 5'] },
+  { q:'Write down the gradient and y-intercept of y = −3x + 7.', ans:['m=−3,c=7','m=-3,c=7'], marks:'[2]', level:'Core', topic:'Equation of line', hints:['y = mx + c: m = −3, c = 7'] },
+  { q:'Find the equation of the line through (0, 4) with gradient 2.', ans:['y=2x+4'], marks:'[2]', level:'Core', topic:'Equation of line', hints:['y = 2x + c; passes through (0,4) so c = 4'] },
+  { q:'Find the equation of the line through (1, 5) and (3, 9).', ans:['y=2x+3'], marks:'[3]', level:'Core', topic:'Equation of line', hints:['m=(9−5)/(3−1)=2; y=2x+c; 5=2+c; c=3'] },
+  { q:'Are the lines y = 3x + 1 and y = 3x − 4 parallel, perpendicular, or neither?', ans:['parallel'], marks:'[1]', level:'Core', topic:'Parallel/Perpendicular', hints:['Same gradient (m=3) → parallel'] },
+  { q:'Find the equation of the line perpendicular to y = 2x − 1 passing through (4, 3).', ans:['y=−½x+5','y=-0.5x+5','y=-1/2x+5'], marks:'[3]', level:'Extended', topic:'Perpendicular', hints:['Perp. m = −1/2; y = −½x + c; 3 = −2 + c; c = 5'] },
+  { q:'Find the intersection of y = x + 3 and y = −x + 7.', ans:['(2,5)','x=2,y=5'], marks:'[3]', level:'Extended', topic:'Intersections', hints:['x+3=−x+7; 2x=4; x=2; y=5'] },
+  { q:'Describe the locus of all points 4 cm from a fixed point P.', ans:['circle','circle,centreP,radius4cm','circle centre p radius 4 cm'], marks:'[2]', level:'Core', topic:'Loci', hints:['Fixed distance from a point → circle'] },
+  { q:'Find the gradient of the line perpendicular to y = (3/4)x + 2.', ans:['−4/3','-4/3'], marks:'[2]', level:'Extended', topic:'Perpendicular', hints:['Perp. gradient = −1/m = −4/3'] },
+  { q:'Point A is (−1, 3) and B is (5, 3). What is the gradient of AB?', ans:['0'], marks:'[1]', level:'Core', topic:'Gradient', hints:['Both y-values are equal → horizontal line → m = 0'] }
+];
+
+function ecStart() {
+  const shuffled=[...EC_QUESTIONS].sort(()=>Math.random()-0.5).slice(0,10);
+  ecState={correct:0, total:10, qIdx:0, results:[], questions:shuffled};
+  document.getElementById('ec-results').style.display='none';
+  document.getElementById('ec-prog').style.width='0%';
+  document.getElementById('ec-correct').textContent='0';
+  document.getElementById('ec-total').textContent='10';
+  document.getElementById('ec-pct').textContent='0%';
+  ecLoadQ();
+}
+
+function ecLoadQ() {
+  const q=ecState.questions[ecState.qIdx];
+  ecQ=q;
+  document.getElementById('ec-question').innerHTML=q.q;
+  document.getElementById('ec-badge').textContent=q.level;
+  document.getElementById('ec-badge').className=q.level==='Core'?'badge badge-core':'badge badge-ext';
+  document.getElementById('ec-topic').textContent='📚 '+q.topic;
+  document.getElementById('ec-marks').textContent='Marks: '+q.marks;
+  document.getElementById('ec-input').value='';
+  document.getElementById('ec-feedback').className='feedback';
+  document.getElementById('ec-hints').className='hint-list';
+}
+
+function ecCheck() {
+  const norm=document.getElementById('ec-input').value.trim().replace(/\s+/g,'').toLowerCase();
+  const correct=ecQ.ans.map(a=>a.toLowerCase().replace(/\s/g,'')).includes(norm);
+  ecState.results.push({q:ecQ.q,correct,given:norm,expected:ecQ.ans[0]});
+  if(correct){ecState.correct++; showFeedback('ec-feedback',`✅ Correct! ${ecQ.marks}`,'correct');}
+  else showFeedback('ec-feedback',`❌ Answer: ${ecQ.ans[0]}`,'wrong');
+  const pct=Math.round(ecState.correct/(ecState.qIdx+1)*100);
+  document.getElementById('ec-prog').style.width=Math.round((ecState.qIdx+1)/ecState.total*100)+'%';
+  document.getElementById('ec-correct').textContent=ecState.correct;
+  document.getElementById('ec-pct').textContent=pct+'%';
+  setTimeout(()=>{
+    ecState.qIdx++;
+    if(ecState.qIdx>=ecState.total) ecShowResults(); else ecLoadQ();
+  },1600);
+}
+
+function ecHint() { showHints('ec-hints', ecQ.hints); }
+function ecSkip() {
+  ecState.results.push({q:ecQ.q,correct:false,given:'—',expected:ecQ.ans[0]});
+  ecState.qIdx++;
+  if(ecState.qIdx>=ecState.total) ecShowResults(); else ecLoadQ();
+}
+
+function ecShowResults() {
+  document.getElementById('ec-results').style.display='block';
+  const pct=Math.round(ecState.correct/ecState.total*100);
+  const grade=pct>=80?'🏆 Excellent':pct>=60?'👍 Good':pct>=40?'📚 Needs practice':'⚠️ Review required';
+  document.getElementById('ec-results-body').innerHTML=`
+    <div class="score-bar" style="margin-bottom:16px;">
+      <div class="sc-item"><strong>${ecState.correct}/${ecState.total}</strong><br>Score</div>
+      <div class="sc-sep"></div>
+      <div class="sc-item"><strong>${pct}%</strong><br>Percentage</div>
+      <div class="sc-sep"></div>
+      <div class="sc-item"><strong>${grade}</strong></div>
+    </div>
+    ${ecState.results.map(r=>`<div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:0.83rem;display:flex;gap:8px;">
+      <span>${r.correct?'✅':'❌'}</span>
+      <div>${r.q}${!r.correct?`<div style="color:var(--muted);margin-top:2px;">Your: ${r.given} · Correct: ${r.expected}</div>`:''}</div>
+    </div>`).join('')}`;
+}
+function ecRestart() { ecStart(); }
+
+/* ================================================================
+   INIT
+   ================================================================ */
+showModule(0);
+</script>
+</body>
+</html>
