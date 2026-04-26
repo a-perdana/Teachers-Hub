@@ -194,6 +194,7 @@ body {
 }
 .nav-item .nav-icon { font-size: 1.1rem; flex-shrink: 0; }
 .nav-item .nav-label { overflow: hidden; text-overflow: ellipsis; transition: opacity 0.2s; }
+.nav-done .nav-icon::after { content: ' ✓'; font-size: 0.65rem; color: #34d399; vertical-align: super; }
 .sidebar.collapsed .nav-label { opacity: 0; width: 0; }
 
 /* ── Content area ── */
@@ -402,6 +403,7 @@ input.inp-lg  { width: 180px; }
 .btn-secondary { background: var(--slate); color: var(--text); border: 1px solid var(--border); }
 .btn-secondary:hover { background: #e2e8f0; }
 .btn-danger  { background: #dc2626; color: white; }
+.btn-sm { padding: 6px 12px; font-size: 0.8rem; }
 
 /* ================================================================
    PROGRESSIVE HINTS LIST
@@ -794,6 +796,10 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     </a>
   </div>
   <button id="teacherToggle" onclick="toggleTeacherMode()">👨‍🏫 Teacher Mode: OFF</button>
+  <div id="teacher-hint" style="display:none;position:absolute;top:72px;right:24px;background:#fffbeb;border:1.5px solid #fcd34d;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#92400e;max-width:240px;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,0.12);">
+    👩‍🏫 <strong>Are you a teacher?</strong><br>Click "Teacher Mode" to see misconceptions, strategies, and worked examples for each module.
+    <button onclick="dismissTeacherHint()" style="display:block;margin-top:8px;font-size:0.78rem;background:none;border:none;color:#92400e;cursor:pointer;text-decoration:underline;">Got it</button>
+  </div>
 </header>
 
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="sidebarMobileToggle()"></div>
@@ -859,6 +865,12 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <span class="prog-count" id="pf-score">0 pts</span>
   </div>
 
+  <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+    <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+    <button class="btn btn-sm" id="mode-core-t1-0" onclick="setT1Diff(0,'core')" style="background:var(--blue);color:white;">Core</button>
+    <button class="btn btn-sm btn-secondary" id="mode-ext-t1-0" onclick="setT1Diff(0,'ext')">Extended</button>
+    <span id="mode-desc-t1-0" style="font-size:0.8rem;color:var(--muted);">Core: 2-digit composites</span>
+  </div>
   <div class="teacher-panel" id="tp-0">
     <div class="tp-header">👨‍🏫 Teacher Notes — Prime Factor Lab</div>
     <div class="tp-grid">
@@ -867,6 +879,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
       <div class="tp-item"><strong>❌ Misconception 3:</strong> Confusing factors and multiples. A factor of 24 must divide 24 exactly — no remainder.</div>
       <div class="tp-item"><strong>✅ Teaching Strategy:</strong> After the tree, extend immediately to HCF/LCM using index notation. Ask: "Which primes appear in both?" </div>
     </div>
+    <details style="margin-top:12px;padding:0 12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;font-size:0.83rem;line-height:1.7;"><strong>Q: Write 360 as a product of prime factors.</strong><br><ol style="margin:8px 0 0 16px;"><li>360 ÷ 2 = 180 → 180 ÷ 2 = 90 → 90 ÷ 2 = 45 → 45 ÷ 3 = 15 → 15 ÷ 3 = 5</li><li>360 = 2 × 2 × 2 × 3 × 3 × 5 = <strong>2³ × 3² × 5</strong></li></ol></div></details>
   </div>
 
   <div class="card">
@@ -874,7 +887,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="card-desc">Enter any number (2–500) and build its prime factor tree step by step. The system will guide you to use only prime factors.</div>
     <div class="input-row">
       <label class="bold">Number (2–500):</label>
-      <input type="number" id="pf-input" class="inp-sm" min="2" max="500" value="60" />
+      <input type="number" id="pf-input" class="inp-sm" min="2" max="500" value="60" onkeydown="if(event.key==='Enter')pfStart()" />
       <button class="btn btn-primary" onclick="pfStart()">▶ Start</button>
       <button class="btn btn-secondary" onclick="pfReset()">↺ Reset</button>
     </div>
@@ -943,6 +956,12 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <span class="prog-count" id="fr-score">0 pts</span>
   </div>
 
+  <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+    <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+    <button class="btn btn-sm" id="mode-core-t1-1" onclick="setT1Diff(1,'core')" style="background:var(--blue);color:white;">Core</button>
+    <button class="btn btn-sm btn-secondary" id="mode-ext-t1-1" onclick="setT1Diff(1,'ext')">Extended</button>
+    <span id="mode-desc-t1-1" style="font-size:0.8rem;color:var(--muted);">Core: proper fractions</span>
+  </div>
   <div class="teacher-panel" id="tp-1">
     <div class="tp-header">👨‍🏫 Teacher Notes — Fraction Builder</div>
     <div class="tp-grid">
@@ -951,6 +970,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
       <div class="tp-item"><strong>❌ Misconception 3:</strong> Simplification: dividing only the numerator, or using a common factor that is not the HCF.</div>
       <div class="tp-item"><strong>❌ Misconception 4:</strong> Percentage conversion: multiplying by 10 not 100. "× 10 gives you tens, × 100 gives you per cent (out of 100)."</div>
     </div>
+    <details style="margin-top:12px;padding:0 12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;font-size:0.83rem;line-height:1.7;"><strong>Q: Calculate 2/3 + 3/4.</strong><br><ol style="margin:8px 0 0 16px;"><li>LCM of 3 and 4 = 12.</li><li>2/3 = 8/12, 3/4 = 9/12.</li><li>8/12 + 9/12 = <strong>17/12 = 1 5/12</strong>.</li></ol></div></details>
   </div>
 
   <div class="card">
@@ -1038,6 +1058,12 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <span class="prog-count" id="sf-score">0 pts</span>
   </div>
 
+  <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+    <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+    <button class="btn btn-sm" id="mode-core-t1-2" onclick="setT1Diff(2,'core')" style="background:var(--blue);color:white;">Core</button>
+    <button class="btn btn-sm btn-secondary" id="mode-ext-t1-2" onclick="setT1Diff(2,'ext')">Extended</button>
+    <span id="mode-desc-t1-2" style="font-size:0.8rem;color:var(--muted);">Core: positive exponents</span>
+  </div>
   <div class="teacher-panel" id="tp-2">
     <div class="tp-header">👨‍🏫 Teacher Notes — Standard Form</div>
     <div class="tp-grid">
@@ -1046,6 +1072,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
       <div class="tp-item"><strong>❌ Misconception 3:</strong> Counting decimal moves in the wrong direction. Emphasise: moving right = getting bigger = positive power.</div>
       <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Use the slider live in class. Move it left and right, pausing to ask: "Did the power go up or down? Why?"</div>
     </div>
+    <details style="margin-top:12px;padding:0 12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;font-size:0.83rem;line-height:1.7;"><strong>Q: Write 0.00345 in standard form.</strong><br><ol style="margin:8px 0 0 16px;"><li>Move decimal right until 1 ≤ n &lt; 10: 3.45</li><li>Moved 3 places right → power = −3.</li><li>Answer: <strong>3.45 × 10⁻³</strong>.</li></ol></div></details>
   </div>
 
   <!-- Simulator -->
@@ -1122,6 +1149,12 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <span class="prog-count" id="rt-score">0 pts</span>
   </div>
 
+  <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+    <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+    <button class="btn btn-sm" id="mode-core-t1-3" onclick="setT1Diff(3,'core')" style="background:var(--blue);color:white;">Core</button>
+    <button class="btn btn-sm btn-secondary" id="mode-ext-t1-3" onclick="setT1Diff(3,'ext')">Extended</button>
+    <span id="mode-desc-t1-3" style="font-size:0.8rem;color:var(--muted);">Core: integer ratios</span>
+  </div>
   <div class="teacher-panel" id="tp-3">
     <div class="tp-header">👨‍🏫 Teacher Notes — Ratio Challenge</div>
     <div class="tp-grid">
@@ -1130,6 +1163,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
       <div class="tp-item"><strong>❌ Misconception 3:</strong> "2:3 means two-thirds." Ratio 2:3 means 2 parts out of 5, not 2 out of 3. Always find total parts first.</div>
       <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Use the colour-block visual — count the total blocks, then ask what one block is worth.</div>
     </div>
+    <details style="margin-top:12px;padding:0 12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;font-size:0.83rem;line-height:1.7;"><strong>Q: Share £240 in the ratio 3:5.</strong><br><ol style="margin:8px 0 0 16px;"><li>Total parts = 3 + 5 = 8.</li><li>One part = £240 ÷ 8 = £30.</li><li>Shares: <strong>£90 and £150</strong>.</li></ol></div></details>
   </div>
 
   <div class="card">
@@ -1178,6 +1212,12 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <span class="prog-count" id="eg-score">0 pts</span>
   </div>
 
+  <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+    <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+    <button class="btn btn-sm" id="mode-core-t1-4" onclick="setT1Diff(4,'core')" style="background:var(--blue);color:white;">Core</button>
+    <button class="btn btn-sm btn-secondary" id="mode-ext-t1-4" onclick="setT1Diff(4,'ext')">Extended</button>
+    <span id="mode-desc-t1-4" style="font-size:0.8rem;color:var(--muted);">Core: 1 s.f. rounding</span>
+  </div>
   <div class="teacher-panel" id="tp-4">
     <div class="tp-header">👨‍🏫 Teacher Notes — Estimation Game</div>
     <div class="tp-grid">
@@ -1186,6 +1226,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
       <div class="tp-item"><strong>❌ Misconception 3:</strong> Rounding 2.5 down to 2. At 0.5 we always round UP. "Halfway? Round up!" Enforce this in the rounding practice.</div>
       <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Make estimation a two-step process visible on page: (1) round each number, (2) calculate with rounded numbers. Never skip step 1.</div>
     </div>
+    <details style="margin-top:12px;padding:0 12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;font-size:0.83rem;line-height:1.7;"><strong>Q: Estimate 4.93 × 19.7 ÷ 0.513.</strong><br><ol style="margin:8px 0 0 16px;"><li>Round to 1 s.f.: 5 × 20 ÷ 0.5</li><li>5 × 20 = 100; 100 ÷ 0.5 = <strong>200</strong>.</li><li>(Exact ≈ 189.3 — close enough for estimation.)</li></ol></div></details>
   </div>
 
   <div class="card">
@@ -1254,6 +1295,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
       <div class="tp-item"><strong>❌ Misconception 3:</strong> Currency conversion direction. If £1 = 1.18 €, then to convert £ → €: multiply. To convert € → £: divide. Students often divide when they should multiply.</div>
       <div class="tp-item"><strong>✅ Teaching Strategy:</strong> For time arithmetic, convert everything to minutes first. For currency, draw an arrow diagram: ×rate going one way, ÷rate going the other.</div>
     </div>
+    <details style="margin-top:12px;padding:0 12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;font-size:0.83rem;line-height:1.7;"><strong>Q: Convert 2 h 35 min to minutes.</strong><br><ol style="margin:8px 0 0 16px;"><li>2 hours × 60 = 120 minutes.</li><li>120 + 35 = <strong>155 minutes</strong>.</li></ol></div></details>
   </div>
 
   <!-- Time calculations -->
@@ -2380,6 +2422,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
       <div class="tp-item"><strong>❌ Misconception 3:</strong> Confusing integers and natural numbers. Natural numbers start at 1 (or 0 in some conventions) — they exclude negatives. Integers include all negatives, zero, and positives.</div>
       <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Use the nested set diagram: ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ. Ask: "Can you place this number on the number line? Is it a fraction? Does it terminate or recur?"</div>
     </div>
+    <details style="margin-top:12px;padding:0 12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;font-size:0.83rem;line-height:1.7;"><strong>Q: Classify √9, π, and −5.</strong><br><ul style="margin:8px 0 0 16px;"><li>√9 = 3 → Natural, Integer, Rational, Real.</li><li>π ≈ 3.14159… (non-terminating, non-recurring) → Irrational, Real.</li><li>−5 → Integer, Rational, Real (NOT natural).</li></ul></div></details>
   </div>
 
   <!-- Classify a number -->
@@ -2388,7 +2431,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="card-desc">Enter any number and tick every category it belongs to. A number can belong to more than one category at once.</div>
     <div class="input-row">
       <label class="bold">Number:</label>
-      <input type="text" id="nt-input" class="inp-md" placeholder="e.g. −3, 0.5, √2, 9" />
+      <input type="text" id="nt-input" class="inp-md" placeholder="e.g. −3, 0.5, √2, 9" onkeydown="if(event.key==='Enter')ntAnalyse()" />
       <button class="btn btn-primary" onclick="ntAnalyse()">▶ Analyse</button>
       <button class="btn btn-secondary" onclick="ntRandom()">↺ Random</button>
     </div>
@@ -2598,6 +2641,19 @@ function showModule(idx) {
   document.querySelectorAll('.nav-item').forEach((b, i) => b.classList.toggle('active', i === idx));
   document.getElementById('contentArea').scrollTop = 0;
   updateTPanels();
+  restoreDoneBadges();
+}
+
+function markModuleDone(n) {
+  const done = JSON.parse(localStorage.getItem('t1_done') || '[]');
+  if (!done.includes(n)) { done.push(n); localStorage.setItem('t1_done', JSON.stringify(done)); }
+  restoreDoneBadges();
+}
+function restoreDoneBadges() {
+  const done = JSON.parse(localStorage.getItem('t1_done') || '[]');
+  document.querySelectorAll('.nav-item').forEach((el, i) => {
+    el.classList.toggle('nav-done', done.includes(i));
+  });
 }
 
 function sidebarToggle() {
@@ -2624,6 +2680,10 @@ function toggleTeacherMode() {
   btn.className = teacherMode ? 'tm-on' : '';
   updateTPanels();
 }
+function dismissTeacherHint() {
+  document.getElementById('teacher-hint').style.display = 'none';
+  localStorage.setItem('t1_teacher_hint_seen', '1');
+}
 function updateTPanels() {
   document.querySelectorAll('.teacher-panel').forEach(p => {
     p.classList.toggle('tp-visible', teacherMode);
@@ -2638,6 +2698,28 @@ function addScore(mod, pts) {
   const pct = Math.min(100, scores[mod]);
   document.getElementById(mod + '-bar').style.width = pct + '%';
   document.getElementById(mod + '-score').textContent = scores[mod] + ' pts';
+  // Mark module done when score reaches 60%
+  const modMap = { pf:0, fr:1, sf:2, rt:3, eg:4, nt:5, il:6, pr:7, bo:8, pc:9, ra:10, lm:11, tm:12, sv:13, rd:14, su:15, bn:16, sfo:17, ix:18, pl:19, pp:20, om:21, ca:22, ec:23, eg2:24, ap:25 };
+  if (pct >= 60 && modMap[mod] !== undefined) markModuleDone(modMap[mod]);
+}
+
+const t1Diff = {};
+function setT1Diff(mod, mode) {
+  t1Diff[mod] = mode;
+  const isCore = mode === 'core';
+  const cBtn = document.getElementById('mode-core-t1-' + mod);
+  const eBtn = document.getElementById('mode-ext-t1-' + mod);
+  const desc = document.getElementById('mode-desc-t1-' + mod);
+  if (cBtn) { cBtn.style.background = isCore ? 'var(--blue)' : ''; cBtn.style.color = isCore ? 'white' : ''; cBtn.className = 'btn btn-sm' + (isCore ? '' : ' btn-secondary'); }
+  if (eBtn) { eBtn.style.background = !isCore ? 'var(--blue)' : ''; eBtn.style.color = !isCore ? 'white' : ''; eBtn.className = 'btn btn-sm' + (!isCore ? '' : ' btn-secondary'); }
+  const descs = {
+    0: { core:'Core: 2-digit composites', ext:'Extended: 3-digit, HCF/LCM applications' },
+    1: { core:'Core: proper fractions', ext:'Extended: mixed numbers & operations' },
+    2: { core:'Core: positive exponents', ext:'Extended: negative & fractional indices' },
+    3: { core:'Core: integer ratios', ext:'Extended: unequal sharing & proportion' },
+    4: { core:'Core: 1 s.f. rounding', ext:'Extended: multi-step estimation' }
+  };
+  if (desc && descs[mod]) desc.textContent = descs[mod][mode];
 }
 
 // ================================================================
@@ -7839,6 +7921,33 @@ function ecUpdateScore() {
   document.getElementById('ec-score-display').textContent = `Score: ${ecEarned} / ${ecTotalMarks} marks`;
   const pct = ecTotalMarks > 0 ? ecEarned / ecTotalMarks * 100 : 0;
   document.getElementById('ec-progress-fill').style.width = pct + '%';
+  if (ecAnswered >= (window._ecPool ? window._ecPool.length : 5)) {
+    if (pct >= 60) markModuleDone(23);
+    const grade = pct >= 80 ? '🏆 Excellent' : pct >= 60 ? '👍 Good' : pct >= 40 ? '📚 Needs practice' : '⚠️ Review required';
+    const clipText = `IGCSE Math T1 Exam Challenge\nScore: ${ecEarned}/${ecTotalMarks} marks (${Math.round(pct)}%) — ${grade}\n\n` +
+      (window._ecPool || []).map((q, i) => {
+        const card = document.getElementById('ec-q-' + i);
+        const done = card && card.dataset.answered;
+        return `Q${i+1}: ${done ? '(answered)' : '(skipped)'} ${q.q.substring(0,80)}…`;
+      }).join('\n');
+    window._ecClip1 = clipText;
+    let copyBtn = document.getElementById('ec-copy-btn');
+    if (!copyBtn) {
+      copyBtn = document.createElement('button');
+      copyBtn.id = 'ec-copy-btn';
+      copyBtn.className = 'btn btn-secondary btn-sm';
+      copyBtn.style.marginTop = '12px';
+      copyBtn.textContent = '📋 Copy Results';
+      copyBtn.onclick = () => {
+        navigator.clipboard.writeText(window._ecClip1).then(() => {
+          copyBtn.textContent = '✅ Copied!';
+          setTimeout(() => { copyBtn.textContent = '📋 Copy Results'; }, 2000);
+        }).catch(() => alert(window._ecClip1));
+      };
+      const scoreEl = document.getElementById('ec-score-display');
+      if (scoreEl) scoreEl.parentNode.insertBefore(copyBtn, scoreEl.nextSibling);
+    }
+  }
 }
 
 function ecInit() {
@@ -8591,6 +8700,11 @@ function apInit() {
   apNew();
   apDvNew();
   apSfNew();
+}
+
+restoreDoneBadges();
+if (!localStorage.getItem('t1_teacher_hint_seen')) {
+  setTimeout(() => { const h = document.getElementById('teacher-hint'); if(h) h.style.display = 'block'; }, 1500);
 }
 
 </script>

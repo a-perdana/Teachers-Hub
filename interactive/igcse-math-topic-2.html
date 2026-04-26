@@ -211,6 +211,7 @@ body {
   text-overflow: ellipsis;
 }
 .nav-item.active .nav-text { color: white; font-weight: 600; }
+.nav-done .nav-icon::after { content: ' ✓'; font-size: 0.65rem; color: #34d399; vertical-align: super; }
 .sidebar.collapsed .nav-text { opacity: 0; }
 
 .nav-divider {
@@ -654,6 +655,10 @@ svg.nline { display: block; margin: 0 auto; }
     </a>
   </div>
   <button id="teacherToggle" onclick="toggleTeacherMode()">👩‍🏫 Teacher Mode</button>
+  <div id="teacher-hint" style="display:none;position:absolute;top:72px;right:24px;background:#fffbeb;border:1.5px solid #fcd34d;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#92400e;max-width:240px;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,0.12);">
+    👩‍🏫 <strong>Are you a teacher?</strong><br>Click "Teacher Mode" to see misconceptions, strategies, and worked examples for each module.
+    <button onclick="dismissTeacherHint()" style="display:block;margin-top:8px;font-size:0.78rem;background:none;border:none;color:#92400e;cursor:pointer;text-decoration:underline;">Got it</button>
+  </div>
 </header>
 
 <!-- BODY -->
@@ -748,6 +753,13 @@ svg.nline { display: block; margin: 0 auto; }
         </div>
       </div>
 
+      <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+        <button class="btn btn-sm" id="mode-core-0" onclick="setTopicDiff(0,'core')" style="background:var(--purple);color:white;">Core</button>
+        <button class="btn btn-sm btn-secondary" id="mode-ext-0" onclick="setTopicDiff(0,'ext')">Extended</button>
+        <span id="mode-desc-0" style="font-size:0.8rem;color:var(--muted);">Core: simpler values</span>
+      </div>
+
       <div class="teacher-panel" id="tp-0">
         <div class="tp-header">👩‍🏫 Teacher Panel — Expression Builder</div>
         <div class="tp-body">
@@ -771,6 +783,7 @@ svg.nline { display: block; margin: 0 auto; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;"><strong>Q: Evaluate 3x² − 2y when x = −2, y = 5.</strong><br><ol style="margin:8px 0 0 16px;line-height:1.8;"><li>x² = (−2)² = 4.</li><li>3x² = 3 × 4 = 12.</li><li>2y = 2 × 5 = 10.</li><li>Result: 12 − 10 = <strong>2</strong>.</li></ol></div></details>
         </div>
       </div>
 
@@ -850,6 +863,13 @@ svg.nline { display: block; margin: 0 auto; }
         </div>
       </div>
 
+      <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+        <button class="btn btn-sm" id="mode-core-1" onclick="setTopicDiff(1,'core')" style="background:var(--purple);color:white;">Core</button>
+        <button class="btn btn-sm btn-secondary" id="mode-ext-1" onclick="setTopicDiff(1,'ext')">Extended</button>
+        <span id="mode-desc-1" style="font-size:0.8rem;color:var(--muted);">Core: simpler values</span>
+      </div>
+
       <div class="teacher-panel" id="tp-1">
         <div class="tp-header">👩‍🏫 Teacher Panel — Algebra Simplifier</div>
         <div class="tp-body">
@@ -874,6 +894,7 @@ svg.nline { display: block; margin: 0 auto; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;"><strong>Q: Expand and simplify (2x + 3)(x − 4).</strong><br><ol style="margin:8px 0 0 16px;line-height:1.8;"><li>FOIL: 2x·x + 2x·(−4) + 3·x + 3·(−4).</li><li>= 2x² − 8x + 3x − 12.</li><li>= <strong>2x² − 5x − 12</strong>.</li></ol></div></details>
         </div>
       </div>
 
@@ -935,6 +956,13 @@ svg.nline { display: block; margin: 0 auto; }
         </div>
       </div>
 
+      <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+        <button class="btn btn-sm" id="mode-core-2" onclick="setTopicDiff(2,'core')" style="background:var(--purple);color:white;">Core</button>
+        <button class="btn btn-sm btn-secondary" id="mode-ext-2" onclick="setTopicDiff(2,'ext')">Extended</button>
+        <span id="mode-desc-2" style="font-size:0.8rem;color:var(--muted);">Core: simpler values</span>
+      </div>
+
       <div class="teacher-panel" id="tp-2">
         <div class="tp-header">👩‍🏫 Teacher Panel — Factorisation Lab</div>
         <div class="tp-body">
@@ -958,6 +986,7 @@ svg.nline { display: block; margin: 0 auto; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;"><strong>Q: Factorise x² + 5x + 6.</strong><br><ol style="margin:8px 0 0 16px;line-height:1.8;"><li>Find two numbers that multiply to 6 and add to 5: 2 and 3.</li><li>Factorise: <strong>(x + 2)(x + 3)</strong>.</li><li>Check: (x+2)(x+3) = x² + 3x + 2x + 6 = x² + 5x + 6 ✓.</li></ol></div></details>
         </div>
       </div>
 
@@ -1022,6 +1051,13 @@ svg.nline { display: block; margin: 0 auto; }
         </div>
       </div>
 
+      <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+        <button class="btn btn-sm" id="mode-core-3" onclick="setTopicDiff(3,'core')" style="background:var(--purple);color:white;">Core</button>
+        <button class="btn btn-sm btn-secondary" id="mode-ext-3" onclick="setTopicDiff(3,'ext')">Extended</button>
+        <span id="mode-desc-3" style="font-size:0.8rem;color:var(--muted);">Core: simpler values</span>
+      </div>
+
       <div class="teacher-panel" id="tp-3">
         <div class="tp-header">👩‍🏫 Teacher Panel — Indices Explorer</div>
         <div class="tp-body">
@@ -1046,6 +1082,7 @@ svg.nline { display: block; margin: 0 auto; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;"><strong>Q: Simplify x³ ÷ x⁵.</strong><br><ol style="margin:8px 0 0 16px;line-height:1.8;"><li>Division: subtract powers → x^(3−5) = x^(−2).</li><li>Negative index: x^(−2) = <strong>1/x²</strong>.</li></ol></div></details>
         </div>
       </div>
 
@@ -1124,6 +1161,13 @@ svg.nline { display: block; margin: 0 auto; }
         </div>
       </div>
 
+      <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+        <button class="btn btn-sm" id="mode-core-4" onclick="setTopicDiff(4,'core')" style="background:var(--purple);color:white;">Core</button>
+        <button class="btn btn-sm btn-secondary" id="mode-ext-4" onclick="setTopicDiff(4,'ext')">Extended</button>
+        <span id="mode-desc-4" style="font-size:0.8rem;color:var(--muted);">Core: simpler values</span>
+      </div>
+
       <div class="teacher-panel" id="tp-4">
         <div class="tp-header">👩‍🏫 Teacher Panel — Equation Solver</div>
         <div class="tp-body">
@@ -1147,6 +1191,7 @@ svg.nline { display: block; margin: 0 auto; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;"><strong>Q: Solve 3(x − 2) = x + 4.</strong><br><ol style="margin:8px 0 0 16px;line-height:1.8;"><li>Expand: 3x − 6 = x + 4.</li><li>Collect x: 3x − x = 4 + 6 → 2x = 10.</li><li>x = <strong>5</strong>. Check: 3(3) = 9, 5+4 = 9 ✓.</li></ol></div></details>
         </div>
       </div>
 
@@ -1227,6 +1272,13 @@ svg.nline { display: block; margin: 0 auto; }
         </div>
       </div>
 
+      <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+        <button class="btn btn-sm" id="mode-core-5" onclick="setTopicDiff(5,'core')" style="background:var(--purple);color:white;">Core</button>
+        <button class="btn btn-sm btn-secondary" id="mode-ext-5" onclick="setTopicDiff(5,'ext')">Extended</button>
+        <span id="mode-desc-5" style="font-size:0.8rem;color:var(--muted);">Core: simpler values</span>
+      </div>
+
       <div class="teacher-panel" id="tp-5">
         <div class="tp-header">👩‍🏫 Teacher Panel — Formula Rearranger</div>
         <div class="tp-body">
@@ -1249,6 +1301,7 @@ svg.nline { display: block; margin: 0 auto; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;"><strong>Q: Make r the subject of A = πr².</strong><br><ol style="margin:8px 0 0 16px;line-height:1.8;"><li>Divide both sides by π: A/π = r².</li><li>Square root: r = <strong>√(A/π)</strong>. (Take positive root since r &gt; 0.)</li></ol></div></details>
         </div>
       </div>
 
@@ -1306,6 +1359,13 @@ svg.nline { display: block; margin: 0 auto; }
         </div>
       </div>
 
+      <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+        <button class="btn btn-sm" id="mode-core-6" onclick="setTopicDiff(6,'core')" style="background:var(--purple);color:white;">Core</button>
+        <button class="btn btn-sm btn-secondary" id="mode-ext-6" onclick="setTopicDiff(6,'ext')">Extended</button>
+        <span id="mode-desc-6" style="font-size:0.8rem;color:var(--muted);">Core: simpler values</span>
+      </div>
+
       <div class="teacher-panel" id="tp-6">
         <div class="tp-header">👩‍🏫 Teacher Panel — Inequalities</div>
         <div class="tp-body">
@@ -1328,6 +1388,7 @@ svg.nline { display: block; margin: 0 auto; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;"><strong>Q: Solve 2x − 3 &gt; 7.</strong><br><ol style="margin:8px 0 0 16px;line-height:1.8;"><li>Add 3: 2x &gt; 10.</li><li>Divide by 2: x &gt; <strong>5</strong>.</li><li>Note: inequality sign flips ONLY when dividing/multiplying by a negative number.</li></ol></div></details>
         </div>
       </div>
 
@@ -1382,6 +1443,13 @@ svg.nline { display: block; margin: 0 auto; }
         </div>
       </div>
 
+      <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+        <button class="btn btn-sm" id="mode-core-7" onclick="setTopicDiff(7,'core')" style="background:var(--purple);color:white;">Core</button>
+        <button class="btn btn-sm btn-secondary" id="mode-ext-7" onclick="setTopicDiff(7,'ext')">Extended</button>
+        <span id="mode-desc-7" style="font-size:0.8rem;color:var(--muted);">Core: simpler values</span>
+      </div>
+
       <div class="teacher-panel" id="tp-7">
         <div class="tp-header">👩‍🏫 Teacher Panel — Sequences Lab</div>
         <div class="tp-body">
@@ -1405,6 +1473,7 @@ svg.nline { display: block; margin: 0 auto; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;"><strong>Q: Find the nth term of 4, 7, 10, 13, …</strong><br><ol style="margin:8px 0 0 16px;line-height:1.8;"><li>Common difference = 3, so it's 3n + something.</li><li>When n=1: 3(1) + ? = 4 → ? = 1.</li><li>nth term = <strong>3n + 1</strong>. Check: n=3 → 10 ✓.</li></ol></div></details>
         </div>
       </div>
 
@@ -1502,6 +1571,7 @@ svg.nline { display: block; margin: 0 auto; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;"><strong>Q: A train travels 120 km in 1.5 h. Find its average speed.</strong><br><ol style="margin:8px 0 0 16px;line-height:1.8;"><li>Speed = distance ÷ time.</li><li>Speed = 120 ÷ 1.5 = <strong>80 km/h</strong>.</li><li>On a distance-time graph, speed = gradient of the line.</li></ol></div></details>
         </div>
       </div>
 
@@ -1587,6 +1657,7 @@ svg.nline { display: block; margin: 0 auto; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;"><strong>Q: Sketch y = x² − 4x + 3.</strong><br><ol style="margin:8px 0 0 16px;line-height:1.8;"><li>Roots: (x−1)(x−3)=0 → x=1, x=3 (x-intercepts).</li><li>y-intercept: x=0 → y=3.</li><li>Vertex: x = −b/2a = 2 → y = 4−8+3 = −1. Vertex: <strong>(2, −1)</strong>.</li></ol></div></details>
         </div>
       </div>
 
@@ -1670,6 +1741,7 @@ svg.nline { display: block; margin: 0 auto; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;"><strong>Q: Find the turning point of y = x² − 6x + 11 by completing the square.</strong><br><ol style="margin:8px 0 0 16px;line-height:1.8;"><li>(x − 3)² − 9 + 11 = (x − 3)² + 2.</li><li>Minimum turning point at <strong>(3, 2)</strong>.</li></ol></div></details>
         </div>
       </div>
 
@@ -1760,6 +1832,7 @@ svg.nline { display: block; margin: 0 auto; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;"><strong>Q: Simplify (x² − 9)/(x + 3).</strong><br><ol style="margin:8px 0 0 16px;line-height:1.8;"><li>Factorise numerator: x² − 9 = (x+3)(x−3).</li><li>Cancel the common factor (x+3).</li><li>Result: <strong>x − 3</strong> (valid for x ≠ −3).</li></ol></div></details>
         </div>
       </div>
 
@@ -1825,6 +1898,7 @@ svg.nline { display: block; margin: 0 auto; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;"><strong>Q: y ∝ x². When x=3, y=27. Find y when x=5.</strong><br><ol style="margin:8px 0 0 16px;line-height:1.8;"><li>y = kx² → 27 = k(9) → k = 3.</li><li>y = 3x² → when x=5: y = 3(25) = <strong>75</strong>.</li></ol></div></details>
         </div>
       </div>
 
@@ -1909,6 +1983,7 @@ svg.nline { display: block; margin: 0 auto; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;"><strong>Q: Find dy/dx for y = 4x³ − 3x² + 5x − 2.</strong><br><ol style="margin:8px 0 0 16px;line-height:1.8;"><li>Power rule: multiply by power, reduce power by 1.</li><li>4x³ → 12x². 3x² → 6x. 5x → 5. Constant → 0.</li><li>dy/dx = <strong>12x² − 6x + 5</strong>.</li></ol></div></details>
         </div>
       </div>
 
@@ -1991,6 +2066,7 @@ svg.nline { display: block; margin: 0 auto; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;"><strong>Q: f(x) = 3x + 2. Find f⁻¹(x).</strong><br><ol style="margin:8px 0 0 16px;line-height:1.8;"><li>Let y = 3x + 2.</li><li>Swap x and y: x = 3y + 2.</li><li>Solve for y: y = (x − 2)/3.</li><li>f⁻¹(x) = <strong>(x − 2)/3</strong>.</li></ol></div></details>
         </div>
       </div>
 
@@ -2045,7 +2121,7 @@ svg.nline { display: block; margin: 0 auto; }
           <input type="text" id="ec-input" class="inp-lg" placeholder="Your answer" style="max-width:360px;" onkeydown="if(event.key==='Enter')ecCheck()">
           <button class="btn btn-primary" onclick="ecCheck()">Submit ✓</button>
           <button class="btn btn-hint" onclick="ecHint()">💡 Hint</button>
-          <button class="btn btn-secondary btn-sm" onclick="ecSkip()">Skip →</button>
+          <button class="btn btn-secondary btn-sm" id="ec-skip-btn" onclick="ecSkip()">Skip →</button>
         </div>
         <div id="ec-feedback" class="feedback"></div>
         <ul id="ec-hints" class="hint-list"></ul>
@@ -2076,7 +2152,7 @@ function showModule(n) {
   document.querySelectorAll('.nav-item')[n].classList.add('active');
   document.getElementById('contentArea').scrollTo({ top: 0, behavior: 'smooth' });
   closeMobileNav();
-  // init module on first visit
+  restoreDoneBadges();
   if (n === 0 && !window._eb_init) { ebNew(); cfNew(); window._eb_init = true; }
   if (n === 1 && !window._as_init) { ltNew(); expNew(); window._as_init = true; }
   if (n === 2 && !window._fl_init) { setFactMode('hcf'); ctsNew(); window._fl_init = true; }
@@ -2095,10 +2171,27 @@ function showModule(n) {
   if (n === 15 && !window._ec_init) { ecStart(); window._ec_init = true; }
 }
 
+function markModuleDone(n) {
+  const done = JSON.parse(localStorage.getItem('t2_done') || '[]');
+  if (!done.includes(n)) { done.push(n); localStorage.setItem('t2_done', JSON.stringify(done)); }
+  restoreDoneBadges();
+}
+function restoreDoneBadges() {
+  const done = JSON.parse(localStorage.getItem('t2_done') || '[]');
+  document.querySelectorAll('.nav-item').forEach((el, i) => {
+    el.classList.toggle('nav-done', done.includes(i));
+  });
+}
+
 function toggleTeacherMode() {
   teacherMode = !teacherMode;
   document.getElementById('teacherToggle').classList.toggle('active', teacherMode);
   document.querySelectorAll('.teacher-panel').forEach(p => p.classList.toggle('visible', teacherMode));
+}
+
+function dismissTeacherHint() {
+  document.getElementById('teacher-hint').style.display = 'none';
+  localStorage.setItem('t2_teacher_hint_seen', '1');
 }
 
 function toggleSidebar() {
@@ -2154,6 +2247,28 @@ function updateProgress(prefix, correct, attempts) {
 function normaliseAlg(s) {
   // normalise algebraic answer: remove spaces, lowercase, sort terms
   return s.replace(/\s+/g, '').toLowerCase();
+}
+
+const topicDiff = {}; // module → 'core' | 'ext'
+function setTopicDiff(mod, mode) {
+  topicDiff[mod] = mode;
+  const isCore = mode === 'core';
+  const cBtn = document.getElementById('mode-core-' + mod);
+  const eBtn = document.getElementById('mode-ext-' + mod);
+  const desc = document.getElementById('mode-desc-' + mod);
+  if (cBtn) { cBtn.style.background = isCore ? 'var(--purple)' : ''; cBtn.style.color = isCore ? 'white' : ''; cBtn.className = 'btn btn-sm' + (isCore ? '' : ' btn-secondary'); }
+  if (eBtn) { eBtn.style.background = !isCore ? 'var(--purple)' : ''; eBtn.style.color = !isCore ? 'white' : ''; eBtn.className = 'btn btn-sm' + (!isCore ? '' : ' btn-secondary'); }
+  const descs = {
+    0: { core:'Core: simpler substitution values', ext:'Extended: negative/fractional values' },
+    1: { core:'Core: integer coefficients', ext:'Extended: complex expressions' },
+    2: { core:'Core: simple factorisation', ext:'Extended: completing the square' },
+    3: { core:'Core: positive integer indices', ext:'Extended: negative/fractional indices' },
+    4: { core:'Core: one-step linear equations', ext:'Extended: quadratic equations' },
+    5: { core:'Core: simple formulas', ext:'Extended: multi-step rearrangement' },
+    6: { core:'Core: single inequalities', ext:'Extended: quadratic inequalities' },
+    7: { core:'Core: arithmetic sequences', ext:'Extended: geometric sequences' }
+  };
+  if (desc && descs[mod]) desc.textContent = descs[mod][mode];
 }
 
 /* ================================================================
@@ -2276,6 +2391,7 @@ function updateEbScores() {
   document.getElementById('eb-correct').textContent = ebState.correct;
   document.getElementById('eb-streak').textContent = ebState.streak;
   document.getElementById('eb-pct').textContent = pct + '%';
+  if (pct >= 60) markModuleDone(0);
 }
 
 /* Construct a formula */
@@ -2368,6 +2484,7 @@ function updateAsProgress() {
   document.getElementById('as-correct').textContent = total;
   document.getElementById('as-streak').textContent = Math.max(ltState.streak, expState.streak);
   document.getElementById('as-pct').textContent = pct + '%';
+  if (pct >= 60) markModuleDone(1);
 }
 
 /* --- Expand brackets --- */
@@ -2551,6 +2668,7 @@ function updateFlProgress() {
   document.getElementById('fl-correct').textContent = flState.correct;
   document.getElementById('fl-streak').textContent = flState.streak;
   document.getElementById('fl-pct').textContent = pct + '%';
+  if (pct >= 60) markModuleDone(2);
 }
 
 /* Complete the square */
@@ -2684,6 +2802,7 @@ function updateIxProgress() {
   document.getElementById('ix-correct').textContent = ixState.correct;
   document.getElementById('ix-streak').textContent = ixState.streak;
   document.getElementById('ix-pct').textContent = pct + '%';
+  if (pct >= 60) markModuleDone(3);
 }
 
 /* ================================================================
@@ -2822,6 +2941,7 @@ function updateTgProgress() {
   document.getElementById('tg-correct').textContent = tgState.correct;
   document.getElementById('tg-streak').textContent = tgState.streak;
   document.getElementById('tg-pct').textContent = pct + '%';
+  if (pct >= 60) markModuleDone(8);
 }
 
 /* Speed/Time/Distance drill */
@@ -2982,6 +3102,7 @@ function updateFgProgress() {
   document.getElementById('fg-correct').textContent = fgState.correct;
   document.getElementById('fg-streak').textContent = fgState.streak;
   document.getElementById('fg-pct').textContent = pct + '%';
+  if (pct >= 60) markModuleDone(9);
 }
 
 /* Read the graph drill */
@@ -3113,6 +3234,7 @@ function updateCsProgress() {
   document.getElementById('cs-correct').textContent = csState.correct;
   document.getElementById('cs-streak').textContent = csState.streak;
   document.getElementById('cs-pct').textContent = pct + '%';
+  if (pct >= 60) markModuleDone(10);
 }
 
 /* Key features */
@@ -3218,6 +3340,7 @@ function updateAfProgress() {
   document.getElementById('af-correct').textContent = afState.correct;
   document.getElementById('af-streak').textContent = afState.streak;
   document.getElementById('af-pct').textContent = pct + '%';
+  if (pct >= 60) markModuleDone(11);
 }
 
 /* ================================================================
@@ -3336,6 +3459,7 @@ function updateEqProgress() {
   document.getElementById('eq-correct').textContent = eqState.correct;
   document.getElementById('eq-streak').textContent = eqState.streak;
   document.getElementById('eq-pct').textContent = pct + '%';
+  if (pct >= 60) markModuleDone(4);
 }
 
 /* ================================================================
@@ -3409,6 +3533,7 @@ function updateFrProgress() {
   document.getElementById('fr-correct').textContent = frState.correct;
   document.getElementById('fr-streak').textContent = frState.streak;
   document.getElementById('fr-pct').textContent = pct + '%';
+  if (pct >= 60) markModuleDone(5);
 }
 
 const WORKED_EXAMPLES = [
@@ -3542,6 +3667,7 @@ function updateIqProgress() {
   document.getElementById('iq-correct').textContent = iqState.correct;
   document.getElementById('iq-streak').textContent = iqState.streak;
   document.getElementById('iq-pct').textContent = pct + '%';
+  if (pct >= 60) markModuleDone(6);
 }
 
 /* Integer solutions */
@@ -3735,6 +3861,7 @@ function updateSqProgress() {
   document.getElementById('sq-correct').textContent = sqState.correct;
   document.getElementById('sq-streak').textContent = sqState.streak;
   document.getElementById('sq-pct').textContent = pct + '%';
+  if (pct >= 60) markModuleDone(7);
 }
 
 /* ================================================================
@@ -3802,6 +3929,7 @@ function updatePrProgress() {
   document.getElementById('pr-correct').textContent = prState.correct;
   document.getElementById('pr-streak').textContent = prState.streak;
   document.getElementById('pr-pct').textContent = pct + '%';
+  if (pct >= 60) markModuleDone(12);
 }
 
 /* ================================================================
@@ -3904,6 +4032,7 @@ function updateDiffProgress() {
   document.getElementById('diff-correct').textContent = diffState.correct;
   document.getElementById('diff-streak').textContent = diffState.streak;
   document.getElementById('diff-pct').textContent = pct + '%';
+  if (pct >= 60) markModuleDone(13);
 }
 
 /* ================================================================
@@ -3983,6 +4112,7 @@ function updateFnProgress() {
   document.getElementById('fn-correct').textContent = fnState.correct;
   document.getElementById('fn-streak').textContent = fnState.streak;
   document.getElementById('fn-pct').textContent = pct + '%';
+  if (pct >= 60) markModuleDone(14);
 }
 
 /* ================================================================
@@ -3992,18 +4122,18 @@ let ecState = { correct: 0, total: 0, qIdx: 0, results: [] };
 let ecQ = null;
 
 const EC_QUESTIONS = [
-  { q:'Solve: 3x + 7 = 22', ans:['5'], marks:'[2]', level:'Core', topic:'Equations', hints:['Subtract 7: 3x = 15','Divide by 3'] },
-  { q:'Factorise completely: 4x² − 16', ans:['4(x+2)(x-2)','4(x-2)(x+2)'], marks:'[2]', level:'Core', topic:'Factorisation', hints:['Factor out 4: 4(x²−4)','Difference of squares: 4(x+2)(x−2)'] },
+  { q:'Solve: 3x + 7 = 22', ans:['5'], marks:'[2]', level:'Core', topic:'Equations', fmt:'integer', hints:['Subtract 7: 3x = 15','Divide by 3'] },
+  { q:'Factorise completely: 4x² − 16', ans:['4(x+2)(x-2)','4(x-2)(x+2)'], marks:'[2]', level:'Core', topic:'Factorisation', fmt:'4(x+2)(x-2)', hints:['Factor out 4: 4(x²−4)','Difference of squares: 4(x+2)(x−2)'] },
   { q:'The nth term of a sequence is 3n − 1. What is the 20th term?', ans:['59'], marks:'[1]', level:'Core', topic:'Sequences', hints:['Substitute n = 20','3(20) − 1 = 59'] },
   { q:'Simplify: x³ × x⁴', ans:['x7','x^7'], marks:'[1]', level:'Core', topic:'Indices', hints:['Multiply → add powers','3 + 4 = 7'] },
-  { q:'Make r the subject: V = (4/3)πr³', ans:['r=∛(3V/(4π))','r=cbrt(3V/(4π))'], marks:'[3]', level:'Extended', topic:'Formula rearrangement', hints:['Multiply by 3: 3V = 4πr³','Divide by 4π: r³ = 3V/(4π)','Cube root both sides'] },
+  { q:'Make r the subject: V = (4/3)πr³', ans:['r=∛(3V/(4π))','r=cbrt(3V/(4π))'], marks:'[3]', level:'Extended', topic:'Formula rearrangement', fmt:'r=∛(3V/(4π))', hints:['Multiply by 3: 3V = 4πr³','Divide by 4π: r³ = 3V/(4π)','Cube root both sides'] },
   { q:'Solve the simultaneous equations: 2x + y = 7 and x − y = 2', ans:['x=3,y=1','x=3andy=1'], marks:'[3]', level:'Core', topic:'Simultaneous equations', hints:['Add the two equations: 3x = 9','x = 3, then y = 7 − 2(3) = 1'] },
   { q:'y is inversely proportional to x². When x = 2, y = 12. Find y when x = 3.', ans:['16/3','5.33'], marks:'[3]', level:'Extended', topic:'Proportion', hints:['y = k/x²','k = 12 × 4 = 48','y = 48/9 = 16/3'] },
-  { q:'Differentiate y = 5x³ − 2x + 7 with respect to x.', ans:['15x²-2','15x^2-2'], marks:'[2]', level:'Extended', topic:'Differentiation', hints:['Power rule term by term','5x³→15x², −2x→−2, 7→0'] },
+  { q:'Differentiate y = 5x³ − 2x + 7 with respect to x.', ans:['15x²-2','15x^2-2'], marks:'[2]', level:'Extended', topic:'Differentiation', fmt:'15x²-2 or 15x^2-2', hints:['Power rule term by term','5x³→15x², −2x→−2, 7→0'] },
   { q:'Solve x² − 5x + 6 = 0', ans:['x=2,x=3','x=2andx=3','2,3'], marks:'[2]', level:'Core', topic:'Quadratic equations', hints:['Factorise: (x−2)(x−3) = 0','x = 2 or x = 3'] },
-  { q:'f(x) = 4x − 1. Find f⁻¹(x).', ans:['(x+1)/4','x+1/4'], marks:'[2]', level:'Extended', topic:'Functions', hints:['Let y = 4x − 1','Add 1: y+1 = 4x','Divide by 4: x = (y+1)/4','f⁻¹(x) = (x+1)/4'] },
+  { q:'f(x) = 4x − 1. Find f⁻¹(x).', ans:['(x+1)/4','x+1/4'], marks:'[2]', level:'Extended', topic:'Functions', fmt:'(x+1)/4', hints:['Let y = 4x − 1','Add 1: y+1 = 4x','Divide by 4: x = (y+1)/4','f⁻¹(x) = (x+1)/4'] },
   { q:'Expand and simplify: (2x + 3)(x − 5)', ans:['2x²-7x-15','2x^2-7x-15'], marks:'[2]', level:'Core', topic:'Expansion', hints:['FOIL: 2x·x + 2x·(−5) + 3·x + 3·(−5)','= 2x² − 10x + 3x − 15','= 2x² − 7x − 15'] },
-  { q:'Write x² − 6x + 4 in the form (x + p)² + q. State p and q.', ans:['p=-3,q=-5','p=−3,q=−5'], marks:'[2]', level:'Extended', topic:'Complete the square', hints:['p = −6/2 = −3','q = 4 − (−3)² = 4 − 9 = −5'] }
+  { q:'Write x² − 6x + 4 in the form (x + p)² + q. State p and q.', ans:['p=-3,q=-5','p=−3,q=−5'], marks:'[2]', level:'Extended', topic:'Complete the square', fmt:'p=-3,q=-5', hints:['p = −6/2 = −3','q = 4 − (−3)² = 4 − 9 = −5'] }
 ];
 
 function ecStart() {
@@ -4028,22 +4158,24 @@ function ecLoadQ() {
   document.getElementById('ec-input').value = '';
   document.getElementById('ec-feedback').className = 'feedback';
   document.getElementById('ec-hints').className = 'hint-list';
+  document.getElementById('ec-skip-btn').style.display = 'none';
 }
 
 function ecCheck() {
   const norm = document.getElementById('ec-input').value.trim().replace(/\s+/g,'').toLowerCase();
   const correct = ecQ.ans.map(a=>a.toLowerCase().replace(/\s/g,'')).includes(norm);
-  ecState.results.push({ q: ecQ.q, correct, given: norm, expected: ecQ.ans[0] });
+  ecState.results.push({ q: ecQ.q, correct, given: norm, expected: ecQ.ans[0], topic: ecQ.topic });
   if (correct) {
     ecState.correct++;
     showFeedback('ec-feedback', `✅ Correct! (${ecQ.marks})`, 'correct');
   } else {
-    showFeedback('ec-feedback', `❌ Answer: ${ecQ.ans[0]}`, 'wrong');
+    showFeedback('ec-feedback', `❌ Answer: ${ecQ.ans[0]}${ecQ.fmt ? ' · Format: ' + ecQ.fmt : ''}`, 'wrong');
   }
   const pct = Math.round(ecState.correct / (ecState.qIdx + 1) * 100);
   document.getElementById('ec-prog').style.width = Math.round((ecState.qIdx+1)/ecState.total*100) + '%';
   document.getElementById('ec-correct').textContent = ecState.correct;
   document.getElementById('ec-pct').textContent = pct + '%';
+  document.getElementById('ec-skip-btn').style.display = '';
   setTimeout(() => {
     ecState.qIdx++;
     if (ecState.qIdx >= ecState.total) ecShowResults();
@@ -4053,7 +4185,7 @@ function ecCheck() {
 
 function ecHint() { showHints('ec-hints', ecQ.hints); }
 function ecSkip() {
-  ecState.results.push({ q: ecQ.q, correct: false, given: '—', expected: ecQ.ans[0] });
+  ecState.results.push({ q: ecQ.q, correct: false, given: '—', expected: ecQ.ans[0], topic: ecQ.topic });
   ecState.qIdx++;
   if (ecState.qIdx >= ecState.total) ecShowResults();
   else ecLoadQ();
@@ -4062,7 +4194,22 @@ function ecSkip() {
 function ecShowResults() {
   document.getElementById('ec-results').style.display = 'block';
   const pct = Math.round(ecState.correct / ecState.total * 100);
+  if (pct >= 60) markModuleDone(15);
   let grade = pct >= 80 ? '🏆 Excellent' : pct >= 60 ? '👍 Good' : pct >= 40 ? '📚 Needs practice' : '⚠️ Review required';
+  const topicMap = {};
+  ecState.results.forEach(r => {
+    const t = r.topic || 'General';
+    if (!topicMap[t]) topicMap[t] = { correct: 0, total: 0 };
+    topicMap[t].total++;
+    if (r.correct) topicMap[t].correct++;
+  });
+  const topicRows = Object.entries(topicMap).map(([t, v]) =>
+    `<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:0.82rem;">
+      <span>${t}</span>
+      <span style="font-weight:600;color:${v.correct===v.total?'var(--green)':v.correct===0?'var(--red)':'var(--amber)'};">${v.correct}/${v.total}</span>
+    </div>`).join('');
+  const clipText = `IGCSE Math T2 Exam Challenge\nScore: ${ecState.correct}/${ecState.total} (${pct}%) — ${grade}\n\n` +
+    ecState.results.map((r, i) => `Q${i+1}: ${r.correct?'✓':'✗'} ${r.q}\n${!r.correct?'  Your: '+r.given+' | Correct: '+r.expected:''}`).join('\n');
   document.getElementById('ec-results-body').innerHTML = `
     <div class="score-bar" style="margin-bottom:16px;">
       <div class="sc-item"><strong>${ecState.correct}/${ecState.total}</strong><br>Score</div>
@@ -4071,11 +4218,28 @@ function ecShowResults() {
       <div class="sc-sep"></div>
       <div class="sc-item"><strong>${grade}</strong><br>Grade</div>
     </div>
-    ${ecState.results.map((r,i)=>`<div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:0.83rem;display:flex;gap:8px;align-items:flex-start;">
-      <span>${r.correct?'✅':'❌'}</span>
-      <div><div style="margin-bottom:2px;">${r.q}</div>
-      ${!r.correct?`<div style="color:var(--muted);">Your answer: ${r.given} · Correct: ${r.expected}</div>`:''}
-      </div></div>`).join('')}`;
+    <div style="margin-bottom:14px;">
+      <div style="font-size:0.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Topic Breakdown</div>
+      ${topicRows}
+    </div>
+    <details style="margin-bottom:12px;">
+      <summary style="cursor:pointer;font-size:0.85rem;font-weight:600;color:var(--navy);padding:4px 0;">📋 Question-by-question review</summary>
+      <div style="margin-top:8px;">
+        ${ecState.results.map((r, i) => `<div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:0.83rem;display:flex;gap:8px;align-items:flex-start;">
+          <span>${r.correct?'✅':'❌'}</span>
+          <div><span style="font-size:0.72rem;color:var(--muted);">Q${i+1} · ${r.topic||''}</span><br>${r.q}
+          ${!r.correct?`<div style="color:var(--muted);margin-top:2px;">Your answer: ${r.given} · Correct: ${r.expected}</div>`:''}
+          </div></div>`).join('')}
+      </div>
+    </details>
+    <button class="btn btn-secondary btn-sm" id="copy-results-btn" style="margin-right:8px;">📋 Copy Results</button>`;
+  window._ecClip = clipText;
+  document.getElementById('copy-results-btn').onclick = () => {
+    navigator.clipboard.writeText(window._ecClip).then(() => {
+      document.getElementById('copy-results-btn').textContent = '✅ Copied!';
+      setTimeout(() => { document.getElementById('copy-results-btn').textContent = '📋 Copy Results'; }, 2000);
+    }).catch(() => alert(window._ecClip));
+  };
 }
 
 function ecRestart() { ecStart(); }
@@ -4083,7 +4247,14 @@ function ecRestart() { ecStart(); }
 /* ================================================================
    INIT
    ================================================================ */
+restoreDoneBadges();
 showModule(0);
+if (!localStorage.getItem('t2_teacher_hint_seen')) {
+  setTimeout(() => {
+    const hint = document.getElementById('teacher-hint');
+    if (hint) hint.style.display = 'block';
+  }, 1500);
+}
 </script>
 </body>
 </html>

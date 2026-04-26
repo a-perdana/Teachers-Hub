@@ -84,6 +84,7 @@ body { font-family: var(--font-body); background: #e8edf5; color: var(--text); m
 .nav-icon { font-size: 1rem; flex-shrink: 0; width: 22px; text-align: center; display: inline-block; }
 .nav-text { font-size: 0.82rem; color: rgba(255,255,255,0.75); transition: opacity 0.2s; overflow: hidden; text-overflow: ellipsis; }
 .nav-item.active .nav-text { color: white; font-weight: 600; }
+.nav-done .nav-icon::after { content: ' ✓'; font-size: 0.65rem; color: #34d399; vertical-align: super; }
 .sidebar.collapsed .nav-text { opacity: 0; }
 .nav-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 8px 14px; }
 .nav-back { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; color: rgba(255,255,255,0.45); font-size: 0.78rem; border-top: 1px solid rgba(255,255,255,0.08); margin-top: auto; white-space: nowrap; overflow: hidden; transition: color 0.2s; text-decoration: none; }
@@ -232,6 +233,10 @@ canvas { max-width: 100%; }
     </a>
   </div>
   <button id="teacherToggle" onclick="toggleTeacherMode()">👩‍🏫 Teacher Mode</button>
+  <div id="teacher-hint" style="display:none;position:absolute;top:72px;right:24px;background:#fffbeb;border:1.5px solid #fcd34d;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#92400e;max-width:240px;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,0.12);">
+    👩‍🏫 <strong>Are you a teacher?</strong><br>Click "Teacher Mode" to see misconceptions, strategies, and worked examples for each module.
+    <button onclick="dismissTeacherHint()" style="display:block;margin-top:8px;font-size:0.78rem;background:none;border:none;color:#92400e;cursor:pointer;text-decoration:underline;">Got it</button>
+  </div>
 </header>
 
 <div class="app-body">
@@ -282,6 +287,13 @@ canvas { max-width: 100%; }
         </div>
       </div>
 
+      <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+        <button class="btn btn-sm" id="mode-core-0" onclick="setDiffMode(0,'core')" style="background:var(--teal);color:white;">Core</button>
+        <button class="btn btn-sm btn-secondary" id="mode-ext-0" onclick="setDiffMode(0,'ext')">Extended</button>
+        <span id="mode-desc-0" style="font-size:0.8rem;color:var(--muted);">Core: integers only</span>
+      </div>
+
       <div class="teacher-panel" id="tp-0">
         <div class="tp-header">👩‍🏫 Teacher Panel — Coordinates &amp; Plotting</div>
         <div class="tp-body">
@@ -305,6 +317,18 @@ canvas { max-width: 100%; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;">
+            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary>
+            <div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;">
+              <strong>Q: Plot the point (−3, 4) and state which quadrant it lies in.</strong><br>
+              <ol style="margin:8px 0 0 16px;line-height:1.8;">
+                <li>Start at the origin (0, 0).</li>
+                <li>x = −3: move 3 units LEFT along the x-axis.</li>
+                <li>y = 4: move 4 units UP from there.</li>
+                <li>x is negative, y is positive → <strong>Quadrant II</strong>.</li>
+              </ol>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -351,7 +375,7 @@ canvas { max-width: 100%; }
         <div class="card-desc">Click on the grid to plot the given point. Green = correct, red = too far.</div>
         <div id="plot-target" class="expr-display" style="font-size:1.2rem;">Loading…</div>
         <div class="canvas-wrap">
-          <canvas id="plot-canvas" width="400" height="400" style="cursor:crosshair;" onclick="plotClick(event)"></canvas>
+          <canvas id="plot-canvas" width="400" height="400" style="cursor:crosshair;" onclick="plotClick(event)" ontouchstart="plotClick(event.changedTouches[0]);event.preventDefault();"></canvas>
         </div>
         <div id="plot-feedback" class="feedback"></div>
         <button class="btn btn-secondary btn-sm" onclick="plotNew()">New Point →</button>
@@ -378,6 +402,13 @@ canvas { max-width: 100%; }
         </div>
       </div>
 
+      <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+        <button class="btn btn-sm" id="mode-core-1" onclick="setDiffMode(1,'core')" style="background:var(--teal);color:white;">Core</button>
+        <button class="btn btn-sm btn-secondary" id="mode-ext-1" onclick="setDiffMode(1,'ext')">Extended</button>
+        <span id="mode-desc-1" style="font-size:0.8rem;color:var(--muted);">Core: integer gradients</span>
+      </div>
+
       <div class="teacher-panel" id="tp-1">
         <div class="tp-header">👩‍🏫 Teacher Panel — Gradient</div>
         <div class="tp-body">
@@ -402,6 +433,18 @@ canvas { max-width: 100%; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;">
+            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary>
+            <div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;">
+              <strong>Q: Find the gradient of the line through (1, 3) and (5, 11).</strong><br>
+              <ol style="margin:8px 0 0 16px;line-height:1.8;">
+                <li>Label: (x₁, y₁) = (1, 3) and (x₂, y₂) = (5, 11).</li>
+                <li>m = (y₂ − y₁) ÷ (x₂ − x₁) = (11 − 3) ÷ (5 − 1).</li>
+                <li>m = 8 ÷ 4 = <strong>2</strong>.</li>
+                <li>Check: line goes up-right → positive gradient ✓.</li>
+              </ol>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -430,7 +473,7 @@ canvas { max-width: 100%; }
           <input type="text" id="gr-input" class="inp-sm" placeholder="e.g. 2/3" onkeydown="if(event.key==='Enter')grCheck()">
           <button class="btn btn-primary" onclick="grCheck()">Check ✓</button>
           <button class="btn btn-hint" onclick="grHint()">💡 Hint</button>
-          <button class="btn btn-secondary btn-sm" onclick="grNew()">Next →</button>
+          <button class="btn btn-secondary btn-sm" id="gr-next-btn" onclick="grNew()">Next →</button>
         </div>
         <div id="gr-feedback" class="feedback"></div>
         <ul id="gr-hints" class="hint-list"></ul>
@@ -475,6 +518,13 @@ canvas { max-width: 100%; }
         </div>
       </div>
 
+      <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+        <button class="btn btn-sm" id="mode-core-2" onclick="setDiffMode(2,'core')" style="background:var(--teal);color:white;">Core</button>
+        <button class="btn btn-sm btn-secondary" id="mode-ext-2" onclick="setDiffMode(2,'ext')">Extended</button>
+        <span id="mode-desc-2" style="font-size:0.8rem;color:var(--muted);">Core: integer coordinates</span>
+      </div>
+
       <div class="teacher-panel" id="tp-2">
         <div class="tp-header">👩‍🏫 Teacher Panel — Midpoint &amp; Distance</div>
         <div class="tp-body">
@@ -497,6 +547,16 @@ canvas { max-width: 100%; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;">
+            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary>
+            <div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;">
+              <strong>Q: A = (2, −1), B = (8, 7). Find midpoint M and distance AB.</strong><br>
+              <ol style="margin:8px 0 0 16px;line-height:1.8;">
+                <li><strong>Midpoint:</strong> M = ((2+8)/2 , (−1+7)/2) = (5, 3).</li>
+                <li><strong>Distance:</strong> AB = √((8−2)² + (7−(−1))²) = √(36 + 64) = √100 = <strong>10</strong>.</li>
+              </ol>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -526,9 +586,9 @@ canvas { max-width: 100%; }
         <div id="md-mp-question" class="expr-display">Loading…</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
           <label style="font-size:0.85rem;">M = (</label>
-          <input type="number" id="md-mx" class="inp-sm" step="0.5" placeholder="x">
+          <input type="number" id="md-mx" class="inp-sm" step="0.5" placeholder="x" onkeydown="if(event.key==='Enter')mdMpCheck()">
           <label style="font-size:0.85rem;">,</label>
-          <input type="number" id="md-my" class="inp-sm" step="0.5" placeholder="y">
+          <input type="number" id="md-my" class="inp-sm" step="0.5" placeholder="y" onkeydown="if(event.key==='Enter')mdMpCheck()">
           <label style="font-size:0.85rem;">)</label>
           <button class="btn btn-primary" onclick="mdMpCheck()">Check ✓</button>
           <button class="btn btn-hint" onclick="mdMpHint()">💡 Hint</button>
@@ -575,6 +635,13 @@ canvas { max-width: 100%; }
         </div>
       </div>
 
+      <div class="card" style="padding:14px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span style="font-size:0.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Difficulty:</span>
+        <button class="btn btn-sm" id="mode-core-3" onclick="setDiffMode(3,'core')" style="background:var(--teal);color:white;">Core</button>
+        <button class="btn btn-sm btn-secondary" id="mode-ext-3" onclick="setDiffMode(3,'ext')">Extended</button>
+        <span id="mode-desc-3" style="font-size:0.8rem;color:var(--muted);">Core: integer m and c</span>
+      </div>
+
       <div class="teacher-panel" id="tp-3">
         <div class="tp-header">👩‍🏫 Teacher Panel — Equation of a Line</div>
         <div class="tp-body">
@@ -598,6 +665,18 @@ canvas { max-width: 100%; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;">
+            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary>
+            <div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;">
+              <strong>Q: Find the equation of the line through (2, 5) and (4, 11).</strong><br>
+              <ol style="margin:8px 0 0 16px;line-height:1.8;">
+                <li>Gradient: m = (11−5)/(4−2) = 6/2 = 3.</li>
+                <li>Use y = mx + c → 5 = 3(2) + c → c = 5 − 6 = −1.</li>
+                <li>Equation: <strong>y = 3x − 1</strong>.</li>
+                <li>Check: when x=4, y = 12−1 = 11 ✓.</li>
+              </ol>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -710,6 +789,18 @@ canvas { max-width: 100%; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;">
+            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary>
+            <div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;">
+              <strong>Q: Find the equation of the line perpendicular to y = 4x − 1 passing through (8, 3).</strong><br>
+              <ol style="margin:8px 0 0 16px;line-height:1.8;">
+                <li>Original gradient: m = 4.</li>
+                <li>Perpendicular gradient: m⊥ = −1/4.</li>
+                <li>Use y = −¼x + c → 3 = −2 + c → c = 5.</li>
+                <li>Equation: <strong>y = −¼x + 5</strong>.</li>
+              </ol>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -812,6 +903,18 @@ canvas { max-width: 100%; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;">
+            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary>
+            <div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;">
+              <strong>Q: Find the intersection of y = 2x + 1 and y = −x + 7.</strong><br>
+              <ol style="margin:8px 0 0 16px;line-height:1.8;">
+                <li>Set equal: 2x + 1 = −x + 7.</li>
+                <li>3x = 6 → x = 2.</li>
+                <li>y = 2(2) + 1 = 5.</li>
+                <li>Intersection: <strong>(2, 5)</strong>. Check in both equations ✓.</li>
+              </ol>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -909,6 +1012,17 @@ canvas { max-width: 100%; }
               </ul>
             </div>
           </div>
+          <details style="margin-top:12px;">
+            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary>
+            <div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;">
+              <strong>Q: Shade the region where y &gt; 2x − 3.</strong><br>
+              <ol style="margin:8px 0 0 16px;line-height:1.8;">
+                <li>Draw the boundary line y = 2x − 3 as a <em>dashed</em> line (strict inequality).</li>
+                <li>Test a point: (0, 0) → 0 > −3 ✓ → the origin is in the region.</li>
+                <li>Shade the side of the line containing (0, 0): <strong>above the line</strong>.</li>
+              </ol>
+            </div>
+          </details>
         </div>
       </div>
 
@@ -980,7 +1094,7 @@ canvas { max-width: 100%; }
           <input type="text" id="ec-input" class="inp-lg" placeholder="Your answer" style="max-width:360px;" onkeydown="if(event.key==='Enter')ecCheck()">
           <button class="btn btn-primary" onclick="ecCheck()">Submit ✓</button>
           <button class="btn btn-hint" onclick="ecHint()">💡 Hint</button>
-          <button class="btn btn-secondary btn-sm" onclick="ecSkip()">Skip →</button>
+          <button class="btn btn-secondary btn-sm" onclick="ecSkip()" id="ec-skip-btn">Skip →</button>
         </div>
         <div id="ec-feedback" class="feedback"></div>
         <ul id="ec-hints" class="hint-list"></ul>
@@ -1010,6 +1124,7 @@ function showModule(n) {
   document.querySelectorAll('.nav-item')[n].classList.add('active');
   document.getElementById('contentArea').scrollTo({ top: 0, behavior: 'smooth' });
   closeMobileNav();
+  restoreDoneBadges();
   if (n === 0 && !window._cp_init) { cpNew(); plotNew(); window._cp_init = true; }
   if (n === 1 && !window._gr_init) { grNew(); grGraphNew(); window._gr_init = true; }
   if (n === 2 && !window._md_init) { mdMpNew(); mdDistNew(); window._md_init = true; }
@@ -1020,10 +1135,26 @@ function showModule(n) {
   if (n === 7 && !window._ec_init) { ecStart(); window._ec_init = true; }
 }
 
+function markModuleDone(n) {
+  const done = JSON.parse(localStorage.getItem('t3_done') || '[]');
+  if (!done.includes(n)) { done.push(n); localStorage.setItem('t3_done', JSON.stringify(done)); }
+  restoreDoneBadges();
+}
+function restoreDoneBadges() {
+  const done = JSON.parse(localStorage.getItem('t3_done') || '[]');
+  document.querySelectorAll('.nav-item').forEach((el, i) => {
+    el.classList.toggle('nav-done', done.includes(i));
+  });
+}
+
 function toggleTeacherMode() {
   teacherMode = !teacherMode;
   document.getElementById('teacherToggle').classList.toggle('active', teacherMode);
   document.querySelectorAll('.teacher-panel').forEach(p => p.classList.toggle('visible', teacherMode));
+}
+function dismissTeacherHint() {
+  document.getElementById('teacher-hint').style.display = 'none';
+  localStorage.setItem('t3_teacher_hint_seen', '1');
 }
 function toggleSidebar() {
   sidebarCollapsed = !sidebarCollapsed;
@@ -1046,6 +1177,27 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileN
 function rnd(a,b) { return Math.floor(Math.random()*(b-a+1))+a; }
 function pick(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
 function gcd(a,b) { a=Math.abs(a); b=Math.abs(b); while(b){[a,b]=[b,a%b];} return a; }
+
+const diffMode = {}; // module → 'core' | 'ext'
+function setDiffMode(mod, mode) {
+  diffMode[mod] = mode;
+  const isCore = mode === 'core';
+  const coreBtn = document.getElementById('mode-core-' + mod);
+  const extBtn  = document.getElementById('mode-ext-' + mod);
+  const desc    = document.getElementById('mode-desc-' + mod);
+  if (coreBtn) { coreBtn.style.background = isCore ? 'var(--teal)' : ''; coreBtn.style.color = isCore ? 'white' : ''; coreBtn.className = 'btn btn-sm' + (isCore ? '' : ' btn-secondary'); }
+  if (extBtn)  { extBtn.style.background  = isCore ? '' : 'var(--teal)'; extBtn.style.color  = isCore ? '' : 'white'; extBtn.className  = 'btn btn-sm' + (isCore ? ' btn-secondary' : ''); }
+  const descs = {
+    0: { core:'Core: integers only', ext:'Extended: decimals & negatives' },
+    1: { core:'Core: integer gradients', ext:'Extended: fractional gradients' },
+    2: { core:'Core: integer coordinates', ext:'Extended: fractional/surd results' },
+    3: { core:'Core: integer m and c', ext:'Extended: fractional gradients' }
+  };
+  if (desc && descs[mod]) desc.textContent = descs[mod][mode];
+  // regenerate current question for the module
+  const regens = { 0: ()=>cpNew(), 1: ()=>grNew(), 2: ()=>{ mdMpNew(); mdDistNew(); }, 3: ()=>elReadNew() };
+  if (regens[mod]) regens[mod]();
+}
 
 function frac(n,d) {
   if (d === 0) return 'undefined';
@@ -1099,7 +1251,8 @@ let cpState = { correct:0, attempts:0, streak:0, q:null };
 let plotState = { target:null };
 
 function cpNew() {
-  const x = rnd(-6,6), y = rnd(-6,6);
+  const ext = diffMode[0]==='ext'; const r = ext ? 8 : 6;
+  const x = rnd(-r,r), y = rnd(-r,r);
   let quad;
   if (x===0||y===0) quad='axis';
   else if (x>0&&y>0) quad='I';
@@ -1136,6 +1289,7 @@ function updateCpProgress() {
   document.getElementById('cp-sc-correct').textContent = cpState.correct;
   document.getElementById('cp-sc-attempts').textContent = cpState.attempts;
   document.getElementById('cp-sc-streak').textContent = cpState.streak;
+  if (pct >= 60) markModuleDone(0);
 }
 
 /* Plot the point */
@@ -1152,11 +1306,13 @@ function plotNew() {
 function plotClick(e) {
   const canvas = document.getElementById('plot-canvas');
   const rect = canvas.getBoundingClientRect();
+  const clientX = e.clientX !== undefined ? e.clientX : e.pageX;
+  const clientY = e.clientY !== undefined ? e.clientY : e.pageY;
   const scaleX = canvas.width / rect.width;
   const scaleY = canvas.height / rect.height;
   const cx = canvas.width/2, cy = canvas.height/2, sc = 36;
-  const px = (e.clientX - rect.left) * scaleX;
-  const py = (e.clientY - rect.top) * scaleY;
+  const px = (clientX - rect.left) * scaleX;
+  const py = (clientY - rect.top) * scaleY;
   const gx = Math.round((px - cx) / sc);
   const gy = Math.round(-(py - cy) / sc);
   const { x, y } = plotState.target;
@@ -1187,6 +1343,9 @@ let grState = { correct:0, attempts:0, streak:0, q:null };
 let grGraphState = { m:null, hints:[] };
 
 function grNew() {
+  const btn = document.getElementById('gr-next-btn'); if(btn) btn.style.display='none';
+  const ext = diffMode[1]==='ext';
+  const mRange = ext ? 4 : 3;
   const x1=rnd(-5,4), y1=rnd(-5,5), dx=rnd(1,6), dy=rnd(-6,6);
   const x2=x1+dx, y2=y1+dy;
   const g = gcd(Math.abs(dy), dx);
@@ -1228,11 +1387,13 @@ function grCheck() {
     grState.correct++; grState.streak++;
     showFeedback('gr-feedback', `✅ Correct! m = ${q.mStr}`, 'correct');
     updateGrProgress();
+    const btn2 = document.getElementById('gr-next-btn'); if(btn2) btn2.style.display='';
     setTimeout(grNew, 1400);
   } else {
     grState.streak = 0;
-    showFeedback('gr-feedback', `❌ m = ${q.mStr}. Remember: (y₂−y₁)/(x₂−x₁)`, 'wrong');
+    showFeedback('gr-feedback', `❌ m = ${q.mStr}. Remember: (y₂−y₁)/(x₂−x₁) · Format: integer or fraction like 3/2`, 'wrong');
     updateGrProgress();
+    const btn2 = document.getElementById('gr-next-btn'); if(btn2) btn2.style.display='';
   }
 }
 function grHint() { showHints('gr-hints', grState.q.hints); }
@@ -1243,6 +1404,7 @@ function updateGrProgress() {
   document.getElementById('gr-correct').textContent = grState.correct;
   document.getElementById('gr-streak').textContent = grState.streak;
   document.getElementById('gr-pct').textContent = pct+'%';
+  if (pct >= 60) markModuleDone(1);
 }
 
 function grGraphNew() {
@@ -1327,7 +1489,7 @@ function mdMpCheck() {
     updateMdProgress(); setTimeout(mdMpNew,1400);
   } else {
     mdState.streak=0;
-    showFeedback('md-mp-feedback',`❌ M = (${mdMpQ.mx}, ${mdMpQ.my}). Average each coordinate separately.`,'wrong');
+    showFeedback('md-mp-feedback',`❌ M = (${mdMpQ.mx}, ${mdMpQ.my}). Average each coordinate separately. · Format: enter x and y separately`,'wrong');
     updateMdProgress();
   }
 }
@@ -1376,7 +1538,7 @@ function mdDistCheck() {
     updateMdProgress(); setTimeout(mdDistNew,1500);
   } else {
     mdState.streak=0;
-    showFeedback('md-dist-feedback',`❌ d = ${q.surdStr} ≈ ${q.dRound}`,'wrong');
+    showFeedback('md-dist-feedback',`❌ d = ${q.surdStr} ≈ ${q.dRound} · Format: √50 or 7.07 (3 s.f.)`,'wrong');
     updateMdProgress();
   }
 }
@@ -1388,6 +1550,7 @@ function updateMdProgress() {
   document.getElementById('md-correct').textContent=mdState.correct;
   document.getElementById('md-streak').textContent=mdState.streak;
   document.getElementById('md-pct').textContent=pct+'%';
+  if (pct >= 60) markModuleDone(2);
 }
 
 /* ================================================================
@@ -1525,7 +1688,7 @@ function elFindCheck() {
     updateElProgress(); setTimeout(elFindNew,1500);
   } else {
     elState.streak=0;
-    showFeedback('el-find-feedback',`❌ Answer: ${q.ans[0]}`,'wrong');
+    showFeedback('el-find-feedback',`❌ Answer: ${q.ans[0]} · Format: y=2x+3 or y=−x`,'wrong');
     updateElProgress();
   }
 }
@@ -1537,6 +1700,7 @@ function updateElProgress() {
   document.getElementById('el-correct').textContent=elState.correct;
   document.getElementById('el-streak').textContent=elState.streak;
   document.getElementById('el-pct').textContent=pct+'%';
+  if (pct >= 60) markModuleDone(3);
 }
 
 /* Graph plotter */
@@ -1658,7 +1822,7 @@ function ppFindCheck() {
     updatePpProgress(); setTimeout(ppFindNew,1500);
   } else {
     ppState.streak=0;
-    showFeedback('pp-find-feedback',`❌ Answer: ${ppState.findQ.ans[0]}`,'wrong');
+    showFeedback('pp-find-feedback',`❌ Answer: ${ppState.findQ.ans[0]} · Format: y=mx+c`,'wrong');
     updatePpProgress();
   }
 }
@@ -1670,6 +1834,7 @@ function updatePpProgress() {
   document.getElementById('pp-correct').textContent=ppState.correct;
   document.getElementById('pp-streak').textContent=ppState.streak;
   document.getElementById('pp-pct').textContent=pct+'%';
+  if (pct >= 60) markModuleDone(4);
 }
 
 /* ================================================================
@@ -1763,6 +1928,7 @@ function updateIxProgress() {
   document.getElementById('ix-correct').textContent=ixState.correct;
   document.getElementById('ix-streak').textContent=ixState.streak;
   document.getElementById('ix-pct').textContent=pct+'%';
+  if (pct >= 60) markModuleDone(5);
 }
 
 function ixGraphNew() {
@@ -1910,6 +2076,7 @@ function updateLcProgress() {
   document.getElementById('lc-correct').textContent=lcState.correct;
   document.getElementById('lc-streak').textContent=lcState.streak;
   document.getElementById('lc-pct').textContent=pct+'%';
+  if (pct >= 60) markModuleDone(6);
 }
 
 /* ================================================================
@@ -1919,18 +2086,18 @@ let ecState = { correct:0, total:0, qIdx:0, results:[], questions:[] };
 let ecQ = null;
 
 const EC_QUESTIONS = [
-  { q:'Find the gradient of the line joining (2, 5) and (6, 13).', ans:['2'], marks:'[2]', level:'Core', topic:'Gradient', hints:['m = (13−5)/(6−2) = 8/4'] },
-  { q:'Find the midpoint of the line segment joining (−3, 4) and (7, −2).', ans:['(2,1)','(2, 1)'], marks:'[2]', level:'Core', topic:'Midpoint', hints:['x: (−3+7)/2=2, y: (4−2)/2=1'] },
+  { q:'Find the gradient of the line joining (2, 5) and (6, 13).', ans:['2'], marks:'[2]', level:'Core', topic:'Gradient', fmt:'integer or fraction like 2/3', hints:['m = (13−5)/(6−2) = 8/4'] },
+  { q:'Find the midpoint of the line segment joining (−3, 4) and (7, −2).', ans:['(2,1)','(2, 1)'], marks:'[2]', level:'Core', topic:'Midpoint', fmt:'(x,y) no spaces', hints:['x: (−3+7)/2=2, y: (4−2)/2=1'] },
   { q:'Find the length of the line segment joining (1, 2) and (4, 6). Give exact answer.', ans:['5','√25'], marks:'[2]', level:'Core', topic:'Distance', hints:['d = √((4−1)²+(6−2)²) = √(9+16) = 5'] },
-  { q:'Write down the gradient and y-intercept of y = −3x + 7.', ans:['m=−3,c=7','m=-3,c=7'], marks:'[2]', level:'Core', topic:'Equation of line', hints:['y = mx + c: m = −3, c = 7'] },
-  { q:'Find the equation of the line through (0, 4) with gradient 2.', ans:['y=2x+4'], marks:'[2]', level:'Core', topic:'Equation of line', hints:['y = 2x + c; passes through (0,4) so c = 4'] },
-  { q:'Find the equation of the line through (1, 5) and (3, 9).', ans:['y=2x+3'], marks:'[3]', level:'Core', topic:'Equation of line', hints:['m=(9−5)/(3−1)=2; y=2x+c; 5=2+c; c=3'] },
+  { q:'Write down the gradient and y-intercept of y = −3x + 7.', ans:['m=−3,c=7','m=-3,c=7'], marks:'[2]', level:'Core', topic:'Equation of line', fmt:'y=mx+c', hints:['y = mx + c: m = −3, c = 7'] },
+  { q:'Find the equation of the line through (0, 4) with gradient 2.', ans:['y=2x+4'], marks:'[2]', level:'Core', topic:'Equation of line', fmt:'y=mx+c', hints:['y = 2x + c; passes through (0,4) so c = 4'] },
+  { q:'Find the equation of the line through (1, 5) and (3, 9).', ans:['y=2x+3'], marks:'[3]', level:'Core', topic:'Equation of line', fmt:'y=mx+c', hints:['m=(9−5)/(3−1)=2; y=2x+c; 5=2+c; c=3'] },
   { q:'Are the lines y = 3x + 1 and y = 3x − 4 parallel, perpendicular, or neither?', ans:['parallel'], marks:'[1]', level:'Core', topic:'Parallel/Perpendicular', hints:['Same gradient (m=3) → parallel'] },
-  { q:'Find the equation of the line perpendicular to y = 2x − 1 passing through (4, 3).', ans:['y=−½x+5','y=-0.5x+5','y=-1/2x+5'], marks:'[3]', level:'Extended', topic:'Perpendicular', hints:['Perp. m = −1/2; y = −½x + c; 3 = −2 + c; c = 5'] },
-  { q:'Find the intersection of y = x + 3 and y = −x + 7.', ans:['(2,5)','x=2,y=5'], marks:'[3]', level:'Extended', topic:'Intersections', hints:['x+3=−x+7; 2x=4; x=2; y=5'] },
+  { q:'Find the equation of the line perpendicular to y = 2x − 1 passing through (4, 3).', ans:['y=−½x+5','y=-0.5x+5','y=-1/2x+5'], marks:'[3]', level:'Extended', topic:'Perpendicular', fmt:'y=−½x+5', hints:['Perp. m = −1/2; y = −½x + c; 3 = −2 + c; c = 5'] },
+  { q:'Find the intersection of y = x + 3 and y = −x + 7.', ans:['(2,5)','x=2,y=5'], marks:'[3]', level:'Extended', topic:'Intersections', fmt:'(x,y) no spaces', hints:['x+3=−x+7; 2x=4; x=2; y=5'] },
   { q:'Describe the locus of all points 4 cm from a fixed point P.', ans:['circle','circle,centreP,radius4cm','circle centre p radius 4 cm'], marks:'[2]', level:'Core', topic:'Loci', hints:['Fixed distance from a point → circle'] },
-  { q:'Find the gradient of the line perpendicular to y = (3/4)x + 2.', ans:['−4/3','-4/3'], marks:'[2]', level:'Extended', topic:'Perpendicular', hints:['Perp. gradient = −1/m = −4/3'] },
-  { q:'Point A is (−1, 3) and B is (5, 3). What is the gradient of AB?', ans:['0'], marks:'[1]', level:'Core', topic:'Gradient', hints:['Both y-values are equal → horizontal line → m = 0'] }
+  { q:'Find the gradient of the line perpendicular to y = (3/4)x + 2.', ans:['−4/3','-4/3'], marks:'[2]', level:'Extended', topic:'Perpendicular', fmt:'integer or fraction like 2/3', hints:['Perp. gradient = −1/m = −4/3'] },
+  { q:'Point A is (−1, 3) and B is (5, 3). What is the gradient of AB?', ans:['0'], marks:'[1]', level:'Core', topic:'Gradient', fmt:'integer or fraction like 2/3', hints:['Both y-values are equal → horizontal line → m = 0'] }
 ];
 
 function ecStart() {
@@ -1955,14 +2122,16 @@ function ecLoadQ() {
   document.getElementById('ec-input').value='';
   document.getElementById('ec-feedback').className='feedback';
   document.getElementById('ec-hints').className='hint-list';
+  document.getElementById('ec-skip-btn').style.display = 'none';
 }
 
 function ecCheck() {
   const norm=document.getElementById('ec-input').value.trim().replace(/\s+/g,'').toLowerCase();
   const correct=ecQ.ans.map(a=>a.toLowerCase().replace(/\s/g,'')).includes(norm);
-  ecState.results.push({q:ecQ.q,correct,given:norm,expected:ecQ.ans[0]});
+  ecState.results.push({q:ecQ.q,correct,given:norm,expected:ecQ.ans[0],topic:ecQ.topic});
   if(correct){ecState.correct++; showFeedback('ec-feedback',`✅ Correct! ${ecQ.marks}`,'correct');}
-  else showFeedback('ec-feedback',`❌ Answer: ${ecQ.ans[0]}`,'wrong');
+  else showFeedback('ec-feedback',`❌ Answer: ${ecQ.ans[0]}${ecQ.fmt ? ' · Format: '+ecQ.fmt : ''}`,'wrong');
+  document.getElementById('ec-skip-btn').style.display = '';
   const pct=Math.round(ecState.correct/(ecState.qIdx+1)*100);
   document.getElementById('ec-prog').style.width=Math.round((ecState.qIdx+1)/ecState.total*100)+'%';
   document.getElementById('ec-correct').textContent=ecState.correct;
@@ -1975,7 +2144,7 @@ function ecCheck() {
 
 function ecHint() { showHints('ec-hints', ecQ.hints); }
 function ecSkip() {
-  ecState.results.push({q:ecQ.q,correct:false,given:'—',expected:ecQ.ans[0]});
+  ecState.results.push({q:ecQ.q,correct:false,given:'—',expected:ecQ.ans[0],topic:ecQ.topic});
   ecState.qIdx++;
   if(ecState.qIdx>=ecState.total) ecShowResults(); else ecLoadQ();
 }
@@ -1983,7 +2152,24 @@ function ecSkip() {
 function ecShowResults() {
   document.getElementById('ec-results').style.display='block';
   const pct=Math.round(ecState.correct/ecState.total*100);
+  if (pct >= 60) markModuleDone(7);
   const grade=pct>=80?'🏆 Excellent':pct>=60?'👍 Good':pct>=40?'📚 Needs practice':'⚠️ Review required';
+  // topic breakdown
+  const topicMap = {};
+  ecState.results.forEach(r => {
+    const t = r.topic || 'General';
+    if (!topicMap[t]) topicMap[t] = { correct:0, total:0 };
+    topicMap[t].total++;
+    if (r.correct) topicMap[t].correct++;
+  });
+  const topicRows = Object.entries(topicMap).map(([t,v]) =>
+    `<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:0.82rem;">
+      <span>${t}</span>
+      <span style="font-weight:600;color:${v.correct===v.total?'var(--green)':v.correct===0?'var(--red)':'var(--amber)'};">${v.correct}/${v.total}</span>
+    </div>`).join('');
+  // clipboard text
+  const clipText = `IGCSE Math T3 Exam Challenge\nScore: ${ecState.correct}/${ecState.total} (${pct}%) — ${grade}\n\n` +
+    ecState.results.map((r,i)=>`Q${i+1}: ${r.correct?'✓':'✗'} ${r.q}\n${!r.correct?'  Your: '+r.given+' | Correct: '+r.expected:''}`).join('\n');
   document.getElementById('ec-results-body').innerHTML=`
     <div class="score-bar" style="margin-bottom:16px;">
       <div class="sc-item"><strong>${ecState.correct}/${ecState.total}</strong><br>Score</div>
@@ -1992,17 +2178,41 @@ function ecShowResults() {
       <div class="sc-sep"></div>
       <div class="sc-item"><strong>${grade}</strong></div>
     </div>
-    ${ecState.results.map(r=>`<div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:0.83rem;display:flex;gap:8px;">
-      <span>${r.correct?'✅':'❌'}</span>
-      <div>${r.q}${!r.correct?`<div style="color:var(--muted);margin-top:2px;">Your: ${r.given} · Correct: ${r.expected}</div>`:''}</div>
-    </div>`).join('')}`;
+    <div style="margin-bottom:14px;">
+      <div style="font-size:0.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Topic Breakdown</div>
+      ${topicRows}
+    </div>
+    <details style="margin-bottom:12px;">
+      <summary style="cursor:pointer;font-size:0.85rem;font-weight:600;color:var(--navy);padding:4px 0;">📋 Question-by-question review</summary>
+      <div style="margin-top:8px;">
+        ${ecState.results.map((r,i)=>`<div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:0.83rem;display:flex;gap:8px;">
+          <span>${r.correct?'✅':'❌'}</span>
+          <div><span style="font-size:0.72rem;color:var(--muted);">Q${i+1} · ${r.topic||''}</span><br>${r.q}${!r.correct?`<div style="color:var(--muted);margin-top:2px;">Your: ${r.given} · Correct: ${r.expected}</div>`:''}</div>
+        </div>`).join('')}
+      </div>
+    </details>
+    <button class="btn btn-secondary btn-sm" id="copy-results-btn" style="margin-right:8px;">📋 Copy Results</button>`;
+  window._ecClip = clipText;
+  document.getElementById('copy-results-btn').onclick = () => {
+    navigator.clipboard.writeText(window._ecClip).then(() => {
+      document.getElementById('copy-results-btn').textContent = '✅ Copied!';
+      setTimeout(() => { document.getElementById('copy-results-btn').textContent = '📋 Copy Results'; }, 2000);
+    }).catch(() => alert(window._ecClip));
+  };
 }
 function ecRestart() { ecStart(); }
 
 /* ================================================================
    INIT
    ================================================================ */
+restoreDoneBadges();
 showModule(0);
+if (!localStorage.getItem('t3_teacher_hint_seen')) {
+  setTimeout(() => {
+    const hint = document.getElementById('teacher-hint');
+    if (hint) hint.style.display = 'block';
+  }, 1500);
+}
 </script>
 </body>
 </html>
