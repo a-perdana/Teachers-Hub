@@ -43,8 +43,13 @@ function parseObjCodes(objStr, syllabusRefs) {
   const fromRefs = Array.isArray(syllabusRefs) ? syllabusRefs.filter(Boolean) : [];
   const prefixes = (typeof _objPrefixes !== 'undefined' && _objPrefixes.length) ? _objPrefixes : ['C', 'E'];
   const pfxPattern = prefixes.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
-  const re = new RegExp(`(?:${pfxPattern})\\d+\\.\\d+`, 'g');
-  const matches = objStr ? (objStr.match(re) || []) : [];
+  const reIgcse = new RegExp(`(?:${pfxPattern})\\d+\\.\\d+`, 'g');
+  // Checkpoint codes: e.g. 7Ni.01, 7Nf.07, 8Sp.03
+  const reCheckpoint = /\d[A-Za-z]+\.\d+/g;
+  const matches = objStr ? [
+    ...(objStr.match(reIgcse) || []),
+    ...(objStr.match(reCheckpoint) || []),
+  ] : [];
   return [...new Set([...fromRefs, ...matches])];
 }
 
