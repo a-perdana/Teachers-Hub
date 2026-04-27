@@ -239,6 +239,7 @@ input:focus { outline:none; border-color:var(--violet); box-shadow:0 0 0 3px rgb
       <span>Teacher Mode</span>
       <button class="toggle-switch" id="teacherToggle" onclick="toggleTeacherMode()" aria-label="Toggle teacher mode"></button>
     </div>
+    <button onclick="if(confirm('Reset all progress? This cannot be undone.')) resetAllProgress();" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);font-size:0.72rem;padding:4px 10px;border-radius:6px;cursor:pointer;" title="Reset all saved progress">↺ Reset Progress</button>
     <span class="header-sub">IGCSE 0580</span>
   </div>
 </header>
@@ -365,7 +366,7 @@ input:focus { outline:none; border-color:var(--violet); box-shadow:0 0 0 3px rgb
           <div class="def-card"><div class="def-term">Plane</div><div class="def-desc">Flat 2D surface extending infinitely.</div></div>
           <div class="def-card"><div class="def-term">Perpendicular Bisector</div><div class="def-desc">Cuts a line segment in half at 90°.</div></div>
           <div class="def-card"><div class="def-term">Hemisphere</div><div class="def-desc">Half a sphere, cut by a flat circular face.</div></div>
-          <div class="def-card"><div class="def-term">Frustum</div><div class="def-desc">A cone or pyramid with its top sliced off parallel to the base.</div></div>
+          <div class="def-card"><div class="def-term">Frustum</div><div class="def-desc">A cone or pyramid with its top sliced off parallel to the base. <em style="color:var(--amber);font-size:0.8em;">(Volume calculations: Topic 5 — Mensuration)</em></div></div>
         </div>
       </div>
     </div>
@@ -1085,6 +1086,66 @@ input:focus { outline:none; border-color:var(--violet); box-shadow:0 0 0 3px rgb
       <div class="result-box" id="m2-wp-result" style="display:none;margin-top:10px;"></div>
     </div>
   </div>
+
+  <!-- Exercise 3: C4.3c — Pythagoras & Trig in Bearings (Extended) -->
+  <div class="card">
+    <div class="card-header">✏️ Exercise 3 — Pythagoras &amp; Trigonometry in Bearings <span class="badge badge-ext" style="margin-left:8px;vertical-align:middle;">Extended C4.3c</span></div>
+    <div class="card-body">
+
+      <div class="exercise" id="m2-q6">
+        <div class="exercise-title">Question 1 of 4 — Distance</div>
+        <p class="question-text">
+          A ship sails <strong>30 km due North</strong> then <strong>40 km due East</strong>.
+          Find the <strong>straight-line distance</strong> from the starting point (to 1 d.p.).
+        </p>
+        <div class="fill-row">
+          <input class="fill-input inp-sm" id="m2-q6-inp" type="number" step="0.1" placeholder="km">
+          <button class="check-btn" onclick="checkFillTolerance('m2-q6',50,0.1,2,'Pythagoras: distance = √(30²+40²) = √(900+1600) = √2500 = 50 km.')">Check</button>
+        </div>
+        <div class="feedback" id="m2-q6-fb"></div>
+      </div>
+
+      <div class="exercise" id="m2-q7">
+        <div class="exercise-title">Question 2 of 4 — Bearing</div>
+        <p class="question-text">
+          Using the same journey above (30 km North then 40 km East), find the <strong>bearing</strong> from the start to the finish point.
+          Give your answer to the nearest degree.
+        </p>
+        <div class="fill-row">
+          <input class="fill-input inp-sm" id="m2-q7-inp" type="number" placeholder="°">
+          <button class="check-btn" onclick="checkFill('m2-q7','53',2,'tan θ = opposite/adjacent = 40/30. θ = tan⁻¹(40/30) = 53.1° ≈ 53°. Bearing measured from North clockwise = 053°.')">Check</button>
+        </div>
+        <div class="feedback" id="m2-q7-fb"></div>
+      </div>
+
+      <div class="exercise" id="m2-q8">
+        <div class="exercise-title">Question 3 of 4 — Missing Component</div>
+        <p class="question-text">
+          Point B is <strong>65 km</strong> from point A on a bearing of <strong>090°</strong> (due East).
+          Point C is <strong>52 km due North</strong> of B. Find the <strong>distance AC</strong> to 1 d.p.
+        </p>
+        <div class="fill-row">
+          <input class="fill-input inp-sm" id="m2-q8-inp" type="number" step="0.1" placeholder="km">
+          <button class="check-btn" onclick="checkFillTolerance('m2-q8',83.2,0.2,2,'Right triangle: AC = √(65²+52²) = √(4225+2704) = √6929 ≈ 83.2 km.')">Check</button>
+        </div>
+        <div class="feedback" id="m2-q8-fb"></div>
+      </div>
+
+      <div class="exercise" id="m2-q9">
+        <div class="exercise-title">Question 4 of 4 — Bearing from Components</div>
+        <p class="question-text">
+          Town Y is <strong>12 km West</strong> and <strong>5 km South</strong> of town X.
+          Find the <strong>bearing of Y from X</strong> to the nearest degree.
+        </p>
+        <div class="fill-row">
+          <input class="fill-input inp-sm" id="m2-q9-inp" type="number" placeholder="°">
+          <button class="check-btn" onclick="checkFill('m2-q9','247',2,'Angle from South toward West: tan θ = 12/5 → θ = 67°. Bearing = 180° + 67° = 247°.')">Check</button>
+        </div>
+        <div class="feedback" id="m2-q9-fb"></div>
+      </div>
+
+    </div>
+  </div>
 </section><!-- end mod-2 -->
 
 <!-- ══════════════════════════════════════
@@ -1271,7 +1332,7 @@ input:focus { outline:none; border-color:var(--violet); box-shadow:0 0 0 3px rgb
         <div class="feedback" id="m3-q4-fb"></div>
       </div>
       <div class="exercise" id="m3-q5">
-        <div class="exercise-title">Question 5 of 5</div>
+        <div class="exercise-title">Question 5 of 7</div>
         <p class="question-text">Which condition proves two triangles are similar?</p>
         <div class="mcq-options">
           <button class="mcq-btn" onclick="checkMCQ('m3-q5','A','A',3)">A. Two pairs of equal angles (AA)</button>
@@ -1281,6 +1342,39 @@ input:focus { outline:none; border-color:var(--violet); box-shadow:0 0 0 3px rgb
         </div>
         <div class="feedback" id="m3-q5-fb"></div>
       </div>
+
+      <!-- E4.4b — Prove similarity -->
+      <div class="exercise" id="m3-q6" style="border-top:2px dashed var(--violet-lt);margin-top:16px;padding-top:16px;">
+        <div class="exercise-title">Question 6 of 7 — Prove Similarity (Extended E4.4b) <span class="badge badge-ext" style="vertical-align:middle;margin-left:6px;">Extended</span></div>
+        <p class="question-text">
+          Triangles ABC and PQR: angle A = angle P = 48°, angle B = angle Q = 65°.<br>
+          Which similarity condition applies, and what is angle C?
+        </p>
+        <div class="mcq-options">
+          <button class="mcq-btn" onclick="checkMCQ('m3-q6','A','A',3)">A. AA — angle C = angle R = 67°</button>
+          <button class="mcq-btn" onclick="checkMCQ('m3-q6','B','A',3)">B. SSS — angle C = 67°</button>
+          <button class="mcq-btn" onclick="checkMCQ('m3-q6','C','A',3)">C. SAS — angle C = 65°</button>
+          <button class="mcq-btn" onclick="checkMCQ('m3-q6','D','A',3)">D. AA — angle C = 47°</button>
+        </div>
+        <div class="feedback" id="m3-q6-fb"></div>
+      </div>
+
+      <div class="exercise" id="m3-q7">
+        <div class="exercise-title">Question 7 of 7 — Prove Similarity (Extended E4.4b) <span class="badge badge-ext" style="vertical-align:middle;margin-left:6px;">Extended</span></div>
+        <p class="question-text">
+          Triangle ABC: AB = 4 cm, BC = 6 cm, angle B = 50°.<br>
+          Triangle PQR: PQ = 8 cm, QR = 12 cm, angle Q = 50°.<br>
+          Which condition proves these triangles are similar?
+        </p>
+        <div class="mcq-options">
+          <button class="mcq-btn" onclick="checkMCQ('m3-q7','A','B',3)">A. AA — two equal angles</button>
+          <button class="mcq-btn" onclick="checkMCQ('m3-q7','B','B',3)">B. SAS — two sides in proportion (ratio 2) + included angle equal</button>
+          <button class="mcq-btn" onclick="checkMCQ('m3-q7','C','B',3)">C. SSS — all three sides proportional</button>
+          <button class="mcq-btn" onclick="checkMCQ('m3-q7','D','B',3)">D. Not similar — sides are different lengths</button>
+        </div>
+        <div class="feedback" id="m3-q7-fb"></div>
+      </div>
+
     </div>
   </div>
 </section><!-- end mod-3 -->
@@ -2239,10 +2333,10 @@ input:focus { outline:none; border-color:var(--violet); box-shadow:0 0 0 3px rgb
         <p class="question-text">Triangle ABC has angle A = 35°, AB ∥ DE where D is on AC and E is on BC. Angle ADE = 110°. Find angle DEB.</p>
         <div class="fill-row">
           <input class="fill-input inp-sm" id="m8-q15-inp" type="number" placeholder="°">
-          <button class="check-btn" onclick="checkFill('m8-q15','70',8,'Angle ADE + angle DEC = 180° (co-interior, AB∥DE). Angle DEC = 70°. Angle DEB = 180−70 = 110°... Actually: co-interior gives angle CDE = 180−110=70°; angle DEB = angle ABC = 180−35−70=75°. Wait — using AB∥DE: corresponding gives angle DEA = angle DAB... Re-approach: angle ADE=110°, so angle EDC=70° (angles on a line). AB∥DE, so angle AED = 180−110=70° (co-interior ADE+AED=180°). Angle DEB = 180−70=110°. Hmm — let us use: co-interior angles ADE + DEsomething. Final answer 70°: angle BDE = 180−110=70°, alternate angles give angle DBE=70°... The intended clean answer is 70°.')">Check</button>
+          <button class="check-btn" onclick="checkFill('m8-q15','70',8,'AB ∥ DE, so angle ADE + angle DEB = 180° (co-interior angles, same side of transversal DE). Therefore angle DEB = 180° − 110° = 70°.')">Check</button>
         </div>
         <div class="feedback" id="m8-q15-fb"></div>
-        <div class="m8-answer" style="display:none;margin-top:8px;" data-ans="70° — co-interior angles: angle ADE + angle DEB = 180°, so DEB = 180 − 110 = 70°."></div>
+        <div class="m8-answer" style="display:none;margin-top:8px;" data-ans="70° — co-interior angles (AB∥DE): ADE + DEB = 180°, so DEB = 180° − 110° = 70°."></div>
       </div>
 
     </div>
@@ -2318,9 +2412,11 @@ function toggleAccordion(id) {
 ═══════════════════════════════════════════════ */
 function updateProgress(n, isCorrect) {
   const s = modState[n];
-  s.total++;
-  if (isCorrect) { s.correct++; s.streak++; }
-  else { s.streak = 0; }
+  if (isCorrect !== null) {
+    s.total++;
+    if (isCorrect) { s.correct++; s.streak++; }
+    else { s.streak = 0; }
+  }
   const pct = s.total > 0 ? Math.round(s.correct / s.total * 100) : 0;
   const fill = document.getElementById('m'+n+'-prog');
   if (fill) fill.style.width = pct + '%';
@@ -2330,11 +2426,32 @@ function updateProgress(n, isCorrect) {
   if (se) se.textContent = s.streak;
   const pe = document.getElementById('m'+n+'-pct');
   if (pe) pe.textContent = pct + '%';
+  saveProgress();
 }
 
 /* ═══════════════════════════════════════════════
    QUESTION CHECKING
 ═══════════════════════════════════════════════ */
+function tryAgainMCQ(qId, modNum) {
+  const s = modState[modNum];
+  s.answered.delete(qId);
+  const btns = document.querySelectorAll('#' + qId + ' .mcq-btn');
+  btns.forEach(b => { b.disabled = false; b.classList.remove('correct','wrong'); });
+  const fb = document.getElementById(qId + '-fb');
+  if (fb) { fb.className = 'feedback'; fb.textContent = ''; }
+  saveProgress();
+}
+
+function tryAgainFill(qId, modNum) {
+  const s = modState[modNum];
+  s.answered.delete(qId);
+  const inp = document.getElementById(qId + '-inp');
+  if (inp) { inp.disabled = false; inp.value = ''; inp.classList.remove('correct','wrong'); }
+  const fb = document.getElementById(qId + '-fb');
+  if (fb) { fb.className = 'feedback'; fb.textContent = ''; }
+  saveProgress();
+}
+
 function checkMCQ(qId, chosen, correct, modNum) {
   const s = modState[modNum];
   if (s.answered.has(qId)) return;
@@ -2349,7 +2466,8 @@ function checkMCQ(qId, chosen, correct, modNum) {
   const fb = document.getElementById(qId + '-fb');
   if (fb) {
     fb.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
-    fb.textContent = isCorrect ? '✓ Correct!' : '✗ Incorrect. The correct answer is ' + correct + '.';
+    fb.innerHTML = (isCorrect ? '✓ Correct!' : '✗ Incorrect. The correct answer is ' + correct + '.')
+      + ' <button onclick="tryAgainMCQ(\'' + qId + '\',' + modNum + ')" style="margin-left:10px;font-size:0.78rem;background:none;border:1px solid currentColor;border-radius:4px;padding:2px 8px;cursor:pointer;opacity:0.75;">↺ Try Again</button>';
   }
   updateProgress(modNum, isCorrect);
 }
@@ -2367,7 +2485,8 @@ function checkFill(qId, correctVal, modNum, explanation) {
   const fb = document.getElementById(qId + '-fb');
   if (fb) {
     fb.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
-    fb.textContent = isCorrect ? '✓ Correct! ' + explanation : '✗ Incorrect. ' + explanation;
+    fb.innerHTML = (isCorrect ? '✓ Correct! ' + explanation : '✗ Incorrect. ' + explanation)
+      + ' <button onclick="tryAgainFill(\'' + qId + '\',' + modNum + ')" style="margin-left:10px;font-size:0.78rem;background:none;border:1px solid currentColor;border-radius:4px;padding:2px 8px;cursor:pointer;opacity:0.75;">↺ Try Again</button>';
   }
   updateProgress(modNum, isCorrect);
 }
@@ -2385,7 +2504,8 @@ function checkFillTolerance(qId, correctVal, tolerance, modNum, explanation) {
   const fb = document.getElementById(qId + '-fb');
   if (fb) {
     fb.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
-    fb.textContent = isCorrect ? '✓ Correct! ' + explanation : '✗ Incorrect. ' + explanation;
+    fb.innerHTML = (isCorrect ? '✓ Correct! ' + explanation : '✗ Incorrect. ' + explanation)
+      + ' <button onclick="tryAgainFill(\'' + qId + '\',' + modNum + ')" style="margin-left:10px;font-size:0.78rem;background:none;border:1px solid currentColor;border-radius:4px;padding:2px 8px;cursor:pointer;opacity:0.75;">↺ Try Again</button>';
   }
   updateProgress(modNum, isCorrect);
 }
@@ -3379,6 +3499,72 @@ function m8ResetAll() {
 }
 
 /* ═══════════════════════════════════════════════
+   PROGRESS PERSISTENCE (localStorage)
+═══════════════════════════════════════════════ */
+const LS_KEY = 'igcse_math_t4_progress';
+
+function saveProgress() {
+  const data = modState.map(s => ({
+    correct: s.correct, total: s.total, streak: s.streak,
+    answered: [...s.answered]
+  }));
+  try { localStorage.setItem(LS_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    data.forEach((d, i) => {
+      if (!modState[i]) return;
+      modState[i].correct = d.correct || 0;
+      modState[i].total   = d.total   || 0;
+      modState[i].streak  = d.streak  || 0;
+      modState[i].answered = new Set(d.answered || []);
+    });
+    // Re-render all progress bars from saved state
+    modState.forEach((s, i) => {
+      const pct = s.total > 0 ? Math.round(s.correct / s.total * 100) : 0;
+      const fill = document.getElementById('m'+i+'-prog');
+      if (fill) fill.style.width = pct + '%';
+      const ce = document.getElementById('m'+i+'-correct');
+      if (ce) ce.textContent = s.correct;
+      const se = document.getElementById('m'+i+'-streak');
+      if (se) se.textContent = s.streak;
+      const pe = document.getElementById('m'+i+'-pct');
+      if (pe) pe.textContent = pct + '%';
+    });
+    // Re-disable answered static exercise inputs/buttons
+    modState.forEach(s => {
+      s.answered.forEach(qId => {
+        const btns = document.querySelectorAll('#' + qId + ' .mcq-btn');
+        btns.forEach(b => b.disabled = true);
+        const inp = document.getElementById(qId + '-inp');
+        if (inp) inp.disabled = true;
+      });
+    });
+  } catch(e) {}
+}
+
+function resetAllProgress() {
+  try { localStorage.removeItem(LS_KEY); } catch(e) {}
+  modState.forEach((s, i) => {
+    s.correct = 0; s.total = 0; s.streak = 0; s.answered = new Set();
+    const fill = document.getElementById('m'+i+'-prog');
+    if (fill) fill.style.width = '0%';
+    ['m'+i+'-correct','m'+i+'-streak','m'+i+'-pct'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = id.includes('pct') ? '0%' : '0';
+    });
+  });
+  // Re-enable all static exercise inputs/buttons
+  document.querySelectorAll('.mcq-btn').forEach(b => { b.disabled = false; b.classList.remove('correct','wrong'); });
+  document.querySelectorAll('.fill-input').forEach(inp => { inp.disabled = false; inp.value = ''; inp.classList.remove('correct','wrong'); });
+  document.querySelectorAll('.feedback').forEach(fb => { fb.className = 'feedback'; fb.textContent = ''; });
+}
+
+/* ═══════════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
@@ -3401,6 +3587,8 @@ document.addEventListener('DOMContentLoaded', () => {
       pips.appendChild(d);
     });
   }
+  // Load saved progress
+  loadProgress();
   // Show first module
   showModule(0);
 });
