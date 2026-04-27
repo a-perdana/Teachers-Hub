@@ -2227,6 +2227,20 @@ function showFeedback(id, msg, type) {
   el.textContent = msg;
   el.className = 'feedback show fb-' + type;
 }
+const TRY_AGAIN_BTN2 = ' <button onclick="tryAgain2(this)" style="margin-left:10px;font-size:0.78rem;background:none;border:1px solid currentColor;border-radius:4px;padding:2px 8px;cursor:pointer;opacity:0.75;">↺ Try Again</button>';
+function tryAgain2(btn) {
+  const fbEl = btn.closest('.feedback');
+  if (!fbEl) return;
+  fbEl.className = 'feedback'; fbEl.innerHTML = '';
+  const inputs = fbEl.dataset.inputs ? fbEl.dataset.inputs.split(',') : [];
+  inputs.forEach(id => { const el = document.getElementById(id); if (el) { el.value = ''; el.focus(); } });
+}
+function showFeedbackWrong(id, msg, inputIds) {
+  const el = document.getElementById(id);
+  el.dataset.inputs = Array.isArray(inputIds) ? inputIds.join(',') : (inputIds || '');
+  el.innerHTML = msg + TRY_AGAIN_BTN2;
+  el.className = 'feedback show fb-wrong';
+}
 
 function showHints(id, hints) {
   const el = document.getElementById(id);
@@ -2376,7 +2390,7 @@ function ebCheck() {
     setTimeout(ebNew, 1400);
   } else {
     ebState.streak = 0;
-    showFeedback('eb-feedback', `❌ Not quite. You got ${ans}, expected ${ebState.q.ans}. Check your substitution order.`, 'wrong');
+    showFeedbackWrong('eb-feedback', `❌ Not quite. You got ${ans}, expected ${ebState.q.ans}. Check your substitution order.`, ['eb-input']);
     updateEbScores();
   }
 }
@@ -2419,7 +2433,7 @@ function cfCheck() {
   if (q.ans.some(a => a === norm)) {
     showFeedback('cf-feedback', `✅ Correct! ${q.explain}`, 'correct');
   } else {
-    showFeedback('cf-feedback', `Not quite. Think about: ${q.explain}`, 'wrong');
+    showFeedbackWrong('cf-feedback', `Not quite. Think about: ${q.explain}`, ['cf-input']);
   }
 }
 
@@ -2471,7 +2485,7 @@ function ltCheck() {
     setTimeout(ltNew, 1400);
   } else {
     ltState.streak = 0;
-    showFeedback('lt-feedback', `❌ Not quite. Check you only collected like terms (same letter, same power).`, 'wrong');
+    showFeedbackWrong('lt-feedback', `❌ Not quite. Check you only collected like terms (same letter, same power).`, ['lt-input']);
     updateAsProgress();
   }
 }
@@ -2563,7 +2577,7 @@ function expCheck() {
     setTimeout(expNew, 1400);
   } else {
     expState.streak = 0;
-    showFeedback('exp-feedback', '❌ Not quite. Try using FOIL or the distributive law.', 'wrong');
+    showFeedbackWrong('exp-feedback', '❌ Not quite. Try using FOIL or the distributive law.', ['exp-input']);
     updateAsProgress();
   }
 }
@@ -2657,7 +2671,7 @@ function flCheck() {
     setTimeout(flNew, 1400);
   } else {
     flState.streak = 0;
-    showFeedback('fl-feedback', '❌ Not quite. Try expanding your answer to check it matches the original.', 'wrong');
+    showFeedbackWrong('fl-feedback', '❌ Not quite. Try expanding your answer to check it matches the original.', ['fl-input']);
     updateFlProgress();
   }
 }
@@ -2702,7 +2716,7 @@ function ctsCheck() {
     showFeedback('cts-feedback', `✅ Correct! (x + ${p})² + ${q}`, 'correct');
     setTimeout(ctsNew, 1600);
   } else {
-    showFeedback('cts-feedback', `❌ p should be ${p}, q should be ${q}. Remember: p = b/2, q = c − (b/2)²`, 'wrong');
+    showFeedbackWrong('cts-feedback', `❌ p should be ${p}, q should be ${q}. Remember: p = b/2, q = c − (b/2)²`, ['cts-p','cts-q']);
   }
 }
 function ctsHint() { showHints('cts-hints', ctsState.q.hints); }
@@ -2791,7 +2805,7 @@ function ixCheck() {
     setTimeout(ixNew, 1400);
   } else {
     ixState.streak = 0;
-    showFeedback('ix-feedback', `❌ Not quite. Check the index law you need to apply.`, 'wrong');
+    showFeedbackWrong('ix-feedback', `❌ Not quite. Check the index law you need to apply.`, ['ix-input']);
     updateIxProgress();
   }
 }
@@ -2976,7 +2990,7 @@ function stdCheck() {
     setTimeout(stdNew, 2000);
   } else {
     tgState.streak = 0;
-    showFeedback('std-feedback', `❌ Expected ${stdQ.ans} ${stdQ.unit}. ${stdQ.hint}`, 'wrong');
+    showFeedbackWrong('std-feedback', `❌ Expected ${stdQ.ans} ${stdQ.unit}. ${stdQ.hint}`, ['std-input']);
     updateTgProgress();
   }
 }
@@ -3133,7 +3147,7 @@ function rgCheck() {
     setTimeout(rgNew, 1600);
   } else {
     fgState.streak = 0;
-    showFeedback('rg-feedback', `❌ Expected ${rgQ.ans}. ${rgQ.hint}`, 'wrong');
+    showFeedbackWrong('rg-feedback', `❌ Expected ${rgQ.ans}. ${rgQ.hint}`, ['rg-input']);
     updateFgProgress();
   }
 }
@@ -3224,7 +3238,7 @@ function csCheck(name) {
     setTimeout(csNew, 1500);
   } else {
     csState.streak = 0;
-    showFeedback('cs-feedback', `❌ That was ${csCurrentType.name}. Look at the shape carefully.`, 'wrong');
+    showFeedbackWrong('cs-feedback', `❌ That was ${csCurrentType.name}. Look at the shape carefully.`, []);
     updateCsProgress();
   }
 }
@@ -3266,7 +3280,7 @@ function kfCheck() {
     setTimeout(kfNew, 1500);
   } else {
     csState.streak = 0;
-    showFeedback('kf-feedback', `❌ Expected: ${kfQ.ans}. ${kfQ.hint}`, 'wrong');
+    showFeedbackWrong('kf-feedback', `❌ Expected: ${kfQ.ans}. ${kfQ.hint}`, ['kf-input']);
     updateCsProgress();
   }
 }
@@ -3329,7 +3343,7 @@ function afCheck() {
     setTimeout(afNew, 1500);
   } else {
     afState.streak = 0;
-    showFeedback('af-feedback', '❌ Not quite. Factorise first, then cancel common factors.', 'wrong');
+    showFeedbackWrong('af-feedback', '❌ Not quite. Factorise first, then cancel common factors.', ['af-input']);
     updateAfProgress();
   }
 }
@@ -3432,20 +3446,20 @@ function eqCheck() {
     const v = parseFloat(document.getElementById('eq-single').value);
     correct = !isNaN(v) && Math.abs(v - q.ans.single) < 0.001;
     if (correct) showFeedback('eq-feedback', `✅ Correct! x = ${q.ansStr}`, 'correct');
-    else showFeedback('eq-feedback', `❌ Not quite. x = ${q.ansStr}`, 'wrong');
+    else showFeedbackWrong('eq-feedback', `❌ Not quite. x = ${q.ansStr}`, ['eq-single']);
   } else if (eqState.mode === 'sim') {
     const xv = parseFloat(document.getElementById('eq-x').value);
     const yv = parseFloat(document.getElementById('eq-y').value);
     correct = Math.abs(xv - q.ans.x) < 0.01 && Math.abs(yv - q.ans.y) < 0.01;
     if (correct) showFeedback('eq-feedback', `✅ Correct! x = ${q.ans.x}, y = ${q.ans.y}`, 'correct');
-    else showFeedback('eq-feedback', `❌ Expected x = ${q.ans.x}, y = ${q.ans.y}`, 'wrong');
+    else showFeedbackWrong('eq-feedback', `❌ Expected x = ${q.ans.x}, y = ${q.ans.y}`, ['eq-x', 'eq-y']);
   } else {
     const x1v = parseFloat(document.getElementById('eq-x1').value);
     const x2v = parseFloat(document.getElementById('eq-x2').value);
     const small = Math.min(x1v,x2v), big = Math.max(x1v,x2v);
     correct = Math.abs(small - q.ans.x1) < 0.01 && Math.abs(big - q.ans.x2) < 0.01;
     if (correct) showFeedback('eq-feedback', `✅ Correct! x = ${q.ans.x1} or x = ${q.ans.x2}`, 'correct');
-    else showFeedback('eq-feedback', `❌ Expected x = ${q.ans.x1} or x = ${q.ans.x2}`, 'wrong');
+    else showFeedbackWrong('eq-feedback', `❌ Expected x = ${q.ans.x1} or x = ${q.ans.x2}`, ['eq-x1', 'eq-x2']);
   }
   if (correct) { eqState.correct++; eqState.streak++; setTimeout(eqNew, 1500); }
   else eqState.streak = 0;
@@ -3522,7 +3536,7 @@ function frCheck() {
     setTimeout(frNew, 1500);
   } else {
     frState.streak = 0;
-    showFeedback('fr-feedback', `❌ Not quite. Try isolating the target variable step by step.`, 'wrong');
+    showFeedbackWrong('fr-feedback', `❌ Not quite. Try isolating the target variable step by step.`, ['fr-input']);
     updateFrProgress();
   }
 }
@@ -3627,7 +3641,7 @@ function iqCheck() {
     setTimeout(iqNew, 2000);
   } else {
     iqState.streak = 0;
-    showFeedback('iq-feedback', `❌ Expected: x ${q.opSym} ${q.xStr}. Don't forget to keep the same inequality sign.`, 'wrong');
+    showFeedbackWrong('iq-feedback', `❌ Expected: x ${q.opSym} ${q.xStr}. Don't forget to keep the same inequality sign.`, ['iq-input']);
     updateIqProgress();
   }
 }
@@ -3698,7 +3712,7 @@ function isCheck() {
     showFeedback('is-feedback', `✅ Correct! Integer solutions: ${isState.q.ansStr}`, 'correct');
     setTimeout(isNew, 1600);
   } else {
-    showFeedback('is-feedback', `❌ Expected: ${isState.q.ansStr}. Check the boundary values carefully — open vs closed.`, 'wrong');
+    showFeedbackWrong('is-feedback', `❌ Expected: ${isState.q.ansStr}. Check the boundary values carefully — open vs closed.`, ['is-input']);
   }
 }
 
@@ -3755,7 +3769,7 @@ function sqNextCheck() {
     setTimeout(sqNextNew, 1400);
   } else {
     sqState.streak = 0;
-    showFeedback('sq-next-feedback', `❌ Expected ${sqNextQ.next}. Look for the pattern (difference or ratio).`, 'wrong');
+    showFeedbackWrong('sq-next-feedback', `❌ Expected ${sqNextQ.next}. Look for the pattern (difference or ratio).`, ['sq-next-input']);
     updateSqProgress();
   }
 }
@@ -3827,7 +3841,7 @@ function sqNthCheck() {
     setTimeout(sqNthNew, 1500);
   } else {
     sqState.streak = 0;
-    showFeedback('sq-nth-feedback', `❌ Not quite. Try using the hint.`, 'wrong');
+    showFeedbackWrong('sq-nth-feedback', `❌ Not quite. Try using the hint.`, ['sq-nth-input']);
     updateSqProgress();
   }
 }
@@ -3852,7 +3866,7 @@ function sqFindCheck() {
     showFeedback('sq-find-feedback', `✅ Correct! It is term number ${sqFindQ.n} (n = ${sqFindQ.n}).`, 'correct');
     setTimeout(sqFindNew, 1500);
   } else {
-    showFeedback('sq-find-feedback', `❌ Not quite. Set ${sqFindQ.formula} = ${sqFindQ.val} and solve for n.`, 'wrong');
+    showFeedbackWrong('sq-find-feedback', `❌ Not quite. Set ${sqFindQ.formula} = ${sqFindQ.val} and solve for n.`, ['sq-find-input']);
   }
 }
 
@@ -3918,7 +3932,7 @@ function prCheck() {
     let msg = '❌ ';
     if (!kOk) msg += `k should be ${prState.q.k}. `;
     if (!fOk) msg += `Missing value should be ${prState.q.findY}.`;
-    showFeedback('pr-feedback', msg, 'wrong');
+    showFeedbackWrong('pr-feedback', msg, ['pr-k','pr-find']);
     updatePrProgress();
   }
 }
@@ -4021,7 +4035,7 @@ function diffCheck() {
     setTimeout(diffNew, 1500);
   } else {
     diffState.streak = 0;
-    showFeedback('diff-feedback', `❌ Check your power rule application. Use the hint for guidance.`, 'wrong');
+    showFeedbackWrong('diff-feedback', `❌ Check your power rule application. Use the hint for guidance.`, ['diff-input']);
     updateDiffProgress();
   }
 }
@@ -4101,7 +4115,7 @@ function fnCheck() {
     setTimeout(fnNew, 1400);
   } else {
     fnState.streak = 0;
-    showFeedback('fn-feedback', `❌ Expected ${fnState.q.ans[0]}. Use the hint to see the working.`, 'wrong');
+    showFeedbackWrong('fn-feedback', `❌ Expected ${fnState.q.ans[0]}. Use the hint to see the working.`, ['fn-input']);
     updateFnProgress();
   }
 }
@@ -4170,7 +4184,7 @@ function ecCheck() {
     ecState.correct++;
     showFeedback('ec-feedback', `✅ Correct! (${ecQ.marks})`, 'correct');
   } else {
-    showFeedback('ec-feedback', `❌ Answer: ${ecQ.ans[0]}${ecQ.fmt ? ' · Format: ' + ecQ.fmt : ''}`, 'wrong');
+    showFeedbackWrong('ec-feedback', `❌ Answer: ${ecQ.ans[0]}${ecQ.fmt ? ' · Format: ' + ecQ.fmt : ''}`, ['ec-input']);
   }
   const pct = Math.round(ecState.correct / (ecState.qIdx + 1) * 100);
   document.getElementById('ec-prog').style.width = Math.round((ecState.qIdx+1)/ecState.total*100) + '%';

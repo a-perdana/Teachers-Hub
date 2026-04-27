@@ -1215,6 +1215,20 @@ function showFeedback(id, msg, type) {
   const el = document.getElementById(id);
   el.innerHTML = msg; el.className = 'feedback show fb-' + type;
 }
+const TRY_AGAIN_BTN3 = ' <button onclick="tryAgain3(this)" style="margin-left:10px;font-size:0.78rem;background:none;border:1px solid currentColor;border-radius:4px;padding:2px 8px;cursor:pointer;opacity:0.75;">↺ Try Again</button>';
+function tryAgain3(btn) {
+  const fbEl = btn.closest('.feedback');
+  if (!fbEl) return;
+  fbEl.className = 'feedback'; fbEl.innerHTML = '';
+  const inputs = fbEl.dataset.inputs ? fbEl.dataset.inputs.split(',') : [];
+  inputs.forEach(id => { const el = document.getElementById(id); if (el) { el.value = ''; el.focus(); } });
+}
+function showFeedbackWrong3(id, msg, inputIds) {
+  const el = document.getElementById(id);
+  el.dataset.inputs = Array.isArray(inputIds) ? inputIds.join(',') : (inputIds || '');
+  el.innerHTML = msg + TRY_AGAIN_BTN3;
+  el.className = 'feedback show fb-wrong';
+}
 function showHints(id, hints) {
   const el = document.getElementById(id);
   el.innerHTML = '<strong style="font-size:0.8rem;color:var(--muted);">💡 Hints:</strong><br>' +
@@ -1276,7 +1290,7 @@ function cpCheck(ans) {
   } else {
     cpState.streak = 0;
     const signs = { I:'(+,+)', II:'(−,+)', III:'(−,−)', IV:'(+,−)' };
-    showFeedback('cp-feedback', `❌ That's Quadrant ${cpState.q.quad}${cpState.q.quad==='axis'?' (on an axis)':' '+signs[cpState.q.quad]}`, 'wrong');
+    showFeedbackWrong3('cp-feedback', `❌ That's Quadrant ${cpState.q.quad}${cpState.q.quad==='axis'?' (on an axis)':' '+signs[cpState.q.quad]}`, []);
     updateCpProgress();
   }
 }
@@ -1333,7 +1347,7 @@ function plotClick(e) {
     showFeedback('plot-feedback', `✅ Correct! You plotted (${x}, ${y}) accurately.`, 'correct');
     setTimeout(plotNew, 1400);
   } else {
-    showFeedback('plot-feedback', `❌ You clicked (${gx}, ${gy}). Target was (${x}, ${y}). Green circle shows the correct position.`, 'wrong');
+    showFeedbackWrong3('plot-feedback', `❌ You clicked (${gx}, ${gy}). Target was (${x}, ${y}). Green circle shows the correct position.`, []);
   }
 }
 
@@ -1392,7 +1406,7 @@ function grCheck() {
     setTimeout(grNew, 1400);
   } else {
     grState.streak = 0;
-    showFeedback('gr-feedback', `❌ m = ${q.mStr}. Remember: (y₂−y₁)/(x₂−x₁) · Format: integer or fraction like 3/2`, 'wrong');
+    showFeedbackWrong3('gr-feedback', `❌ m = ${q.mStr}. Remember: (y₂−y₁)/(x₂−x₁) · Format: integer or fraction like 3/2`, ['gr-input']);
     updateGrProgress();
     const btn2 = document.getElementById('gr-next-btn'); if(btn2) btn2.style.display='';
   }
@@ -1457,7 +1471,7 @@ function grGraphCheck() {
     setTimeout(grGraphNew, 1500);
   } else {
     grState.streak = 0;
-    showFeedback('gr-graph-feedback', `❌ m = ${grGraphState.mStr}. Pick two points, count the rise and run.`, 'wrong');
+    showFeedbackWrong3('gr-graph-feedback', `❌ m = ${grGraphState.mStr}. Pick two points, count the rise and run.`, ['gr-graph-input']);
     updateGrProgress();
   }
 }
@@ -1490,7 +1504,7 @@ function mdMpCheck() {
     updateMdProgress(); setTimeout(mdMpNew,1400);
   } else {
     mdState.streak=0;
-    showFeedback('md-mp-feedback',`❌ M = (${mdMpQ.mx}, ${mdMpQ.my}). Average each coordinate separately. · Format: enter x and y separately`,'wrong');
+    showFeedbackWrong3('md-mp-feedback', `❌ M = (${mdMpQ.mx}, ${mdMpQ.my}). Average each coordinate separately. · Format: enter x and y separately`, ['md-mx','md-my']);
     updateMdProgress();
   }
 }
@@ -1539,7 +1553,7 @@ function mdDistCheck() {
     updateMdProgress(); setTimeout(mdDistNew,1500);
   } else {
     mdState.streak=0;
-    showFeedback('md-dist-feedback',`❌ d = ${q.surdStr} ≈ ${q.dRound} · Format: √50 or 7.07 (3 s.f.)`,'wrong');
+    showFeedbackWrong3('md-dist-feedback', `❌ d = ${q.surdStr} ≈ ${q.dRound} · Format: √50 or 7.07 (3 s.f.)`, ['md-dist-input']);
     updateMdProgress();
   }
 }
@@ -1595,7 +1609,7 @@ function elReadCheck() {
     updateElProgress(); setTimeout(elReadNew,1400);
   } else {
     elState.streak=0;
-    showFeedback('el-read-feedback',`❌ m = ${elState.readQ.m}, c = ${elState.readQ.c}`,'wrong');
+    showFeedbackWrong3('el-read-feedback', `❌ m = ${elState.readQ.m}, c = ${elState.readQ.c}`, ['el-m','el-c']);
     updateElProgress();
   }
 }
@@ -1689,7 +1703,7 @@ function elFindCheck() {
     updateElProgress(); setTimeout(elFindNew,1500);
   } else {
     elState.streak=0;
-    showFeedback('el-find-feedback',`❌ Answer: ${q.ans[0]} · Format: y=2x+3 or y=−x`,'wrong');
+    showFeedbackWrong3('el-find-feedback', `❌ Answer: ${q.ans[0]} · Format: y=2x+3 or y=−x`, ['el-find-input']);
     updateElProgress();
   }
 }
@@ -1773,7 +1787,7 @@ function ppCheck(ans) {
     updatePpProgress(); setTimeout(ppNew,1500);
   } else {
     ppState.streak=0;
-    showFeedback('pp-feedback',`❌ These lines are ${ppState.classQ.type}. Check m₁ and m₂.`,'wrong');
+    showFeedbackWrong3('pp-feedback', `❌ These lines are ${ppState.classQ.type}. Check m₁ and m₂.`, []);
     updatePpProgress();
   }
 }
@@ -1823,7 +1837,7 @@ function ppFindCheck() {
     updatePpProgress(); setTimeout(ppFindNew,1500);
   } else {
     ppState.streak=0;
-    showFeedback('pp-find-feedback',`❌ Answer: ${ppState.findQ.ans[0]} · Format: y=mx+c`,'wrong');
+    showFeedbackWrong3('pp-find-feedback', `❌ Answer: ${ppState.findQ.ans[0]} · Format: y=mx+c`, ['pp-find-input']);
     updatePpProgress();
   }
 }
@@ -1907,7 +1921,7 @@ function ixCheck() {
     const yv=parseFloat(document.getElementById('ix-y').value);
     correct=Math.abs(xv-q.ans.x)<0.01&&Math.abs(yv-q.ans.y)<0.01;
     if (correct) showFeedback('ix-feedback',`✅ Correct! Intersection at (${q.ans.x}, ${q.ans.y})`,'correct');
-    else showFeedback('ix-feedback',`❌ Intersection is at (${q.ans.x}, ${q.ans.y})`,'wrong');
+    else showFeedbackWrong3('ix-feedback', `❌ Intersection is at (${q.ans.x}, ${q.ans.y})`, ['ix-x','ix-y']);
   } else {
     const x1v=parseFloat(document.getElementById('ix-x1').value);
     const y1v=parseFloat(document.getElementById('ix-y1').value);
@@ -1916,7 +1930,7 @@ function ixCheck() {
     const a=q.ans;
     correct=(Math.abs(x1v-a.x1)<0.01&&Math.abs(y1v-a.y1)<0.01&&Math.abs(x2v-a.x2)<0.01&&Math.abs(y2v-a.y2)<0.01);
     if (correct) showFeedback('ix-feedback',`✅ Correct! Points (${a.x1}, ${a.y1}) and (${a.x2}, ${a.y2})`,'correct');
-    else showFeedback('ix-feedback',`❌ Points are (${a.x1}, ${a.y1}) and (${a.x2}, ${a.y2})`,'wrong');
+    else showFeedbackWrong3('ix-feedback', `❌ Points are (${a.x1}, ${a.y1}) and (${a.x2}, ${a.y2})`, ['ix-x1','ix-y1','ix-x2','ix-y2']);
   }
   if (correct) { ixState.correct++; ixState.streak++; updateIxProgress(); setTimeout(ixNew,1600); }
   else { ixState.streak=0; updateIxProgress(); }
@@ -1968,7 +1982,7 @@ function ixGraphCheck() {
     updateIxProgress(); setTimeout(ixGraphNew,1500);
   } else {
     ixState.streak=0;
-    showFeedback('ix-graph-feedback',`❌ The intersection is at (${ixGraphState.x}, ${ixGraphState.y})`,'wrong');
+    showFeedbackWrong3('ix-graph-feedback', `❌ The intersection is at (${ixGraphState.x}, ${ixGraphState.y})`, ['ix-gx','ix-gy']);
     updateIxProgress();
   }
 }
@@ -2005,7 +2019,7 @@ function lcCheck(ans) {
     updateLcProgress(); setTimeout(lcNew,1600);
   } else {
     lcState.streak=0;
-    showFeedback('lc-feedback',`❌ Correct answer: ${lcState.q.ans}`,'wrong');
+    showFeedbackWrong3('lc-feedback', `❌ Correct answer: ${lcState.q.ans}`, []);
     updateLcProgress();
   }
 }
@@ -2066,7 +2080,7 @@ function lcRegCheck(ans) {
     updateLcProgress(); setTimeout(lcRegNew,1500);
   } else {
     lcState.streak=0;
-    showFeedback('lc-reg-feedback',`❌ Correct: ${lcState.regQ.ans}`,'wrong');
+    showFeedbackWrong3('lc-reg-feedback', `❌ Correct: ${lcState.regQ.ans}`, []);
     updateLcProgress();
   }
 }
@@ -2131,7 +2145,7 @@ function ecCheck() {
   const correct=ecQ.ans.map(a=>a.toLowerCase().replace(/\s/g,'')).includes(norm);
   ecState.results.push({q:ecQ.q,correct,given:norm,expected:ecQ.ans[0],topic:ecQ.topic});
   if(correct){ecState.correct++; showFeedback('ec-feedback',`✅ Correct! ${ecQ.marks}`,'correct');}
-  else showFeedback('ec-feedback',`❌ Answer: ${ecQ.ans[0]}${ecQ.fmt ? ' · Format: '+ecQ.fmt : ''}`,'wrong');
+  else showFeedbackWrong3('ec-feedback', `❌ Answer: ${ecQ.ans[0]}${ecQ.fmt ? ' · Format: '+ecQ.fmt : ''}`, ['ec-input']);
   document.getElementById('ec-skip-btn').style.display = '';
   const pct=Math.round(ecState.correct/(ecState.qIdx+1)*100);
   document.getElementById('ec-prog').style.width=Math.round((ecState.qIdx+1)/ecState.total*100)+'%';

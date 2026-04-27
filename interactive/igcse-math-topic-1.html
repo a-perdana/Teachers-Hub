@@ -970,6 +970,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
       <div class="tp-item"><strong>❌ Misconception 2:</strong> 2/3 = 0.6. Same issue — it's 0.6̄ = 0.666… Use the visual bar to show it goes just past 66%.</div>
       <div class="tp-item"><strong>❌ Misconception 3:</strong> Simplification: dividing only the numerator, or using a common factor that is not the HCF.</div>
       <div class="tp-item"><strong>❌ Misconception 4:</strong> Percentage conversion: multiplying by 10 not 100. "× 10 gives you tens, × 100 gives you per cent (out of 100)."</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Use the "multiply back" check — if 7/8 = 0.875, then 0.875 × 8 must equal 7. Teach this self-checking habit before students reach exam conditions. For simplification, always ask "What is the HCF?" and use prime factorisation if uncertain.</div>
     </div>
     <details style="margin-top:12px;padding:0 12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;font-size:0.83rem;line-height:1.7;"><strong>Q: Calculate 2/3 + 3/4.</strong><br><ol style="margin:8px 0 0 16px;"><li>LCM of 3 and 4 = 12.</li><li>2/3 = 8/12, 3/4 = 9/12.</li><li>8/12 + 9/12 = <strong>17/12 = 1 5/12</strong>.</li></ol></div></details>
   </div>
@@ -2422,6 +2423,8 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
       <div class="tp-item"><strong>❌ Misconception 2:</strong> "√2 is rational." — Irrational numbers cannot be written as p/q where p, q are integers. √2 = 1.41421356… never repeats and never terminates.</div>
       <div class="tp-item"><strong>❌ Misconception 3:</strong> Confusing integers and natural numbers. Natural numbers start at 1 (or 0 in some conventions) — they exclude negatives. Integers include all negatives, zero, and positives.</div>
       <div class="tp-item"><strong>✅ Teaching Strategy:</strong> Use the nested set diagram: ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ. Ask: "Can you place this number on the number line? Is it a fraction? Does it terminate or recur?"</div>
+      <div class="tp-item"><strong>❌ Misconception 4 (C1.15 — Absolute Value):</strong> Students write |−3| = −3. Stress: absolute value is always ≥ 0 — it is the <em>distance</em> from zero, never direction. Also: |a − b| ≠ a − b when a &lt; b.</div>
+      <div class="tp-item"><strong>✅ Teaching Strategy (Absolute Value):</strong> Draw a number line. Mark x and 0. The absolute value is the number of steps between them — direction irrelevant. Common exam use: solving |2x − 3| = 7 gives two cases: 2x − 3 = 7 and 2x − 3 = −7.</div>
     </div>
     <details style="margin-top:12px;padding:0 12px;"><summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary><div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;font-size:0.83rem;line-height:1.7;"><strong>Q: Classify √9, π, and −5.</strong><br><ul style="margin:8px 0 0 16px;"><li>√9 = 3 → Natural, Integer, Rational, Real.</li><li>π ≈ 3.14159… (non-terminating, non-recurring) → Irrational, Real.</li><li>−5 → Integer, Rational, Real (NOT natural).</li></ul></div></details>
   </div>
@@ -2521,6 +2524,32 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
       <button class="btn btn-secondary" onclick="qfNew()">↺ Next</button>
     </div>
     <div class="feedback" id="qf-fb"></div>
+  </div>
+
+  <!-- ── ABSOLUTE VALUE — C1.15 ── -->
+  <div class="card">
+    <div class="card-title">|x| Absolute Value <span style="font-size:0.7rem;background:var(--blue);color:white;padding:2px 7px;border-radius:4px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;vertical-align:middle;">C1.15</span></div>
+    <div class="card-desc">The absolute value |x| is the distance of x from zero — always non-negative. Enter any number and see its absolute value, then try the challenge questions.</div>
+    <div class="input-row">
+      <label class="bold">|x| where x =</label>
+      <input type="number" id="av-input" class="inp-sm" placeholder="e.g. −7" step="any" oninput="avLive()" onkeydown="if(event.key==='Enter')avCheck()" />
+      <button class="btn btn-primary" onclick="avCheck()">✓ Check</button>
+      <button class="btn btn-secondary" onclick="avNew()">↺ New</button>
+    </div>
+    <div id="av-visual" style="margin:12px 0;display:none;">
+      <div style="text-align:center;font-size:1.6rem;font-family:var(--font-mono);font-weight:700;color:var(--blue);" id="av-display"></div>
+      <div style="text-align:center;font-size:0.85rem;color:var(--muted);margin-top:4px;" id="av-explain"></div>
+    </div>
+    <div id="av-challenge-wrap" style="margin-top:12px;">
+      <div class="problem-display" id="av-q" style="font-size:1.5rem;">Press ↺ New for a challenge question</div>
+      <div class="input-row" style="margin-top:10px;">
+        <label class="bold">Answer:</label>
+        <input type="number" id="av-ans" class="inp-sm" placeholder="e.g. 5" step="any" onkeydown="if(event.key==='Enter')avCheckAns()" />
+        <button class="btn btn-success" onclick="avCheckAns()">✓ Submit</button>
+      </div>
+    </div>
+    <ul class="hint-list" id="av-hints"></ul>
+    <div class="feedback" id="av-fb"></div>
   </div>
 
   <!-- ── NUMBER ORDERING ── -->
@@ -2623,6 +2652,20 @@ function fb(id, msg, type) {
 function fbHide(id) {
   const el = document.getElementById(id);
   el.className = 'feedback'; el.innerHTML = '';
+}
+const TRY_AGAIN_BTN = ' <button onclick="tryAgain(this)" style="margin-left:10px;font-size:0.78rem;background:none;border:1px solid currentColor;border-radius:4px;padding:2px 8px;cursor:pointer;opacity:0.75;">↺ Try Again</button>';
+function tryAgain(btn) {
+  const fbEl = btn.closest('.feedback');
+  if (!fbEl) return;
+  fbEl.className = 'feedback'; fbEl.innerHTML = '';
+  const inputs = fbEl.dataset.inputs ? fbEl.dataset.inputs.split(',') : [];
+  inputs.forEach(id => { const el = document.getElementById(id); if (el) { el.value = ''; el.focus(); } });
+}
+function fbWrong(fbId, msg, inputIds) {
+  const el = document.getElementById(fbId);
+  el.className = 'feedback fb-wrong';
+  el.dataset.inputs = Array.isArray(inputIds) ? inputIds.join(',') : (inputIds || '');
+  el.innerHTML = msg + TRY_AGAIN_BTN;
 }
 function addHint(listId, msg) {
   const li = document.createElement('li');
@@ -2974,7 +3017,7 @@ function frCheckDec() {
     fb('fr-dec-fb', `✅ Correct! ${num}/${den} = ${recurring ? exact.toFixed(6) + '…' : exact}`, 'correct');
     addScore('fr', 5);
   } else {
-    fb('fr-dec-fb', `❌ Not quite. To convert: divide ${num} ÷ ${den}. Ask: how many times does ${den} go into ${num}?`, 'wrong');
+    fbWrong('fr-dec-fb', `❌ Not quite. To convert: divide ${num} ÷ ${den}. Ask: how many times does ${den} go into ${num}?`, ['fr-dec-in']);
   }
 }
 
@@ -2993,7 +3036,7 @@ function frCheckPct() {
     fb('fr-pct-fb', `✅ Correct! ${num}/${den} = ${exact.toFixed(2)}%`, 'correct');
     addScore('fr', 5);
   } else {
-    fb('fr-pct-fb', `❌ Not quite. Convert to decimal first: ${num}/${den} = ${(num/den).toFixed(4)}. Then × 100 = ${exact.toFixed(2)}%.`, 'wrong');
+    fbWrong('fr-pct-fb', `❌ Not quite. Convert to decimal first: ${num}/${den} = ${(num/den).toFixed(4)}. Then × 100 = ${exact.toFixed(2)}%.`, ['fr-pct-in']);
   }
 }
 
@@ -3023,9 +3066,9 @@ function frCheckSimp() {
     fb('fr-simp-fb', `✅ Correct! HCF(${num}, ${den}) = ${g}. Dividing both by ${g} gives ${cn}/${cd}.`, 'correct');
     addScore('fr', 5);
   } else if (sn * den !== sd * num) {
-    fb('fr-simp-fb', `❌ ${sn}/${sd} is not equivalent to ${num}/${den}. You must divide both top and bottom by the <em>same</em> number.`, 'wrong');
+    fbWrong('fr-simp-fb', `❌ ${sn}/${sd} is not equivalent to ${num}/${den}. You must divide both top and bottom by the <em>same</em> number.`, ['fr-sn','fr-sd']);
   } else {
-    fb('fr-simp-fb', `❌ Not the simplest form yet. The HCF of ${num} and ${den} is ${g}. Divide both by ${g}.`, 'wrong');
+    fbWrong('fr-simp-fb', `❌ Not the simplest form yet. The HCF of ${num} and ${den} is ${g}. Divide both by ${g}.`, ['fr-sn','fr-sd']);
   }
 }
 
@@ -3122,9 +3165,9 @@ function sfCheck1() {
     // Check wrong sign
     const wrongSign = aIn * Math.pow(10, -nIn);
     if (Math.abs(wrongSign - exact) <= tol) {
-      fb('sf-fb1', `⚠️ Your coefficient is right, but the <strong>sign of the power is wrong</strong>! ${exact < 1 ? 'Numbers smaller than 1 need a negative power.' : 'This number is large, so the power is positive.'}`, 'wrong');
+      fbWrong('sf-fb1', `⚠️ Your coefficient is right, but the <strong>sign of the power is wrong</strong>! ${exact < 1 ? 'Numbers smaller than 1 need a negative power.' : 'This number is large, so the power is positive.'}`, ['sf-a1','sf-n1']);
     } else {
-      fb('sf-fb1', `❌ Not quite. ${aIn} × 10${sup(nIn)} = ${niceNumber(student)}, but the number is ${niceNumber(exact)}. Recount the decimal moves.`, 'wrong');
+      fbWrong('sf-fb1', `❌ Not quite. ${aIn} × 10${sup(nIn)} = ${niceNumber(student)}, but the number is ${niceNumber(exact)}. Recount the decimal moves.`, ['sf-a1','sf-n1']);
     }
   }
 }
@@ -3165,9 +3208,9 @@ function sfCheck2() {
   } else {
     const wrongDir = sfCh2.coeff * Math.pow(10, -sfCh2.pow);
     if (Math.abs(student - wrongDir) < Math.abs(wrongDir) * 0.02 + 1e-10) {
-      fb('sf-fb2', `⚠️ You moved the decimal in the <strong>wrong direction</strong>! Negative power → small number (move left). Positive power → large number (move right).`, 'wrong');
+      fbWrong('sf-fb2', `⚠️ You moved the decimal in the <strong>wrong direction</strong>! Negative power → small number (move left). Positive power → large number (move right).`, ['sf-str2']);
     } else {
-      fb('sf-fb2', `❌ Not quite. Move the decimal ${Math.abs(sfCh2.pow)} places to the ${sfCh2.pow >= 0 ? 'right' : 'left'}. Answer: ${niceNumber(exact)}`, 'wrong');
+      fbWrong('sf-fb2', `❌ Not quite. Move the decimal ${Math.abs(sfCh2.pow)} places to the ${sfCh2.pow >= 0 ? 'right' : 'left'}. Answer: ${niceNumber(exact)}`, ['sf-str2']);
     }
   }
 }
@@ -3460,12 +3503,12 @@ function rndCheck() {
       ? parseFloat((rnd.n - 0.5 * Math.pow(10, -rnd.dp)).toFixed(rnd.dp))
       : null;
     if (halfTest !== null && Math.abs(student - halfTest) < 1e-9) {
-      fb('rnd-fb', `⚠️ When the next digit is exactly 5, always round <strong>up</strong>! ${rnd.n} → ${correct}`, 'wrong');
+      fbWrong('rnd-fb', `⚠️ When the next digit is exactly 5, always round <strong>up</strong>! ${rnd.n} → ${correct}`, ['rnd-in']);
     } else {
       const method = rnd.sf
         ? `Count ${rnd.sf} significant figure${rnd.sf>1?'s':''}. Leading zeros don't count!`
         : `Look at the digit in decimal place ${rnd.dp+1} to decide whether to round up or down.`;
-      fb('rnd-fb', `❌ Expected <strong>${correct}</strong>. ${method}`, 'wrong');
+      fbWrong('rnd-fb', `❌ Expected <strong>${correct}</strong>. ${method}`, ['rnd-in']);
     }
   }
 }
@@ -3541,7 +3584,7 @@ function prPowCheck() {
     fb('pr-pow-fb', `✅ Correct! ${prPow.display.replace(/<[^>]+>/g,'^')} = ${prPow.answer}`, 'correct');
     addScore('pr', 5);
   } else {
-    fb('pr-pow-fb', `❌ Not quite. ${prPow.base}^${prPow.exp} = ${Array(prPow.exp).fill(prPow.base).join(' × ')} = ${prPow.answer}.`, 'wrong');
+    fbWrong('pr-pow-fb', `❌ Not quite. ${prPow.base}^${prPow.exp} = ${Array(prPow.exp).fill(prPow.base).join(' × ')} = ${prPow.answer}.`, ['pr-pow-in']);
   }
 }
 
@@ -3593,7 +3636,7 @@ function prRootCheck() {
     addScore('pr', 5);
   } else {
     const exp = prRoot.rootType === 'sq' ? 2 : 3;
-    fb('pr-root-fb', `❌ Not quite. Ask: what number^${exp} = ${prRoot.radicand}? Answer: ${prRoot.answer}.`, 'wrong');
+    fbWrong('pr-root-fb', `❌ Not quite. Ask: what number^${exp} = ${prRoot.radicand}? Answer: ${prRoot.answer}.`, ['pr-root-in']);
   }
 }
 
@@ -3644,7 +3687,7 @@ function prQrCheck() {
     setTimeout(prQrNew, 800);
   } else {
     prStreak = 0; document.getElementById('pr-streak').textContent = prStreak;
-    fb('pr-qr-fb', `❌ Answer was ${correct}.`, 'wrong');
+    fbWrong('pr-qr-fb', `❌ Answer was ${correct}.`, ['pr-qr-in']);
   }
 }
 
@@ -3710,7 +3753,7 @@ function tmTimeCheck() {
       fb('tm-time-fb', `✅ Correct! ${tmTime.hh} h ${tmTime.mm} min = ${tmTime.hh} + ${tmTime.mm}/60 = ${tmTime.answerDec} h`, 'correct');
       addScore('tm', 5);
     } else {
-      fb('tm-time-fb', `❌ Expected ${tmTime.answerDec} h. Remember: minutes ÷ 60, not ÷ 100.`, 'wrong');
+      fbWrong('tm-time-fb', `❌ Expected ${tmTime.answerDec} h. Remember: minutes ÷ 60, not ÷ 100.`, ['tm-time-in']);
     }
     return;
   }
@@ -3736,7 +3779,7 @@ function tmTimeCheck() {
     addScore('tm', 5);
   } else {
     const h = Math.floor(tmTime.answerMins/60), m = tmTime.answerMins%60;
-    fb('tm-time-fb', `❌ Expected ${h} h ${m} min (${tmTime.answerMins} min). ${tmTime.hint1}`, 'wrong');
+    fbWrong('tm-time-fb', `❌ Expected ${h} h ${m} min (${tmTime.answerMins} min). ${tmTime.hint1}`, ['tm-time-in']);
   }
 }
 function tmTimeHint() {
@@ -3774,7 +3817,7 @@ function tmClockCheck() {
     fb('tm-clock-fb', `🤔 <strong>12 am = midnight (00:00)</strong> and <strong>12 pm = noon (12:00)</strong>. This is one of the most commonly confused facts in time!`, 'wrong'); return;
   }
 
-  fb('tm-clock-fb', `❌ Expected: ${correct}. ${tmClock.dir === 'to24' ? 'pm times: add 12 to the hour (except 12 pm). am times: keep as-is (except 12 am = 00:xx).' : 'Hours 13–23: subtract 12 and add pm. Hour 0: use 12 am. Hour 12: use 12 pm.'}`, 'wrong');
+  fbWrong('tm-clock-fb', `❌ Expected: ${correct}. ${tmClock.dir === 'to24' ? 'pm times: add 12 to the hour (except 12 pm). am times: keep as-is (except 12 am = 00:xx).' : 'Hours 13–23: subtract 12 and add pm. Hour 0: use 12 am. Hour 12: use 12 pm.'}`, ['tm-clock-in']);
 }
 function tmClockHint() {
   if (!tmClock) return;
@@ -3811,7 +3854,7 @@ function tmFxCheck() {
     fb('tm-fx-fb', `✅ Correct! ${tmFx.amount} ${tmFx.from} = ${correct} ${tmFx.to} (${tmFx.dir === 'multiply' ? `× ${tmFx.rate}` : `÷ ${tmFx.rate}`})`, 'correct');
     addScore('tm', 5);
   } else {
-    fb('tm-fx-fb', `❌ Expected ${correct} ${tmFx.to}. ${tmFx.dir === 'multiply' ? `Multiply: ${tmFx.amount} × ${tmFx.rate}` : `Divide: ${tmFx.amount} ÷ ${tmFx.rate}`} = ${correct}.`, 'wrong');
+    fbWrong('tm-fx-fb', `❌ Expected ${correct} ${tmFx.to}. ${tmFx.dir === 'multiply' ? `Multiply: ${tmFx.amount} × ${tmFx.rate}` : `Divide: ${tmFx.amount} ÷ ${tmFx.rate}`} = ${correct}.`, ['tm-fx-in']);
   }
 }
 function tmFxHint() {
@@ -3934,7 +3977,7 @@ function lmEiCheck() {
     fb('lm-ei-fb', `✅ Correct! Error interval: <strong>${lb} ≤ x &lt; ${ub}</strong>`, 'correct');
     addScore('lm', 5);
   } else {
-    fb('lm-ei-fb', `❌ Expected ${lb} ≤ x &lt; ${ub}. Half-unit = ${half}.`, 'wrong');
+    fbWrong('lm-ei-fb', `❌ Expected ${lb} ≤ x &lt; ${ub}. Half-unit = ${half}.`, ['lm-ei-lb','lm-ei-ub']);
   }
 }
 
@@ -3976,7 +4019,7 @@ function lmCombCheck() {
     fb('lm-comb-fb', `✅ Correct! ${find === 'max' ? 'Maximum' : 'Minimum'} = ${correct}`, 'correct');
     addScore('lm', 10);
   } else {
-    fb('lm-comb-fb', `❌ Expected ${correct}. For ${find} of ${op}: use ${find==='max'&&op!=='quot'&&op!=='diff'?'UB values':'appropriate bound combination'}.`, 'wrong');
+    fbWrong('lm-comb-fb', `❌ Expected ${correct}. For ${find} of ${op}: use ${find==='max'&&op!=='quot'&&op!=='diff'?'UB values':'appropriate bound combination'}.`, ['lm-comb-in']);
   }
 }
 function lmCombHint() {
@@ -4064,7 +4107,7 @@ function raSdtCheck() {
     fb('ra-sdt-fb', `✅ Correct! ${find} = ${find==='S'?`D÷T=${D}÷${T}`:find==='D'?`S×T=${S}×${T}`:`D÷S=${D}÷${S}`} = ${correct.toFixed(2)} ${raSdt.unit}`, 'correct');
     addScore('ra', 5);
   } else {
-    fb('ra-sdt-fb', `❌ Not quite. ${find==='S'?`S=D÷T=${D}÷${T}`:find==='D'?`D=S×T=${S}×${T}`:`T=D÷S=${D}÷${S}`} = ${correct.toFixed(2)} ${raSdt.unit}.`, 'wrong');
+    fbWrong('ra-sdt-fb', `❌ Not quite. ${find==='S'?`S=D÷T=${D}÷${T}`:find==='D'?`D=S×T=${S}×${T}`:`T=D÷S=${D}÷${S}`} = ${correct.toFixed(2)} ${raSdt.unit}.`, ['ra-sdt-in']);
   }
 }
 function raSdtHint() {
@@ -4102,7 +4145,7 @@ function raDenCheck() {
     fb('ra-den-fb', `✅ Correct! ${find}=${find==='D'?`M÷V=${M}÷${V}`:find==='M'?`D×V=${D}×${V}`:`M÷D=${M}÷${D}`} = ${correct.toFixed(3)} ${raDen.unit}`, 'correct');
     addScore('ra', 5);
   } else {
-    fb('ra-den-fb', `❌ Expected ${correct.toFixed(3)} ${raDen.unit}. Formula: ${find==='D'?'D=M÷V':find==='M'?'M=D×V':'V=M÷D'}.`, 'wrong');
+    fbWrong('ra-den-fb', `❌ Expected ${correct.toFixed(3)} ${raDen.unit}. Formula: ${find==='D'?'D=M÷V':find==='M'?'M=D×V':'V=M÷D'}.`, ['ra-den-in']);
   }
 }
 function raDenHint() {
@@ -4135,7 +4178,7 @@ function raUrSelect(opt) {
     fb('ra-ur-fb', `✅ Correct! Option ${raUr.better} is better value.<br/>${raUr.explainA}<br/>${raUr.explainB}`, 'correct');
     addScore('ra', 5);
   } else {
-    fb('ra-ur-fb', `❌ Option ${raUr.better} is actually better value.<br/>${raUr.explainA}<br/>${raUr.explainB}`, 'wrong');
+    fbWrong('ra-ur-fb', `❌ Option ${raUr.better} is actually better value.<br/>${raUr.explainA}<br/>${raUr.explainB}`, []);
   }
 }
 
@@ -4211,7 +4254,7 @@ function pcOfCheck() {
     fb('pc-of-fb', `✅ Correct! ${pcOf.pct}% of ${pcOf.amount} ${pcOf.unit} = ${pcOf.amount} × ${pcOf.pct/100} = ${correct} ${pcOf.unit}`, 'correct');
     addScore('pc', 5);
   } else {
-    fb('pc-of-fb', `❌ Not quite. ${pcOf.pct}% of ${pcOf.amount} = ${pcOf.amount} × ${pcOf.pct/100} = ${correct} ${pcOf.unit}.`, 'wrong');
+    fbWrong('pc-of-fb', `❌ Not quite. ${pcOf.pct}% of ${pcOf.amount} = ${pcOf.amount} × ${pcOf.pct/100} = ${correct} ${pcOf.unit}.`, ['pc-of-in']);
   }
 }
 function pcOfHint() {
@@ -4252,7 +4295,7 @@ function pcChgCheck() {
     fb('pc-chg-fb', `✅ Correct! ${pcChg.pct}% ${pcChg.dir} on ${pcChg.amount} ${pcChg.unit}: ${pcChg.amount} × ${mult} = ${correct} ${pcChg.unit}`, 'correct');
     addScore('pc', 5);
   } else {
-    fb('pc-chg-fb', `❌ Not quite. Multiplier for ${pcChg.pct}% ${pcChg.dir} = ${mult}. ${pcChg.amount} × ${mult} = ${correct} ${pcChg.unit}.`, 'wrong');
+    fbWrong('pc-chg-fb', `❌ Not quite. Multiplier for ${pcChg.pct}% ${pcChg.dir} = ${mult}. ${pcChg.amount} × ${mult} = ${correct} ${pcChg.unit}.`, ['pc-chg-in']);
   }
 }
 function pcChgHint() {
@@ -4291,7 +4334,7 @@ function pcPlCheck() {
     fb('pc-pl-fb', `✅ Correct! ${isProfit ? 'Profit' : 'Loss'} = £${Math.abs(diff)}. As a %: (${Math.abs(diff)} ÷ ${pcPl.cost}) × 100 = ${correct}% ${isProfit ? 'profit' : 'loss'}.`, 'correct');
     addScore('pc', 5);
   } else {
-    fb('pc-pl-fb', `❌ ${isProfit ? 'Profit' : 'Loss'} = £${Math.abs(diff)}. (${Math.abs(diff)} ÷ ${pcPl.cost}) × 100 = ${correct}%.`, 'wrong');
+    fbWrong('pc-pl-fb', `❌ ${isProfit ? 'Profit' : 'Loss'} = £${Math.abs(diff)}. (${Math.abs(diff)} ÷ ${pcPl.cost}) × 100 = ${correct}%.`, ['pc-pl-in']);
   }
 }
 function pcPlHint() {
@@ -4351,8 +4394,8 @@ function pcIntCheck() {
     ok = false;
   }
 
-  fb('pc-int-fb', msgs.join('<br/>'), ok ? 'correct' : 'wrong');
-  if (ok) addScore('pc', 10);
+  if (ok) { fb('pc-int-fb', msgs.join('<br/>'), 'correct'); addScore('pc', 10); }
+  else fbWrong('pc-int-fb', msgs.join('<br/>'), []);
 }
 function pcIntHint() {
   if (!pcInt) return;
@@ -4579,7 +4622,7 @@ function boStepCheck() {
       boRenderStep();
     }
   } else {
-    fb('bo-step-fb', `❌ Not quite. Double-check: ${step.prompt.replace(/Step \d+ \([A-Z/+]+\): /,'')}`, 'wrong');
+    fbWrong('bo-step-fb', `❌ Not quite. Double-check: ${step.prompt.replace(/Step \d+ \([A-Z/+]+\): /,'')}`, []);
   }
 }
 
@@ -4750,7 +4793,7 @@ function ilCheck() {
       fb('il-fb', `✅ Correct! ${a}<sup>−${n}</sup> = 1/${tmpl.fracDen}. A negative index means "take the reciprocal and make the index positive".`, 'correct');
       addScore('il', 10); ilState.done = true;
     } else {
-      fb('il-fb', `❌ Not quite. ${a}<sup>−${n}</sup> = 1 ÷ ${a}<sup>${n}</sup> = 1/${tmpl.fracDen}.`, 'wrong');
+      fbWrong('il-fb', `❌ Not quite. ${a}<sup>−${n}</sup> = 1 ÷ ${a}<sup>${n}</sup> = 1/${tmpl.fracDen}.`, ['il-add-in']);
     }
     return;
   }
@@ -4772,7 +4815,7 @@ function ilCheck() {
     fb('il-fb', `✅ Correct! ${a}<sup>${m}</sup> operation ${a}<sup>${n}</sup> = ${a}<sup>${tmpl.answerExp}</sup>`, 'correct');
     addScore('il', 10); ilState.done = true;
   } else {
-    fb('il-fb', `❌ Not quite. Check the rule: ${IL_RULES[ilState.ruleIdx].label}. The index should be ${tmpl.answerExp}.`, 'wrong');
+    fbWrong('il-fb', `❌ Not quite. Check the rule: ${IL_RULES[ilState.ruleIdx].label}. The index should be ${tmpl.answerExp}.`, ['il-add-in']);
   }
 }
 
@@ -5050,7 +5093,7 @@ function qfCheck() {
     fb('qf-fb', `✅ Correct! ${qfCurrent.why}`, 'correct');
     addScore('nt', 5);
   } else {
-    fb('qf-fb', `❌ Not quite. The best answer is <strong>${qfCurrent.answer}</strong>. ${qfCurrent.why}`, 'wrong');
+    fbWrong('qf-fb', `❌ Not quite. The best answer is <strong>${qfCurrent.answer}</strong>. ${qfCurrent.why}`, []);
   }
 }
 
@@ -5235,7 +5278,7 @@ function svCheck() {
   // Generic wrong
   const wantLabels = { A:'A only', AB:'A∩B', B:'B only', Out:'Outside' };
   const wantStr = [...want].map(r => wantLabels[r]).join(' + ');
-  fb('sv-fb', `❌ Not quite. The correct region(s): <strong>${wantStr}</strong>. ${svExplain(q.key)}`, 'wrong');
+  fbWrong('sv-fb', `❌ Not quite. The correct region(s): <strong>${wantStr}</strong>. ${svExplain(q.key)}`, []);
 }
 
 function svExplain(key) {
@@ -5331,11 +5374,11 @@ function svNcNew() {
       } else {
         // Misconception: chose intersection when union shaded
         if (item.shaded.length >= 3 && opt === 'A ∩ B') {
-          fb('sv-nc-fb', '🤔 <strong>All three regions are shaded — that\'s the union, not the intersection.</strong> A ∩ B would shade only the middle overlap.', 'wrong');
+          fbWrong('sv-nc-fb', '🤔 <strong>All three regions are shaded — that\'s the union, not the intersection.</strong> A ∩ B would shade only the middle overlap.', []);
         } else if (item.label === 'A ∩ B' && opt === 'A ∪ B') {
-          fb('sv-nc-fb', '🤔 <strong>Only the middle overlap is shaded — that\'s the intersection.</strong> A ∪ B would shade all three coloured regions.', 'wrong');
+          fbWrong('sv-nc-fb', '🤔 <strong>Only the middle overlap is shaded — that\'s the intersection.</strong> A ∪ B would shade all three coloured regions.', []);
         } else {
-          fb('sv-nc-fb', `❌ Not quite. The correct notation is <strong>${item.label}</strong>.`, 'wrong');
+          fbWrong('sv-nc-fb', `❌ Not quite. The correct notation is <strong>${item.label}</strong>.`, []);
         }
       }
     };
@@ -5379,11 +5422,11 @@ function svElCheck(chosen) {
   } else {
     // Misconception: 12 is multiple of both — student picks A or B only
     if (n === 12 && (chosen === 'A' || chosen === 'B')) {
-      fb('sv-el-fb', `🤔 <strong>12 is a multiple of both 3 and 4!</strong> It belongs in A ∩ B — the overlap region.`, 'wrong');
+      fbWrong('sv-el-fb', `🤔 <strong>12 is a multiple of both 3 and 4!</strong> It belongs in A ∩ B — the overlap region.`, []);
     } else if (correct === 'Out' && chosen !== 'Out') {
-      fb('sv-el-fb', `🤔 <strong>${n} is neither a multiple of 3 nor 4.</strong> It belongs outside both circles.`, 'wrong');
+      fbWrong('sv-el-fb', `🤔 <strong>${n} is neither a multiple of 3 nor 4.</strong> It belongs outside both circles.`, []);
     } else {
-      fb('sv-el-fb', `❌ Not quite. ${n} → <strong>${labels[correct]}</strong>.`, 'wrong');
+      fbWrong('sv-el-fb', `❌ Not quite. ${n} → <strong>${labels[correct]}</strong>.`, []);
     }
   }
 }
@@ -5496,11 +5539,11 @@ function rdCheckMult() {
     addScore('rd', 5);
     setTimeout(() => rdStep(3), 700);
   } else if (val === 10 && rdCurrent.mult !== 10) {
-    fb('rd-mult-fb', `🤔 ×10 only shifts one decimal place. This decimal has <strong>${rdCurrent.block} recurring digit(s)</strong> — you need ×${rdCurrent.mult} to align the full block.`, 'wrong');
+    fbWrong('rd-mult-fb', `🤔 ×10 only shifts one decimal place. This decimal has <strong>${rdCurrent.block} recurring digit(s)</strong> — you need ×${rdCurrent.mult} to align the full block.`, []);
   } else if (val === 100 && rdCurrent.mult !== 100) {
-    fb('rd-mult-fb', `🤔 ×100 shifts two places. The recurring block here has ${rdCurrent.block} digit(s) — try ×${rdCurrent.mult}.`, 'wrong');
+    fbWrong('rd-mult-fb', `🤔 ×100 shifts two places. The recurring block here has ${rdCurrent.block} digit(s) — try ×${rdCurrent.mult}.`, []);
   } else {
-    fb('rd-mult-fb', `❌ Not quite. The right multiplier is <strong>${rdCurrent.mult}</strong>. Count the number of digits in the repeating block — use 10 for 1 digit, 100 for 2 digits, etc.`, 'wrong');
+    fbWrong('rd-mult-fb', `❌ Not quite. The right multiplier is <strong>${rdCurrent.mult}</strong>. Count the number of digits in the repeating block — use 10 for 1 digit, 100 for 2 digits, etc.`, []);
   }
 }
 
@@ -5528,11 +5571,11 @@ function rdCheckDiff() {
     addScore('rd', 5);
     setTimeout(() => rdStep(4), 700);
   } else if (numVal === rdCurrent.diff && denomVal !== rdCurrent.denom) {
-    fb('rd-diff-fb', `🤔 Numerator ${numVal} is right, but the denominator should be <strong>${rdCurrent.denom}</strong> (= ${rdCurrent.mult} − 1 for purely recurring, or ${rdCurrent.mult} − ${rdCurrent.mult/10} for mixed).`, 'wrong');
+    fbWrong('rd-diff-fb', `🤔 Numerator ${numVal} is right, but the denominator should be <strong>${rdCurrent.denom}</strong> (= ${rdCurrent.mult} − 1 for purely recurring, or ${rdCurrent.mult} − ${rdCurrent.mult/10} for mixed).`, []);
   } else if (denomVal === rdCurrent.denom && numVal !== rdCurrent.diff) {
-    fb('rd-diff-fb', `🤔 Denominator ${denomVal} is right, but check the subtraction: ${rdCurrent.mult}x − x = ${rdCurrent.denom}x, and the recurring tails cancel leaving <strong>${rdCurrent.diff}</strong>.`, 'wrong');
+    fbWrong('rd-diff-fb', `🤔 Denominator ${denomVal} is right, but check the subtraction: ${rdCurrent.mult}x − x = ${rdCurrent.denom}x, and the recurring tails cancel leaving <strong>${rdCurrent.diff}</strong>.`, []);
   } else {
-    fb('rd-diff-fb', `❌ The result of the subtraction is x = ${rdCurrent.diff}/${rdCurrent.denom}. Make sure the recurring tails cancel fully before subtracting.`, 'wrong');
+    fbWrong('rd-diff-fb', `❌ The result of the subtraction is x = ${rdCurrent.diff}/${rdCurrent.denom}. Make sure the recurring tails cancel fully before subtracting.`, []);
   }
 }
 
@@ -5561,7 +5604,7 @@ function rdCheckSimp() {
     // Check fully simplified
     const g = rdGcd(Math.abs(p), Math.abs(q));
     if (g > 1) {
-      fb('rd-simp-fb', `🤔 That's mathematically correct but not fully simplified. Divide both by ${g} to get <strong>${p/g}/${q/g}</strong>.`, 'wrong');
+      fbWrong('rd-simp-fb', `🤔 That's mathematically correct but not fully simplified. Divide both by ${g} to get <strong>${p/g}/${q/g}</strong>.`, []);
       return;
     }
     fb('rd-simp-fb', `✅ Excellent! The fraction is <strong>${rdCurrent.simp}</strong>. Well done — you converted a recurring decimal using pure algebra!`, 'correct');
@@ -5569,9 +5612,9 @@ function rdCheckSimp() {
   } else if (rdFracEqual(p, q, rdCurrent.diff, rdCurrent.denom)) {
     // Not simplified
     const g = rdGcd(Math.abs(rdCurrent.diff), Math.abs(rdCurrent.denom));
-    fb('rd-simp-fb', `🤔 That fraction is correct but not in simplest form. HCF(${rdCurrent.diff},${rdCurrent.denom}) = ${g} — divide both by ${g}.`, 'wrong');
+    fbWrong('rd-simp-fb', `🤔 That fraction is correct but not in simplest form. HCF(${rdCurrent.diff},${rdCurrent.denom}) = ${g} — divide both by ${g}.`, []);
   } else {
-    fb('rd-simp-fb', `❌ Not quite. The answer is <strong>${rdCurrent.simp}</strong>. Check your simplification — find HCF(${rdCurrent.diff},${rdCurrent.denom}) first.`, 'wrong');
+    fbWrong('rd-simp-fb', `❌ Not quite. The answer is <strong>${rdCurrent.simp}</strong>. Check your simplification — find HCF(${rdCurrent.diff},${rdCurrent.denom}) first.`, []);
   }
 }
 
@@ -5635,9 +5678,9 @@ function rdQuizCheck() {
   } else {
     // Misconception: student wrote 0.3 = 3/10 style
     if (frac.q === 10 || frac.q === 100) {
-      fb('rd-quiz-fb', `🤔 <strong>${frac.p}/${frac.q} is for a terminating decimal</strong>, not a recurring one. Use the algebraic method: let x = the decimal, multiply by ${rdQuizCurrent.mult}, subtract, then simplify.`, 'wrong');
+      fbWrong('rd-quiz-fb', `🤔 <strong>${frac.p}/${frac.q} is for a terminating decimal</strong>, not a recurring one. Use the algebraic method: let x = the decimal, multiply by ${rdQuizCurrent.mult}, subtract, then simplify.`, []);
     } else {
-      fb('rd-quiz-fb', `❌ Not quite. The answer is <strong>${rdQuizCurrent.simp}</strong>. Hint: let x = ${rdQuizCurrent.display}, multiply by ${rdQuizCurrent.mult}, subtract to get ${rdQuizCurrent.diff}/${rdQuizCurrent.denom}, then simplify.`, 'wrong');
+      fbWrong('rd-quiz-fb', `❌ Not quite. The answer is <strong>${rdQuizCurrent.simp}</strong>. Hint: let x = ${rdQuizCurrent.display}, multiply by ${rdQuizCurrent.mult}, subtract to get ${rdQuizCurrent.diff}/${rdQuizCurrent.denom}, then simplify.`, []);
     }
   }
 }
@@ -5913,9 +5956,9 @@ function suCombCheck() {
     fb('su-comb-fb', `✅ Correct! <strong>${resA}${resB > 1 ? '√'+resB : ''}</strong><br><span style="font-size:0.85rem;color:var(--muted);">${stepsHtml}</span>`, 'correct');
     addScore('su', 10);
   } else if (parsed.b !== resB) {
-    fb('su-comb-fb', `🤔 The surds in this expression all simplify to have √${resB} — check your simplification of each term.`, 'wrong');
+    fbWrong('su-comb-fb', `🤔 The surds in this expression all simplify to have √${resB} — check your simplification of each term.`, []);
   } else {
-    fb('su-comb-fb', `❌ Coefficient wrong. Simplify each surd to √${resB} form, then add/subtract the coefficients.`, 'wrong');
+    fbWrong('su-comb-fb', `❌ Coefficient wrong. Simplify each surd to √${resB} form, then add/subtract the coefficients.`, []);
   }
 }
 
@@ -5981,7 +6024,7 @@ function pcRevCheck() {
     fb('pc-rev-fb', `✅ Correct! Original = ${ans * mult} ÷ ${mult} = <strong>£${ans.toLocaleString()}</strong>`, 'correct');
     addScore('pc', 10);
   } else {
-    fb('pc-rev-fb', `❌ Not quite. Answer: £${ans.toLocaleString()}. Divide the final value by the multiplier (${mult}).`, 'wrong');
+    fbWrong('pc-rev-fb', `❌ Not quite. Answer: £${ans.toLocaleString()}. Divide the final value by the multiplier (${mult}).`, []);
   }
 }
 function pcRevHint() {
@@ -6053,7 +6096,7 @@ function pcCiCheck() {
     fb('pc-ci-fb', `✅ Correct! A = ${P}(1 + ${r}/100)<sup>${n}</sup> = <strong>£${ans.toFixed(2)}</strong>`, 'correct');
     addScore('pc', 10);
   } else {
-    fb('pc-ci-fb', `❌ Not quite. Use A = P(1 + r/100)<sup>n</sup> = ${P} × ${(1+r/100).toFixed(4)}<sup>${n}</sup> = £${ans.toFixed(2)}.`, 'wrong');
+    fbWrong('pc-ci-fb', `❌ Not quite. Use A = P(1 + r/100)<sup>n</sup> = ${P} × ${(1+r/100).toFixed(4)}<sup>${n}</sup> = £${ans.toFixed(2)}.`, ['pc-ci-in']);
   }
 }
 function pcCiHint() {
@@ -6262,7 +6305,7 @@ function lmAppCheck() {
     fb('lm-app-fb', `✅ Correct! ${find === 'max' ? 'Maximum' : 'Minimum'} = <strong>${ans.toFixed(4)} ${lmApp.unit}</strong>`, 'correct');
     addScore('lm', 12);
   } else {
-    fb('lm-app-fb', `❌ Not quite. Answer: ${ans.toFixed(4)} ${lmApp.unit}. Use the correct bound for each value — ${find === 'max' ? 'upper bounds to maximise a product/numerator, lower bound to minimise a denominator' : 'lower bounds to minimise a product/numerator, upper bound to maximise a denominator'}.`, 'wrong');
+    fbWrong('lm-app-fb', `❌ Not quite. Answer: ${ans.toFixed(4)} ${lmApp.unit}. Use the correct bound for each value — ${find === 'max' ? 'upper bounds to maximise a product/numerator, lower bound to minimise a denominator' : 'lower bounds to minimise a product/numerator, upper bound to maximise a denominator'}.`, ['lm-lb-in','lm-ub-in']);
   }
 }
 function lmAppHint() {
@@ -6448,9 +6491,9 @@ function noCheck() {
     const vals = noCurrent.shuffled.map(i => i.val);
     const hasTies = vals.some((v, i) => vals.some((w, j) => i !== j && Math.abs(v - w) < 0.0001));
     if (hasTies) {
-      fb('no-fb', `❌ Not quite. Watch out — some numbers have the same value in different forms! Correct order: <strong>${correctStr}</strong>`, 'wrong');
+      fbWrong('no-fb', `❌ Not quite. Watch out — some numbers have the same value in different forms! Correct order: <strong>${correctStr}</strong>`, []);
     } else {
-      fb('no-fb', `❌ Position ${firstWrong+1} is wrong. You placed <strong>${wrongDisp}</strong> there, but it should be <strong>${correctDisp}</strong>.<br>Tip: convert all to decimals first. Correct order: <strong>${correctStr}</strong>`, 'wrong');
+      fbWrong('no-fb', `❌ Position ${firstWrong+1} is wrong. You placed <strong>${wrongDisp}</strong> there, but it should be <strong>${correctDisp}</strong>.<br>Tip: convert all to decimals first. Correct order: <strong>${correctStr}</strong>`, []);
     }
   }
 }
@@ -7069,11 +7112,11 @@ function bnCheck() {
     addScore('bn', 10);
     bnDrawLine(corLB, val, corUB);
   } else if (lbOk) {
-    fb('bn-fb', '🤔 Lower bound correct, but UB should be ' + corUB + ' ' + unit, 'wrong');
+    fbWrong('bn-fb', '🤔 Lower bound correct, but UB should be ' + corUB + ' ' + unit, []);
   } else if (ubOk) {
-    fb('bn-fb', '🤔 Upper bound correct, but LB should be ' + corLB + ' ' + unit, 'wrong');
+    fbWrong('bn-fb', '🤔 Upper bound correct, but LB should be ' + corLB + ' ' + unit, []);
   } else {
-    fb('bn-fb', '❌ Both bounds wrong. LB = ' + corLB + ', UB = ' + corUB + ' ' + unit, 'wrong');
+    fbWrong('bn-fb', '❌ Both bounds wrong. LB = ' + corLB + ', UB = ' + corUB + ' ' + unit, []);
   }
 }
 function bnDrawLine(lb, mid, ub) {
@@ -7139,7 +7182,7 @@ function bnSpCheck() {
     fb('bn-sp-fb', `✅ Correct! Max speed = ${ubD} ÷ ${lbT} = ${maxSpd.toFixed(3)} km/h`, 'correct');
     addScore('bn', 12);
   } else {
-    fb('bn-sp-fb', `❌ Answer: ${maxSpd.toFixed(3)} km/h. Use UB of distance (${ubD}) ÷ LB of time (${lbT}).`, 'wrong');
+    fbWrong('bn-sp-fb', `❌ Answer: ${maxSpd.toFixed(3)} km/h. Use UB of distance (${ubD}) ÷ LB of time (${lbT}).`, []);
   }
 }
 function bnSpHint() {
@@ -7210,9 +7253,9 @@ function sfoMdCheck() {
     const wrongPow = op === 'mul' ? pa * pb : pa + pb;
     if (gP === wrongPow) {
       const opWord = op === 'mul' ? 'multiply' : 'subtract';
-      fb('sfo-md-fb', `🤔 Wrong power. When multiplying in standard form, <strong>add</strong> the powers (${pa} + ${pb} = ${pa+pb}), then normalise. Don't multiply them.`, 'wrong');
+      fbWrong('sfo-md-fb', `🤔 Wrong power. When multiplying in standard form, <strong>add</strong> the powers (${pa} + ${pb} = ${pa+pb}), then normalise. Don't multiply them.`, []);
     } else {
-      fb('sfo-md-fb', `❌ Not quite. ${op === 'mul' ? 'Multiply' : 'Divide'} coefficients: ${a}${op==='mul'?'×':'÷'}${b} = ${rawC.toFixed(4)}. ${op==='mul'?'Add':'Subtract'} powers: ${pa}${op==='mul'?'+':'-'}${pb} = ${op==='mul'?pa+pb:pa-pb}. Then normalise.`, 'wrong');
+      fbWrong('sfo-md-fb', `❌ Not quite. ${op === 'mul' ? 'Multiply' : 'Divide'} coefficients: ${a}${op==='mul'?'×':'÷'}${b} = ${rawC.toFixed(4)}. ${op==='mul'?'Add':'Subtract'} powers: ${pa}${op==='mul'?'+':'-'}${pb} = ${op==='mul'?pa+pb:pa-pb}. Then normalise.`, []);
     }
   }
 }
@@ -7275,7 +7318,7 @@ function sfoAsCheck() {
     fb('sfo-as-fb', `✅ Correct! Answer: ${ans.coeff.toFixed(4).replace(/\.?0+$/, '')} × 10<sup>${ans.pow}</sup>`, 'correct');
     addScore('sfo', 10);
   } else {
-    fb('sfo-as-fb', `❌ Convert to the same power first (10<sup>${maxP}</sup>): ${aAdj} ${op==='add'?'+':'−'} ${bAdj} = ${sumC}. Then normalise.`, 'wrong');
+    fbWrong('sfo-as-fb', `❌ Convert to the same power first (10<sup>${maxP}</sup>): ${aAdj} ${op==='add'?'+':'−'} ${bAdj} = ${sumC}. Then normalise.`, []);
   }
 }
 function sfoAsHint() {
@@ -7320,7 +7363,7 @@ function sfoFixNew() {
         fb('sfo-fix-fb', `✅ Correct! <strong>${sfoFix.correct}</strong>. Error was: ${sfoFix.error}.`, 'correct');
         addScore('sfo', 8);
       } else {
-        fb('sfo-fix-fb', `❌ Not quite. The error was: "${sfoFix.error}". Correct answer: <strong>${sfoFix.correct}</strong>.`, 'wrong');
+        fbWrong('sfo-fix-fb', `❌ Not quite. The error was: "${sfoFix.error}". Correct answer: <strong>${sfoFix.correct}</strong>.`, []);
       }
     };
     container.appendChild(btn);
@@ -7375,11 +7418,11 @@ function ixCheck() {
   } else {
     // Check common mistake for negative index
     if (evalType === 'fraction' && got < 0) {
-      fb('ix-fb', `🤔 <strong>Negative index ≠ negative number.</strong> a⁻ⁿ = 1/aⁿ (a positive reciprocal). Answer: ${ans}`, 'wrong');
+      fbWrong('ix-fb', `🤔 <strong>Negative index ≠ negative number.</strong> a⁻ⁿ = 1/aⁿ (a positive reciprocal). Answer: ${ans}`, []);
     } else if (evalType === 'value' && ixQ.law.includes('a⁰') && got !== 0) {
-      fb('ix-fb', `🤔 <strong>Any base to the power 0 = 1</strong>, not 0 or the base itself. Answer: 1`, 'wrong');
+      fbWrong('ix-fb', `🤔 <strong>Any base to the power 0 = 1</strong>, not 0 or the base itself. Answer: 1`, []);
     } else {
-      fb('ix-fb', `❌ Not quite. Law: ${law}. Answer: <strong>${ans}</strong>`, 'wrong');
+      fbWrong('ix-fb', `❌ Not quite. Law: ${law}. Answer: <strong>${ans}</strong>`, []);
     }
   }
 }
@@ -7414,7 +7457,7 @@ function ixMixCheck() {
     fb('ix-mix-fb', `✅ Correct! ${ixMix.q} = <strong>${ixMix.ans}</strong>. Working: ${ixMix.steps}`, 'correct');
     addScore('ix', 12);
   } else {
-    fb('ix-mix-fb', `❌ Not quite. Working: ${ixMix.steps} = ${ixMix.ans}`, 'wrong');
+    fbWrong('ix-mix-fb', `❌ Not quite. Working: ${ixMix.steps} = ${ixMix.ans}`, []);
   }
 }
 function ixMixHint() {
@@ -7473,7 +7516,7 @@ function plCheck() {
     fb('pl-fb', `✅ Correct! ${type === 'profit' ? 'Profit' : 'Loss'} = £${diff}. % = ${diff}/${cp} × 100 = <strong>${ans.toFixed(2)}%</strong>`, 'correct');
     addScore('pl', 8);
   } else {
-    fb('pl-fb', `❌ Answer: (£${diff} ÷ £${cp}) × 100 = <strong>${ans.toFixed(2)}%</strong>`, 'wrong');
+    fbWrong('pl-fb', `❌ Answer: (£${diff} ÷ £${cp}) × 100 = <strong>${ans.toFixed(2)}%</strong>`, ['pl-in']);
   }
 }
 function plHint() {
@@ -7510,7 +7553,7 @@ function plMsCheck() {
     fb('pl-ms-fb', `✅ Correct! Answer: <strong>£${plMs.ans.toFixed(2)}</strong>`, 'correct');
     addScore('pl', 12);
   } else {
-    fb('pl-ms-fb', `❌ Not quite. Answer: £${plMs.ans.toFixed(2)}. ${plMs.hint1}`, 'wrong');
+    fbWrong('pl-ms-fb', `❌ Not quite. Answer: £${plMs.ans.toFixed(2)}. ${plMs.hint1}`, []);
   }
 }
 function plMsHint() {
@@ -7582,6 +7625,57 @@ function ppHint() {
     `Final answer: ${ans}`
   ];
   if (ppHi < hints.length) addHint('pp-hints', hints[ppHi++]);
+}
+
+// ================================================================
+// ABSOLUTE VALUE — C1.15 (part of Module 5 — Number Types Explorer)
+// ================================================================
+const AV_POOL = [
+  { q: '|−8|', ans: 8, explain: '|−8| = 8 — distance from 0 on the number line.' },
+  { q: '|3.5|', ans: 3.5, explain: '|3.5| = 3.5 — positive numbers are unchanged.' },
+  { q: '|0|', ans: 0, explain: '|0| = 0 — zero is its own absolute value.' },
+  { q: '|−12|', ans: 12, explain: '|−12| = 12 — remove the negative sign.' },
+  { q: '|−3.7|', ans: 3.7, explain: '|−3.7| = 3.7 — take the magnitude.' },
+  { q: '|7 − 10|', ans: 3, explain: '7 − 10 = −3, |−3| = 3.' },
+  { q: '|−6| − |−4|', ans: 2, explain: '6 − 4 = 2.' },
+  { q: '2 × |−5|', ans: 10, explain: '2 × 5 = 10.' },
+  { q: '|−9 + 4|', ans: 5, explain: '−9 + 4 = −5, |−5| = 5.' },
+  { q: '|3² − 4²|', ans: 7, explain: '9 − 16 = −7, |−7| = 7.' },
+];
+let avCurrent = null;
+function avLive() {
+  const v = parseFloat(document.getElementById('av-input').value);
+  const wrap = document.getElementById('av-visual');
+  if (isNaN(v)) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  document.getElementById('av-display').textContent = `|${v}| = ${Math.abs(v)}`;
+  document.getElementById('av-explain').textContent = v < 0
+    ? `${v} is ${Math.abs(v)} units to the left of 0 → |${v}| = ${Math.abs(v)}`
+    : v === 0 ? '0 is at the origin → |0| = 0'
+    : `${v} is ${v} units to the right of 0 → |${v}| = ${v}`;
+}
+function avCheck() { avLive(); }
+function avNew() {
+  avCurrent = AV_POOL[Math.floor(Math.random() * AV_POOL.length)];
+  document.getElementById('av-q').innerHTML = `Find: <strong>${avCurrent.q}</strong>`;
+  document.getElementById('av-ans').value = '';
+  fbHide('av-fb');
+  document.getElementById('av-hints').innerHTML = '';
+  document.getElementById('av-ans').focus();
+}
+function avCheckAns() {
+  if (!avCurrent) { avNew(); return; }
+  const raw = parseFloat(document.getElementById('av-ans').value);
+  if (isNaN(raw)) { fb('av-fb', '⚠️ Enter a number.', 'hint'); return; }
+  if (raw < 0) {
+    fb('av-fb', `🤔 Absolute value is always ≥ 0. |x| represents <em>distance</em> — distance is never negative.`, 'wrong'); return;
+  }
+  if (Math.abs(raw - avCurrent.ans) < 0.001) {
+    fb('av-fb', `✅ Correct! ${avCurrent.explain}`, 'correct');
+    addScore('nt', 5);
+  } else {
+    fbWrong('av-fb', `❌ Expected ${avCurrent.ans}. ${avCurrent.explain}`, ['av-ans']);
+  }
 }
 
 // ================================================================
@@ -7671,7 +7765,7 @@ function omCheck() {
     fb('om-fb', '✅ Correct! ' + correctOrder.map(i=>omQ.shuffled[i].disp).join(' < '), 'correct');
     addScore('om', 10);
   } else {
-    fb('om-fb', '❌ Not quite. Convert all to decimals first. Correct order: <strong>' + correctOrder.map(i=>omQ.shuffled[i].disp).join(' < ') + '</strong>', 'wrong');
+    fbWrong('om-fb', '❌ Not quite. Convert all to decimals first. Correct order: <strong>' + correctOrder.map(i=>omQ.shuffled[i].disp).join(' < ') + '</strong>', []);
   }
 }
 function omHint() {
@@ -7716,7 +7810,7 @@ function omCmpClick(sym) {
       addScore('om', 5);
     }
   } else {
-    fb('om-cmp-fb', `❌ ${omCmp.a} = ${omCmp.av}, ${omCmp.b} = ${omCmp.bv}. So ${omCmp.a} ${correct} ${omCmp.b}.`, 'wrong');
+    fbWrong('om-cmp-fb', `❌ ${omCmp.a} = ${omCmp.av}, ${omCmp.b} = ${omCmp.bv}. So ${omCmp.a} ${correct} ${omCmp.b}.`, []);
   }
 }
 
@@ -7751,9 +7845,9 @@ function caCheck() {
     addScore('ca', 8);
   } else {
     if (gC === caQ.coeff && gP !== caQ.pow) {
-      fb('ca-fb', `🤔 Coefficient right but power wrong. "${caQ.display.split('E')[1]}" means the power is ${caQ.pow}.`, 'wrong');
+      fbWrong('ca-fb', `🤔 Coefficient right but power wrong. "${caQ.display.split('E')[1]}" means the power is ${caQ.pow}.`, []);
     } else {
-      fb('ca-fb', `❌ ${caQ.display} = <strong>${caQ.coeff} × 10<sup>${caQ.pow}</sup></strong>. The "E" means "× 10^". The number after E is the power.`, 'wrong');
+      fbWrong('ca-fb', `❌ ${caQ.display} = <strong>${caQ.coeff} × 10<sup>${caQ.pow}</sup></strong>. The "E" means "× 10^". The number after E is the power.`, []);
     }
   }
 }
@@ -7793,7 +7887,7 @@ function caPrNew() {
         fb('ca-pr-fb', `✅ Correct! Keep full precision until the last step, then round. Answer: <strong>${caPr.correct}</strong>`, 'correct');
         addScore('ca', 8);
       } else {
-        fb('ca-pr-fb', `❌ That's the premature-rounding answer. ${caPr.wrong.includes('rounded') ? caPr.wrong : 'Keep intermediate values unrounded.'}. Correct: <strong>${caPr.correct}</strong>`, 'wrong');
+        fbWrong('ca-pr-fb', `❌ That's the premature-rounding answer. ${caPr.wrong.includes('rounded') ? caPr.wrong : 'Keep intermediate values unrounded.'}. Correct: <strong>${caPr.correct}</strong>`, []);
       }
     };
     container.appendChild(btn);
@@ -7905,7 +7999,7 @@ function ecCheck(i) {
     ecEarned += marks;
     addScore('ec', marks * 3);
   } else {
-    fb('ec-fb-' + i, `❌ Not quite. See working above. Answer: ${typeof ans === 'number' ? ans.toFixed(ans % 1 === 0 ? 0 : 2) : ans}`, 'wrong');
+    fbWrong('ec-fb-' + i, `❌ Not quite. See working above. Answer: ${typeof ans === 'number' ? ans.toFixed(ans % 1 === 0 ? 0 : 2) : ans}`, ['ec-ans-' + i]);
   }
   ecUpdateScore();
 }
@@ -8361,7 +8455,7 @@ function eg2StepOne(chosen) {
     document.getElementById('eg2-mult-input').focus();
   } else {
     const opposite = chosen === 'growth' ? 'decay' : 'growth';
-    fb('eg2-fb', `🤔 Not quite — look at what happens each period. Does the value go up (growth, m > 1) or down (decay, m < 1)?`, 'wrong');
+    fbWrong('eg2-fb', `🤔 Not quite — look at what happens each period. Does the value go up (growth, m > 1) or down (decay, m < 1)?`, []);
   }
 }
 
@@ -8379,9 +8473,9 @@ function eg2StepTwo() {
     document.getElementById('eg2-step3').style.display = 'block';
     document.getElementById('eg2-ans-input').focus();
   } else if (Math.abs(got - (1 + (corr < 1 ? -(1 - corr) : (corr - 1)))) < 0.001 && eg2Q.type === 'decay' && got > 1) {
-    fb('eg2-fb', `🤔 That's a growth multiplier. For decay, subtract the rate from 1: m = 1 − ${Math.round((1-corr)*100)}/100 = ${corr}.`, 'wrong');
+    fbWrong('eg2-fb', `🤔 That's a growth multiplier. For decay, subtract the rate from 1: m = 1 − ${Math.round((1-corr)*100)}/100 = ${corr}.`, []);
   } else {
-    fb('eg2-fb', `🤔 Check: ${eg2Q.multHint}`, 'wrong');
+    fbWrong('eg2-fb', `🤔 Check: ${eg2Q.multHint}`, []);
   }
 }
 
@@ -8402,7 +8496,7 @@ function eg2StepThree() {
     addScore('eg2', 5);
     eg2Step = 0;
   } else {
-    fb('eg2-fb', `❌ Not quite. ${eg2Q.P} × ${eg2Q.mult}^${eg2Q.n} = ${ans.toFixed(2)} ${eg2Q.unit}.`, 'wrong');
+    fbWrong('eg2-fb', `❌ Not quite. ${eg2Q.P} × ${eg2Q.mult}^${eg2Q.n} = ${ans.toFixed(2)} ${eg2Q.unit}.`, []);
   }
 }
 
@@ -8493,7 +8587,7 @@ function eg2FnCheck() {
       fb('eg2-fn-fb', `✅ Correct value! The answer is <strong>${got}</strong> years.`, 'correct');
       addScore('eg2', 10);
     } else {
-      fb('eg2-fn-fb', `❌ Not quite. After ${got} years, value = ${checkVal.toFixed(2)} ${unit}. The condition is ${thisMet ? 'already' : 'not yet'} met. Try n = ${ans}.`, 'wrong');
+      fbWrong('eg2-fn-fb', `❌ Not quite. After ${got} years, value = ${checkVal.toFixed(2)} ${unit}. The condition is ${thisMet ? 'already' : 'not yet'} met. Try n = ${ans}.`, []);
     }
   }
 }
@@ -8559,7 +8653,7 @@ function apStep1Check() {
     document.getElementById('ap-step2').style.display = 'block';
     document.getElementById('ap-k-input').focus();
   } else {
-    fb('ap-fb', `🤔 Not quite. Look at the relationship: does y grow proportionally to x, x², √x, or inversely? The correct type is ${apQ.typeLabel}.`, 'wrong');
+    fbWrong('ap-fb', `🤔 Not quite. Look at the relationship: does y grow proportionally to x, x², √x, or inversely? The correct type is ${apQ.typeLabel}.`, []);
   }
 }
 
@@ -8575,7 +8669,7 @@ function apStep2Check() {
     document.getElementById('ap-step3').style.display = 'block';
     document.getElementById('ap-ans-input').focus();
   } else {
-    fb('ap-fb', `🤔 Not quite. Substitute x = ${apQ.xGiven}, y = ${apQ.yGiven} into ${apQ.typeLabel} to find k. k = y ÷ f(${apQ.xGiven}) = ${apQ.yGiven} ÷ ${apQ.fxFind(apQ.xGiven).toFixed(4)} = ${apQ.k}.`, 'wrong');
+    fbWrong('ap-fb', `🤔 Not quite. Substitute x = ${apQ.xGiven}, y = ${apQ.yGiven} into ${apQ.typeLabel} to find k. k = y ÷ f(${apQ.xGiven}) = ${apQ.yGiven} ÷ ${apQ.fxFind(apQ.xGiven).toFixed(4)} = ${apQ.k}.`, []);
   }
 }
 
@@ -8589,7 +8683,7 @@ function apStep3Check() {
     addScore('ap', 5);
     apStep = 0;
   } else {
-    fb('ap-fb', `❌ Not quite. Substitute x = ${apQ.xFind} into ${apQ.fx}: y = ${apQ.k} × ${apQ.fxFind(apQ.xFind).toFixed(4)} = ${apQ.ans}.`, 'wrong');
+    fbWrong('ap-fb', `❌ Not quite. Substitute x = ${apQ.xFind} into ${apQ.fx}: y = ${apQ.k} × ${apQ.fxFind(apQ.xFind).toFixed(4)} = ${apQ.ans}.`, []);
   }
 }
 
@@ -8654,7 +8748,7 @@ function apDvNew() {
         fb('ap-dv-fb', `✅ Correct! <strong>${apDv.correct}</strong>. ${apDv.explanation}`, 'correct');
         addScore('ap', 5);
       } else {
-        fb('ap-dv-fb', `❌ Not quite. ${apDv.explanation} Answer: <strong>${apDv.correct}</strong>.`, 'wrong');
+        fbWrong('ap-dv-fb', `❌ Not quite. ${apDv.explanation} Answer: <strong>${apDv.correct}</strong>.`, []);
       }
     };
     container.appendChild(btn);
@@ -8690,7 +8784,7 @@ function apSfNew() {
         fb('ap-sf-fb', `✅ Correct! ×${apSf.correct}. ${apSf.explanation}`, 'correct');
         addScore('ap', 8);
       } else {
-        fb('ap-sf-fb', `❌ Answer: ×${apSf.correct}. ${apSf.explanation}`, 'wrong');
+        fbWrong('ap-sf-fb', `❌ Answer: ×${apSf.correct}. ${apSf.explanation}`, []);
       }
     };
     container.appendChild(btn);
