@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 4 — Geometry · IGCSE Mathematics 0580</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230f2044'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-size='36' font-family='serif' fill='%237c3aed'>△</text></svg>">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:    #0f2044;
+  --blue:    #1a56db;
+  --blue-lt: #3b82f6;
+  --violet:  #7c3aed;
+  --violet-lt: #a78bfa;
+  --cyan:    #06b6d4;
+  --green:   #16a34a;
+  --amber:   #d97706;
+  --red:     #dc2626;
+  --slate:   #f1f5f9;
+  --white:   #ffffff;
+  --text:    #1e293b;
+  --muted:   #64748b;
+  --border:  #e2e8f0;
+  --card-bg: #ffffff;
+  --radius:  12px;
+  --shadow:  0 2px 12px rgba(0,0,0,0.07);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --sidebar-w: 240px;
+  --header-h: 64px;
+  --font-head: 'Georgia','Times New Roman',serif;
+  --font-body: 'Trebuchet MS','Gill Sans',sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background: #e8edf5;
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── HEADER ── */
+.app-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: var(--navy);
+  height: var(--header-h);
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 20px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+}
+.hamburger {
+  display: none; background: none; border: none;
+  color: white; font-size: 1.4rem; cursor: pointer; padding: 4px 8px;
+  border-radius: 6px; line-height: 1;
+}
+.hamburger:hover { background: rgba(255,255,255,0.1); }
+.brand-badge {
+  background: var(--violet);
+  color: white; font-size: 0.67rem; font-weight: 700;
+  letter-spacing: 0.12em; padding: 3px 10px; border-radius: 4px;
+  text-transform: uppercase; white-space: nowrap;
+}
+.brand-title {
+  font-family: var(--font-head);
+  font-size: 1.05rem; color: white; font-weight: 400;
+}
+.header-right {
+  margin-left: auto; display: flex; align-items: center; gap: 12px;
+}
+.teacher-toggle {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.78rem; color: rgba(255,255,255,0.7);
+}
+.toggle-switch {
+  width: 36px; height: 20px; background: rgba(255,255,255,0.2);
+  border-radius: 10px; position: relative; cursor: pointer;
+  border: none; padding: 0; transition: background 0.2s;
+}
+.toggle-switch.active { background: var(--violet-lt); }
+.toggle-switch::after {
+  content: ''; position: absolute; top: 2px; left: 2px;
+  width: 16px; height: 16px; background: white; border-radius: 50%;
+  transition: transform 0.2s;
+}
+.toggle-switch.active::after { transform: translateX(16px); }
+.header-sub { color: rgba(255,255,255,0.4); font-size: 0.78rem; }
+
+/* ── LAYOUT ── */
+.layout {
+  display: flex;
+  margin-top: var(--header-h);
+  min-height: calc(100vh - var(--header-h));
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w);
+  background: white;
+  border-right: 1px solid var(--border);
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: width 0.22s ease;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar.collapsed { width: 52px; }
+.sidebar-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.sidebar-label {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted);
+  transition: opacity 0.15s;
+}
+.sidebar.collapsed .sidebar-label { opacity: 0; }
+#collapseBtn {
+  background: none; border: none; cursor: pointer;
+  color: var(--muted); font-size: 0.9rem; padding: 2px 4px;
+  border-radius: 4px; flex-shrink: 0;
+}
+#collapseBtn:hover { background: var(--slate); }
+.sidebar.collapsed #collapseBtn { transform: rotate(180deg); }
+
+.nav-section-label {
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted);
+  padding: 12px 14px 4px;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+.sidebar.collapsed .nav-section-label { opacity: 0; }
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px;
+  cursor: pointer; font-size: 0.82rem; color: var(--text);
+  transition: background 0.14s, border-left-color 0.14s;
+  border-left: 3px solid transparent;
+  white-space: nowrap; overflow: hidden;
+  flex-shrink: 0;
+}
+.nav-item:hover { background: #f8fafc; }
+.nav-item.active {
+  background: #f5f3ff;
+  border-left-color: var(--violet);
+  color: var(--violet);
+  font-weight: 600;
+}
+.nav-icon { font-size: 1rem; flex-shrink: 0; }
+.nav-text { transition: opacity 0.15s; }
+.sidebar.collapsed .nav-text { opacity: 0; }
+
+.nav-divider {
+  height: 1px; background: var(--border);
+  margin: 6px 14px; flex-shrink: 0;
+}
+.nav-back {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px; font-size: 0.82rem;
+  color: var(--muted); text-decoration: none;
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+  transition: background 0.14s, color 0.14s;
+  white-space: nowrap; overflow: hidden;
+  flex-shrink: 0;
+}
+.nav-back:hover { background: #f8fafc; color: var(--violet); }
+.sidebar.collapsed .nav-back span:last-child { opacity: 0; }
+
+/* ── MAIN CONTENT ── */
+.main-content {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  padding: 32px 28px;
+  transition: margin-left 0.22s ease;
+  min-width: 0;
+}
+.main-content.expanded { margin-left: 52px; }
+
+/* ── MODULE ── */
+.module { display: none; max-width: 860px; }
+.module.active { display: block; }
+
+.mod-header { margin-bottom: 24px; }
+.breadcrumb {
+  font-size: 0.75rem; color: var(--muted);
+  margin-bottom: 8px; letter-spacing: 0.04em;
+}
+.breadcrumb span { color: var(--violet); font-weight: 600; }
+.mod-header h1 {
+  font-family: var(--font-head);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--navy); font-weight: 400; line-height: 1.2;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--card-bg); border-radius: var(--radius);
+  box-shadow: var(--shadow); border: 1px solid var(--border);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.card-header {
+  padding: 14px 20px; background: var(--slate);
+  border-bottom: 1px solid var(--border);
+  font-weight: 700; font-size: 0.88rem; color: var(--navy);
+  display: flex; align-items: center; gap: 8px;
+}
+.card-body { padding: 20px; }
+
+/* ── PROGRESS CARD ── */
+.progress-card {
+  background: linear-gradient(135deg, #1e1b4b 0%, #2e1065 60%, #1a0533 100%);
+  border-radius: var(--radius); padding: 20px 24px;
+  margin-bottom: 20px; color: white;
+}
+.progress-card h2 {
+  font-family: var(--font-head); font-size: 1.05rem;
+  font-weight: 400; margin-bottom: 8px; color: var(--violet-lt);
+}
+.pc-meta {
+  font-size: 0.78rem; color: rgba(255,255,255,0.55);
+  margin-bottom: 14px; display: flex; gap: 16px; flex-wrap: wrap;
+}
+.prog-track {
+  background: rgba(255,255,255,0.12); border-radius: 99px;
+  height: 8px; margin-bottom: 10px; overflow: hidden;
+}
+.prog-fill {
+  height: 100%; background: var(--violet-lt);
+  border-radius: 99px; transition: width 0.4s ease;
+}
+.prog-stats {
+  display: flex; gap: 24px; font-size: 0.8rem;
+  color: rgba(255,255,255,0.65);
+}
+.prog-stats strong { color: white; font-size: 1.1rem; }
+
+/* ── DIFFICULTY TOGGLE ── */
+.diff-toggle {
+  display: inline-flex; border-radius: 8px;
+  overflow: hidden; border: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.diff-btn {
+  padding: 7px 18px; font-size: 0.8rem; font-weight: 600;
+  border: none; background: white; cursor: pointer;
+  color: var(--muted); transition: background 0.15s, color 0.15s;
+}
+.diff-btn.active { background: var(--violet); color: white; }
+.diff-btn:first-child { border-right: 1px solid var(--border); }
+
+/* ── TEACHER PANEL ── */
+.teacher-panel {
+  display: none; background: #fffbeb;
+  border: 1px solid #fcd34d; border-radius: var(--radius);
+  margin-bottom: 20px; overflow: hidden;
+}
+.teacher-panel.visible { display: block; }
+.tp-header {
+  background: #fef3c7; padding: 10px 16px;
+  font-weight: 700; font-size: 0.88rem; color: #92400e;
+  border-bottom: 1px solid #fcd34d;
+}
+.tp-body { padding: 16px; }
+.tp-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  margin-bottom: 12px;
+}
+.tp-item { font-size: 0.82rem; line-height: 1.55; }
+.tp-item ul { padding-left: 18px; margin-top: 6px; }
+.tp-item.misconception { color: #991b1b; }
+.tp-item.strategy { color: #14532d; }
+.tp-body details summary {
+  cursor: pointer; font-weight: 600; font-size: 0.85rem;
+  color: #92400e; padding: 4px 0;
+}
+.tp-body details > div { margin-top: 10px; font-size: 0.82rem; line-height: 1.6; }
+
+/* ── SYLLABUS TABLE ── */
+.syl-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.syl-table th {
+  background: var(--slate); text-align: left;
+  padding: 8px 12px; font-weight: 700; color: var(--navy);
+  border-bottom: 2px solid var(--border);
+}
+.syl-table td {
+  padding: 8px 12px; border-bottom: 1px solid var(--border);
+  vertical-align: top; line-height: 1.5;
+}
+.syl-table tr:last-child td { border-bottom: none; }
+.syl-table tr:hover td { background: #fafafa; }
+.badge {
+  display: inline-block; font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 10px;
+}
+.badge-core { background: #dbeafe; color: #1e40af; }
+.badge-ext  { background: #f3e8ff; color: #6b21a8; }
+
+/* ── EXERCISES ── */
+.exercise { margin-bottom: 28px; }
+.exercise-title {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+}
+.question-text {
+  font-size: 0.95rem; line-height: 1.6; margin-bottom: 14px;
+  color: var(--text);
+}
+.question-text strong { color: var(--navy); }
+
+/* MCQ */
+.mcq-options { display: flex; flex-direction: column; gap: 8px; }
+.mcq-btn {
+  text-align: left; padding: 10px 16px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  background: white; cursor: pointer; font-size: 0.88rem;
+  color: var(--text); transition: border-color 0.15s, background 0.15s;
+  font-family: var(--font-body);
+}
+.mcq-btn:hover:not(:disabled) { border-color: var(--violet); background: #f5f3ff; }
+.mcq-btn.correct { border-color: var(--green); background: #f0fdf4; color: var(--green); font-weight: 600; }
+.mcq-btn.wrong   { border-color: var(--red);   background: #fef2f2; color: var(--red); }
+.mcq-btn:disabled { cursor: default; }
+
+/* Fill-in */
+.fill-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.fill-input {
+  flex: 1; min-width: 180px; padding: 9px 14px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  font-family: var(--font-body); font-size: 0.92rem;
+  outline: none; transition: border-color 0.15s;
+}
+.fill-input:focus { border-color: var(--violet); }
+.fill-input.correct { border-color: var(--green); background: #f0fdf4; }
+.fill-input.wrong   { border-color: var(--red);   background: #fef2f2; }
+.check-btn {
+  padding: 9px 20px; background: var(--violet); color: white;
+  border: none; border-radius: 8px; font-weight: 700;
+  font-size: 0.85rem; cursor: pointer; transition: background 0.15s;
+  font-family: var(--font-body);
+}
+.check-btn:hover { background: #6d28d9; }
+
+/* Feedback */
+.feedback {
+  margin-top: 10px; padding: 10px 14px; border-radius: 8px;
+  font-size: 0.85rem; line-height: 1.5; display: none;
+}
+.feedback.show { display: block; }
+.feedback.correct { background: #f0fdf4; color: #15803d; border-left: 3px solid var(--green); }
+.feedback.wrong   { background: #fef2f2; color: #b91c1c; border-left: 3px solid var(--red); }
+
+/* Canvas exercises */
+.canvas-wrap {
+  background: white; border: 1px solid var(--border);
+  border-radius: 8px; overflow: hidden; margin-bottom: 12px;
+}
+canvas { display: block; }
+
+/* Extended-only section */
+.ext-only {
+  border: 1.5px dashed var(--violet-lt);
+  border-radius: 10px; padding: 18px 20px; margin-top: 18px;
+  background: #faf5ff;
+}
+.ext-label {
+  display: inline-block; font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  background: var(--violet); color: white;
+  padding: 2px 10px; border-radius: 10px; margin-bottom: 12px;
+}
+
+/* Definition box */
+.def-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.def-card {
+  background: #f8fafc; border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px;
+}
+.def-term { font-weight: 700; font-size: 0.85rem; color: var(--navy); margin-bottom: 3px; }
+.def-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.45; }
+
+/* Theorem box */
+.theorem-box {
+  background: #f5f3ff; border-left: 4px solid var(--violet);
+  border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 12px 0;
+  font-size: 0.9rem; line-height: 1.6;
+}
+.theorem-box strong { color: var(--violet); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hamburger { display: block; }
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease, width 0.22s ease;
+    width: var(--sidebar-w) !important;
+  }
+  .sidebar.mobile-open { transform: translateX(0); }
+  .main-content { margin-left: 0 !important; padding: 24px 16px; }
+  .tp-grid { grid-template-columns: 1fr; }
+  .def-grid { grid-template-columns: 1fr 1fr; }
+  #collapseBtn { display: none; }
+}
+@media (max-width: 480px) {
+  .def-grid { grid-template-columns: 1fr; }
+  .prog-stats { gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+  <button class="hamburger" onclick="toggleMobileSidebar()" aria-label="Menu">☰</button>
+  <span class="brand-badge">Topic 4</span>
+  <span class="brand-title">Geometry</span>
+  <div class="header-right">
+    <div class="teacher-toggle">
+      <span>Teacher Mode</span>
+      <button class="toggle-switch" id="teacherToggle" onclick="toggleTeacherMode()" aria-label="Toggle teacher mode"></button>
+    </div>
+    <span class="header-sub">IGCSE 0580</span>
+  </div>
+</header>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-label">Modules</span>
+      <button id="collapseBtn" onclick="toggleSidebar()" aria-label="Collapse sidebar">◀</button>
+    </div>
+    <div class="nav-section-label">Core &amp; Extended</div>
+    <div class="nav-item active" id="nav-0" onclick="showModule(0)"><span class="nav-icon">📐</span><span class="nav-text">0 · Geometrical Terms</span></div>
+    <div class="nav-item" id="nav-1" onclick="showModule(1)"><span class="nav-icon">📏</span><span class="nav-text">1 · Constructions</span></div>
+    <div class="nav-item" id="nav-2" onclick="showModule(2)"><span class="nav-icon">🧭</span><span class="nav-text">2 · Scale Drawings &amp; Bearings</span></div>
+    <div class="nav-item" id="nav-3" onclick="showModule(3)"><span class="nav-icon">🔁</span><span class="nav-text">3 · Similarity</span></div>
+    <div class="nav-item" id="nav-4" onclick="showModule(4)"><span class="nav-icon">🪞</span><span class="nav-text">4 · Symmetry</span></div>
+    <div class="nav-item" id="nav-5" onclick="showModule(5)"><span class="nav-icon">📐</span><span class="nav-text">5 · Angles</span></div>
+    <div class="nav-section-label">Extended Only</div>
+    <div class="nav-item" id="nav-6" onclick="showModule(6)"><span class="nav-icon">⭕</span><span class="nav-text">6 · Circle Theorems I</span></div>
+    <div class="nav-item" id="nav-7" onclick="showModule(7)"><span class="nav-icon">⭕</span><span class="nav-text">7 · Circle Theorems II</span></div>
+    <div class="nav-divider"></div>
+    <div class="nav-item" id="nav-8" onclick="showModule(8)"><span class="nav-icon">🏆</span><span class="nav-text">8 · Exam Challenge</span></div>
+    <a class="nav-back" href="igcse-math-index.html">
+      <span class="nav-icon">◀</span><span class="nav-text">All Chapters</span>
+    </a>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main-content" id="mainContent">
+
+    <!-- ═══════════════════════════════════════════════
+         MODULE 0 — Geometrical Terms
+    ═══════════════════════════════════════════════ -->
+    <section class="module active" id="mod-0">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 4 → <span>Module 0</span></div>
+        <h1>📐 Geometrical Terms</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C4.1 / E4.1 — Geometrical Terms &amp; Vocabulary</h2>
+        <div class="pc-meta">
+          <span>📚 Core + Extended</span>
+          <span>🎯 Lines, angles, shapes, solids, circles</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="m0-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="m0-correct">0</strong> correct</div>
+          <div><strong id="m0-streak">0</strong> streak</div>
+          <div><strong id="m0-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">🎚️ Difficulty</div>
+        <div class="card-body" style="padding:12px 20px;">
+          <div class="diff-toggle">
+            <button class="diff-btn active" id="m0-core-btn" onclick="setDiffMode(0,'core')">Core</button>
+            <button class="diff-btn" id="m0-ext-btn" onclick="setDiffMode(0,'ext')">Extended</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-0">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Geometrical Terms</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception"><strong>❌ Common Misconceptions</strong><ul>
+              <li>Confusing diameter with radius (diameter = 2 × radius)</li>
+              <li>Calling any four-sided shape a "rectangle"</li>
+              <li>Thinking "reflex" means "obtuse"</li>
+              <li>Confusing arc, chord and tangent in circles</li>
+              <li>Forgetting that a sector is a "pizza-slice" (bounded by two radii + arc)</li>
+            </ul></div>
+            <div class="tp-item strategy"><strong>✅ Teaching Strategies</strong><ul>
+              <li>Flashcard matching: term → diagram → definition</li>
+              <li>Draw a circle and label all 7 parts in one go</li>
+              <li>Hierarchy chart: quadrilaterals → parallelograms → rectangles</li>
+              <li>Real-life linking: tangent = tyre touching road at one point</li>
+              <li>Use colour coding for each family of shapes</li>
+            </ul></div>
+          </div>
+          <details>
+            <summary>📝 Worked Example</summary>
+            <div>
+              <strong>Q:</strong> State the mathematical name for a solid with two circular faces and one curved surface.<br>
+              <strong>A:</strong> Cylinder. The two flat faces are circles (top and bottom) and the lateral surface is curved.
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📋 Syllabus Coverage</div>
+        <div class="card-body" style="padding:0;">
+          <table class="syl-table">
+            <thead><tr><th>Code</th><th>Statement</th><th>Level</th></tr></thead>
+            <tbody>
+              <tr><td>C4.1a</td><td>Use and interpret geometrical terms: point, vertex, line, parallel, perpendicular, right angle, acute, obtuse and reflex angles, interior and exterior angles, similar, congruent, scale factor</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>C4.1b</td><td>Triangles: equilateral, isosceles, scalene, right-angled</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>C4.1c</td><td>Quadrilaterals: square, rectangle, kite, rhombus, parallelogram, trapezium</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>C4.1d</td><td>Polygons: pentagon, hexagon, octagon, decagon</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>C4.1e</td><td>Simple solids: cube, cuboid, prism, cylinder, pyramid, cone, sphere</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>C4.1f</td><td>Circle vocabulary: centre, radius, diameter, circumference, semicircle, chord, tangent, arc, sector, segment</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>E4.1</td><td>Extended adds: plane, perpendicular bisector; hemisphere, frustum; bearing; major and minor arc</td><td><span class="badge badge-ext">Extended</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Key Definitions -->
+      <div class="card">
+        <div class="card-header">📖 Key Definitions</div>
+        <div class="card-body">
+          <p style="font-size:0.82rem;color:var(--muted);margin-bottom:14px;">Angles: acute &lt; 90° · right = 90° · obtuse 90°–180° · reflex 180°–360°</p>
+          <div class="def-grid">
+            <div class="def-card"><div class="def-term">Parallel</div><div class="def-desc">Lines that never meet; same direction. Marked with arrows (→→).</div></div>
+            <div class="def-card"><div class="def-term">Perpendicular</div><div class="def-desc">Lines that meet at exactly 90°.</div></div>
+            <div class="def-card"><div class="def-term">Vertex (pl. vertices)</div><div class="def-desc">A corner point where two or more edges meet.</div></div>
+            <div class="def-card"><div class="def-term">Similar</div><div class="def-desc">Same shape, different size. Corresponding angles equal; sides in proportion.</div></div>
+            <div class="def-card"><div class="def-term">Congruent</div><div class="def-desc">Exactly the same shape and size.</div></div>
+            <div class="def-card"><div class="def-term">Chord</div><div class="def-desc">A straight line joining two points on a circle (not passing through centre).</div></div>
+            <div class="def-card"><div class="def-term">Tangent</div><div class="def-desc">A straight line that touches a circle at exactly one point.</div></div>
+            <div class="def-card"><div class="def-term">Sector</div><div class="def-desc">Region bounded by two radii and an arc ("pizza slice").</div></div>
+            <div class="def-card"><div class="def-term">Segment</div><div class="def-desc">Region between a chord and the arc it cuts off.</div></div>
+            <div class="def-card"><div class="def-term">Arc</div><div class="def-desc">Part of the circumference. Extended: major arc (larger) vs minor arc (smaller).</div></div>
+          </div>
+          <div class="ext-only" id="m0-ext-defs" style="display:none;">
+            <span class="ext-label">Extended only</span>
+            <div class="def-grid">
+              <div class="def-card"><div class="def-term">Plane</div><div class="def-desc">A flat 2D surface extending infinitely.</div></div>
+              <div class="def-card"><div class="def-term">Perpendicular Bisector</div><div class="def-desc">A line that cuts another line in half at 90°.</div></div>
+              <div class="def-card"><div class="def-term">Hemisphere</div><div class="def-desc">Half a sphere, cut by a flat circular face.</div></div>
+              <div class="def-card"><div class="def-term">Frustum</div><div class="def-desc">A cone or pyramid with its top cut off by a plane parallel to the base.</div></div>
+              <div class="def-card"><div class="def-term">Major / Minor Arc</div><div class="def-desc">Major arc = larger part of circle; minor arc = smaller part.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exercise 1 -->
+      <div class="card">
+        <div class="card-header">✏️ Exercise 1 — Angle Types</div>
+        <div class="card-body">
+
+          <div class="exercise" id="m0-q1">
+            <div class="exercise-title">Question 1 of 4</div>
+            <p class="question-text">An angle of <strong>127°</strong> is best described as:</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m0-q1','A','B',0)">A. Acute</button>
+              <button class="mcq-btn" onclick="checkMCQ('m0-q1','B','B',0)">B. Obtuse</button>
+              <button class="mcq-btn" onclick="checkMCQ('m0-q1','C','B',0)">C. Reflex</button>
+              <button class="mcq-btn" onclick="checkMCQ('m0-q1','D','B',0)">D. Right</button>
+            </div>
+            <div class="feedback" id="m0-q1-fb"></div>
+          </div>
+
+          <div class="exercise" id="m0-q2">
+            <div class="exercise-title">Question 2 of 4</div>
+            <p class="question-text">A circle part that is bounded by <strong>two radii and an arc</strong> is called a:</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m0-q2','A','C',0)">A. Chord</button>
+              <button class="mcq-btn" onclick="checkMCQ('m0-q2','B','C',0)">B. Segment</button>
+              <button class="mcq-btn" onclick="checkMCQ('m0-q2','C','C',0)">C. Sector</button>
+              <button class="mcq-btn" onclick="checkMCQ('m0-q2','D','C',0)">D. Tangent</button>
+            </div>
+            <div class="feedback" id="m0-q2-fb"></div>
+          </div>
+
+          <div class="exercise" id="m0-q3">
+            <div class="exercise-title">Question 3 of 4</div>
+            <p class="question-text">Which quadrilateral has <strong>exactly one pair</strong> of parallel sides?</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m0-q3','A','D',0)">A. Rhombus</button>
+              <button class="mcq-btn" onclick="checkMCQ('m0-q3','B','D',0)">B. Kite</button>
+              <button class="mcq-btn" onclick="checkMCQ('m0-q3','C','D',0)">C. Parallelogram</button>
+              <button class="mcq-btn" onclick="checkMCQ('m0-q3','D','D',0)">D. Trapezium</button>
+            </div>
+            <div class="feedback" id="m0-q3-fb"></div>
+          </div>
+
+          <div class="exercise" id="m0-q4">
+            <div class="exercise-title">Question 4 of 4</div>
+            <p class="question-text">How many faces does a <strong>triangular prism</strong> have?</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m0-q4-inp" type="number" placeholder="Your answer" min="0" max="20">
+              <button class="check-btn" onclick="checkFill('m0-q4','5',0,'A triangular prism has 2 triangular faces + 3 rectangular faces = 5 faces total.')">Check</button>
+            </div>
+            <div class="feedback" id="m0-q4-fb"></div>
+          </div>
+
+        </div>
+      </div><!-- end card -->
+
+    </section><!-- end mod-0 -->
+
+    <!-- ═══════════════════════════════════════════════
+         MODULE 1 — Geometrical Constructions
+    ═══════════════════════════════════════════════ -->
+    <section class="module" id="mod-1">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 4 → <span>Module 1</span></div>
+        <h1>📏 Geometrical Constructions</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C4.2 / E4.2 — Constructions &amp; Nets</h2>
+        <div class="pc-meta">
+          <span>📚 Core + Extended</span>
+          <span>🎯 Measuring, triangle construction, nets</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="m1-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="m1-correct">0</strong> correct</div>
+          <div><strong id="m1-streak">0</strong> streak</div>
+          <div><strong id="m1-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">🎚️ Difficulty</div>
+        <div class="card-body" style="padding:12px 20px;">
+          <div class="diff-toggle">
+            <button class="diff-btn active" id="m1-core-btn" onclick="setDiffMode(1,'core')">Core</button>
+            <button class="diff-btn" id="m1-ext-btn" onclick="setDiffMode(1,'ext')">Extended</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-1">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Constructions</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception"><strong>❌ Common Misconceptions</strong><ul>
+              <li>Using a protractor incorrectly (wrong scale: 60° vs 120°)</li>
+              <li>Forgetting that SAS means the angle is between the two sides</li>
+              <li>Drawing nets that don't fold up (faces in wrong positions)</li>
+              <li>Not keeping compass width fixed when constructing triangles</li>
+            </ul></div>
+            <div class="tp-item strategy"><strong>✅ Teaching Strategies</strong><ul>
+              <li>Let students cut and fold paper nets — tactile reinforcement</li>
+              <li>Stress: measure angles from the correct baseline on a protractor</li>
+              <li>For triangle construction, always sketch first with labels</li>
+              <li>Net puzzles: which of these folds into a cube?</li>
+            </ul></div>
+          </div>
+          <details>
+            <summary>📝 Worked Example</summary>
+            <div>
+              <strong>Q:</strong> Construct triangle ABC where AB = 6 cm, BC = 4 cm, and angle ABC = 55°.<br>
+              <strong>Steps:</strong><br>
+              1. Draw AB = 6 cm.<br>
+              2. At B, measure and draw an angle of 55° from BA.<br>
+              3. Along the new ray from B, mark BC = 4 cm to get C.<br>
+              4. Join A to C to complete the triangle.
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📋 Syllabus Coverage</div>
+        <div class="card-body" style="padding:0;">
+          <table class="syl-table">
+            <thead><tr><th>Code</th><th>Statement</th><th>Level</th></tr></thead>
+            <tbody>
+              <tr><td>C4.2a</td><td>Measure and draw lines and angles</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>C4.2b</td><td>Construct a triangle given three sides (SSS), two sides and an included angle (SAS), or a side and two angles (ASA/AAS) using ruler and compasses</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>C4.2c</td><td>Draw, use and interpret nets of 3D shapes</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>E4.2</td><td>Same as Core (no additional Extended requirements beyond constructions of perpendicular bisector and angle bisector — covered in loci)</td><td><span class="badge badge-ext">Extended</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📖 Construction Cases</div>
+        <div class="card-body">
+          <div class="def-grid">
+            <div class="def-card"><div class="def-term">SSS</div><div class="def-desc">Given all 3 sides. Draw base, then arc from each end; intersection = third vertex.</div></div>
+            <div class="def-card"><div class="def-term">SAS</div><div class="def-desc">Two sides and the included angle between them. Draw base, use protractor for angle, mark second side.</div></div>
+            <div class="def-card"><div class="def-term">ASA / AAS</div><div class="def-desc">One side and two angles. Draw the side, construct angles at each end; intersection = third vertex.</div></div>
+            <div class="def-card"><div class="def-term">Net</div><div class="def-desc">A flat shape that folds to form a 3D solid. All faces must be present; adjacent faces share an edge.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">✏️ Exercise — Constructions &amp; Nets</div>
+        <div class="card-body">
+
+          <div class="exercise" id="m1-q1">
+            <div class="exercise-title">Question 1 of 4</div>
+            <p class="question-text">To construct a triangle given two sides and the <strong>included angle</strong>, which case applies?</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m1-q1','A','B',1)">A. SSS</button>
+              <button class="mcq-btn" onclick="checkMCQ('m1-q1','B','B',1)">B. SAS</button>
+              <button class="mcq-btn" onclick="checkMCQ('m1-q1','C','B',1)">C. ASA</button>
+              <button class="mcq-btn" onclick="checkMCQ('m1-q1','D','B',1)">D. AAS</button>
+            </div>
+            <div class="feedback" id="m1-q1-fb"></div>
+          </div>
+
+          <div class="exercise" id="m1-q2">
+            <div class="exercise-title">Question 2 of 4</div>
+            <p class="question-text">A net of a <strong>cube</strong> has how many squares?</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m1-q2-inp" type="number" placeholder="Your answer" min="0" max="20">
+              <button class="check-btn" onclick="checkFill('m1-q2','6',1,'A cube has 6 faces, so its net consists of 6 squares.')">Check</button>
+            </div>
+            <div class="feedback" id="m1-q2-fb"></div>
+          </div>
+
+          <div class="exercise" id="m1-q3">
+            <div class="exercise-title">Question 3 of 4</div>
+            <p class="question-text">When constructing triangle PQR using <strong>SSS</strong> (PQ = 5 cm, QR = 4 cm, PR = 6 cm), which tool is used to mark the arcs from Q and P to find R?</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m1-q3','A','C',1)">A. Protractor</button>
+              <button class="mcq-btn" onclick="checkMCQ('m1-q3','B','C',1)">B. Set square</button>
+              <button class="mcq-btn" onclick="checkMCQ('m1-q3','C','C',1)">C. Compasses</button>
+              <button class="mcq-btn" onclick="checkMCQ('m1-q3','D','C',1)">D. Ruler only</button>
+            </div>
+            <div class="feedback" id="m1-q3-fb"></div>
+          </div>
+
+          <div class="exercise" id="m1-q4">
+            <div class="exercise-title">Question 4 of 4</div>
+            <p class="question-text">A triangular prism has <strong>how many rectangular faces</strong> in its net?</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m1-q4-inp" type="number" placeholder="Your answer" min="0" max="10">
+              <button class="check-btn" onclick="checkFill('m1-q4','3',1,'A triangular prism has 3 rectangular lateral faces (and 2 triangular end faces).')">Check</button>
+            </div>
+            <div class="feedback" id="m1-q4-fb"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </section><!-- end mod-1 -->
+
+    <!-- ═══════════════════════════════════════════════
+         MODULE 2 — Scale Drawings & Bearings
+    ═══════════════════════════════════════════════ -->
+    <section class="module" id="mod-2">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 4 → <span>Module 2</span></div>
+        <h1>🧭 Scale Drawings &amp; Bearings</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C4.3 / E4.3 — Scale Drawings &amp; Three-Figure Bearings</h2>
+        <div class="pc-meta">
+          <span>📚 Core + Extended</span>
+          <span>🎯 Scale factors, map reading, compass bearings</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="m2-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="m2-correct">0</strong> correct</div>
+          <div><strong id="m2-streak">0</strong> streak</div>
+          <div><strong id="m2-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">🎚️ Difficulty</div>
+        <div class="card-body" style="padding:12px 20px;">
+          <div class="diff-toggle">
+            <button class="diff-btn active" id="m2-core-btn" onclick="setDiffMode(2,'core')">Core</button>
+            <button class="diff-btn" id="m2-ext-btn" onclick="setDiffMode(2,'ext')">Extended</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-2">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Scale Drawings &amp; Bearings</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception"><strong>❌ Common Misconceptions</strong><ul>
+              <li>Writing a bearing as 45° instead of 045° (must be 3 digits)</li>
+              <li>Measuring bearing from east instead of north</li>
+              <li>Measuring bearing anticlockwise instead of clockwise</li>
+              <li>Confusing map scale: "1 : 50 000" means 1 cm = 500 m, NOT 50 000 cm</li>
+              <li>Not converting units before applying scale</li>
+            </ul></div>
+            <div class="tp-item strategy"><strong>✅ Teaching Strategies</strong><ul>
+              <li>Always draw a North arrow first, then measure clockwise</li>
+              <li>Practise with real OS maps or Google Maps screenshots</li>
+              <li>Mnemonics: "bearings start North, go clockwise, always 3 digits"</li>
+              <li>Scale drawing: always state the scale used</li>
+              <li>Back-bearing: add/subtract 180° to find return bearing</li>
+            </ul></div>
+          </div>
+          <details>
+            <summary>📝 Worked Example</summary>
+            <div>
+              <strong>Q:</strong> A map has scale 1 : 25 000. A road measures 8 cm on the map. Find the real length in km.<br>
+              <strong>A:</strong> Real = 8 × 25 000 cm = 200 000 cm = 2000 m = <strong>2 km</strong>.
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📋 Syllabus Coverage</div>
+        <div class="card-body" style="padding:0;">
+          <table class="syl-table">
+            <thead><tr><th>Code</th><th>Statement</th><th>Level</th></tr></thead>
+            <tbody>
+              <tr><td>C4.3a</td><td>Draw and interpret scale drawings</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>C4.3b</td><td>Use three-figure bearings (000° to 360°), measured clockwise from north</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>E4.3</td><td>Same as Core — solve problems involving bearings and scale drawings with greater complexity</td><td><span class="badge badge-ext">Extended</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📖 Key Rules</div>
+        <div class="card-body">
+          <div class="theorem-box">
+            <strong>Bearings rule:</strong> always measured <strong>clockwise from North</strong>, always written as <strong>three digits</strong> (e.g. 045°, 090°, 270°).
+          </div>
+          <div class="theorem-box" style="margin-top:10px;">
+            <strong>Scale formula:</strong> Real distance = Map distance × Scale factor (convert units as needed).
+          </div>
+          <div style="font-size:0.85rem;margin-top:14px;line-height:1.7;">
+            <strong>Cardinal directions as bearings:</strong><br>
+            North = 000° · East = 090° · South = 180° · West = 270°<br><br>
+            <strong>Back-bearing:</strong> If bearing from A to B is θ, bearing from B to A = θ + 180° (if θ &lt; 180°) or θ − 180° (if θ ≥ 180°).
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">✏️ Exercise — Scale &amp; Bearings</div>
+        <div class="card-body">
+
+          <div class="exercise" id="m2-q1">
+            <div class="exercise-title">Question 1 of 5</div>
+            <p class="question-text">A bearing is always measured <strong>clockwise from</strong>:</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m2-q1','A','C',2)">A. East</button>
+              <button class="mcq-btn" onclick="checkMCQ('m2-q1','B','C',2)">B. South</button>
+              <button class="mcq-btn" onclick="checkMCQ('m2-q1','C','C',2)">C. North</button>
+              <button class="mcq-btn" onclick="checkMCQ('m2-q1','D','C',2)">D. West</button>
+            </div>
+            <div class="feedback" id="m2-q1-fb"></div>
+          </div>
+
+          <div class="exercise" id="m2-q2">
+            <div class="exercise-title">Question 2 of 5</div>
+            <p class="question-text">The bearing for <strong>due East</strong> is:</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m2-q2','A','C',2)">A. 000°</button>
+              <button class="mcq-btn" onclick="checkMCQ('m2-q2','B','C',2)">B. 045°</button>
+              <button class="mcq-btn" onclick="checkMCQ('m2-q2','C','C',2)">C. 090°</button>
+              <button class="mcq-btn" onclick="checkMCQ('m2-q2','D','C',2)">D. 180°</button>
+            </div>
+            <div class="feedback" id="m2-q2-fb"></div>
+          </div>
+
+          <div class="exercise" id="m2-q3">
+            <div class="exercise-title">Question 3 of 5</div>
+            <p class="question-text">A map scale is 1 : 50 000. A river measures <strong>3 cm</strong> on the map. What is the real length in <strong>km</strong>?</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m2-q3-inp" type="number" placeholder="km" step="0.1">
+              <button class="check-btn" onclick="checkFill('m2-q3','1.5',2,'3 × 50 000 = 150 000 cm = 1500 m = 1.5 km.')">Check</button>
+            </div>
+            <div class="feedback" id="m2-q3-fb"></div>
+          </div>
+
+          <div class="exercise" id="m2-q4">
+            <div class="exercise-title">Question 4 of 5</div>
+            <p class="question-text">The bearing from A to B is <strong>110°</strong>. What is the bearing from <strong>B to A</strong>?</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m2-q4-inp" type="number" placeholder="degrees" min="0" max="360">
+              <button class="check-btn" onclick="checkFill('m2-q4','290',2,'110° + 180° = 290°. Since 110° < 180°, add 180° to get the back-bearing.')">Check</button>
+            </div>
+            <div class="feedback" id="m2-q4-fb"></div>
+          </div>
+
+          <div class="exercise" id="m2-q5">
+            <div class="exercise-title">Question 5 of 5</div>
+            <p class="question-text">On a scale drawing, 1 cm represents <strong>5 metres</strong>. A building is 12 m wide. What length (in cm) should be drawn?</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m2-q5-inp" type="number" placeholder="cm" step="0.1">
+              <button class="check-btn" onclick="checkFill('m2-q5','2.4',2,'12 ÷ 5 = 2.4 cm.')">Check</button>
+            </div>
+            <div class="feedback" id="m2-q5-fb"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </section><!-- end mod-2 -->
+
+    <!-- ═══════════════════════════════════════════════
+         MODULE 3 — Similarity
+    ═══════════════════════════════════════════════ -->
+    <section class="module" id="mod-3">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 4 → <span>Module 3</span></div>
+        <h1>🔁 Similarity</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C4.4 / E4.4 — Similar Shapes &amp; Solids</h2>
+        <div class="pc-meta">
+          <span>📚 Core + Extended</span>
+          <span>🎯 Scale factor, length/area/volume ratios</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="m3-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="m3-correct">0</strong> correct</div>
+          <div><strong id="m3-streak">0</strong> streak</div>
+          <div><strong id="m3-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">🎚️ Difficulty</div>
+        <div class="card-body" style="padding:12px 20px;">
+          <div class="diff-toggle">
+            <button class="diff-btn active" id="m3-core-btn" onclick="setDiffMode(3,'core')">Core</button>
+            <button class="diff-btn" id="m3-ext-btn" onclick="setDiffMode(3,'ext')">Extended</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-3">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Similarity</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception"><strong>❌ Common Misconceptions</strong><ul>
+              <li>Multiplying by scale factor for area (should square it)</li>
+              <li>Multiplying by scale factor for volume (should cube it)</li>
+              <li>Confusing "similar" with "congruent"</li>
+              <li>Using the wrong ratio direction (A:B vs B:A)</li>
+              <li>Not checking all three pairs of angles when proving similarity</li>
+            </ul></div>
+            <div class="tp-item strategy"><strong>✅ Teaching Strategies</strong><ul>
+              <li>Teach as a hierarchy: length → area → volume (×k, ×k², ×k³)</li>
+              <li>Use real-life scaling: maps, model aeroplanes, photocopying</li>
+              <li>Draw both shapes labelled so students identify correct matching sides</li>
+              <li>For proof of similarity: state all three angle equalities with reasons</li>
+            </ul></div>
+          </div>
+          <details>
+            <summary>📝 Worked Example</summary>
+            <div>
+              <strong>Q:</strong> Two similar cylinders have radii 3 cm and 6 cm. If the volume of the small one is 84 cm³, find the volume of the large one.<br>
+              <strong>A:</strong> Scale factor k = 6/3 = 2. Volume ratio = k³ = 8. Volume of large = 84 × 8 = <strong>672 cm³</strong>.
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📋 Syllabus Coverage</div>
+        <div class="card-body" style="padding:0;">
+          <table class="syl-table">
+            <thead><tr><th>Code</th><th>Statement</th><th>Level</th></tr></thead>
+            <tbody>
+              <tr><td>C4.4</td><td>Calculate lengths of similar shapes given a scale factor</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>E4.4a</td><td>Use the relationships between lengths, areas and volumes of similar shapes and solids: Area ratio = k², Volume ratio = k³</td><td><span class="badge badge-ext">Extended</span></td></tr>
+              <tr><td>E4.4b</td><td>Show that two triangles are similar using geometric reasons (AA, SAS, SSS similarity)</td><td><span class="badge badge-ext">Extended</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📖 Key Rules</div>
+        <div class="card-body">
+          <div class="theorem-box">
+            <strong>Length scale factor k:</strong> If two similar shapes have corresponding lengths in ratio k,<br>
+            then <strong>Area ratio = k²</strong> and <strong>Volume ratio = k³</strong>.
+          </div>
+          <p style="font-size:0.85rem;margin-top:12px;line-height:1.7;">
+            <strong>Proving triangles similar (Extended):</strong><br>
+            AA — two pairs of equal angles<br>
+            SAS — two sides in proportion and the included angle equal<br>
+            SSS — all three sides in proportion
+          </p>
+          <div class="ext-only" id="m3-ext-defs" style="display:none;">
+            <span class="ext-label">Extended only</span>
+            <p style="font-size:0.85rem;line-height:1.7;">
+              To find missing length: set up ratio → cross-multiply → solve.<br>
+              To find area/volume: identify k first from lengths, then apply k² or k³.<br>
+              Reverse: if areas given, k = √(A₁/A₂); if volumes given, k = ∛(V₁/V₂).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">✏️ Exercise — Similarity</div>
+        <div class="card-body">
+
+          <div class="exercise" id="m3-q1">
+            <div class="exercise-title">Question 1 of 5</div>
+            <p class="question-text">Two similar rectangles have widths <strong>4 cm</strong> and <strong>10 cm</strong>. The smaller has length 6 cm. What is the length of the larger?</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m3-q1-inp" type="number" placeholder="cm" step="0.1">
+              <button class="check-btn" onclick="checkFill('m3-q1','15',3,'Scale factor = 10/4 = 2.5. Length = 6 × 2.5 = 15 cm.')">Check</button>
+            </div>
+            <div class="feedback" id="m3-q1-fb"></div>
+          </div>
+
+          <div class="exercise" id="m3-q2">
+            <div class="exercise-title">Question 2 of 5</div>
+            <p class="question-text">Two similar triangles have scale factor <strong>3</strong>. The area of the smaller is <strong>20 cm²</strong>. Find the area of the larger.</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m3-q2-inp" type="number" placeholder="cm²" step="0.1">
+              <button class="check-btn" onclick="checkFill('m3-q2','180',3,'Area ratio = k² = 9. Area = 20 × 9 = 180 cm².')">Check</button>
+            </div>
+            <div class="feedback" id="m3-q2-fb"></div>
+          </div>
+
+          <div class="exercise" id="m3-q3">
+            <div class="exercise-title">Question 3 of 5</div>
+            <p class="question-text">Two similar spheres have volumes <strong>27 cm³</strong> and <strong>216 cm³</strong>. Find the ratio of their radii (small : large).</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m3-q3','A','B',3)">A. 1 : 4</button>
+              <button class="mcq-btn" onclick="checkMCQ('m3-q3','B','B',3)">B. 1 : 2</button>
+              <button class="mcq-btn" onclick="checkMCQ('m3-q3','C','B',3)">C. 1 : 8</button>
+              <button class="mcq-btn" onclick="checkMCQ('m3-q3','D','B',3)">D. 3 : 6</button>
+            </div>
+            <div class="feedback" id="m3-q3-fb"></div>
+          </div>
+
+          <div class="exercise" id="m3-q4">
+            <div class="exercise-title">Question 4 of 5</div>
+            <p class="question-text">Which condition is sufficient to prove two triangles <strong>similar</strong>?</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m3-q4','A','D',3)">A. Two sides equal</button>
+              <button class="mcq-btn" onclick="checkMCQ('m3-q4','B','D',3)">B. All three sides equal</button>
+              <button class="mcq-btn" onclick="checkMCQ('m3-q4','C','D',3)">C. One pair of equal angles</button>
+              <button class="mcq-btn" onclick="checkMCQ('m3-q4','D','D',3)">D. Two pairs of equal angles (AA)</button>
+            </div>
+            <div class="feedback" id="m3-q4-fb"></div>
+          </div>
+
+          <div class="exercise" id="m3-q5">
+            <div class="exercise-title">Question 5 of 5</div>
+            <p class="question-text">Two similar cones have heights in ratio <strong>2 : 5</strong>. The surface area of the smaller is <strong>48 cm²</strong>. Find the surface area of the larger.</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m3-q5-inp" type="number" placeholder="cm²" step="0.1">
+              <button class="check-btn" onclick="checkFill('m3-q5','300',3,'k = 5/2 = 2.5. Area ratio = k² = 6.25. SA = 48 × 6.25 = 300 cm².')">Check</button>
+            </div>
+            <div class="feedback" id="m3-q5-fb"></div>
+          </div>
+
+        </div>
+      </div>
+    </section><!-- end mod-3 -->
+
+    <!-- ═══════════════════════════════════════════════
+         MODULE 4 — Symmetry
+    ═══════════════════════════════════════════════ -->
+    <section class="module" id="mod-4">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 4 → <span>Module 4</span></div>
+        <h1>🪞 Symmetry</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C4.5 / E4.5 — Line &amp; Rotational Symmetry</h2>
+        <div class="pc-meta">
+          <span>📚 Core + Extended</span>
+          <span>🎯 Lines of symmetry, rotational order, 3D symmetry</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="m4-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="m4-correct">0</strong> correct</div>
+          <div><strong id="m4-streak">0</strong> streak</div>
+          <div><strong id="m4-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">🎚️ Difficulty</div>
+        <div class="card-body" style="padding:12px 20px;">
+          <div class="diff-toggle">
+            <button class="diff-btn active" id="m4-core-btn" onclick="setDiffMode(4,'core')">Core</button>
+            <button class="diff-btn" id="m4-ext-btn" onclick="setDiffMode(4,'ext')">Extended</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-4">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Symmetry</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception"><strong>❌ Common Misconceptions</strong><ul>
+              <li>A rectangle has 4 lines of symmetry (it has only 2)</li>
+              <li>Confusing order of rotational symmetry with number of sides</li>
+              <li>Thinking a parallelogram has line symmetry (it does not)</li>
+              <li>Stating order 1 when a shape has no rotational symmetry (should say "none" or order 1)</li>
+            </ul></div>
+            <div class="tp-item strategy"><strong>✅ Teaching Strategies</strong><ul>
+              <li>Use tracing paper — fold/rotate to check symmetry physically</li>
+              <li>Systematic table: shape → lines of symmetry → rotational order</li>
+              <li>For 3D: hold solid and count planes of symmetry by inspection</li>
+              <li>Link to regular polygons: n-gon has n lines and order n</li>
+            </ul></div>
+          </div>
+          <details>
+            <summary>📝 Worked Example</summary>
+            <div>
+              <strong>Q:</strong> State the number of lines of symmetry and the order of rotational symmetry of a regular hexagon.<br>
+              <strong>A:</strong> Lines of symmetry: <strong>6</strong>. Order of rotational symmetry: <strong>6</strong> (rotations of 60°, 120°, 180°, 240°, 300°, 360° all map it onto itself).
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📋 Syllabus Coverage</div>
+        <div class="card-body" style="padding:0;">
+          <table class="syl-table">
+            <thead><tr><th>Code</th><th>Statement</th><th>Level</th></tr></thead>
+            <tbody>
+              <tr><td>C4.5a</td><td>Recognise line symmetry in 2D shapes; state the number of lines of symmetry</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>C4.5b</td><td>Recognise rotational symmetry in 2D shapes; state the order of rotational symmetry</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>E4.5</td><td>Symmetry properties of prisms, cylinders, pyramids and cones: planes of symmetry and axes of symmetry</td><td><span class="badge badge-ext">Extended</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📖 Quick Reference Table</div>
+        <div class="card-body" style="padding:0;">
+          <table class="syl-table">
+            <thead><tr><th>Shape</th><th>Lines of Symmetry</th><th>Rotational Order</th></tr></thead>
+            <tbody>
+              <tr><td>Equilateral triangle</td><td>3</td><td>3</td></tr>
+              <tr><td>Square</td><td>4</td><td>4</td></tr>
+              <tr><td>Rectangle</td><td>2</td><td>2</td></tr>
+              <tr><td>Rhombus</td><td>2</td><td>2</td></tr>
+              <tr><td>Kite</td><td>1</td><td>1</td></tr>
+              <tr><td>Parallelogram</td><td>0</td><td>2</td></tr>
+              <tr><td>Trapezium (isosceles)</td><td>1</td><td>1</td></tr>
+              <tr><td>Regular hexagon</td><td>6</td><td>6</td></tr>
+              <tr><td>Circle</td><td>∞</td><td>∞</td></tr>
+            </tbody>
+          </table>
+          <div class="ext-only" id="m4-ext-defs" style="display:none;margin:0;">
+            <span class="ext-label" style="margin:12px 16px 8px;display:block;">Extended — 3D Symmetry</span>
+            <table class="syl-table" style="border-top:1px solid var(--border);">
+              <thead><tr><th>Solid</th><th>Planes of Symmetry</th><th>Axes of Symmetry</th></tr></thead>
+              <tbody>
+                <tr><td>Cuboid</td><td>3</td><td>3</td></tr>
+                <tr><td>Square-based pyramid</td><td>4</td><td>1</td></tr>
+                <tr><td>Triangular prism</td><td>4</td><td>1</td></tr>
+                <tr><td>Cylinder</td><td>Infinite</td><td>Infinite</td></tr>
+                <tr><td>Cone</td><td>Infinite</td><td>1</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">✏️ Exercise — Symmetry</div>
+        <div class="card-body">
+
+          <div class="exercise" id="m4-q1">
+            <div class="exercise-title">Question 1 of 5</div>
+            <p class="question-text">How many lines of symmetry does a <strong>rectangle</strong> have?</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m4-q1-inp" type="number" placeholder="Your answer" min="0" max="10">
+              <button class="check-btn" onclick="checkFill('m4-q1','2',4,'A rectangle has 2 lines of symmetry: one horizontal and one vertical through the midpoints.')">Check</button>
+            </div>
+            <div class="feedback" id="m4-q1-fb"></div>
+          </div>
+
+          <div class="exercise" id="m4-q2">
+            <div class="exercise-title">Question 2 of 5</div>
+            <p class="question-text">What is the order of rotational symmetry of a <strong>parallelogram</strong>?</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m4-q2-inp" type="number" placeholder="Your answer" min="0" max="10">
+              <button class="check-btn" onclick="checkFill('m4-q2','2',4,'A parallelogram maps onto itself after 180° and 360° rotations — order 2. It has no lines of symmetry.')">Check</button>
+            </div>
+            <div class="feedback" id="m4-q2-fb"></div>
+          </div>
+
+          <div class="exercise" id="m4-q3">
+            <div class="exercise-title">Question 3 of 5</div>
+            <p class="question-text">A regular polygon has <strong>8</strong> sides. What is its order of rotational symmetry?</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m4-q3-inp" type="number" placeholder="Your answer" min="0" max="20">
+              <button class="check-btn" onclick="checkFill('m4-q3','8',4,'For a regular n-gon, the order of rotational symmetry equals n. So a regular octagon has order 8.')">Check</button>
+            </div>
+            <div class="feedback" id="m4-q3-fb"></div>
+          </div>
+
+          <div class="exercise" id="m4-q4">
+            <div class="exercise-title">Question 4 of 5</div>
+            <p class="question-text">Which of the following has <strong>no lines of symmetry</strong>?</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m4-q4','A','C',4)">A. Isosceles triangle</button>
+              <button class="mcq-btn" onclick="checkMCQ('m4-q4','B','C',4)">B. Kite</button>
+              <button class="mcq-btn" onclick="checkMCQ('m4-q4','C','C',4)">C. Parallelogram</button>
+              <button class="mcq-btn" onclick="checkMCQ('m4-q4','D','C',4)">D. Rectangle</button>
+            </div>
+            <div class="feedback" id="m4-q4-fb"></div>
+          </div>
+
+          <div class="exercise" id="m4-q5">
+            <div class="exercise-title">Question 5 of 5 (Extended)</div>
+            <p class="question-text">How many <strong>planes of symmetry</strong> does a <strong>cylinder</strong> have?</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m4-q5','A','D',4)">A. 0</button>
+              <button class="mcq-btn" onclick="checkMCQ('m4-q5','B','D',4)">B. 2</button>
+              <button class="mcq-btn" onclick="checkMCQ('m4-q5','C','D',4)">C. 4</button>
+              <button class="mcq-btn" onclick="checkMCQ('m4-q5','D','D',4)">D. Infinitely many</button>
+            </div>
+            <div class="feedback" id="m4-q5-fb"></div>
+          </div>
+
+        </div>
+      </div>
+    </section><!-- end mod-4 -->
+
+    <!-- ═══════════════════════════════════════════════
+         MODULE 5 — Angles
+    ═══════════════════════════════════════════════ -->
+    <section class="module" id="mod-5">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 4 → <span>Module 5</span></div>
+        <h1>📐 Angles</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C4.6 / E4.6 — Angle Properties &amp; Polygons</h2>
+        <div class="pc-meta">
+          <span>📚 Core + Extended</span>
+          <span>🎯 Angle rules, parallel lines, polygon angle sums</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="m5-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="m5-correct">0</strong> correct</div>
+          <div><strong id="m5-streak">0</strong> streak</div>
+          <div><strong id="m5-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">🎚️ Difficulty</div>
+        <div class="card-body" style="padding:12px 20px;">
+          <div class="diff-toggle">
+            <button class="diff-btn active" id="m5-core-btn" onclick="setDiffMode(5,'core')">Core</button>
+            <button class="diff-btn" id="m5-ext-btn" onclick="setDiffMode(5,'ext')">Extended</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-5">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Angles</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception"><strong>❌ Common Misconceptions</strong><ul>
+              <li>Using "F angles" / "Z angles" in explanations (not accepted — use "corresponding" / "alternate")</li>
+              <li>Confusing co-interior (same side, supplementary) with alternate (opposite sides, equal)</li>
+              <li>Applying interior angle sum to irregular polygons incorrectly</li>
+              <li>Forgetting: exterior angles of ANY polygon always sum to 360°</li>
+              <li>Assuming interior angle = 360°/n (only for REGULAR polygons)</li>
+            </ul></div>
+            <div class="tp-item strategy"><strong>✅ Teaching Strategies</strong><ul>
+              <li>Require full geometric reason in every angle calculation</li>
+              <li>Colour-code: corresponding angles (F-shape), alternate angles (Z-shape), co-interior (C/U-shape)</li>
+              <li>Walk through exterior angles of a polygon physically — one full turn = 360°</li>
+              <li>Formula chain: exterior = 360°/n → interior = 180° − exterior</li>
+            </ul></div>
+          </div>
+          <details>
+            <summary>📝 Worked Example</summary>
+            <div>
+              <strong>Q:</strong> Find the interior angle of a regular pentagon.<br>
+              <strong>A:</strong> Sum of interior angles = (5 − 2) × 180° = 540°. Each interior angle = 540° ÷ 5 = <strong>108°</strong>.<br>
+              Or: exterior angle = 360°/5 = 72°; interior = 180° − 72° = 108°.
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📋 Syllabus Coverage</div>
+        <div class="card-body" style="padding:0;">
+          <table class="syl-table">
+            <thead><tr><th>Code</th><th>Statement</th><th>Level</th></tr></thead>
+            <tbody>
+              <tr><td>C4.6a</td><td>Angles at a point (360°), on a straight line (180°), vertically opposite angles</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>C4.6b</td><td>Angles formed with parallel lines: corresponding, alternate, co-interior</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>C4.6c</td><td>Angles in a triangle (sum = 180°) and quadrilateral (sum = 360°)</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>C4.6d</td><td>Interior and exterior angles of regular polygons; sum of interior angles = (n−2) × 180°</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>E4.6</td><td>Same as Core — applied to more complex multi-step geometric proofs</td><td><span class="badge badge-ext">Extended</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📖 Angle Rules Summary</div>
+        <div class="card-body">
+          <div class="def-grid">
+            <div class="def-card"><div class="def-term">Angles at a point</div><div class="def-desc">Sum = 360°</div></div>
+            <div class="def-card"><div class="def-term">Angles on a straight line</div><div class="def-desc">Sum = 180°</div></div>
+            <div class="def-card"><div class="def-term">Vertically opposite</div><div class="def-desc">Equal angles formed by two intersecting lines</div></div>
+            <div class="def-card"><div class="def-term">Corresponding angles</div><div class="def-desc">Equal; same position at each parallel-line crossing (F-pattern)</div></div>
+            <div class="def-card"><div class="def-term">Alternate angles</div><div class="def-desc">Equal; opposite sides of transversal between parallel lines (Z-pattern)</div></div>
+            <div class="def-card"><div class="def-term">Co-interior angles</div><div class="def-desc">Sum = 180°; same side of transversal between parallel lines (C/U-pattern)</div></div>
+          </div>
+          <div class="theorem-box" style="margin-top:14px;">
+            <strong>Interior angle sum of polygon:</strong> S = (n − 2) × 180°<br>
+            <strong>Each interior angle (regular):</strong> = S ÷ n<br>
+            <strong>Each exterior angle (regular):</strong> = 360° ÷ n
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">✏️ Exercise — Angles</div>
+        <div class="card-body">
+
+          <div class="exercise" id="m5-q1">
+            <div class="exercise-title">Question 1 of 6</div>
+            <p class="question-text">Two angles on a straight line are <strong>3x°</strong> and <strong>57°</strong>. Find x.</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m5-q1-inp" type="number" placeholder="x =" step="0.1">
+              <button class="check-btn" onclick="checkFill('m5-q1','41',5,'3x + 57 = 180 (angles on a straight line). 3x = 123, x = 41.')">Check</button>
+            </div>
+            <div class="feedback" id="m5-q1-fb"></div>
+          </div>
+
+          <div class="exercise" id="m5-q2">
+            <div class="exercise-title">Question 2 of 6</div>
+            <p class="question-text">Two parallel lines are cut by a transversal. A co-interior angle is <strong>112°</strong>. Find the other co-interior angle.</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m5-q2-inp" type="number" placeholder="degrees" step="0.1">
+              <button class="check-btn" onclick="checkFill('m5-q2','68',5,'Co-interior angles are supplementary: 180° − 112° = 68°.')">Check</button>
+            </div>
+            <div class="feedback" id="m5-q2-fb"></div>
+          </div>
+
+          <div class="exercise" id="m5-q3">
+            <div class="exercise-title">Question 3 of 6</div>
+            <p class="question-text">The interior angle sum of a <strong>hexagon</strong> is:</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m5-q3','A','C',5)">A. 540°</button>
+              <button class="mcq-btn" onclick="checkMCQ('m5-q3','B','C',5)">B. 648°</button>
+              <button class="mcq-btn" onclick="checkMCQ('m5-q3','C','C',5)">C. 720°</button>
+              <button class="mcq-btn" onclick="checkMCQ('m5-q3','D','C',5)">D. 900°</button>
+            </div>
+            <div class="feedback" id="m5-q3-fb"></div>
+          </div>
+
+          <div class="exercise" id="m5-q4">
+            <div class="exercise-title">Question 4 of 6</div>
+            <p class="question-text">Each <strong>exterior</strong> angle of a regular polygon is <strong>24°</strong>. How many sides does it have?</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m5-q4-inp" type="number" placeholder="sides" step="1">
+              <button class="check-btn" onclick="checkFill('m5-q4','15',5,'Number of sides = 360° ÷ exterior angle = 360° ÷ 24° = 15.')">Check</button>
+            </div>
+            <div class="feedback" id="m5-q4-fb"></div>
+          </div>
+
+          <div class="exercise" id="m5-q5">
+            <div class="exercise-title">Question 5 of 6</div>
+            <p class="question-text">In a triangle, two angles are <strong>47°</strong> and <strong>68°</strong>. Find the third angle.</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m5-q5-inp" type="number" placeholder="degrees" step="0.1">
+              <button class="check-btn" onclick="checkFill('m5-q5','65',5,'Angle sum of triangle = 180°. Third angle = 180° − 47° − 68° = 65°.')">Check</button>
+            </div>
+            <div class="feedback" id="m5-q5-fb"></div>
+          </div>
+
+          <div class="exercise" id="m5-q6">
+            <div class="exercise-title">Question 6 of 6</div>
+            <p class="question-text">Which angle relationship is <strong>NOT</strong> formed by parallel lines cut by a transversal?</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m5-q6','A','D',5)">A. Corresponding angles</button>
+              <button class="mcq-btn" onclick="checkMCQ('m5-q6','B','D',5)">B. Alternate angles</button>
+              <button class="mcq-btn" onclick="checkMCQ('m5-q6','C','D',5)">C. Co-interior angles</button>
+              <button class="mcq-btn" onclick="checkMCQ('m5-q6','D','D',5)">D. Reflex angles</button>
+            </div>
+            <div class="feedback" id="m5-q6-fb"></div>
+          </div>
+
+        </div>
+      </div>
+    </section><!-- end mod-5 -->
+
+    <!-- ═══════════════════════════════════════════════
+         MODULE 6 — Circle Theorems I (Core C4.7 + Extended E4.7)
+    ═══════════════════════════════════════════════ -->
+    <section class="module" id="mod-6">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 4 → <span>Module 6</span></div>
+        <h1>⭕ Circle Theorems I</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>C4.7 / E4.7 — Circle Angle Theorems</h2>
+        <div class="pc-meta">
+          <span>📚 Core + Extended</span>
+          <span>🎯 Angle in semicircle, tangent-radius, centre-circumference, cyclic quadrilateral, alternate segment</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="m6-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="m6-correct">0</strong> correct</div>
+          <div><strong id="m6-streak">0</strong> streak</div>
+          <div><strong id="m6-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">🎚️ Difficulty</div>
+        <div class="card-body" style="padding:12px 20px;">
+          <div class="diff-toggle">
+            <button class="diff-btn active" id="m6-core-btn" onclick="setDiffMode(6,'core')">Core</button>
+            <button class="diff-btn" id="m6-ext-btn" onclick="setDiffMode(6,'ext')">Extended</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-6">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Circle Theorems I</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception"><strong>❌ Common Misconceptions</strong><ul>
+              <li>Thinking angle at circumference = angle at centre (should be half)</li>
+              <li>Forgetting OA = OB (radii) when using isosceles triangles in proofs</li>
+              <li>Alternate segment: confusing which angle is in the alternate segment</li>
+              <li>Cyclic quadrilateral: adding adjacent angles instead of opposite</li>
+              <li>Not stating the theorem name as the reason in proofs</li>
+            </ul></div>
+            <div class="tp-item strategy"><strong>✅ Teaching Strategies</strong><ul>
+              <li>Dynamic GeoGebra: drag circumference point to see angle at centre always double</li>
+              <li>Colour-code theorems; students build their own theorem booklet</li>
+              <li>Always mark O (centre) clearly and identify radii for isosceles sub-triangles</li>
+              <li>Alternate segment: draw tangent in colour; the angle between tangent and chord = angle in far segment</li>
+            </ul></div>
+          </div>
+          <details>
+            <summary>📝 Worked Example</summary>
+            <div>
+              <strong>Q:</strong> O is the centre of a circle. Angle AOB = 130°. Find the angle at the circumference subtended by the same arc AB, on the major arc side.<br>
+              <strong>A:</strong> The angle at the circumference = ½ × angle at centre = ½ × 130° = <strong>65°</strong> (angle at centre theorem).
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📋 Syllabus Coverage</div>
+        <div class="card-body" style="padding:0;">
+          <table class="syl-table">
+            <thead><tr><th>Code</th><th>Theorem</th><th>Level</th></tr></thead>
+            <tbody>
+              <tr><td>C4.7a</td><td>Angle in a semicircle = 90° (angle subtended by diameter at circumference)</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>C4.7b</td><td>Angle between a tangent and the radius at the point of contact = 90°</td><td><span class="badge badge-core">Core</span></td></tr>
+              <tr><td>E4.7a</td><td>Angle at the centre = twice the angle at the circumference (same arc)</td><td><span class="badge badge-ext">Extended</span></td></tr>
+              <tr><td>E4.7b</td><td>Angles in the same segment are equal</td><td><span class="badge badge-ext">Extended</span></td></tr>
+              <tr><td>E4.7c</td><td>Opposite angles of a cyclic quadrilateral are supplementary (sum = 180°)</td><td><span class="badge badge-ext">Extended</span></td></tr>
+              <tr><td>E4.7d</td><td>Alternate segment theorem: angle between tangent and chord = angle in alternate segment</td><td><span class="badge badge-ext">Extended</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📖 Theorem Reference</div>
+        <div class="card-body">
+          <div class="theorem-box"><strong>Angle in a semicircle:</strong> If AB is a diameter and P is on the circle, then angle APB = 90°.</div>
+          <div class="theorem-box" style="margin-top:8px;"><strong>Tangent–radius:</strong> The angle between a tangent and a radius at the point of tangency = 90°.</div>
+          <div class="ext-only" id="m6-ext-defs" style="display:none;">
+            <span class="ext-label">Extended theorems</span>
+            <div class="theorem-box"><strong>Angle at centre:</strong> Angle AOB = 2 × angle APB, where O is centre and P is any point on the major arc.</div>
+            <div class="theorem-box" style="margin-top:8px;"><strong>Angles in same segment:</strong> All angles subtended by the same chord on the same side are equal.</div>
+            <div class="theorem-box" style="margin-top:8px;"><strong>Cyclic quadrilateral:</strong> Opposite angles sum to 180°. (∠A + ∠C = 180°, ∠B + ∠D = 180°)</div>
+            <div class="theorem-box" style="margin-top:8px;"><strong>Alternate segment:</strong> The angle between the tangent at P and chord PQ equals the angle QPR where R is any point in the alternate segment.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">✏️ Exercise — Circle Theorems I</div>
+        <div class="card-body">
+
+          <div class="exercise" id="m6-q1">
+            <div class="exercise-title">Question 1 of 6</div>
+            <p class="question-text">AB is a diameter of a circle and C is a point on the circle. What is angle ACB?</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m6-q1','A','D',6)">A. 45°</button>
+              <button class="mcq-btn" onclick="checkMCQ('m6-q1','B','D',6)">B. 60°</button>
+              <button class="mcq-btn" onclick="checkMCQ('m6-q1','C','D',6)">C. 180°</button>
+              <button class="mcq-btn" onclick="checkMCQ('m6-q1','D','D',6)">D. 90°</button>
+            </div>
+            <div class="feedback" id="m6-q1-fb"></div>
+          </div>
+
+          <div class="exercise" id="m6-q2">
+            <div class="exercise-title">Question 2 of 6</div>
+            <p class="question-text">A tangent touches a circle at point T and O is the centre. What is the angle OTangent?</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m6-q2-inp" type="number" placeholder="degrees" min="0" max="180">
+              <button class="check-btn" onclick="checkFill('m6-q2','90',6,'The angle between a tangent and the radius at the point of contact is always 90°.')">Check</button>
+            </div>
+            <div class="feedback" id="m6-q2-fb"></div>
+          </div>
+
+          <div class="exercise" id="m6-q3">
+            <div class="exercise-title">Question 3 of 6 (Extended)</div>
+            <p class="question-text">O is the centre. Angle at circumference subtended by arc PQ is <strong>35°</strong>. Find angle POQ (at the centre).</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m6-q3-inp" type="number" placeholder="degrees" step="0.1">
+              <button class="check-btn" onclick="checkFill('m6-q3','70',6,'Angle at centre = 2 × angle at circumference = 2 × 35° = 70°.')">Check</button>
+            </div>
+            <div class="feedback" id="m6-q3-fb"></div>
+          </div>
+
+          <div class="exercise" id="m6-q4">
+            <div class="exercise-title">Question 4 of 6 (Extended)</div>
+            <p class="question-text">In a cyclic quadrilateral ABCD, angle A = 73°. Find angle C.</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m6-q4-inp" type="number" placeholder="degrees" step="0.1">
+              <button class="check-btn" onclick="checkFill('m6-q4','107',6,'Opposite angles of a cyclic quadrilateral sum to 180°. Angle C = 180° − 73° = 107°.')">Check</button>
+            </div>
+            <div class="feedback" id="m6-q4-fb"></div>
+          </div>
+
+          <div class="exercise" id="m6-q5">
+            <div class="exercise-title">Question 5 of 6 (Extended)</div>
+            <p class="question-text">Points P, Q, R all lie on a circle. Angle PQR = 48°. Angle PSR, where S is also on the circle on the same side as Q, equals:</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m6-q5','A','A',6)">A. 48°</button>
+              <button class="mcq-btn" onclick="checkMCQ('m6-q5','B','A',6)">B. 96°</button>
+              <button class="mcq-btn" onclick="checkMCQ('m6-q5','C','A',6)">C. 132°</button>
+              <button class="mcq-btn" onclick="checkMCQ('m6-q5','D','A',6)">D. 24°</button>
+            </div>
+            <div class="feedback" id="m6-q5-fb"></div>
+          </div>
+
+          <div class="exercise" id="m6-q6">
+            <div class="exercise-title">Question 6 of 6 (Extended — Alternate Segment)</div>
+            <p class="question-text">A tangent at point P and a chord PQ make an angle of <strong>54°</strong>. What is the angle in the alternate segment subtended by chord PQ?</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m6-q6-inp" type="number" placeholder="degrees" step="0.1">
+              <button class="check-btn" onclick="checkFill('m6-q6','54',6,'By the alternate segment theorem, the angle in the alternate segment equals the angle between the tangent and chord = 54°.')">Check</button>
+            </div>
+            <div class="feedback" id="m6-q6-fb"></div>
+          </div>
+
+        </div>
+      </div>
+    </section><!-- end mod-6 -->
+
+    <!-- ═══════════════════════════════════════════════
+         MODULE 7 — Circle Theorems II (Extended E4.8)
+    ═══════════════════════════════════════════════ -->
+    <section class="module" id="mod-7">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 4 → <span>Module 7</span></div>
+        <h1>⭕ Circle Theorems II</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>E4.8 — Chords, Tangents &amp; Further Circle Properties</h2>
+        <div class="pc-meta">
+          <span>📚 Extended Only</span>
+          <span>🎯 Equal chords, perpendicular bisector of chord, equal tangents</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="m7-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="m7-correct">0</strong> correct</div>
+          <div><strong id="m7-streak">0</strong> streak</div>
+          <div><strong id="m7-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">🎚️ Difficulty</div>
+        <div class="card-body" style="padding:12px 20px;">
+          <div class="diff-toggle">
+            <button class="diff-btn" id="m7-core-btn" onclick="setDiffMode(7,'core')">Core</button>
+            <button class="diff-btn active" id="m7-ext-btn" onclick="setDiffMode(7,'ext')">Extended</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="teacher-panel" id="tp-7">
+        <div class="tp-header">👩‍🏫 Teacher Panel — Circle Theorems II</div>
+        <div class="tp-body">
+          <div class="tp-grid">
+            <div class="tp-item misconception"><strong>❌ Common Misconceptions</strong><ul>
+              <li>Forgetting that equal chords are equidistant from centre (not just parallel)</li>
+              <li>Not using Pythagoras when finding distances from centre to chord</li>
+              <li>Confusing perpendicular bisector of chord with perpendicular from centre to chord (same thing — but context matters)</li>
+              <li>Thinking tangent lengths from external point differ</li>
+            </ul></div>
+            <div class="tp-item strategy"><strong>✅ Teaching Strategies</strong><ul>
+              <li>Proof of perpendicular bisector theorem: use congruent triangles (SSS or RHS)</li>
+              <li>Equal tangent lengths: draw both tangents and use Pythagoras to verify</li>
+              <li>Always mark right angles when perpendicular from centre to chord is drawn</li>
+              <li>Kite formed by two tangent lines from external point — good geometry puzzle</li>
+            </ul></div>
+          </div>
+          <details>
+            <summary>📝 Worked Example</summary>
+            <div>
+              <strong>Q:</strong> Two tangents from external point T touch a circle of radius 5 cm at points A and B. The distance OT = 13 cm. Find the length of each tangent.<br>
+              <strong>A:</strong> OA ⊥ TA (tangent–radius). By Pythagoras: TA² = OT² − OA² = 169 − 25 = 144. TA = <strong>12 cm</strong>.
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📋 Syllabus Coverage</div>
+        <div class="card-body" style="padding:0;">
+          <table class="syl-table">
+            <thead><tr><th>Code</th><th>Theorem</th><th>Level</th></tr></thead>
+            <tbody>
+              <tr><td>E4.8a</td><td>Equal chords are equidistant from the centre</td><td><span class="badge badge-ext">Extended</span></td></tr>
+              <tr><td>E4.8b</td><td>The perpendicular from the centre to a chord bisects the chord</td><td><span class="badge badge-ext">Extended</span></td></tr>
+              <tr><td>E4.8c</td><td>The perpendicular bisector of a chord passes through the centre</td><td><span class="badge badge-ext">Extended</span></td></tr>
+              <tr><td>E4.8d</td><td>Tangents drawn from an external point are equal in length</td><td><span class="badge badge-ext">Extended</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📖 Theorem Reference</div>
+        <div class="card-body">
+          <div class="theorem-box"><strong>Perpendicular from centre bisects chord:</strong> If ON ⊥ AB (chord), then AN = NB.</div>
+          <div class="theorem-box" style="margin-top:8px;"><strong>Equal chords theorem:</strong> If chord AB = chord CD, then distance from O to AB = distance from O to CD.</div>
+          <div class="theorem-box" style="margin-top:8px;"><strong>Equal tangents from external point:</strong> If TA and TB are tangents from T to circle with centre O, then TA = TB.</div>
+          <p style="font-size:0.82rem;margin-top:14px;color:var(--muted);line-height:1.6;">
+            <strong>Key technique:</strong> When perpendicular from centre O meets chord at midpoint N, triangle ONB is right-angled. Apply Pythagoras: OB² = ON² + NB².
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">✏️ Exercise — Circle Theorems II</div>
+        <div class="card-body">
+
+          <div class="exercise" id="m7-q1">
+            <div class="exercise-title">Question 1 of 5</div>
+            <p class="question-text">The perpendicular from the centre O to chord AB meets it at M. If AB = 18 cm, find AM.</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m7-q1-inp" type="number" placeholder="cm" step="0.1">
+              <button class="check-btn" onclick="checkFill('m7-q1','9',7,'The perpendicular from the centre bisects the chord. AM = AB/2 = 18/2 = 9 cm.')">Check</button>
+            </div>
+            <div class="feedback" id="m7-q1-fb"></div>
+          </div>
+
+          <div class="exercise" id="m7-q2">
+            <div class="exercise-title">Question 2 of 5</div>
+            <p class="question-text">A chord of length <strong>16 cm</strong> is <strong>6 cm</strong> from the centre. Find the radius of the circle.</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m7-q2-inp" type="number" placeholder="cm" step="0.1">
+              <button class="check-btn" onclick="checkFill('m7-q2','10',7,'Half-chord = 8 cm. r² = 6² + 8² = 36 + 64 = 100. r = 10 cm.')">Check</button>
+            </div>
+            <div class="feedback" id="m7-q2-fb"></div>
+          </div>
+
+          <div class="exercise" id="m7-q3">
+            <div class="exercise-title">Question 3 of 5</div>
+            <p class="question-text">Two tangents from external point T touch a circle (radius 7 cm) at A and B. OT = 25 cm. Find TA.</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m7-q3-inp" type="number" placeholder="cm" step="0.1">
+              <button class="check-btn" onclick="checkFill('m7-q3','24',7,'OA ⊥ TA. TA² = OT² − OA² = 625 − 49 = 576. TA = 24 cm.')">Check</button>
+            </div>
+            <div class="feedback" id="m7-q3-fb"></div>
+          </div>
+
+          <div class="exercise" id="m7-q4">
+            <div class="exercise-title">Question 4 of 5</div>
+            <p class="question-text">Two chords in a circle are equal in length. Which statement is true?</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m7-q4','A','C',7)">A. They must be parallel</button>
+              <button class="mcq-btn" onclick="checkMCQ('m7-q4','B','C',7)">B. They pass through the centre</button>
+              <button class="mcq-btn" onclick="checkMCQ('m7-q4','C','C',7)">C. They are equidistant from the centre</button>
+              <button class="mcq-btn" onclick="checkMCQ('m7-q4','D','C',7)">D. They subtend equal angles at the circumference only if parallel</button>
+            </div>
+            <div class="feedback" id="m7-q4-fb"></div>
+          </div>
+
+          <div class="exercise" id="m7-q5">
+            <div class="exercise-title">Question 5 of 5</div>
+            <p class="question-text">The perpendicular bisector of any chord in a circle must pass through:</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m7-q5','A','D',7)">A. The midpoint of the chord only</button>
+              <button class="mcq-btn" onclick="checkMCQ('m7-q5','B','D',7)">B. A tangent point</button>
+              <button class="mcq-btn" onclick="checkMCQ('m7-q5','C','D',7)">C. The circumference</button>
+              <button class="mcq-btn" onclick="checkMCQ('m7-q5','D','D',7)">D. The centre of the circle</button>
+            </div>
+            <div class="feedback" id="m7-q5-fb"></div>
+          </div>
+
+        </div>
+      </div>
+    </section><!-- end mod-7 -->
+
+    <!-- ═══════════════════════════════════════════════
+         MODULE 8 — Exam Challenge
+    ═══════════════════════════════════════════════ -->
+    <section class="module" id="mod-8">
+      <div class="mod-header">
+        <div class="breadcrumb">Topic 4 → <span>Module 8</span></div>
+        <h1>🏆 Exam Challenge</h1>
+      </div>
+
+      <div class="progress-card">
+        <h2>Topic 4 — Mixed Geometry Exam Practice</h2>
+        <div class="pc-meta">
+          <span>📚 Core + Extended</span>
+          <span>🎯 Multi-step problems across all C4/E4 topics</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="m8-prog" style="width:0%"></div></div>
+        <div class="prog-stats">
+          <div><strong id="m8-correct">0</strong> correct</div>
+          <div><strong id="m8-streak">0</strong> streak</div>
+          <div><strong id="m8-pct">0%</strong> score</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">🎚️ Difficulty</div>
+        <div class="card-body" style="padding:12px 20px;">
+          <div class="diff-toggle">
+            <button class="diff-btn active" id="m8-core-btn" onclick="setDiffMode(8,'core')">Core</button>
+            <button class="diff-btn" id="m8-ext-btn" onclick="setDiffMode(8,'ext')">Extended</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">✏️ Core Exam Questions</div>
+        <div class="card-body">
+
+          <div class="exercise" id="m8-q1">
+            <div class="exercise-title">Question 1 — Angles (C4.6)</div>
+            <p class="question-text">A regular polygon has an interior angle of <strong>156°</strong>. How many sides does it have?</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m8-q1-inp" type="number" placeholder="sides" step="1">
+              <button class="check-btn" onclick="checkFill('m8-q1','15',8,'Exterior angle = 180° − 156° = 24°. Sides = 360° ÷ 24° = 15.')">Check</button>
+            </div>
+            <div class="feedback" id="m8-q1-fb"></div>
+          </div>
+
+          <div class="exercise" id="m8-q2">
+            <div class="exercise-title">Question 2 — Bearing (C4.3)</div>
+            <p class="question-text">A ship sails from port P on a bearing of <strong>230°</strong>. What is the bearing for the return journey from Q back to P?</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m8-q2-inp" type="number" placeholder="degrees" step="1" min="0" max="360">
+              <button class="check-btn" onclick="checkFill('m8-q2','050',8,'230° ≥ 180°, so subtract 180°: 230° − 180° = 050°.')">Check</button>
+            </div>
+            <div class="feedback" id="m8-q2-fb"></div>
+          </div>
+
+          <div class="exercise" id="m8-q3">
+            <div class="exercise-title">Question 3 — Symmetry (C4.5)</div>
+            <p class="question-text">A shape has rotational symmetry of order <strong>4</strong> and <strong>4</strong> lines of symmetry. It could be a:</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m8-q3','A','B',8)">A. Rectangle</button>
+              <button class="mcq-btn" onclick="checkMCQ('m8-q3','B','B',8)">B. Square</button>
+              <button class="mcq-btn" onclick="checkMCQ('m8-q3','C','B',8)">C. Rhombus</button>
+              <button class="mcq-btn" onclick="checkMCQ('m8-q3','D','B',8)">D. Kite</button>
+            </div>
+            <div class="feedback" id="m8-q3-fb"></div>
+          </div>
+
+          <div class="exercise" id="m8-q4">
+            <div class="exercise-title">Question 4 — Similarity (C4.4)</div>
+            <p class="question-text">Two similar triangles have corresponding sides <strong>5 cm</strong> and <strong>8 cm</strong>. The area of the smaller is <strong>50 cm²</strong>. Find the area of the larger.</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m8-q4-inp" type="number" placeholder="cm²" step="0.01">
+              <button class="check-btn" onclick="checkFill('m8-q4','128',8,'k = 8/5 = 1.6. Area ratio = k² = 2.56. Area = 50 × 2.56 = 128 cm².')">Check</button>
+            </div>
+            <div class="feedback" id="m8-q4-fb"></div>
+          </div>
+
+          <div class="exercise" id="m8-q5">
+            <div class="exercise-title">Question 5 — Circle (C4.7)</div>
+            <p class="question-text">O is the centre of a circle. A tangent at point T meets radius OT. What is angle OTtangent?</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m8-q5','A','C',8)">A. 45°</button>
+              <button class="mcq-btn" onclick="checkMCQ('m8-q5','B','C',8)">B. 60°</button>
+              <button class="mcq-btn" onclick="checkMCQ('m8-q5','C','C',8)">C. 90°</button>
+              <button class="mcq-btn" onclick="checkMCQ('m8-q5','D','C',8)">D. 180°</button>
+            </div>
+            <div class="feedback" id="m8-q5-fb"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">✏️ Extended Exam Questions</div>
+        <div class="card-body">
+
+          <div class="exercise" id="m8-q6">
+            <div class="exercise-title">Question 6 — Circle Theorem (E4.7)</div>
+            <p class="question-text">In a cyclic quadrilateral, angle P = 2x and angle R = x + 30. Find x.</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m8-q6-inp" type="number" placeholder="x =" step="0.1">
+              <button class="check-btn" onclick="checkFill('m8-q6','50',8,'Opposite angles sum to 180°: 2x + (x + 30) = 180. 3x = 150. x = 50.')">Check</button>
+            </div>
+            <div class="feedback" id="m8-q6-fb"></div>
+          </div>
+
+          <div class="exercise" id="m8-q7">
+            <div class="exercise-title">Question 7 — Chords (E4.8)</div>
+            <p class="question-text">A chord is <strong>10 cm</strong> from the centre of a circle with radius <strong>26 cm</strong>. Find the length of the chord.</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m8-q7-inp" type="number" placeholder="cm" step="0.1">
+              <button class="check-btn" onclick="checkFill('m8-q7','48',8,'Half-chord² = 26² − 10² = 676 − 100 = 576. Half-chord = 24. Chord = 48 cm.')">Check</button>
+            </div>
+            <div class="feedback" id="m8-q7-fb"></div>
+          </div>
+
+          <div class="exercise" id="m8-q8">
+            <div class="exercise-title">Question 8 — Similarity (E4.4)</div>
+            <p class="question-text">Two similar pyramids have volumes <strong>64 cm³</strong> and <strong>125 cm³</strong>. Find the ratio of their surface areas (small : large).</p>
+            <div class="mcq-options">
+              <button class="mcq-btn" onclick="checkMCQ('m8-q8','A','C',8)">A. 4 : 5</button>
+              <button class="mcq-btn" onclick="checkMCQ('m8-q8','B','C',8)">B. 8 : 15</button>
+              <button class="mcq-btn" onclick="checkMCQ('m8-q8','C','C',8)">C. 16 : 25</button>
+              <button class="mcq-btn" onclick="checkMCQ('m8-q8','D','C',8)">D. 64 : 125</button>
+            </div>
+            <div class="feedback" id="m8-q8-fb"></div>
+          </div>
+
+          <div class="exercise" id="m8-q9">
+            <div class="exercise-title">Question 9 — Alternate Segment (E4.7)</div>
+            <p class="question-text">A tangent at P and chord PQ make an angle of <strong>38°</strong>. PQ subtends angle PRQ at R in the alternate segment. Find angle PRQ.</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m8-q9-inp" type="number" placeholder="degrees" step="0.1">
+              <button class="check-btn" onclick="checkFill('m8-q9','38',8,'Alternate segment theorem: angle in alternate segment = angle between tangent and chord = 38°.')">Check</button>
+            </div>
+            <div class="feedback" id="m8-q9-fb"></div>
+          </div>
+
+          <div class="exercise" id="m8-q10">
+            <div class="exercise-title">Question 10 — Angle at Centre (E4.7)</div>
+            <p class="question-text">O is the centre. Angle AOB = 98°. Find the angle in the major segment subtended by AB.</p>
+            <div class="fill-row">
+              <input class="fill-input" id="m8-q10-inp" type="number" placeholder="degrees" step="0.1">
+              <button class="check-btn" onclick="checkFill('m8-q10','131',8,'Reflex angle AOB = 360° − 98° = 262°. Angle at circumference (major arc) = 262°/2 = 131°.')">Check</button>
+            </div>
+            <div class="feedback" id="m8-q10-fb"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card" style="background:linear-gradient(135deg,#1e1b4b,#2e1065);color:white;border:none;">
+        <div class="card-body" style="text-align:center;padding:28px 20px;">
+          <div style="font-size:2rem;margin-bottom:8px;">🏆</div>
+          <div style="font-family:var(--font-head);font-size:1.1rem;margin-bottom:6px;color:var(--violet-lt);">Topic 4 Complete!</div>
+          <div style="font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:18px;">You have covered all Geometry objectives for IGCSE 0580.</div>
+          <a href="igcse-math-index.html" style="display:inline-block;background:var(--violet);color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.88rem;">← Back to All Chapters</a>
+        </div>
+      </div>
+
+    </section><!-- end mod-8 -->
+
+  </main><!-- end main-content -->
+</div><!-- end layout -->
+
+<script>
+/* ── STATE ── */
+const modState = {};
+for (let i = 0; i <= 8; i++) {
+  modState[i] = { correct: 0, total: 0, streak: 0, answered: {} };
+}
+let teacherMode = false;
+let sidebarCollapsed = false;
+
+/* ── NAVIGATION ── */
+function showModule(n) {
+  document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(ni => ni.classList.remove('active'));
+  const mod = document.getElementById('mod-' + n);
+  const nav = document.getElementById('nav-' + n);
+  if (mod) mod.classList.add('active');
+  if (nav) nav.classList.add('active');
+  // Close mobile sidebar on selection
+  if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.remove('mobile-open');
+  }
+}
+
+function toggleSidebar() {
+  sidebarCollapsed = !sidebarCollapsed;
+  const sb = document.getElementById('sidebar');
+  const mc = document.getElementById('mainContent');
+  sb.classList.toggle('collapsed', sidebarCollapsed);
+  mc.classList.toggle('expanded', sidebarCollapsed);
+}
+
+function toggleMobileSidebar() {
+  document.getElementById('sidebar').classList.toggle('mobile-open');
+}
+
+/* ── TEACHER MODE ── */
+function toggleTeacherMode() {
+  teacherMode = !teacherMode;
+  document.getElementById('teacherToggle').classList.toggle('active', teacherMode);
+  document.querySelectorAll('.teacher-panel').forEach(tp => {
+    tp.classList.toggle('visible', teacherMode);
+  });
+}
+
+/* ── DIFFICULTY MODE ── */
+function setDiffMode(modNum, mode) {
+  const cBtn = document.getElementById('m' + modNum + '-core-btn');
+  const eBtn = document.getElementById('m' + modNum + '-ext-btn');
+  if (!cBtn || !eBtn) return;
+  cBtn.classList.toggle('active', mode === 'core');
+  eBtn.classList.toggle('active', mode === 'ext');
+  // Show/hide extended-only definition sections
+  const extDefs = document.getElementById('m' + modNum + '-ext-defs');
+  if (extDefs) extDefs.style.display = (mode === 'ext') ? 'block' : 'none';
+  // Extended-only exercise sections
+  document.querySelectorAll('#mod-' + modNum + ' .ext-only-ex').forEach(el => {
+    el.style.display = (mode === 'ext') ? 'block' : 'none';
+  });
+}
+
+/* ── PROGRESS ── */
+function updateProgress(modNum, isCorrect) {
+  const s = modState[modNum];
+  s.total++;
+  if (isCorrect) {
+    s.correct++;
+    s.streak++;
+  } else {
+    s.streak = 0;
+  }
+  const pct = Math.round((s.correct / s.total) * 100);
+  const pfx = 'm' + modNum;
+  const progEl = document.getElementById(pfx + '-prog');
+  const cEl = document.getElementById(pfx + '-correct');
+  const sEl = document.getElementById(pfx + '-streak');
+  const pEl = document.getElementById(pfx + '-pct');
+  if (progEl) progEl.style.width = pct + '%';
+  if (cEl) cEl.textContent = s.correct;
+  if (sEl) sEl.textContent = s.streak;
+  if (pEl) pEl.textContent = pct + '%';
+}
+
+/* ── MCQ CHECK ── */
+function checkMCQ(qId, chosen, correct, modNum) {
+  const s = modState[modNum];
+  if (s.answered[qId]) return;
+  s.answered[qId] = true;
+  const container = document.getElementById(qId);
+  const buttons = container.querySelectorAll('.mcq-btn');
+  const fb = document.getElementById(qId + '-fb');
+  const isCorrect = (chosen === correct);
+  buttons.forEach(btn => {
+    btn.disabled = true;
+    const letter = btn.textContent.trim()[0];
+    if (letter === correct) btn.classList.add('correct');
+    else if (letter === chosen && !isCorrect) btn.classList.add('wrong');
+  });
+  fb.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+  fb.textContent = isCorrect
+    ? '✓ Correct!'
+    : '✗ The correct answer is ' + correct + '.';
+  updateProgress(modNum, isCorrect);
+}
+
+/* ── FILL-IN CHECK ── */
+function checkFill(qId, correctVal, modNum, explanation) {
+  const s = modState[modNum];
+  if (s.answered[qId]) return;
+  const inp = document.getElementById(qId + '-inp');
+  const fb = document.getElementById(qId + '-fb');
+  if (!inp) return;
+  const raw = inp.value.trim();
+  const isCorrect = (raw === correctVal);
+  s.answered[qId] = true;
+  inp.disabled = true;
+  inp.classList.add(isCorrect ? 'correct' : 'wrong');
+  fb.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+  fb.textContent = isCorrect
+    ? '✓ Correct! ' + explanation
+    : '✗ Not quite. ' + explanation;
+  updateProgress(modNum, isCorrect);
+}
+</script>
+
+</body>
+</html>
