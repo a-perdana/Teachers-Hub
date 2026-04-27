@@ -655,6 +655,7 @@ svg.nline { display: block; margin: 0 auto; }
     </a>
   </div>
   <button id="teacherToggle" onclick="toggleTeacherMode()">👩‍🏫 Teacher Mode</button>
+  <button onclick="if(confirm('Reset all progress? This cannot be undone.')){localStorage.removeItem('t2_done');localStorage.removeItem('t2_teacher_hint_seen');location.reload();}" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);font-size:0.72rem;padding:4px 10px;border-radius:6px;cursor:pointer;margin-left:8px;" title="Reset all saved progress">↺ Reset Progress</button>
   <div id="teacher-hint" style="display:none;position:absolute;top:72px;right:24px;background:#fffbeb;border:1.5px solid #fcd34d;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#92400e;max-width:240px;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,0.12);">
     👩‍🏫 <strong>Are you a teacher?</strong><br>Click "Teacher Mode" to see misconceptions, strategies, and worked examples for each module.
     <button onclick="dismissTeacherHint()" style="display:block;margin-top:8px;font-size:0.78rem;background:none;border:none;color:#92400e;cursor:pointer;text-decoration:underline;">Got it</button>
