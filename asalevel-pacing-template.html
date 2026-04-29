@@ -23,6 +23,7 @@
 <!-- PACING_SHARED_CSS -->
 
 <script src="partials/navbar.js"></script>
+<script src="partials/pacing-schedule.js"></script>
 <!-- PACING_SHARED_JS -->
 <!-- FIREBASE_ENV -->
 <script type="module" src="auth-guard.js"></script>
@@ -164,6 +165,8 @@
 
     <!-- PACING PANEL -->
     <div class="panel on" id="panel-pacing">
+      <!-- THIS WEEK WIDGET -->
+      <div id="thisWeekWidget" class="this-week-widget" style="display:none"></div>
       <div class="edit-hint" id="editHint"><span class="edit-hint-dot"></span><span>Coordinator mode — click any topic, objective, or duration to edit inline.</span></div>
       <div id="chBlocksWrap">
         <div id="chBlocks"></div>
@@ -1765,6 +1768,10 @@ function _startSnapshot(uid) {
     if (snap.exists() && Array.isArray(snap.data().classes)) {
       classList = snap.data().classes;
     }
+    // Store weeklyHours for This Week widget
+    if (snap.exists() && snap.data().weeklyHours) {
+      window._pacingWeeklyHours = snap.data().weeklyHours;
+    }
     structureReady = true;
     tryRender();
   }, async (err) => {
@@ -1787,11 +1794,17 @@ function _startSnapshot(uid) {
     clearTimeout(_loadTimeout);
     userStatuses  = (snap.exists() && snap.data()[_progressKey()])
        ? snap.data()[_progressKey()] : {};
+    // Cache pacingDone for This Week widget
+    const subjKey = window.SUBJECT_CONFIG && window.SUBJECT_CONFIG.subjectKey;
+    if (subjKey) {
+      window._pacingDone = (snap.exists() && snap.data()[`pacingDone_${subjKey}`]) || {};
+    }
     progressReady = true;
     tryRender();
   }, (err) => {
     console.error('User progress snapshot error:', err);
     userStatuses  = {};
+    window._pacingDone = {};
     progressReady = true;
     tryRender();
   });
@@ -1870,6 +1883,71 @@ window.__fbGetDoc = async function(colName, docName) {
   return [];
 };
 
+// -- This Week widget --------------------------------------------------
+let _scheduleCache = null;
+
+async function loadThisWeekWidget(db) {
+  const widget = document.getElementById('thisWeekWidget');
+  if (!widget) return;
+  if (!_scheduleCache) {
+    _scheduleCache = await window.loadTeachingSchedule(db);
+  }
+  refreshThisWeekWidget();
+}
+
+function refreshThisWeekWidget() {
+  const widget = document.getElementById('thisWeekWidget');
+  if (!widget || !_scheduleCache) return;
+  const cfg        = window.SUBJECT_CONFIG;
+  const chapters   = sharedStructure || [];
+  const weeklyHrs  = window._pacingWeeklyHours || 0;
+  const { teachingWeeks, skippedWeeks } = _scheduleCache;
+  const today      = new Date();
+  const active     = window.getActiveTopicsForDate(chapters, weeklyHrs, teachingWeeks, today);
+  const skipped    = window.getSkippedWeekForDate(skippedWeeks, today);
+  const pacingDone = window._pacingDone || {};
+  window.renderThisWeekWidget(
+    widget, active, pacingDone,
+    cfg ? cfg.label : '', cfg ? cfg.subjectKey : '',
+    markPacingDone, skipped
+  );
+}
+
+async function markPacingDone(chId, tId, isDone) {
+  if (!currentUID) return;
+  const cfg      = window.SUBJECT_CONFIG;
+  if (!cfg) return;
+  const fieldKey  = `pacingDone_${cfg.subjectKey}`;
+  const entryKey  = `${chId}.${tId}`;
+  const current   = { ...(window._pacingDone || {}) };
+  if (isDone) {
+    let chTitle = '', topicTitle = '', hours = 0;
+    (sharedStructure || []).forEach(ch => {
+      if (ch.id === chId) {
+        chTitle = ch.chapter || ch.title || '';
+        (ch.topics || []).forEach(t => {
+          if (t.id === tId) { topicTitle = t.topic || t.title || ''; hours = t.duration || t.hour || 0; }
+        });
+      }
+    });
+    current[entryKey] = { done: true, doneAt: new Date().toISOString(), chTitle, topicTitle, hours };
+  } else {
+    delete current[entryKey];
+  }
+  window._pacingDone = current;
+  refreshThisWeekWidget();
+  try {
+    await setDoc(
+      doc(window.db, 'userProgress', currentUID),
+      { [fieldKey]: current, updatedAt: serverTimestamp() },
+      { merge: true }
+    );
+  } catch (e) {
+    console.error('markPacingDone error:', e);
+    showToast('Save failed — check connection');
+  }
+}
+
 // -- auth-guard dispatches authReady when auth + role confirmed --
 document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
   // Show tracker link for subject leaders
@@ -1907,6 +1985,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
     console.warn('Could not load cambridge_syllabus:', e);
   }
 
+  loadThisWeekWidget(window.db);
   _startSnapshot(user.uid);
 });
 </script>

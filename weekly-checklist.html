@@ -575,6 +575,7 @@
 <div class="toast" id="toast"></div>
 
 <script src="partials/navbar.js"></script>
+<script src="partials/pacing-schedule.js"></script>
 <!-- FIREBASE_ENV -->
 <script type="module" src="auth-guard.js"></script>
 <script type="module">
@@ -599,6 +600,7 @@ const CAT_COLORS = {
   'Subject Leader Meeting':  { color: '#d97706', bg: '#fffbeb' },
   'Data Review':             { color: '#0891b2', bg: '#f0f9ff' },
   'Other':                   { color: '#6b7280', bg: '#f9fafb' },
+  'Pacing':                  { color: '#065f46', bg: '#d1fae5' },
 };
 
 // ── State ─────────────────────────────────────────────────────────
@@ -618,6 +620,11 @@ let essPage         = 0;
 const ESS_PAGE_SIZE = 5;
 let unsubEssentials = null;
 let myEssProgress = {};   // { essentialId: { checked: bool } }
+
+// Pacing injection state
+let _pacingScheduleCache = null;  // { teachingWeeks, skippedWeeks }
+let _pacingTasks = [];            // injected pacing tasks for current week
+let _pacingDoneCache = {};        // { subjKey: { "chId.tId": {...} } }
 
 // ── Auth Ready ────────────────────────────────────────────────────
 document.addEventListener('authReady', ({ detail: { user, profile } }) => {
@@ -776,6 +783,12 @@ function loadWeek(week) {
   const progressId = `${currentUid}_${ACADEMIC_YEAR}_w${String(week).padStart(2,'0')}_${currentPlatform}`;
   const db = window.db;
 
+  // Inject pacing topics for current week only
+  _pacingTasks = [];
+  if (isCurrentWeek(week)) {
+    injectPacingTopics();
+  }
+
   // 1. Subscribe to task template
   unsubTasks = onSnapshot(doc(db, 'weekly_templates', templateId), snap => {
     tasks = [];
@@ -812,6 +825,109 @@ function loadWeek(week) {
   });
 }
 
+// ── Pacing topic injection ────────────────────────────────────────
+// Maps subject key → pacing collection name and docId
+const PACING_COLLECTIONS = {
+  math:               { col: 'math_pacing',               doc: 'year9-10',  label: 'IGCSE Mathematics' },
+  biology:            { col: 'biology_pacing',             doc: 'year9-10',  label: 'IGCSE Biology' },
+  chemistry:          { col: 'chemistry_pacing',           doc: 'year9-10',  label: 'IGCSE Chemistry' },
+  physics:            { col: 'physics_pacing',             doc: 'year9-10',  label: 'IGCSE Physics' },
+  asalevel_math:      { col: 'asalevel_math_pacing',       doc: 'year11-12', label: 'A-Level Mathematics' },
+  asalevel_biology:   { col: 'asalevel_biology_pacing',    doc: 'year11-12', label: 'A-Level Biology' },
+  asalevel_chemistry: { col: 'asalevel_chemistry_pacing',  doc: 'year11-12', label: 'A-Level Chemistry' },
+  asalevel_physics:   { col: 'asalevel_physics_pacing',    doc: 'year11-12', label: 'A-Level Physics' },
+  checkpoint_math:    { col: 'checkpoint_math_pacing',     doc: 'year7-8',   label: 'Checkpoint Mathematics' },
+  checkpoint_english: { col: 'checkpoint_english_pacing',  doc: 'year7-8',   label: 'Checkpoint English' },
+  checkpoint_science: { col: 'checkpoint_science_pacing',  doc: 'year7-8',   label: 'Checkpoint Science' },
+};
+
+async function injectPacingTopics() {
+  const db = window.db;
+  if (!db || !currentUid) return;
+
+  // Load teaching schedule once per session
+  if (!_pacingScheduleCache && window.loadTeachingSchedule) {
+    _pacingScheduleCache = await window.loadTeachingSchedule(db);
+  }
+  if (!_pacingScheduleCache || !_pacingScheduleCache.teachingWeeks.length) return;
+
+  // Load teacher's subjects from profile
+  const profile = window.userProfile;
+  const subjects = Array.isArray(profile?.subjects) ? profile.subjects : [];
+  if (!subjects.length) return;
+
+  // Load userProgress for pacingDone fields
+  try {
+    const progSnap = await getDoc(doc(db, 'userProgress', currentUid));
+    if (progSnap.exists()) {
+      subjects.forEach(subjKey => {
+        _pacingDoneCache[subjKey] = progSnap.data()[`pacingDone_${subjKey}`] || {};
+      });
+    }
+  } catch (e) { console.warn('injectPacingTopics: could not load userProgress', e); }
+
+  const newPacingTasks = [];
+
+  await Promise.all(subjects.map(async subjKey => {
+    const cfg = PACING_COLLECTIONS[subjKey];
+    if (!cfg) return;
+    try {
+      const snap = await getDoc(doc(db, cfg.col, cfg.doc));
+      if (!snap.exists()) return;
+      const data = snap.data();
+      const chapters   = data.chapters || [];
+      const weeklyHrs  = data.weeklyHours || 0;
+      const today      = new Date();
+      const active     = window.getActiveTopicsForDate(chapters, weeklyHrs, _pacingScheduleCache.teachingWeeks, today);
+      active.forEach(t => {
+        if (!t.chId || !t.tId) return;
+        const taskId = `pacing_${subjKey}_${t.chId}_${t.tId}`;
+        const done   = !!(_pacingDoneCache[subjKey] && _pacingDoneCache[subjKey][`${t.chId}.${t.tId}`]);
+        newPacingTasks.push({ id: taskId, title: `${cfg.label}: ${t.topicTitle}`, category: 'Pacing', _subjKey: subjKey, _chId: t.chId, _tId: t.tId, _hours: t.hours });
+        // Reflect done state in myProgress so checkboxes render correctly
+        if (done && !myProgress[taskId]) {
+          myProgress[taskId] = { checked: true };
+        }
+      });
+    } catch (e) { console.warn(`injectPacingTopics: could not load ${cfg.col}`, e); }
+  }));
+
+  _pacingTasks = newPacingTasks;
+  render();
+}
+
+async function togglePacingTask(taskId) {
+  // taskId format: pacing_<subjKey>_<chId>_<tId>
+  const pacingTask = _pacingTasks.find(t => t.id === taskId);
+  if (!pacingTask) return;
+  const { _subjKey: subjKey, _chId: chId, _tId: tId, title, _hours: hours } = pacingTask;
+  const prev    = myProgress[taskId] || {};
+  const checked = !prev.checked;
+  myProgress[taskId] = { ...prev, checked };
+  render();
+
+  const fieldKey = `pacingDone_${subjKey}`;
+  const entryKey = `${chId}.${tId}`;
+  const current  = { ...(_pacingDoneCache[subjKey] || {}) };
+  if (checked) {
+    current[entryKey] = { done: true, doneAt: new Date().toISOString(), topicTitle: title, hours };
+  } else {
+    delete current[entryKey];
+  }
+  _pacingDoneCache[subjKey] = current;
+
+  try {
+    await setDoc(doc(window.db, 'userProgress', currentUid), {
+      [fieldKey]: current,
+      updatedAt: serverTimestamp(),
+    }, { merge: true });
+    showToast(checked ? '✓ Topic marked done' : 'Topic unmarked');
+  } catch (e) {
+    console.error('togglePacingTask error:', e);
+    showToast('Save failed — check connection');
+  }
+}
+
 // ── Save progress ─────────────────────────────────────────────────
 async function saveProgress() {
   const db = window.db;
@@ -828,6 +944,11 @@ async function saveProgress() {
 
 // ── Toggle task check ─────────────────────────────────────────────
 async function toggleTask(taskId) {
+  // Pacing tasks are saved to userProgress.pacingDone_<subjectKey>, not weekly_progress
+  if (taskId.startsWith('pacing_')) {
+    await togglePacingTask(taskId);
+    return;
+  }
   const prev    = myProgress[taskId] || {};
   const checked = !prev.checked;
   myProgress[taskId] = { ...prev, checked };
@@ -848,13 +969,16 @@ async function saveNote(taskId, note) {
 function render() {
   document.getElementById('loadingState').style.display = 'none';
 
+  // Combine template tasks + pacing tasks (pacing only for current week)
+  const allTasks = [...tasks, ...(isCurrentWeek(currentWeek) ? _pacingTasks : [])];
+
   const filtered = activeFilter === 'All'
-    ? tasks
-    : tasks.filter(t => t.category === activeFilter);
+    ? allTasks
+    : allTasks.filter(t => t.category === activeFilter);
 
   updateProgressRing();
 
-  if (tasks.length === 0) {
+  if (allTasks.length === 0) {
     document.getElementById('emptyState').style.display = '';
     document.getElementById('taskArea').style.display   = 'none';
     document.getElementById('emptyTitle').textContent =
