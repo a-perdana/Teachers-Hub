@@ -806,7 +806,7 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 
 /* ── This Week Widget ──────────────────────────────────────────── */
 .this-week-widget {
-  margin: 0 20px 16px;
+  margin: 16px 20px;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: 10px;
