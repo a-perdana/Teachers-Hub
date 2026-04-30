@@ -60,11 +60,11 @@ function initNavbar() {
     const activeKey = window.__thNavActiveKey || '';
     const groupKeys = {
       pacing: ['igcse-math','igcse-biology','igcse-chemistry','igcse-physics',
-                'asalevel-math','asalevel-biology','asalevel-chemistry','asalevel-physics',
+                'as-alevel-math','as-alevel-biology','as-alevel-chemistry','as-alevel-physics',
                 'checkpoint-math','checkpoint-english','checkpoint-science',
                 'igcse-math-tracker','igcse-biology-tracker','igcse-chemistry-tracker','igcse-physics-tracker',
                 'checkpoint-math-tracker','checkpoint-english-tracker','checkpoint-science-tracker',
-                'asalevel-math-tracker','asalevel-biology-tracker','asalevel-chemistry-tracker','asalevel-physics-tracker'],
+                'as-alevel-math-tracker','as-alevel-biology-tracker','as-alevel-chemistry-tracker','as-alevel-physics-tracker'],
       mywork: ['weekly-checklist','teacher-self-assessment','teacher-kpi-results',
                'teacher-appraisal-results','teacher-self-appraisal',
                'competency-framework','learning-path','my-portfolio','my-certificates'],

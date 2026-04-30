@@ -29,10 +29,10 @@ const ROUTES = {
   'checkpoint-math-pacing.html': 'checkpoint-math',
   'checkpoint-english-pacing.html': 'checkpoint-english',
   'checkpoint-science-pacing.html': 'checkpoint-science',
-  'asalevel-math-pacing.html': 'asalevel-math',
-  'asalevel-biology-pacing.html': 'asalevel-biology',
-  'asalevel-chemistry-pacing.html': 'asalevel-chemistry',
-  'asalevel-physics-pacing.html': 'asalevel-physics',
+  'as-alevel-math-pacing.html': 'as-alevel-math',
+  'as-alevel-biology-pacing.html': 'as-alevel-biology',
+  'as-alevel-chemistry-pacing.html': 'as-alevel-chemistry',
+  'as-alevel-physics-pacing.html': 'as-alevel-physics',
   'announcements.html': 'announcements',
   'surveys.html': 'surveys',
   'messageboard.html': 'messageboard',
@@ -57,10 +57,10 @@ const ROUTES = {
   'checkpoint-math-tracker.html':   'checkpoint-math-tracker',
   'checkpoint-english-tracker.html':'checkpoint-english-tracker',
   'checkpoint-science-tracker.html':'checkpoint-science-tracker',
-  'asalevel-math-tracker.html':     'asalevel-math-tracker',
-  'asalevel-biology-tracker.html':  'asalevel-biology-tracker',
-  'asalevel-chemistry-tracker.html':'asalevel-chemistry-tracker',
-  'asalevel-physics-tracker.html':  'asalevel-physics-tracker',
+  'as-alevel-math-tracker.html':     'as-alevel-math-tracker',
+  'as-alevel-biology-tracker.html':  'as-alevel-biology-tracker',
+  'as-alevel-chemistry-tracker.html':'as-alevel-chemistry-tracker',
+  'as-alevel-physics-tracker.html':  'as-alevel-physics-tracker',
   'settings.html': 'settings',
 };
 
@@ -75,10 +75,10 @@ const LINK_REWRITES = [
   [/href="checkpoint-math-pacing\.html"/g, 'href="/checkpoint-math"'],
   [/href="checkpoint-english-pacing\.html"/g, 'href="/checkpoint-english"'],
   [/href="checkpoint-science-pacing\.html"/g, 'href="/checkpoint-science"'],
-  [/href="asalevel-math-pacing\.html"/g, 'href="/asalevel-math"'],
-  [/href="asalevel-biology-pacing\.html"/g, 'href="/asalevel-biology"'],
-  [/href="asalevel-chemistry-pacing\.html"/g, 'href="/asalevel-chemistry"'],
-  [/href="asalevel-physics-pacing\.html"/g, 'href="/asalevel-physics"'],
+  [/href="as-alevel-math-pacing\.html"/g, 'href="/as-alevel-math"'],
+  [/href="as-alevel-biology-pacing\.html"/g, 'href="/as-alevel-biology"'],
+  [/href="as-alevel-chemistry-pacing\.html"/g, 'href="/as-alevel-chemistry"'],
+  [/href="as-alevel-physics-pacing\.html"/g, 'href="/as-alevel-physics"'],
   [/href="announcements\.html"/g, 'href="/announcements"'],
   [/href="surveys\.html"/g, 'href="/surveys"'],
   [/href="messageboard\.html"/g, 'href="/messageboard"'],
@@ -101,10 +101,10 @@ const LINK_REWRITES = [
   [/href="checkpoint-math-tracker\.html"/g,     'href="/checkpoint-math-tracker"'],
   [/href="checkpoint-english-tracker\.html"/g,  'href="/checkpoint-english-tracker"'],
   [/href="checkpoint-science-tracker\.html"/g,  'href="/checkpoint-science-tracker"'],
-  [/href="asalevel-math-tracker\.html"/g,       'href="/asalevel-math-tracker"'],
-  [/href="asalevel-biology-tracker\.html"/g,    'href="/asalevel-biology-tracker"'],
-  [/href="asalevel-chemistry-tracker\.html"/g,  'href="/asalevel-chemistry-tracker"'],
-  [/href="asalevel-physics-tracker\.html"/g,    'href="/asalevel-physics-tracker"'],
+  [/href="as-alevel-math-tracker\.html"/g,       'href="/as-alevel-math-tracker"'],
+  [/href="as-alevel-biology-tracker\.html"/g,    'href="/as-alevel-biology-tracker"'],
+  [/href="as-alevel-chemistry-tracker\.html"/g,  'href="/as-alevel-chemistry-tracker"'],
+  [/href="as-alevel-physics-tracker\.html"/g,    'href="/as-alevel-physics-tracker"'],
   [/href="settings\.html"/g,                    'href="/settings"'],
 ];
 
@@ -341,15 +341,15 @@ const CHECKPOINT_SUBJECTS = {
 };
 
 // ============================================================
-// AS/A-Level pacing pages — from asalevel-pacing-template.html
+// AS/A-Level pacing pages — from as-alevel-pacing-template.html
 // ============================================================
 const ASALEVEL_SUBJECTS = {
-  'asalevel-math-pacing.html': {
+  'as-alevel-math-pacing.html': {
     pageTitle: 'Cambridge AS & A Level Mathematics — Pacing Guide',
     accentVars: '--accent: #c0392b;\n  --accent-2: #fdf0ef;\n  --accent-dark: #a93224;',
     brandMark: 'AS', brandTitle: 'Cambridge AS & A Level Mathematics',
     brandSub: '9709 \u00b7 Year 11\u201312', breadcrumbLevel: 'AS & A Level', breadcrumbCurrent: 'Mathematics',
-    trackerHref: 'asalevel-math-tracker.html',
+    trackerHref: 'as-alevel-math-tracker.html',
     yearA: 'Year 11', yearB: 'Year 12',
     combo: 'asalevel_math', classesField: 'asalevel_math_classes',
     notAssignedCall: "_showNotAssigned('AS & A Level Mathematics', 'asalevel')",
@@ -374,12 +374,12 @@ const ASALEVEL_SUBJECTS = {
   ],
 };`,
   },
-  'asalevel-biology-pacing.html': {
+  'as-alevel-biology-pacing.html': {
     pageTitle: 'Cambridge AS & A Level Biology — Pacing Guide',
     accentVars: '--accent: #27ae60;\n  --accent-2: #e9f7ef;\n  --accent-dark: #1e8449;',
     brandMark: 'AS', brandTitle: 'Cambridge AS & A Level Biology',
     brandSub: '9700 \u00b7 Year 11\u201312', breadcrumbLevel: 'AS & A Level', breadcrumbCurrent: 'Biology',
-    trackerHref: 'asalevel-biology-tracker.html',
+    trackerHref: 'as-alevel-biology-tracker.html',
     yearA: 'Year 11', yearB: 'Year 12',
     combo: 'asalevel_biology', classesField: 'asalevel_biology_classes',
     notAssignedCall: "_showNotAssigned('AS & A Level Biology', 'asalevel')",
@@ -405,12 +405,12 @@ const ASALEVEL_SUBJECTS = {
   ],
 };`,
   },
-  'asalevel-chemistry-pacing.html': {
+  'as-alevel-chemistry-pacing.html': {
     pageTitle: 'Cambridge AS & A Level Chemistry — Pacing Guide',
     accentVars: '--accent: #e67e22;\n  --accent-2: #fef5e7;\n  --accent-dark: #ca6f1e;',
     brandMark: 'AS', brandTitle: 'Cambridge AS & A Level Chemistry',
     brandSub: '9701 \u00b7 Year 11\u201312', breadcrumbLevel: 'AS & A Level', breadcrumbCurrent: 'Chemistry',
-    trackerHref: 'asalevel-chemistry-tracker.html',
+    trackerHref: 'as-alevel-chemistry-tracker.html',
     yearA: 'Year 11', yearB: 'Year 12',
     combo: 'asalevel_chemistry', classesField: 'asalevel_chemistry_classes',
     notAssignedCall: "_showNotAssigned('AS & A Level Chemistry', 'asalevel')",
@@ -436,12 +436,12 @@ const ASALEVEL_SUBJECTS = {
   ],
 };`,
   },
-  'asalevel-physics-pacing.html': {
+  'as-alevel-physics-pacing.html': {
     pageTitle: 'Cambridge AS & A Level Physics — Pacing Guide',
     accentVars: '--accent: #2980b9;\n  --accent-2: #e8f4fd;\n  --accent-dark: #1f6fa3;',
     brandMark: 'AS', brandTitle: 'Cambridge AS & A Level Physics',
     brandSub: '9702 \u00b7 Year 11\u201312', breadcrumbLevel: 'AS & A Level', breadcrumbCurrent: 'Physics',
-    trackerHref: 'asalevel-physics-tracker.html',
+    trackerHref: 'as-alevel-physics-tracker.html',
     yearA: 'Year 11', yearB: 'Year 12',
     combo: 'asalevel_physics', classesField: 'asalevel_physics_classes',
     notAssignedCall: "_showNotAssigned('AS & A Level Physics', 'asalevel')",
@@ -493,8 +493,8 @@ Object.entries(CHECKPOINT_SUBJECTS).forEach(([filename, cfg]) => {
   generatedCheckpoint[filename] = html;
 });
 
-// Generate AS/A-Level pages from asalevel-pacing-template.html
-const asTemplate = fs.readFileSync(path.join(__dirname, 'asalevel-pacing-template.html'), 'utf8');
+// Generate AS/A-Level pages from as-alevel-pacing-template.html
+const asTemplate = fs.readFileSync(path.join(__dirname, 'as-alevel-pacing-template.html'), 'utf8');
 const generatedAsALevel = {};
 Object.entries(ASALEVEL_SUBJECTS).forEach(([filename, cfg]) => {
   let html = asTemplate
@@ -619,7 +619,7 @@ const TRACKER_SUBJECTS = {
     heading:     'Checkpoint Science — Tracker',
     breadcrumb:  'Checkpoint Science',
   },
-  'asalevel-math-tracker.html': {
+  'as-alevel-math-tracker.html': {
     pageTitle:   'AS/A Level Mathematics — Subject Leader Tracker',
     accentVars:  '--accent: #c0392b; --accent-2: #fce8e6;',
     collection:  'asalevel_math_pacing',
@@ -633,7 +633,7 @@ const TRACKER_SUBJECTS = {
     heading:     'AS/A Level Mathematics — Tracker',
     breadcrumb:  'AS/A Level Mathematics',
   },
-  'asalevel-biology-tracker.html': {
+  'as-alevel-biology-tracker.html': {
     pageTitle:   'AS/A Level Biology — Subject Leader Tracker',
     accentVars:  '--accent: #27ae60; --accent-2: #e9f7ef;',
     collection:  'asalevel_biology_pacing',
@@ -647,7 +647,7 @@ const TRACKER_SUBJECTS = {
     heading:     'AS/A Level Biology — Tracker',
     breadcrumb:  'AS/A Level Biology',
   },
-  'asalevel-chemistry-tracker.html': {
+  'as-alevel-chemistry-tracker.html': {
     pageTitle:   'AS/A Level Chemistry — Subject Leader Tracker',
     accentVars:  '--accent: #e67e22; --accent-2: #fef3e2;',
     collection:  'asalevel_chemistry_pacing',
@@ -661,7 +661,7 @@ const TRACKER_SUBJECTS = {
     heading:     'AS/A Level Chemistry — Tracker',
     breadcrumb:  'AS/A Level Chemistry',
   },
-  'asalevel-physics-tracker.html': {
+  'as-alevel-physics-tracker.html': {
     pageTitle:   'AS/A Level Physics — Subject Leader Tracker',
     accentVars:  '--accent: #2980b9; --accent-2: #e8f4fd;',
     collection:  'asalevel_physics_pacing',

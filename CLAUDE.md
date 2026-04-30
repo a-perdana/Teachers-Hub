@@ -226,10 +226,10 @@ FIREBASE_APP_ID
 | `checkpoint-math-pacing.html`  | `/checkpoint-math`           | Checkpoint Maths pacing guide                    |
 | `checkpoint-english-pacing.html`| `/checkpoint-english`       | Checkpoint English pacing guide                  |
 | `checkpoint-science-pacing.html`| `/checkpoint-science`       | Checkpoint Science pacing guide                  |
-| `asalevel-math-pacing.html`    | `/asalevel-math`             | AS/A-Level Maths pacing guide                    |
-| `asalevel-biology-pacing.html` | `/asalevel-biology`          | AS/A-Level Biology pacing guide                  |
-| `asalevel-chemistry-pacing.html`| `/asalevel-chemistry`       | AS/A-Level Chemistry pacing guide                |
-| `asalevel-physics-pacing.html` | `/asalevel-physics`          | AS/A-Level Physics pacing guide                  |
+| `as-alevel-math-pacing.html`    | `/as-alevel-math`             | AS/A-Level Maths pacing guide                    |
+| `as-alevel-biology-pacing.html` | `/as-alevel-biology`          | AS/A-Level Biology pacing guide                  |
+| `as-alevel-chemistry-pacing.html`| `/as-alevel-chemistry`       | AS/A-Level Chemistry pacing guide                |
+| `as-alevel-physics-pacing.html` | `/as-alevel-physics`          | AS/A-Level Physics pacing guide                  |
 | `competency-framework.html`    | `/competency-framework`      | Teaching Competency Framework — 6 domains        |
 | `learning-path.html`           | `/learning-path`             | Learning Path — materials & progress per competency |
 | `my-portfolio.html`            | `/my-portfolio`              | Evidence portfolio — submit & review evidence    |
