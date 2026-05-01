@@ -2503,6 +2503,28 @@ async function markPacingDone(chId, tId, isDone) {
     delete current[entryKey];
   }
   window._pacingDone = current;
+
+  // Mirror the toggle into the per-topic status map that powers the Pacing
+  // Guide / chapter progress / sidebar counts. Without this the This Week
+  // checkbox and the chapter table get out of sync (see bug report 2026-05).
+  // Map the stable chId/tId back to the array indices DATA uses.
+  if (currentClass !== 'default') {
+    let ci = -1, ti = -1;
+    DATA.some((ch, i) => {
+      if (ch.id !== chId) return false;
+      const j = (ch.topics || []).findIndex(t => t.id === tId);
+      if (j >= 0) { ci = i; ti = j; return true; }
+      return false;
+    });
+    if (ci >= 0) {
+      const desired = isDone ? 'done' : 'pending';
+      if (DATA[ci].topics[ti].status !== desired) {
+        DATA[ci].topics[ti].status = desired;
+        saveState(); render();
+      }
+    }
+  }
+
   refreshThisWeekWidget();
   try {
     await setDoc(

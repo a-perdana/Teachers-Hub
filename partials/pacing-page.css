@@ -801,49 +801,38 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   font-size: .6rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
   color: var(--ink-3); flex-shrink: 0; white-space: nowrap;
 }
+/* Stack the semester blocks vertically so each one keeps its own single-row
+   scroll. Putting them side-by-side meant Sem I + Sem II combined exceeded
+   most viewports and the active term ended up off-screen behind a scrollbar. */
 .wk-tl-rail {
-  flex: 1; display: flex; gap: 14px; overflow-x: auto; padding: 2px 2px 6px;
-  scrollbar-width: thin; align-items: center;
+  flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0;
 }
-.wk-tl-rail::-webkit-scrollbar { height: 6px; }
-.wk-tl-rail::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-/* One semester block (label + its own pill row). Separator between semesters
-   is a thin vertical rule rendered by the gap + ::before of the next block. */
-.wk-tl-sem { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.wk-tl-sem + .wk-tl-sem { padding-left: 14px; border-left: 1px dashed var(--border); }
+.wk-tl-sem { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.wk-tl-pills {
+  display: flex; gap: 4px; overflow-x: auto;
+  padding: 2px 2px 6px; min-width: 0; flex: 1;
+  scrollbar-width: thin;
+}
+.wk-tl-pills::-webkit-scrollbar { height: 6px; }
+.wk-tl-pills::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+/* Sem label gets a fixed width so both rails align under each other. */
+.wk-tl-sem-label { min-width: 46px; text-align: center; }
 .wk-tl-sem-label {
   font-size: .58rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
   color: var(--ink-3); padding: 2px 6px; border-radius: 4px; background: var(--paper);
   white-space: nowrap;
 }
 .wk-tl-sem.is-active-sem .wk-tl-sem-label { background: var(--accent-2); color: var(--accent-dark); }
-.wk-tl-pills { display: flex; gap: 4px; }
 
-/* Narrow viewports: label sits above the rail (was cramped to the side and
-   ate scroll space), gap between semester blocks tightens, and pills shrink
-   a touch so the active semester fits on one screen-width without needing
-   to scroll past Sem I first. */
+/* Narrow viewports: label stacks above the rail and pills shrink. */
 @media (max-width: 900px) {
   .week-timeline {
     flex-direction: column; align-items: stretch; gap: 6px;
     margin-left: 14px; margin-right: 14px; padding: 8px 10px;
   }
   .wk-tl-label { font-size: .58rem; }
-  .wk-tl-rail { gap: 10px; padding-bottom: 4px; }
-  .wk-tl-sem + .wk-tl-sem { padding-left: 10px; }
-  .wk-tl-sem-label { padding: 1px 5px; font-size: .55rem; }
+  .wk-tl-sem-label { padding: 1px 5px; font-size: .55rem; min-width: 40px; }
   .wk-pill { min-width: 22px; height: 22px; padding: 0 4px; font-size: .6rem; }
-}
-/* Very narrow (phone): drop the inactive semester block to a compact
-   summary so the active term gets the full width. Click on the summary
-   "Sem I →" reveals it via the same hover that already existed. */
-@media (max-width: 560px) {
-  .wk-tl-sem:not(.is-active-sem) .wk-tl-pills { display: none; }
-  .wk-tl-sem:not(.is-active-sem)::after {
-    content: '…'; font-size: .65rem; color: var(--ink-3); margin-left: 2px;
-  }
-  .wk-tl-sem:not(.is-active-sem):hover .wk-tl-pills { display: flex; }
-  .wk-tl-sem:not(.is-active-sem):hover::after { display: none; }
 }
 .wk-pill {
   font-family: 'DM Mono', monospace; font-size: .65rem; font-weight: 600;
