@@ -160,6 +160,10 @@
         </div>
         <button class="btn" id="expandAllBtn" onclick="expandAll()">Expand All</button>
         <button class="btn" id="collapseAllBtn" onclick="collapseAll()">Collapse All</button>
+        <label class="hide-completed-toggle" title="Hide chapters where all topics are marked Done">
+          <input type="checkbox" id="hideCompletedChk" onchange="toggleHideCompleted(this.checked)">
+          <span>Hide completed</span>
+        </label>
       </div>
     </div>
 
@@ -374,6 +378,12 @@ let chapterPage = 0;
 // Gallery / List view
 const _pacingPrefix = (window.PACING_CONFIG.examLocalKey || 'pacing').replace('_exam_dates', '');
 let chapterViewMode = localStorage.getItem(_pacingPrefix + '_view') || 'list';
+// Hide chapters where all topics are Done. Default ON to reduce clutter.
+let hideCompleted = localStorage.getItem(_pacingPrefix + '_hide_completed') !== '0';
+document.addEventListener('DOMContentLoaded', () => {
+  const chk = document.getElementById('hideCompletedChk');
+  if (chk) chk.checked = hideCompleted;
+});
 // Apply saved sidebar preference (default: open)
 const _layoutEl = document.getElementById('appLayout');
 if (_layoutEl && localStorage.getItem(_pacingPrefix + '_sidebar') === 'collapsed') {
@@ -631,9 +641,16 @@ function renderPacing() {
   // Apply chapter-level pagination
   const CPS = getChapterPageSize(); // dynamic: 2×cols in gallery, 5 in list
   // First collect filtered chapter indices
+  let _hiddenCompletedCount = 0;
   const filteredChIndices = DATA.map((ch, ci) => ci).filter(ci => {
     const ch = DATA[ci];
     if (filterYear !== 'all' && ch.year !== filterYear) return false;
+    // Hide chapters where every topic is done (only when no explicit status filter is active).
+    if (hideCompleted && filterStatus === 'all' && ch.topics.length > 0
+        && ch.topics.every(t => t.status === 'done')) {
+      _hiddenCompletedCount++;
+      return false;
+    }
     // skip chapters with no matching topics
     const hasTopics = ch.topics.some(t => {
       if (filterStatus !== 'all' && t.status !== filterStatus) return false;
@@ -843,6 +860,12 @@ function renderPacing() {
     } else {
       html = `<div class="empty"><div class="empty-icon"></div><p>No topics match your filters.</p></div>`;
     }
+  }
+  if (_hiddenCompletedCount > 0) {
+    html += `<div class="hidden-completed-hint">
+      <span>${_hiddenCompletedCount} completed chapter${_hiddenCompletedCount===1?'':'s'} hidden</span>
+      <button class="hch-btn" onclick="toggleHideCompleted(false)">Show all</button>
+    </div>`;
   }
   container.innerHTML = html;
 
@@ -1417,6 +1440,16 @@ function toggleChapter(ci) {
 
 function expandAll()   { document.querySelectorAll('.ch-block').forEach(el => el.classList.remove('collapsed')); }
 function collapseAll() { document.querySelectorAll('.ch-block').forEach(el => el.classList.add('collapsed')); }
+
+function toggleHideCompleted(on) {
+  hideCompleted = !!on;
+  localStorage.setItem(_pacingPrefix + '_hide_completed', hideCompleted ? '1' : '0');
+  const chk = document.getElementById('hideCompletedChk');
+  if (chk) chk.checked = hideCompleted;
+  chapterPage = 0;
+  render();
+}
+window.toggleHideCompleted = toggleHideCompleted;
 function toggleSidebar() {
   const layout = document.getElementById('appLayout');
   layout.classList.toggle('sidebar-collapsed');

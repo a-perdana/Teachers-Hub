@@ -179,6 +179,32 @@
   cursor: default;
 }
 .ch-bulk-pill .sp-btn { padding: 3px 7px; font-size: .62rem; }
+
+/* "Hide completed" toggle in topbar */
+.hide-completed-toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: .72rem; color: var(--ink-2); cursor: pointer;
+  padding: 4px 8px; border-radius: 6px;
+  user-select: none;
+}
+.hide-completed-toggle:hover { background: var(--paper-2); color: var(--ink); }
+.hide-completed-toggle input { margin: 0; cursor: pointer; }
+
+/* Footer hint shown when chapters are hidden */
+.hidden-completed-hint {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  margin: 16px 20px; padding: 10px 16px;
+  background: var(--paper-2); border: 1px dashed var(--border);
+  border-radius: 8px;
+  font-size: .78rem; color: var(--ink-3);
+}
+.hidden-completed-hint .hch-btn {
+  font-family: 'DM Sans', sans-serif; font-size: .72rem; font-weight: 500;
+  padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border);
+  background: var(--paper); color: var(--ink-2); cursor: pointer;
+  transition: all .12s;
+}
+.hidden-completed-hint .hch-btn:hover { background: var(--ink); color: white; border-color: var(--ink); }
 .ch-caret { color: var(--ink-3); font-size: .75rem; transition: transform .2s; flex-shrink: 0; }
 .ch-block.collapsed .ch-caret { transform: rotate(-90deg); }
 .ch-block.collapsed .topics-wrap { display: none; }
