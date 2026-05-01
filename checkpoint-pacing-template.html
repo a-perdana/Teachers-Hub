@@ -38,6 +38,61 @@ table.topics-tbl tr.done-row:hover td { opacity: .9; } /* full detail on hover *
 .wk-tl-sem:not(.is-active-sem) .wk-pill { transform: scale(.92); }
 </style>
 
+<!-- ── Step 3 UX polish: simplify topic meta row ──
+     Goal: separate "info I read" (planned/actual/week) from "action I take"
+     (status), and tuck rarely-used buttons (note / diag / coord-note) into a
+     hover-revealed group so the row scans cleanly at rest. -->
+<style>
+/* Make the meta row read as two groups: info on the left (small, muted),
+   action (status pill) on the right with breathing room. */
+.topic-meta-line { gap: 5px; align-items: center; }
+.topic-meta-line .meta-pill {
+  font-size: .6rem; padding: 2px 7px;
+  background: var(--paper-2); color: var(--ink-3);
+  border: 1px solid var(--border);
+}
+/* Drop the strong amber/blue tints on the read-only info pills — they were
+   competing with the status pill for attention. Keep colors only for the
+   week pill so "this week" still pops via the SVG icon. */
+.topic-meta-line .meta-pill-hours {
+  background: var(--paper-2); color: var(--ink-3); border-color: var(--border);
+}
+.topic-meta-line .meta-pill-week {
+  background: var(--blue-2); color: var(--blue); border-color: #c2d8f5;
+}
+
+/* Status pill is the primary action — bump size and let it sit slightly
+   apart from the info group with auto-margin. */
+.topic-meta-line .status-pill {
+  margin-left: 6px;
+  padding: 3px;
+}
+.topic-meta-line .status-pill .sp-btn {
+  font-size: .68rem; padding: 4px 10px; font-weight: 600;
+}
+
+/* Note / diag / coord-note buttons are infrequent — fade them down at rest
+   and bring them back on row hover. Coordinator mode (admin) keeps them
+   fully visible because editing is the whole job there. */
+.topic-meta-line .note-btn,
+.topic-meta-line .diag-btn,
+.topic-meta-line .coord-btn {
+  opacity: .35; transition: opacity .15s;
+}
+table.topics-tbl tbody tr:hover .topic-meta-line .note-btn,
+table.topics-tbl tbody tr:hover .topic-meta-line .diag-btn,
+table.topics-tbl tbody tr:hover .topic-meta-line .coord-btn { opacity: 1; }
+/* Anything currently carrying data stays at full opacity even at rest. */
+.topic-meta-line .note-btn.has-note,
+.topic-meta-line .diag-btn.diag-weak,
+.topic-meta-line .diag-btn.diag-review,
+.topic-meta-line .diag-btn.diag-good,
+.topic-meta-line .coord-btn.has-coord { opacity: 1; }
+.admin-mode .topic-meta-line .note-btn,
+.admin-mode .topic-meta-line .diag-btn,
+.admin-mode .topic-meta-line .coord-btn { opacity: 1; }
+</style>
+
 <!-- ── Step 2 UX polish: This Week as a hero card + bigger topbar progress ── -->
 <style>
 /* This Week becomes the page's hero card. Bigger margins, deeper accent
