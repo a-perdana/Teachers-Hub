@@ -818,6 +818,33 @@ table.topics-tbl td:last-child { white-space: nowrap; }
 }
 .wk-tl-sem.is-active-sem .wk-tl-sem-label { background: var(--accent-2); color: var(--accent-dark); }
 .wk-tl-pills { display: flex; gap: 4px; }
+
+/* Narrow viewports: label sits above the rail (was cramped to the side and
+   ate scroll space), gap between semester blocks tightens, and pills shrink
+   a touch so the active semester fits on one screen-width without needing
+   to scroll past Sem I first. */
+@media (max-width: 900px) {
+  .week-timeline {
+    flex-direction: column; align-items: stretch; gap: 6px;
+    margin-left: 14px; margin-right: 14px; padding: 8px 10px;
+  }
+  .wk-tl-label { font-size: .58rem; }
+  .wk-tl-rail { gap: 10px; padding-bottom: 4px; }
+  .wk-tl-sem + .wk-tl-sem { padding-left: 10px; }
+  .wk-tl-sem-label { padding: 1px 5px; font-size: .55rem; }
+  .wk-pill { min-width: 22px; height: 22px; padding: 0 4px; font-size: .6rem; }
+}
+/* Very narrow (phone): drop the inactive semester block to a compact
+   summary so the active term gets the full width. Click on the summary
+   "Sem I →" reveals it via the same hover that already existed. */
+@media (max-width: 560px) {
+  .wk-tl-sem:not(.is-active-sem) .wk-tl-pills { display: none; }
+  .wk-tl-sem:not(.is-active-sem)::after {
+    content: '…'; font-size: .65rem; color: var(--ink-3); margin-left: 2px;
+  }
+  .wk-tl-sem:not(.is-active-sem):hover .wk-tl-pills { display: flex; }
+  .wk-tl-sem:not(.is-active-sem):hover::after { display: none; }
+}
 .wk-pill {
   font-family: 'DM Mono', monospace; font-size: .65rem; font-weight: 600;
   min-width: 26px; height: 24px; padding: 0 6px;
