@@ -80,6 +80,9 @@
   </div>
 </header>
 
+<!-- TEMP YEAR-FILTER DEBUG (remove once filter is confirmed working) -->
+<div id="yearDebugPanel" style="background:#fff7ed;border-bottom:1px solid #fdba74;padding:6px 16px;font-family:'DM Mono',monospace;font-size:11px;color:#7c2d12;white-space:nowrap;overflow-x:auto">debug…</div>
+
 <!-- -- EXAM COUNTDOWN BANNER ---------------------- -->
 <div class="exam-countdown-bar" id="examCountdownBar" style="display:none">
   <span class="exam-countdown-label">Cambridge Exams:</span>
@@ -470,24 +473,32 @@ function _chapterYear(ch) {
 function _effectiveYearFilter() {
   const cls = currentClass;
   let result = filterYear || 'all';
+  let _grade = null, _matched = null;
   if (cls && cls !== 'default') {
-    let grade = window.__classGradeMap?.[cls];
-    if (grade == null) {
+    _grade = window.__classGradeMap?.[cls];
+    if (_grade == null) {
       const m = String(cls).match(/(\d{1,2})/);
-      if (m) grade = parseInt(m[1], 10);
+      if (m) _grade = parseInt(m[1], 10);
     }
-    if (grade != null) {
+    if (_grade != null) {
       const cfg = window.SUBJECT_CONFIG || {};
       const candidates = [cfg.yearA, cfg.yearB].filter(Boolean);
-      const matched = candidates.find(y => {
+      _matched = candidates.find(y => {
         const m = String(y).match(/(\d{1,2})/);
-        return m && parseInt(m[1], 10) === grade;
-      });
-      if (matched) result = matched;
+        return m && parseInt(m[1], 10) === _grade;
+      }) || null;
+      if (_matched) result = _matched;
     }
   }
-  // Mirror to window so the module-scope This Week refresher can read it.
   window.__currentYearFilter = result;
+  // Visible diagnostic panel — temporary so we can see in production
+  // exactly which inputs land in the filter and what comes out.
+  const dbg = document.getElementById('yearDebugPanel');
+  if (dbg) {
+    const cfg = window.SUBJECT_CONFIG || {};
+    const mapKeys = Object.keys(window.__classGradeMap || {}).join(', ') || '(empty)';
+    dbg.textContent = `class="${cls}" filterYear="${filterYear}" grade=${_grade} matched=${_matched} effective=${result} | yearA=${cfg.yearA} yearB=${cfg.yearB} | gradeMap: ${mapKeys}`;
+  }
   return result;
 }
 
