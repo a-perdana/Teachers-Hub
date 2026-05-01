@@ -455,14 +455,10 @@ function _topicSemFmt(t) {
 }
 
 // -- Effective year for a chapter -------------------------------------
-// Trusts a "Book N" prefix in the chapter title over the stored ch.year
-// field, which is sometimes mis-tagged in the pacing doc. Falls back to
-// ch.year when the title has no prefix.
+// Single source of truth is the chapter's `year` field. Coordinators
+// deliberately mix textbook books across years.
 function _chapterYear(ch) {
-  if (!ch) return null;
-  const m = String(ch.chapter || '').match(/^Book\s+(\d{1,2})\b/i);
-  if (m) return `Year ${m[1]}`;
-  return ch.year || null;
+  return ch ? (ch.year || null) : null;
 }
 
 function renderPaceBadge(topic) {

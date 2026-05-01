@@ -80,9 +80,6 @@
   </div>
 </header>
 
-<!-- TEMP YEAR-FILTER DEBUG (remove once filter is confirmed working) -->
-<div id="yearDebugPanel" style="background:#fff7ed;border-bottom:1px solid #fdba74;padding:6px 16px;font-family:'DM Mono',monospace;font-size:11px;color:#7c2d12;white-space:nowrap;overflow-x:auto">debug…</div>
-
 <!-- -- EXAM COUNTDOWN BANNER ---------------------- -->
 <div class="exam-countdown-bar" id="examCountdownBar" style="display:none">
   <span class="exam-countdown-label">Cambridge Exams:</span>
@@ -451,18 +448,12 @@ function _topicSemFmt(t) {
 }
 
 // -- Effective year for a chapter --------------------------------------
-// Some pacing docs have chapters whose ch.year field is mis-tagged
-// (e.g. "Book 8 - 7. Fractions" stored with year='Year 7'). For
-// Cambridge Checkpoint the title prefix "Book N" is the canonical
-// indicator (Book 7 = Year 7 textbook, Book 8 = Year 8 textbook), so
-// we trust the title number when present and only fall back to the
-// stored year field if no prefix is found.
+// Single source of truth is the chapter's `year` field. Coordinators
+// deliberately mix textbook books across years (a Year 7 cohort can
+// pull selected chapters from Book 8), so the "Book N" title prefix
+// is *not* a reliable proxy for grade.
 function _chapterYear(ch) {
-  if (!ch) return null;
-  const t = String(ch.chapter || '');
-  const m = t.match(/^Book\s+(\d{1,2})\b/i);
-  if (m) return `Year ${m[1]}`;
-  return ch.year || null;
+  return ch ? (ch.year || null) : null;
 }
 
 // The single source of truth for "what year is the page filtered to".
@@ -473,31 +464,23 @@ function _chapterYear(ch) {
 function _effectiveYearFilter() {
   const cls = currentClass;
   let result = filterYear || 'all';
-  let _grade = null, _matched = null;
   if (cls && cls !== 'default') {
-    _grade = window.__classGradeMap?.[cls];
-    if (_grade == null) {
+    let grade = window.__classGradeMap?.[cls];
+    if (grade == null) {
       const m = String(cls).match(/(\d{1,2})/);
-      if (m) _grade = parseInt(m[1], 10);
+      if (m) grade = parseInt(m[1], 10);
     }
-    if (_grade != null) {
-      // SUBJECT_CONFIG is module-local (const declared in this script
-      // block) — read it directly. window.SUBJECT_CONFIG isn't set so
-      // earlier reads through window were falling back to {}.
+    if (grade != null) {
+      // SUBJECT_CONFIG is module-local — read it directly (window.SUBJECT_CONFIG isn't set).
       const candidates = [SUBJECT_CONFIG.yearA, SUBJECT_CONFIG.yearB].filter(Boolean);
-      _matched = candidates.find(y => {
+      const matched = candidates.find(y => {
         const m = String(y).match(/(\d{1,2})/);
-        return m && parseInt(m[1], 10) === _grade;
-      }) || null;
-      if (_matched) result = _matched;
+        return m && parseInt(m[1], 10) === grade;
+      });
+      if (matched) result = matched;
     }
   }
   window.__currentYearFilter = result;
-  const dbg = document.getElementById('yearDebugPanel');
-  if (dbg) {
-    const mapKeys = Object.keys(window.__classGradeMap || {}).join(', ') || '(empty)';
-    dbg.textContent = `class="${cls}" filterYear="${filterYear}" grade=${_grade} matched=${_matched} effective=${result} | yearA=${SUBJECT_CONFIG.yearA} yearB=${SUBJECT_CONFIG.yearB} | gradeMap: ${mapKeys}`;
-  }
   return result;
 }
 

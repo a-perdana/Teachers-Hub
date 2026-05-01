@@ -132,13 +132,10 @@ window.getActiveTopicsForDate = function(chapters, weeklyHours, teachingWeeks, t
 
   const yearFilter = opts && opts.yearFilter && opts.yearFilter !== 'all' ? opts.yearFilter : null;
 
-  // Trust "Book N" prefix in chapter title over any (potentially mis-tagged)
-  // ch.year field, falling back to ch.year only when the title has no prefix.
+  // Use the chapter's year field directly — coordinators sometimes mix
+  // chapters from different textbook books into the same year.
   function chYear(ch) {
-    if (!ch) return null;
-    const m = String(ch.chapter || '').match(/^Book\s+(\d{1,2})\b/i);
-    if (m) return `Year ${m[1]}`;
-    return ch.year || null;
+    return ch ? (ch.year || null) : null;
   }
 
   // Find which teaching week contains targetDate
