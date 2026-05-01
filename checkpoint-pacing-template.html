@@ -38,6 +38,25 @@ table.topics-tbl tr.done-row:hover td { opacity: .9; } /* full detail on hover *
 .wk-tl-sem:not(.is-active-sem) .wk-pill { transform: scale(.92); }
 </style>
 
+<!-- ── Step 4 UX polish: sidebar density ──
+     Goal: completed chapters should recede so the sidebar visually
+     emphasises chapters that still need work. Mirrors the Done-row mute
+     from step 1, scoped to the chapter nav. -->
+<style>
+/* Completed chapters in the sidebar nav: mute the row, swap the count
+   pill for a checkmark. Hover and active states still come through at
+   full opacity so navigation never feels broken. */
+.ch-nav-item.is-complete { opacity: .45; transition: opacity .15s; }
+.ch-nav-item.is-complete:hover,
+.ch-nav-item.is-complete.active { opacity: 1; }
+.ch-nav-item.is-complete .ch-nav-num {
+  background: var(--green-2); border-color: #b6e4c8; color: var(--green);
+}
+.ch-nav-item.is-complete .ch-nav-count {
+  color: var(--green); font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: .72rem;
+}
+</style>
+
 <!-- ── Step 3 UX polish: simplify topic meta row ──
      Goal: separate "info I read" (planned/actual/week) from "action I take"
      (status), and tuck rarely-used buttons (note / diag / coord-note) into a
@@ -737,12 +756,14 @@ function renderNav() {
 
   function buildItems(arr) {
     return arr.map(ch => {
-      const ci   = DATA.indexOf(ch);
-      const done = ch.topics.filter(t => t.status === 'done').length;
-      return `<div class="ch-nav-item" onclick="scrollToChapter(${ci})" id="nav-${ci}">
+      const ci       = DATA.indexOf(ch);
+      const done     = ch.topics.filter(t => t.status === 'done').length;
+      const total    = ch.topics.length;
+      const complete = total > 0 && done === total;
+      return `<div class="ch-nav-item${complete ? ' is-complete' : ''}" onclick="scrollToChapter(${ci})" id="nav-${ci}">
         <span class="ch-nav-num">${ci+1}</span>
         <span class="ch-nav-title">${ch.chapter.replace(/^\d+\.\s*/, '')}</span>
-        <span class="ch-nav-count">${done}/${ch.topics.length}</span>
+        <span class="ch-nav-count">${complete ? '✓' : `${done}/${total}`}</span>
       </div>`;
     }).join('');
   }
