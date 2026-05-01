@@ -394,6 +394,16 @@ let chapterPage = 0;
 const _pacingPrefix = (window.PACING_CONFIG.examLocalKey || 'pacing').replace('_exam_dates', '');
 let chapterViewMode = localStorage.getItem(_pacingPrefix + '_view') || 'list';
 // Hide chapters where all topics are Done. Default ON to reduce clutter.
+// One-time reset: align with the Checkpoint default (Hide completed ON)
+// for users who turned it off before this rollout. The migration key
+// makes sure we only reset once per user — they can still toggle it off
+// after this and it'll stick.
+try {
+  if (localStorage.getItem(_pacingPrefix + '_hide_completed_reset_2026_05') == null) {
+    localStorage.removeItem(_pacingPrefix + '_hide_completed');
+    localStorage.setItem(_pacingPrefix + '_hide_completed_reset_2026_05', '1');
+  }
+} catch {}
 let hideCompleted = localStorage.getItem(_pacingPrefix + '_hide_completed') !== '0';
 document.addEventListener('DOMContentLoaded', () => {
   const chk = document.getElementById('hideCompletedChk');
