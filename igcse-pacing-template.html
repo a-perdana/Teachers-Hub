@@ -1126,18 +1126,30 @@ function renderWeekly() {
     const wNum = parseInt(w.replace(/\D/g,''));
     const isCurrent = wNum === currentWeek;
 
+    // When no year is locked in (no class picked, no manual year chip),
+    // tag each topic with a small year chip so Year 9 vs Year 10 — and
+    // any cross-subject mix — can be told apart at a glance.
+    const showYearChip = _eyf === 'all';
+
     let sectionsHtml = '';
     [SUBJECT_CONFIG.subjectKey, ...SUBJECT_CONFIG.crossSubjects.map(s => s.key)].forEach(subj => {
       const topics = wData.subjTopics[subj];
       if (!topics || !topics.length) return;
       const showSep = Object.keys(wData.subjTopics).length > 1;
       if (showSep) sectionsHtml += `<div class="week-card-subj-sep">${subjLabels[subj]}</div>`;
-      sectionsHtml += topics.map(t => `
+      sectionsHtml += topics.map(t => {
+        const yrMatch = showYearChip ? String(t.year || '').match(/(\d{1,2})/) : null;
+        const yrChip  = yrMatch
+          ? `<span class="wt-year-chip yr${yrMatch[1]}" title="${escHtml(t.year)}">Y${yrMatch[1]}</span>`
+          : '';
+        return `
         <div class="week-topic-row">
           <div class="wt-dot" style="background:${subjColors[subj]}"></div>
           <div class="wt-name">${escHtml(t.name)}</div>
+          ${yrChip}
           <div class="wt-ch">${t.chapter ? (t.chapter.match(/^\d+/)?.[0]||'') : ''}</div>
-        </div>`).join('');
+        </div>`;
+      }).join('');
     });
 
     return `
