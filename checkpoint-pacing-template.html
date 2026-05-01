@@ -1893,7 +1893,7 @@ function render() {
   renderPaceSummary();
   renderExamCountdown();
   renderNav();
-  renderWeekTimeline();
+  if (window.renderWeekTimeline) window.renderWeekTimeline();
   renderPacing();
   renderWeekly();
   renderCoverage();

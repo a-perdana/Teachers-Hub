@@ -199,7 +199,6 @@
     // renderPacing skips it and the chapter element won't exist for
     // scrollToChapter to find. Override hide-completed so the jump always
     // lands on something visible.
-    const data = window.DATA || [];
     const targetCh = data[target.ci];
     const targetAllDone = targetCh && targetCh.topics && targetCh.topics.length > 0
       && targetCh.topics.every(t => t.status === 'done');

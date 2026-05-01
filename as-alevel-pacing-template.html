@@ -1837,7 +1837,7 @@ function render() {
   renderProgress();
   renderPaceSummary();
   renderExamCountdown();
-  renderWeekTimeline();
+  if (window.renderWeekTimeline) window.renderWeekTimeline();
   renderNav();
   renderPacing();
   renderWeekly();
