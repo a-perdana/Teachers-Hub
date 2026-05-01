@@ -454,6 +454,17 @@ function _topicSemFmt(t) {
   return `${sem}Wk ${t.week}`;
 }
 
+// -- Effective year for a chapter -------------------------------------
+// Trusts a "Book N" prefix in the chapter title over the stored ch.year
+// field, which is sometimes mis-tagged in the pacing doc. Falls back to
+// ch.year when the title has no prefix.
+function _chapterYear(ch) {
+  if (!ch) return null;
+  const m = String(ch.chapter || '').match(/^Book\s+(\d{1,2})\b/i);
+  if (m) return `Year ${m[1]}`;
+  return ch.year || null;
+}
+
 function renderPaceBadge(topic) {
   const current = window.getCurrentSchoolWeekInfo && window.getCurrentSchoolWeekInfo();
   const status  = window.getTopicPaceStatus && window.getTopicPaceStatus(topic, current);
@@ -472,7 +483,7 @@ function renderPaceSummary() {
 
   let overdue = 0, behind = 0;
   DATA.forEach(ch => {
-    if (filterYear !== 'all' && ch.year !== filterYear) return;
+    if (filterYear !== 'all' && _chapterYear(ch) !== filterYear) return;
     ch.topics.forEach(t => {
       const s = window.getTopicPaceStatus && window.getTopicPaceStatus(t, current);
       if (s === 'overdue') overdue++;
@@ -568,8 +579,8 @@ function _objNeedsSeeMore(obj) {
 // RENDER - SIDEBAR NAV
 // -----------------------------------------------------------
 function renderNav() {
-  const y9  = DATA.filter(ch => ch.year === 'Year 9');
-  const y10 = DATA.filter(ch => ch.year === 'Year 10');
+  const y9  = DATA.filter(ch => _chapterYear(ch) === 'Year 9');
+  const y10 = DATA.filter(ch => _chapterYear(ch) === 'Year 10');
 
   function buildItems(arr) {
     return arr.map(ch => {
@@ -605,7 +616,7 @@ function renderProgress() {
   // whole 2-year pacing structure.
   const all = allTopics().filter(t => {
     if (filterYear === 'all') return true;
-    return DATA[t.ch] && DATA[t.ch].year === filterYear;
+    return DATA[t.ch] && _chapterYear(DATA[t.ch]) === filterYear;
   });
   const done = all.filter(t => t.status === 'done').length;
   const pct  = all.length ? Math.round(done / all.length * 100) : 0;
@@ -628,7 +639,7 @@ function renderPacing() {
   let _hiddenCompletedCount = 0;
   const filteredChIndices = DATA.map((ch, ci) => ci).filter(ci => {
     const ch = DATA[ci];
-    if (filterYear !== 'all' && ch.year !== filterYear) return false;
+    if (filterYear !== 'all' && _chapterYear(ch) !== filterYear) return false;
     // Hide chapters where every topic is done (only when no explicit status filter is active).
     if (hideCompleted && filterStatus === 'all' && ch.topics.length > 0
         && ch.topics.every(t => t.status === 'done')) {
@@ -653,7 +664,7 @@ function renderPacing() {
 
   pageChIndices.forEach(ci => {
     const ch = DATA[ci];
-    if (filterYear !== 'all' && ch.year !== filterYear) return;
+    if (filterYear !== 'all' && _chapterYear(ch) !== filterYear) return;
 
     const filteredTopics = ch.topics.map((t, ti) => ({t, ti})).filter(({t}) => {
       if (filterStatus !== 'all' && t.status !== filterStatus) return false;
@@ -931,7 +942,7 @@ function openChapterInList(ci) {
   chapterViewMode = 'list';
   const filteredChIndices = DATA.map((ch, idx) => idx).filter(idx => {
     const ch = DATA[idx];
-    if (filterYear !== 'all' && ch.year !== filterYear) return false;
+    if (filterYear !== 'all' && _chapterYear(ch) !== filterYear) return false;
     return ch.topics.some(t => matchesSyllabusFilter(t));
   });
   const pos = filteredChIndices.indexOf(ci);
@@ -948,7 +959,7 @@ function openChapterInList(ci) {
 // -----------------------------------------------------------
 function chapterSetPage(page) {
   const filteredCount = DATA.filter(ch => {
-    if (filterYear !== 'all' && ch.year !== filterYear) return false;
+    if (filterYear !== 'all' && _chapterYear(ch) !== filterYear) return false;
     return ch.topics.some(t => matchesSyllabusFilter(t));
   }).length;
   const totalPages = Math.ceil(filteredCount / getChapterPageSize());
@@ -1452,7 +1463,7 @@ function scrollToChapter(ci) {
   // Make sure chapter is on the visible page
   const filteredChIndices = DATA.map((ch, idx) => idx).filter(idx => {
     const ch = DATA[idx];
-    if (filterYear !== 'all' && ch.year !== filterYear) return false;
+    if (filterYear !== 'all' && _chapterYear(ch) !== filterYear) return false;
     return ch.topics.some(t => matchesSyllabusFilter(t));
   });
   const pos = filteredChIndices.indexOf(ci);

@@ -132,6 +132,15 @@ window.getActiveTopicsForDate = function(chapters, weeklyHours, teachingWeeks, t
 
   const yearFilter = opts && opts.yearFilter && opts.yearFilter !== 'all' ? opts.yearFilter : null;
 
+  // Trust "Book N" prefix in chapter title over any (potentially mis-tagged)
+  // ch.year field, falling back to ch.year only when the title has no prefix.
+  function chYear(ch) {
+    if (!ch) return null;
+    const m = String(ch.chapter || '').match(/^Book\s+(\d{1,2})\b/i);
+    if (m) return `Year ${m[1]}`;
+    return ch.year || null;
+  }
+
   // Find which teaching week contains targetDate
   const today = new Date(targetDate);
   today.setHours(12, 0, 0, 0);
@@ -147,10 +156,11 @@ window.getActiveTopicsForDate = function(chapters, weeklyHours, teachingWeeks, t
   let lastYear = null;
 
   chapters.forEach((ch, ci) => {
-    if (lastYear !== null && ch.year !== lastYear) cumulative = 0;
-    lastYear = ch.year;
+    const thisYear = chYear(ch);
+    if (lastYear !== null && thisYear !== lastYear) cumulative = 0;
+    lastYear = thisYear;
 
-    const includeChapter = !yearFilter || ch.year === yearFilter;
+    const includeChapter = !yearFilter || thisYear === yearFilter;
 
     (ch.topics || []).forEach((t, ti) => {
       if (t.type === 'buffer') { cumulative += (t.duration || t.hour || 0); return; }
