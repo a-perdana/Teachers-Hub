@@ -473,11 +473,14 @@ function renderPaceSummary() {
   if (!current) { pill.style.display = 'none'; return; }
 
   let overdue = 0, behind = 0;
-  DATA.forEach(ch => ch.topics.forEach(t => {
-    const s = window.getTopicPaceStatus && window.getTopicPaceStatus(t, current);
-    if (s === 'overdue') overdue++;
-    else if (s === 'behind') behind++;
-  }));
+  DATA.forEach(ch => {
+    if (filterYear !== 'all' && ch.year !== filterYear) return;
+    ch.topics.forEach(t => {
+      const s = window.getTopicPaceStatus && window.getTopicPaceStatus(t, current);
+      if (s === 'overdue') overdue++;
+      else if (s === 'behind') behind++;
+    });
+  });
 
   const nowLbl = _currentSemFmt(current);
   if (overdue === 0 && behind === 0) {
@@ -619,9 +622,15 @@ function renderNav() {
 // RENDER - TOP PROGRESS
 // -----------------------------------------------------------
 function renderProgress() {
-  const all  = allTopics();
+  // Year-aware: when a year filter is active (or auto-set by switchClass)
+  // the headline progress should reflect just that year's topics, not the
+  // whole 2-year pacing structure.
+  const all = allTopics().filter(t => {
+    if (filterYear === 'all') return true;
+    return DATA[t.ch] && DATA[t.ch].year === filterYear;
+  });
   const done = all.filter(t => t.status === 'done').length;
-  const pct  = Math.round(done / all.length * 100);
+  const pct  = all.length ? Math.round(done / all.length * 100) : 0;
   document.getElementById('topProgBar').style.width  = pct + '%';
   document.getElementById('topProgDone').textContent  = done;
   document.getElementById('topProgTotal').textContent = all.length;
@@ -1549,6 +1558,25 @@ function _showNotAssigned(subjectLabel, levelLabel) {
 
 function switchClass(cls) {
   currentClass = cls;
+  // Auto-pick the matching year filter from the class name (e.g. "7 Harvard"
+  // → Year 7) so the page stops listing chapters from the other grade.
+  // Falls back to leaving the current filter alone if we can't tell.
+  if (cls && cls !== 'default') {
+    const m = String(cls).match(/(\d{1,2})/);
+    if (m) {
+      const grade = m[1];
+      const cfg = window.SUBJECT_CONFIG || {};
+      const candidates = [cfg.yearA, cfg.yearB].filter(Boolean);
+      const matched = candidates.find(y => String(y).match(/(\d{1,2})/)?.[1] === grade);
+      if (matched) {
+        filterYear = matched;
+        document.querySelectorAll('[data-year]').forEach(c => {
+          c.classList.toggle('on', c.dataset.year === matched);
+        });
+        chapterPage = 0;
+      }
+    }
+  }
   // Notify Firebase module to switch progress path
   if (window.__fbSwitchClass) window.__fbSwitchClass(cls);
 }
