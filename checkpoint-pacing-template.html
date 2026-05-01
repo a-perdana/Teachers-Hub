@@ -915,21 +915,49 @@ function renderWeekTimeline() {
       </div>`;
   }).join('');
 
+  // Collapsed-by-default-or-not is a per-subject preference (mirrors the
+  // pattern the This Week widget already uses). Default open the first time
+  // so the timeline is discoverable.
+  const tlStoreKey = `wk_tl_collapsed_${SUBJECT_CONFIG && SUBJECT_CONFIG.subjectKey ? SUBJECT_CONFIG.subjectKey : 'default'}`;
+  const tlStored   = localStorage.getItem(tlStoreKey);
+  const tlCollapsed = tlStored === '1';
+
   el.innerHTML = `
-    <div class="wk-tl-label">${escHtml(_eyf)} timeline</div>
-    <div class="wk-tl-rail">${semBlocksHtml}</div>`;
+    <div class="wk-tl-header" role="button" tabindex="0" aria-expanded="${!tlCollapsed}">
+      <span class="wk-tl-label">${escHtml(_eyf)} timeline</span>
+      <span class="wk-tl-caret" aria-hidden="true">▾</span>
+    </div>
+    <div class="wk-tl-body">
+      <div class="wk-tl-rail">${semBlocksHtml}</div>
+    </div>`;
+  el.classList.toggle('wk-tl-collapsed', tlCollapsed);
   el.style.display = '';
 
-  // Wire up clicks via event delegation on the rail. innerHTML wipes the
-  // rail every render, but the listener stays bound on #weekTimeline so the
-  // sentinel lets us bind exactly once.
+  // Wire up clicks via event delegation. innerHTML wipes the body every
+  // render, but the listener stays bound on #weekTimeline so the sentinel
+  // lets us bind exactly once. Two click types: pill (jump) or header
+  // (toggle collapsed).
   if (!el.__wkTlBound) {
     el.addEventListener('click', (ev) => {
+      const head = ev.target.closest('.wk-tl-header');
+      if (head) {
+        const nowCollapsed = !el.classList.contains('wk-tl-collapsed');
+        el.classList.toggle('wk-tl-collapsed', nowCollapsed);
+        head.setAttribute('aria-expanded', String(!nowCollapsed));
+        try { localStorage.setItem(tlStoreKey, nowCollapsed ? '1' : '0'); } catch {}
+        return;
+      }
       const btn = ev.target.closest('.wk-pill');
       if (!btn || btn.disabled) return;
       const w   = parseInt(btn.dataset.week, 10);
       const sem = parseInt(btn.dataset.sem, 10) || 0;
       if (w) jumpToWeek(w, sem);
+    });
+    el.addEventListener('keydown', (ev) => {
+      if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.classList.contains('wk-tl-header')) {
+        ev.preventDefault();
+        ev.target.click();
+      }
     });
     el.__wkTlBound = true;
   }
