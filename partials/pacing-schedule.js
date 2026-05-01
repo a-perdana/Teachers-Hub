@@ -127,8 +127,10 @@ window.getTopicPaceStatus = function(topic, current) {
  * @param {Date}   targetDate     - Usually new Date()
  * @returns {Array} activeTopics  - [{ci, ti, chId, tId, chTitle, topicTitle, hours, weekEntry}]
  */
-window.getActiveTopicsForDate = function(chapters, weeklyHours, teachingWeeks, targetDate) {
+window.getActiveTopicsForDate = function(chapters, weeklyHours, teachingWeeks, targetDate, opts) {
   if (!chapters || !chapters.length || !weeklyHours || weeklyHours <= 0 || !teachingWeeks.length) return [];
+
+  const yearFilter = opts && opts.yearFilter && opts.yearFilter !== 'all' ? opts.yearFilter : null;
 
   // Find which teaching week contains targetDate
   const today = new Date(targetDate);
@@ -138,16 +140,25 @@ window.getActiveTopicsForDate = function(chapters, weeklyHours, teachingWeeks, t
 
   const weekEntry = teachingWeeks[activeWeekIdx];
   const active = [];
+  // Year-aware cumulative: each year resets to 0 so a Y7 teacher sees the
+  // topic that lands in this week of *Y7's* schedule, not the chapter that
+  // happens to fall in Y7+Y8 cumulative weekN.
   let cumulative = 0;
+  let lastYear = null;
 
   chapters.forEach((ch, ci) => {
+    if (lastYear !== null && ch.year !== lastYear) cumulative = 0;
+    lastYear = ch.year;
+
+    const includeChapter = !yearFilter || ch.year === yearFilter;
+
     (ch.topics || []).forEach((t, ti) => {
       if (t.type === 'buffer') { cumulative += (t.duration || t.hour || 0); return; }
       const duration    = t.duration || t.hour || 0;
       if (!duration) { return; }
       const startWkIdx  = Math.floor(cumulative / weeklyHours);
       const endWkIdx    = Math.floor((cumulative + duration - 1) / weeklyHours);
-      if (activeWeekIdx >= startWkIdx && activeWeekIdx <= endWkIdx) {
+      if (includeChapter && activeWeekIdx >= startWkIdx && activeWeekIdx <= endWkIdx) {
         active.push({
           ci, ti,
           chId:       ch.id   || null,

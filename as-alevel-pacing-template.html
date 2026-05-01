@@ -379,6 +379,7 @@ function lookupSyllabus(prefix, code) {
 var DATA = [];
 
 let filterYear   = 'all';
+window.__currentYearFilter = 'all';
 let filterStatus = 'all';
 let searchQ      = '';
 
@@ -1566,10 +1567,12 @@ function switchClass(cls) {
       const matched = candidates.find(y => String(y).match(/(\d{1,2})/)?.[1] === grade);
       if (matched) {
         filterYear = matched;
+        window.__currentYearFilter = matched;
         document.querySelectorAll('[data-year]').forEach(c => {
           c.classList.toggle('on', c.dataset.year === matched);
         });
         chapterPage = 0;
+        if (typeof window.__refreshThisWeekWidget === 'function') window.__refreshThisWeekWidget();
       }
     }
   }
@@ -1615,7 +1618,10 @@ document.getElementById('yearChips').addEventListener('click', e => {
   document.querySelectorAll('[data-year]').forEach(c => c.classList.remove('on'));
   chip.classList.add('on');
   filterYear = chip.dataset.year;
-  renderPacing();
+  window.__currentYearFilter = filterYear;
+  chapterPage = 0;
+  render();
+  if (typeof window.__refreshThisWeekWidget === 'function') window.__refreshThisWeekWidget();
 });
 
 // Status chips
@@ -1995,7 +2001,10 @@ function refreshThisWeekWidget() {
   const weeklyHrs  = window._pacingWeeklyHours || 0;
   const { teachingWeeks, skippedWeeks } = _scheduleCache;
   const today      = new Date();
-  const active     = window.getActiveTopicsForDate(chapters, weeklyHrs, teachingWeeks, today);
+  const active     = window.getActiveTopicsForDate(
+    chapters, weeklyHrs, teachingWeeks, today,
+    { yearFilter: window.__currentYearFilter || 'all' }
+  );
   const skipped    = window.getSkippedWeekForDate(skippedWeeks, today);
   const pacingDone = window._pacingDone || {};
   window.renderThisWeekWidget(
@@ -2004,6 +2013,7 @@ function refreshThisWeekWidget() {
     markPacingDone, skipped
   );
 }
+window.__refreshThisWeekWidget = refreshThisWeekWidget;
 
 async function markPacingDone(chId, tId, isDone) {
   if (!currentUID) return;
