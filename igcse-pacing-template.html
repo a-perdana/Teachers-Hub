@@ -464,6 +464,28 @@ function _chapterYear(ch) {
   return ch ? (ch.year || null) : null;
 }
 
+// The single source of truth for "what year is the page filtered to".
+// Derived from currentClass directly so even if filterYear hasn't been
+// updated yet (race conditions, missed renders) the chapter list still
+// matches the picked class. Falls back to the explicit filterYear chip
+// state only when no class is picked. IGCSE is fixed to Year 9 / Year 10
+// (no SUBJECT_CONFIG.yearA/yearB).
+function _effectiveYearFilter() {
+  const cls = currentClass;
+  let result = filterYear || 'all';
+  if (cls && cls !== 'default') {
+    let grade = window.__classGradeMap?.[cls];
+    if (grade == null) {
+      const m = String(cls).match(/(\d{1,2})/);
+      if (m) grade = parseInt(m[1], 10);
+    }
+    if (grade === 9)  result = 'Year 9';
+    if (grade === 10) result = 'Year 10';
+  }
+  window.__currentYearFilter = result;
+  return result;
+}
+
 function renderPaceBadge(topic) {
   const current = window.getCurrentSchoolWeekInfo && window.getCurrentSchoolWeekInfo();
   const status  = window.getTopicPaceStatus && window.getTopicPaceStatus(topic, current);
