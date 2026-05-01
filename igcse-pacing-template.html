@@ -601,11 +601,30 @@ function renderNav() {
   // sidebar matches the chapter list and the selected class.
   const show9  = filterYear === 'all' || filterYear === 'Year 9';
   const show10 = filterYear === 'all' || filterYear === 'Year 10';
+
+  const groupHtml = (label, items, key) => {
+    const collapsed = localStorage.getItem(`navg_${_pacingPrefix}_${key}`) === '1';
+    return `<div class="ch-nav-group${collapsed ? ' collapsed' : ''}" data-navg="${key}">
+      <div class="ch-nav-group-label" onclick="toggleNavGroup('${key}')">
+        <span class="ch-nav-caret" aria-hidden="true">▾</span>${label}
+      </div>
+      ${items}
+    </div>`;
+  };
+
   const groups = [];
-  if (show9)  groups.push(`<div class="ch-nav-group"><div class="ch-nav-group-label">Year 9 — Chapters 1–13</div>${buildItems(y9)}</div>`);
-  if (show10) groups.push(`<div class="ch-nav-group"><div class="ch-nav-group-label">Year 10 — Chapters 14–24</div>${buildItems(y10)}</div>`);
+  if (show9)  groups.push(groupHtml('Year 9 — Chapters 1–13',  buildItems(y9),  '9'));
+  if (show10) groups.push(groupHtml('Year 10 — Chapters 14–24', buildItems(y10), '10'));
   document.getElementById('chNav').innerHTML = groups.join('');
 }
+
+function toggleNavGroup(key) {
+  const el = document.querySelector(`.ch-nav-group[data-navg="${key}"]`);
+  if (!el) return;
+  el.classList.toggle('collapsed');
+  try { localStorage.setItem(`navg_${_pacingPrefix}_${key}`, el.classList.contains('collapsed') ? '1' : '0'); } catch {}
+}
+window.toggleNavGroup = toggleNavGroup;
 
 // -----------------------------------------------------------
 // RENDER - TOP PROGRESS

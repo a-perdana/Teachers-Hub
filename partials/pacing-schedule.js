@@ -252,21 +252,43 @@ window.renderThisWeekWidget = function(container, activeTopics, pacingDone, subj
       </div>`;
   }).join('');
 
+  // Collapsed by default to save vertical space; users can expand on demand.
+  // Preference is per-subject so a teacher who wants it open in Math doesn't
+  // re-open it on every visit.
+  const storeKey = `tw_collapsed_${subjectKey || 'default'}`;
+  const stored   = localStorage.getItem(storeKey);
+  const collapsed = stored == null ? true : stored === '1';
+  const count = activeTopics.length;
+
   container.innerHTML = `
-    <div class="this-week-header">
+    <div class="this-week-header" role="button" tabindex="0" aria-expanded="${!collapsed}" onclick="window.__twToggleCollapse('${storeKey}', this.parentElement)">
       <div class="this-week-title">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         This Week
+        <span class="tw-count">${count}</span>
       </div>
       <div class="this-week-label">${escHtml(weekLabel)}</div>
+      <span class="tw-caret" aria-hidden="true">▾</span>
     </div>
     <div class="tw-topics">${rows}</div>`;
+  container.classList.toggle('tw-collapsed', collapsed);
   container.style.display = '';
 
   // Expose toggle handler on window so the inline onclick can reach it
   window.__twToggle = function(subjKey, chId, tId, currentlyDone) {
     onToggle(chId, tId, !currentlyDone);
   };
+};
+
+// Toggle the This Week panel open/closed and persist the preference per
+// subject. Defined once globally so each render's inline onclick can find it.
+window.__twToggleCollapse = function(storeKey, panel) {
+  if (!panel) return;
+  const nowCollapsed = !panel.classList.contains('tw-collapsed');
+  panel.classList.toggle('tw-collapsed', nowCollapsed);
+  const head = panel.querySelector('.this-week-header');
+  if (head) head.setAttribute('aria-expanded', String(!nowCollapsed));
+  try { localStorage.setItem(storeKey, nowCollapsed ? '1' : '0'); } catch {}
 };
 
 // Safe HTML escape (mirrors the one in pacing-shared.js — safe to call if that one isn't loaded)

@@ -624,11 +624,29 @@ function renderNav() {
   const showA = filterYear === 'all' || filterYear === yearA;
   const showB = filterYear === 'all' || filterYear === yearB;
 
+  const groupHtml = (label, items, key) => {
+    const collapsed = localStorage.getItem(`navg_${_pacingPrefix}_${key}`) === '1';
+    return `<div class="ch-nav-group${collapsed ? ' collapsed' : ''}" data-navg="${key}">
+      <div class="ch-nav-group-label" onclick="toggleNavGroup('${key}')">
+        <span class="ch-nav-caret" aria-hidden="true">▾</span>${label}
+      </div>
+      ${items}
+    </div>`;
+  };
+
   const groups = [];
-  if (showA) groups.push(`<div class="ch-nav-group"><div class="ch-nav-group-label">${yearA}</div>${buildItems(yA)}</div>`);
-  if (showB) groups.push(`<div class="ch-nav-group"><div class="ch-nav-group-label">${yearB}</div>${buildItems(yB)}</div>`);
+  if (showA) groups.push(groupHtml(yearA, buildItems(yA), 'A'));
+  if (showB) groups.push(groupHtml(yearB, buildItems(yB), 'B'));
   document.getElementById('chNav').innerHTML = groups.join('');
 }
+
+function toggleNavGroup(key) {
+  const el = document.querySelector(`.ch-nav-group[data-navg="${key}"]`);
+  if (!el) return;
+  el.classList.toggle('collapsed');
+  try { localStorage.setItem(`navg_${_pacingPrefix}_${key}`, el.classList.contains('collapsed') ? '1' : '0'); } catch {}
+}
+window.toggleNavGroup = toggleNavGroup;
 
 // -----------------------------------------------------------
 // RENDER - TOP PROGRESS
