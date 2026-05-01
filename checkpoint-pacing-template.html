@@ -693,6 +693,11 @@ function renderPacing() {
           <span class="ch-pct">${pct}%</span>
           <span class="ch-topic-count">${ch.topics.length} topics</span>
         </div>
+        <div class="ch-bulk-pill" onclick="event.stopPropagation()" title="Set status for all topics in this chapter">
+          <button class="sp-btn sp-pending"    onclick="setChapterStatus(${ci},'pending')">Pending</button>
+          <button class="sp-btn sp-inprogress" onclick="setChapterStatus(${ci},'inprogress')">In Progress</button>
+          <button class="sp-btn sp-done"       onclick="setChapterStatus(${ci},'done')">Done</button>
+        </div>
         <button class="del-ch-btn" onclick="event.stopPropagation();deleteChapter(${ci})" title="Delete chapter">x</button>
         <span class="ch-caret">&#9662;</span>
       </div>
@@ -1230,6 +1235,13 @@ function toggleDone(ci, ti) {
 function setStatus(ci, ti, val) {
   if (currentClass === 'default') { showToast('Select a class first to save progress', 'warn'); return; }
   DATA[ci].topics[ti].status = val;
+  saveState(); render();
+}
+
+function setChapterStatus(ci, val) {
+  if (currentClass === 'default') { showToast('Select a class first to save progress', 'warn'); return; }
+  const ch = DATA[ci]; if (!ch || !Array.isArray(ch.topics)) return;
+  ch.topics.forEach(t => { t.status = val; });
   saveState(); render();
 }
 

@@ -691,7 +691,11 @@ function renderPacing() {
           <span class="ch-pct">${pct}%</span>
           <span class="ch-topic-count">${ch.topics.length} topics</span>
         </div>
-        <button class="bulk-done-btn" onclick="event.stopPropagation();bulkMarkDone(${ci})" title="Mark all topics in this chapter as Done">✓ All Done</button>
+        <div class="ch-bulk-pill" onclick="event.stopPropagation()" title="Set status for all topics in this chapter">
+          <button class="sp-btn sp-pending"    onclick="setChapterStatus(${ci},'pending')">Pending</button>
+          <button class="sp-btn sp-inprogress" onclick="setChapterStatus(${ci},'inprogress')">In Progress</button>
+          <button class="sp-btn sp-done"       onclick="setChapterStatus(${ci},'done')">Done</button>
+        </div>
         <span class="ch-caret">▾</span>
       </div>
       <div class="topics-wrap">
@@ -1353,6 +1357,20 @@ function setStatus(ci, ti, val) {
   }
   DATA[ci].topics[ti].status = val;
   // Clear status filter so the topic doesn't disappear after status change
+  if (filterStatus !== 'all') {
+    filterStatus = 'all';
+    document.querySelectorAll('[data-status]').forEach(c => c.classList.toggle('on', c.dataset.status === 'all'));
+  }
+  saveState(); render();
+}
+
+function setChapterStatus(ci, val) {
+  if (!currentClass || currentClass === 'default') {
+    showToast('Select a class first to save progress', 'warn');
+    return;
+  }
+  const ch = DATA[ci]; if (!ch || !Array.isArray(ch.topics)) return;
+  ch.topics.forEach(t => { t.status = val; });
   if (filterStatus !== 'all') {
     filterStatus = 'all';
     document.querySelectorAll('[data-status]').forEach(c => c.classList.toggle('on', c.dataset.status === 'all'));

@@ -172,6 +172,13 @@
 .ch-status-pill.pnd { background: var(--paper-2);  color: var(--ink-3);  border: 1px solid var(--border); }
 .ch-status-pills { display: none; }
 .ch-block.collapsed .ch-status-pills { display: flex; }
+.ch-bulk-pill {
+  display: inline-flex; gap: 2px; flex-shrink: 0;
+  background: var(--paper-2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 2px;
+  cursor: default;
+}
+.ch-bulk-pill .sp-btn { padding: 3px 7px; font-size: .62rem; }
 .ch-caret { color: var(--ink-3); font-size: .75rem; transition: transform .2s; flex-shrink: 0; }
 .ch-block.collapsed .ch-caret { transform: rotate(-90deg); }
 .ch-block.collapsed .topics-wrap { display: none; }
