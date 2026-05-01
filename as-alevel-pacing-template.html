@@ -687,17 +687,26 @@ function renderWeekTimeline() {
     const cls = ['wk-pill'];
     if (isCurrent) cls.push('is-current');
     if (hasTopic) cls.push('has-topic'); else cls.push('is-empty');
-    const onclick = hasTopic ? `onclick="jumpToWeek(${w})"` : '';
     const title = hasTopic
       ? `Jump to Week ${w} topics${isCurrent ? ' (this week)' : ''}`
       : `Week ${w} — no topics scheduled`;
-    return `<button type="button" class="${cls.join(' ')}" ${onclick} title="${title}">${w}</button>`;
+    return `<button type="button" class="${cls.join(' ')}" data-week="${w}" ${hasTopic ? '' : 'disabled aria-disabled="true"'} title="${title}">${w}</button>`;
   }).join('');
 
   el.innerHTML = `
     <div class="wk-tl-label">${escHtml(_eyf)} timeline</div>
     <div class="wk-tl-rail">${pillsHtml}</div>`;
   el.style.display = '';
+
+  if (!el.__wkTlBound) {
+    el.addEventListener('click', (ev) => {
+      const btn = ev.target.closest('.wk-pill');
+      if (!btn || btn.disabled) return;
+      const w = parseInt(btn.dataset.week, 10);
+      if (w) jumpToWeek(w);
+    });
+    el.__wkTlBound = true;
+  }
 
   if (curWeek) {
     const cur = el.querySelector('.wk-pill.is-current');
