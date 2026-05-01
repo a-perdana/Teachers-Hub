@@ -439,71 +439,53 @@ function getChapterPageSize() {
 // -----------------------------------------------------------
 // PACE ALERT HELPERS
 // -----------------------------------------------------------
-// School term start date — admin can set this via Central Hub settings
-// Default: first Monday of September of current year
-var TERM_START_DATE = null; // set by admin; falls back to auto-detect
-
-function getTermStartDate() {
-  if (TERM_START_DATE) return new Date(TERM_START_DATE);
-  // Auto-detect: first Monday of September this year (or last year if before Sep)
-  const now = new Date();
-  const year = now.getMonth() >= 8 ? now.getFullYear() : now.getFullYear() - 1;
-  const sep1 = new Date(year, 8, 1);
-  const day = sep1.getDay(); // 0=Sun
-  const offset = day === 1 ? 0 : day === 0 ? 1 : 8 - day;
-  return new Date(year, 8, 1 + offset);
+// Pace state is derived from the teaching schedule loaded by
+// pacing-schedule.js, which exposes window.getCurrentSchoolWeekInfo()
+// and window.getTopicPaceStatus(). We just thinly wrap those for
+// per-template rendering.
+function _currentSemFmt(c) {
+  if (!c) return '';
+  const sem = c.semester ? `Sem ${c.semester === 1 ? 'I' : c.semester === 2 ? 'II' : c.semester} · ` : '';
+  return `${sem}Wk ${c.week}`;
 }
-
-function getCurrentSchoolWeek() {
-  const start = getTermStartDate();
-  const now   = new Date();
-  const diffMs = now - start;
-  if (diffMs < 0) return 0; // term hasn't started
-  return Math.ceil(diffMs / (7 * 24 * 60 * 60 * 1000));
+function _topicSemFmt(t) {
+  const sem = t.semester ? `Sem ${t.semester === 1 ? 'I' : t.semester === 2 ? 'II' : t.semester} · ` : '';
+  return `${sem}Wk ${t.week}`;
 }
-
-// Returns: 'overdue' | 'behind' | 'on-track' | 'upcoming' | null
-function getPaceStatus(topic) {
-  if (!topic.week) return null;
-  const topicWeek = parseInt(String(topic.week).replace(/\D/g, '')) || 0;
-  if (!topicWeek) return null;
-  const currentWeek = getCurrentSchoolWeek();
-  if (topic.status === 'done') return null; // done = no alert
-  if (currentWeek > topicWeek + 1) return 'overdue';
-  if (currentWeek > topicWeek)     return 'behind';
-  if (currentWeek === topicWeek)   return 'on-track';
-  return 'upcoming';
-}
-
 
 function renderPaceBadge(topic) {
-  const status = getPaceStatus(topic);
+  const current = window.getCurrentSchoolWeekInfo && window.getCurrentSchoolWeekInfo();
+  const status  = window.getTopicPaceStatus && window.getTopicPaceStatus(topic, current);
   if (!status) return '';
-  return `<span class="pace-badge ${status}" title="School week ${topic.week} vs current week ${getCurrentSchoolWeek()}">${PACE_LABELS[status]}</span>`;
+  const title = current
+    ? `Topic: ${_topicSemFmt(topic)} · Now: ${_currentSemFmt(current)}`
+    : `Topic: ${_topicSemFmt(topic)}`;
+  return `<span class="pace-badge ${status}" title="${title}">${PACE_LABELS[status]}</span>`;
 }
 
 function renderPaceSummary() {
   const pill = document.getElementById('paceSummaryPill');
   if (!pill) return;
-  const currentWeek = getCurrentSchoolWeek();
-  if (currentWeek <= 0) { pill.style.display = 'none'; return; }
+  const current = window.getCurrentSchoolWeekInfo && window.getCurrentSchoolWeekInfo();
+  if (!current) { pill.style.display = 'none'; return; }
 
   let overdue = 0, behind = 0;
   DATA.forEach(ch => ch.topics.forEach(t => {
-    const s = getPaceStatus(t);
+    const s = window.getTopicPaceStatus && window.getTopicPaceStatus(t, current);
     if (s === 'overdue') overdue++;
     else if (s === 'behind') behind++;
   }));
 
+  const nowLbl = _currentSemFmt(current);
   if (overdue === 0 && behind === 0) {
     pill.className = 'pace-summary-pill ok';
-    pill.textContent = '✓ On track — Week ' + currentWeek;
+    pill.textContent = `✓ On track — ${nowLbl}`;
   } else if (overdue > 0) {
     pill.className = 'pace-summary-pill danger';
-    pill.textContent = overdue + ' overdue · ' + behind + ' behind · Wk ' + currentWeek;
+    pill.textContent = `${overdue} overdue · ${behind} behind · ${nowLbl}`;
   } else {
     pill.className = 'pace-summary-pill';
-    pill.textContent = behind + ' behind schedule · Wk ' + currentWeek;
+    pill.textContent = `${behind} behind schedule · ${nowLbl}`;
   }
   pill.style.display = 'flex';
 }
@@ -1108,7 +1090,8 @@ function renderWeekly() {
     Object.values(wData.subjTopics).forEach(topics => topics.forEach(t => totalHours += (t.hour || 0)));
     const loadPct = Math.min(100, Math.round(totalHours / MAX_HOURS * 100));
     const loadClass = loadPct >= 85 ? 'load-heavy' : loadPct >= 55 ? 'load-medium' : 'load-ok';
-    const currentWeek = getCurrentSchoolWeek();
+    const _curInfo = window.getCurrentSchoolWeekInfo && window.getCurrentSchoolWeekInfo();
+    const currentWeek = _curInfo ? _curInfo.week : 0;
     const wNum = parseInt(w.replace(/\D/g,''));
     const isCurrent = wNum === currentWeek;
 
@@ -1972,6 +1955,7 @@ async function loadThisWeekWidget(db) {
   if (!widget) return;
   if (!_scheduleCache) {
     _scheduleCache = await window.loadTeachingSchedule(db);
+    if (window.DATA && window.DATA.length) render();
   }
   refreshThisWeekWidget();
 }

@@ -20,7 +20,10 @@ window.loadTeachingSchedule = async function(db) {
   }
   try {
     const snap = await getDoc(doc(db, 'teaching_schedule', 'main'));
-    if (!snap.exists()) return { teachingWeeks: [], skippedWeeks: [] };
+    if (!snap.exists()) {
+      window._teachingScheduleCache = { teachingWeeks: [], skippedWeeks: [] };
+      return window._teachingScheduleCache;
+    }
     const data = snap.data();
     const teachingWeeks = (data.weeks || []).map(w => ({
       weekNo:    w.weekNo,
@@ -34,11 +37,84 @@ window.loadTeachingSchedule = async function(db) {
       mon: new Date(w.mon + 'T00:00:00'),
       fri: new Date(w.fri + 'T23:59:59'),
     }));
-    return { teachingWeeks, skippedWeeks };
+    window._teachingScheduleCache = { teachingWeeks, skippedWeeks };
+    return window._teachingScheduleCache;
   } catch (e) {
     console.warn('pacing-schedule: could not load teaching_schedule/main', e);
-    return { teachingWeeks: [], skippedWeeks: [] };
+    window._teachingScheduleCache = { teachingWeeks: [], skippedWeeks: [] };
+    return window._teachingScheduleCache;
   }
+};
+
+/**
+ * Returns the current school week as { semester, week } using the loaded
+ * teaching schedule. Year-relative semWeekNo (Y7 W5 and Y8 W5 both come back
+ * as week=5 — the topic's `t.year` distinguishes them via cumulative reset
+ * which is already handled by the syllabus push).
+ *
+ * Falls back to the next teaching week if today lands on a skipped week
+ * (public holiday): teachers expect "we are on holiday, next week is W13"
+ * not "W12 still" or "W13 already".
+ *
+ * Returns null if no schedule is loaded yet, or if the academic year has
+ * not started.
+ */
+window.getCurrentSchoolWeekInfo = function() {
+  const cache = window._teachingScheduleCache;
+  if (!cache || !cache.teachingWeeks || !cache.teachingWeeks.length) return null;
+  const now = new Date();
+  // 1) Today inside a teaching week → return that week.
+  const idx = cache.teachingWeeks.findIndex(w => now >= w.mon && now <= w.fri);
+  if (idx >= 0) {
+    const w = cache.teachingWeeks[idx];
+    return { semLabel: w.semLabel, semester: _parseSem(w.semLabel), week: w.semWeekNo };
+  }
+  // 2) Today before academic year starts.
+  if (now < cache.teachingWeeks[0].mon) return null;
+  // 3) Today is in a holiday gap → next teaching week.
+  const nextW = cache.teachingWeeks.find(w => w.mon > now);
+  if (nextW) return { semLabel: nextW.semLabel, semester: _parseSem(nextW.semLabel), week: nextW.semWeekNo };
+  // 4) Past the last teaching week of the year.
+  const lastW = cache.teachingWeeks[cache.teachingWeeks.length - 1];
+  return { semLabel: lastW.semLabel, semester: _parseSem(lastW.semLabel), week: lastW.semWeekNo + 1 };
+};
+
+function _parseSem(label) {
+  if (!label) return null;
+  const m = String(label).match(/(\d+|I{1,3}|IV)/i);
+  if (!m) return null;
+  const t = m[1].toUpperCase();
+  if (t === 'I')   return 1;
+  if (t === 'II')  return 2;
+  if (t === 'III') return 3;
+  if (t === 'IV')  return 4;
+  const n = parseInt(t, 10);
+  return isNaN(n) ? null : n;
+}
+
+/**
+ * Compares a topic's planned (semester, week) against the current school
+ * week and returns 'overdue' | 'behind' | 'on-track' | 'upcoming' | null.
+ *
+ * Topics without a semester field fall back to comparing only `week`
+ * within the current semester — preserves backward compat for legacy data
+ * before the syllabus push existed.
+ */
+window.getTopicPaceStatus = function(topic, current) {
+  if (!current) return null;
+  if (topic.status === 'done') return null;
+  const tWeek = parseInt(String(topic.week ?? '').replace(/\D/g, ''), 10);
+  if (!tWeek) return null;
+  const tSem = topic.semester || null;
+  if (tSem && current.semester) {
+    if (tSem < current.semester) return 'overdue';
+    if (tSem > current.semester) return 'upcoming';
+  }
+  // Same semester (or unknown) — compare weeks
+  if (current.week > tWeek + 1) return 'overdue';
+  if (current.week > tWeek)     return 'behind';
+  if (current.week === tWeek)   return 'on-track';
+  return 'upcoming';
 };
 
 /**
