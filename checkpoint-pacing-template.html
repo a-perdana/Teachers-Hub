@@ -481,8 +481,10 @@ function _effectiveYearFilter() {
       if (m) _grade = parseInt(m[1], 10);
     }
     if (_grade != null) {
-      const cfg = window.SUBJECT_CONFIG || {};
-      const candidates = [cfg.yearA, cfg.yearB].filter(Boolean);
+      // SUBJECT_CONFIG is module-local (const declared in this script
+      // block) — read it directly. window.SUBJECT_CONFIG isn't set so
+      // earlier reads through window were falling back to {}.
+      const candidates = [SUBJECT_CONFIG.yearA, SUBJECT_CONFIG.yearB].filter(Boolean);
       _matched = candidates.find(y => {
         const m = String(y).match(/(\d{1,2})/);
         return m && parseInt(m[1], 10) === _grade;
@@ -491,13 +493,10 @@ function _effectiveYearFilter() {
     }
   }
   window.__currentYearFilter = result;
-  // Visible diagnostic panel — temporary so we can see in production
-  // exactly which inputs land in the filter and what comes out.
   const dbg = document.getElementById('yearDebugPanel');
   if (dbg) {
-    const cfg = window.SUBJECT_CONFIG || {};
     const mapKeys = Object.keys(window.__classGradeMap || {}).join(', ') || '(empty)';
-    dbg.textContent = `class="${cls}" filterYear="${filterYear}" grade=${_grade} matched=${_matched} effective=${result} | yearA=${cfg.yearA} yearB=${cfg.yearB} | gradeMap: ${mapKeys}`;
+    dbg.textContent = `class="${cls}" filterYear="${filterYear}" grade=${_grade} matched=${_matched} effective=${result} | yearA=${SUBJECT_CONFIG.yearA} yearB=${SUBJECT_CONFIG.yearB} | gradeMap: ${mapKeys}`;
   }
   return result;
 }
@@ -1660,8 +1659,7 @@ function switchClass(cls) {
       if (m) grade = parseInt(m[1], 10);
     }
     if (grade != null) {
-      const cfg = window.SUBJECT_CONFIG || {};
-      const candidates = [cfg.yearA, cfg.yearB].filter(Boolean);
+      const candidates = [SUBJECT_CONFIG.yearA, SUBJECT_CONFIG.yearB].filter(Boolean);
       const matched = candidates.find(y => {
         const m = String(y).match(/(\d{1,2})/);
         return m && parseInt(m[1], 10) === grade;

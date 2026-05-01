@@ -1597,8 +1597,7 @@ function switchClass(cls) {
       if (m) grade = parseInt(m[1], 10);
     }
     if (grade != null) {
-      const cfg = window.SUBJECT_CONFIG || {};
-      const candidates = [cfg.yearA, cfg.yearB].filter(Boolean);
+      const candidates = [SUBJECT_CONFIG.yearA, SUBJECT_CONFIG.yearB].filter(Boolean);
       const matched = candidates.find(y => {
         const m = String(y).match(/(\d{1,2})/);
         return m && parseInt(m[1], 10) === grade;
