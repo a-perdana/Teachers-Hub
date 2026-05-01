@@ -1759,22 +1759,30 @@ let unsubStructure  = null;
 let unsubUserProg   = null;
 let currentUID      = null;
 let sharedStructure = null;
-let userStatuses    = {};
+let userStatuses    = {};   // { "chId.tId": status, "note.chId.tId": note, ... }
+
+// -- Stable key helpers (match IGCSE format) -----------------------
+function _topicKey(chId, tId) { return `${chId}.${tId}`; }
 
 // -- Merge shared structure + per-user statuses → window.DATA --
 async function _mergeAndRender(isFirstLoad) {
   if (!sharedStructure) return;
-  window.DATA = sharedStructure.map((ch, ci) => ({
+  window.DATA = sharedStructure.map((ch) => ({
     ...ch,
-    topics: ch.topics.map((t, ti) => ({
-      ...t,
-      status:     userStatuses[`${ci}-${ti}`]           || 'pending',
-      note:       userStatuses[`note-${ci}-${ti}`]       || '',
-      diag:       userStatuses[`diag-${ci}-${ti}`]       || '',
-      actualHour: userStatuses[`actual-${ci}-${ti}`] != null
-                    ? Number(userStatuses[`actual-${ci}-${ti}`]) : null,
-      // coordNote comes from sharedStructure (admin-written, same for all users)
-    })),
+    topics: (ch.topics || []).map((t) => {
+      // Without stable IDs we cannot key into userStatuses safely.
+      if (!ch.id || !t.id) return { ...t, status: 'pending', note: '', diag: '', actualHour: null };
+      const k = _topicKey(ch.id, t.id);
+      return {
+        ...t,
+        status:     userStatuses[k]             || 'pending',
+        note:       userStatuses[`note.${k}`]   || '',
+        diag:       userStatuses[`diag.${k}`]   || '',
+        actualHour: userStatuses[`actual.${k}`] != null
+                      ? Number(userStatuses[`actual.${k}`]) : null,
+        // coordNote comes from sharedStructure (admin-written, same for all users)
+      };
+    }),
   }));
   if (isFirstLoad) {
     const _ls = document.getElementById('loadingScreen'); if (_ls) _ls.style.display = 'none';
@@ -1877,33 +1885,62 @@ window.__fbSaveState = async function(data) {
 
   const db = window.db;
 
-  // 1. Build this user's status + notes map (skip 'pending' status to keep doc lean)
+  // Backfill any missing IDs in DATA before saving so progress can be keyed
+  // by stable chId.tId. The backfilled IDs are also written to the shared
+  // structure doc so other users see the same IDs.
+  let needsStructureWrite = false;
+  data.forEach(ch => {
+    if (!ch.id) { ch.id = Date.now().toString(36) + Math.random().toString(36).slice(2,6); needsStructureWrite = true; }
+    (ch.topics || []).forEach(t => {
+      if (!t.id) { t.id = Date.now().toString(36) + Math.random().toString(36).slice(2,6); needsStructureWrite = true; }
+    });
+  });
+  if (needsStructureWrite) {
+    const structureOnly = data.map(ch => ({
+      ...ch,
+      topics: ch.topics.map(({ status, note, diag, actualHour, ...rest }) => rest),
+    }));
+    setDoc(
+      doc(db, window.SUBJECT_CONFIG.collection, window.SUBJECT_CONFIG.docId),
+      { chapters: structureOnly, updatedAt: serverTimestamp() },
+      { merge: true }
+    ).catch(e => console.warn('ID backfill structure write error:', e));
+  }
+
+  // 1. Build this user's status + notes map keyed by stable chId.tId.
+  //    Skip 'pending' to keep the doc lean.
   const newStatuses = {};
-  data.forEach((ch, ci) => {
-    ch.topics.forEach((t, ti) => {
+  data.forEach((ch) => {
+    if (!ch.id) return;
+    (ch.topics || []).forEach((t) => {
+      if (!t.id) return;
+      const k = _topicKey(ch.id, t.id);
       if (t.status && t.status !== 'pending') {
-        newStatuses[`${ci}-${ti}`] = t.status;
+        newStatuses[k] = t.status;
       }
       if (t.note && t.note.trim()) {
-        newStatuses[`note-${ci}-${ti}`] = t.note.trim();
+        newStatuses[`note.${k}`] = t.note.trim();
       }
       if (t.diag && t.diag.trim()) {
-        newStatuses[`diag-${ci}-${ti}`] = t.diag.trim();
+        newStatuses[`diag.${k}`] = t.diag.trim();
       }
       if (t.actualHour !== null && t.actualHour !== undefined) {
-        newStatuses[`actual-${ci}-${ti}`] = t.actualHour;
+        newStatuses[`actual.${k}`] = t.actualHour;
       }
     });
   });
 
-  // 2. Save user's own progress (class-scoped key)
+  // 2. Save user's own progress (class-scoped key). merge:true preserves
+  //    other class keys; the active key is fully replaced inside that block,
+  //    which clears orphan entries for deleted topics automatically.
   const progressKey = currentClass && currentClass !== 'default'
     ? `{{PROGRESS_KEY}}_${currentClass.replace(/\s/g,'_')}`
     : '{{PROGRESS_KEY}}';
   try {
     await setDoc(
       doc(db, 'userProgress', currentUID),
-      { [progressKey]: newStatuses, updatedAt: serverTimestamp() }
+      { [progressKey]: newStatuses, updatedAt: serverTimestamp() },
+      { merge: true }
     );
   } catch(e) {
     console.error('User progress save error:', e);
