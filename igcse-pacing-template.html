@@ -1156,14 +1156,19 @@ function renderWeekly() {
 // RENDER - OBJECTIVE COVERAGE REPORT
 // -----------------------------------------------------------
 let coverageFilter = 'all'; // 'all' | 'uncovered' | 'partial' | 'covered'
+let coveragePage   = 0;
+const COVERAGE_PAGE_SIZE = 25;
 
 function renderCoverage() {
   const el = document.getElementById('coverageReport');
   if (!el) return;
 
-  // Collect all obj codes from all topics (include diag tag)
+  // Collect obj codes — respect the active year filter so the totals and
+  // the table mirror what the teacher sees in the Pacing Guide.
+  const _eyf = _effectiveYearFilter();
   const codeMap = {}; // code -> [{ ci, ti, topic, status, diag, chapter }]
   DATA.forEach((ch, ci) => {
+    if (_eyf !== 'all' && _chapterYear(ch) !== _eyf) return;
     ch.topics.forEach((t, ti) => {
       const codes = parseObjCodes(t.objective || '', t.syllabusRefs);
       codes.forEach(code => {
@@ -1231,49 +1236,85 @@ function renderCoverage() {
 
     ${visible.length === 0 ? '<p style="color:var(--ink-3);font-size:.8rem;padding:12px 0">No objectives match this filter.</p>' : ''}
 
-    <table class="coverage-table">
-      <thead><tr>
-        <th style="width:90px">Code</th>
-        <th style="width:110px">Status</th>
-        <th>Topics using this objective</th>
-      </tr></thead>
-      <tbody>
-        ${visible.map(code => {
-          const topics = codeMap[code];
-          const allDone  = topics.every(t => t.status === 'done');
-          const someDone = topics.some(t => t.status === 'done');
-          const hasWeak   = topics.some(t => t.diag === 'weak');
-          const hasReview = topics.some(t => t.diag === 'review');
-          const rowClass = hasWeak ? 'cov-uncovered' : allDone ? 'cov-covered' : someDone ? 'cov-partial' : 'cov-uncovered';
-          const badge    = allDone ? 'covered' : someDone ? 'partial' : 'uncovered';
-          const badgeLabel = allDone ? 'Covered' : someDone ? 'In Progress' : 'Not Started';
-          const diagBadge = hasWeak
-            ? `<span style="font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:100px;background:#fee2e2;color:#dc2626;border:1px solid #fca5a5;white-space:nowrap">⚠ Weak</span>`
-            : hasReview
-            ? `<span style="font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:100px;background:#fef9c3;color:#92400e;border:1px solid #fde68a;white-space:nowrap">↻ Review</span>`
-            : '';
-          const topicLinks = topics.map(t => {
-            const diagDot = t.diag === 'weak'
-              ? `<span title="Weak" style="color:#dc2626;font-size:.7rem">⚠</span>`
-              : t.diag === 'review'
-              ? `<span title="Needs review" style="color:#d97706;font-size:.7rem">↻</span>`
-              : '';
-            return `<span class="cov-topic-link ${t.status}" onclick="scrollToChapter(${t.ci})" title="Ch ${t.ci+1}: ${escHtml(t.chapter)}">${diagDot}${escHtml(t.topic.substring(0,38))}${t.topic.length>38?'…':''}</span>`;
-          }).join('');
-          return `<tr class="${rowClass}">
-            <td><span class="cov-code">${escHtml(code)}</span></td>
-            <td style="display:flex;gap:4px;align-items:center;flex-wrap:wrap"><span class="cov-status-badge ${badge}">${badgeLabel}</span>${diagBadge}</td>
-            <td><div class="cov-topic-links">${topicLinks}</div></td>
-          </tr>`;
-        }).join('')}
-      </tbody>
-    </table>`;
+    ${(() => {
+      const totalPages = Math.max(1, Math.ceil(visible.length / COVERAGE_PAGE_SIZE));
+      if (coveragePage >= totalPages) coveragePage = totalPages - 1;
+      if (coveragePage < 0) coveragePage = 0;
+      const start = coveragePage * COVERAGE_PAGE_SIZE;
+      const end   = Math.min(start + COVERAGE_PAGE_SIZE, visible.length);
+      const pageCodes = visible.slice(start, end);
+
+      const tableHtml = `
+        <table class="coverage-table">
+          <thead><tr>
+            <th style="width:90px">Code</th>
+            <th style="width:110px">Status</th>
+            <th>Topics using this objective</th>
+          </tr></thead>
+          <tbody>
+            ${pageCodes.map(code => {
+              const topics = codeMap[code];
+              const allDone  = topics.every(t => t.status === 'done');
+              const someDone = topics.some(t => t.status === 'done');
+              const hasWeak   = topics.some(t => t.diag === 'weak');
+              const hasReview = topics.some(t => t.diag === 'review');
+              const rowClass = hasWeak ? 'cov-uncovered' : allDone ? 'cov-covered' : someDone ? 'cov-partial' : 'cov-uncovered';
+              const badge    = allDone ? 'covered' : someDone ? 'partial' : 'uncovered';
+              const badgeLabel = allDone ? 'Covered' : someDone ? 'In Progress' : 'Not Started';
+              const diagBadge = hasWeak
+                ? `<span style="font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:100px;background:#fee2e2;color:#dc2626;border:1px solid #fca5a5;white-space:nowrap">⚠ Weak</span>`
+                : hasReview
+                ? `<span style="font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:100px;background:#fef9c3;color:#92400e;border:1px solid #fde68a;white-space:nowrap">↻ Review</span>`
+                : '';
+              const topicLinks = topics.map(t => {
+                const diagDot = t.diag === 'weak'
+                  ? `<span title="Weak" style="color:#dc2626;font-size:.7rem">⚠</span>`
+                  : t.diag === 'review'
+                  ? `<span title="Needs review" style="color:#d97706;font-size:.7rem">↻</span>`
+                  : '';
+                return `<span class="cov-topic-link ${t.status}" onclick="scrollToChapter(${t.ci})" title="Ch ${t.ci+1}: ${escHtml(t.chapter)}">${diagDot}${escHtml(t.topic.substring(0,38))}${t.topic.length>38?'…':''}</span>`;
+              }).join('');
+              return `<tr class="${rowClass}">
+                <td><span class="cov-code">${escHtml(code)}</span></td>
+                <td style="display:flex;gap:4px;align-items:center;flex-wrap:wrap"><span class="cov-status-badge ${badge}">${badgeLabel}</span>${diagBadge}</td>
+                <td><div class="cov-topic-links">${topicLinks}</div></td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>`;
+
+      if (totalPages <= 1) return tableHtml;
+
+      let pgBtns = '';
+      for (let p = 0; p < totalPages; p++) {
+        pgBtns += `<button class="pg-btn ${p === coveragePage ? 'pg-active' : ''}" onclick="setCovPage(${p})">${p + 1}</button>`;
+      }
+
+      return tableHtml + `
+        <div class="ch-pagination" style="margin-top:14px">
+          <span class="pg-info">${start + 1}–${end} of ${visible.length} objectives</span>
+          <div class="pg-btns">
+            <button class="pg-btn" onclick="setCovPage(${coveragePage - 1})" ${coveragePage === 0 ? 'disabled' : ''}>‹ Prev</button>
+            ${pgBtns}
+            <button class="pg-btn" onclick="setCovPage(${coveragePage + 1})" ${coveragePage === totalPages - 1 ? 'disabled' : ''}>Next ›</button>
+          </div>
+        </div>`;
+    })()}`;
 }
 
 function setCovFilter(f) {
   coverageFilter = f;
+  coveragePage   = 0;
   renderCoverage();
 }
+
+function setCovPage(p) {
+  coveragePage = p;
+  renderCoverage();
+  const el = document.getElementById('coverageReport');
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+window.setCovPage = setCovPage;
 
 // -----------------------------------------------------------
 // DIAGNOSTIC ROLLUP — appended to Hours Report
@@ -1666,6 +1707,7 @@ function _showNotAssigned(subjectLabel, levelLabel) {
 
 function switchClass(cls) {
   currentClass = cls;
+  coveragePage = 0;
   if (!cls || cls === 'default') {
     // No class selected — release the implicit year lock so both
     // years return to the list.
