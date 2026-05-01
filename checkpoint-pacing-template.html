@@ -21,6 +21,22 @@
 }
 </style>
 <!-- PACING_SHARED_CSS -->
+<!-- ── Step 1 UX polish: mute Done topics + Sem I in the timeline ── -->
+<style>
+/* Done topic rows: drop the green wash, fade everything down so the
+   teacher's eye locks onto the work that's still pending. The line-through
+   on .topic-name.struck and the green checkbox already say "done". */
+table.topics-tbl tr.done-row,
+table.topics-tbl tbody tr.done-row:hover { background: var(--paper); }
+table.topics-tbl tr.done-row td { opacity: .55; transition: opacity .2s; }
+table.topics-tbl tr.done-row:hover td { opacity: .9; } /* full detail on hover */
+
+/* Sem I block in the week timeline: render it muted and slightly compact so
+   the live semester (Sem II) wins the eye. Click still works, no info lost. */
+.wk-tl-sem:not(.is-active-sem) { opacity: .42; transition: opacity .15s; }
+.wk-tl-sem:not(.is-active-sem):hover { opacity: 1; }
+.wk-tl-sem:not(.is-active-sem) .wk-pill { transform: scale(.92); }
+</style>
 
 <script src="partials/navbar.js"></script>
 <script src="partials/pacing-schedule.js"></script>
