@@ -526,25 +526,9 @@ function renderPaceSummary() {
 }
 
 // -----------------------------------------------------------
-// ÖZELLIK 1: EXAM COUNTDOWN
+// EXAM COUNTDOWN — manageExamDates() lives in pacing-shared.js
+// and reads window.PACING_CONFIG (examLocalKey + examPapers).
 // -----------------------------------------------------------
-async function manageExamDates() {
-  const res = await _showCm({
-    title: 'Set Cambridge Exam Dates',
-    msg: 'Enter Cambridge Checkpoint Mathematics exam dates (leave blank to skip).',
-    fields: [
-      { id: 'paper1', label: 'Paper 1 date (YYYY-MM-DD)', type: 'date', val: examDates.paper1 || '' },
-      { id: 'paper2', label: 'Paper 2 date (YYYY-MM-DD)', type: 'date', val: examDates.paper2 || '' },
-    ],
-    okLabel: 'Save Dates',
-  });
-  if (!res) return;
-  if (res.paper1) examDates.paper1 = res.paper1;
-  if (res.paper2) examDates.paper2 = res.paper2;
-  localStorage.setItem('checkpoint_math_exam_dates', JSON.stringify(examDates));
-  renderExamCountdown();
-  showToast('Exam dates saved');
-}
 
 // -----------------------------------------------------------
 // ÖZELLIK 2: DIAGNOSTIC TAG
@@ -745,7 +729,8 @@ function renderPacing() {
 
     const done      = ch.topics.filter(t => t.status === 'done').length;
     const pct       = ch.topics.length ? Math.round(done / ch.topics.length * 100) : 0;
-    const yearClass = ch.year === 'Year 9' ? 'yr9' : ch.year === 'Year 10' ? 'yr10' : ch.year === 'Year 11' ? 'yr9' : ch.year === 'Year 12' ? 'yr10' : ch.year === 'Year 7' ? 'yr9' : 'yr10';
+    const _yrMatch = String(ch.year || '').match(/(\d{1,2})/);
+    const yearClass = _yrMatch ? 'yr' + _yrMatch[1] : '';
 
     html += `
     <div class="ch-block" id="ch-${ci}">
@@ -1105,12 +1090,26 @@ function toggleCrossSubj(subj, btn) {
 // -----------------------------------------------------------
 function renderWeekly() {
   const weekMap = {};
+  const _eyf = _effectiveYearFilter();
+
+  // Should this chapter be hidden because every topic is done?
+  // Mirrors the Pacing Guide behavior: only when no explicit status filter
+  // is active, and only for self subject (we don't have the teacher's
+  // progress for cross subjects).
+  const _isChapterAllDone = (ch) => hideCompleted
+    && filterStatus === 'all'
+    && Array.isArray(ch.topics)
+    && ch.topics.length > 0
+    && ch.topics.every(t => t.status === 'done');
 
   // Self subject topics (always active)
   const selfKey = SUBJECT_CONFIG.subjectKey;
   if (crossSubjActive[selfKey]) {
     DATA.forEach(ch => {
+      if (_eyf !== 'all' && _chapterYear(ch) !== _eyf) return;
+      if (_isChapterAllDone(ch)) return;
       ch.topics.forEach(t => {
+        if (t.status === 'done' && hideCompleted && filterStatus === 'all') return;
         const w = t.week ? String(t.week) : null;
         if (!w) return;
         if (!weekMap[w]) weekMap[w] = { subjTopics: {} };
@@ -1120,10 +1119,12 @@ function renderWeekly() {
     });
   }
 
-  // Cross subjects
+  // Cross subjects: same year filter, but no hide-completed (we don't
+  // know other teachers' progress on their own pacing).
   SUBJECT_CONFIG.crossSubjects.map(s => s.key).forEach(subj => {
     if (!crossSubjActive[subj] || !crossSubjData[subj]) return;
     crossSubjData[subj].forEach(ch => {
+      if (_eyf !== 'all' && (ch.year || null) !== _eyf) return;
       (ch.topics || []).forEach(t => {
         const w = t.week ? String(t.week) : null;
         if (!w) return;
@@ -1602,7 +1603,7 @@ async function buildClassSelector() {
   section.style.display = effectiveList.length > 0 ? '' : 'none';
   wrap.innerHTML = effectiveList.map(cls => {
     const safe = String(cls).replace(/"/g, '&quot;').replace(/'/g, "\\'");
-    return `<div class="chip${cls === currentClass ? ' on' : ''}" tabindex="0" role="button" onclick="window.__pickClass(this, '${safe}')">${safe}</div>`;
+    return `<div class="chip${cls === currentClass ? ' on' : ''}" tabindex="0" role="button" title="Click to filter to this class. Click again to show every year." onclick="window.__pickClass(this, '${safe}')">${safe}</div>`;
   }).join('');
 }
 
@@ -1611,6 +1612,13 @@ async function buildClassSelector() {
 // way (dataset.class with reserved word, attribute escaping, etc.).
 window.__pickClass = function(chip, cls) {
   if (!chip || !cls) return;
+  // Toggle off: clicking the already-selected class chip clears the
+  // selection and brings every year back into view.
+  if (chip.classList.contains('on') && currentClass === cls) {
+    chip.classList.remove('on');
+    switchClass('default');
+    return;
+  }
   document.querySelectorAll('#classChips .chip').forEach(c => c.classList.remove('on'));
   chip.classList.add('on');
   switchClass(cls);
@@ -1635,7 +1643,13 @@ function _showNotAssigned(subjectLabel, levelLabel) {
 
 function switchClass(cls) {
   currentClass = cls;
-  if (cls && cls !== 'default') {
+  if (!cls || cls === 'default') {
+    // No class selected — release the implicit year lock so both
+    // Year 7 and Year 8 chapters return to the list.
+    filterYear = 'all';
+    window.__currentYearFilter = 'all';
+    chapterPage = 0;
+  } else {
     let grade = window.__classGradeMap?.[cls];
     if (grade == null) {
       const m = String(cls).match(/(\d{1,2})/);
@@ -1698,6 +1712,9 @@ document.getElementById('statusChips').addEventListener('click', e => {
   chip.classList.add('on');
   filterStatus = chip.dataset.status;
   renderPacing();
+  // Weekly View also depends on filterStatus (hide-completed only applies
+  // when filterStatus === 'all'), so refresh it too.
+  renderWeekly();
 });
 
 // -----------------------------------------------------------

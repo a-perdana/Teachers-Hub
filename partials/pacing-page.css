@@ -168,8 +168,12 @@
   min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .ch-year-tag { font-size: .62rem; font-weight: 600; padding: 2px 7px; border-radius: 100px; flex-shrink: 0; }
+.yr7  { background: var(--green-2);  color: var(--green);  border: 1px solid #c2e6d2; }
+.yr8  { background: var(--amber-2);  color: var(--amber);  border: 1px solid #f0dfa3; }
 .yr9  { background: var(--blue-2);   color: var(--blue);   border: 1px solid #c2d8f5; }
 .yr10 { background: var(--purple-2); color: var(--purple); border: 1px solid #d5c3f0; }
+.yr11 { background: var(--blue-2);   color: var(--blue);   border: 1px solid #c2d8f5; }
+.yr12 { background: var(--purple-2); color: var(--purple); border: 1px solid #d5c3f0; }
 .ch-stats { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
 .ch-prog-bar { width: 70px; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
 .ch-prog-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width .4s; }

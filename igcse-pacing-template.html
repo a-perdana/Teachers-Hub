@@ -698,7 +698,8 @@ function renderPacing() {
     const revisit    = ch.topics.filter(t => t.status === 'revisit').length;
     const pending    = ch.topics.filter(t => !t.status || t.status === 'pending').length;
     const pct        = Math.round(done / ch.topics.length * 100);
-    const yearClass  = ch.year === 'Year 9' ? 'yr9' : 'yr10';
+    const _yrMatch = String(ch.year || '').match(/(\d{1,2})/);
+    const yearClass = _yrMatch ? 'yr' + _yrMatch[1] : '';
     const statusPillsHtml = `<div class="ch-status-pills">
       ${done       ? `<span class="ch-status-pill dn">${done} done</span>` : ''}
       ${inprogress ? `<span class="ch-status-pill ip">${inprogress} in progress</span>` : ''}
@@ -1047,12 +1048,26 @@ function toggleCrossSubj(subj, btn) {
 // -----------------------------------------------------------
 function renderWeekly() {
   const weekMap = {};
+  const _eyf = _effectiveYearFilter();
+
+  // Should this chapter be hidden because every topic is done?
+  // Mirrors the Pacing Guide behavior: only when no explicit status filter
+  // is active, and only for self subject (we don't have the teacher's
+  // progress for cross subjects).
+  const _isChapterAllDone = (ch) => hideCompleted
+    && filterStatus === 'all'
+    && Array.isArray(ch.topics)
+    && ch.topics.length > 0
+    && ch.topics.every(t => t.status === 'done');
 
   // This subject's topics (always active)
   const selfKey = SUBJECT_CONFIG.subjectKey;
   if (crossSubjActive[selfKey]) {
     DATA.forEach(ch => {
+      if (_eyf !== 'all' && _chapterYear(ch) !== _eyf) return;
+      if (_isChapterAllDone(ch)) return;
       ch.topics.forEach(t => {
+        if (t.status === 'done' && hideCompleted && filterStatus === 'all') return;
         const w = t.week ? String(t.week) : null;
         if (!w) return;
         if (!weekMap[w]) weekMap[w] = { selfHours: 0, subjTopics: {} };
@@ -1064,10 +1079,12 @@ function renderWeekly() {
     });
   }
 
-  // Cross-subjects
+  // Cross-subjects: same year filter, but no hide-completed (we don't
+  // know other teachers' progress on their own pacing).
   SUBJECT_CONFIG.crossSubjects.map(s => s.key).forEach(subj => {
     if (!crossSubjActive[subj] || !crossSubjData[subj]) return;
     crossSubjData[subj].forEach(ch => {
+      if (_eyf !== 'all' && (ch.year || null) !== _eyf) return;
       (ch.topics || []).forEach(t => {
         const w = t.week ? String(t.week) : null;
         if (!w) return;
@@ -1612,12 +1629,19 @@ async function buildClassSelector() {
   section.style.display = effectiveList.length > 0 ? '' : 'none';
   wrap.innerHTML = effectiveList.map(cls => {
     const safe = String(cls).replace(/"/g, '&quot;').replace(/'/g, "\\'");
-    return `<div class="chip${cls === currentClass ? ' on' : ''}" tabindex="0" role="button" onclick="window.__pickClass(this, '${safe}')">${safe}</div>`;
+    return `<div class="chip${cls === currentClass ? ' on' : ''}" tabindex="0" role="button" title="Click to filter to this class. Click again to show every year." onclick="window.__pickClass(this, '${safe}')">${safe}</div>`;
   }).join('');
 }
 
 window.__pickClass = function(chip, cls) {
   if (!chip || !cls) return;
+  // Toggle off: clicking the already-selected class chip clears the
+  // selection and brings every year back into view.
+  if (chip.classList.contains('on') && currentClass === cls) {
+    chip.classList.remove('on');
+    switchClass('default');
+    return;
+  }
   document.querySelectorAll('#classChips .chip').forEach(c => c.classList.remove('on'));
   chip.classList.add('on');
   switchClass(cls);
@@ -1642,7 +1666,13 @@ function _showNotAssigned(subjectLabel, levelLabel) {
 
 function switchClass(cls) {
   currentClass = cls;
-  if (cls && cls !== 'default') {
+  if (!cls || cls === 'default') {
+    // No class selected — release the implicit year lock so both
+    // years return to the list.
+    filterYear = 'all';
+    window.__currentYearFilter = 'all';
+    chapterPage = 0;
+  } else {
     let grade = window.__classGradeMap?.[cls];
     if (grade == null) {
       const m = String(cls).match(/(\d{1,2})/);
@@ -1698,6 +1728,9 @@ function activateStatusChip(chip) {
   filterStatus = chip.dataset.status;
   Object.keys(chPageMap).forEach(k => { chPageMap[k] = 0; });
   renderPacing();
+  // Weekly View also depends on filterStatus (hide-completed only applies
+  // when filterStatus === 'all'), so refresh it too.
+  renderWeekly();
 }
 document.getElementById('statusChips').addEventListener('click', e => {
   const chip = e.target.closest('[data-status]'); if (chip) activateStatusChip(chip);
