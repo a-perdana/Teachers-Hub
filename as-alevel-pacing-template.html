@@ -161,6 +161,8 @@
     <div class="panel on" id="panel-pacing">
       <!-- THIS WEEK WIDGET -->
       <div id="thisWeekWidget" class="this-week-widget" style="display:none"></div>
+      <!-- WEEK TIMELINE (only shown once a year is locked in via class pick or year chip) -->
+      <div id="weekTimeline" class="week-timeline" style="display:none"></div>
       <div class="edit-hint" id="editHint"><span class="edit-hint-dot"></span><span>Coordinator mode — click any topic, objective, or duration to edit inline.</span></div>
       <div id="chBlocksWrap">
         <div id="chBlocks"></div>
@@ -638,6 +640,100 @@ function renderProgress() {
   document.getElementById('topProgDone').textContent  = done;
   document.getElementById('topProgTotal').textContent = all.length;
 }
+
+// -----------------------------------------------------------
+// RENDER - WEEK TIMELINE (between This Week widget and chapters)
+// -----------------------------------------------------------
+function renderWeekTimeline() {
+  const el = document.getElementById('weekTimeline');
+  if (!el) return;
+  const _eyf = _effectiveYearFilter();
+
+  // Timeline only makes sense once we've locked in a year — otherwise
+  // "Week 5" is ambiguous between Year 11 and Year 12.
+  if (_eyf === 'all') { el.style.display = 'none'; el.innerHTML = ''; return; }
+
+  const weekToTopic = {};
+  let maxTopicWeek = 0;
+  DATA.forEach((ch, ci) => {
+    if (_chapterYear(ch) !== _eyf) return;
+    ch.topics.forEach((t, ti) => {
+      const w = parseInt(t.week, 10);
+      if (!w || isNaN(w)) return;
+      if (w > maxTopicWeek) maxTopicWeek = w;
+      if (!weekToTopic[w]) weekToTopic[w] = { ci, ti };
+    });
+  });
+
+  const sched = window._teachingScheduleCache;
+  let weekNos;
+  if (sched && sched.teachingWeeks && sched.teachingWeeks.length) {
+    const semNos = sched.teachingWeeks.map(w => w.semWeekNo).filter(n => n > 0);
+    const maxSched = semNos.length ? Math.max(...semNos) : 0;
+    const upper = Math.max(maxSched, maxTopicWeek);
+    weekNos = upper > 0 ? Array.from({ length: upper }, (_, i) => i + 1) : [];
+  } else {
+    weekNos = maxTopicWeek > 0 ? Array.from({ length: maxTopicWeek }, (_, i) => i + 1) : [];
+  }
+
+  if (!weekNos.length) { el.style.display = 'none'; el.innerHTML = ''; return; }
+
+  const curInfo = window.getCurrentSchoolWeekInfo && window.getCurrentSchoolWeekInfo();
+  const curWeek = curInfo ? curInfo.week : 0;
+
+  const pillsHtml = weekNos.map(w => {
+    const hasTopic = !!weekToTopic[w];
+    const isCurrent = w === curWeek;
+    const cls = ['wk-pill'];
+    if (isCurrent) cls.push('is-current');
+    if (hasTopic) cls.push('has-topic'); else cls.push('is-empty');
+    const onclick = hasTopic ? `onclick="jumpToWeek(${w})"` : '';
+    const title = hasTopic
+      ? `Jump to Week ${w} topics${isCurrent ? ' (this week)' : ''}`
+      : `Week ${w} — no topics scheduled`;
+    return `<button type="button" class="${cls.join(' ')}" ${onclick} title="${title}">${w}</button>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="wk-tl-label">${escHtml(_eyf)} timeline</div>
+    <div class="wk-tl-rail">${pillsHtml}</div>`;
+  el.style.display = '';
+
+  if (curWeek) {
+    const cur = el.querySelector('.wk-pill.is-current');
+    if (cur && typeof cur.scrollIntoView === 'function') {
+      cur.scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' });
+    }
+  }
+}
+
+function jumpToWeek(w) {
+  const _eyf = _effectiveYearFilter();
+  if (_eyf === 'all') return;
+  let target = null;
+  DATA.some((ch, ci) => {
+    if (_chapterYear(ch) !== _eyf) return false;
+    return ch.topics.some((t, ti) => {
+      if (parseInt(t.week, 10) === w) { target = { ci, ti }; return true; }
+      return false;
+    });
+  });
+  if (!target) return;
+
+  if (typeof PAGE_SIZE === 'number' && PAGE_SIZE > 0) {
+    chPageMap[target.ci] = Math.floor(target.ti / PAGE_SIZE);
+  }
+
+  scrollToChapter(target.ci);
+  setTimeout(() => {
+    const row = document.getElementById(`row-${target.ci}-${target.ti}`);
+    if (!row) return;
+    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    row.classList.add('wk-jump-flash');
+    setTimeout(() => row.classList.remove('wk-jump-flash'), 1600);
+  }, 250);
+}
+window.jumpToWeek = jumpToWeek;
 
 // -----------------------------------------------------------
 // RENDER - PACING GUIDE
@@ -1821,6 +1917,7 @@ function render() {
   renderProgress();
   renderPaceSummary();
   renderExamCountdown();
+  renderWeekTimeline();
   renderNav();
   renderPacing();
   renderWeekly();

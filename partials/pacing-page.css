@@ -789,6 +789,46 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   font-size: .55rem; font-weight: 700; padding: 1px 5px; border-radius: 100px;
   flex-shrink: 0; line-height: 1.4; letter-spacing: .02em;
 }
+
+/* ── Week Timeline (between This Week widget and chapter blocks) ── */
+.week-timeline {
+  margin: 8px 24px 12px; padding: 10px 12px;
+  background: white; border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  display: flex; align-items: center; gap: 12px;
+}
+.wk-tl-label {
+  font-size: .6rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--ink-3); flex-shrink: 0; white-space: nowrap;
+}
+.wk-tl-rail {
+  flex: 1; display: flex; gap: 4px; overflow-x: auto; padding: 2px 2px 6px;
+  scrollbar-width: thin;
+}
+.wk-tl-rail::-webkit-scrollbar { height: 6px; }
+.wk-tl-rail::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.wk-pill {
+  font-family: 'DM Mono', monospace; font-size: .65rem; font-weight: 600;
+  min-width: 26px; height: 24px; padding: 0 6px;
+  border-radius: 6px; border: 1px solid var(--border);
+  background: var(--paper); color: var(--ink-3);
+  cursor: default; transition: all .15s ease; flex-shrink: 0;
+}
+.wk-pill.has-topic { background: white; color: var(--ink); cursor: pointer; }
+.wk-pill.has-topic:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.wk-pill.is-empty { opacity: .45; cursor: not-allowed; }
+.wk-pill.is-current {
+  background: var(--accent); color: white; border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(192,57,43,.15);
+}
+.wk-pill.is-current.has-topic:hover { color: white; filter: brightness(.92); }
+
+/* Brief glow when jumpToWeek lands on a topic row. */
+@keyframes wkJumpFlash {
+  0%   { background-color: var(--accent-2); }
+  100% { background-color: transparent; }
+}
+.wk-jump-flash > td { animation: wkJumpFlash 1.6s ease-out; }
 .dot-y9  { background: var(--blue); }
 .dot-y10 { background: var(--purple); }
 
