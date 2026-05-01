@@ -463,6 +463,9 @@ function _chapterYear(ch) {
 // updated yet (race conditions, missed renders) the chapter list still
 // matches the picked class. Falls back to the explicit filterYear chip
 // state only when no class is picked.
+//
+// AS/A-Level is fixed to Year 11 / Year 12 — anything else is treated as
+// "no match" so a stray class with a different grade doesn't quietly leak in.
 function _effectiveYearFilter() {
   const cls = currentClass;
   let result = filterYear || 'all';
@@ -472,14 +475,8 @@ function _effectiveYearFilter() {
       const m = String(cls).match(/(\d{1,2})/);
       if (m) grade = parseInt(m[1], 10);
     }
-    if (grade != null) {
-      const candidates = [SUBJECT_CONFIG.yearA, SUBJECT_CONFIG.yearB].filter(Boolean);
-      const matched = candidates.find(y => {
-        const m = String(y).match(/(\d{1,2})/);
-        return m && parseInt(m[1], 10) === grade;
-      });
-      if (matched) result = matched;
-    }
+    if (grade === 11) result = 'Year 11';
+    if (grade === 12) result = 'Year 12';
   }
   window.__currentYearFilter = result;
   return result;

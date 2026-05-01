@@ -468,8 +468,10 @@ function _chapterYear(ch) {
 // Derived from currentClass directly so even if filterYear hasn't been
 // updated yet (race conditions, missed renders) the chapter list still
 // matches the picked class. Falls back to the explicit filterYear chip
-// state only when no class is picked. IGCSE is fixed to Year 9 / Year 10
-// (no SUBJECT_CONFIG.yearA/yearB).
+// state only when no class is picked.
+//
+// IGCSE is fixed to Year 9 / Year 10 — anything else is treated as
+// "no match" so a stray class with a different grade doesn't quietly leak in.
 function _effectiveYearFilter() {
   const cls = currentClass;
   let result = filterYear || 'all';
