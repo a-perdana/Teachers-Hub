@@ -802,11 +802,22 @@ table.topics-tbl td:last-child { white-space: nowrap; }
   color: var(--ink-3); flex-shrink: 0; white-space: nowrap;
 }
 .wk-tl-rail {
-  flex: 1; display: flex; gap: 4px; overflow-x: auto; padding: 2px 2px 6px;
-  scrollbar-width: thin;
+  flex: 1; display: flex; gap: 14px; overflow-x: auto; padding: 2px 2px 6px;
+  scrollbar-width: thin; align-items: center;
 }
 .wk-tl-rail::-webkit-scrollbar { height: 6px; }
 .wk-tl-rail::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+/* One semester block (label + its own pill row). Separator between semesters
+   is a thin vertical rule rendered by the gap + ::before of the next block. */
+.wk-tl-sem { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.wk-tl-sem + .wk-tl-sem { padding-left: 14px; border-left: 1px dashed var(--border); }
+.wk-tl-sem-label {
+  font-size: .58rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-3); padding: 2px 6px; border-radius: 4px; background: var(--paper);
+  white-space: nowrap;
+}
+.wk-tl-sem.is-active-sem .wk-tl-sem-label { background: var(--accent-2); color: var(--accent-dark); }
+.wk-tl-pills { display: flex; gap: 4px; }
 .wk-pill {
   font-family: 'DM Mono', monospace; font-size: .65rem; font-weight: 600;
   min-width: 26px; height: 24px; padding: 0 6px;

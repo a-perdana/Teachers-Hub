@@ -654,57 +654,93 @@ function renderWeekTimeline() {
   // "Week 5" is ambiguous between Year 9 and Year 10.
   if (_eyf === 'all') { el.style.display = 'none'; el.innerHTML = ''; return; }
 
-  const weekToTopic = {};
-  let maxTopicWeek = 0;
+  // Map (semester, week) -> first topic that lands there. Both t.week and
+  // schedule semWeekNo reset each semester, so we MUST key on semester too —
+  // otherwise Sem II W12 silently jumps to Sem I W12.
+  const key = (sem, w) => `${sem || 0}|${w}`;
+  const semWeekToTopic = {};
+  const maxWeekBySem  = {};
   DATA.forEach((ch, ci) => {
     if (_chapterYear(ch) !== _eyf) return;
     ch.topics.forEach((t, ti) => {
       const w = parseInt(t.week, 10);
       if (!w || isNaN(w)) return;
-      if (w > maxTopicWeek) maxTopicWeek = w;
-      if (!weekToTopic[w]) weekToTopic[w] = { ci, ti };
+      const sem = parseInt(t.semester, 10) || 0;
+      const k = key(sem, w);
+      if (w > (maxWeekBySem[sem] || 0)) maxWeekBySem[sem] = w;
+      if (!semWeekToTopic[k]) semWeekToTopic[k] = { ci, ti };
     });
   });
 
   const sched = window._teachingScheduleCache;
-  let weekNos;
+  const schedBySem = {};
   if (sched && sched.teachingWeeks && sched.teachingWeeks.length) {
-    const semNos = sched.teachingWeeks.map(w => w.semWeekNo).filter(n => n > 0);
-    const maxSched = semNos.length ? Math.max(...semNos) : 0;
-    const upper = Math.max(maxSched, maxTopicWeek);
-    weekNos = upper > 0 ? Array.from({ length: upper }, (_, i) => i + 1) : [];
-  } else {
-    weekNos = maxTopicWeek > 0 ? Array.from({ length: maxTopicWeek }, (_, i) => i + 1) : [];
+    sched.teachingWeeks.forEach(w => {
+      const m = String(w.semLabel || '').match(/(\d+|I{1,3}|IV)/i);
+      let sem = 0;
+      if (m) {
+        const t = m[1].toUpperCase();
+        sem = t === 'I' ? 1 : t === 'II' ? 2 : t === 'III' ? 3 : t === 'IV' ? 4 : (parseInt(t, 10) || 0);
+      }
+      if (w.semWeekNo > (schedBySem[sem] || 0)) schedBySem[sem] = w.semWeekNo;
+    });
   }
 
-  if (!weekNos.length) { el.style.display = 'none'; el.innerHTML = ''; return; }
+  const semSet = new Set([
+    ...Object.keys(schedBySem).map(n => parseInt(n, 10)),
+    ...Object.keys(maxWeekBySem).map(n => parseInt(n, 10)),
+  ]);
+  const sems = [...semSet].filter(s => s > 0).sort((a, b) => a - b);
+
+  if (!sems.length) {
+    const upper = Math.max(maxWeekBySem[0] || 0, 0);
+    if (!upper) { el.style.display = 'none'; el.innerHTML = ''; return; }
+    sems.push(0);
+    schedBySem[0] = upper;
+  }
 
   const curInfo = window.getCurrentSchoolWeekInfo && window.getCurrentSchoolWeekInfo();
+  const curSem  = curInfo ? (curInfo.semester || 0) : 0;
   const curWeek = curInfo ? curInfo.week : 0;
 
-  const pillsHtml = weekNos.map(w => {
-    const hasTopic = !!weekToTopic[w];
-    const isCurrent = w === curWeek;
-    const cls = ['wk-pill'];
-    if (isCurrent) cls.push('is-current');
-    if (hasTopic) cls.push('has-topic'); else cls.push('is-empty');
-    const title = hasTopic
-      ? `Jump to Week ${w} topics${isCurrent ? ' (this week)' : ''}`
-      : `Week ${w} — no topics scheduled`;
-    return `<button type="button" class="${cls.join(' ')}" data-week="${w}" ${hasTopic ? '' : 'disabled aria-disabled="true"'} title="${title}">${w}</button>`;
+  const semRoman = (s) => s === 1 ? 'I' : s === 2 ? 'II' : s === 3 ? 'III' : s === 4 ? 'IV' : String(s);
+
+  const semBlocksHtml = sems.map(sem => {
+    const upper = Math.max(schedBySem[sem] || 0, maxWeekBySem[sem] || 0);
+    if (!upper) return '';
+    const weekNos = Array.from({ length: upper }, (_, i) => i + 1);
+    const pills = weekNos.map(w => {
+      const hasTopic = !!semWeekToTopic[key(sem, w)];
+      const isCurrent = sem === curSem && w === curWeek;
+      const cls = ['wk-pill'];
+      if (isCurrent) cls.push('is-current');
+      if (hasTopic) cls.push('has-topic'); else cls.push('is-empty');
+      const title = hasTopic
+        ? `Jump to Sem ${semRoman(sem)} · Week ${w}${isCurrent ? ' (this week)' : ''}`
+        : `Sem ${semRoman(sem)} · Week ${w} — no topics scheduled`;
+      return `<button type="button" class="${cls.join(' ')}" data-sem="${sem}" data-week="${w}" ${hasTopic ? '' : 'disabled aria-disabled="true"'} title="${title}">${w}</button>`;
+    }).join('');
+    const semLbl = sem ? `Sem ${semRoman(sem)}` : 'Weeks';
+    const isActiveSem = sem === curSem;
+    return `
+      <div class="wk-tl-sem${isActiveSem ? ' is-active-sem' : ''}">
+        <span class="wk-tl-sem-label">${semLbl}</span>
+        <div class="wk-tl-pills">${pills}</div>
+      </div>`;
   }).join('');
 
   el.innerHTML = `
     <div class="wk-tl-label">${escHtml(_eyf)} timeline</div>
-    <div class="wk-tl-rail">${pillsHtml}</div>`;
+    <div class="wk-tl-rail">${semBlocksHtml}</div>`;
   el.style.display = '';
 
   if (!el.__wkTlBound) {
     el.addEventListener('click', (ev) => {
       const btn = ev.target.closest('.wk-pill');
       if (!btn || btn.disabled) return;
-      const w = parseInt(btn.dataset.week, 10);
-      if (w) jumpToWeek(w);
+      const w   = parseInt(btn.dataset.week, 10);
+      const sem = parseInt(btn.dataset.sem, 10) || 0;
+      if (w) jumpToWeek(w, sem);
     });
     el.__wkTlBound = true;
   }
@@ -717,14 +753,17 @@ function renderWeekTimeline() {
   }
 }
 
-function jumpToWeek(w) {
+function jumpToWeek(w, sem) {
   const _eyf = _effectiveYearFilter();
   if (_eyf === 'all') return;
+  const wantSem = sem || 0;
   let target = null;
   DATA.some((ch, ci) => {
     if (_chapterYear(ch) !== _eyf) return false;
     return ch.topics.some((t, ti) => {
-      if (parseInt(t.week, 10) === w) { target = { ci, ti }; return true; }
+      const tw   = parseInt(t.week, 10);
+      const tsem = parseInt(t.semester, 10) || 0;
+      if (tw === w && (wantSem === 0 || tsem === wantSem)) { target = { ci, ti }; return true; }
       return false;
     });
   });
