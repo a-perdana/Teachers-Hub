@@ -1616,18 +1616,17 @@ async function buildClassSelector() {
   section.style.display = effectiveList.length > 0 ? '' : 'none';
   wrap.innerHTML = effectiveList.map(cls => {
     const safe = String(cls).replace(/"/g, '&quot;');
-    return `<div class="chip${cls === currentClass ? ' on' : ''}" data-class="${safe}" tabindex="0" role="button">${safe}</div>`;
+    return `<div class="chip${cls === currentClass ? ' on' : ''}" data-class="${safe}" tabindex="0" role="button" onclick="window.__pickClass(this)">${safe}</div>`;
   }).join('');
 }
 
-document.addEventListener('click', e => {
-  const chip = e.target.closest('#classChips [data-class]');
+window.__pickClass = function(chip) {
   if (!chip) return;
   const cls = chip.dataset.class;
   document.querySelectorAll('#classChips [data-class]').forEach(c => c.classList.remove('on'));
   chip.classList.add('on');
   switchClass(cls);
-});
+};
 
 function _showNotAssigned(subjectLabel, levelLabel) {
   const layout = document.getElementById('appLayout');
