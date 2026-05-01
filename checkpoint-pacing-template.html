@@ -462,6 +462,35 @@ function _chapterYear(ch) {
   return ch.year || null;
 }
 
+// The single source of truth for "what year is the page filtered to".
+// Derived from currentClass directly so even if filterYear hasn't been
+// updated yet (race conditions, missed renders) the chapter list still
+// matches the picked class. Falls back to the explicit filterYear chip
+// state only when no class is picked.
+function _effectiveYearFilter() {
+  const cls = currentClass;
+  let result = filterYear || 'all';
+  if (cls && cls !== 'default') {
+    let grade = window.__classGradeMap?.[cls];
+    if (grade == null) {
+      const m = String(cls).match(/(\d{1,2})/);
+      if (m) grade = parseInt(m[1], 10);
+    }
+    if (grade != null) {
+      const cfg = window.SUBJECT_CONFIG || {};
+      const candidates = [cfg.yearA, cfg.yearB].filter(Boolean);
+      const matched = candidates.find(y => {
+        const m = String(y).match(/(\d{1,2})/);
+        return m && parseInt(m[1], 10) === grade;
+      });
+      if (matched) result = matched;
+    }
+  }
+  // Mirror to window so the module-scope This Week refresher can read it.
+  window.__currentYearFilter = result;
+  return result;
+}
+
 function renderPaceBadge(topic) {
   const current = window.getCurrentSchoolWeekInfo && window.getCurrentSchoolWeekInfo();
   const status  = window.getTopicPaceStatus && window.getTopicPaceStatus(topic, current);
@@ -479,8 +508,9 @@ function renderPaceSummary() {
   if (!current) { pill.style.display = 'none'; return; }
 
   let overdue = 0, behind = 0;
+  const _eyf = _effectiveYearFilter();
   DATA.forEach(ch => {
-    if (filterYear !== 'all' && _chapterYear(ch) !== filterYear) return;
+    if (_eyf !== 'all' && _chapterYear(ch) !== _eyf) return;
     ch.topics.forEach(t => {
       const s = window.getTopicPaceStatus && window.getTopicPaceStatus(t, current);
       if (s === 'overdue') overdue++;
@@ -621,8 +651,9 @@ function renderNav() {
 
   // Year-aware: if a year filter is active, only render that group so the
   // sidebar matches the chapter list and the selected class.
-  const showA = filterYear === 'all' || filterYear === yearA;
-  const showB = filterYear === 'all' || filterYear === yearB;
+  const _eyf  = _effectiveYearFilter();
+  const showA = _eyf === 'all' || _eyf === yearA;
+  const showB = _eyf === 'all' || _eyf === yearB;
 
   const groupHtml = (label, items, key) => {
     const collapsed = localStorage.getItem(`navg_${_pacingPrefix}_${key}`) === '1';
@@ -655,9 +686,10 @@ function renderProgress() {
   // Year-aware: when a year filter is active (or auto-set by switchClass)
   // the headline progress should reflect just that year's topics, not the
   // whole 2-year pacing structure.
+  const _eyf = _effectiveYearFilter();
   const all = allTopics().filter(t => {
-    if (filterYear === 'all') return true;
-    return DATA[t.ch] && _chapterYear(DATA[t.ch]) === filterYear;
+    if (_eyf === 'all') return true;
+    return DATA[t.ch] && _chapterYear(DATA[t.ch]) === _eyf;
   });
   const done = all.filter(t => t.status === 'done').length;
   const pct  = all.length ? Math.round(done / all.length * 100) : 0;
@@ -677,10 +709,11 @@ function renderPacing() {
   // Apply chapter-level pagination
   const CPS = getChapterPageSize(); // dynamic: 2xcols in gallery, 5 in list
   // First collect filtered chapter indices
+  const _eyf = _effectiveYearFilter();
   let _hiddenCompletedCount = 0;
   const filteredChIndices = DATA.map((ch, ci) => ci).filter(ci => {
     const ch = DATA[ci];
-    if (filterYear !== 'all' && _chapterYear(ch) !== filterYear) return false;
+    if (_eyf !== 'all' && _chapterYear(ch) !== _eyf) return false;
     // Hide chapters where every topic is done (only when no explicit status filter is active).
     if (hideCompleted && filterStatus === 'all' && ch.topics.length > 0
         && ch.topics.every(t => t.status === 'done')) {
@@ -704,7 +737,7 @@ function renderPacing() {
 
   pageChIndices.forEach(ci => {
     const ch = DATA[ci];
-    if (filterYear !== 'all' && _chapterYear(ch) !== filterYear) return;
+    if (_eyf !== 'all' && _chapterYear(ch) !== _eyf) return;
 
     const filteredTopics = ch.topics.map((t, ti) => ({t, ti})).filter(({t}) => {
       if (filterStatus !== 'all' && t.status !== filterStatus) return false;
@@ -986,9 +1019,10 @@ function setChapterView(mode) {
 
 function openChapterInList(ci) {
   chapterViewMode = 'list';
+  const _eyf = _effectiveYearFilter();
   const filteredChIndices = DATA.map((ch, idx) => idx).filter(idx => {
     const ch = DATA[idx];
-    if (filterYear !== 'all' && _chapterYear(ch) !== filterYear) return false;
+    if (_eyf !== 'all' && _chapterYear(ch) !== _eyf) return false;
     return ch.topics.length > 0;
   });
   const pos = filteredChIndices.indexOf(ci);
@@ -1004,8 +1038,9 @@ function openChapterInList(ci) {
 // CHAPTER PAGINATION
 // -----------------------------------------------------------
 function chapterSetPage(page) {
+  const _eyf = _effectiveYearFilter();
   const filteredCount = DATA.filter(ch => {
-    if (filterYear !== 'all' && _chapterYear(ch) !== filterYear) return false;
+    if (_eyf !== 'all' && _chapterYear(ch) !== _eyf) return false;
     return ch.topics.length > 0;
   }).length;
   const totalPages = Math.ceil(filteredCount / getChapterPageSize());
@@ -1464,9 +1499,10 @@ function scrollToChapter(ci) {
   switchViewById('pacing');
 
   // Make sure chapter is on the visible page
+  const _eyf = _effectiveYearFilter();
   const filteredChIndices = DATA.map((ch, idx) => idx).filter(idx => {
     const ch = DATA[idx];
-    if (filterYear !== 'all' && _chapterYear(ch) !== filterYear) return false;
+    if (_eyf !== 'all' && _chapterYear(ch) !== _eyf) return false;
     return ch.topics.length > 0;
   });
   const pos = filteredChIndices.indexOf(ci);
