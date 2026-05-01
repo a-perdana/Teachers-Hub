@@ -1559,15 +1559,14 @@ async function buildClassSelector() {
 
   section.style.display = effectiveList.length > 0 ? '' : 'none';
   wrap.innerHTML = effectiveList.map(cls => {
-    const safe = String(cls).replace(/"/g, '&quot;');
-    return `<div class="chip${cls === currentClass ? ' on' : ''}" data-class="${safe}" tabindex="0" role="button" onclick="window.__pickClass(this)">${safe}</div>`;
+    const safe = String(cls).replace(/"/g, '&quot;').replace(/'/g, "\\'");
+    return `<div class="chip${cls === currentClass ? ' on' : ''}" tabindex="0" role="button" onclick="window.__pickClass(this, '${safe}')">${safe}</div>`;
   }).join('');
 }
 
-window.__pickClass = function(chip) {
-  if (!chip) return;
-  const cls = chip.dataset.class;
-  document.querySelectorAll('#classChips [data-class]').forEach(c => c.classList.remove('on'));
+window.__pickClass = function(chip, cls) {
+  if (!chip || !cls) return;
+  document.querySelectorAll('#classChips .chip').forEach(c => c.classList.remove('on'));
   chip.classList.add('on');
   switchClass(cls);
 };

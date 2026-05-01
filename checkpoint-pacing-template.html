@@ -1572,17 +1572,17 @@ async function buildClassSelector() {
 
   section.style.display = effectiveList.length > 0 ? '' : 'none';
   wrap.innerHTML = effectiveList.map(cls => {
-    const safe = String(cls).replace(/"/g, '&quot;');
-    return `<div class="chip${cls === currentClass ? ' on' : ''}" data-class="${safe}" tabindex="0" role="button" onclick="window.__pickClass(this)">${safe}</div>`;
+    const safe = String(cls).replace(/"/g, '&quot;').replace(/'/g, "\\'");
+    return `<div class="chip${cls === currentClass ? ' on' : ''}" tabindex="0" role="button" onclick="window.__pickClass(this, '${safe}')">${safe}</div>`;
   }).join('');
 }
 
-// Direct onclick on each chip — more reliable than document delegation when
-// the chip's children (text nodes) sometimes intercept clicks differently.
-window.__pickClass = function(chip) {
-  if (!chip) return;
-  const cls = chip.dataset.class;
-  document.querySelectorAll('#classChips [data-class]').forEach(c => c.classList.remove('on'));
+// Pass the class name as an explicit argument instead of reading it from a
+// data-* attribute. Removes any chance of the DOM API quirks getting in the
+// way (dataset.class with reserved word, attribute escaping, etc.).
+window.__pickClass = function(chip, cls) {
+  if (!chip || !cls) return;
+  document.querySelectorAll('#classChips .chip').forEach(c => c.classList.remove('on'));
   chip.classList.add('on');
   switchClass(cls);
 };
@@ -1606,10 +1606,6 @@ function _showNotAssigned(subjectLabel, levelLabel) {
 
 function switchClass(cls) {
   currentClass = cls;
-  // Auto-pick the matching year filter for the chosen class. Prefer the
-  // grade looked up from schools/{id}/classes; fall back to a digit in
-  // the class name (e.g. "7 Harvard") so this still works for legacy
-  // teacher profiles whose schoolId hasn't synced its class doc yet.
   if (cls && cls !== 'default') {
     let grade = window.__classGradeMap?.[cls];
     if (grade == null) {
@@ -1630,11 +1626,8 @@ function switchClass(cls) {
       }
     }
   }
-  // Refresh visible derivatives (chapter list + sidebar nav + progress
-  // bar + pace pill + this-week widget) once we've updated state.
   render();
   if (typeof window.__refreshThisWeekWidget === 'function') window.__refreshThisWeekWidget();
-  // Notify Firebase module to switch progress path
   if (window.__fbSwitchClass) window.__fbSwitchClass(cls);
 }
 
