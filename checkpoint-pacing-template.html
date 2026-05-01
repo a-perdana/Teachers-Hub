@@ -766,7 +766,8 @@ function renderWeekTimeline() {
 
 function jumpToWeek(w) {
   const _eyf = _effectiveYearFilter();
-  if (_eyf === 'all') return;
+  console.log('[jumpToWeek] called', { w, _eyf, dataLen: DATA.length });
+  if (_eyf === 'all') { console.log('[jumpToWeek] aborting: no year filter'); return; }
   // Find the first topic for this week within the active year.
   let target = null;
   DATA.some((ch, ci) => {
@@ -776,6 +777,7 @@ function jumpToWeek(w) {
       return false;
     });
   });
+  console.log('[jumpToWeek] target', target);
   if (!target) return;
 
   // Make sure the topic's *intra-chapter* page is the visible one too —
@@ -785,11 +787,23 @@ function jumpToWeek(w) {
     chPageMap[target.ci] = Math.floor(target.ti / PAGE_SIZE);
   }
 
+  // If the target chapter has every topic done while hide-completed is on,
+  // renderPacing will skip it and the chapter element won't be in the DOM
+  // for scrollToChapter to find. Override hide-completed for this jump so
+  // the user always lands on the topic they clicked.
+  const targetCh = DATA[target.ci];
+  const targetAllDone = targetCh && targetCh.topics.length > 0
+    && targetCh.topics.every(t => t.status === 'done');
+  if (hideCompleted && targetAllDone) {
+    toggleHideCompleted(false);
+  }
+
   // Bring the chapter into view (this also fixes chapter pagination), then
   // pinpoint the topic row and pulse it for a moment so the eye catches it.
   scrollToChapter(target.ci);
   setTimeout(() => {
     const row = document.getElementById(`row-${target.ci}-${target.ti}`);
+    console.log('[jumpToWeek] row lookup', `row-${target.ci}-${target.ti}`, row);
     if (!row) return;
     row.scrollIntoView({ behavior: 'smooth', block: 'center' });
     row.classList.add('wk-jump-flash');
