@@ -24,6 +24,7 @@
 
 <script src="partials/navbar.js"></script>
 <script src="partials/pacing-schedule.js"></script>
+<script src="partials/pacing-week-timeline.js"></script>
 <!-- PACING_SHARED_JS -->
 <!-- FIREBASE_ENV -->
 <script type="module" src="auth-guard.js"></script>
@@ -586,11 +587,13 @@ function renderNav() {
       // Respect syllabus filter in nav counts
       const visTopics = syllabusFilter === 'all' ? ch.topics : ch.topics.filter(t => matchesSyllabusFilter(t));
       if (!visTopics.length) return ''; // hide chapter from nav if no visible topics
-      const done = visTopics.filter(t => t.status === 'done').length;
-      return `<div class="ch-nav-item" onclick="scrollToChapter(${ci})" id="nav-${ci}">
+      const done     = visTopics.filter(t => t.status === 'done').length;
+      const total    = visTopics.length;
+      const complete = total > 0 && done === total;
+      return `<div class="ch-nav-item${complete ? ' is-complete' : ''}" onclick="scrollToChapter(${ci})" id="nav-${ci}">
         <span class="ch-nav-num">${ci+1}</span>
         <span class="ch-nav-title">${ch.chapter.replace(/^\d+\.\s*/, '')}</span>
-        <span class="ch-nav-count">${done}/${visTopics.length}</span>
+        <span class="ch-nav-count">${complete ? '✓' : `${done}/${total}`}</span>
       </div>`;
     }).join('');
   }
@@ -642,147 +645,11 @@ function renderProgress() {
   document.getElementById('topProgTotal').textContent = all.length;
 }
 
-// -----------------------------------------------------------
-// RENDER - WEEK TIMELINE (between This Week widget and chapters)
-// -----------------------------------------------------------
-function renderWeekTimeline() {
-  const el = document.getElementById('weekTimeline');
-  if (!el) return;
-  const _eyf = _effectiveYearFilter();
-
-  // Timeline only makes sense once we've locked in a year — otherwise
-  // "Week 5" is ambiguous between Year 9 and Year 10.
-  if (_eyf === 'all') { el.style.display = 'none'; el.innerHTML = ''; return; }
-
-  // Map (semester, week) -> first topic that lands there. Both t.week and
-  // schedule semWeekNo reset each semester, so we MUST key on semester too —
-  // otherwise Sem II W12 silently jumps to Sem I W12.
-  const key = (sem, w) => `${sem || 0}|${w}`;
-  const semWeekToTopic = {};
-  const maxWeekBySem  = {};
-  DATA.forEach((ch, ci) => {
-    if (_chapterYear(ch) !== _eyf) return;
-    ch.topics.forEach((t, ti) => {
-      const w = parseInt(t.week, 10);
-      if (!w || isNaN(w)) return;
-      const sem = parseInt(t.semester, 10) || 0;
-      const k = key(sem, w);
-      if (w > (maxWeekBySem[sem] || 0)) maxWeekBySem[sem] = w;
-      if (!semWeekToTopic[k]) semWeekToTopic[k] = { ci, ti };
-    });
-  });
-
-  const sched = window._teachingScheduleCache;
-  const schedBySem = {};
-  if (sched && sched.teachingWeeks && sched.teachingWeeks.length) {
-    sched.teachingWeeks.forEach(w => {
-      const m = String(w.semLabel || '').match(/(\d+|I{1,3}|IV)/i);
-      let sem = 0;
-      if (m) {
-        const t = m[1].toUpperCase();
-        sem = t === 'I' ? 1 : t === 'II' ? 2 : t === 'III' ? 3 : t === 'IV' ? 4 : (parseInt(t, 10) || 0);
-      }
-      if (w.semWeekNo > (schedBySem[sem] || 0)) schedBySem[sem] = w.semWeekNo;
-    });
-  }
-
-  const semSet = new Set([
-    ...Object.keys(schedBySem).map(n => parseInt(n, 10)),
-    ...Object.keys(maxWeekBySem).map(n => parseInt(n, 10)),
-  ]);
-  const sems = [...semSet].filter(s => s > 0).sort((a, b) => a - b);
-
-  if (!sems.length) {
-    const upper = Math.max(maxWeekBySem[0] || 0, 0);
-    if (!upper) { el.style.display = 'none'; el.innerHTML = ''; return; }
-    sems.push(0);
-    schedBySem[0] = upper;
-  }
-
-  const curInfo = window.getCurrentSchoolWeekInfo && window.getCurrentSchoolWeekInfo();
-  const curSem  = curInfo ? (curInfo.semester || 0) : 0;
-  const curWeek = curInfo ? curInfo.week : 0;
-
-  const semRoman = (s) => s === 1 ? 'I' : s === 2 ? 'II' : s === 3 ? 'III' : s === 4 ? 'IV' : String(s);
-
-  const semBlocksHtml = sems.map(sem => {
-    const upper = Math.max(schedBySem[sem] || 0, maxWeekBySem[sem] || 0);
-    if (!upper) return '';
-    const weekNos = Array.from({ length: upper }, (_, i) => i + 1);
-    const pills = weekNos.map(w => {
-      const hasTopic = !!semWeekToTopic[key(sem, w)];
-      const isCurrent = sem === curSem && w === curWeek;
-      const cls = ['wk-pill'];
-      if (isCurrent) cls.push('is-current');
-      if (hasTopic) cls.push('has-topic'); else cls.push('is-empty');
-      const title = hasTopic
-        ? `Jump to Sem ${semRoman(sem)} · Week ${w}${isCurrent ? ' (this week)' : ''}`
-        : `Sem ${semRoman(sem)} · Week ${w} — no topics scheduled`;
-      return `<button type="button" class="${cls.join(' ')}" data-sem="${sem}" data-week="${w}" ${hasTopic ? '' : 'disabled aria-disabled="true"'} title="${title}">${w}</button>`;
-    }).join('');
-    const semLbl = sem ? `Sem ${semRoman(sem)}` : 'Weeks';
-    const isActiveSem = sem === curSem;
-    return `
-      <div class="wk-tl-sem${isActiveSem ? ' is-active-sem' : ''}">
-        <span class="wk-tl-sem-label">${semLbl}</span>
-        <div class="wk-tl-pills">${pills}</div>
-      </div>`;
-  }).join('');
-
-  el.innerHTML = `
-    <div class="wk-tl-label">${escHtml(_eyf)} timeline</div>
-    <div class="wk-tl-rail">${semBlocksHtml}</div>`;
-  el.style.display = '';
-
-  if (!el.__wkTlBound) {
-    el.addEventListener('click', (ev) => {
-      const btn = ev.target.closest('.wk-pill');
-      if (!btn || btn.disabled) return;
-      const w   = parseInt(btn.dataset.week, 10);
-      const sem = parseInt(btn.dataset.sem, 10) || 0;
-      if (w) jumpToWeek(w, sem);
-    });
-    el.__wkTlBound = true;
-  }
-
-  if (curWeek) {
-    const cur = el.querySelector('.wk-pill.is-current');
-    if (cur && typeof cur.scrollIntoView === 'function') {
-      cur.scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' });
-    }
-  }
-}
-
-function jumpToWeek(w, sem) {
-  const _eyf = _effectiveYearFilter();
-  if (_eyf === 'all') return;
-  const wantSem = sem || 0;
-  let target = null;
-  DATA.some((ch, ci) => {
-    if (_chapterYear(ch) !== _eyf) return false;
-    return ch.topics.some((t, ti) => {
-      const tw   = parseInt(t.week, 10);
-      const tsem = parseInt(t.semester, 10) || 0;
-      if (tw === w && (wantSem === 0 || tsem === wantSem)) { target = { ci, ti }; return true; }
-      return false;
-    });
-  });
-  if (!target) return;
-
-  if (typeof PAGE_SIZE === 'number' && PAGE_SIZE > 0) {
-    chPageMap[target.ci] = Math.floor(target.ti / PAGE_SIZE);
-  }
-
-  scrollToChapter(target.ci);
-  setTimeout(() => {
-    const row = document.getElementById(`row-${target.ci}-${target.ti}`);
-    if (!row) return;
-    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    row.classList.add('wk-jump-flash');
-    setTimeout(() => row.classList.remove('wk-jump-flash'), 1600);
-  }, 250);
-}
-window.jumpToWeek = jumpToWeek;
+// renderWeekTimeline / jumpToWeek now live in partials/pacing-week-timeline.js.
+// Expose the per-page helpers it needs (chPageMap and scrollToChapter aren't
+// reachable on window through `const`/`function` declarations alone).
+window.chPageMap        = chPageMap;
+window.scrollToChapter  = scrollToChapter;
 
 // -----------------------------------------------------------
 // RENDER - PACING GUIDE
@@ -2510,6 +2377,28 @@ async function markPacingDone(chId, tId, isDone) {
     delete current[entryKey];
   }
   window._pacingDone = current;
+
+  // Mirror the toggle into the per-topic status map that powers the Pacing
+  // Guide / chapter progress / sidebar counts. Without this the This Week
+  // checkbox and the chapter table get out of sync. Map the stable chId/tId
+  // back to DATA's array indices.
+  if (currentClass !== 'default') {
+    let ci = -1, ti = -1;
+    DATA.some((ch, i) => {
+      if (ch.id !== chId) return false;
+      const j = (ch.topics || []).findIndex(t => t.id === tId);
+      if (j >= 0) { ci = i; ti = j; return true; }
+      return false;
+    });
+    if (ci >= 0) {
+      const desired = isDone ? 'done' : 'pending';
+      if (DATA[ci].topics[ti].status !== desired) {
+        DATA[ci].topics[ti].status = desired;
+        saveState(); render();
+      }
+    }
+  }
+
   refreshThisWeekWidget();
   try {
     await setDoc(

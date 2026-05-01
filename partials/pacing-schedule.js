@@ -249,12 +249,12 @@ window.renderThisWeekWidget = function(container, activeTopics, pacingDone, subj
       </div>`;
   }).join('');
 
-  // Collapsed by default to save vertical space; users can expand on demand.
-  // Preference is per-subject so a teacher who wants it open in Math doesn't
-  // re-open it on every visit.
+  // Open by default so the panel is the page's primary affordance — once
+  // the teacher manually toggles, their per-subject choice wins (mirrors
+  // the same pattern used by the week timeline below).
   const storeKey = `tw_collapsed_${subjectKey || 'default'}`;
   const stored   = localStorage.getItem(storeKey);
-  const collapsed = stored == null ? true : stored === '1';
+  const collapsed = stored == null ? false : stored === '1';
   const count = activeTopics.length;
 
   container.innerHTML = `

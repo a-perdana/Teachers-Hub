@@ -735,6 +735,7 @@ function processFile(filename) {
   html = html.replace(/src="partials\/navbar\.js"/g, 'src="/partials/navbar.js"');
   html = html.replace(/src="partials\/pacing-tracker-core\.js"/g, 'src="/partials/pacing-tracker-core.js"');
   html = html.replace(/src="partials\/pacing-schedule\.js"/g, 'src="/partials/pacing-schedule.js"');
+  html = html.replace(/src="partials\/pacing-week-timeline\.js"/g, 'src="/partials/pacing-week-timeline.js"');
   html = html.replace(/href="partials\/pacing-tracker-core\.css"/g, 'href="/partials/pacing-tracker-core.css"');
   html = html.replace(/href="partials\/pacing-page\.css"/g, 'href="/partials/pacing-page.css"');
   html = html.replace(/fetch\('partials\/navbar\.html'\)/g, "fetch('/partials/navbar.html')");
