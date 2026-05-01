@@ -1489,6 +1489,8 @@ function deleteNote(ci, ti) {
 // -----------------------------------------------------------
 // CLASS MANAGEMENT
 // -----------------------------------------------------------
+window.__classGradeMap = window.__classGradeMap || {};
+
 async function buildClassSelector() {
   const section = document.getElementById('classChipsSection');
   const wrap    = document.getElementById('classChips');
@@ -1506,15 +1508,20 @@ async function buildClassSelector() {
     }
   }
 
+  const schoolId = p?.schoolId;
+  if (schoolId) {
+    try {
+      const snap = await getDocs(query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section')));
+      snap.forEach(d => {
+        const data = d.data();
+        if (data.name) window.__classGradeMap[data.name] = data.grade;
+      });
+    } catch { /* ignore */ }
+  }
+
   let effectiveList = [];
   if (isAdmin) {
-    const schoolId = p?.schoolId;
-    if (schoolId) {
-      try {
-        const snap = await getDocs(query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section')));
-        snap.forEach(d => effectiveList.push(d.data().name));
-      } catch { /* ignore */ }
-    }
+    effectiveList = Object.keys(window.__classGradeMap);
     if (!effectiveList.length) effectiveList = classList;
   } else {
     effectiveList = Array.isArray(p?.{{CLASSES_FIELD}}) ? p.{{CLASSES_FIELD}} : [];
@@ -1555,15 +1562,19 @@ function _showNotAssigned(subjectLabel, levelLabel) {
 
 function switchClass(cls) {
   currentClass = cls;
-  // Auto-pick the matching year filter from the class name (e.g. "11 Apple"
-  // → Year 11) so the page stops listing chapters from the other grade.
   if (cls && cls !== 'default') {
-    const m = String(cls).match(/(\d{1,2})/);
-    if (m) {
-      const grade = m[1];
+    let grade = window.__classGradeMap?.[cls];
+    if (grade == null) {
+      const m = String(cls).match(/(\d{1,2})/);
+      if (m) grade = parseInt(m[1], 10);
+    }
+    if (grade != null) {
       const cfg = window.SUBJECT_CONFIG || {};
       const candidates = [cfg.yearA, cfg.yearB].filter(Boolean);
-      const matched = candidates.find(y => String(y).match(/(\d{1,2})/)?.[1] === grade);
+      const matched = candidates.find(y => {
+        const m = String(y).match(/(\d{1,2})/);
+        return m && parseInt(m[1], 10) === grade;
+      });
       if (matched) {
         filterYear = matched;
         window.__currentYearFilter = matched;

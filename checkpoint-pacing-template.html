@@ -1493,6 +1493,11 @@ function deleteNote(ci, ti) {
 // -----------------------------------------------------------
 // CLASS MANAGEMENT
 // -----------------------------------------------------------
+// Map of class name → grade (number), populated from schools/{id}/classes.
+// Used by switchClass to set the year filter without depending on the
+// class name happening to start with the grade.
+window.__classGradeMap = window.__classGradeMap || {};
+
 async function buildClassSelector() {
   const section = document.getElementById('classChipsSection');
   const wrap    = document.getElementById('classChips');
@@ -1510,15 +1515,23 @@ async function buildClassSelector() {
     }
   }
 
+  // Always fetch school classes (when we have a schoolId) so we can map
+  // class name → grade. Teacher profiles only store the list of class
+  // names; the grade lives on the school class doc itself.
+  const schoolId = p?.schoolId;
+  if (schoolId) {
+    try {
+      const snap = await getDocs(query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section')));
+      snap.forEach(d => {
+        const data = d.data();
+        if (data.name) window.__classGradeMap[data.name] = data.grade;
+      });
+    } catch { /* ignore */ }
+  }
+
   let effectiveList = [];
   if (isAdmin) {
-    const schoolId = p?.schoolId;
-    if (schoolId) {
-      try {
-        const snap = await getDocs(query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section')));
-        snap.forEach(d => effectiveList.push(d.data().name));
-      } catch { /* ignore */ }
-    }
+    effectiveList = Object.keys(window.__classGradeMap);
     if (!effectiveList.length) effectiveList = classList;
   } else {
     effectiveList = Array.isArray(p?.{{CLASSES_FIELD}}) ? p.{{CLASSES_FIELD}} : [];
@@ -1560,16 +1573,23 @@ function _showNotAssigned(subjectLabel, levelLabel) {
 
 function switchClass(cls) {
   currentClass = cls;
-  // Auto-pick the matching year filter from the class name (e.g. "7 Harvard"
-  // → Year 7) so the page stops listing chapters from the other grade.
-  // Falls back to leaving the current filter alone if we can't tell.
+  // Auto-pick the matching year filter for the chosen class. Prefer the
+  // grade looked up from schools/{id}/classes; fall back to a digit in
+  // the class name (e.g. "7 Harvard") so this still works for legacy
+  // teacher profiles whose schoolId hasn't synced its class doc yet.
   if (cls && cls !== 'default') {
-    const m = String(cls).match(/(\d{1,2})/);
-    if (m) {
-      const grade = m[1];
+    let grade = window.__classGradeMap?.[cls];
+    if (grade == null) {
+      const m = String(cls).match(/(\d{1,2})/);
+      if (m) grade = parseInt(m[1], 10);
+    }
+    if (grade != null) {
       const cfg = window.SUBJECT_CONFIG || {};
       const candidates = [cfg.yearA, cfg.yearB].filter(Boolean);
-      const matched = candidates.find(y => String(y).match(/(\d{1,2})/)?.[1] === grade);
+      const matched = candidates.find(y => {
+        const m = String(y).match(/(\d{1,2})/);
+        return m && parseInt(m[1], 10) === grade;
+      });
       if (matched) {
         filterYear = matched;
         window.__currentYearFilter = matched;
