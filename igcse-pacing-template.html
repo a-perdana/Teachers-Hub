@@ -603,9 +603,14 @@ function renderNav() {
     }).join('');
   }
 
-  document.getElementById('chNav').innerHTML = `
-    <div class="ch-nav-group"><div class="ch-nav-group-label">Year 9 — Chapters 1–13</div>${buildItems(y9)}</div>
-    <div class="ch-nav-group"><div class="ch-nav-group-label">Year 10 — Chapters 14–24</div>${buildItems(y10)}</div>`;
+  // Year-aware: if a year filter is active, only render that group so the
+  // sidebar matches the chapter list and the selected class.
+  const show9  = filterYear === 'all' || filterYear === 'Year 9';
+  const show10 = filterYear === 'all' || filterYear === 'Year 10';
+  const groups = [];
+  if (show9)  groups.push(`<div class="ch-nav-group"><div class="ch-nav-group-label">Year 9 — Chapters 1–13</div>${buildItems(y9)}</div>`);
+  if (show10) groups.push(`<div class="ch-nav-group"><div class="ch-nav-group-label">Year 10 — Chapters 14–24</div>${buildItems(y10)}</div>`);
+  document.getElementById('chNav').innerHTML = groups.join('');
 }
 
 // -----------------------------------------------------------
@@ -2223,7 +2228,12 @@ async function loadThisWeekWidget(db) {
 
 function refreshThisWeekWidget() {
   const widget = document.getElementById('thisWeekWidget');
-  if (!widget || !_scheduleCache) return;
+  if (!widget) return;
+  // Hide the widget until the teacher picks a class — without a class we
+  // don't know which year's calendar applies, and showing the union of
+  // years is misleading.
+  if (currentClass === 'default') { widget.style.display = 'none'; return; }
+  if (!_scheduleCache) return;
   const cfg        = window.SUBJECT_CONFIG;
   const chapters   = sharedStructure || [];
   const weeklyHrs  = window._pacingWeeklyHours || 0;

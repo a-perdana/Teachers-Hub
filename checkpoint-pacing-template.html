@@ -614,9 +614,15 @@ function renderNav() {
     }).join('');
   }
 
-  document.getElementById('chNav').innerHTML = `
-    <div class="ch-nav-group"><div class="ch-nav-group-label">${yearA}</div>${buildItems(yA)}</div>
-    <div class="ch-nav-group"><div class="ch-nav-group-label">${yearB}</div>${buildItems(yB)}</div>`;
+  // Year-aware: if a year filter is active, only render that group so the
+  // sidebar matches the chapter list and the selected class.
+  const showA = filterYear === 'all' || filterYear === yearA;
+  const showB = filterYear === 'all' || filterYear === yearB;
+
+  const groups = [];
+  if (showA) groups.push(`<div class="ch-nav-group"><div class="ch-nav-group-label">${yearA}</div>${buildItems(yA)}</div>`);
+  if (showB) groups.push(`<div class="ch-nav-group"><div class="ch-nav-group-label">${yearB}</div>${buildItems(yB)}</div>`);
+  document.getElementById('chNav').innerHTML = groups.join('');
 }
 
 // -----------------------------------------------------------
@@ -2002,7 +2008,12 @@ async function loadThisWeekWidget(db) {
 
 function refreshThisWeekWidget() {
   const widget = document.getElementById('thisWeekWidget');
-  if (!widget || !_scheduleCache) return;
+  if (!widget) return;
+  // Hide the widget until the teacher picks a class — without a class we
+  // don't know which year's calendar applies, and showing the union of
+  // years is misleading.
+  if (currentClass === 'default') { widget.style.display = 'none'; return; }
+  if (!_scheduleCache) return;
   const cfg        = window.SUBJECT_CONFIG;
   const chapters   = sharedStructure || [];
   const weeklyHrs  = window._pacingWeeklyHours || 0;
