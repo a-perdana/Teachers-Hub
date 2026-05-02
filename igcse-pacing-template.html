@@ -805,7 +805,7 @@ function renderPacing() {
                           ? escHtml(content.slice(0, 3).join('; ') + (content.length > 3 ? ' …' : ''))
                           : '';
                       return `<div class="syl-inline-line">
-                        <span class="sil-code" onclick="openSyllabusDetail('${escHtml(key)}')" title="View full syllabus detail">${escHtml(code)}</span>
+                        <span class="sil-code" onclick="showObj(${ci},${ti})" title="Open objectives + teaching guide">${escHtml(code)}</span>
                         ${tierBadgeHtml(entry?.tier, true)}
                         ${topicText ? `<span class="sil-topic">${topicText}</span>` : ''}
                         <span class="sil-title">${titleText}</span>
