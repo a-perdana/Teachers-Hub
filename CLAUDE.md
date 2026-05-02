@@ -92,7 +92,7 @@ Every protected page loads `auth-guard.js` as a module:
 5. **Domain check** — Google SSO users must have an email from `window.TEACHERS_ALLOWED_DOMAINS` (15 school domains). Email/password accounts bypass this check. Fails → `/login?error=domain`.
 6. Role check — `role_teachershub` must be in `['teachers_admin', 'teachers_user']`. Fails → `/login?error=access`.
 7. Name prompt if `displayName` is missing.
-8. **Profile setup prompt** — shown until `school`, `subjects`, `classes`, and `th_sub_roles` are all filled. Returns all four fields; saved with `setDoc` merge.
+8. **Profile setup prompt** — shown until `school`, `subjects`, `classes`, and `th_sub_roles` are all filled. The school dropdown is sourced from `partner_schools` ordered by name; for new users the prompt auto-defaults to the doc whose `domain` matches the email when exactly one school owns it (multi-school domains like `semesta.sch.id` leave the picker empty). Returns all fields; saved with `setDoc` merge.
 9. **Approval check** — if `approval_status_teachershub !== 'approved'` (and not `teachers_admin`) → redirect to `/waiting`. `waiting.html` polls every 30s and redirects on approval.
 10. Exposes globals and dispatches `authReady`.
 
@@ -152,7 +152,7 @@ const isAdmin = profile?.role_teachershub === 'teachers_admin';
 | Collection              | Purpose                                      | Write access         |
 |-------------------------|----------------------------------------------|----------------------|
 | `users/{uid}`           | User profiles (uid, email, displayName, photoURL, role, createdAt) | owner or central_admin |
-| `schools/{schoolId}`    | Partner school records                       | central_admin        |
+| `partner_schools/{schoolId}` | Canonical school directory used by `auth-guard.js`'s profile prompt + every page that needs class lists. Each doc has `name`, `domain` (e.g. `fatih.sch.id` — drives the email-based auto-default in `promptForProfile`), and a `classes/{classId}` subcollection (`name`, `grade`, `section`). | central_admin (write) |
 | `staff/{staffId}`       | Staff records                                | central_admin        |
 | `announcements/{annId}` | Platform-wide announcements                  | central_admin        |
 | `central_documents/{docId}` | CentralHub-managed documents            | central_admin        |
