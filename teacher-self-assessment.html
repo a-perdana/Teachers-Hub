@@ -1479,8 +1479,13 @@ function openPreview() {
 // ── Save ─────────────────────────────────────────────
 async function save(status) {
   kpis.forEach(kpi => syncState(kpi.id));
+  // schoolId is required so AH evaluators can read submissions filtered to
+  // their own school via Firestore rules. Empty string when missing keeps
+  // back-compat for users whose profile predates the schoolId field.
+  const schoolId = (userProfile && userProfile.schoolId) || '';
   const payload = {
     uid: currentUser.uid, email: currentUser.email,
+    schoolId,
     periodId: activePeriod.id, periodName: activePeriod.name,
     teacherInfo: {
       displayName: document.getElementById('infoName').value.trim(),
