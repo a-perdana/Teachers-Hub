@@ -568,6 +568,7 @@ body {
   box-shadow: var(--shadow-lg);
   animation: popIn .18s ease;
 }
+.modal.modal-wide { width: 720px; }
 @keyframes popIn { from { transform: scale(.93); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 .modal-head {
