@@ -329,6 +329,74 @@ table.topics-tbl tbody tr.inprogress-row:hover { background: #d6e6f8; }
 .obj-syl-title { font-size: .82rem; font-weight: 600; color: var(--ink); flex: 1; min-width: 0; }
 .obj-syl-body { margin-top: 4px; }
 
+/* ── Objectives modal — Syllabus / Teaching Guide tabs ── */
+.obj-tabs {
+  display: flex; gap: 0; border-bottom: 1px solid var(--border);
+  background: var(--paper); padding: 0 16px;
+}
+.obj-tab {
+  background: transparent; border: none; cursor: pointer;
+  padding: 10px 16px; font-size: .78rem; font-weight: 600;
+  color: var(--ink-3); border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+  font-family: inherit;
+}
+.obj-tab:hover { color: var(--ink-2); }
+.obj-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.obj-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* ── Teaching Guide tab content ── */
+.tg-section { padding: 14px 0; border-bottom: 1px solid var(--border); }
+.tg-section:last-child { border-bottom: none; }
+.tg-section-header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.tg-section-title { font-size: .82rem; font-weight: 600; color: var(--ink); }
+.tg-block-label {
+  font-size: .62rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--ink-3); margin: 12px 0 6px; padding-bottom: 4px; border-bottom: 1px solid var(--paper-2);
+}
+.tg-lo-list { padding-left: 17px; margin: 0; color: var(--ink-2); font-size: .8rem; line-height: 1.7; }
+.tg-lo-list li { margin: 1px 0; }
+.tg-activity {
+  background: var(--paper); border-radius: 6px; padding: 8px 12px;
+  margin-bottom: 6px; font-size: .78rem; color: var(--ink-2); line-height: 1.55;
+  border-left: 2px solid var(--paper-2);
+}
+.tg-activity-tags { display: inline-flex; gap: 4px; margin-right: 6px; vertical-align: middle; }
+.tg-tag {
+  display: inline-block; font-size: .58rem; font-weight: 700;
+  padding: 1px 5px; border-radius: 3px; vertical-align: middle;
+  letter-spacing: .04em;
+}
+.tg-tag-i { background: #e0f2fe; color: #075985; } /* Independent — blue */
+.tg-tag-e { background: #fef3c7; color: #92400e; } /* Extension — amber */
+.tg-tag-f { background: #dcfce7; color: #166534; } /* Formative — green */
+.tg-tag-sdg { background: #f3e8ff; color: #6b21a8; } /* SDG — purple */
+.tg-resources { display: flex; flex-direction: column; gap: 4px; }
+.tg-resource-link {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 10px; background: var(--paper); border-radius: 6px;
+  font-size: .76rem; color: var(--blue); text-decoration: none;
+  border: 1px solid transparent; transition: border-color .15s, background .15s;
+}
+.tg-resource-link:hover { border-color: var(--blue); background: var(--blue-2); }
+.tg-resource-type {
+  font-size: .58rem; font-weight: 700; padding: 1px 5px; border-radius: 3px;
+  background: var(--paper-2); color: var(--ink-3); margin-left: auto;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.tg-sdg-link {
+  background: #f3e8ff; border-radius: 6px; padding: 8px 12px; margin-bottom: 6px;
+  font-size: .76rem; color: #581c87; line-height: 1.55;
+}
+.tg-sdg-goals { font-weight: 700; margin-right: 6px; }
+.tg-empty {
+  text-align: center; padding: 24px 16px; color: var(--ink-3); font-size: .8rem;
+}
+.tg-loading {
+  text-align: center; padding: 24px 16px; color: var(--ink-3); font-size: .78rem;
+  font-style: italic;
+}
+
 /* ── Syllabus detail modal ── */
 .syl-detail-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
 .syl-detail-code {

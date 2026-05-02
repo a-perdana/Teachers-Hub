@@ -198,7 +198,12 @@
         <button class="modal-close" onclick="document.getElementById('objModal').classList.remove('open')" style="margin-left:4px">&#215;</button>
       </div>
     </div>
+    <div class="obj-tabs" role="tablist">
+      <button class="obj-tab active" id="objTabSyllabus" role="tab" aria-selected="true" onclick="switchObjTab('syllabus')">Syllabus Detail</button>
+      <button class="obj-tab" id="objTabTeaching" role="tab" aria-selected="false" onclick="switchObjTab('teaching')">Teaching Guide</button>
+    </div>
     <div class="modal-body" id="objModalBody" style="padding:16px 20px;overflow-y:auto"></div>
+    <div class="modal-body" id="objModalBodyTG" style="padding:16px 20px;overflow-y:auto;display:none"></div>
   </div>
 </div>
 
@@ -1988,6 +1993,7 @@ function closeSyllabusDetail() {
 // OBJECTIVES MODAL
 // -----------------------------------------------------------
 let _objCi=null,_objTi=null;
+let _objActiveTab='syllabus'; // 'syllabus' | 'teaching'
 function showObj(ci, ti) {
   _objCi=ci; _objTi=ti;
   const ch    = DATA[ci];
@@ -1995,6 +2001,12 @@ function showObj(ci, ti) {
   const objRaw = t.objective || '';
   document.getElementById('objModalTitle').textContent = t.topic;
   document.getElementById('objModalSub').textContent   = ch.chapter;
+
+  // Reset to Syllabus Detail tab on every open (preserves prior behaviour)
+  switchObjTab('syllabus', /*skipRender=*/true);
+  // Clear Teaching Guide body so prior topic's content doesn't flash
+  const tgBody = document.getElementById('objModalBodyTG');
+  if (tgBody) tgBody.innerHTML = '';
 
   // Try to render rich syllabus data from cambridge_syllabus index
   const codes = parseObjCodes(objRaw, t.syllabusRefs);
@@ -2073,6 +2085,130 @@ function objModalNav(dir) {
   const nxt  = idx + dir;
   if (nxt < 0 || nxt >= flat.length) return;
   showObj(flat[nxt].ch, flat[nxt].ti);
+}
+
+// Switch between Syllabus Detail / Teaching Guide tabs.
+// Called from tab buttons and from showObj() to reset to default tab.
+function switchObjTab(which, skipRender) {
+  _objActiveTab = which;
+  const tabSyl = document.getElementById('objTabSyllabus');
+  const tabTG  = document.getElementById('objTabTeaching');
+  const bodySyl = document.getElementById('objModalBody');
+  const bodyTG  = document.getElementById('objModalBodyTG');
+  if (which === 'teaching') {
+    tabSyl.classList.remove('active'); tabSyl.setAttribute('aria-selected','false');
+    tabTG.classList.add('active');     tabTG.setAttribute('aria-selected','true');
+    bodySyl.style.display = 'none';
+    bodyTG.style.display  = 'block';
+    if (!skipRender) renderTeachingGuide();
+  } else {
+    tabTG.classList.remove('active');  tabTG.setAttribute('aria-selected','false');
+    tabSyl.classList.add('active');    tabSyl.setAttribute('aria-selected','true');
+    bodyTG.style.display  = 'none';
+    bodySyl.style.display = 'block';
+  }
+}
+
+// Render the Teaching Guide tab — fetches cambridge_scheme_of_work for each
+// ref code on the current topic, and shows learning objectives + activities
+// + resources + SDG links. Lazy: only runs when the tab is opened.
+async function renderTeachingGuide() {
+  const ci = _objCi, ti = _objTi;
+  if (ci == null || ti == null) return;
+  const t = DATA[ci]?.topics?.[ti];
+  if (!t) return;
+  const codes = parseObjCodes(t.objective || '', t.syllabusRefs);
+  const body = document.getElementById('objModalBodyTG');
+  if (!body) return;
+
+  if (!codes.length) {
+    body.innerHTML = '<div class="tg-empty">No syllabus reference codes on this topic — add a code (e.g. C1.1) to see teaching guidance.</div>';
+    return;
+  }
+  if (typeof window.fetchSchemeOfWork !== 'function') {
+    body.innerHTML = '<div class="tg-empty">Teaching guide loader not available.</div>';
+    return;
+  }
+
+  body.innerHTML = '<div class="tg-loading">Loading teaching guide…</div>';
+
+  const prefix = (window.SUBJECT_CONFIG && window.SUBJECT_CONFIG.syllabusPrefix) || SUBJECT_CONFIG.syllabusPrefix;
+  const results = await Promise.all(codes.map(c => window.fetchSchemeOfWork(prefix, c).then(d => ({ code: c, data: d }))));
+
+  const found = results.filter(r => r.data);
+  if (!found.length) {
+    body.innerHTML = `<div class="tg-empty">No teaching guide available yet for this subject.<br><span style="font-size:.7rem;color:var(--ink-3)">Codes searched: ${codes.map(escHtml).join(', ')}</span></div>`;
+    return;
+  }
+
+  body.innerHTML = results.map(r => {
+    if (!r.data) {
+      return `<div class="tg-section">
+        <div class="tg-section-header">
+          <span class="srl-code">${escHtml(r.code)}</span>
+          <span style="font-size:.72rem;color:var(--ink-3)">No teaching guide available for this code yet.</span>
+        </div>
+      </div>`;
+    }
+    const d = r.data;
+    const tier = d.tier ? `<span class="syl-detail-tier">${escHtml(d.tier)}</span>` : '';
+    const topicArea = d.topicArea ? `<span class="srl-topic">${escHtml(d.topicArea)}</span>` : '';
+    const title = d.title ? `<span class="tg-section-title">${escHtml(d.title)}</span>` : '';
+
+    const los = Array.isArray(d.learningObjectives) ? d.learningObjectives : [];
+    const losHtml = los.length
+      ? `<div class="tg-block-label">Learning Objectives</div>
+         <ul class="tg-lo-list">${los.map(o => `<li>${escHtml(o)}</li>`).join('')}</ul>`
+      : '';
+
+    const acts = Array.isArray(d.teachingActivities) ? d.teachingActivities : [];
+    const actsHtml = acts.length
+      ? `<div class="tg-block-label">Teaching Activities</div>` +
+        acts.map(a => {
+          const tags = Array.isArray(a.tags) ? a.tags : [];
+          const tagBadges = tags.map(tg => {
+            const tag = String(tg || '').toUpperCase();
+            const cls = tag === 'I' ? 'tg-tag-i' : tag === 'E' ? 'tg-tag-e' : tag === 'F' ? 'tg-tag-f' : 'tg-tag-sdg';
+            return `<span class="tg-tag ${cls}" title="${tag === 'I' ? 'Independent study' : tag === 'E' ? 'Extension' : tag === 'F' ? 'Formative assessment' : 'Sustainability link'}">${escHtml(tag)}</span>`;
+          }).join('');
+          const tagsWrap = tagBadges ? `<span class="tg-activity-tags">${tagBadges}</span>` : '';
+          return `<div class="tg-activity">${tagsWrap}${escHtml(a.body || '')}</div>`;
+        }).join('')
+      : '';
+
+    const res = Array.isArray(d.resources) ? d.resources : [];
+    const resHtml = res.length
+      ? `<div class="tg-block-label">Resources</div>
+         <div class="tg-resources">${res.map(r => {
+            const url = safeUrl(r.url || '#');
+            const type = r.type ? `<span class="tg-resource-type">${escHtml(r.type.replace(/_/g,' '))}</span>` : '';
+            return `<a class="tg-resource-link" href="${escHtml(url)}" target="_blank" rel="noopener noreferrer">${escHtml(r.title || url)}${type}</a>`;
+         }).join('')}</div>`
+      : '';
+
+    const sdg = Array.isArray(d.sdgLinks) ? d.sdgLinks : [];
+    const sdgHtml = sdg.length
+      ? `<div class="tg-block-label">Sustainability Links</div>` +
+        sdg.map(s => {
+          const goals = Array.isArray(s.goals) ? s.goals : [];
+          const goalsLabel = goals.length ? `<span class="tg-sdg-goals">SDG ${goals.join(', ')}:</span>` : '';
+          return `<div class="tg-sdg-link">${goalsLabel}${escHtml(s.suggestion || '')}</div>`;
+        }).join('')
+      : '';
+
+    return `<div class="tg-section">
+      <div class="tg-section-header">
+        <span class="srl-code">${escHtml(r.code)}</span>
+        ${tier}
+        ${topicArea}
+        ${title}
+      </div>
+      ${losHtml}
+      ${actsHtml}
+      ${resHtml}
+      ${sdgHtml}
+    </div>`;
+  }).join('');
 }
 
 function closeObjModal(e) {
@@ -2547,6 +2683,27 @@ async function loadSyllabus() {
     console.warn('Could not load cambridge_syllabus:', e);
   }
 }
+
+// -- Scheme of work — lazy fetch + cache by doc ID -----------------
+// Doc ID pattern: {subjectCode}_{code} e.g. 0580_C1.1
+// Returns the doc data, or null if not found / not seeded yet.
+window._sowCache = window._sowCache || {};
+window.fetchSchemeOfWork = async function(subjectCode, code) {
+  const docId = `${subjectCode}_${code}`;
+  if (Object.prototype.hasOwnProperty.call(window._sowCache, docId)) {
+    return window._sowCache[docId];
+  }
+  try {
+    const snap = await getDoc(doc(window.db, 'cambridge_scheme_of_work', docId));
+    const data = snap.exists() ? snap.data() : null;
+    window._sowCache[docId] = data;
+    return data;
+  } catch (e) {
+    console.warn('fetchSchemeOfWork failed for', docId, e);
+    window._sowCache[docId] = null; // cache the miss so we don't retry
+    return null;
+  }
+};
 
 // -- auth-guard.js dispatches authReady when auth + role confirmed -
 document.addEventListener('authReady', ({ detail: { user, profile } }) => {

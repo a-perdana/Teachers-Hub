@@ -164,7 +164,8 @@ const isAdmin = profile?.role_teachershub === 'teachers_admin';
 | `biology_pacing/year9-10` | IGCSE biology pacing — same structure as math_pacing. | central_admin (write) |
 | `chemistry_pacing/year9-10` | IGCSE chemistry pacing — same structure as math_pacing. | central_admin (write) |
 | `physics_pacing/year9-10` | IGCSE physics pacing — same structure as math_pacing. | central_admin (write) |
-| `cambridge_syllabus/{docId}` | Syllabus reference items indexed by objective code (e.g. C1.1). Loaded once at startup. | read-only here |
+| `cambridge_syllabus/{docId}` | Syllabus reference items indexed by objective code (e.g. C1.1). Doc ID format `{subjectCode}_{code}`. Loaded once at startup into `window.syllabusIndex`. | read-only here |
+| `cambridge_scheme_of_work/{docId}` | Scheme-of-work content per ref code (teaching activities, resources, SDG links). Doc ID format `{subjectCode}_{code}` (same as `cambridge_syllabus`). **Lazy-fetched per code** when the Teaching Guide tab on the objectives modal opens; results cached in `window._sowCache`. Read-only here; managed via Central Hub seed scripts. Math 0580 seeded; biology/chemistry/physics not yet — UI gracefully shows "No teaching guide available yet" when a doc is missing. | read-only here |
 | `userProgress/{uid}`    | Per-teacher pacing progress. Each teacher writes only their own doc. Fields: `statuses`, `statuses_<class>` maps keyed by `ci-ti`. | owner (teacher) |
 | `user_competencies/{uid}` | Teacher competency progress. Fields: `earned` (map of compId → `{level, date}`), `matDone` (map of matId → bool). Written by the owner, read by `learning-path.html` and `competency-framework.html`. | owner (teacher) |
 | `competency_evidence/{docId}` | Evidence submissions for competency level certification. Fields: `uid`, `platform` (`'teachers'`), `compId`, `compName`, `domain`, `level`, `description`, `fileUrl`, `fileName`, `status` (`'pending'`\|`'approved'`\|`'rejected'`), `reviewerNote`, `createdAt`, `updatedAt`. Written by teacher (create), reviewed by `teachers_admin` via competency-admin in Central Hub. | owner (create), central_admin (review) |
@@ -276,7 +277,9 @@ All 11 pacing pages share a common architecture via `partials/pacing-page.css` (
 
 **Bulk actions:** "✓ All Done" button on chapter header (hover to reveal; admin always sees it). Toggles all topics in chapter between done ↔ pending.
 
-**Syllabus Detail modal:** Shows Cambridge learning objectives + notes. Footer shows all 13 Cambridge command words (Calculate, Construct, Determine, Describe, Explain, Give, Plot, Show(that), Sketch, State, Work out, Write, Write down); words detected in the syllabus entry are highlighted blue.
+**Objectives modal (per topic — opens by clicking a code badge):** two-tab layout, default tab is **Syllabus Detail** (preserves prior behaviour). The **Teaching Guide** tab lazy-fetches `cambridge_scheme_of_work/{prefix}_{code}` per code on the topic, renders learning objectives, teaching activities (with `I`/`E`/`F`/SDG tag badges), external resource links, and SDG sustainability links. Tab implementation lives in `igcse-pacing-template.html`: `switchObjTab()`, `renderTeachingGuide()`, and `window.fetchSchemeOfWork()` (module-scope, exposed on window because `showObj` is in the regular script block). All four IGCSE pacing pages share this — biology/chemistry/physics pacing pages will show the tab but currently render "No teaching guide available yet" until their respective collections are seeded.
+
+**Syllabus Detail modal (separate from Objectives modal):** Shows Cambridge learning objectives + notes when a code in the Objectives modal is clicked through. Footer shows all 13 Cambridge command words (Calculate, Construct, Determine, Describe, Explain, Give, Plot, Show(that), Sketch, State, Work out, Write, Write down); words detected in the syllabus entry are highlighted blue.
 
 **Hours Report tab:** GLH projection banner at top — compares total planned hours vs Cambridge's 130 GLH target, plus pace-extrapolated projected total. Below that: per-topic actual vs planned variance table.
 
