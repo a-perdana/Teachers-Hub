@@ -754,7 +754,7 @@ window.saveDraft = async function(fromButton = false) {
   try {
     statusEl.textContent = 'Saving…';
     await setDoc(doc(db, 'teacher_self_appraisals', selfDocId), {
-      uid: currentUser.uid,
+      userId: currentUser.uid,
       displayName: userProfile.displayName || '',
       email: currentUser.email || '',
       school: userProfile.school || '',
@@ -792,7 +792,7 @@ window.submitSelf = async function() {
   if (!confirm('Submit your self-appraisal? This cannot be edited after submission.')) return;
   try {
     await setDoc(doc(db, 'teacher_self_appraisals', selfDocId), {
-      uid: currentUser.uid,
+      userId: currentUser.uid,
       displayName: userProfile.displayName || '',
       email: currentUser.email || '',
       school: userProfile.school || '',

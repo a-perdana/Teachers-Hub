@@ -950,7 +950,7 @@
         try {
           await addDoc(collection(db, "topics", currentTopicId, "replies"), {
             body,
-            uid: currentUser.uid,
+            authorUid: currentUser.uid,
             displayName: getDisplayName(currentUser),
             createdAt: serverTimestamp(),
           });
@@ -1037,7 +1037,7 @@
             title,
             body,
             category,
-            uid: currentUser.uid,
+            authorUid: currentUser.uid,
             displayName: getDisplayName(currentUser),
             createdAt: serverTimestamp(),
             replyCount: 0,

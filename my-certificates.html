@@ -334,7 +334,7 @@ async function loadData() {
   // Load issued certificates
   const certQ = query(
     collection(window.db, 'competency_certificates'),
-    where('uid', '==', uid),
+    where('userId', '==', uid),
     where('platform', '==', 'teachers'),
     orderBy('issuedAt', 'desc')
   );

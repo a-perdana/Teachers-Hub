@@ -1484,7 +1484,7 @@ async function save(status) {
   // back-compat for users whose profile predates the schoolId field.
   const schoolId = (userProfile && userProfile.schoolId) || '';
   const payload = {
-    uid: currentUser.uid, email: currentUser.email,
+    userId: currentUser.uid, email: currentUser.email,
     schoolId,
     periodId: activePeriod.id, periodName: activePeriod.name,
     teacherInfo: {

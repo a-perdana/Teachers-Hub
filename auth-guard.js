@@ -513,7 +513,7 @@ onAuthStateChanged(auth, async (user) => {
 
   // Log platform usage event (fire-and-forget, non-blocking)
   addDoc(collection(db, 'platform_usage'), {
-    uid:      user.uid,
+    userId:   user.uid,
     platform: 'teachershub',
     role:     profile[PLATFORM_KEY] || '',
     ts:       serverTimestamp(),

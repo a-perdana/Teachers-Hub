@@ -334,7 +334,7 @@ function initFeedback(db, helpers) {
     feedbackStatus.className = 'feedback-status';
     try {
       await addDoc(collection(db, 'feedbacks'), {
-        uid: user.uid,
+        userId: user.uid,
         displayName: user.displayName || user.email.split('@')[0],
         email: user.email,
         subject, message,

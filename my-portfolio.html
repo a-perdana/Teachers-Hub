@@ -451,7 +451,7 @@ window.submitEvidence = async function() {
 
     const meta = COMP_META[compId];
     await addDoc(collection(window.db, 'competency_evidence'), {
-      uid,
+      userId: uid,
       platform: 'teachers',
       compId,
       compName: meta?.name || compId,
@@ -487,7 +487,7 @@ async function loadSubmissions() {
 
   const q = query(
     collection(window.db, 'competency_evidence'),
-    where('uid', '==', uid),
+    where('userId', '==', uid),
     where('platform', '==', 'teachers'),
     orderBy('createdAt', 'desc')
   );
