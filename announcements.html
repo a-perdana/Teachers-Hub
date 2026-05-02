@@ -858,7 +858,7 @@
       await addDoc(collection(db, 'announcements', annId, 'comments'), {
         body,
         authorName: currentUser.displayName || currentUser.email.split('@')[0],
-        authorId: currentUser.uid,
+        authorUid: currentUser.uid,
         authorPhotoURL: currentUser.photoURL || '',
         createdAt: serverTimestamp(),
       });
@@ -902,7 +902,7 @@
       await addDoc(collection(db, 'announcements'), {
         title, body, pinned,
         authorName: currentUser.displayName || currentUser.email.split('@')[0],
-        authorId: currentUser.uid,
+        authorUid: currentUser.uid,
         commentCount: 0,
         createdAt: serverTimestamp(),
       });

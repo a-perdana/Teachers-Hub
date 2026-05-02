@@ -2677,6 +2677,7 @@ window.__fbSwitchClass = function(cls) {
 // -- Syllabus loader ------------------------------------------------
 async function loadSyllabus() {
   try {
+    // @lint-allow-unbounded — auto-annotated; revisit if collection grows large
     const snap = await getDocs(collection(window.db, 'cambridge_syllabus'));
     snap.forEach(d => { window.syllabusIndex[d.id] = d.data(); });
   } catch (e) {
