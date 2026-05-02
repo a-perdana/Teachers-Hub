@@ -1713,7 +1713,7 @@ async function buildClassSelector() {
   const schoolId = p?.schoolId;
   if (schoolId) {
     try {
-      const snap = await getDocs(query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section')));
+      const snap = await getDocs(query(collection(db, 'partner_schools', schoolId, 'classes'), orderBy('grade'), orderBy('section')));
       snap.forEach(d => {
         const data = d.data();
         if (data.name) window.__classGradeMap[data.name] = data.grade;

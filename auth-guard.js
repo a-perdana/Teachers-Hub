@@ -134,22 +134,34 @@ function profileComplete(profile) {
   );
 }
 
-async function promptForProfile(profile) {
-  // Fetch schools list before showing the modal
-  let schoolDocs = []; // [{id, name}]
+async function promptForProfile(user, profile) {
+  // Fetch schools list before showing the modal. We also pull the
+  // `domain` field so a brand-new user gets their school auto-selected
+  // from their email domain (only if exactly one school owns it; with
+  // shared domains like semesta.sch.id we leave the picker empty so
+  // the user makes the call).
+  let schoolDocs = []; // [{id, name, domain}]
   try {
-    const snap = await getDocs(query(collection(db, 'schools'), orderBy('name')));
-    snap.forEach(d => schoolDocs.push({ id: d.id, name: d.data().name || d.id }));
+    const snap = await getDocs(query(collection(db, 'partner_schools'), orderBy('name')));
+    snap.forEach(d => {
+      const v = d.data();
+      schoolDocs.push({ id: d.id, name: v.name || d.id, domain: v.domain || '' });
+    });
   } catch { /* fall through */ }
 
-  const existingSchoolId = profile.schoolId ||
-    schoolDocs.find(s => s.name === profile.school)?.id;
+  const emailDomain   = (user?.email || '').split('@')[1] || '';
+  const domainMatches = schoolDocs.filter(s => s.domain === emailDomain);
+  const domainDefault = domainMatches.length === 1 ? domainMatches[0].id : '';
+
+  const existingSchoolId = profile.schoolId
+    || schoolDocs.find(s => s.name === profile.school)?.id
+    || domainDefault;
 
   // Pre-load classes for existing school
   let _setupSchoolClasses = [];
   if (existingSchoolId) {
     try {
-      const snap = await getDocs(query(collection(db, 'schools', existingSchoolId, 'classes'), orderBy('grade'), orderBy('section')));
+      const snap = await getDocs(query(collection(db, 'partner_schools', existingSchoolId, 'classes'), orderBy('grade'), orderBy('section')));
       snap.forEach(d => _setupSchoolClasses.push({ id: d.id, ...d.data() }));
     } catch { /* ignore */ }
   }
@@ -315,7 +327,7 @@ async function promptForProfile(profile) {
       if (!schoolId) { refreshClassChips(); return; }
       wrap.innerHTML = '<span style="font-size:0.82rem;color:#8888a8">Loading…</span>';
       try {
-        const snap = await getDocs(query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section')));
+        const snap = await getDocs(query(collection(db, 'partner_schools', schoolId, 'classes'), orderBy('grade'), orderBy('section')));
         snap.forEach(d => _setupSchoolClasses.push({ id: d.id, ...d.data() }));
       } catch { /* ignore */ }
       refreshClassChips();
@@ -441,7 +453,7 @@ onAuthStateChanged(auth, async (user) => {
 
   // 5b. Profile setup prompt if school/subjects/classes/th_sub_roles are missing
   if (!profileComplete(profile)) {
-    const { school, schoolId, subjects, classes, myClasses, th_sub_roles } = await promptForProfile(profile);
+    const { school, schoolId, subjects, classes, myClasses, th_sub_roles } = await promptForProfile(user, profile);
 
     // Build teaching_combos and distribute myClasses into per-combo fields
     // (settings.html reads {level}_{subject}_classes[], not the flat myClasses array)
@@ -467,7 +479,7 @@ onAuthStateChanged(auth, async (user) => {
     // Sync newly-defined classes to shared school pool
     if (schoolId && Array.isArray(myClasses) && myClasses.length) {
       try {
-        const classesRef = collection(db, 'schools', schoolId, 'classes');
+        const classesRef = collection(db, 'partner_schools', schoolId, 'classes');
         const existing   = await getDocs(query(classesRef, orderBy('grade')));
         const poolNames  = new Set(existing.docs.map(d => d.data().name));
         await Promise.all(myClasses

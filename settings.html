@@ -1039,7 +1039,7 @@ async function loadSchoolClasses(db, schoolId) {
   if (!schoolId) return;
   try {
     const snap = await getDocs(
-      query(collection(db, 'schools', schoolId, 'classes'), orderBy('grade'), orderBy('section'))
+      query(collection(db, 'partner_schools', schoolId, 'classes'), orderBy('grade'), orderBy('section'))
     );
     snap.forEach(d => _schoolClasses.push({ id: d.id, ...d.data() }));
   } catch (e) { console.error('loadSchoolClasses failed:', e); }
@@ -1302,7 +1302,7 @@ function renderClassEditors() {
       saveNewBtn.disabled = true;
       try {
         const db = window.db;
-        const classRef = doc(collection(db, 'schools', schoolId, 'classes'));
+        const classRef = doc(collection(db, 'partner_schools', schoolId, 'classes'));
         await setDoc(classRef, {
           name: className, grade, section,
           createdBy: window.currentUser.uid,
@@ -1386,7 +1386,7 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   (async () => {
     const sel = document.getElementById('sSchool');
     try {
-      const snap = await getDocs(query(collection(db, 'schools'), orderBy('name')));
+      const snap = await getDocs(query(collection(db, 'partner_schools'), orderBy('name')));
       sel.innerHTML = '<option value="">— Select your school —</option>';
       snap.forEach(d => {
         const name = d.data().name || d.id;
