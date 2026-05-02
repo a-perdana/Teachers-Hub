@@ -358,6 +358,7 @@ const ASALEVEL_SUBJECTS = {
     subjectConfig: `const SUBJECT_CONFIG = {
   collection:   'asalevel_math_pacing',
   docId:        'year11-12',
+  syllabusPrefix: '9709',
   subjectKey:   'math',
   label:        'Mathematics',
   accentColor:  'var(--accent)',
