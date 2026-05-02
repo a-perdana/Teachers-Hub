@@ -269,6 +269,7 @@ const CHECKPOINT_SUBJECTS = {
   accentColor:  'var(--accent)',
   yearA:        'Year 7',
   yearB:        'Year 8',
+  syllabusPrefix: '0862',
   examLocalKey: 'checkpoint_math_exam_dates',
   examPapers: [
     { key: 'paper1', label: 'Paper 1', cls: 'paper1' },
