@@ -257,6 +257,8 @@ FIREBASE_APP_ID
 | `firebase-config.example.js` | Template for firebase-config.js                            |
 | `vercel.json`                | Vercel deployment config (build cmd, output dir)           |
 | `dist/`                      | Build output (not committed)                               |
+| `scripts/`                   | One-off Node scripts (Firebase Admin SDK). Currently: `seed-orientation.js`, `fix-orientation-videos.js`, `update-orientation-links.js`. Run from repo root: `node scripts/<name>.js`. They expect the service account at `../../keys/centralhub-service-account.json` (monorepo-root `keys/`). Not part of the build. |
+| `docs/STRUCTURE.md`          | Folder map — groups root HTML pages into 6 functional clusters (Pacing, Tracker, Appraisal, Competency, Communication, Auth). Read this first when orienting in the repo. |
 
 ---
 

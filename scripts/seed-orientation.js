@@ -14,7 +14,7 @@ const { getFirestore, Timestamp } = require('firebase-admin/firestore');
 const path = require('path');
 
 const KEY_PATH = process.env.GOOGLE_APPLICATION_CREDENTIALS ||
-  path.join(__dirname, '../keys/centralhub-service-account.json');
+  path.join(__dirname, '../../keys/centralhub-service-account.json');
 
 initializeApp({ credential: cert(KEY_PATH) });
 const db = getFirestore();
