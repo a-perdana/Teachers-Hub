@@ -2936,6 +2936,8 @@
         getAllCards().forEach(card => {
           // Never show pacing cards that are hidden due to profile filter
           if (card.dataset.pacingHidden === '1') { card.style.display = 'none'; return; }
+          // Never show cards that are hidden due to pilot enrolment (Phase 3 ops)
+          if (card.dataset.pilotHidden === '1') { card.style.display = 'none'; return; }
           if (!q) {
             card.style.display = '';
           } else {
@@ -3000,6 +3002,58 @@
         const grid = document.getElementById('uncategorizedGrid');
         resources.forEach(r => grid.appendChild(buildResourceCard(r)));
         document.getElementById('uncategorizedCount').textContent = resources.length;
+      }
+
+      // ── Phase 3 ops: pilot-enrolment gating ───────────────────────
+      // Each partner school can opt into a pilot subset of {kpi, appraisal,
+      // competency} via partner_schools/{schoolId}.enabled_systems[]. If the
+      // field is missing, the school is treated as "all enabled" (back-compat).
+      // If the field is empty array [], every system is explicitly disabled.
+      // Admins always see every card. Regular users see only cards whose
+      // pilotSystem is in the school's enabled list.
+      const PILOT_CARD_MAP = {
+        // KPI track
+        25: 'kpi',          // Teacher Self-Assessment
+        26: 'kpi',          // My KPI Results
+        // Appraisal track (note: ids use decimals: 26.3, 26.5)
+        '26.3': 'appraisal', // Self-Appraisal
+        '26.5': 'appraisal', // My Appraisal
+        // Competency track
+        30: 'competency',   // Teaching Competency Framework
+        31: 'competency',   // My Learning Path
+        32: 'competency',   // My Evidence Portfolio
+        33: 'competency',   // My Certificates
+      };
+
+      async function filterPilotSystemCards(db, profile, isAdmin) {
+        if (isAdmin) return;
+        const schoolId = profile?.schoolId;
+        if (!schoolId) return; // HQ users (no schoolId) — leave cards visible
+
+        let enabled = null; // null = field missing → all enabled (back-compat)
+        try {
+          const { doc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+          const snap = await getDoc(doc(db, 'partner_schools', schoolId));
+          if (snap.exists()) {
+            const data = snap.data();
+            if (Array.isArray(data.enabled_systems)) enabled = new Set(data.enabled_systems);
+          }
+        } catch { /* fail open — leave everything visible */ return; }
+
+        if (!enabled) return; // missing field → no gating
+
+        for (const [cardId, system] of Object.entries(PILOT_CARD_MAP)) {
+          if (enabled.has(system)) continue;
+          // Hide the card (DOM may not be rendered yet — set a flag for category renderer too).
+          const cardEl = document.querySelector(`[data-card-id="res_${cardId}"]`);
+          if (cardEl) {
+            cardEl.style.display = 'none';
+            cardEl.dataset.pilotHidden = '1';
+          }
+          // Mirror onto the source data so rebuilds re-apply the hide.
+          window.__pilotHiddenCardIds ||= new Set();
+          window.__pilotHiddenCardIds.add(`res_${cardId}`);
+        }
       }
 
       // ── Filter pacing cards based on user's teaching combos ──────
@@ -3487,6 +3541,11 @@
 
         // Hide pacing cards the user doesn't teach
         filterPacingCards(profile, isAdmin);
+
+        // Phase 3 ops — pilot enrolment. Hide KPI / Appraisal / Competency
+        // cards if the user's partner school has narrowed enabled_systems[].
+        // Admin keeps full visibility.
+        filterPilotSystemCards(db, profile, isAdmin);
 
         // Category system
         initCategorySystem(db, isAdmin, { onSnapshot, collection, query, orderBy, setDoc, doc, addDoc, deleteDoc, serverTimestamp });
