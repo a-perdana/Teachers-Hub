@@ -779,12 +779,19 @@ if (fs.existsSync(path.join(__dirname, 'tokens.css'))) {
   console.log('Copied: dist/tokens.css');
 }
 
-// Shared simple nav editor module (lives at monorepo root /shared-design/).
-// Copied into dist/ so navbar.js can dynamic-import('/nav-edit-simple.js').
+// Simple nav editor module — local copy lives in this repo (committed) so
+// Vercel builds don't depend on the monorepo-root /shared-design/ folder.
+// Source of truth is monorepo-root /shared-design/nav-edit-simple.js;
+// keep in sync via `node scripts/design/sync-tokens.js --apply`.
+const localNavEdit  = path.join(__dirname, 'nav-edit-simple.js');
 const sharedNavEdit = path.join(__dirname, '..', 'shared-design', 'nav-edit-simple.js');
-if (fs.existsSync(sharedNavEdit)) {
-  fs.copyFileSync(sharedNavEdit, path.join(distDir, 'nav-edit-simple.js'));
-  console.log('Copied: shared-design/nav-edit-simple.js -> dist/nav-edit-simple.js');
+const navEditSrc    = fs.existsSync(localNavEdit) ? localNavEdit
+                    : (fs.existsSync(sharedNavEdit) ? sharedNavEdit : null);
+if (navEditSrc) {
+  fs.copyFileSync(navEditSrc, path.join(distDir, 'nav-edit-simple.js'));
+  console.log(`Copied: ${path.relative(__dirname, navEditSrc)} -> dist/nav-edit-simple.js`);
+} else {
+  console.warn('WARNING: nav-edit-simple.js not found locally or in shared-design/');
 }
 
 // Copy partials folder to dist root
