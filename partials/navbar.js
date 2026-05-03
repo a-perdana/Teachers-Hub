@@ -295,6 +295,11 @@ function initNavbar() {
     document.addEventListener('authReady', populateDropdown, { once: true });
   }
 
+  // ── Mobile drawer (hamburger) ────────────────────────────────────
+  // Built from the existing desktop dropdowns so nav-edit changes flow
+  // through automatically (rename / reorder / hide / drag-rehome).
+  initThMobileMenu();
+
   // Boot the simple in-place nav editor (label rename, drag-reorder, hide).
   // Hub admins see an "Edit nav" button in the navbar; non-admins see nothing.
   // Loads from the shared module copied to /nav-edit-simple.js by build.js.
@@ -311,6 +316,137 @@ function initNavbar() {
   }
   if (window.__authReadyDetail) bootNavEditor();
   else document.addEventListener('authReady', bootNavEditor, { once: true });
+}
+
+// ── Mobile drawer ──────────────────────────────────────────────────
+// Builds the mobile menu by walking the existing desktop dropdowns
+// (.th-dd-wrap → trigger label + items inside the panel). Hidden items
+// (data-nav-hidden="1") and label edits applied by nav-edit-simple
+// flow through automatically because we walk the live DOM.
+function initThMobileMenu() {
+  const btn  = document.getElementById('thHamburger');
+  const menu = document.getElementById('thMobileMenu');
+  if (!btn || !menu) return;
+
+  const activeKey = window.__thNavActiveKey || '';
+
+  function build() {
+    menu.innerHTML = '';
+    document.querySelectorAll('.th-dd-wrap').forEach(wrap => {
+      const triggerLabel = wrap.querySelector('.th-dd-trigger')?.childNodes;
+      // Pick the trigger's text content (skip <svg>s) for the section header
+      let label = '';
+      if (triggerLabel) {
+        triggerLabel.forEach(n => {
+          if (n.nodeType === Node.TEXT_NODE && n.textContent.trim()) label = n.textContent.trim();
+        });
+      }
+      if (label) {
+        const h = document.createElement('div');
+        h.className = 'th-mobile-section-header';
+        h.textContent = label;
+        menu.appendChild(h);
+      }
+
+      // Walk columns if present (Pacing/Tracker), otherwise items live in
+      // the panel directly (My Work / My Hub).
+      const cols = wrap.querySelectorAll('.th-dd-col');
+      if (cols.length) {
+        cols.forEach(col => {
+          const subhead = col.querySelector('.th-dd-col-header')?.textContent?.trim();
+          if (subhead) {
+            const sh = document.createElement('div');
+            sh.className = 'th-mobile-subheader';
+            sh.textContent = subhead;
+            menu.appendChild(sh);
+          }
+          col.querySelectorAll('.th-dd-item[data-nav-key]').forEach(it => addItem(it));
+        });
+      } else {
+        wrap.querySelectorAll('.th-dd-item[data-nav-key]').forEach(it => addItem(it));
+      }
+
+      const sep = document.createElement('div');
+      sep.className = 'th-mobile-divider';
+      menu.appendChild(sep);
+    });
+
+    // Trim trailing divider
+    if (menu.lastChild?.classList?.contains('th-mobile-divider')) menu.lastChild.remove();
+  }
+
+  function addItem(srcAnchor) {
+    if (srcAnchor.dataset.navHidden === '1') return; // hidden items don't show in mobile either
+    const key = srcAnchor.dataset.navKey;
+    const a = document.createElement('a');
+    // Prefer the live href (nav-edit stashes it as data-nav-href in edit mode)
+    a.href = srcAnchor.getAttribute('href') || srcAnchor.dataset.navHref || '#';
+    a.className = 'th-mobile-item' + (key === activeKey ? ' active' : '');
+    a.setAttribute('data-mobile-nav-key', key);
+    // Clone svg + label
+    const svg = srcAnchor.querySelector('svg');
+    if (svg) a.appendChild(svg.cloneNode(true));
+    const lblText = srcAnchor.querySelector('.nav-item-label')?.textContent?.trim()
+                  || (function () {
+                       let t = '';
+                       srcAnchor.childNodes.forEach(n => {
+                         if (n.nodeType === Node.TEXT_NODE && n.textContent.trim()) t = n.textContent.trim();
+                       });
+                       return t;
+                     })();
+    const span = document.createElement('span');
+    span.textContent = lblText;
+    a.appendChild(span);
+    a.addEventListener('click', closeMobileMenu);
+    menu.appendChild(a);
+  }
+
+  function openMobileMenu() {
+    menu.classList.add('open');
+    btn.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMobileMenu() {
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  build();
+
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    if (menu.classList.contains('open')) closeMobileMenu();
+    else openMobileMenu();
+  });
+
+  document.addEventListener('click', e => {
+    if (!menu.classList.contains('open')) return;
+    if (!btn.contains(e.target) && !menu.contains(e.target)) closeMobileMenu();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && menu.classList.contains('open')) closeMobileMenu();
+  });
+
+  // Close drawer if the viewport is widened past the breakpoint while open.
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 1024 && menu.classList.contains('open')) closeMobileMenu();
+  });
+
+  // Re-build on nav-edit save: nav-edit-simple writes to nav_config and
+  // re-applies it; that fires no event, so observe the navbar root for
+  // structural changes and rebuild the drawer on a short debounce.
+  let rebuildTimer;
+  const navRoot = document.getElementById('nav');
+  if (navRoot && 'MutationObserver' in window) {
+    new MutationObserver(() => {
+      clearTimeout(rebuildTimer);
+      rebuildTimer = setTimeout(build, 120);
+    }).observe(navRoot, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-nav-hidden'] });
+  }
 }
 
 // Wires up the feedback modal (HTML comes from the navbar partial).

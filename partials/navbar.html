@@ -97,6 +97,124 @@
   .nav-feedback-btn:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.25); color: #ffffff; }
   .nav-feedback-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
 
+  /* ── Hamburger button (mobile only) ───────────────────────────── */
+  .th-hamburger {
+    display: none;                /* shown via @media below */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 38px; height: 38px;
+    border-radius: 9px;
+    border: 1px solid rgba(255,255,255,.15);
+    background: rgba(255,255,255,.06);
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: 0;
+    margin-left: auto;
+    transition: background .2s, border-color .2s;
+  }
+  .th-hamburger:hover {
+    background: rgba(255,255,255,.12);
+    border-color: rgba(255,255,255,.28);
+  }
+  .th-hamburger span {
+    display: block;
+    width: 18px; height: 2px;
+    background: rgba(255,255,255,.85);
+    border-radius: 2px;
+    transition: all .25s ease;
+  }
+  .th-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .th-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .th-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Mobile drawer menu (slides down under the navbar) */
+  .th-mobile-menu {
+    position: fixed;
+    top: 60px; left: 0; right: 0;
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+    background: rgba(5,5,16,.97);
+    backdrop-filter: blur(20px) saturate(1.8);
+    -webkit-backdrop-filter: blur(20px) saturate(1.8);
+    border-bottom: 1px solid rgba(255,255,255,.10);
+    display: flex; flex-direction: column;
+    gap: 2px;
+    z-index: 998;
+    padding: 10px 14px 18px;
+    transform: translateY(-110%);
+    opacity: 0;
+    transition: transform .28s cubic-bezier(.16,1,.3,1), opacity .2s ease;
+    pointer-events: none;
+  }
+  .th-mobile-menu.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .th-mobile-section-header {
+    padding: 10px 14px 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.30);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .th-mobile-subheader {
+    padding: 6px 22px 2px;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.22);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .th-mobile-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 14px;
+    border-radius: 10px;
+    color: rgba(255,255,255,.78);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500;
+    text-decoration: none;
+    transition: background .15s, color .15s;
+  }
+  .th-mobile-item.active { background: rgba(108,92,231,.20); color: #fff; }
+  .th-mobile-item:hover  { background: rgba(255,255,255,.08); color: #fff; }
+  .th-mobile-item svg {
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+    color: rgba(255,255,255,.45);
+  }
+  .th-mobile-item.active svg,
+  .th-mobile-item:hover  svg { color: rgba(255,255,255,.85); }
+  .th-mobile-divider {
+    height: 1px;
+    background: rgba(255,255,255,.07);
+    margin: 4px 0;
+  }
+
+  /* ── Responsive breakpoints ───────────────────────────────────── */
+  /* Stage 1 — 1100px: tighten padding, hide brand sub-text */
+  @media (max-width: 1100px) {
+    .nav { padding: 0 18px; }
+    .nav-logo-sub { display: none; }
+  }
+  /* Stage 2 — 1024px: hide desktop nav-links + feedback button, show hamburger */
+  @media (max-width: 1024px) {
+    .nav .nav-links     { display: none; }
+    .th-hamburger       { display: flex; }
+  }
+  /* Stage 3 — 640px: tighter chrome, hide profile name */
+  @media (max-width: 640px) {
+    .nav { padding: 0 12px; gap: 8px; }
+    .nav-logo-text { font-size: 14px; }
+    .profile-name-short { display: none; }
+    .profile-btn { padding: 4px 8px 4px 4px; }
+  }
+
   /* Badge on nav links */
   .nav-btn-wrap { position: relative; display: inline-flex; align-items: center; }
   .nav-badge {
@@ -543,6 +661,13 @@
     </div>
   </a>
 
+  <!-- Hamburger (mobile only — hidden via @media on .nav-links) -->
+  <button class="th-hamburger" id="thHamburger" aria-label="Open menu" aria-expanded="false" aria-controls="thMobileMenu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
   <div class="nav-links">
 
     <!-- Pacing dropdown -->
@@ -852,6 +977,9 @@
     </form>
   </div>
 </div>
+
+<!-- Mobile drawer (built at runtime by navbar.js from the desktop dropdowns) -->
+<div class="th-mobile-menu" id="thMobileMenu" role="navigation" aria-label="Mobile navigation"></div>
 
 <!-- Floating Save/Discard bar shown when admin enters edit mode (nav-edit-simple.js) -->
 <div id="navEditBar" role="region" aria-label="Edit navigation toolbar">
