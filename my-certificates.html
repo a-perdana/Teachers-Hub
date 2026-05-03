@@ -202,6 +202,20 @@
 /* ─── SKEL ──────────────────────────────────── */
 .skel { background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
 @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* ─── MOBILE ─────────────────────────────────── */
+@media (max-width: 720px) {
+  .page-wrap { padding: 20px 14px 80px; }
+  .page-topbar { padding: 0 16px; height: 50px; gap: 10px; }
+  .topbar-title { font-size: 13px; }
+  .topbar-back { font-size: 11px; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 22px; }
+  .stat-card { padding: 14px 12px; border-radius: 12px; }
+  .stat-num { font-size: 22px; }
+  .stat-label { font-size: 11px; }
+  .cert-grid { grid-template-columns: 1fr; gap: 14px; }
+  .cert-card-banner { height: 70px; }
+}
 </style>
 <script type="module" src="auth-guard.js"></script>
 </head>
@@ -275,19 +289,23 @@
 <script type="module">
 import { collection, doc, getDoc, getDocs, query, where, orderBy, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
+// Aligned with Cambridge Teacher Standards-grounded framework defined in
+// competency-framework.html — same 6 domain IDs (smc/lcp/afl/icp/pie/cce)
+// and same competency IDs that user_competencies.earned and
+// competency_certificates.domainId actually use.
 const FRAMEWORK = [
-  { id: 'curriculum', name: 'Curriculum Design & Delivery', icon: '📚', color: '#7c3aed', bannerFrom: '#1e0a3c', bannerTo: '#0c0820',
-    comps: ['cur-1','cur-2','cur-3','cur-4'] },
-  { id: 'assessment', name: 'Assessment & Feedback', icon: '📊', color: '#2563eb', bannerFrom: '#0a1e3c', bannerTo: '#060d1e',
-    comps: ['asm-1','asm-2','asm-3','asm-4'] },
-  { id: 'classroom', name: 'Classroom Management', icon: '🏫', color: '#d97706', bannerFrom: '#3c1e0a', bannerTo: '#1e0c06',
-    comps: ['cls-1','cls-2','cls-3','cls-4'] },
-  { id: 'pedagogy', name: 'Pedagogical Practice', icon: '💡', color: '#16a34a', bannerFrom: '#0a3c1e', bannerTo: '#062010',
-    comps: ['ped-1','ped-2','ped-3','ped-4'] },
-  { id: 'digital', name: 'Digital Literacy & EdTech', icon: '💻', color: '#e11d48', bannerFrom: '#3c0a1a', bannerTo: '#200614',
-    comps: ['dig-1','dig-2','dig-3','dig-4'] },
-  { id: 'professional', name: 'Professional Growth & Leadership', icon: '🌱', color: '#0d9488', bannerFrom: '#0a2e2c', bannerTo: '#061616',
-    comps: ['pro-1','pro-2','pro-3','pro-4'] },
+  { id: 'smc', name: 'Subject Mastery & Curriculum Design', icon: '📚', color: '#7c3aed', bannerFrom: '#1e0a3c', bannerTo: '#0c0820',
+    comps: ['smc-1','smc-2','smc-3','smc-4'] },
+  { id: 'lcp', name: 'Learner-Centred Pedagogy', icon: '💡', color: '#2563eb', bannerFrom: '#0a1e3c', bannerTo: '#060d1e',
+    comps: ['lcp-1','lcp-2','lcp-3','lcp-4'] },
+  { id: 'afl', name: 'Assessment for Learning', icon: '📊', color: '#16a34a', bannerFrom: '#0a3c1e', bannerTo: '#062010',
+    comps: ['afl-1','afl-2','afl-3','afl-4'] },
+  { id: 'icp', name: 'Innovative Classroom Practice', icon: '🚀', color: '#d97706', bannerFrom: '#3c1e0a', bannerTo: '#1e0c06',
+    comps: ['icp-1','icp-2','icp-3','icp-4'] },
+  { id: 'pie', name: 'Professional Identity & Ethics', icon: '🌱', color: '#e11d48', bannerFrom: '#3c0a1a', bannerTo: '#200614',
+    comps: ['pie-1','pie-2','pie-3','pie-4'] },
+  { id: 'cce', name: 'Collaboration & Community Engagement', icon: '🤝', color: '#0d9488', bannerFrom: '#0a2e2c', bannerTo: '#061616',
+    comps: ['cce-1','cce-2','cce-3','cce-4'] },
 ];
 
 let uid = '';
@@ -421,7 +439,7 @@ function renderCerts() {
             <button class="cert-btn cert-btn-primary" onclick='showCert(${JSON.stringify(cert)}, ${JSON.stringify(domain)})'>
               🎓 View
             </button>
-            <a class="cert-btn cert-btn-secondary" href="certificate-verify.html?id=${cert.id}" target="_blank">
+            <a class="cert-btn cert-btn-secondary" href="/certificate-verify?id=${cert.id}" target="_blank" rel="noopener">
               🔗 Verify
             </a>
           </div>

@@ -487,20 +487,59 @@
 import { doc, getDoc, setDoc, updateDoc, collection, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 // ─── CONTENT OVERRIDES ─────────────────────────────────────────
+// Admin (teachers_admin) can edit per-(competency, level) reading text. The
+// edited HTML is stored in content_overrides_teachers and rendered into a
+// modal that every other teacher opens — so any unsanitised <script> or
+// onerror= attribute injected here would execute in 800 teachers' browsers.
+// sanitizeOverrideHtml() strips everything outside a strict allowlist of
+// inline-text formatting tags and removes ALL attributes. Applied on save
+// (defence in depth) and on render (defence against historical unsanitised
+// docs and any concurrent admin write that bypassed save).
+const _OVERRIDE_ALLOWED_TAGS = new Set(['P','BR','STRONG','EM','B','I','U','MARK','UL','OL','LI','H3','H4']);
+function sanitizeOverrideHtml(html) {
+  if (!html || typeof html !== 'string') return '';
+  const tpl = document.createElement('template');
+  tpl.innerHTML = html;
+  const walk = (node) => {
+    // Iterate over a snapshot — node.childNodes is live and we mutate it.
+    Array.from(node.childNodes).forEach(child => {
+      if (child.nodeType === Node.ELEMENT_NODE) {
+        if (!_OVERRIDE_ALLOWED_TAGS.has(child.tagName)) {
+          // Drop the element but keep its text descendants (preserves content
+          // when admin pastes from Word and wraps things in <span>/<div>).
+          const text = document.createTextNode(child.textContent || '');
+          child.replaceWith(text);
+          return;
+        }
+        // Strip every attribute — no href, src, style, on*… nothing.
+        Array.from(child.attributes).forEach(a => child.removeAttribute(a.name));
+        walk(child);
+      } else if (child.nodeType === Node.COMMENT_NODE) {
+        child.remove();
+      }
+    });
+  };
+  walk(tpl.content);
+  return tpl.innerHTML;
+}
+
 const _overrideCache = {};
 async function loadOverride(compId, lvl) {
   const key = compId + '_' + lvl;
   if (key in _overrideCache) return _overrideCache[key];
   try {
     const snap = await getDoc(doc(window.db, 'content_overrides_teachers', key));
-    _overrideCache[key] = snap.exists() ? (snap.data().reading || null) : null;
+    const raw = snap.exists() ? (snap.data().reading || null) : null;
+    _overrideCache[key] = raw ? sanitizeOverrideHtml(raw) : null;
   } catch { _overrideCache[key] = null; }
   return _overrideCache[key];
 }
 async function saveOverride(compId, lvl, html) {
   const key = compId + '_' + lvl;
-  await setDoc(doc(window.db, 'content_overrides_teachers', key), { reading: html });
-  _overrideCache[key] = html;
+  const clean = sanitizeOverrideHtml(html);
+  await setDoc(doc(window.db, 'content_overrides_teachers', key), { reading: clean });
+  _overrideCache[key] = clean;
+  return clean;
 }
 
 // ─── CONTENT DATA ──────────────────────────────────────────────────────────
@@ -1813,9 +1852,9 @@ window.saveReadingEdit = async function() {
   if (!html || html === '<p><br></p>') { return; }
   btn.disabled = true; btn.textContent = 'Saving…';
   try {
-    await saveOverride(compId, lvl, html);
+    const clean = await saveOverride(compId, lvl, html);
     const readingEl = document.getElementById('matModalReading');
-    readingEl.innerHTML = '<span class="reading-override-badge">✎ Edited</span>' + html;
+    readingEl.innerHTML = '<span class="reading-override-badge">✎ Edited</span>' + clean;
     readingEl.style.opacity = '';
     document.getElementById('readingEditorWrap').classList.remove('active');
   } catch (e) { console.error('Save failed', e); }

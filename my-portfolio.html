@@ -179,6 +179,22 @@
 /* ─── SKEL ──────────────────────────────────── */
 .skel { background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
 @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* ─── MOBILE ─────────────────────────────────── */
+@media (max-width: 720px) {
+  .page-wrap { padding: 20px 14px 80px; }
+  .page-topbar { padding: 0 16px; height: 50px; gap: 10px; }
+  .topbar-title { font-size: 13px; }
+  .topbar-back { font-size: 11px; }
+  .submit-card { padding: 20px 18px; border-radius: 14px; margin-bottom: 22px; }
+  .submit-card-title { font-size: 15px; }
+  .form-row { margin-bottom: 14px; }
+  .drop-zone { padding: 22px 16px; }
+  .drop-zone-icon { font-size: 24px; }
+  .drop-zone-text { font-size: 12px; }
+  .submit-btn { width: 100%; }
+  .empty-state { padding: 36px 16px; }
+}
 </style>
 <script type="module" src="auth-guard.js"></script>
 </head>
@@ -261,7 +277,8 @@
 <script src="partials/navbar.js"></script>
 
 <script type="module">
-import { collection, doc, addDoc, getDocs, query, where, orderBy, serverTimestamp, onSnapshot, getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { collection, doc, addDoc, getDocs, query, where, orderBy, serverTimestamp, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
 // ─── FRAMEWORK METADATA ──────────────────────────────────────────────────────
 // Grounded in: Cambridge Teacher Standards 2019, Permendiknas No.16/2007
@@ -441,12 +458,12 @@ window.submitEvidence = async function() {
     let fileName = null;
 
     if (selectedFile) {
-      // Use Firebase Storage (window.storage exposed by auth-guard for Academic Hub, but TH doesn't expose it by default)
-      // Fallback: note that Teachers Hub auth-guard doesn't init storage — we store file reference as null
-      // and note the filename in the submission for admin to follow up
-      // (Storage can be added to TH auth-guard later)
       fileName = selectedFile.name;
-      // Storage upload would go here once auth-guard exposes window.storage for Teachers Hub
+      const safeName = fileName.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const path = `competency_evidence/teachers/${uid}/${Date.now()}_${safeName}`;
+      const sRef = storageRef(window.storage, path);
+      const snap = await uploadBytes(sRef, selectedFile, { contentType: selectedFile.type || undefined });
+      fileUrl = await getDownloadURL(snap.ref);
     }
 
     const meta = COMP_META[compId];
@@ -523,7 +540,9 @@ async function loadSubmissions() {
               <span class="ev-status ${ev.status}">${statusMap[ev.status] || ev.status}</span>
               <span class="ev-level-badge lvl-${ev.level}">${LEVEL_LABEL[ev.level] || ev.level}</span>
               <span class="ev-date">${date}</span>
-              ${ev.fileName ? `<a class="ev-file-link" href="${ev.fileUrl || '#'}">📎 ${ev.fileName}</a>` : ''}
+              ${ev.fileName ? (ev.fileUrl
+                ? `<a class="ev-file-link" href="${ev.fileUrl}" target="_blank" rel="noopener">📎 ${ev.fileName}</a>`
+                : `<span class="ev-file-link" title="Upload pending — file reference saved without URL">📎 ${ev.fileName}</span>`) : ''}
             </div>
           </div>
         </div>

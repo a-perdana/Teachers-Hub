@@ -22,6 +22,8 @@ import { getAuth, onAuthStateChanged, signOut }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp, getDocs, query, orderBy }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getStorage }
+  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 // ── Platform identity ─────────────────────────────────────────────
 const PLATFORM_KEY  = 'role_teachershub';        // per-user Firestore field
@@ -52,19 +54,21 @@ const firebaseConfig = {
   appId:             window.ENV.FIREBASE_APP_ID,
 };
 
-const app  = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getFirestore(app);
+const app     = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const auth    = getAuth(app);
+const db      = getFirestore(app);
+const storage = getStorage(app);
 
 window.firebaseApp = app;
 window.auth        = auth;
 window.db          = db;
+window.storage     = storage;
 // Expose Firestore helpers for navbar.js initTeachingProfile (set early; navbar.js picks them up after authReady)
 window.__firestoreHelpers = { db, setDoc, doc };
 
 // ── Page-access helpers ──────────────────────────────────────────
 // Pages that never get gated (auth flow + dashboard itself).
-const PAGE_ACCESS_BYPASS = new Set(['', 'index', 'login', 'waiting']);
+const PAGE_ACCESS_BYPASS = new Set(['', 'index', 'login', 'waiting', 'certificate-verify']);
 const PAGE_ACCESS_TTL_MS = 5 * 60 * 1000; // 5 min sessionStorage cache
 
 // Convert window.location.pathname to a clean URL slug (the doc ID

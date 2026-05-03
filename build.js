@@ -48,6 +48,7 @@ const ROUTES = {
   'learning-path.html': 'learning-path',
   'my-portfolio.html': 'my-portfolio',
   'my-certificates.html': 'my-certificates',
+  'certificate-verify.html': 'certificate-verify',
   'orientation.html': 'orientation',
   // Subject Leader Tracker pages (generated from tracker-template.html)
   'igcse-math-tracker.html':        'igcse-math-tracker',
@@ -92,6 +93,7 @@ const LINK_REWRITES = [
   [/href="learning-path\.html"/g,          'href="/learning-path"'],
   [/href="my-portfolio\.html"/g,           'href="/my-portfolio"'],
   [/href="my-certificates\.html"/g,        'href="/my-certificates"'],
+  [/href="certificate-verify\.html(\?[^"]*)?"/g, (m, q) => `href="/certificate-verify${q || ''}"`],
   // Subject Leader Tracker pages
   [/href="orientation\.html"/g,                  'href="/orientation"'],
   [/href="igcse-math-tracker\.html"/g,          'href="/igcse-math-tracker"'],

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificate Verification — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link rel="stylesheet" href="base.css">
+<script src="firebase-config.js"></script>
+<script>if (!window.ENV) window.ENV = { FIREBASE_API_KEY: "__FIREBASE_API_KEY__", FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__", FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__", FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__", FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__", FIREBASE_APP_ID: "__FIREBASE_APP_ID__" };</script>
+<style>
+:root {
+  --accent: #7c3aed;
+  --accent-2: #ede9fe;
+}
+
+.page-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 20px 100px;
+}
+
+/* ─── HERO ─────────────────────────────────── */
+.cv-hero {
+  background: linear-gradient(135deg, #0f0f1e 0%, #1e1248 55%, #0c1028 100%);
+  border-radius: 20px;
+  padding: 40px 40px 36px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.cv-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 80%, rgba(124,58,237,0.22) 0%, transparent 48%),
+    radial-gradient(circle at 86% 20%, rgba(99,102,241,0.14) 0%, transparent 48%);
+}
+.cv-hero-inner { position: relative; z-index: 1; text-align: center; }
+.cv-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 11px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(255,255,255,.5);
+  margin-bottom: 12px;
+}
+.cv-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: #0891b2; }
+.cv-hero-title {
+  font-family: 'Lora', serif; font-size: 28px; font-weight: 600;
+  color: #fff; margin-bottom: 10px; line-height: 1.25;
+}
+.cv-hero-sub {
+  font-size: 14px; color: rgba(255,255,255,.5);
+  line-height: 1.6; max-width: 520px; margin: 0 auto;
+}
+
+/* ─── RESULT STATES ───────────────────────── */
+.result-idle {
+  text-align: center; padding: 36px 24px;
+  color: var(--ink-3); font-size: 14px; line-height: 1.6;
+}
+.result-idle svg { opacity: 0.35; margin-bottom: 12px; }
+
+.result-loading {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; padding: 24px; box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column; gap: 14px;
+}
+
+/* Not found */
+.result-notfound {
+  background: var(--white); border: 1px solid #fca5a5;
+  border-radius: 16px; padding: 28px 24px;
+  box-shadow: var(--shadow-sm); text-align: center;
+}
+.nf-icon {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: #fee2e2; color: #dc2626;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+}
+.nf-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.nf-sub { font-size: 13px; color: var(--ink-3); line-height: 1.6; }
+.nf-cta {
+  display: inline-flex; align-items: center; gap: 7px;
+  margin-top: 16px; padding: 9px 18px; border-radius: 10px;
+  background: var(--accent); color: #fff; font-size: 13px; font-weight: 600;
+  text-decoration: none; transition: all .18s ease;
+}
+.nf-cta:hover { background: #6d28d9; transform: translateY(-1px); }
+
+/* Found */
+.result-found {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 18px; box-shadow: var(--shadow); overflow: hidden;
+}
+.cert-banner {
+  height: 96px; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.cert-banner::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--banner-from, #1e1248) 0%, var(--banner-to, #0c1028) 100%);
+}
+.cert-banner-icon {
+  position: relative; z-index: 1;
+  width: 60px; height: 60px; border-radius: 16px;
+  background: rgba(255,255,255,.14); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+}
+
+.cert-header {
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+}
+.cert-status-block { display: flex; align-items: center; gap: 12px; }
+.cert-status-icon {
+  width: 42px; height: 42px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; background: #d1fae5; color: #059669;
+}
+.cert-status-icon.revoked { background: #fee2e2; color: #dc2626; }
+.cert-status-label {
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .09em;
+  color: #059669; margin-bottom: 3px;
+}
+.cert-status-label.revoked { color: #dc2626; }
+.cert-status-text { font-size: 15px; font-weight: 600; color: var(--ink); }
+.cert-number {
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  color: var(--ink-3); background: var(--paper);
+  border-radius: 6px; padding: 5px 10px;
+  letter-spacing: .04em; align-self: center; white-space: nowrap;
+}
+
+.cert-body { padding: 22px 24px; }
+.cert-domain-tag {
+  font-size: 11px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; margin-bottom: 6px;
+}
+.cert-name {
+  font-family: 'Lora', serif; font-size: 22px; font-weight: 600;
+  color: var(--ink); margin-bottom: 4px; line-height: 1.25;
+}
+.cert-holder {
+  font-size: 14px; color: var(--ink-2);
+  font-weight: 500; margin-bottom: 18px;
+}
+
+.cert-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 14px 24px; margin-bottom: 8px;
+}
+.cert-field-label {
+  font-size: 10px; font-weight: 700; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: .07em; margin-bottom: 3px;
+}
+.cert-field-value { font-size: 13px; color: var(--ink); font-weight: 500; }
+
+.cert-footer {
+  padding: 14px 24px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap; background: var(--paper);
+  font-size: 12px; color: var(--ink-3);
+}
+.cert-footer-note { display: flex; align-items: center; gap: 6px; }
+
+/* skeleton */
+.skel { background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* ─── MOBILE ──────────────────────────────── */
+@media (max-width: 720px) {
+  .page-wrap { padding: 20px 14px 80px; }
+  .cv-hero { padding: 28px 22px 24px; border-radius: 16px; margin-bottom: 22px; }
+  .cv-hero-title { font-size: 22px; }
+  .cv-hero-sub { font-size: 13px; }
+  .cert-grid { grid-template-columns: 1fr; }
+  .cert-name { font-size: 19px; }
+  .cert-banner { height: 80px; }
+  .cert-banner-icon { width: 50px; height: 50px; font-size: 22px; }
+}
+</style>
+<script type="module" src="auth-guard.js"></script>
+</head>
+<body>
+
+<div id="navbar-container"></div>
+
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <div class="cv-hero">
+    <div class="cv-hero-inner">
+      <p class="cv-eyebrow">
+        <span class="cv-eyebrow-dot"></span>
+        Eduversal · Competency Registry
+      </p>
+      <h1 class="cv-hero-title">Certificate Verification</h1>
+      <p class="cv-hero-sub">Confirm the authenticity of an Eduversal Teaching Competency certificate.</p>
+    </div>
+  </div>
+
+  <div id="result">
+    <div class="result-idle">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 12px">
+        <path d="M4 4h16v12H4z"/><path d="M8 20l4-3 4 3"/><path d="M8 8h8"/><path d="M8 11h5"/>
+      </svg>
+      Open this page from a certificate link to verify its authenticity.
+    </div>
+  </div>
+
+</div>
+
+<script src="partials/navbar.js"></script>
+
+<script type="module">
+import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+// Domain metadata aligned with Cambridge Teacher Standards-grounded
+// framework — same IDs as competency-framework.html and my-certificates.html.
+const DOMAIN_META = {
+  smc: { name: 'Subject Mastery & Curriculum Design', icon: '📚', bannerFrom: '#1e0a3c', bannerTo: '#0c0820', color: '#7c3aed' },
+  lcp: { name: 'Learner-Centred Pedagogy',           icon: '💡', bannerFrom: '#0a1e3c', bannerTo: '#060d1e', color: '#2563eb' },
+  afl: { name: 'Assessment for Learning',            icon: '📊', bannerFrom: '#0a3c1e', bannerTo: '#062010', color: '#16a34a' },
+  icp: { name: 'Innovative Classroom Practice',      icon: '🚀', bannerFrom: '#3c1e0a', bannerTo: '#1e0c06', color: '#d97706' },
+  pie: { name: 'Professional Identity & Ethics',     icon: '🌱', bannerFrom: '#3c0a1a', bannerTo: '#200614', color: '#e11d48' },
+  cce: { name: 'Collaboration & Community Engagement', icon: '🤝', bannerFrom: '#0a2e2c', bannerTo: '#061616', color: '#0d9488' },
+};
+
+const E   = id => document.getElementById(id);
+const esc = s  => String(s ?? '').replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+
+// Mount navbar
+fetch('partials/navbar.html')
+  .then(r => r.text())
+  .then(html => {
+    document.getElementById('navbar-container').innerHTML = html;
+    if (typeof initNavbar === 'function') initNavbar();
+    if (typeof window._pendingNavbarUpdate === 'function') { window._pendingNavbarUpdate(); window._pendingNavbarUpdate = null; }
+    if (typeof window._pendingBadgeSetup === 'function') { window._pendingBadgeSetup(); window._pendingBadgeSetup = null; }
+    if (typeof window._pendingFeedbackSetup === 'function') { window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
+  });
+
+// ── State renderers ──────────────────────────────────────────────
+function showLoading() {
+  E('result').innerHTML = `
+    <div class="result-loading">
+      <div style="display:flex;align-items:center;gap:14px">
+        <span class="skel" style="width:46px;height:46px;border-radius:50%;flex-shrink:0"></span>
+        <div style="flex:1">
+          <span class="skel" style="display:block;width:80px;height:11px;margin-bottom:8px"></span>
+          <span class="skel" style="display:block;width:180px;height:16px"></span>
+        </div>
+      </div>
+      <span class="skel" style="display:block;width:100%;height:1px"></span>
+      <span class="skel" style="display:block;width:280px;height:28px;border-radius:6px"></span>
+      <span class="skel" style="display:block;width:200px;height:14px"></span>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <span class="skel" style="height:40px;border-radius:6px"></span>
+        <span class="skel" style="height:40px;border-radius:6px"></span>
+        <span class="skel" style="height:40px;border-radius:6px"></span>
+        <span class="skel" style="height:40px;border-radius:6px"></span>
+      </div>
+    </div>`;
+}
+
+function showNotFound(certId, reason) {
+  const subText = reason === 'no-id'
+    ? 'No certificate ID was provided in the link.'
+    : reason === 'permission'
+      ? 'You do not have permission to view this certificate. Only the holder or an Eduversal administrator can verify it.'
+      : `No record matched <strong>${esc(certId)}</strong>. The link may be broken or the certificate may have been removed.`;
+  E('result').innerHTML = `
+    <div class="result-notfound">
+      <div class="nf-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+        </svg>
+      </div>
+      <p class="nf-title">Certificate not found</p>
+      <p class="nf-sub">${subText}</p>
+      <a class="nf-cta" href="/my-certificates">Back to My Certificates</a>
+    </div>`;
+}
+
+function showError() {
+  E('result').innerHTML = `
+    <div class="result-notfound">
+      <div class="nf-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <p class="nf-title">Verification failed</p>
+      <p class="nf-sub">Could not connect to the certificate registry. Please try again in a moment.</p>
+    </div>`;
+}
+
+function fmtDate(v) {
+  try {
+    const d = v?.toDate ? v.toDate() : (v ? new Date(v) : null);
+    if (!d || isNaN(d)) return '—';
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  } catch { return '—'; }
+}
+
+function showFound(certId, c) {
+  const meta = DOMAIN_META[c.domainId] || { name: c.domainName || 'Teaching Competency', icon: '🎓', bannerFrom: '#1e1248', bannerTo: '#0c1028', color: '#7c3aed' };
+  const isRevoked = c.revoked === true;
+  const issuedDate = fmtDate(c.issuedAt);
+  E('result').innerHTML = `
+    <div class="result-found">
+      <div class="cert-banner" style="--banner-from:${meta.bannerFrom};--banner-to:${meta.bannerTo}">
+        <div class="cert-banner-icon">${meta.icon}</div>
+      </div>
+      <div class="cert-header">
+        <div class="cert-status-block">
+          <div class="cert-status-icon ${isRevoked ? 'revoked' : ''}" aria-hidden="true">
+            ${isRevoked
+              ? '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
+              : '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'}
+          </div>
+          <div>
+            <p class="cert-status-label ${isRevoked ? 'revoked' : ''}">${isRevoked ? 'Revoked' : 'Verified'}</p>
+            <p class="cert-status-text">${isRevoked ? 'Certificate has been revoked' : 'Certificate is authentic'}</p>
+          </div>
+        </div>
+        <span class="cert-number">${esc(certId.substring(0, 8).toUpperCase())}</span>
+      </div>
+      <div class="cert-body">
+        <div class="cert-domain-tag" style="color:${meta.color}">${esc(meta.name)}</div>
+        <div class="cert-name">Certificate of Teaching Competency</div>
+        <div class="cert-holder">Issued to ${esc(c.userDisplayName || c.userEmail || 'Teacher')}</div>
+        <div class="cert-grid">
+          <div>
+            <p class="cert-field-label">Domain</p>
+            <p class="cert-field-value">${esc(c.domainName || meta.name)}</p>
+          </div>
+          <div>
+            <p class="cert-field-label">Platform</p>
+            <p class="cert-field-value">${esc((c.platform || 'teachers').replace(/^./, ch => ch.toUpperCase()))}</p>
+          </div>
+          <div>
+            <p class="cert-field-label">Issue Date</p>
+            <p class="cert-field-value">${issuedDate}</p>
+          </div>
+          <div>
+            <p class="cert-field-label">Issued By</p>
+            <p class="cert-field-value">${esc(c.issuedBy || 'Eduversal')}</p>
+          </div>
+          ${c.note ? `
+          <div style="grid-column:1/-1">
+            <p class="cert-field-label">Note</p>
+            <p class="cert-field-value">${esc(c.note)}</p>
+          </div>` : ''}
+        </div>
+      </div>
+      <div class="cert-footer">
+        <p class="cert-footer-note">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Issued by Eduversal · centralhub-8727b
+        </p>
+      </div>
+    </div>`;
+}
+
+// ── Verify on load ───────────────────────────────────────────────
+document.addEventListener('authReady', async () => {
+  const certId = new URLSearchParams(window.location.search).get('id');
+  if (!certId) { showNotFound('', 'no-id'); return; }
+  showLoading();
+  try {
+    const snap = await getDoc(doc(window.db, 'competency_certificates', certId));
+    if (!snap.exists()) { showNotFound(certId, 'not-found'); return; }
+    showFound(certId, snap.data());
+  } catch (err) {
+    // Firestore rule denies non-owner non-admin → permission-denied
+    if (err && (err.code === 'permission-denied' || /permission/i.test(err.message || ''))) {
+      showNotFound(certId, 'permission');
+    } else {
+      console.error(err);
+      showError();
+    }
+  }
+});
+</script>
+</body>
+</html>
