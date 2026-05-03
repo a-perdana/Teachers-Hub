@@ -492,6 +492,7 @@ function initFeedback(db, helpers) {
         email: user.email,
         subject, message,
         createdAt: serverTimestamp(),
+        __src: 'teachershub',
       });
       feedbackStatus.textContent = 'Feedback sent successfully! Thank you.';
       feedbackStatus.className = 'feedback-status success';
