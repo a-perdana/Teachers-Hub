@@ -637,11 +637,15 @@ function renderItem(item) {
     </div>`
   ).join('') : '';
 
+  const cambRefs = Array.isArray(item.cambridge_standard_refs) ? item.cambridge_standard_refs : [];
+  const cambChips = cambRefs.length
+    ? `<div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px;">${cambRefs.map(r => `<span style="font-family:'DM Mono',monospace;font-size:.65rem;padding:2px 6px;background:#ede9fe;color:#5b21b6;border-radius:4px;font-weight:600;" title="Cambridge Teacher Standards 2023 — ${r}">CTS ${r}</span>`).join('')}</div>`
+    : '';
   return `
     <div class="item-row" id="item-${item.id}">
       <div class="item-header">
         <span class="item-id">${item.id}</span>
-        <span class="item-title">${item.title}</span>
+        <span class="item-title">${item.title}${cambChips}</span>
         ${rubricCards ? `<button class="rubric-toggle" onclick="window.toggleRubric('${item.id}')">${rubricOpen ? '▲ Hide rubric' : '▼ Rubric'}</button>` : ''}
       </div>
       ${rubricCards ? `<div class="rubric-panel ${rubricOpen ? '' : 'hidden'}" id="rubric-${item.id}">${rubricCards}</div>` : ''}

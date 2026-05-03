@@ -13,40 +13,94 @@
     ]
   },
   "weights": {
-    "F1": 0.20,
-    "F2": 0.50,
-    "F3": 0.20,
-    "F4": 0.10,
+    "F1": 0.2,
+    "F2": 0.5,
+    "F3": 0.2,
+    "F4": 0.1,
     "collection_timing": {
-      "F1": { "who": "Appraiser", "when": "Observation Session — scored during or immediately after the formal classroom visit" },
-      "F2": { "who": "Appraiser", "when": "Observation Session — scored live during the formal announced lesson (35–40 min)" },
-      "F3": { "who": "Appraiser", "when": "End-of-Year Conference — scored at the annual review meeting with the teacher" },
-      "F4": { "who": "Students", "when": "Collected independently from students during the academic year; appraiser enters aggregated results into the system" }
+      "F1": {
+        "who": "Appraiser",
+        "when": "Observation Session — scored during or immediately after the formal classroom visit"
+      },
+      "F2": {
+        "who": "Appraiser",
+        "when": "Observation Session — scored live during the formal announced lesson (35–40 min)"
+      },
+      "F3": {
+        "who": "Appraiser",
+        "when": "End-of-Year Conference — scored at the annual review meeting with the teacher"
+      },
+      "F4": {
+        "who": "Students",
+        "when": "Collected independently from students during the academic year; appraiser enters aggregated results into the system"
+      }
     }
   },
   "scoring_scale": [
-    { "value": 4, "label": "Distinguished" },
-    { "value": 3, "label": "Proficient" },
-    { "value": 2, "label": "Basic" },
-    { "value": 1, "label": "Unsatisfactory" }
+    {
+      "value": 4,
+      "label": "Distinguished"
+    },
+    {
+      "value": 3,
+      "label": "Proficient"
+    },
+    {
+      "value": 2,
+      "label": "Basic"
+    },
+    {
+      "value": 1,
+      "label": "Unsatisfactory"
+    }
   ],
   "predicate_bands": [
-    { "label": "A", "min": 86, "max": 100, "description": "Excellent" },
-    { "label": "B", "min": 66, "max": 85, "description": "Good" },
-    { "label": "C", "min": 51, "max": 65, "description": "Satisfactory" },
-    { "label": "D", "min": 36, "max": 50, "description": "Needs Improvement" },
-    { "label": "F", "min": 0,  "max": 35, "description": "Unsatisfactory" }
+    {
+      "label": "A",
+      "min": 86,
+      "max": 100,
+      "description": "Excellent"
+    },
+    {
+      "label": "B",
+      "min": 66,
+      "max": 85,
+      "description": "Good"
+    },
+    {
+      "label": "C",
+      "min": 51,
+      "max": 65,
+      "description": "Satisfactory"
+    },
+    {
+      "label": "D",
+      "min": 36,
+      "max": 50,
+      "description": "Needs Improvement"
+    },
+    {
+      "label": "F",
+      "min": 0,
+      "max": 35,
+      "description": "Unsatisfactory"
+    }
   ],
   "level_visibility": {
     "note": "Each item carries a 'visible_from' field specifying the minimum level at which it appears in the formal appraisal. Items visible from 'induction' appear for all levels. Items visible from 'lead' appear only for Lead teachers.",
-    "order": ["induction", "developing", "proficient", "lead"]
+    "order": [
+      "induction",
+      "developing",
+      "proficient",
+      "lead"
+    ]
   },
   "frameworks": [
     {
       "id": "F1",
       "title": "Teacher Administration",
       "description": "Assesses the teacher's fulfilment of professional administrative responsibilities — documentation, record-keeping, and compliance with school academic systems.",
-      "weight": 0.20,
+      "weight": 0.2,
       "items_note": "All 9 items are visible at all levels.",
       "items": [
         {
@@ -64,11 +118,25 @@
             "No scheduling conflicts reported since last observation"
           ],
           "rubric": {
-            "4": "Demonstrates thorough, proactive knowledge of the school academic calendar. Plans all instructional activities, assessments, and submissions in full alignment with key dates. Anticipates scheduling conflicts and adjusts accordingly.",
-            "3": "Demonstrates consistent knowledge of the school academic calendar. Activities and submissions are reliably aligned with key dates, with minor lapses.",
+            "1": "Demonstrates insufficient knowledge of the school academic calendar. Activities and submissions are frequently misaligned or missed.",
             "2": "Shows partial knowledge of the academic calendar. Some activities or submissions are misaligned with key dates, requiring reminders.",
-            "1": "Demonstrates insufficient knowledge of the school academic calendar. Activities and submissions are frequently misaligned or missed."
-          }
+            "3": "Demonstrates consistent knowledge of the school academic calendar. Activities and submissions are reliably aligned with key dates, with minor lapses.",
+            "4": "Demonstrates thorough, proactive knowledge of the school academic calendar. Plans all instructional activities, assessments, and submissions in full alignment with key dates. Anticipates scheduling conflicts and adjusts accordingly."
+          },
+          "cambridge_standard_refs": [
+            "1.4",
+            "2.3"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "1.4",
+              "text": "demonstrate a commitment to lifelong learning by engaging in reflective practice"
+            },
+            {
+              "ref": "2.3",
+              "text": "have high expectations of themselves in their professional practice"
+            }
+          ]
         },
         {
           "id": "F1.2",
@@ -85,11 +153,25 @@
             "Plan is referenced and updated throughout the year"
           ],
           "rubric": {
-            "4": "Submits a comprehensive annual plan and syllabus well ahead of deadlines. Documents are coherent, clearly sequenced, and fully aligned with curriculum standards and school expectations.",
-            "3": "Submits an annual plan and syllabus on time. Documents are adequately aligned with curriculum standards, with minor gaps.",
+            "1": "Fails to submit a complete annual plan or syllabus by the required deadline, or submits documents that are significantly misaligned with curriculum standards.",
             "2": "Submits an annual plan and syllabus, though late or with notable gaps in alignment or sequencing.",
-            "1": "Fails to submit a complete annual plan or syllabus by the required deadline, or submits documents that are significantly misaligned with curriculum standards."
-          }
+            "3": "Submits an annual plan and syllabus on time. Documents are adequately aligned with curriculum standards, with minor gaps.",
+            "4": "Submits a comprehensive annual plan and syllabus well ahead of deadlines. Documents are coherent, clearly sequenced, and fully aligned with curriculum standards and school expectations."
+          },
+          "cambridge_standard_refs": [
+            "1.4",
+            "2.3"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "1.4",
+              "text": "demonstrate a commitment to lifelong learning by engaging in reflective practice"
+            },
+            {
+              "ref": "2.3",
+              "text": "have high expectations of themselves in their professional practice"
+            }
+          ]
         },
         {
           "id": "F1.3",
@@ -106,11 +188,25 @@
             "Plans are submitted in advance, not the morning of the lesson"
           ],
           "rubric": {
-            "4": "Consistently submits lesson plans ahead of the required deadline. Submission is part of a systematic personal planning routine.",
-            "3": "Submits lesson plans on time in almost all cases. Occasional late submissions are followed up proactively.",
+            "1": "Rarely or never submits lesson plans by the required deadline, or fails to submit them at all.",
             "2": "Submits lesson plans with frequent delays. Reminders are regularly required.",
-            "1": "Rarely or never submits lesson plans by the required deadline, or fails to submit them at all."
-          }
+            "3": "Submits lesson plans on time in almost all cases. Occasional late submissions are followed up proactively.",
+            "4": "Consistently submits lesson plans ahead of the required deadline. Submission is part of a systematic personal planning routine."
+          },
+          "cambridge_standard_refs": [
+            "1.4",
+            "2.3"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "1.4",
+              "text": "demonstrate a commitment to lifelong learning by engaging in reflective practice"
+            },
+            {
+              "ref": "2.3",
+              "text": "have high expectations of themselves in their professional practice"
+            }
+          ]
         },
         {
           "id": "F1.4",
@@ -127,11 +223,20 @@
             "Plan format consistent across the week's lessons"
           ],
           "rubric": {
-            "4": "Lesson plans consistently meet or exceed the required format. All components (objectives, activities, assessment, differentiation) are complete, coherent, and evidence reflective planning.",
-            "3": "Lesson plans meet the required format in most cases. All core components are present, with minor inconsistencies.",
+            "1": "Lesson plans rarely meet the required format. Most plans are incomplete, formulaic, or fail to demonstrate genuine planning.",
             "2": "Lesson plans partially meet the required format. Key components are missing or underdeveloped in a significant number of plans.",
-            "1": "Lesson plans rarely meet the required format. Most plans are incomplete, formulaic, or fail to demonstrate genuine planning."
-          }
+            "3": "Lesson plans meet the required format in most cases. All core components are present, with minor inconsistencies.",
+            "4": "Lesson plans consistently meet or exceed the required format. All components (objectives, activities, assessment, differentiation) are complete, coherent, and evidence reflective planning."
+          },
+          "cambridge_standard_refs": [
+            "3.2"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.2",
+              "text": "demonstrate secure content knowledge and pedagogy to plan coherent, authentic and engaging learning programmes and lessons"
+            }
+          ]
         },
         {
           "id": "F1.5",
@@ -148,11 +253,25 @@
             "Students report lessons starting and ending on time"
           ],
           "rubric": {
-            "4": "Fully adheres to the assigned teaching schedule. Any deviations are pre-approved, documented, and have no impact on student learning continuity.",
-            "3": "Adheres to the teaching schedule with minor unplanned deviations, which are communicated promptly.",
+            "1": "Frequently deviates from the teaching schedule without prior authorisation or communication.",
             "2": "Teaching schedule deviations occur with some regularity and are not always communicated in advance.",
-            "1": "Frequently deviates from the teaching schedule without prior authorisation or communication."
-          }
+            "3": "Adheres to the teaching schedule with minor unplanned deviations, which are communicated promptly.",
+            "4": "Fully adheres to the assigned teaching schedule. Any deviations are pre-approved, documented, and have no impact on student learning continuity."
+          },
+          "cambridge_standard_refs": [
+            "1.4",
+            "2.3"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "1.4",
+              "text": "demonstrate a commitment to lifelong learning by engaging in reflective practice"
+            },
+            {
+              "ref": "2.3",
+              "text": "have high expectations of themselves in their professional practice"
+            }
+          ]
         },
         {
           "id": "F1.6",
@@ -169,11 +288,25 @@
             "Journal shows a pattern of reflective questioning"
           ],
           "rubric": {
-            "4": "Maintains a detailed, consistently updated lesson journal. Entries reflect genuine reflection on lesson outcomes, student responses, and next-step adjustments.",
-            "3": "Maintains a lesson journal with regular, sufficiently detailed entries covering lesson progress and observations.",
+            "1": "Lesson journal is rarely maintained, significantly incomplete, or absent.",
             "2": "Lesson journal entries are incomplete, irregular, or formulaic, offering limited evidence of reflective practice.",
-            "1": "Lesson journal is rarely maintained, significantly incomplete, or absent."
-          }
+            "3": "Maintains a lesson journal with regular, sufficiently detailed entries covering lesson progress and observations.",
+            "4": "Maintains a detailed, consistently updated lesson journal. Entries reflect genuine reflection on lesson outcomes, student responses, and next-step adjustments."
+          },
+          "cambridge_standard_refs": [
+            "1.4",
+            "4.1"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "1.4",
+              "text": "demonstrate a commitment to lifelong learning by engaging in reflective practice"
+            },
+            {
+              "ref": "4.1",
+              "text": "engage in reflective practice to improve the teaching and learning process"
+            }
+          ]
         },
         {
           "id": "F1.7",
@@ -190,11 +323,25 @@
             "All summative scores entered within the required timeframe"
           ],
           "rubric": {
-            "4": "Gradebook is consistently accurate, current, and well-organised. Assessment data is entered promptly and can be interpreted clearly by any authorised party.",
-            "3": "Gradebook is generally accurate and reasonably current. Minor delays in data entry are quickly resolved.",
+            "1": "Gradebook is significantly inaccurate, persistently out of date, or inadequately maintained.",
             "2": "Gradebook contains errors or is frequently out of date, requiring correction or follow-up.",
-            "1": "Gradebook is significantly inaccurate, persistently out of date, or inadequately maintained."
-          }
+            "3": "Gradebook is generally accurate and reasonably current. Minor delays in data entry are quickly resolved.",
+            "4": "Gradebook is consistently accurate, current, and well-organised. Assessment data is entered promptly and can be interpreted clearly by any authorised party."
+          },
+          "cambridge_standard_refs": [
+            "3.7",
+            "4.4"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.7",
+              "text": "use summative assessment to understand student progress and attainment"
+            },
+            {
+              "ref": "4.4",
+              "text": "share key information on progress, attainment and areas for development with colleagues, and collaboratively work towards improving student learning"
+            }
+          ]
         },
         {
           "id": "F1.8",
@@ -211,11 +358,20 @@
             "Absence patterns flagged and escalated appropriately"
           ],
           "rubric": {
-            "4": "Records student attendance accurately and consistently in every session, using the designated system. Patterns of absence are noted and escalated appropriately.",
-            "3": "Records student attendance accurately in most sessions. Occasional errors are identified and corrected.",
+            "1": "Attendance recording is unreliable, infrequent, or absent.",
             "2": "Attendance recording is inconsistent or contains recurring errors that require follow-up.",
-            "1": "Attendance recording is unreliable, infrequent, or absent."
-          }
+            "3": "Records student attendance accurately in most sessions. Occasional errors are identified and corrected.",
+            "4": "Records student attendance accurately and consistently in every session, using the designated system. Patterns of absence are noted and escalated appropriately."
+          },
+          "cambridge_standard_refs": [
+            "2.1"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "2.1",
+              "text": "create a classroom culture and environment where all students are supported in their learning"
+            }
+          ]
         },
         {
           "id": "F1.9",
@@ -232,11 +388,25 @@
             "Resources returned and stored in order after each lesson"
           ],
           "rubric": {
-            "4": "Manages all assigned coursebooks and instructional resources responsibly. Distribution, collection, and condition records are maintained meticulously.",
-            "3": "Manages coursebooks and resources adequately. Most records are maintained; minor lapses are quickly addressed.",
+            "1": "Coursebooks and instructional resources are poorly managed. Significant losses, damage, or record failures are present.",
             "2": "Resource management is inconsistent. Records are incomplete or materials are not adequately tracked.",
-            "1": "Coursebooks and instructional resources are poorly managed. Significant losses, damage, or record failures are present."
-          }
+            "3": "Manages coursebooks and resources adequately. Most records are maintained; minor lapses are quickly addressed.",
+            "4": "Manages all assigned coursebooks and instructional resources responsibly. Distribution, collection, and condition records are maintained meticulously."
+          },
+          "cambridge_standard_refs": [
+            "1.4",
+            "2.3"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "1.4",
+              "text": "demonstrate a commitment to lifelong learning by engaging in reflective practice"
+            },
+            {
+              "ref": "2.3",
+              "text": "have high expectations of themselves in their professional practice"
+            }
+          ]
         }
       ]
     },
@@ -244,7 +414,7 @@
       "id": "F2",
       "title": "Class Observation",
       "description": "Assesses teaching practice across four domains: lesson planning, classroom management, instructional process, and assessment. This framework carries the heaviest weighting and is the primary lens for professional growth. Observed during a formal announced lesson of 35–40 minutes.",
-      "weight": 0.50,
+      "weight": 0.5,
       "domains": [
         {
           "id": "D1",
@@ -267,11 +437,20 @@
                 "Lesson ends with closure rather than running out of time"
               ],
               "rubric": {
-                "4": "Lesson plan reflects a carefully structured sequence with logical progression and realistic time allocation for each phase. Transitions between phases are explicitly planned.",
-                "3": "Lesson plan is well-structured with clear sequencing and reasonable timing. Minor pacing gaps are present but do not undermine coherence.",
+                "1": "Lesson plan lacks coherent structure. Sequencing is illogical or timing is so unrealistic that it undermines instructional effectiveness.",
                 "2": "Lesson plan structure is adequate but shows inconsistencies in sequencing or unrealistic time allocations for some phases.",
-                "1": "Lesson plan lacks coherent structure. Sequencing is illogical or timing is so unrealistic that it undermines instructional effectiveness."
-              }
+                "3": "Lesson plan is well-structured with clear sequencing and reasonable timing. Minor pacing gaps are present but do not undermine coherence.",
+                "4": "Lesson plan reflects a carefully structured sequence with logical progression and realistic time allocation for each phase. Transitions between phases are explicitly planned."
+              },
+              "cambridge_standard_refs": [
+                "3.2"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.2",
+                  "text": "demonstrate secure content knowledge and pedagogy to plan coherent, authentic and engaging learning programmes and lessons"
+                }
+              ]
             },
             {
               "id": "D1.2",
@@ -289,11 +468,20 @@
               ],
               "theory_basis": "Danielson FfT 1c.",
               "rubric": {
-                "4": "Learning objectives are clearly articulated, student-centred, and measurable. They specify what students will know or be able to do, at what level of complexity, and how success will be evidenced.",
-                "3": "Learning objectives are clear and largely measurable. Minor ambiguities in scope or success criteria are present.",
+                "1": "Learning objectives are absent, incoherent, or so broad they provide no meaningful guidance for instruction.",
                 "2": "Learning objectives are present but vague, unmeasurable, or focused on teacher activity rather than student learning.",
-                "1": "Learning objectives are absent, incoherent, or so broad they provide no meaningful guidance for instruction."
-              }
+                "3": "Learning objectives are clear and largely measurable. Minor ambiguities in scope or success criteria are present.",
+                "4": "Learning objectives are clearly articulated, student-centred, and measurable. They specify what students will know or be able to do, at what level of complexity, and how success will be evidenced."
+              },
+              "cambridge_standard_refs": [
+                "3.2"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.2",
+                  "text": "demonstrate secure content knowledge and pedagogy to plan coherent, authentic and engaging learning programmes and lessons"
+                }
+              ]
             },
             {
               "id": "D1.3",
@@ -310,11 +498,20 @@
                 "No filler or habit-based activities included"
               ],
               "rubric": {
-                "4": "Every planned activity, resource, and assessment directly supports the stated learning objectives. The alignment is explicit and consistent throughout the plan.",
-                "3": "Most activities and resources align with the learning objectives. Minor misalignments do not significantly undermine coherence.",
+                "1": "Planned activities and resources have little or no discernible connection to the stated learning objectives.",
                 "2": "Some activities or resources align with the objectives, but notable gaps or mismatches weaken the instructional focus.",
-                "1": "Planned activities and resources have little or no discernible connection to the stated learning objectives."
-              }
+                "3": "Most activities and resources align with the learning objectives. Minor misalignments do not significantly undermine coherence.",
+                "4": "Every planned activity, resource, and assessment directly supports the stated learning objectives. The alignment is explicit and consistent throughout the plan."
+              },
+              "cambridge_standard_refs": [
+                "3.2"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.2",
+                  "text": "demonstrate secure content knowledge and pedagogy to plan coherent, authentic and engaging learning programmes and lessons"
+                }
+              ]
             },
             {
               "id": "D1.4",
@@ -332,11 +529,30 @@
               ],
               "theory_basis": "Danielson FfT 1e, Marzano DQ5.",
               "rubric": {
-                "4": "Lesson plan includes explicit, substantive differentiation strategies addressing the range of learner needs present in the class. Adaptations are specific, not generic.",
-                "3": "Lesson plan includes some differentiation strategies. Adaptations are present but may not address the full range of learner needs.",
+                "1": "Lesson plan makes no provision for differentiation. All students are expected to engage with identical tasks at an identical pace.",
                 "2": "Differentiation is superficial or generic. Plans do not reflect specific knowledge of students' varying needs.",
-                "1": "Lesson plan makes no provision for differentiation. All students are expected to engage with identical tasks at an identical pace."
-              }
+                "3": "Lesson plan includes some differentiation strategies. Adaptations are present but may not address the full range of learner needs.",
+                "4": "Lesson plan includes explicit, substantive differentiation strategies addressing the range of learner needs present in the class. Adaptations are specific, not generic."
+              },
+              "cambridge_standard_refs": [
+                "2.1",
+                "2.4",
+                "3.3"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "2.1",
+                  "text": "create a classroom culture and environment where all students are supported in their learning"
+                },
+                {
+                  "ref": "2.4",
+                  "text": "have high expectations of all students"
+                },
+                {
+                  "ref": "3.3",
+                  "text": "have a deep understanding of the diverse needs of students and adapt their practice accordingly"
+                }
+              ]
             },
             {
               "id": "D1.5",
@@ -353,11 +569,25 @@
                 "Collaborative tasks have individual accountability built in"
               ],
               "rubric": {
-                "4": "Lesson plan purposefully balances individual and group/pair work in a way that is justified by the objectives and the nature of the content. Each mode is designed for productive engagement.",
-                "3": "The lesson includes both individual and collaborative activities. The balance is reasonable, though the rationale for each mode could be more explicit.",
+                "1": "No deliberate balance exists. The planning reflects a single, uniform mode of engagement throughout.",
                 "2": "The lesson relies predominantly on one mode (individual or group) without clear justification. Opportunities for alternative modes are missed.",
-                "1": "No deliberate balance exists. The planning reflects a single, uniform mode of engagement throughout."
-              }
+                "3": "The lesson includes both individual and collaborative activities. The balance is reasonable, though the rationale for each mode could be more explicit.",
+                "4": "Lesson plan purposefully balances individual and group/pair work in a way that is justified by the objectives and the nature of the content. Each mode is designed for productive engagement."
+              },
+              "cambridge_standard_refs": [
+                "3.2",
+                "3.5"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.2",
+                  "text": "demonstrate secure content knowledge and pedagogy to plan coherent, authentic and engaging learning programmes and lessons"
+                },
+                {
+                  "ref": "3.5",
+                  "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+                }
+              ]
             },
             {
               "id": "D1.6",
@@ -375,11 +605,25 @@
               ],
               "theory_basis": "Danielson FfT 1d.",
               "rubric": {
-                "4": "Instructional materials are purposefully selected for their appropriateness to the objectives, learner level, and context. Materials enhance rather than substitute for instruction.",
-                "3": "Instructional materials are appropriate and support the objectives. Selection is adequate, though not always optimally matched to all learner needs.",
+                "1": "Materials are absent, inappropriate, or selected without evident consideration of learning goals.",
                 "2": "Materials are selected with limited consideration of their fit to the objectives or learner level.",
-                "1": "Materials are absent, inappropriate, or selected without evident consideration of learning goals."
-              }
+                "3": "Instructional materials are appropriate and support the objectives. Selection is adequate, though not always optimally matched to all learner needs.",
+                "4": "Instructional materials are purposefully selected for their appropriateness to the objectives, learner level, and context. Materials enhance rather than substitute for instruction."
+              },
+              "cambridge_standard_refs": [
+                "3.2",
+                "3.5"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.2",
+                  "text": "demonstrate secure content knowledge and pedagogy to plan coherent, authentic and engaging learning programmes and lessons"
+                },
+                {
+                  "ref": "3.5",
+                  "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+                }
+              ]
             },
             {
               "id": "D1.7",
@@ -396,11 +640,20 @@
                 "Opening, main activity, and closure form a coherent whole"
               ],
               "rubric": {
-                "4": "The lesson is organised around a unifying purpose. Each element — opening, main activity, practice, closure — contributes meaningfully to the whole. The 'why' of each phase is evident.",
-                "3": "The lesson is logically organised and internally consistent. Connections between phases are present, though not always explicit.",
+                "1": "The lesson lacks organisational coherence. Phases are disconnected, arbitrary, or difficult to follow as a learning sequence.",
                 "2": "The lesson is organised but lacks clear connections between phases. Some elements appear disconnected from the central purpose.",
-                "1": "The lesson lacks organisational coherence. Phases are disconnected, arbitrary, or difficult to follow as a learning sequence."
-              }
+                "3": "The lesson is logically organised and internally consistent. Connections between phases are present, though not always explicit.",
+                "4": "The lesson is organised around a unifying purpose. Each element — opening, main activity, practice, closure — contributes meaningfully to the whole. The 'why' of each phase is evident."
+              },
+              "cambridge_standard_refs": [
+                "3.2"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.2",
+                  "text": "demonstrate secure content knowledge and pedagogy to plan coherent, authentic and engaging learning programmes and lessons"
+                }
+              ]
             },
             {
               "id": "D1.8",
@@ -417,11 +670,25 @@
                 "Evidence that formative data influenced in-lesson or next-lesson decisions"
               ],
               "rubric": {
-                "4": "The lesson plan includes explicit, varied formative assessment strategies embedded at strategic points to check understanding and inform instruction.",
-                "3": "The lesson plan includes formative assessment. Strategies are present and reasonably well-placed, though variety or specificity could be greater.",
+                "1": "No formative assessment is planned. The lesson proceeds without any mechanism to check student understanding.",
                 "2": "Formative assessment is mentioned but vague, limited to a single method, or placed only at the lesson's end.",
-                "1": "No formative assessment is planned. The lesson proceeds without any mechanism to check student understanding."
-              }
+                "3": "The lesson plan includes formative assessment. Strategies are present and reasonably well-placed, though variety or specificity could be greater.",
+                "4": "The lesson plan includes explicit, varied formative assessment strategies embedded at strategic points to check understanding and inform instruction."
+              },
+              "cambridge_standard_refs": [
+                "3.6",
+                "4.4"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.6",
+                  "text": "use a range of assessment strategies to inform next steps in the teaching and learning process and to provide timely, accurate and constructive feedback"
+                },
+                {
+                  "ref": "4.4",
+                  "text": "share key information on progress, attainment and areas for development with colleagues, and collaboratively work towards improving student learning"
+                }
+              ]
             },
             {
               "id": "D1.9",
@@ -438,11 +705,30 @@
                 "Teacher can identify which students needed additional access support and what was planned for them"
               ],
               "rubric": {
-                "4": "Content is planned to be presented using language, examples, analogies, and representations that make it accessible to all learners in the class, including those with lower prior knowledge.",
-                "3": "Content presentation is planned with reasonable attention to accessibility. Most learners are accounted for, though some may need unplanned support.",
+                "1": "Content is planned to be presented in a manner that is inaccessible to a significant portion of the class.",
                 "2": "Content presentation is planned at a single level, without deliberate attention to accessibility for diverse learners.",
-                "1": "Content is planned to be presented in a manner that is inaccessible to a significant portion of the class."
-              }
+                "3": "Content presentation is planned with reasonable attention to accessibility. Most learners are accounted for, though some may need unplanned support.",
+                "4": "Content is planned to be presented using language, examples, analogies, and representations that make it accessible to all learners in the class, including those with lower prior knowledge."
+              },
+              "cambridge_standard_refs": [
+                "2.1",
+                "2.4",
+                "3.3"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "2.1",
+                  "text": "create a classroom culture and environment where all students are supported in their learning"
+                },
+                {
+                  "ref": "2.4",
+                  "text": "have high expectations of all students"
+                },
+                {
+                  "ref": "3.3",
+                  "text": "have a deep understanding of the diverse needs of students and adapt their practice accordingly"
+                }
+              ]
             },
             {
               "id": "D1.10",
@@ -459,11 +745,25 @@
                 "Teacher can explain why the connection was chosen and what it adds"
               ],
               "rubric": {
-                "4": "The lesson deliberately incorporates meaningful connections to other subjects, real-world contexts, or broader conceptual frameworks, enriching the learning experience.",
-                "3": "The lesson includes some connection to other subjects or real-world contexts. Connections are valid, though not always fully developed.",
+                "1": "No interdisciplinary or cross-curricular connections are present or attempted.",
                 "2": "Interdisciplinary connections are superficial, incidental, or limited to a brief mention without integration.",
-                "1": "No interdisciplinary or cross-curricular connections are present or attempted."
-              }
+                "3": "The lesson includes some connection to other subjects or real-world contexts. Connections are valid, though not always fully developed.",
+                "4": "The lesson deliberately incorporates meaningful connections to other subjects, real-world contexts, or broader conceptual frameworks, enriching the learning experience."
+              },
+              "cambridge_standard_refs": [
+                "3.2",
+                "3.5"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.2",
+                  "text": "demonstrate secure content knowledge and pedagogy to plan coherent, authentic and engaging learning programmes and lessons"
+                },
+                {
+                  "ref": "3.5",
+                  "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+                }
+              ]
             }
           ]
         },
@@ -488,11 +788,30 @@
                 "Teacher repositions during independent work to cover blind spots"
               ],
               "rubric": {
-                "4": "Demonstrates keen, continuous awareness of the full classroom — student interactions, emerging off-task behaviour, and shifts in attention. Responds proactively and without disrupting lesson flow.",
-                "3": "Demonstrates consistent awareness of classroom dynamics. Responds effectively to most situations, with minor lapses in scanning or proximity.",
+                "1": "Demonstrates limited awareness of what is happening in the classroom. Off-task behaviour is frequently unnoticed or addressed ineffectively.",
                 "2": "Awareness of classroom dynamics is uneven. Some student behaviour or interactions go unnoticed until they escalate.",
-                "1": "Demonstrates limited awareness of what is happening in the classroom. Off-task behaviour is frequently unnoticed or addressed ineffectively."
-              }
+                "3": "Demonstrates consistent awareness of classroom dynamics. Responds effectively to most situations, with minor lapses in scanning or proximity.",
+                "4": "Demonstrates keen, continuous awareness of the full classroom — student interactions, emerging off-task behaviour, and shifts in attention. Responds proactively and without disrupting lesson flow."
+              },
+              "cambridge_standard_refs": [
+                "2.1",
+                "2.2",
+                "3.8"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "2.1",
+                  "text": "create a classroom culture and environment where all students are supported in their learning"
+                },
+                {
+                  "ref": "2.2",
+                  "text": "establish positive and productive relationships with all students to support their learning and achievement"
+                },
+                {
+                  "ref": "3.8",
+                  "text": "manage time effectively and ensure the classroom is free from disruption"
+                }
+              ]
             },
             {
               "id": "D2.2",
@@ -510,11 +829,30 @@
               ],
               "theory_basis": "Danielson FfT 2a, 2b.",
               "rubric": {
-                "4": "The classroom atmosphere is consistently purposeful, respectful, and intellectually safe. Students take academic risks and engage in learning with genuine investment.",
-                "3": "The classroom atmosphere is generally positive and supportive. Most students feel comfortable participating. Minor disruptions are quickly addressed.",
+                "1": "The classroom atmosphere is chaotic, tense, or disengaged. Students do not appear to feel safe, valued, or focused on learning.",
                 "2": "The classroom atmosphere is inconsistent. At times, the environment is not conducive to focused learning.",
-                "1": "The classroom atmosphere is chaotic, tense, or disengaged. Students do not appear to feel safe, valued, or focused on learning."
-              }
+                "3": "The classroom atmosphere is generally positive and supportive. Most students feel comfortable participating. Minor disruptions are quickly addressed.",
+                "4": "The classroom atmosphere is consistently purposeful, respectful, and intellectually safe. Students take academic risks and engage in learning with genuine investment."
+              },
+              "cambridge_standard_refs": [
+                "2.1",
+                "2.2",
+                "3.8"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "2.1",
+                  "text": "create a classroom culture and environment where all students are supported in their learning"
+                },
+                {
+                  "ref": "2.2",
+                  "text": "establish positive and productive relationships with all students to support their learning and achievement"
+                },
+                {
+                  "ref": "3.8",
+                  "text": "manage time effectively and ensure the classroom is free from disruption"
+                }
+              ]
             },
             {
               "id": "D2.3",
@@ -531,11 +869,30 @@
                 "All students addressed by name and with consistent respect"
               ],
               "rubric": {
-                "4": "Interacts with all students with consistent respect, dignity, and fairness. There is no observable bias in interactions, opportunities, or expectations. Individual students are recognised as whole people.",
-                "3": "Generally treats students fairly and respectfully. Minor inconsistencies in attention or interaction quality are present but not systemic.",
+                "1": "Interactions are inequitable, dismissive, or disrespectful toward a student or group. Student dignity is not consistently upheld.",
                 "2": "Fairness or respect is inconsistent. Some students appear to receive noticeably different — positive or negative — treatment from others.",
-                "1": "Interactions are inequitable, dismissive, or disrespectful toward a student or group. Student dignity is not consistently upheld."
-              }
+                "3": "Generally treats students fairly and respectfully. Minor inconsistencies in attention or interaction quality are present but not systemic.",
+                "4": "Interacts with all students with consistent respect, dignity, and fairness. There is no observable bias in interactions, opportunities, or expectations. Individual students are recognised as whole people."
+              },
+              "cambridge_standard_refs": [
+                "2.1",
+                "2.2",
+                "3.8"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "2.1",
+                  "text": "create a classroom culture and environment where all students are supported in their learning"
+                },
+                {
+                  "ref": "2.2",
+                  "text": "establish positive and productive relationships with all students to support their learning and achievement"
+                },
+                {
+                  "ref": "3.8",
+                  "text": "manage time effectively and ensure the classroom is free from disruption"
+                }
+              ]
             },
             {
               "id": "D2.4",
@@ -552,11 +909,20 @@
                 "Transitions are completed within 60 seconds"
               ],
               "rubric": {
-                "4": "Time is managed with precision and intentionality. Instructional minutes are maximised; transitions are efficient; the lesson neither rushes nor drags.",
-                "3": "Time is generally well-managed. Most phases are appropriately paced. Minor over- or under-runs are handled without significant loss of learning time.",
+                "1": "Time is poorly managed throughout. Significant portions of instructional time are lost to inefficiency, waiting, or unproductive activity.",
                 "2": "Time management is inconsistent. Some phases are rushed or unnecessarily prolonged, reducing the quality of instruction or practice.",
-                "1": "Time is poorly managed throughout. Significant portions of instructional time are lost to inefficiency, waiting, or unproductive activity."
-              }
+                "3": "Time is generally well-managed. Most phases are appropriately paced. Minor over- or under-runs are handled without significant loss of learning time.",
+                "4": "Time is managed with precision and intentionality. Instructional minutes are maximised; transitions are efficient; the lesson neither rushes nor drags."
+              },
+              "cambridge_standard_refs": [
+                "3.8"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.8",
+                  "text": "manage time effectively and ensure the classroom is free from disruption"
+                }
+              ]
             },
             {
               "id": "D2.5",
@@ -573,11 +939,20 @@
                 "No instructional time lost to resource-related disorder"
               ],
               "rubric": {
-                "4": "Classroom resources (materials, devices, furniture, shared supplies) are used purposefully, maintained well, and returned to order efficiently. Students are guided to take shared responsibility for their care.",
-                "3": "Resources are used appropriately and maintained adequately. Minor inefficiencies in distribution or collection are present.",
+                "1": "Resources are used carelessly, wasted, or managed in a way that disrupts learning or creates disorder.",
                 "2": "Resource use is disorganised or wasteful. Distribution and collection consume unnecessary instructional time.",
-                "1": "Resources are used carelessly, wasted, or managed in a way that disrupts learning or creates disorder."
-              }
+                "3": "Resources are used appropriately and maintained adequately. Minor inefficiencies in distribution or collection are present.",
+                "4": "Classroom resources (materials, devices, furniture, shared supplies) are used purposefully, maintained well, and returned to order efficiently. Students are guided to take shared responsibility for their care."
+              },
+              "cambridge_standard_refs": [
+                "2.1"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "2.1",
+                  "text": "create a classroom culture and environment where all students are supported in their learning"
+                }
+              ]
             },
             {
               "id": "D2.6",
@@ -594,11 +969,30 @@
                 "Low-level disruption addressed before it escalates"
               ],
               "rubric": {
-                "4": "Learning activities are managed with clear direction and consistent follow-through. Student behaviour expectations are established, understood, and upheld calmly and consistently.",
-                "3": "Activities are managed effectively in most cases. Behaviour expectations are clear and generally upheld. Minor off-task behaviour is addressed without significant disruption.",
+                "1": "Activities are poorly managed. Behavioural expectations are absent, ineffectively communicated, or not enforced.",
                 "2": "Activity management is inconsistent. Behavioural expectations are unclear or inconsistently enforced, leading to periodic disruption.",
-                "1": "Activities are poorly managed. Behavioural expectations are absent, ineffectively communicated, or not enforced."
-              }
+                "3": "Activities are managed effectively in most cases. Behaviour expectations are clear and generally upheld. Minor off-task behaviour is addressed without significant disruption.",
+                "4": "Learning activities are managed with clear direction and consistent follow-through. Student behaviour expectations are established, understood, and upheld calmly and consistently."
+              },
+              "cambridge_standard_refs": [
+                "2.1",
+                "2.2",
+                "3.8"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "2.1",
+                  "text": "create a classroom culture and environment where all students are supported in their learning"
+                },
+                {
+                  "ref": "2.2",
+                  "text": "establish positive and productive relationships with all students to support their learning and achievement"
+                },
+                {
+                  "ref": "3.8",
+                  "text": "manage time effectively and ensure the classroom is free from disruption"
+                }
+              ]
             },
             {
               "id": "D2.7",
@@ -615,11 +1009,30 @@
                 "Transition time under 60 seconds across all phases"
               ],
               "rubric": {
-                "4": "Transitions between phases, groups, or activities are brief, orderly, and clearly signalled. Students know what to do next without needing repeated instructions.",
-                "3": "Transitions are generally smooth and reasonably brief. Occasional confusion or delay occurs but is resolved quickly.",
+                "1": "Transitions are chaotic and significantly disrupt the learning flow. Students are frequently confused about what to do next.",
                 "2": "Transitions are often slow, disorderly, or require multiple directions. Instructional time is regularly lost during transitions.",
-                "1": "Transitions are chaotic and significantly disrupt the learning flow. Students are frequently confused about what to do next."
-              }
+                "3": "Transitions are generally smooth and reasonably brief. Occasional confusion or delay occurs but is resolved quickly.",
+                "4": "Transitions between phases, groups, or activities are brief, orderly, and clearly signalled. Students know what to do next without needing repeated instructions."
+              },
+              "cambridge_standard_refs": [
+                "2.1",
+                "2.2",
+                "3.8"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "2.1",
+                  "text": "create a classroom culture and environment where all students are supported in their learning"
+                },
+                {
+                  "ref": "2.2",
+                  "text": "establish positive and productive relationships with all students to support their learning and achievement"
+                },
+                {
+                  "ref": "3.8",
+                  "text": "manage time effectively and ensure the classroom is free from disruption"
+                }
+              ]
             },
             {
               "id": "D2.8",
@@ -636,11 +1049,25 @@
                 "Register accurate and complete in every session"
               ],
               "rubric": {
-                "4": "Attendance is taken promptly, accurately, and efficiently — never at the expense of instructional time. Latecomers are handled with minimal disruption to the class.",
-                "3": "Attendance is taken accurately and with reasonable efficiency. Occasional delays or disruptions are minor.",
+                "1": "Attendance is not reliably taken, or the process creates significant and recurring disruption to instruction.",
                 "2": "Attendance processes are slow, inaccurate, or create noticeable disruption to lesson flow.",
-                "1": "Attendance is not reliably taken, or the process creates significant and recurring disruption to instruction."
-              }
+                "3": "Attendance is taken accurately and with reasonable efficiency. Occasional delays or disruptions are minor.",
+                "4": "Attendance is taken promptly, accurately, and efficiently — never at the expense of instructional time. Latecomers are handled with minimal disruption to the class."
+              },
+              "cambridge_standard_refs": [
+                "1.4",
+                "2.3"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "1.4",
+                  "text": "demonstrate a commitment to lifelong learning by engaging in reflective practice"
+                },
+                {
+                  "ref": "2.3",
+                  "text": "have high expectations of themselves in their professional practice"
+                }
+              ]
             }
           ]
         },
@@ -665,11 +1092,25 @@
                 "No materials being organised or technology set up after students arrive"
               ],
               "rubric": {
-                "4": "Arrives before students; all materials, technology, and room setup are fully prepared. Instruction begins on time without exception.",
-                "3": "Arrives on time and is prepared in most sessions. Minor setup issues are resolved quickly without significant delay to instruction.",
+                "1": "Regularly arrives late or is visibly unprepared. Instructional time is routinely lost to setup or waiting.",
                 "2": "Punctuality or preparation is inconsistent. Instruction is sometimes delayed while materials are organised or technology is set up.",
-                "1": "Regularly arrives late or is visibly unprepared. Instructional time is routinely lost to setup or waiting."
-              }
+                "3": "Arrives on time and is prepared in most sessions. Minor setup issues are resolved quickly without significant delay to instruction.",
+                "4": "Arrives before students; all materials, technology, and room setup are fully prepared. Instruction begins on time without exception."
+              },
+              "cambridge_standard_refs": [
+                "1.4",
+                "2.3"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "1.4",
+                  "text": "demonstrate a commitment to lifelong learning by engaging in reflective practice"
+                },
+                {
+                  "ref": "2.3",
+                  "text": "have high expectations of themselves in their professional practice"
+                }
+              ]
             },
             {
               "id": "D3.2",
@@ -687,11 +1128,25 @@
               ],
               "theory_basis": "Danielson FfT 3a.",
               "rubric": {
-                "4": "The lesson opening is purposeful and immediately engaging. It activates prior knowledge, establishes relevance, and focuses students on the learning ahead — setting a productive tone for the session.",
-                "3": "The lesson opening is adequate and connects to the learning to come. Students are brought to focus effectively, though the opening could be more intellectually stimulating.",
+                "1": "The lesson begins without a deliberate opening. Students are not oriented to the learning purpose or brought into productive focus.",
                 "2": "The lesson opening is functional but routine. It does little to activate prior knowledge or generate curiosity about the lesson.",
-                "1": "The lesson begins without a deliberate opening. Students are not oriented to the learning purpose or brought into productive focus."
-              }
+                "3": "The lesson opening is adequate and connects to the learning to come. Students are brought to focus effectively, though the opening could be more intellectually stimulating.",
+                "4": "The lesson opening is purposeful and immediately engaging. It activates prior knowledge, establishes relevance, and focuses students on the learning ahead — setting a productive tone for the session."
+              },
+              "cambridge_standard_refs": [
+                "3.1",
+                "3.5"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.1",
+                  "text": "demonstrate knowledge and understanding of how students learn and how this impacts on teaching"
+                },
+                {
+                  "ref": "3.5",
+                  "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+                }
+              ]
             },
             {
               "id": "D3.3",
@@ -709,11 +1164,25 @@
               ],
               "theory_basis": "Danielson FfT 1c, Marzano DQ1.",
               "rubric": {
-                "4": "Learning intentions and success criteria are explicitly communicated and revisited throughout the lesson. Students can articulate what they are learning and demonstrate ownership of their progress.",
-                "3": "Learning intentions are clearly stated at the start of the lesson and referenced at key transition points. Most students can articulate the lesson goal.",
+                "1": "No learning intention is communicated. Students are unclear about the purpose of the lesson.",
                 "2": "Learning intentions are mentioned but not consistently reinforced. Students have partial awareness of lesson goals.",
-                "1": "No learning intention is communicated. Students are unclear about the purpose of the lesson."
-              }
+                "3": "Learning intentions are clearly stated at the start of the lesson and referenced at key transition points. Most students can articulate the lesson goal.",
+                "4": "Learning intentions and success criteria are explicitly communicated and revisited throughout the lesson. Students can articulate what they are learning and demonstrate ownership of their progress."
+              },
+              "cambridge_standard_refs": [
+                "3.2",
+                "3.4"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.2",
+                  "text": "demonstrate secure content knowledge and pedagogy to plan coherent, authentic and engaging learning programmes and lessons"
+                },
+                {
+                  "ref": "3.4",
+                  "text": "orientate their students and ensure they are ready to learn"
+                }
+              ]
             },
             {
               "id": "D3.4",
@@ -730,11 +1199,25 @@
                 "Students understand why they are doing each task"
               ],
               "rubric": {
-                "4": "Every instructional activity is visibly and purposefully aligned with the stated learning objective. The teacher articulates the connection to students; activities are not chosen for novelty or habit.",
-                "3": "Instructional activities are aligned with the learning objective in most instances. Minor misalignments are present but do not significantly detract from learning.",
+                "1": "Instructional activities have little discernible connection to the stated objective.",
                 "2": "Some activities are aligned with the objective, but others appear tangential or chosen out of routine rather than purpose.",
-                "1": "Instructional activities have little discernible connection to the stated objective."
-              }
+                "3": "Instructional activities are aligned with the learning objective in most instances. Minor misalignments are present but do not significantly detract from learning.",
+                "4": "Every instructional activity is visibly and purposefully aligned with the stated learning objective. The teacher articulates the connection to students; activities are not chosen for novelty or habit."
+              },
+              "cambridge_standard_refs": [
+                "3.1",
+                "3.5"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.1",
+                  "text": "demonstrate knowledge and understanding of how students learn and how this impacts on teaching"
+                },
+                {
+                  "ref": "3.5",
+                  "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+                }
+              ]
             },
             {
               "id": "D3.5",
@@ -752,11 +1235,20 @@
               ],
               "theory_basis": "Danielson FfT 3b, Marzano DQ3.",
               "rubric": {
-                "4": "Deliberately and consistently designs and facilitates activities that require students to analyse, evaluate, create, or apply knowledge to novel problems. Students are challenged beyond recall and comprehension.",
-                "3": "Higher-order thinking is incorporated into the lesson, though not consistently throughout. At least one activity requires analysis, evaluation, or application.",
+                "1": "The lesson operates entirely at recall or basic comprehension level. No opportunities for higher-order thinking are present.",
                 "2": "Activities are predominantly recall-based. Opportunities for higher-order thinking are infrequent or unintentional.",
-                "1": "The lesson operates entirely at recall or basic comprehension level. No opportunities for higher-order thinking are present."
-              }
+                "3": "Higher-order thinking is incorporated into the lesson, though not consistently throughout. At least one activity requires analysis, evaluation, or application.",
+                "4": "Deliberately and consistently designs and facilitates activities that require students to analyse, evaluate, create, or apply knowledge to novel problems. Students are challenged beyond recall and comprehension."
+              },
+              "cambridge_standard_refs": [
+                "4.2"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "4.2",
+                  "text": "use a variety of teaching and learning strategies that encourage the development of students' problem-solving, metacognitive, critical and creative thinking skills"
+                }
+              ]
             },
             {
               "id": "D3.6",
@@ -774,11 +1266,25 @@
               ],
               "theory_basis": "Danielson FfT 3d.",
               "rubric": {
-                "4": "Demonstrates nuanced, ongoing awareness of individual and group performance patterns. Uses this awareness to personalise instruction, adjust groupings, and target feedback.",
-                "3": "Demonstrates adequate awareness of student performance patterns and makes reasonable instructional adjustments based on general class-level data.",
+                "1": "Demonstrates little or no awareness of student performance patterns. Instruction proceeds uniformly regardless of evidence about student understanding.",
                 "2": "Awareness of student performance is surface-level. Instructional decisions do not consistently reflect knowledge of where individual students are.",
-                "1": "Demonstrates little or no awareness of student performance patterns. Instruction proceeds uniformly regardless of evidence about student understanding."
-              }
+                "3": "Demonstrates adequate awareness of student performance patterns and makes reasonable instructional adjustments based on general class-level data.",
+                "4": "Demonstrates nuanced, ongoing awareness of individual and group performance patterns. Uses this awareness to personalise instruction, adjust groupings, and target feedback."
+              },
+              "cambridge_standard_refs": [
+                "3.1",
+                "3.7"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.1",
+                  "text": "demonstrate knowledge and understanding of how students learn and how this impacts on teaching"
+                },
+                {
+                  "ref": "3.7",
+                  "text": "use summative assessment to understand student progress and attainment"
+                }
+              ]
             },
             {
               "id": "D3.7",
@@ -795,11 +1301,20 @@
                 "No student misconceptions introduced by teacher explanation"
               ],
               "rubric": {
-                "4": "Demonstrates deep subject matter knowledge that is consistently deployed in service of the lesson's objectives. Content choices, examples, and explanations reflect expert command of the discipline.",
-                "3": "Subject matter knowledge is solid and adequately deployed in service of the objectives. Minor gaps or imprecisions are present but do not mislead students.",
+                "1": "Subject matter knowledge gaps are evident and undermine the lesson's objectives. Students may receive inaccurate or misleading content.",
                 "2": "Subject matter knowledge is adequate but inconsistently connected to the lesson's objectives. Some explanations are imprecise or tangential.",
-                "1": "Subject matter knowledge gaps are evident and undermine the lesson's objectives. Students may receive inaccurate or misleading content."
-              }
+                "3": "Subject matter knowledge is solid and adequately deployed in service of the objectives. Minor gaps or imprecisions are present but do not mislead students.",
+                "4": "Demonstrates deep subject matter knowledge that is consistently deployed in service of the lesson's objectives. Content choices, examples, and explanations reflect expert command of the discipline."
+              },
+              "cambridge_standard_refs": [
+                "3.2"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.2",
+                  "text": "demonstrate secure content knowledge and pedagogy to plan coherent, authentic and engaging learning programmes and lessons"
+                }
+              ]
             },
             {
               "id": "D3.8",
@@ -817,11 +1332,25 @@
               ],
               "theory_basis": "Marzano DQ5.",
               "rubric": {
-                "4": "Employs a purposeful, varied repertoire of teaching strategies within the lesson, chosen to match the content, the students, and the learning objective. Variety serves learning — not novelty.",
-                "3": "Uses more than one teaching strategy during the lesson. Choices are reasonable, though the selection could be more deliberately matched to learner needs.",
+                "1": "Uses a single instructional approach throughout, regardless of its suitability for the content or learners.",
                 "2": "Relies on one or two familiar strategies regardless of the content or students. Limited variety reduces engagement and reach.",
-                "1": "Uses a single instructional approach throughout, regardless of its suitability for the content or learners."
-              }
+                "3": "Uses more than one teaching strategy during the lesson. Choices are reasonable, though the selection could be more deliberately matched to learner needs.",
+                "4": "Employs a purposeful, varied repertoire of teaching strategies within the lesson, chosen to match the content, the students, and the learning objective. Variety serves learning — not novelty."
+              },
+              "cambridge_standard_refs": [
+                "3.1",
+                "3.5"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.1",
+                  "text": "demonstrate knowledge and understanding of how students learn and how this impacts on teaching"
+                },
+                {
+                  "ref": "3.5",
+                  "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+                }
+              ]
             },
             {
               "id": "D3.9",
@@ -839,11 +1368,25 @@
               ],
               "theory_basis": "Danielson FfT 1d.",
               "rubric": {
-                "4": "Instructional materials are purposefully selected, well-prepared, and used to deepen student understanding. The teacher explains the purpose of materials to students and uses them to advance thinking.",
-                "3": "Instructional materials are appropriate and used effectively in most instances. Their connection to learning goals is generally clear.",
+                "1": "Materials are absent, inappropriate, or used in a way that distracts from rather than supports learning.",
                 "2": "Materials are used but without evident purposefulness. Students may not understand why the materials are being used.",
-                "1": "Materials are absent, inappropriate, or used in a way that distracts from rather than supports learning."
-              }
+                "3": "Instructional materials are appropriate and used effectively in most instances. Their connection to learning goals is generally clear.",
+                "4": "Instructional materials are purposefully selected, well-prepared, and used to deepen student understanding. The teacher explains the purpose of materials to students and uses them to advance thinking."
+              },
+              "cambridge_standard_refs": [
+                "3.1",
+                "3.5"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.1",
+                  "text": "demonstrate knowledge and understanding of how students learn and how this impacts on teaching"
+                },
+                {
+                  "ref": "3.5",
+                  "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+                }
+              ]
             },
             {
               "id": "D3.10",
@@ -861,11 +1404,20 @@
               ],
               "theory_basis": "Danielson FfT 3b.",
               "rubric": {
-                "4": "Uses a deliberate range of questions — factual, analytical, evaluative, and creative — to push student thinking progressively beyond surface understanding. Questions are planned and improvised responsively.",
-                "3": "Uses a variety of question types that move beyond simple recall in most instances. Some higher-order questions are posed, though follow-up probing could be more consistent.",
+                "1": "Questioning is almost entirely recall-based or rhetorical. No deliberate attempt is made to develop critical thinking through questions.",
                 "2": "Questioning is predominantly factual and closed. Limited attempts are made to push student thinking beyond recall.",
-                "1": "Questioning is almost entirely recall-based or rhetorical. No deliberate attempt is made to develop critical thinking through questions."
-              }
+                "3": "Uses a variety of question types that move beyond simple recall in most instances. Some higher-order questions are posed, though follow-up probing could be more consistent.",
+                "4": "Uses a deliberate range of questions — factual, analytical, evaluative, and creative — to push student thinking progressively beyond surface understanding. Questions are planned and improvised responsively."
+              },
+              "cambridge_standard_refs": [
+                "4.2"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "4.2",
+                  "text": "use a variety of teaching and learning strategies that encourage the development of students' problem-solving, metacognitive, critical and creative thinking skills"
+                }
+              ]
             },
             {
               "id": "D3.11",
@@ -883,11 +1435,25 @@
               ],
               "theory_basis": "Danielson FfT 3b.",
               "rubric": {
-                "4": "Response opportunities are distributed equitably and deliberately across the class. The teacher uses strategies (cold-calling, think-pair-share, random selection, whiteboards) to ensure all students are accountable for thinking.",
-                "3": "Response opportunities are generally distributed across the class. Occasional over-reliance on volunteers is present, but most students are engaged.",
+                "1": "Response opportunities are dominated by a few students. The teacher does not attempt to redistribute or hold the full class accountable.",
                 "2": "Response opportunities are inconsistently distributed. A small number of students dominate responses; others rarely participate.",
-                "1": "Response opportunities are dominated by a few students. The teacher does not attempt to redistribute or hold the full class accountable."
-              }
+                "3": "Response opportunities are generally distributed across the class. Occasional over-reliance on volunteers is present, but most students are engaged.",
+                "4": "Response opportunities are distributed equitably and deliberately across the class. The teacher uses strategies (cold-calling, think-pair-share, random selection, whiteboards) to ensure all students are accountable for thinking."
+              },
+              "cambridge_standard_refs": [
+                "2.4",
+                "3.5"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "2.4",
+                  "text": "have high expectations of all students"
+                },
+                {
+                  "ref": "3.5",
+                  "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+                }
+              ]
             },
             {
               "id": "D3.12",
@@ -905,11 +1471,25 @@
               ],
               "theory_basis": "Marzano DQ6.",
               "rubric": {
-                "4": "Actively monitors and facilitates full-class participation throughout the lesson. Uses deliberate strategies to re-engage students who disengage, without singling them out negatively.",
-                "3": "Most students participate actively during the lesson. The teacher notices and gently re-engages some disengaged students.",
+                "1": "Participation is passive or limited to a small subset of the class. The teacher does not take deliberate steps to ensure broader engagement.",
                 "2": "Participation is uneven. Some students are consistently disengaged, and the teacher does not consistently address this.",
-                "1": "Participation is passive or limited to a small subset of the class. The teacher does not take deliberate steps to ensure broader engagement."
-              }
+                "3": "Most students participate actively during the lesson. The teacher notices and gently re-engages some disengaged students.",
+                "4": "Actively monitors and facilitates full-class participation throughout the lesson. Uses deliberate strategies to re-engage students who disengage, without singling them out negatively."
+              },
+              "cambridge_standard_refs": [
+                "2.4",
+                "3.5"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "2.4",
+                  "text": "have high expectations of all students"
+                },
+                {
+                  "ref": "3.5",
+                  "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+                }
+              ]
             },
             {
               "id": "D3.13",
@@ -927,11 +1507,25 @@
               ],
               "theory_basis": "Danielson FfT 3c.",
               "rubric": {
-                "4": "Guides students through the acquisition of new concepts or skills with clear, well-sequenced explanations, worked examples, and scaffolded practice. Gradually releases responsibility to students.",
-                "3": "Concept or skill instruction is clear and adequately sequenced. Scaffolding is present, though the gradual release of responsibility could be more deliberate.",
+                "1": "Concepts or skills are presented without adequate explanation, modelling, or scaffolded guidance.",
                 "2": "Instruction is delivered but without effective scaffolding. Students are expected to acquire new knowledge with insufficient guided practice.",
-                "1": "Concepts or skills are presented without adequate explanation, modelling, or scaffolded guidance."
-              }
+                "3": "Concept or skill instruction is clear and adequately sequenced. Scaffolding is present, though the gradual release of responsibility could be more deliberate.",
+                "4": "Guides students through the acquisition of new concepts or skills with clear, well-sequenced explanations, worked examples, and scaffolded practice. Gradually releases responsibility to students."
+              },
+              "cambridge_standard_refs": [
+                "3.1",
+                "3.5"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.1",
+                  "text": "demonstrate knowledge and understanding of how students learn and how this impacts on teaching"
+                },
+                {
+                  "ref": "3.5",
+                  "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+                }
+              ]
             },
             {
               "id": "D3.14",
@@ -949,11 +1543,25 @@
               ],
               "theory_basis": "Danielson FfT 1e.",
               "rubric": {
-                "4": "The lesson unfolds as a coherent learning journey. Each phase builds purposefully on the last, and students can perceive the logical flow from introduction through practice to consolidation.",
-                "3": "The lesson progresses logically in most phases. The overall arc is discernible, though transitions between phases could be more explicitly connected.",
+                "1": "The lesson lacks a coherent progression. Activities appear unrelated or the sequence undermines rather than supports learning.",
                 "2": "The lesson progression is partially coherent. Some phases feel disconnected or out of sequence.",
-                "1": "The lesson lacks a coherent progression. Activities appear unrelated or the sequence undermines rather than supports learning."
-              }
+                "3": "The lesson progresses logically in most phases. The overall arc is discernible, though transitions between phases could be more explicitly connected.",
+                "4": "The lesson unfolds as a coherent learning journey. Each phase builds purposefully on the last, and students can perceive the logical flow from introduction through practice to consolidation."
+              },
+              "cambridge_standard_refs": [
+                "3.1",
+                "3.5"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.1",
+                  "text": "demonstrate knowledge and understanding of how students learn and how this impacts on teaching"
+                },
+                {
+                  "ref": "3.5",
+                  "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+                }
+              ]
             },
             {
               "id": "D3.15",
@@ -970,11 +1578,20 @@
                 "No content covered that is not traceable to a curriculum standard"
               ],
               "rubric": {
-                "4": "Instruction is visibly grounded in and aligned to the curriculum standards being addressed. The teacher explicitly connects lesson content to the broader curriculum, enabling students to situate their learning.",
-                "3": "Instruction is generally aligned to curriculum standards. The connection to broader standards is present, though not always made explicit to students.",
+                "1": "No discernible connection between instruction and curriculum standards. Content is covered in isolation from any standards framework.",
                 "2": "Instruction covers the content area but without explicit reference to or coherence with the relevant curriculum standards.",
-                "1": "No discernible connection between instruction and curriculum standards. Content is covered in isolation from any standards framework."
-              }
+                "3": "Instruction is generally aligned to curriculum standards. The connection to broader standards is present, though not always made explicit to students.",
+                "4": "Instruction is visibly grounded in and aligned to the curriculum standards being addressed. The teacher explicitly connects lesson content to the broader curriculum, enabling students to situate their learning."
+              },
+              "cambridge_standard_refs": [
+                "3.2"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.2",
+                  "text": "demonstrate secure content knowledge and pedagogy to plan coherent, authentic and engaging learning programmes and lessons"
+                }
+              ]
             },
             {
               "id": "D3.16",
@@ -991,11 +1608,25 @@
                 "Teacher models the values through professional conduct during the lesson"
               ],
               "rubric": {
-                "4": "Eduversal values and character education are naturally and meaningfully integrated into instruction — through content choices, discussion, modelling, and affirmation of student character. Integration feels genuine, not formulaic.",
-                "3": "Values are referenced or modelled during the lesson in a purposeful way. Integration is genuine and contextually appropriate.",
+                "1": "No integration of values is present, or any reference is perfunctory and without substance.",
                 "2": "Values are mentioned but superficially or as an add-on — not meaningfully connected to the lesson's content or activities.",
-                "1": "No integration of values is present, or any reference is perfunctory and without substance."
-              }
+                "3": "Values are referenced or modelled during the lesson in a purposeful way. Integration is genuine and contextually appropriate.",
+                "4": "Eduversal values and character education are naturally and meaningfully integrated into instruction — through content choices, discussion, modelling, and affirmation of student character. Integration feels genuine, not formulaic."
+              },
+              "cambridge_standard_refs": [
+                "1.1",
+                "1.3"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "1.1",
+                  "text": "demonstrate a shared understanding of the school's vision, mission and objectives"
+                },
+                {
+                  "ref": "1.3",
+                  "text": "make a positive contribution to the wider life and ethos of the school"
+                }
+              ]
             },
             {
               "id": "D3.17",
@@ -1012,11 +1643,25 @@
                 "Students leave with clarity about what they have learned and what comes next"
               ],
               "rubric": {
-                "4": "The lesson closes with a deliberate consolidation activity that brings learning together, checks understanding, and reinforces the key takeaways. Students leave with clarity about what they have learned.",
-                "3": "The lesson includes a closing phase. Consolidation is present, though it could be more substantive or explicitly tied to the objectives.",
+                "1": "No deliberate lesson closure. The lesson ends abruptly or is cut short with no synthesis or review of learning.",
                 "2": "Closure is brief or perfunctory. Limited consolidation of learning occurs before the lesson ends.",
-                "1": "No deliberate lesson closure. The lesson ends abruptly or is cut short with no synthesis or review of learning."
-              }
+                "3": "The lesson includes a closing phase. Consolidation is present, though it could be more substantive or explicitly tied to the objectives.",
+                "4": "The lesson closes with a deliberate consolidation activity that brings learning together, checks understanding, and reinforces the key takeaways. Students leave with clarity about what they have learned."
+              },
+              "cambridge_standard_refs": [
+                "3.1",
+                "3.5"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.1",
+                  "text": "demonstrate knowledge and understanding of how students learn and how this impacts on teaching"
+                },
+                {
+                  "ref": "3.5",
+                  "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+                }
+              ]
             },
             {
               "id": "D3.18",
@@ -1033,11 +1678,25 @@
                 "Instructions and explanations understood first time without need for repetition"
               ],
               "rubric": {
-                "4": "Uses language that is consistently clear, precise, and appropriately academic. Code-switching (where applicable) is purposeful and used to support comprehension, not as a default.",
-                "3": "Language of instruction is generally clear and appropriate. Minor imprecision or unnecessary code-switching is present.",
+                "1": "Language is frequently unclear, confusing, or inappropriate for the instructional context.",
                 "2": "Language is sometimes unclear, imprecise, or inconsistently matched to the intended level of instruction.",
-                "1": "Language is frequently unclear, confusing, or inappropriate for the instructional context."
-              }
+                "3": "Language of instruction is generally clear and appropriate. Minor imprecision or unnecessary code-switching is present.",
+                "4": "Uses language that is consistently clear, precise, and appropriately academic. Code-switching (where applicable) is purposeful and used to support comprehension, not as a default."
+              },
+              "cambridge_standard_refs": [
+                "3.1",
+                "3.3"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.1",
+                  "text": "demonstrate knowledge and understanding of how students learn and how this impacts on teaching"
+                },
+                {
+                  "ref": "3.3",
+                  "text": "have a deep understanding of the diverse needs of students and adapt their practice accordingly"
+                }
+              ]
             },
             {
               "id": "D3.19",
@@ -1055,11 +1714,25 @@
               ],
               "theory_basis": "Danielson FfT 3d.",
               "rubric": {
-                "4": "Actively and continuously monitors student understanding throughout the lesson using a variety of strategies. Evidence gathered visibly influences in-lesson decisions.",
-                "3": "Monitors student understanding at key points during the lesson. Some adjustment of instruction based on evidence is observed.",
+                "1": "No meaningful monitoring of student understanding. The teacher proceeds without evidence of whether students are keeping up.",
                 "2": "Monitoring of student understanding is infrequent or limited to a single method. Adjustments based on evidence are rare.",
-                "1": "No meaningful monitoring of student understanding. The teacher proceeds without evidence of whether students are keeping up."
-              }
+                "3": "Monitors student understanding at key points during the lesson. Some adjustment of instruction based on evidence is observed.",
+                "4": "Actively and continuously monitors student understanding throughout the lesson using a variety of strategies. Evidence gathered visibly influences in-lesson decisions."
+              },
+              "cambridge_standard_refs": [
+                "3.6",
+                "4.4"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.6",
+                  "text": "use a range of assessment strategies to inform next steps in the teaching and learning process and to provide timely, accurate and constructive feedback"
+                },
+                {
+                  "ref": "4.4",
+                  "text": "share key information on progress, attainment and areas for development with colleagues, and collaboratively work towards improving student learning"
+                }
+              ]
             },
             {
               "id": "D3.20",
@@ -1077,11 +1750,25 @@
               ],
               "theory_basis": "Danielson FfT 3d, Marzano DQ8.",
               "rubric": {
-                "4": "Feedback to students is timely, specific, and actionable — it names what is strong, what needs to change, and how. Students can use the feedback to improve immediately.",
-                "3": "Feedback is generally timely and focused. Most students receive feedback that is useful, though specificity or actionability could be stronger.",
+                "1": "Feedback is absent, unhelpfully vague, or delivered in a way that does not support student improvement.",
                 "2": "Feedback is given but is often general, delayed, or difficult for students to act on.",
-                "1": "Feedback is absent, unhelpfully vague, or delivered in a way that does not support student improvement."
-              }
+                "3": "Feedback is generally timely and focused. Most students receive feedback that is useful, though specificity or actionability could be stronger.",
+                "4": "Feedback to students is timely, specific, and actionable — it names what is strong, what needs to change, and how. Students can use the feedback to improve immediately."
+              },
+              "cambridge_standard_refs": [
+                "3.6",
+                "4.4"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.6",
+                  "text": "use a range of assessment strategies to inform next steps in the teaching and learning process and to provide timely, accurate and constructive feedback"
+                },
+                {
+                  "ref": "4.4",
+                  "text": "share key information on progress, attainment and areas for development with colleagues, and collaboratively work towards improving student learning"
+                }
+              ]
             },
             {
               "id": "D3.21",
@@ -1098,11 +1785,25 @@
                 "Evidence of communication with parents, SEN coordinator, or pastoral team for persistent cases"
               ],
               "rubric": {
-                "4": "Demonstrates unwavering commitment to every student's success. When a student struggles, the teacher exhausts strategies, seeks support proactively, and communicates resolve to the student. No student is written off.",
-                "3": "Demonstrates genuine commitment to student success. Makes reasonable efforts to support struggling students and does not give up readily.",
+                "1": "Limited evidence of persistence when students struggle. Difficulties are attributed to the student, with little effort to find alternative pathways.",
                 "2": "Commitment to student success is present but inconsistent. Some students who struggle receive limited additional attention or support.",
-                "1": "Limited evidence of persistence when students struggle. Difficulties are attributed to the student, with little effort to find alternative pathways."
-              }
+                "3": "Demonstrates genuine commitment to student success. Makes reasonable efforts to support struggling students and does not give up readily.",
+                "4": "Demonstrates unwavering commitment to every student's success. When a student struggles, the teacher exhausts strategies, seeks support proactively, and communicates resolve to the student. No student is written off."
+              },
+              "cambridge_standard_refs": [
+                "2.4",
+                "3.5"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "2.4",
+                  "text": "have high expectations of all students"
+                },
+                {
+                  "ref": "3.5",
+                  "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+                }
+              ]
             }
           ]
         },
@@ -1127,11 +1828,25 @@
                 "Students can self-assess using the criteria without teacher prompting"
               ],
               "rubric": {
-                "4": "Assessment criteria are explicit, student-facing, and communicated before tasks are undertaken. Students can use the criteria to self-assess and understand what success looks like.",
-                "3": "Assessment criteria are clear and communicated to students. Most students understand what is expected, though criteria could be more accessible to all learners.",
+                "1": "Assessment criteria are absent or not communicated to students.",
                 "2": "Assessment criteria exist but are communicated vaguely or only after tasks are in progress.",
-                "1": "Assessment criteria are absent or not communicated to students."
-              }
+                "3": "Assessment criteria are clear and communicated to students. Most students understand what is expected, though criteria could be more accessible to all learners.",
+                "4": "Assessment criteria are explicit, student-facing, and communicated before tasks are undertaken. Students can use the criteria to self-assess and understand what success looks like."
+              },
+              "cambridge_standard_refs": [
+                "3.6",
+                "3.7"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.6",
+                  "text": "use a range of assessment strategies to inform next steps in the teaching and learning process and to provide timely, accurate and constructive feedback"
+                },
+                {
+                  "ref": "3.7",
+                  "text": "use summative assessment to understand student progress and attainment"
+                }
+              ]
             },
             {
               "id": "D4.2",
@@ -1148,11 +1863,25 @@
                 "Variety in assessment type across the unit (not all written tests)"
               ],
               "rubric": {
-                "4": "Assessment activities are purposefully designed to reveal student understanding in relation to the objectives. Tasks are challenging, accessible, and varied across the year.",
-                "3": "Assessment activities are appropriate and reasonably aligned with objectives. Some variety in task type is present.",
+                "1": "Assessment activities are inappropriate, absent, or provide no meaningful information about student learning.",
                 "2": "Assessment activities are used but are not well-matched to the objectives or reveal limited information about student understanding.",
-                "1": "Assessment activities are inappropriate, absent, or provide no meaningful information about student learning."
-              }
+                "3": "Assessment activities are appropriate and reasonably aligned with objectives. Some variety in task type is present.",
+                "4": "Assessment activities are purposefully designed to reveal student understanding in relation to the objectives. Tasks are challenging, accessible, and varied across the year."
+              },
+              "cambridge_standard_refs": [
+                "3.6",
+                "3.7"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.6",
+                  "text": "use a range of assessment strategies to inform next steps in the teaching and learning process and to provide timely, accurate and constructive feedback"
+                },
+                {
+                  "ref": "3.7",
+                  "text": "use summative assessment to understand student progress and attainment"
+                }
+              ]
             },
             {
               "id": "D4.3",
@@ -1169,11 +1898,25 @@
                 "Teacher can reference the curriculum standard each task addresses"
               ],
               "rubric": {
-                "4": "Assessment tasks are precisely calibrated to the cognitive level and curriculum expectations of the objectives. Tasks neither under-challenge nor exceed what students are expected to know at this stage.",
-                "3": "Assessment tasks are broadly aligned with the cognitive level and curriculum expectations. Minor misalignments are present but do not significantly distort results.",
+                "1": "Assessment tasks bear little relationship to the cognitive level or curriculum expectations of the objectives.",
                 "2": "Assessment tasks are misaligned in level or curriculum scope in ways that compromise the validity of results.",
-                "1": "Assessment tasks bear little relationship to the cognitive level or curriculum expectations of the objectives."
-              }
+                "3": "Assessment tasks are broadly aligned with the cognitive level and curriculum expectations. Minor misalignments are present but do not significantly distort results.",
+                "4": "Assessment tasks are precisely calibrated to the cognitive level and curriculum expectations of the objectives. Tasks neither under-challenge nor exceed what students are expected to know at this stage."
+              },
+              "cambridge_standard_refs": [
+                "3.6",
+                "3.7"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.6",
+                  "text": "use a range of assessment strategies to inform next steps in the teaching and learning process and to provide timely, accurate and constructive feedback"
+                },
+                {
+                  "ref": "3.7",
+                  "text": "use summative assessment to understand student progress and attainment"
+                }
+              ]
             },
             {
               "id": "D4.4",
@@ -1190,11 +1933,25 @@
                 "Records accurate and interpretable without further explanation"
               ],
               "rubric": {
-                "4": "All assessment records are entered into Edunav accurately, completely, and within the required timeframe. Records are well-organised and fully interpretable.",
-                "3": "Assessment records in Edunav are generally accurate and entered within acceptable timeframes. Minor delays or gaps are quickly resolved.",
+                "1": "Assessment records are systematically inaccurate, missing, or entered so late they are not useful for any purpose.",
                 "2": "Assessment records contain errors, gaps, or are frequently entered late. Follow-up is required to maintain accuracy.",
-                "1": "Assessment records are systematically inaccurate, missing, or entered so late they are not useful for any purpose."
-              }
+                "3": "Assessment records in Edunav are generally accurate and entered within acceptable timeframes. Minor delays or gaps are quickly resolved.",
+                "4": "All assessment records are entered into Edunav accurately, completely, and within the required timeframe. Records are well-organised and fully interpretable."
+              },
+              "cambridge_standard_refs": [
+                "3.7",
+                "4.4"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.7",
+                  "text": "use summative assessment to understand student progress and attainment"
+                },
+                {
+                  "ref": "4.4",
+                  "text": "share key information on progress, attainment and areas for development with colleagues, and collaboratively work towards improving student learning"
+                }
+              ]
             },
             {
               "id": "D4.5",
@@ -1211,11 +1968,25 @@
                 "At-risk trajectories identified and acted on before summative assessment"
               ],
               "rubric": {
-                "4": "Tracks individual and class progress systematically over time. Uses trend data to identify growth, stagnation, or regression, and can speak to each student's trajectory.",
-                "3": "Monitors student progress at a class level and for most individuals. Some trend analysis informs planning.",
+                "1": "No systematic monitoring of student progress over time. Assessment data is collected but not used to track growth.",
                 "2": "Progress monitoring is periodic and focused on summative outcomes. Little use of longitudinal data to understand student trajectories.",
-                "1": "No systematic monitoring of student progress over time. Assessment data is collected but not used to track growth."
-              }
+                "3": "Monitors student progress at a class level and for most individuals. Some trend analysis informs planning.",
+                "4": "Tracks individual and class progress systematically over time. Uses trend data to identify growth, stagnation, or regression, and can speak to each student's trajectory."
+              },
+              "cambridge_standard_refs": [
+                "3.6",
+                "4.4"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.6",
+                  "text": "use a range of assessment strategies to inform next steps in the teaching and learning process and to provide timely, accurate and constructive feedback"
+                },
+                {
+                  "ref": "4.4",
+                  "text": "share key information on progress, attainment and areas for development with colleagues, and collaboratively work towards improving student learning"
+                }
+              ]
             },
             {
               "id": "D4.6",
@@ -1232,11 +2003,25 @@
                 "Teacher can describe what they changed and why after the last assessment"
               ],
               "rubric": {
-                "4": "Consistently acts on assessment results to adjust teaching. Re-teaching, enrichment, grouping changes, and targeted feedback are documented and observable.",
-                "3": "Acts on assessment results in most cases. Instructional adjustments are made, though not always systematically or for every identified need.",
+                "1": "Assessment results do not inform teaching. Data is collected but not used as a lever for instructional improvement.",
                 "2": "Assessment results are reviewed but rarely lead to substantive changes in instruction.",
-                "1": "Assessment results do not inform teaching. Data is collected but not used as a lever for instructional improvement."
-              }
+                "3": "Acts on assessment results in most cases. Instructional adjustments are made, though not always systematically or for every identified need.",
+                "4": "Consistently acts on assessment results to adjust teaching. Re-teaching, enrichment, grouping changes, and targeted feedback are documented and observable."
+              },
+              "cambridge_standard_refs": [
+                "3.6",
+                "4.4"
+              ],
+              "cambridge_standard_texts": [
+                {
+                  "ref": "3.6",
+                  "text": "use a range of assessment strategies to inform next steps in the teaching and learning process and to provide timely, accurate and constructive feedback"
+                },
+                {
+                  "ref": "4.4",
+                  "text": "share key information on progress, attainment and areas for development with colleagues, and collaboratively work towards improving student learning"
+                }
+              ]
             }
           ]
         }
@@ -1246,7 +2031,7 @@
       "id": "F3",
       "title": "Teacher's Work Inspection",
       "description": "Evaluates the teacher's professional conduct, responsibilities beyond the classroom, and contribution to the school and Eduversal community. Lead teachers are also assessed against six additional leadership items.",
-      "weight": 0.20,
+      "weight": 0.2,
       "items": [
         {
           "id": "F3.1",
@@ -1263,11 +2048,25 @@
             "No instances of late professional commitments flagged"
           ],
           "rubric": {
-            "4": "Consistently meets all deadlines and professional time commitments. Work is submitted ahead of schedule. No reminders required.",
-            "3": "Meets deadlines in almost all cases. Rare lateness is communicated proactively and does not become a pattern.",
+            "1": "Routinely misses deadlines or professional commitments without communication or follow-through.",
             "2": "Frequently requires reminders or submits work after deadlines. Punctuality to professional commitments is inconsistent.",
-            "1": "Routinely misses deadlines or professional commitments without communication or follow-through."
-          }
+            "3": "Meets deadlines in almost all cases. Rare lateness is communicated proactively and does not become a pattern.",
+            "4": "Consistently meets all deadlines and professional time commitments. Work is submitted ahead of schedule. No reminders required."
+          },
+          "cambridge_standard_refs": [
+            "1.4",
+            "2.3"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "1.4",
+              "text": "demonstrate a commitment to lifelong learning by engaging in reflective practice"
+            },
+            {
+              "ref": "2.3",
+              "text": "have high expectations of themselves in their professional practice"
+            }
+          ]
         },
         {
           "id": "F3.2",
@@ -1284,11 +2083,25 @@
             "Work demonstrates care and professional pride"
           ],
           "rubric": {
-            "4": "All assigned tasks are completed to a high standard, demonstrating care, thoroughness, and professional pride in output.",
-            "3": "Assigned tasks are completed to an adequate standard. Minor gaps in quality or completeness are present.",
+            "1": "Tasks are frequently incomplete, poorly executed, or abandoned without resolution.",
             "2": "Task completion is inconsistent. Some assignments are incomplete, superficial, or require significant revision.",
-            "1": "Tasks are frequently incomplete, poorly executed, or abandoned without resolution."
-          }
+            "3": "Assigned tasks are completed to an adequate standard. Minor gaps in quality or completeness are present.",
+            "4": "All assigned tasks are completed to a high standard, demonstrating care, thoroughness, and professional pride in output."
+          },
+          "cambridge_standard_refs": [
+            "1.4",
+            "2.3"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "1.4",
+              "text": "demonstrate a commitment to lifelong learning by engaging in reflective practice"
+            },
+            {
+              "ref": "2.3",
+              "text": "have high expectations of themselves in their professional practice"
+            }
+          ]
         },
         {
           "id": "F3.3",
@@ -1305,11 +2118,30 @@
             "Teacher shares learning with colleagues proactively"
           ],
           "rubric": {
-            "4": "Actively seeks out professional development opportunities beyond what is required. Pursues formal and informal learning, applies new knowledge to practice, and shares insights with colleagues.",
-            "3": "Participates in required professional development and occasionally seeks additional opportunities. Makes reasonable efforts to apply learning.",
+            "1": "Shows little interest in or engagement with professional development, even when opportunities are provided.",
             "2": "Engages in professional development when required but does not seek it independently. Application of new learning is limited.",
-            "1": "Shows little interest in or engagement with professional development, even when opportunities are provided."
-          }
+            "3": "Participates in required professional development and occasionally seeks additional opportunities. Makes reasonable efforts to apply learning.",
+            "4": "Actively seeks out professional development opportunities beyond what is required. Pursues formal and informal learning, applies new knowledge to practice, and shares insights with colleagues."
+          },
+          "cambridge_standard_refs": [
+            "1.4",
+            "4.1",
+            "4.5"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "1.4",
+              "text": "demonstrate a commitment to lifelong learning by engaging in reflective practice"
+            },
+            {
+              "ref": "4.1",
+              "text": "engage in reflective practice to improve the teaching and learning process"
+            },
+            {
+              "ref": "4.5",
+              "text": "critically engage with research and evidence in learning and teaching, and apply new ideas and approaches to improve the quality of their practice"
+            }
+          ]
         },
         {
           "id": "F3.4",
@@ -1326,11 +2158,30 @@
             "Learning from PD sessions visible in classroom practice"
           ],
           "rubric": {
-            "4": "Participates fully and constructively in all school PD activities — workshops, training, staff meetings. Contributes ideas and engages colleagues in shared learning.",
-            "3": "Participates reliably in school PD activities. Engagement is active, though contributions to group learning are moderate.",
+            "1": "Avoids or is frequently absent from school PD activities without valid reason.",
             "2": "Participation in school PD activities is passive or irregular. Attends but is minimally engaged.",
-            "1": "Avoids or is frequently absent from school PD activities without valid reason."
-          }
+            "3": "Participates reliably in school PD activities. Engagement is active, though contributions to group learning are moderate.",
+            "4": "Participates fully and constructively in all school PD activities — workshops, training, staff meetings. Contributes ideas and engages colleagues in shared learning."
+          },
+          "cambridge_standard_refs": [
+            "1.4",
+            "2.5",
+            "4.5"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "1.4",
+              "text": "demonstrate a commitment to lifelong learning by engaging in reflective practice"
+            },
+            {
+              "ref": "2.5",
+              "text": "work effectively with colleagues to develop the curriculum and enhance student learning"
+            },
+            {
+              "ref": "4.5",
+              "text": "critically engage with research and evidence in learning and teaching, and apply new ideas and approaches to improve the quality of their practice"
+            }
+          ]
         },
         {
           "id": "F3.5",
@@ -1347,11 +2198,25 @@
             "Relationships with students, colleagues, and parents conducted with integrity"
           ],
           "rubric": {
-            "4": "Consistently upholds Eduversal's professional standards and code of ethics in all contexts — with students, colleagues, parents, and the broader community. Models integrity without exception.",
-            "3": "Adheres to the code of ethics in all observed and reported interactions. No substantive violations recorded.",
+            "1": "Has demonstrated conduct inconsistent with Eduversal's code of ethics. Issues have required formal intervention.",
             "2": "Generally adheres to the code of ethics, though minor professional conduct issues have been noted and addressed.",
-            "1": "Has demonstrated conduct inconsistent with Eduversal's code of ethics. Issues have required formal intervention."
-          }
+            "3": "Adheres to the code of ethics in all observed and reported interactions. No substantive violations recorded.",
+            "4": "Consistently upholds Eduversal's professional standards and code of ethics in all contexts — with students, colleagues, parents, and the broader community. Models integrity without exception."
+          },
+          "cambridge_standard_refs": [
+            "1.2",
+            "1.3"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "1.2",
+              "text": "model the highest standards of ethical conduct in their interactions with the school community"
+            },
+            {
+              "ref": "1.3",
+              "text": "make a positive contribution to the wider life and ethos of the school"
+            }
+          ]
         },
         {
           "id": "F3.6",
@@ -1368,11 +2233,25 @@
             "Colleagues describe teacher as dependable and action-oriented"
           ],
           "rubric": {
-            "4": "Demonstrates leadership within and beyond their role. Takes initiative on school improvement activities, drives projects to completion, and inspires confidence in colleagues.",
-            "3": "Shows leadership qualities in their primary role. Takes initiative when appropriate and follows through on commitments.",
+            "1": "Shows little or no initiative. Waits to be directed and does not demonstrate leadership within the scope of their role.",
             "2": "Leadership initiative is limited. Relies on direction rather than self-motivation.",
-            "1": "Shows little or no initiative. Waits to be directed and does not demonstrate leadership within the scope of their role."
-          }
+            "3": "Shows leadership qualities in their primary role. Takes initiative when appropriate and follows through on commitments.",
+            "4": "Demonstrates leadership within and beyond their role. Takes initiative on school improvement activities, drives projects to completion, and inspires confidence in colleagues."
+          },
+          "cambridge_standard_refs": [
+            "1.2",
+            "1.3"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "1.2",
+              "text": "model the highest standards of ethical conduct in their interactions with the school community"
+            },
+            {
+              "ref": "1.3",
+              "text": "make a positive contribution to the wider life and ethos of the school"
+            }
+          ]
         },
         {
           "id": "F3.7",
@@ -1389,11 +2268,25 @@
             "Co-curricular role is voluntary and goes beyond formal requirement"
           ],
           "rubric": {
-            "4": "Makes a meaningful, sustained contribution to co-curricular life — clubs, events, competitions, student welfare activities. Goes beyond the minimum and brings genuine commitment.",
-            "3": "Participates in co-curricular activities as expected. Contribution is genuine, though scope could be broader.",
+            "1": "Does not participate in co-curricular life or does so only under direct instruction.",
             "2": "Co-curricular participation is minimal or passive. Involvement is limited to what is formally required.",
-            "1": "Does not participate in co-curricular life or does so only under direct instruction."
-          }
+            "3": "Participates in co-curricular activities as expected. Contribution is genuine, though scope could be broader.",
+            "4": "Makes a meaningful, sustained contribution to co-curricular life — clubs, events, competitions, student welfare activities. Goes beyond the minimum and brings genuine commitment."
+          },
+          "cambridge_standard_refs": [
+            "1.3",
+            "5.3"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "1.3",
+              "text": "make a positive contribution to the wider life and ethos of the school"
+            },
+            {
+              "ref": "5.3",
+              "text": "encourage student participation in the wider community, contributing to their development as responsible, active citizens"
+            }
+          ]
         },
         {
           "id": "F3.8",
@@ -1410,11 +2303,25 @@
             "Students describe feeling valued and respected"
           ],
           "rubric": {
-            "4": "Consistently affirms student dignity in all interactions. Celebrates growth and effort; avoids public criticism. Actively builds student confidence and self-belief.",
-            "3": "Generally upholds student dignity and uses positive reinforcement. Occasional lapses in tone or phrasing are isolated and not a pattern.",
+            "1": "Student dignity is not reliably upheld. Public criticism, dismissiveness, or negative comparisons are present.",
             "2": "Student dignity is maintained inconsistently. Some interactions undermine student confidence or use negative framing habitually.",
-            "1": "Student dignity is not reliably upheld. Public criticism, dismissiveness, or negative comparisons are present."
-          }
+            "3": "Generally upholds student dignity and uses positive reinforcement. Occasional lapses in tone or phrasing are isolated and not a pattern.",
+            "4": "Consistently affirms student dignity in all interactions. Celebrates growth and effort; avoids public criticism. Actively builds student confidence and self-belief."
+          },
+          "cambridge_standard_refs": [
+            "1.2",
+            "2.2"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "1.2",
+              "text": "model the highest standards of ethical conduct in their interactions with the school community"
+            },
+            {
+              "ref": "2.2",
+              "text": "establish positive and productive relationships with all students to support their learning and achievement"
+            }
+          ]
         },
         {
           "id": "F3.9",
@@ -1431,11 +2338,25 @@
             "No friction or avoidance of shared responsibilities reported"
           ],
           "rubric": {
-            "4": "Actively contributes to the school community and collaborates willingly with colleagues. Offers help proactively, participates in shared projects, and strengthens team cohesion.",
-            "3": "Contributes to the school community and cooperates with colleagues reliably. Collaboration is genuine, though largely within expected boundaries.",
+            "1": "Demonstrates poor collegial cooperation. Avoids shared responsibilities or creates friction in collaborative settings.",
             "2": "Cooperation with colleagues is passive or transactional. Limited contribution to school community beyond individual duties.",
-            "1": "Demonstrates poor collegial cooperation. Avoids shared responsibilities or creates friction in collaborative settings."
-          }
+            "3": "Contributes to the school community and cooperates with colleagues reliably. Collaboration is genuine, though largely within expected boundaries.",
+            "4": "Actively contributes to the school community and collaborates willingly with colleagues. Offers help proactively, participates in shared projects, and strengthens team cohesion."
+          },
+          "cambridge_standard_refs": [
+            "2.5",
+            "5.4"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "2.5",
+              "text": "work effectively with colleagues to develop the curriculum and enhance student learning"
+            },
+            {
+              "ref": "5.4",
+              "text": "establish professional relationships with colleagues in other institutions, professional bodies and educational organisations to develop professional practice"
+            }
+          ]
         },
         {
           "id": "F3.10",
@@ -1452,11 +2373,25 @@
             "No communication complaints or unresolved queries reported"
           ],
           "rubric": {
-            "4": "Communicates with parents, students, and school leadership proactively, clearly, and professionally. Responds promptly; tailors communication style to the audience; builds trust through transparency.",
-            "3": "Communicates adequately with stakeholders. Responses are reasonably timely and professional. Minor gaps in proactivity are present.",
+            "1": "Communication with stakeholders is poor — infrequent, unprofessional, or creates misunderstanding.",
             "2": "Communication with stakeholders is reactive and inconsistent. Some delays, unclear messages, or missed communications have been noted.",
-            "1": "Communication with stakeholders is poor — infrequent, unprofessional, or creates misunderstanding."
-          }
+            "3": "Communicates adequately with stakeholders. Responses are reasonably timely and professional. Minor gaps in proactivity are present.",
+            "4": "Communicates with parents, students, and school leadership proactively, clearly, and professionally. Responds promptly; tailors communication style to the audience; builds trust through transparency."
+          },
+          "cambridge_standard_refs": [
+            "5.1",
+            "5.2"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "5.1",
+              "text": "involve parents and carers in school life to support student learning"
+            },
+            {
+              "ref": "5.2",
+              "text": "engage with the wider community to contribute to the school's life, vision and mission"
+            }
+          ]
         }
       ]
     },
@@ -1465,7 +2400,9 @@
       "title": "Leadership Responsibilities",
       "description": "Six additional items assessed only for Lead-level teachers (Subject Leaders and Heads of Department). These items evaluate the quality of pedagogical leadership, mentoring, and strategic contribution beyond the individual classroom.",
       "weight_note": "Lead items contribute to the F3 score. The combined F3 + F3L score is weighted at 20% of the total appraisal.",
-      "applies_to_levels": ["lead"],
+      "applies_to_levels": [
+        "lead"
+      ],
       "items": [
         {
           "id": "L1",
@@ -1483,11 +2420,30 @@
           ],
           "theory_basis": "Marzano DQ10 adapted.",
           "rubric": {
-            "4": "Leads subject-specific professional learning for the department. Shares research-informed practice, curates resources, and contributes to the school's academic knowledge base. Colleagues describe this teacher as a subject authority.",
-            "3": "Shares subject expertise with colleagues through formal and informal channels. Makes a genuine contribution to the department's professional knowledge.",
+            "1": "Does not actively share subject expertise. Subject knowledge remains confined to the individual's own classroom.",
             "2": "Subject knowledge is not consistently shared. Professional learning contributions to the department are limited.",
-            "1": "Does not actively share subject expertise. Subject knowledge remains confined to the individual's own classroom."
-          }
+            "3": "Shares subject expertise with colleagues through formal and informal channels. Makes a genuine contribution to the department's professional knowledge.",
+            "4": "Leads subject-specific professional learning for the department. Shares research-informed practice, curates resources, and contributes to the school's academic knowledge base. Colleagues describe this teacher as a subject authority."
+          },
+          "cambridge_standard_refs": [
+            "2.5",
+            "4.4",
+            "4.5"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "2.5",
+              "text": "work effectively with colleagues to develop the curriculum and enhance student learning"
+            },
+            {
+              "ref": "4.4",
+              "text": "share key information on progress, attainment and areas for development with colleagues, and collaboratively work towards improving student learning"
+            },
+            {
+              "ref": "4.5",
+              "text": "critically engage with research and evidence in learning and teaching, and apply new ideas and approaches to improve the quality of their practice"
+            }
+          ]
         },
         {
           "id": "L2",
@@ -1505,11 +2461,25 @@
           ],
           "theory_basis": "Danielson FfT 4f adapted.",
           "rubric": {
-            "4": "Provides structured, high-quality developmental feedback to colleagues through regular classroom observations and mentoring conversations. Supports induction-stage teachers through a consistent, growth-oriented cycle.",
-            "3": "Engages in coaching or mentoring of colleagues. Feedback given is developmental and delivered with professional sensitivity.",
+            "1": "Does not engage in meaningful coaching or mentoring. Observation cycles with colleagues are absent or perfunctory.",
             "2": "Mentoring activity is present but irregular or insufficiently structured to produce sustained growth.",
-            "1": "Does not engage in meaningful coaching or mentoring. Observation cycles with colleagues are absent or perfunctory."
-          }
+            "3": "Engages in coaching or mentoring of colleagues. Feedback given is developmental and delivered with professional sensitivity.",
+            "4": "Provides structured, high-quality developmental feedback to colleagues through regular classroom observations and mentoring conversations. Supports induction-stage teachers through a consistent, growth-oriented cycle."
+          },
+          "cambridge_standard_refs": [
+            "2.5",
+            "4.4"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "2.5",
+              "text": "work effectively with colleagues to develop the curriculum and enhance student learning"
+            },
+            {
+              "ref": "4.4",
+              "text": "share key information on progress, attainment and areas for development with colleagues, and collaboratively work towards improving student learning"
+            }
+          ]
         },
         {
           "id": "L3",
@@ -1526,11 +2496,25 @@
             "Curriculum decisions are evidence-based and documented"
           ],
           "rubric": {
-            "4": "Drives coherence, rigour, and vertical alignment within the subject's scheme of work. Assessment design, resource curation, and curriculum decisions reflect a long-term, standards-informed vision.",
-            "3": "Manages the subject's curriculum documents and assessment calendar adequately. Some strategic planning is evident in curriculum decisions.",
+            "1": "Curriculum responsibilities are not being met. Scheme of work, assessments, or resources are outdated, incomplete, or misaligned.",
             "2": "Curriculum leadership is primarily administrative. Limited evidence of strategic or pedagogical decision-making.",
-            "1": "Curriculum responsibilities are not being met. Scheme of work, assessments, or resources are outdated, incomplete, or misaligned."
-          }
+            "3": "Manages the subject's curriculum documents and assessment calendar adequately. Some strategic planning is evident in curriculum decisions.",
+            "4": "Drives coherence, rigour, and vertical alignment within the subject's scheme of work. Assessment design, resource curation, and curriculum decisions reflect a long-term, standards-informed vision."
+          },
+          "cambridge_standard_refs": [
+            "3.2",
+            "4.5"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.2",
+              "text": "demonstrate secure content knowledge and pedagogy to plan coherent, authentic and engaging learning programmes and lessons"
+            },
+            {
+              "ref": "4.5",
+              "text": "critically engage with research and evidence in learning and teaching, and apply new ideas and approaches to improve the quality of their practice"
+            }
+          ]
         },
         {
           "id": "L4",
@@ -1548,11 +2532,25 @@
           ],
           "theory_basis": "Marzano DQ9 adapted.",
           "rubric": {
-            "4": "Uses subject-level assessment and performance data systematically to set departmental priorities, identify student cohort gaps, and adjust team practice. Decisions are evidence-based and regularly reviewed.",
-            "3": "Engages with departmental data and makes reasonable instructional decisions at a subject level. Data use is present but not fully systematic.",
+            "1": "Does not engage meaningfully with departmental performance data. Decisions are made without reference to evidence.",
             "2": "Aware of departmental data but does not use it consistently to drive decisions. Subject-level planning is largely intuitive.",
-            "1": "Does not engage meaningfully with departmental performance data. Decisions are made without reference to evidence."
-          }
+            "3": "Engages with departmental data and makes reasonable instructional decisions at a subject level. Data use is present but not fully systematic.",
+            "4": "Uses subject-level assessment and performance data systematically to set departmental priorities, identify student cohort gaps, and adjust team practice. Decisions are evidence-based and regularly reviewed."
+          },
+          "cambridge_standard_refs": [
+            "3.7",
+            "4.4"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.7",
+              "text": "use summative assessment to understand student progress and attainment"
+            },
+            {
+              "ref": "4.4",
+              "text": "share key information on progress, attainment and areas for development with colleagues, and collaboratively work towards improving student learning"
+            }
+          ]
         },
         {
           "id": "L5",
@@ -1570,11 +2568,25 @@
           ],
           "theory_basis": "Danielson FfT 4d adapted.",
           "rubric": {
-            "4": "Fosters a culture of collaborative inquiry and continuous learning within the department. Models reflective practice, creates conditions for peer learning, and celebrates professional growth.",
-            "3": "Contributes to a collegial department culture. Collaborative activities are encouraged and some shared inquiry is present.",
+            "1": "Does not foster collaboration or professional learning within the department. Team culture is fragmented or disengaged.",
             "2": "Professional community building is limited to routine team meetings. A genuine learning culture in the department is not yet established.",
-            "1": "Does not foster collaboration or professional learning within the department. Team culture is fragmented or disengaged."
-          }
+            "3": "Contributes to a collegial department culture. Collaborative activities are encouraged and some shared inquiry is present.",
+            "4": "Fosters a culture of collaborative inquiry and continuous learning within the department. Models reflective practice, creates conditions for peer learning, and celebrates professional growth."
+          },
+          "cambridge_standard_refs": [
+            "2.5",
+            "5.4"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "2.5",
+              "text": "work effectively with colleagues to develop the curriculum and enhance student learning"
+            },
+            {
+              "ref": "5.4",
+              "text": "establish professional relationships with colleagues in other institutions, professional bodies and educational organisations to develop professional practice"
+            }
+          ]
         },
         {
           "id": "L6",
@@ -1591,11 +2603,30 @@
             "Department vision and priorities are articulated and understood by all stakeholders"
           ],
           "rubric": {
-            "4": "Communicates the department's vision, student progress trends, and strategic priorities clearly and proactively to school leadership, parents, and the Eduversal network. Communication builds trust and drives alignment.",
-            "3": "Communicates departmental matters to stakeholders adequately and professionally. Some strategic communication is present beyond routine updates.",
+            "1": "Stakeholder communication from the department is poor — infrequent, unclear, or creates confusion about the department's direction.",
             "2": "Communication with stakeholders is primarily reactive and transactional. Strategic or proactive communication is limited.",
-            "1": "Stakeholder communication from the department is poor — infrequent, unclear, or creates confusion about the department's direction."
-          }
+            "3": "Communicates departmental matters to stakeholders adequately and professionally. Some strategic communication is present beyond routine updates.",
+            "4": "Communicates the department's vision, student progress trends, and strategic priorities clearly and proactively to school leadership, parents, and the Eduversal network. Communication builds trust and drives alignment."
+          },
+          "cambridge_standard_refs": [
+            "5.1",
+            "5.2",
+            "5.4"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "5.1",
+              "text": "involve parents and carers in school life to support student learning"
+            },
+            {
+              "ref": "5.2",
+              "text": "engage with the wider community to contribute to the school's life, vision and mission"
+            },
+            {
+              "ref": "5.4",
+              "text": "establish professional relationships with colleagues in other institutions, professional bodies and educational organisations to develop professional practice"
+            }
+          ]
         }
       ]
     },
@@ -1603,33 +2634,352 @@
       "id": "F4",
       "title": "Student Survey",
       "description": "The Student Survey gathers student perspectives on teaching quality. It is collected independently from students during the academic year and contributes 10% to the final composite appraisal score. Results also inform professional conversations and identify patterns over time.",
-      "weight": 0.10,
+      "weight": 0.1,
       "collected_by": "Students — independently from teacher appraisal sessions. Appraiser enters aggregated results.",
       "response_scale": [
-        { "value": 4, "label": "Always" },
-        { "value": 3, "label": "Usually" },
-        { "value": 2, "label": "Sometimes" },
-        { "value": 1, "label": "Rarely" }
+        {
+          "value": 4,
+          "label": "Always"
+        },
+        {
+          "value": 3,
+          "label": "Usually"
+        },
+        {
+          "value": 2,
+          "label": "Sometimes"
+        },
+        {
+          "value": 1,
+          "label": "Rarely"
+        }
       ],
       "items": [
-        { "id": "F4.1",  "title": "Assignments are helpful for my learning", "visible_from": "induction" },
-        { "id": "F4.2",  "title": "The teacher responds to late or incomplete submissions", "visible_from": "induction" },
-        { "id": "F4.3",  "title": "I have the opportunity to ask questions in class", "visible_from": "induction" },
-        { "id": "F4.4",  "title": "The classroom feels safe and comfortable for learning", "visible_from": "induction" },
-        { "id": "F4.5",  "title": "I receive feedback that helps me improve", "visible_from": "induction" },
-        { "id": "F4.6",  "title": "The teacher explains the subject with confidence", "visible_from": "induction" },
-        { "id": "F4.7",  "title": "The teacher answers my questions clearly", "visible_from": "induction" },
-        { "id": "F4.8",  "title": "The teacher reviews previous lessons to help me remember", "visible_from": "induction" },
-        { "id": "F4.9",  "title": "The teacher does not give up on students who are struggling", "visible_from": "induction" },
-        { "id": "F4.10", "title": "Lessons are interactive and engaging", "visible_from": "induction" },
-        { "id": "F4.11", "title": "The teacher suggests useful resources for further learning", "visible_from": "induction" },
-        { "id": "F4.12", "title": "The teacher explains concepts in ways I can understand", "visible_from": "induction" },
-        { "id": "F4.13", "title": "The teacher helps me prepare for exams effectively", "visible_from": "induction" },
-        { "id": "F4.14", "title": "I receive feedback on my assignments that helps me improve", "visible_from": "induction" },
-        { "id": "F4.15", "title": "I understand the criteria by which my work is graded", "visible_from": "induction" },
-        { "id": "F4.16", "title": "The teacher helps me when I find something difficult", "visible_from": "induction" },
-        { "id": "F4.17", "title": "The teacher uses practical activities or experiments when appropriate", "visible_from": "induction" }
+        {
+          "id": "F4.1",
+          "title": "Assignments are helpful for my learning",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "3.2",
+            "3.5"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.2",
+              "text": "demonstrate secure content knowledge and pedagogy to plan coherent, authentic and engaging learning programmes and lessons"
+            },
+            {
+              "ref": "3.5",
+              "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+            }
+          ]
+        },
+        {
+          "id": "F4.2",
+          "title": "The teacher responds to late or incomplete submissions",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "3.6",
+            "3.8"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.6",
+              "text": "use a range of assessment strategies to inform next steps in the teaching and learning process and to provide timely, accurate and constructive feedback"
+            },
+            {
+              "ref": "3.8",
+              "text": "manage time effectively and ensure the classroom is free from disruption"
+            }
+          ]
+        },
+        {
+          "id": "F4.3",
+          "title": "I have the opportunity to ask questions in class",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "2.1",
+            "2.2"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "2.1",
+              "text": "create a classroom culture and environment where all students are supported in their learning"
+            },
+            {
+              "ref": "2.2",
+              "text": "establish positive and productive relationships with all students to support their learning and achievement"
+            }
+          ]
+        },
+        {
+          "id": "F4.4",
+          "title": "The classroom feels safe and comfortable for learning",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "2.1",
+            "1.5"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "2.1",
+              "text": "create a classroom culture and environment where all students are supported in their learning"
+            },
+            {
+              "ref": "1.5",
+              "text": "demonstrate a consistent commitment to well-being for the whole community"
+            }
+          ]
+        },
+        {
+          "id": "F4.5",
+          "title": "I receive feedback that helps me improve",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "3.6",
+            "4.4"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.6",
+              "text": "use a range of assessment strategies to inform next steps in the teaching and learning process and to provide timely, accurate and constructive feedback"
+            },
+            {
+              "ref": "4.4",
+              "text": "share key information on progress, attainment and areas for development with colleagues, and collaboratively work towards improving student learning"
+            }
+          ]
+        },
+        {
+          "id": "F4.6",
+          "title": "The teacher explains the subject with confidence",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "3.2"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.2",
+              "text": "demonstrate secure content knowledge and pedagogy to plan coherent, authentic and engaging learning programmes and lessons"
+            }
+          ]
+        },
+        {
+          "id": "F4.7",
+          "title": "The teacher answers my questions clearly",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "3.1",
+            "3.5"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.1",
+              "text": "demonstrate knowledge and understanding of how students learn and how this impacts on teaching"
+            },
+            {
+              "ref": "3.5",
+              "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+            }
+          ]
+        },
+        {
+          "id": "F4.8",
+          "title": "The teacher reviews previous lessons to help me remember",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "3.1",
+            "3.5"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.1",
+              "text": "demonstrate knowledge and understanding of how students learn and how this impacts on teaching"
+            },
+            {
+              "ref": "3.5",
+              "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+            }
+          ]
+        },
+        {
+          "id": "F4.9",
+          "title": "The teacher does not give up on students who are struggling",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "2.4",
+            "1.5"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "2.4",
+              "text": "have high expectations of all students"
+            },
+            {
+              "ref": "1.5",
+              "text": "demonstrate a consistent commitment to well-being for the whole community"
+            }
+          ]
+        },
+        {
+          "id": "F4.10",
+          "title": "Lessons are interactive and engaging",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "3.5",
+            "4.2"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.5",
+              "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+            },
+            {
+              "ref": "4.2",
+              "text": "use a variety of teaching and learning strategies that encourage the development of students' problem-solving, metacognitive, critical and creative thinking skills"
+            }
+          ]
+        },
+        {
+          "id": "F4.11",
+          "title": "The teacher suggests useful resources for further learning",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "4.3",
+            "4.5"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "4.3",
+              "text": "demonstrate effective use of digital technologies to extend learning to enhance student knowledge, skills and conceptual understanding"
+            },
+            {
+              "ref": "4.5",
+              "text": "critically engage with research and evidence in learning and teaching, and apply new ideas and approaches to improve the quality of their practice"
+            }
+          ]
+        },
+        {
+          "id": "F4.12",
+          "title": "The teacher explains concepts in ways I can understand",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "3.1",
+            "3.3"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.1",
+              "text": "demonstrate knowledge and understanding of how students learn and how this impacts on teaching"
+            },
+            {
+              "ref": "3.3",
+              "text": "have a deep understanding of the diverse needs of students and adapt their practice accordingly"
+            }
+          ]
+        },
+        {
+          "id": "F4.13",
+          "title": "The teacher helps me prepare for exams effectively",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "3.7"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.7",
+              "text": "use summative assessment to understand student progress and attainment"
+            }
+          ]
+        },
+        {
+          "id": "F4.14",
+          "title": "I receive feedback on my assignments that helps me improve",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "3.6",
+            "4.4"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.6",
+              "text": "use a range of assessment strategies to inform next steps in the teaching and learning process and to provide timely, accurate and constructive feedback"
+            },
+            {
+              "ref": "4.4",
+              "text": "share key information on progress, attainment and areas for development with colleagues, and collaboratively work towards improving student learning"
+            }
+          ]
+        },
+        {
+          "id": "F4.15",
+          "title": "I understand the criteria by which my work is graded",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "3.6",
+            "3.7"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.6",
+              "text": "use a range of assessment strategies to inform next steps in the teaching and learning process and to provide timely, accurate and constructive feedback"
+            },
+            {
+              "ref": "3.7",
+              "text": "use summative assessment to understand student progress and attainment"
+            }
+          ]
+        },
+        {
+          "id": "F4.16",
+          "title": "The teacher helps me when I find something difficult",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "3.3",
+            "2.4"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.3",
+              "text": "have a deep understanding of the diverse needs of students and adapt their practice accordingly"
+            },
+            {
+              "ref": "2.4",
+              "text": "have high expectations of all students"
+            }
+          ]
+        },
+        {
+          "id": "F4.17",
+          "title": "The teacher uses practical activities or experiments when appropriate",
+          "visible_from": "induction",
+          "cambridge_standard_refs": [
+            "3.5",
+            "4.3"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "3.5",
+              "text": "use effective teaching strategies to motivate, challenge and extend student learning"
+            },
+            {
+              "ref": "4.3",
+              "text": "demonstrate effective use of digital technologies to extend learning to enhance student knowledge, skills and conceptual understanding"
+            }
+          ]
+        }
       ]
     }
-  ]
+  ],
+  "cambridge_alignment": {
+    "framework": "Cambridge Teacher Standards",
+    "edition": "2023",
+    "source": "https://www.cambridgeinternational.org/Images/466465-cambridge-teacher-standards.pdf",
+    "appliedOn": "2026-05-03",
+    "appliedBy": "scripts/competency/tag-appraisal-cambridge-refs.js",
+    "coverage": {
+      "total": 87,
+      "tagged": 87
+    }
+  }
 }

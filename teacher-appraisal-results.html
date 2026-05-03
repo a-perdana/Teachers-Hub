@@ -459,6 +459,12 @@ fetch('resources/appraisal-framework-v2.json').then(r => r.json()).then(d => {
 fetch('resources/appraisal-levels.json').then(r => r.json()).then(d => { LEVELS = d; });
 
 // ── HELPERS ──────────────────────────────────────────────
+function cambridgeChips(item) {
+  const refs = Array.isArray(item?.cambridge_standard_refs) ? item.cambridge_standard_refs : [];
+  if (!refs.length) return '';
+  return `<div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px;">${refs.map(r => `<span style="font-family:'DM Mono',monospace;font-size:.65rem;padding:2px 6px;background:#ede9fe;color:#5b21b6;border-radius:4px;font-weight:600;" title="Cambridge Teacher Standards 2023 — ${r}">CTS ${r}</span>`).join('')}</div>`;
+}
+
 function scoreChip(s) {
   const labels = {1:'Unsatisfactory',2:'Basic',3:'Proficient',4:'Distinguished'};
   return `<div style="display:flex;align-items:center;gap:8px;">
@@ -512,7 +518,7 @@ function buildFormalContent(appraisal, framework) {
       const s = scores[item.id];
       const note = narratives[item.id];
       f2Html += `<div class="item-row">
-        <div><div class="item-id">${item.id}</div><div class="item-title">${item.title}</div>${note?`<div class="item-note">"${note}"</div>`:''}</div>
+        <div><div class="item-id">${item.id}</div><div class="item-title">${item.title}${cambridgeChips(item)}</div>${note?`<div class="item-note">"${note}"</div>`:''}</div>
         <div>${scoreChip(s)}</div>
       </div>`;
     }
@@ -547,7 +553,7 @@ function buildFormalContent(appraisal, framework) {
     ${[...f3Items,...f3LItems].map(item => {
       const s = scores[item.id]; const note = narratives[item.id];
       return `<div class="item-row">
-        <div><div class="item-id">${item.id}</div><div class="item-title">${item.title}</div>${note?`<div class="item-note">"${note}"</div>`:''}</div>
+        <div><div class="item-id">${item.id}</div><div class="item-title">${item.title}${cambridgeChips(item)}</div>${note?`<div class="item-note">"${note}"</div>`:''}</div>
         <div>${scoreChip(s)}</div>
       </div>`;
     }).join('')}
@@ -578,7 +584,7 @@ function buildFrameworkSection(fw, scores, narratives, label, weight, mean) {
     ${visibleItems.map(item => {
       const s = scores[item.id]; const note = narratives[item.id];
       return `<div class="item-row">
-        <div><div class="item-id">${item.id}</div><div class="item-title">${item.title}</div>${note?`<div class="item-note">"${note}"</div>`:''}</div>
+        <div><div class="item-id">${item.id}</div><div class="item-title">${item.title}${cambridgeChips(item)}</div>${note?`<div class="item-note">"${note}"</div>`:''}</div>
         <div>${scoreChip(s)}</div>
       </div>`;
     }).join('')}
@@ -769,7 +775,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
             const val = appraisal.surveyData[item.id];
             const labels = {4:'Always',3:'Usually',2:'Sometimes',1:'Rarely'};
             return `<div class="item-row">
-              <div><div class="item-id">${item.id}</div><div class="item-title">${item.title}</div></div>
+              <div><div class="item-id">${item.id}</div><div class="item-title">${item.title}${cambridgeChips(item)}</div></div>
               <div><span class="score-chip s${val}">${labels[val]||val}</span></div>
             </div>`;
           }).join('')}
