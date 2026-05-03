@@ -1122,6 +1122,9 @@ function renderKPIs() {
         <div class="kpi-info">
           <div class="kpi-aspect">${esc(kpi.aspect || '')}</div>
           <div class="kpi-indicator">${esc(kpi.indicator || '')}</div>
+          ${Array.isArray(kpi.cambridge_standard_refs) && kpi.cambridge_standard_refs.length
+            ? `<div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px;">${kpi.cambridge_standard_refs.map(r => `<span style="font-family:'DM Mono',monospace;font-size:.65rem;padding:2px 6px;background:#ede9fe;color:#5b21b6;border-radius:4px;font-weight:600;" title="Cambridge Teacher Standards 2023 — ${esc(r)}">CTS ${esc(r)}</span>`).join('')}</div>`
+            : ''}
         </div>
         <div class="kpi-meta">
           <span class="kpi-wt-pill">${kpi.weight}%</span>
