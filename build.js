@@ -749,6 +749,16 @@ function processFile(filename) {
     html = html.replace(pattern, replacement);
   });
 
+  // Phase 4 — inject /cambridge-crossref.js once per page (defer; auto-
+  // bootstraps from DOM scan, so CTS chips become clickable cross-ref
+  // popovers without per-page wiring). Skipped for login.html which
+  // doesn't render CTS chips and doesn't need the runtime.
+  if (filename !== 'login.html' && filename !== 'index.html' &&
+      !html.includes('/cambridge-crossref.js')) {
+    html = html.replace('</body>',
+      '<script src="/cambridge-crossref.js" defer></script>\n</body>');
+  }
+
   // Determine output path
   const slug = ROUTES[filename];
   let outPath;
@@ -774,6 +784,13 @@ console.log('Copied: dist/auth-guard.js');
 // Copy base.css to dist root
 fs.copyFileSync(path.join(__dirname, 'base.css'), path.join(distDir, 'base.css'));
 console.log('Copied: dist/base.css');
+
+// Phase 4 — Cambridge cross-reference popover. Auto-bootstraps from DOM
+// scan so pages with CTS chips get cross-ref click-to-expand for free.
+if (fs.existsSync(path.join(__dirname, 'cambridge-crossref.js'))) {
+  fs.copyFileSync(path.join(__dirname, 'cambridge-crossref.js'), path.join(distDir, 'cambridge-crossref.js'));
+  console.log('Copied: dist/cambridge-crossref.js');
+}
 
 // Copy tokens.css to dist root
 if (fs.existsSync(path.join(__dirname, 'tokens.css'))) {
