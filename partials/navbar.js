@@ -294,6 +294,23 @@ function initNavbar() {
   } else {
     document.addEventListener('authReady', populateDropdown, { once: true });
   }
+
+  // Boot the simple in-place nav editor (label rename, drag-reorder, hide).
+  // Hub admins see an "Edit nav" button in the navbar; non-admins see nothing.
+  // Loads from the shared module copied to /nav-edit-simple.js by build.js.
+  function bootNavEditor() {
+    const profile = window.userProfile;
+    import('/nav-edit-simple.js').then(({ initNavEditor }) => {
+      initNavEditor({
+        platform:      'teachershub',
+        itemSelector:  '.th-dd-item[data-nav-key]',
+        panelSelector: '.th-dd-col, .th-dd-panel',
+        isAdmin:       profile?.role_teachershub === 'teachers_admin',
+      });
+    }).catch(e => console.warn('[navbar] nav-edit-simple unavailable:', e));
+  }
+  if (window.__authReadyDetail) bootNavEditor();
+  else document.addEventListener('authReady', bootNavEditor, { once: true });
 }
 
 // Wires up the feedback modal (HTML comes from the navbar partial).

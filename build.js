@@ -779,6 +779,14 @@ if (fs.existsSync(path.join(__dirname, 'tokens.css'))) {
   console.log('Copied: dist/tokens.css');
 }
 
+// Shared simple nav editor module (lives at monorepo root /shared-design/).
+// Copied into dist/ so navbar.js can dynamic-import('/nav-edit-simple.js').
+const sharedNavEdit = path.join(__dirname, '..', 'shared-design', 'nav-edit-simple.js');
+if (fs.existsSync(sharedNavEdit)) {
+  fs.copyFileSync(sharedNavEdit, path.join(distDir, 'nav-edit-simple.js'));
+  console.log('Copied: shared-design/nav-edit-simple.js -> dist/nav-edit-simple.js');
+}
+
 // Copy partials folder to dist root
 const partialsSrcDir = path.join(__dirname, 'partials');
 const partialsDistDir = path.join(distDir, 'partials');
