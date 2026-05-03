@@ -62,6 +62,143 @@ window.db          = db;
 // Expose Firestore helpers for navbar.js initTeachingProfile (set early; navbar.js picks them up after authReady)
 window.__firestoreHelpers = { db, setDoc, doc };
 
+// ── Page-access helpers ──────────────────────────────────────────
+// Pages that never get gated (auth flow + dashboard itself).
+const PAGE_ACCESS_BYPASS = new Set(['', 'index', 'login', 'waiting']);
+const PAGE_ACCESS_TTL_MS = 5 * 60 * 1000; // 5 min sessionStorage cache
+
+// Convert window.location.pathname to a clean URL slug (the doc ID
+// in page_access_config). '/igcse-math' -> 'igcse-math';
+// '/igcse-math-pacing.html' -> 'igcse-math-pacing'; '/' -> ''.
+function currentPageKey() {
+  const path = (window.location.pathname || '/').toLowerCase();
+  let slug = path.replace(/^\/+/, '').replace(/\/+$/, '');
+  slug = slug.replace(/\.html$/, '');
+  if (slug.includes('/')) slug = slug.split('/')[0];
+  return slug;
+}
+
+async function getPageAccessConfig(database, pageKey) {
+  try {
+    const raw = sessionStorage.getItem('pac:' + pageKey);
+    if (raw) {
+      const cached = JSON.parse(raw);
+      if (cached && (Date.now() - cached.at) < PAGE_ACCESS_TTL_MS) return cached.data;
+    }
+  } catch (_) {}
+
+  let data = null;
+  try {
+    const snap = await getDoc(doc(database, 'page_access_config', pageKey));
+    data = snap.exists() ? snap.data() : null;
+  } catch (err) {
+    // Fail-open on read errors — never lock everyone out on a transient blip.
+    console.warn('page_access_config read failed for', pageKey, err);
+    return null;
+  }
+  try {
+    sessionStorage.setItem('pac:' + pageKey, JSON.stringify({ at: Date.now(), data }));
+  } catch (_) {}
+  return data;
+}
+
+async function getAllPageAccessConfigs(database) {
+  try {
+    const raw = sessionStorage.getItem('pac:__all__:teachershub');
+    if (raw) {
+      const cached = JSON.parse(raw);
+      if (cached && (Date.now() - cached.at) < PAGE_ACCESS_TTL_MS) return new Map(cached.entries);
+    }
+  } catch (_) {}
+
+  const map = new Map();
+  try {
+    // @lint-allow-unbounded — full config doc set (~37 small docs); cached for 5 min
+    const snap = await getDocs(collection(database, 'page_access_config'));
+    snap.forEach(d => {
+      const data = d.data() || {};
+      if (data.platform && data.platform !== 'teachershub') return;
+      map.set(d.id, data);
+    });
+    sessionStorage.setItem('pac:__all__:teachershub', JSON.stringify({
+      at: Date.now(),
+      entries: [...map.entries()],
+    }));
+  } catch (err) {
+    console.warn('page_access_config bulk read failed', err);
+  }
+  return map;
+}
+
+function slugFromHref(href) {
+  if (!href) return '';
+  try {
+    const url = new URL(href, window.location.origin);
+    if (url.origin !== window.location.origin) return '';
+    let p = url.pathname.toLowerCase();
+    p = p.replace(/^\/+/, '').replace(/\/+$/, '').replace(/\.html$/, '');
+    if (p.includes('/')) p = p.split('/').pop();
+    return p;
+  } catch (_) {
+    return '';
+  }
+}
+
+function applyPageAccessGating(configs, userSubRoles) {
+  const isAllowed = (cfg) => {
+    if (!cfg) return true;
+    const vt = Array.isArray(cfg.visible_to) ? cfg.visible_to : [];
+    if (vt.length === 0) return true;
+    return userSubRoles.some(r => vt.includes(r));
+  };
+
+  // 1. Navbar items
+  document.querySelectorAll('[data-nav-key]').forEach(el => {
+    const key = (el.getAttribute('data-nav-key') || '').toLowerCase();
+    if (!key || PAGE_ACCESS_BYPASS.has(key)) return;
+    if (!configs.has(key)) return;
+    if (!isAllowed(configs.get(key))) el.setAttribute('data-pa-hidden', '1');
+    else                              el.removeAttribute('data-pa-hidden');
+  });
+
+  // 2. Dashboard cards
+  document.querySelectorAll('a.card[href]').forEach(el => {
+    const key = slugFromHref(el.getAttribute('href'));
+    if (!key || PAGE_ACCESS_BYPASS.has(key)) return;
+    if (!configs.has(key)) return;
+    if (!isAllowed(configs.get(key))) el.setAttribute('data-pa-hidden', '1');
+    else                              el.removeAttribute('data-pa-hidden');
+  });
+
+  // 3. Empty TH dropdown wrappers / mobile sections — hide if every child is hidden.
+  ['.th-dd-wrap', '.th-mobile-section'].forEach(selector => {
+    document.querySelectorAll(selector).forEach(group => {
+      const items = group.querySelectorAll('[data-nav-key]');
+      if (!items.length) return;
+      const allHidden = [...items].every(it => it.getAttribute('data-pa-hidden') === '1');
+      if (allHidden) group.setAttribute('data-pa-hidden', '1');
+      else            group.removeAttribute('data-pa-hidden');
+    });
+  });
+
+  // 4. Empty dropdown columns
+  document.querySelectorAll('.th-dd-col').forEach(col => {
+    const items = col.querySelectorAll('[data-nav-key]');
+    if (!items.length) return;
+    const allHidden = [...items].every(it => it.getAttribute('data-pa-hidden') === '1');
+    if (allHidden) col.setAttribute('data-pa-hidden', '1');
+    else            col.removeAttribute('data-pa-hidden');
+  });
+}
+
+function ensurePageAccessStyles() {
+  if (document.getElementById('paGatingStyle')) return;
+  const style = document.createElement('style');
+  style.id = 'paGatingStyle';
+  style.textContent = '[data-pa-hidden="1"] { display: none !important; }';
+  document.head.appendChild(style);
+}
+
 // ── Name prompt (shown when displayName is missing) ───────────────
 function promptForName() {
   return new Promise(resolve => {
@@ -507,6 +644,34 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
+  // 5d. Page-access check (sub-role gate via page_access_config).
+  //     - admin bypasses
+  //     - root '/' and explicit allow-list pages skip the check
+  //     - missing config doc => allow (back-compat)
+  //     - empty visible_to  => allow (open to every TH sub-role)
+  //     - else: user must hold at least one matching th_sub_role
+  if (!isAdminRole) {
+    const pageKey = currentPageKey();
+    if (pageKey && !PAGE_ACCESS_BYPASS.has(pageKey)) {
+      const cfg = await getPageAccessConfig(db, pageKey);
+      if (cfg && Array.isArray(cfg.visible_to) && cfg.visible_to.length > 0) {
+        const userSubRoles = Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [];
+        const allowed = userSubRoles.some(r => cfg.visible_to.includes(r));
+        if (!allowed) {
+          try {
+            sessionStorage.setItem('th_access_denied', JSON.stringify({
+              pageKey,
+              label: cfg.label || pageKey,
+              at: Date.now(),
+            }));
+          } catch (_) {}
+          window.location.replace('/?denied=' + encodeURIComponent(pageKey));
+          return;
+        }
+      }
+    }
+  }
+
   // 6. All checks passed — expose globals
   window.currentUser = user;
   window.userProfile = profile;
@@ -543,6 +708,30 @@ onAuthStateChanged(auth, async (user) => {
       await signOut(auth);
       window.location.href = '/login';
     });
+  }
+
+  // 6.5. Page-access UI gating — hide navbar links + cards user cannot access.
+  //      The navbar partial is fetched async, so we run an initial pass + a
+  //      MutationObserver to catch late-added items.
+  if (!isAdminRole) {
+    ensurePageAccessStyles();
+    const subRoles = Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [];
+    const configs  = await getAllPageAccessConfigs(db);
+    const runGating = () => applyPageAccessGating(configs, subRoles);
+    runGating();
+    const mo = new MutationObserver(muts => {
+      const interesting = muts.some(m =>
+        [...m.addedNodes].some(n =>
+          n.nodeType === 1 && (
+            n.matches?.('[data-nav-key], a.card[href]') ||
+            n.querySelector?.('[data-nav-key], a.card[href]')
+          )
+        )
+      );
+      if (interesting) runGating();
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+    window.__paGate = runGating;
   }
 
   // 7. Show page and notify
