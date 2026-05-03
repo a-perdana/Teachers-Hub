@@ -542,7 +542,36 @@ async function saveOverride(compId, lvl, html) {
   return clean;
 }
 
-// ─── CONTENT DATA ──────────────────────────────────────────────────────────
+// ─── BASE CONTENT (Firestore-backed, with inline fallback) ─────
+// Per-(compId, level) base learning material is seeded into
+// competency_framework/teachers/levels/{compId}_{level} from
+// Central Hub/resources/teaching-competency-framework.json. The
+// inline CONTENT_DATA block below is kept as a graceful fallback
+// for offline use and for any (comp, level) the seed hasn't covered
+// yet. Read order on modal open: Firestore content (richer, fresh)
+// first, then inline if Firestore returns nothing.
+const _contentCache = {};
+async function loadContent(compId, lvl) {
+  const key = compId + '_' + lvl;
+  if (key in _contentCache) return _contentCache[key];
+  try {
+    const snap = await getDoc(doc(window.db, 'competency_framework', 'teachers', 'levels', key));
+    if (snap.exists()) {
+      const d = snap.data();
+      _contentCache[key] = {
+        reading:        d.reading || '',
+        keyTakeaways:   Array.isArray(d.keyTakeaways) ? d.keyTakeaways : [],
+        selfAssessment: Array.isArray(d.selfAssessment) ? d.selfAssessment : [],
+        activity:       d.activity || null,
+      };
+      return _contentCache[key];
+    }
+  } catch { /* fall through to inline */ }
+  _contentCache[key] = null;
+  return null;
+}
+
+// ─── CONTENT DATA (inline fallback) ────────────────────────────
 const CONTENT_DATA = {
   "smc-1": {
     "awareness": {
@@ -1728,7 +1757,8 @@ window.openMat = async function(compId, matId, lvl) {
   if (!comp) return;
   const mat = comp.materials?.[lvl]?.find(m => m.id === matId);
   if (!mat) return;
-  const content = CONTENT_DATA[compId]?.[lvl];
+  // Firestore-first, fall back to inline CONTENT_DATA.
+  const content = (await loadContent(compId, lvl)) || CONTENT_DATA[compId]?.[lvl] || null;
 
   document.getElementById('matModalType').textContent = (MAT_TYPE_ICON[mat.type] || '\uD83D\uDCC4') + ' ' + mat.type.charAt(0).toUpperCase() + mat.type.slice(1) + ' · ' + mat.duration;
   document.getElementById('matModalTitle').textContent = mat.name;
@@ -1824,7 +1854,8 @@ window.toggleReadingEditor = function() {
   const readingEl = document.getElementById('matModalReading');
   if (wrap.classList.contains('active')) { cancelReadingEdit(); return; }
   const override = _overrideCache[compId + '_' + lvl];
-  const content = CONTENT_DATA[compId]?.[lvl];
+  // showMat() runs first and populates _contentCache; if missing, fall back to inline.
+  const content = _contentCache[compId + '_' + lvl] || CONTENT_DATA[compId]?.[lvl];
   if (override) {
     area.innerHTML = override;
   } else if (content?.reading) {
