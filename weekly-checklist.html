@@ -626,6 +626,9 @@ let _pacingScheduleCache = null;  // { teachingWeeks, skippedWeeks }
 let _pacingTasks = [];            // injected pacing tasks for current week
 let _pacingDoneCache = {};        // { subjKey: { "chId.tId": {...} } }
 
+// Map weekNo (1..40) → { semLabel, semWeekNo, mon, fri } from teaching_schedule
+let _weekScheduleByNo = null;
+
 // ── Auth Ready ────────────────────────────────────────────────────
 document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   currentUid = user.uid;
@@ -694,34 +697,87 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     });
   });
 
-  // Determine current week
-  currentWeek = getWeekNumber(new Date());
-  if (currentWeek < 1) currentWeek = 1;
-  if (currentWeek > TOTAL_WEEKS) currentWeek = TOTAL_WEEKS;
+  // Load teaching schedule first so week labels can show "Semester II · Week 15"
+  // instead of academic-year-relative "Week 40".
+  loadWeekSchedule().then(() => {
+    // Determine current week — prefer teaching_schedule (handles holidays), fall back to date math
+    currentWeek = getCurrentWeekNumber();
+    if (currentWeek < 1) currentWeek = 1;
+    if (currentWeek > TOTAL_WEEKS) currentWeek = TOTAL_WEEKS;
 
-  setupWeekNav();
-  loadWeek(currentWeek);
-  loadEssentials();
+    setupWeekNav();
+    loadWeek(currentWeek);
+    loadEssentials();
+  });
 });
 
 // ── Week helpers ──────────────────────────────────────────────────
+async function loadWeekSchedule() {
+  if (_weekScheduleByNo) return;
+  try {
+    if (!_pacingScheduleCache && window.loadTeachingSchedule) {
+      _pacingScheduleCache = await window.loadTeachingSchedule(window.db);
+    }
+    _weekScheduleByNo = {};
+    (_pacingScheduleCache?.teachingWeeks || []).forEach(w => {
+      if (w.weekNo) _weekScheduleByNo[w.weekNo] = w;
+    });
+  } catch (e) {
+    console.warn('loadWeekSchedule failed; falling back to date math', e);
+    _weekScheduleByNo = {};
+  }
+}
+
 function getWeekNumber(date) {
   const diff = date - WEEK1_START;
   const week = Math.floor(diff / (7 * 24 * 60 * 60 * 1000)) + 1;
   return Math.max(1, Math.min(TOTAL_WEEKS, week));
 }
 
+// Prefer teaching_schedule when available (handles holiday gaps), fall back to date math
+function getCurrentWeekNumber() {
+  const tw = _pacingScheduleCache?.teachingWeeks || [];
+  if (tw.length) {
+    const now = new Date();
+    const hit = tw.find(w => now >= w.mon && now <= w.fri);
+    if (hit?.weekNo) return hit.weekNo;
+    // In a holiday gap → next teaching week
+    const nextW = tw.find(w => w.mon > now);
+    if (nextW?.weekNo) return nextW.weekNo;
+  }
+  return getWeekNumber(new Date());
+}
+
+// Semester-relative label: "Semester II · Week 15". Falls back to "Week N" before schedule loads.
+function getWeekLabel(weekNum) {
+  const w = _weekScheduleByNo?.[weekNum];
+  if (w?.semLabel) return `${w.semLabel} · Week ${w.semWeekNo}`;
+  return `Week ${weekNum}`;
+}
+
+// Short version for the jump dropdown
+function getWeekLabelShort(weekNum) {
+  const w = _weekScheduleByNo?.[weekNum];
+  if (w?.semLabel) {
+    const semShort = w.semLabel.replace(/^Semester\s+/i, 'Sem ');
+    return `${semShort} W${w.semWeekNo}`;
+  }
+  return `Wk ${weekNum}`;
+}
+
 function getWeekDates(weekNum) {
+  const w = _weekScheduleByNo?.[weekNum];
+  const fmt = d => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  if (w?.mon && w?.fri) return `${fmt(w.mon)} – ${fmt(w.fri)}`;
   const start = new Date(WEEK1_START);
   start.setDate(start.getDate() + (weekNum - 1) * 7);
   const end = new Date(start);
   end.setDate(end.getDate() + 4); // Mon–Fri
-  const fmt = d => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
   return `${fmt(start)} – ${fmt(end)}`;
 }
 
 function isCurrentWeek(w) {
-  return w === getWeekNumber(new Date());
+  return w === getCurrentWeekNumber();
 }
 
 function setupWeekNav() {
@@ -735,7 +791,7 @@ function setupWeekNav() {
   for (let w = 1; w <= TOTAL_WEEKS; w++) {
     const opt = document.createElement('option');
     opt.value = w;
-    opt.textContent = `Wk ${w}  (${getWeekDates(w)})`;
+    opt.textContent = `${getWeekLabelShort(w)}  (${getWeekDates(w)})`;
     jumpSel.appendChild(opt);
   }
   jumpSel.addEventListener('change', () => loadWeek(Number(jumpSel.value)));
@@ -750,9 +806,10 @@ function updateHeroSub() {
 }
 
 function updateWeekUI() {
-  document.getElementById('weekLabel').textContent = `Week ${currentWeek}`;
+  const label = getWeekLabel(currentWeek);
+  document.getElementById('weekLabel').textContent = label;
   document.getElementById('weekDates').textContent  = getWeekDates(currentWeek);
-  document.getElementById('heroTitle').textContent  = `Week ${currentWeek} — Weekly Checklist`;
+  document.getElementById('heroTitle').textContent  = `${label} — Weekly Checklist`;
   document.getElementById('prevWeekBtn').disabled   = currentWeek <= 1;
   document.getElementById('nextWeekBtn').disabled   = currentWeek >= TOTAL_WEEKS;
   const ind = document.getElementById('weekThisIndicator');
