@@ -167,8 +167,13 @@ const isAdmin = profile?.role_teachershub === 'teachers_admin';
 | `cambridge_syllabus/{docId}` | Syllabus reference items indexed by objective code (e.g. C1.1). Doc ID format `{subjectCode}_{code}`. Loaded once at startup into `window.syllabusIndex`. | read-only here |
 | `cambridge_scheme_of_work/{docId}` | Scheme-of-work content per ref code (teaching activities, resources, SDG links). Doc ID format `{subjectCode}_{code}` (same as `cambridge_syllabus`). **Lazy-fetched per code** when the Teaching Guide tab on the objectives modal opens; results cached in `window._sowCache`. Read-only here; managed via monorepo-root seed scripts. **IGCSE Math 0580 + Lower Secondary Math 0862 (Stages 7-8-9, 179 entries) + AS & A Level Mathematics 9709 (38 entries across Pure 1/2/3, Mechanics, Probability & Statistics 1/2) seeded.** Biology/chemistry/physics (IGCSE & AS) + Checkpoint English (0861) + Checkpoint Science (0893) not yet — UI gracefully shows "No teaching guide available yet" when a doc is missing. The 0862 + 9709 schema also includes `commonMisconceptions[]` and `keyVocabulary[]` fields rendered by the Checkpoint and AS/A-Level templates' Teaching Guide tabs. | read-only here |
 | `userProgress/{uid}`    | Per-teacher pacing progress. Each teacher writes only their own doc. Fields: `statuses`, `statuses_<class>` maps keyed by `ci-ti`. | owner (teacher) |
-| `user_competencies/{uid}` | Teacher competency progress. Fields: `earned` (map of compId → `{level, date}`), `matDone` (map of matId → bool). Written by the owner, read by `learning-path.html` and `competency-framework.html`. | owner (teacher) |
-| `competency_evidence/{docId}` | Evidence submissions for competency level certification. Fields: `uid`, `platform` (`'teachers'`), `compId`, `compName`, `domain`, `level`, `description`, `fileUrl`, `fileName`, `status` (`'pending'`\|`'approved'`\|`'rejected'`), `reviewerNote`, `createdAt`, `updatedAt`. Written by teacher (create), reviewed by `teachers_admin` via competency-admin in Central Hub. | owner (create), central_admin (review) |
+| `competency_framework/teachers` | Read-only here. The TH track of the 3-track Cambridge competency system. Fields: `domains[]`, `competencies[]` (with `cambridgeStandardRefs[]` + `cambridgeStandardTexts[]` per competency), `levelOrder`, `levelLabels`, `cambridgeAttributes[]` (5 Cambridge teacher attributes), full `cambridgeStandards{}` lookup. Loaded by `competency-framework.html`, `learning-path.html`, `my-portfolio.html`, `my-certificates.html`. Seeded by `scripts/competency/seed-th-competency-framework.js` from `docs/research/cambridge/teacher-standards-2023.json`. | central_admin (write) |
+| `competency_framework/teachers/levels/{compId}_{level}` | Read-only here. Per-(competency, level) base learning content. Fields: `reading` (~250 words), `keyTakeaways[]`, `selfAssessment[]` (5 statements), `activity{task,output,duration,evidence}`. Lazy-fetched on modal open by `learning-path.html`. **Admin overrides** in `content_overrides_teachers/{compId}_{lvl}` layer on top (HTML sanitised on save AND on render via a strict tag allowlist — Phase 1.5 fix). Seeded by `scripts/competency/seed-competency-content.js` from `Central Hub/resources/teaching-competency-framework.json`. | central_admin (write) |
+| `cambridge_crossref/index` | Read-only here. Single aggregator doc — for every Cambridge Teacher Standards (2023) ID that any Eduversal artefact tags, lists every sibling artefact across KPI / Appraisal / Competency. Read by `cambridge-crossref.js` (singleton runtime, build-injected) when a teacher clicks any CTS chip on any TH page. | central_admin (write) |
+| `content_overrides_teachers/{compId}_{lvl}` | Admin-edited override of the base learning content. Fields: `reading` (HTML, sanitised). Sanitised on save AND on render through a strict tag allowlist (`P/BR/STRONG/EM/B/I/U/MARK/UL/OL/LI/H3/H4` only; all attributes stripped) — Phase 1.5 fix closing an XSS where a compromised `teachers_admin` could inject script into every other teacher's modal. | teachers_admin |
+| `user_competencies/{uid}` | Teacher competency progress. Fields: `earned` (map of compId → `{level, date}`), `matDone` (map of matId → bool), `saScores` (per-(comp, level, idx) self-rating 1-4). Written by the owner, read by `learning-path.html` and `competency-framework.html`. AH leadership progress lives on the same doc under `earned_academic`; CH specialist under `earned_central`. | owner (teacher) |
+| `competency_evidence/{docId}` | Evidence submissions for competency level certification. Fields: `uid`, `platform` (`'teachers'`), `compId`, `compName`, `domain`, `level`, `description`, `fileUrl`, `fileName`, `status` (`'pending'`\|`'approved'`\|`'rejected'`), `reviewerNote`, `createdAt`, `updatedAt`. **Storage path** for `fileUrl`: `competency_evidence/teachers/{uid}/{timestamp}_{filename}` (≤25 MB cap, deployed in `Central Hub/storage.rules`). Written by teacher (create), reviewed by `central_admin` via `competency-admin.html`. | owner (create), central_admin (review) |
+| `competency_certificates/{certId}` | Read-only here. Issued certificates filtered by `where('platform','==','teachers')`. Read by `my-certificates.html`. Issued from `Central Hub/competency-admin.html` once a teacher has demonstrated all competencies in a domain at Lead level. | central_admin (write) |
 | `teacher_kpi_submissions/{uid}_{periodId}` | Teacher KPI self-assessments written by `teacher-self-assessment.html`. **`schoolId` is required on every write** (Step 1.3 hardening) — `save()` reads `userProfile.schoolId` and includes it on the payload; the Firestore rule rejects writes where `schoolId != userProfile().schoolId`. Lets AH evaluators be school-scoped at both query and rule level. | owner (teacher); AH evaluator can flip workflow status fields only |
 | `teacher_self_appraisals/{uid}_{year}` | Teacher self-appraisal written by `teacher-self-appraisal.html`. After Step 1.4 hardening: get is owner / admin / same-school AH evaluator (sub-role gated); list is admin-only (no app code lists this collection — evaluators look up by deterministic doc ID). | owner (create/update while not yet `submitted`) |
 | `page_access_config/{slug}` | Per-page sub-role visibility for TH (extended 2026-05-03; previously AH-only). Read here, written from CH `/page-access`. `auth-guard.js` enforces per-nav (Step 5d) + UI gating (Step 6.5) — bulk-fetches with cache key `pac:__all__:teachershub`, hides items via `data-pa-hidden="1"`. teachers_admin bypasses. Seeded by `scripts/page-access/seed-th-page-access.js` (37 pages, default `visible_to: []`). | central_admin (write) |
@@ -241,6 +246,7 @@ FIREBASE_APP_ID
 | `learning-path.html`           | `/learning-path`             | Learning Path — materials & progress per competency |
 | `my-portfolio.html`            | `/my-portfolio`              | Evidence portfolio — submit & review evidence    |
 | `my-certificates.html`         | `/my-certificates`           | My earned competency certificates                |
+| `certificate-verify.html`      | `/certificate-verify`        | Per-certificate verifier (reads `competency_certificates` by id; in `PAGE_ACCESS_BYPASS`) |
 | `igcse-math-tracker.html`      | `/igcse-math-tracker`        | Subject Leader tracker — IGCSE Math              |
 | *(+ other tracker pages)*      |                              | Subject Leader trackers for all subjects         |
 
@@ -339,6 +345,26 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
 
 The `_pending*` callbacks handle the race between navbar fetch completing and `authReady` firing.  
 `setupNavBadges` is defined in `partials/navbar.js` — requires `onSnapshot` and `collection` from Firestore imports.
+
+---
+
+## Cambridge Competency Framework — TH track (2026-05-03 / 2026-05-04)
+
+Eduversal runs three independent rating systems across the network: KPI (per-school), Appraisal (Eduversal v2.1), and Competency (Cambridge-grounded CPD). All three carry `cambridge_standard_refs[]` so a single Cambridge anchor can be traced across all three. See the root CLAUDE.md "Three Rating Systems" section for the full architecture.
+
+**TH-specific:**
+- The 6-domain × 24-competency taxonomy is in `competency_framework/teachers` (Firestore, seeded). Pages no longer hard-code the framework — they read from there. Fallback inline copies remain for graceful degradation.
+- `learning-path.html` lazy-fetches per-(comp, level) content from the `levels/` subcollection on modal open. Inline `CONTENT_DATA` is preserved as fallback.
+- `competency_evidence` uploads go to Storage path `competency_evidence/teachers/{uid}/{timestamp}_{filename}` (≤25 MB).
+- KPI rows (`teacher-self-assessment.html`, `teacher-kpi-results.html`) and Appraisal items (`teacher-self-appraisal.html`, `teacher-appraisal-results.html`) render mor `CTS X.Y` chips. Click → `cambridge-crossref.js` runtime opens a popover showing every sibling artefact across the 3 systems.
+- `certificate-verify.html` is bypassed in `PAGE_ACCESS_BYPASS` so any signed-in TH user can verify any cert by id.
+- Per-school pilot enrolment: `index.html` calls `filterPilotSystemCards(db, profile, isAdmin)` on `authReady`, which reads `partner_schools/{schoolId}.enabled_systems[]` and hides cards from disabled systems (KPI / Appraisal / Competency). Admin and HQ users (no `schoolId`) bypass.
+
+**Phase 1 bug-fix discipline (don't reintroduce):**
+- Domain IDs are canonical: `smc/lcp/afl/icp/pie/cce`. The legacy `cur/asm/cls/ped/dig/pro` IDs are gone everywhere.
+- Storage import in `my-portfolio.html` MUST come from `firebase-storage.js`, NOT `firebase-firestore.js`.
+- `auth-guard.js` exposes `window.storage`; the upload flow relies on it.
+- Admin reading-override editor (`learning-path.html` → `content_overrides_teachers`) sanitises HTML on save AND on render. The allowlist is `P/BR/STRONG/EM/B/I/U/MARK/UL/OL/LI/H3/H4` only; all attributes stripped.
 
 ---
 
