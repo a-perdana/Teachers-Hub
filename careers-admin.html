@@ -3,36 +3,1127 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Careers admin — Teachers Hub</title>
+<title>Hiring Funnel — Teachers Hub</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236c5ce7'/%3E%3C/svg%3E" />
 <link rel="stylesheet" href="base.css" />
 <!-- FIREBASE_ENV -->
 <script type="module" src="auth-guard.js"></script>
 <style>
-  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); }
-  .placeholder-wrap { max-width: 720px; margin: 80px auto; padding: 0 24px; text-align: center; }
-  .placeholder-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 48px 32px; box-shadow: var(--shadow); }
-  h1 { font-family: 'Lora', serif; font-size: 24px; margin-bottom: 12px; }
-  p { color: var(--ink-2); margin-bottom: 8px; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; }
+
+  .ca-page { max-width: 1500px; margin: 0 auto; padding: 24px 24px 80px; }
+
+  /* Header */
+  .ca-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; margin-bottom: 22px; flex-wrap: wrap; }
+  .ca-header h1 { font-family: 'Lora', serif; font-size: 26px; font-weight: 600; margin-bottom: 4px; }
+  .ca-header-sub { color: var(--ink-3); font-size: 13.5px; }
+  .ca-header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .ca-btn { padding: 9px 16px; border-radius: 9px; font-family: inherit; font-size: 13.5px; font-weight: 600; border: 1.5px solid var(--border); background: var(--white); color: var(--ink-2); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all .15s; }
+  .ca-btn:hover { border-color: var(--brand); color: var(--brand); }
+  .ca-btn-primary { background: var(--brand); color: white; border-color: var(--brand); }
+  .ca-btn-primary:hover { background: #5a4bd1; border-color: #5a4bd1; color: white; }
+  .ca-btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+
+  /* Filter bar */
+  .ca-filters { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; box-shadow: var(--shadow-sm); margin-bottom: 18px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .ca-search { position: relative; min-width: 240px; flex: 1; max-width: 360px; }
+  .ca-search input { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px 9px 36px; font-size: 13.5px; background: var(--paper); font-family: inherit; }
+  .ca-search input:focus { outline: none; border-color: var(--brand); background: var(--white); }
+  .ca-search svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--ink-3); width: 15px; height: 15px; }
+  .ca-select { border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; font-size: 13px; font-family: inherit; background: var(--white); color: var(--ink); }
+  .ca-select:focus { outline: none; border-color: var(--brand); }
+  .ca-meta { color: var(--ink-3); font-size: 12.5px; margin-left: auto; }
+
+  /* Kanban */
+  .ca-kanban { display: grid; grid-template-columns: repeat(7, minmax(240px, 1fr)); gap: 12px; overflow-x: auto; padding-bottom: 8px; }
+  .ca-col { background: rgba(0,0,0,0.025); border-radius: 12px; padding: 12px; min-height: 180px; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--border); }
+  .ca-col-head { display: flex; justify-content: space-between; align-items: center; padding: 0 4px 6px; border-bottom: 1px dashed var(--border); }
+  .ca-col-title { font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-2); }
+  .ca-col-count { font-size: 11px; font-weight: 700; color: var(--ink-3); background: var(--white); padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+
+  /* Status accent strips */
+  .ca-col[data-status="submitted"]            { border-top: 3px solid #94a3b8; }
+  .ca-col[data-status="under_review"]         { border-top: 3px solid #1a5fa8; }
+  .ca-col[data-status="shortlisted"]          { border-top: 3px solid #6c5ce7; }
+  .ca-col[data-status="interview_scheduled"]  { border-top: 3px solid #0891b2; }
+  .ca-col[data-status="interview_done"]       { border-top: 3px solid #b07800; }
+  .ca-col[data-status="offered"]              { border-top: 3px solid #059669; }
+  .ca-col[data-status="hired"]                { border-top: 3px solid #047857; background: rgba(5,150,105,.04); }
+  .ca-col[data-status="rejected"]             { border-top: 3px solid #dc2626; }
+  .ca-col[data-status="withdrew"]             { border-top: 3px solid #64748b; }
+
+  /* Card */
+  .ca-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; cursor: pointer; transition: all .15s; box-shadow: var(--shadow-sm); position: relative; }
+  .ca-card:hover { border-color: var(--brand); box-shadow: var(--shadow); transform: translateY(-1px); }
+  .ca-card.selected { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-2); }
+  .ca-card-name { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 4px; line-height: 1.3; }
+  .ca-card-pos  { font-size: 12px; color: var(--ink-2); margin-bottom: 6px; line-height: 1.4; }
+  .ca-card-school { font-size: 11.5px; color: var(--ink-3); display: flex; align-items: center; gap: 4px; }
+  .ca-card-meta { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .ca-tag { font-size: 10.5px; font-weight: 600; padding: 2px 7px; border-radius: 6px; background: var(--paper); color: var(--ink-2); border: 1px solid var(--border); }
+  .ca-tag.score { background: var(--brand-2); color: var(--brand-dark); border-color: transparent; }
+  .ca-card-check { position: absolute; top: 8px; right: 8px; width: 18px; height: 18px; cursor: pointer; accent-color: var(--brand); }
+
+  .ca-empty-col { font-size: 11.5px; color: var(--ink-3); text-align: center; padding: 16px 6px; font-style: italic; }
+
+  /* Drawer */
+  .ca-drawer-overlay { position: fixed; inset: 0; background: rgba(28,28,46,.42); z-index: 990; opacity: 0; pointer-events: none; transition: opacity .2s; }
+  .ca-drawer-overlay.open { opacity: 1; pointer-events: auto; }
+  .ca-drawer { position: fixed; top: 0; right: 0; height: 100vh; width: 560px; max-width: 100%; background: var(--white); box-shadow: -10px 0 40px rgba(0,0,0,.18); z-index: 991; transform: translateX(100%); transition: transform .25s ease; display: flex; flex-direction: column; }
+  .ca-drawer.open { transform: translateX(0); }
+  .ca-drawer-head { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-shrink: 0; }
+  .ca-drawer-head h2 { font-family: 'Lora', serif; font-size: 19px; font-weight: 600; line-height: 1.3; margin-bottom: 3px; }
+  .ca-drawer-head .sub { color: var(--ink-3); font-size: 12.5px; }
+  .ca-drawer-close { background: transparent; border: none; font-size: 22px; cursor: pointer; color: var(--ink-3); padding: 0; line-height: 1; }
+  .ca-drawer-close:hover { color: var(--ink); }
+
+  .ca-drawer-tabs { display: flex; gap: 2px; padding: 0 24px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .ca-drawer-tab { padding: 10px 14px; font-size: 13px; font-weight: 600; color: var(--ink-3); background: transparent; border: none; cursor: pointer; border-bottom: 2px solid transparent; font-family: inherit; }
+  .ca-drawer-tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+
+  .ca-drawer-body { flex: 1; overflow-y: auto; padding: 22px 24px; }
+  .ca-drawer-actions { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; flex-wrap: wrap; flex-shrink: 0; background: var(--paper); }
+
+  /* Drawer content rows */
+  .ca-row { display: flex; gap: 14px; margin-bottom: 12px; font-size: 13.5px; }
+  .ca-row .lbl { width: 130px; font-weight: 600; color: var(--ink-2); flex-shrink: 0; }
+  .ca-row .val { color: var(--ink); word-break: break-word; }
+  .ca-row .val a { color: var(--brand); text-decoration: none; }
+  .ca-row .val a:hover { text-decoration: underline; }
+
+  .ca-section-head { font-family: 'Lora', serif; font-size: 16px; font-weight: 600; color: var(--ink); margin: 18px 0 10px; }
+  .ca-status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+  .ca-status-badge.submitted           { background: #f1f5f9; color: #64748b; }
+  .ca-status-badge.under_review        { background: #e8f0fb; color: #1a5fa8; }
+  .ca-status-badge.shortlisted         { background: var(--brand-2); color: var(--brand-dark); }
+  .ca-status-badge.interview_scheduled { background: #cffafe; color: #0e7490; }
+  .ca-status-badge.interview_done      { background: #fef3c7; color: #92400e; }
+  .ca-status-badge.offered             { background: #d1fae5; color: #065f46; }
+  .ca-status-badge.hired               { background: #047857; color: white; }
+  .ca-status-badge.rejected            { background: #fee2e2; color: #991b1b; }
+  .ca-status-badge.withdrew            { background: #e2e8f0; color: #475569; }
+
+  .ca-motivation { background: var(--paper); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-size: 13px; line-height: 1.6; color: var(--ink-2); white-space: pre-wrap; max-height: 220px; overflow-y: auto; }
+
+  /* Score row in drawer */
+  .ca-score-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--paper); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; font-size: 13px; }
+  .ca-score-row .who { font-weight: 600; color: var(--ink); }
+  .ca-score-row .who .meta { font-weight: 400; color: var(--ink-3); font-size: 11.5px; margin-left: 6px; }
+  .ca-score-row .score { font-weight: 700; color: var(--brand); }
+  .ca-score-row .score.draft { color: var(--ink-3); font-style: italic; }
+
+  .ca-audit-row { padding: 10px 12px; background: var(--paper); border-left: 3px solid var(--border); margin-bottom: 6px; font-size: 12.5px; }
+  .ca-audit-row .when { color: var(--ink-3); font-size: 11.5px; }
+  .ca-audit-row .what { color: var(--ink); font-weight: 500; margin-top: 2px; }
+
+  /* Modal */
+  .ca-modal-overlay { position: fixed; inset: 0; background: rgba(28,28,46,.55); z-index: 1000; opacity: 0; pointer-events: none; transition: opacity .2s; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .ca-modal-overlay.open { opacity: 1; pointer-events: auto; }
+  .ca-modal { background: var(--white); border-radius: 16px; max-width: 560px; width: 100%; box-shadow: var(--shadow-lg); max-height: 90vh; display: flex; flex-direction: column; }
+  .ca-modal-head { padding: 22px 24px 14px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; }
+  .ca-modal-head h3 { font-family: 'Lora', serif; font-size: 18px; font-weight: 600; }
+  .ca-modal-body { padding: 22px 24px; flex: 1; overflow-y: auto; }
+  .ca-modal-foot { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; background: var(--paper); border-radius: 0 0 16px 16px; }
+
+  .ca-form-group { margin-bottom: 14px; }
+  .ca-form-label { display: block; font-size: 11.5px; font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 5px; }
+  .ca-form-input, .ca-form-select, .ca-form-textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; font-size: 13.5px; font-family: inherit; background: var(--paper); color: var(--ink); }
+  .ca-form-input:focus, .ca-form-select:focus, .ca-form-textarea:focus { outline: none; border-color: var(--brand); background: var(--white); }
+  .ca-form-textarea { min-height: 80px; resize: vertical; line-height: 1.5; }
+
+  .ca-checkbox-list { max-height: 200px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; padding: 8px; background: var(--paper); }
+  .ca-checkbox-row { display: flex; align-items: center; gap: 10px; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
+  .ca-checkbox-row:hover { background: var(--white); }
+  .ca-checkbox-row input { accent-color: var(--brand); cursor: pointer; }
+  .ca-checkbox-row .name { font-size: 13.5px; color: var(--ink); }
+  .ca-checkbox-row .email { font-size: 11.5px; color: var(--ink-3); margin-left: auto; }
+
+  .ca-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: white; padding: 12px 18px; border-radius: 10px; font-size: 13.5px; font-weight: 500; box-shadow: var(--shadow-lg); z-index: 1100; opacity: 0; pointer-events: none; transition: all .25s; }
+  .ca-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .ca-toast.success { background: var(--green); }
+  .ca-toast.error   { background: var(--red); }
+
+  .ca-loading { padding: 48px; text-align: center; color: var(--ink-3); font-size: 14px; }
+  .ca-empty   { padding: 48px; text-align: center; color: var(--ink-3); }
+  .ca-empty h3 { font-family: 'Lora', serif; font-size: 18px; color: var(--ink-2); margin-bottom: 6px; font-weight: 600; }
+
+  /* New Position modal */
+  .ca-checkbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 4px; }
+  .ca-checkbox-grid label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-2); cursor: pointer; padding: 5px 8px; border-radius: 6px; }
+  .ca-checkbox-grid label:hover { background: var(--paper); }
+  .ca-checkbox-grid input { accent-color: var(--brand); }
+
+  @media (max-width: 1280px) {
+    .ca-kanban { grid-template-columns: repeat(4, minmax(220px, 1fr)); }
+  }
+  @media (max-width: 800px) {
+    .ca-kanban { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
+    .ca-drawer { width: 100%; }
+  }
 </style>
 </head>
 <body>
+
 <div id="navbar-container"></div>
-<div class="placeholder-wrap">
-  <div class="placeholder-card">
-    <h1>Careers admin — coming in M3</h1>
-    <p>Hiring funnel + assignment + decision UI. Restricted to <strong>central_admin</strong> and <strong>hiring_manager</strong> sub-role.</p>
-    <p>Public side (<a href="/careers" style="color:var(--brand)">/careers</a> + <a href="/careers-apply" style="color:var(--brand)">apply form</a>) is live in M1.</p>
+
+<div class="ca-page">
+
+  <div class="ca-header">
+    <div>
+      <h1>Hiring Funnel</h1>
+      <div class="ca-header-sub" id="hdrSub">Loading…</div>
+    </div>
+    <div class="ca-header-actions">
+      <a class="ca-btn" href="/careers" target="_blank" rel="noopener">↗ View public page</a>
+      <button class="ca-btn" id="btnNewPosition">+ New position</button>
+      <button class="ca-btn ca-btn-primary" id="btnCompare" disabled>Compare selected (<span id="cmpCount">0</span>)</button>
+    </div>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="ca-filters">
+    <div class="ca-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+      <input id="searchInput" type="text" placeholder="Search applicant or position…" />
+    </div>
+    <select id="positionFilter" class="ca-select"><option value="">All positions</option></select>
+    <select id="schoolFilter"   class="ca-select"><option value="">All schools</option></select>
+    <select id="modeFilter"     class="ca-select">
+      <option value="">All modes</option>
+      <option value="in_person">On-site</option>
+      <option value="online">Online</option>
+      <option value="hybrid">Hybrid</option>
+    </select>
+    <span class="ca-meta" id="filterMeta">— applications</span>
+  </div>
+
+  <!-- Loading state -->
+  <div id="loadingState" class="ca-loading">Loading applications…</div>
+
+  <!-- Kanban -->
+  <div id="kanban" class="ca-kanban" style="display:none">
+    <div class="ca-col" data-status="submitted">           <div class="ca-col-head"><span class="ca-col-title">Submitted</span>           <span class="ca-col-count" data-count>0</span></div></div>
+    <div class="ca-col" data-status="under_review">        <div class="ca-col-head"><span class="ca-col-title">Under review</span>        <span class="ca-col-count" data-count>0</span></div></div>
+    <div class="ca-col" data-status="shortlisted">         <div class="ca-col-head"><span class="ca-col-title">Shortlisted</span>         <span class="ca-col-count" data-count>0</span></div></div>
+    <div class="ca-col" data-status="interview_scheduled"><div class="ca-col-head"><span class="ca-col-title">Interview scheduled</span><span class="ca-col-count" data-count>0</span></div></div>
+    <div class="ca-col" data-status="interview_done">      <div class="ca-col-head"><span class="ca-col-title">Interview done</span>      <span class="ca-col-count" data-count>0</span></div></div>
+    <div class="ca-col" data-status="offered">             <div class="ca-col-head"><span class="ca-col-title">Offered</span>             <span class="ca-col-count" data-count>0</span></div></div>
+    <div class="ca-col" data-status="hired">               <div class="ca-col-head"><span class="ca-col-title">Hired</span>               <span class="ca-col-count" data-count>0</span></div></div>
+  </div>
+
+  <div id="emptyState" class="ca-empty" style="display:none">
+    <h3>No applications yet</h3>
+    <p>Once a candidate submits an application from <a href="/careers" style="color:var(--brand)">/careers</a>, it will appear here.</p>
   </div>
 </div>
+
+<!-- DRAWER -->
+<div class="ca-drawer-overlay" id="drawerOverlay"></div>
+<aside class="ca-drawer" id="drawer">
+  <div class="ca-drawer-head">
+    <div>
+      <h2 id="dHeadName">—</h2>
+      <div class="sub" id="dHeadSub">—</div>
+    </div>
+    <button class="ca-drawer-close" id="dClose" aria-label="Close">×</button>
+  </div>
+  <div class="ca-drawer-tabs">
+    <button class="ca-drawer-tab active" data-tab="profile">Profile</button>
+    <button class="ca-drawer-tab" data-tab="scorecards">Scorecards</button>
+    <button class="ca-drawer-tab" data-tab="audit">Activity</button>
+  </div>
+  <div class="ca-drawer-body" id="dBody"></div>
+  <div class="ca-drawer-actions">
+    <button class="ca-btn"           id="dBtnAssign">Assign interviewer</button>
+    <button class="ca-btn"           id="dBtnSchedule">Schedule interview</button>
+    <button class="ca-btn"           id="dBtnStatus">Move status</button>
+    <button class="ca-btn ca-btn-primary" id="dBtnDecision">Final decision</button>
+  </div>
+</aside>
+
+<!-- ASSIGN MODAL -->
+<div class="ca-modal-overlay" id="assignOverlay">
+  <div class="ca-modal">
+    <div class="ca-modal-head">
+      <h3>Assign interviewers</h3>
+      <button class="ca-drawer-close" data-modal-close>×</button>
+    </div>
+    <div class="ca-modal-body">
+      <p style="color:var(--ink-3);font-size:13px;margin-bottom:14px">Select one or more interviewers (users with the <strong>interviewer</strong> sub-role). Each will be able to access this candidate's scorecard.</p>
+      <div id="assignList" class="ca-checkbox-list">Loading…</div>
+    </div>
+    <div class="ca-modal-foot">
+      <button class="ca-btn"           data-modal-close>Cancel</button>
+      <button class="ca-btn ca-btn-primary" id="assignSave">Save assignment</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCHEDULE MODAL -->
+<div class="ca-modal-overlay" id="scheduleOverlay">
+  <div class="ca-modal">
+    <div class="ca-modal-head">
+      <h3>Schedule interview</h3>
+      <button class="ca-drawer-close" data-modal-close>×</button>
+    </div>
+    <div class="ca-modal-body">
+      <div class="ca-form-group">
+        <label class="ca-form-label">Date &amp; time (local)</label>
+        <input type="datetime-local" id="schDateTime" class="ca-form-input" />
+      </div>
+      <div class="ca-form-group">
+        <label class="ca-form-label">Mode</label>
+        <select id="schMode" class="ca-form-select">
+          <option value="in_person">On-site</option>
+          <option value="online">Online</option>
+          <option value="hybrid">Hybrid</option>
+        </select>
+      </div>
+      <div class="ca-form-group">
+        <label class="ca-form-label">Meeting URL <span style="color:var(--ink-3);font-weight:500;text-transform:none;letter-spacing:0">(online / hybrid)</span></label>
+        <input type="url" id="schUrl" class="ca-form-input" placeholder="https://meet.google.com/…" />
+      </div>
+      <p style="color:var(--ink-3);font-size:12px;margin:0">Saving moves the application to <strong>Interview scheduled</strong>. Mail to applicant is enqueued via the mail collection.</p>
+    </div>
+    <div class="ca-modal-foot">
+      <button class="ca-btn"           data-modal-close>Cancel</button>
+      <button class="ca-btn ca-btn-primary" id="schSave">Save &amp; notify</button>
+    </div>
+  </div>
+</div>
+
+<!-- STATUS MODAL -->
+<div class="ca-modal-overlay" id="statusOverlay">
+  <div class="ca-modal">
+    <div class="ca-modal-head">
+      <h3>Move status</h3>
+      <button class="ca-drawer-close" data-modal-close>×</button>
+    </div>
+    <div class="ca-modal-body">
+      <div class="ca-form-group">
+        <label class="ca-form-label">New status</label>
+        <select id="stNew" class="ca-form-select">
+          <option value="submitted">Submitted</option>
+          <option value="under_review">Under review</option>
+          <option value="shortlisted">Shortlisted</option>
+          <option value="interview_scheduled">Interview scheduled</option>
+          <option value="interview_done">Interview done</option>
+          <option value="offered">Offered</option>
+          <option value="hired">Hired</option>
+          <option value="rejected">Rejected</option>
+          <option value="withdrew">Withdrew</option>
+        </select>
+      </div>
+      <div class="ca-form-group">
+        <label class="ca-form-label">Note <span style="color:var(--ink-3);font-weight:500;text-transform:none;letter-spacing:0">(optional)</span></label>
+        <textarea id="stNote" class="ca-form-textarea" placeholder="Why are you moving the status? Logged in the audit trail."></textarea>
+      </div>
+    </div>
+    <div class="ca-modal-foot">
+      <button class="ca-btn"           data-modal-close>Cancel</button>
+      <button class="ca-btn ca-btn-primary" id="stSave">Save status change</button>
+    </div>
+  </div>
+</div>
+
+<!-- DECISION MODAL -->
+<div class="ca-modal-overlay" id="decisionOverlay">
+  <div class="ca-modal">
+    <div class="ca-modal-head">
+      <h3>Final decision</h3>
+      <button class="ca-drawer-close" data-modal-close>×</button>
+    </div>
+    <div class="ca-modal-body">
+      <div class="ca-form-group">
+        <label class="ca-form-label">Outcome</label>
+        <select id="dcOutcome" class="ca-form-select">
+          <option value="offered">Offer the position</option>
+          <option value="rejected">Reject the application</option>
+        </select>
+      </div>
+      <div class="ca-form-group">
+        <label class="ca-form-label">Note to applicant <span style="color:var(--ink-3);font-weight:500;text-transform:none;letter-spacing:0">(used in email)</span></label>
+        <textarea id="dcNote" class="ca-form-textarea" placeholder="Personal note that will appear in the email."></textarea>
+      </div>
+      <p style="color:var(--ink-3);font-size:12px;margin:0">Saving updates the application + finalDecision fields, writes the audit log, and enqueues the decision email.</p>
+    </div>
+    <div class="ca-modal-foot">
+      <button class="ca-btn"           data-modal-close>Cancel</button>
+      <button class="ca-btn ca-btn-primary" id="dcSave">Save decision &amp; notify</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW POSITION MODAL -->
+<div class="ca-modal-overlay" id="positionOverlay">
+  <div class="ca-modal">
+    <div class="ca-modal-head">
+      <h3>New position</h3>
+      <button class="ca-drawer-close" data-modal-close>×</button>
+    </div>
+    <div class="ca-modal-body">
+      <div class="ca-form-group">
+        <label class="ca-form-label">Title</label>
+        <input id="posTitle" class="ca-form-input" placeholder="e.g. Primary English Teacher (Y4-Y6)" maxlength="120" />
+      </div>
+      <div class="ca-form-group">
+        <label class="ca-form-label">School</label>
+        <select id="posSchool" class="ca-form-select"></select>
+      </div>
+      <div class="ca-form-group">
+        <label class="ca-form-label">Grade level</label>
+        <select id="posLevel" class="ca-form-select">
+          <option value="primary">Primary</option>
+          <option value="secondary">Secondary</option>
+          <option value="igcse">IGCSE</option>
+          <option value="asalevel">AS / A Level</option>
+        </select>
+      </div>
+      <div class="ca-form-group">
+        <label class="ca-form-label">Subjects</label>
+        <div class="ca-checkbox-grid" id="posSubjects">
+          <label><input type="checkbox" value="english"/>English</label>
+          <label><input type="checkbox" value="math"/>Math</label>
+          <label><input type="checkbox" value="biology"/>Biology</label>
+          <label><input type="checkbox" value="chemistry"/>Chemistry</label>
+          <label><input type="checkbox" value="physics"/>Physics</label>
+          <label><input type="checkbox" value="bahasa"/>Bahasa</label>
+          <label><input type="checkbox" value="religion"/>Religion</label>
+          <label><input type="checkbox" value="other"/>Other</label>
+        </div>
+      </div>
+      <div class="ca-form-group">
+        <label class="ca-form-label">Interview mode</label>
+        <select id="posMode" class="ca-form-select">
+          <option value="in_person">On-site</option>
+          <option value="online">Online</option>
+          <option value="hybrid">Hybrid</option>
+        </select>
+      </div>
+      <div class="ca-form-group">
+        <label class="ca-form-label">Application deadline</label>
+        <input type="date" id="posDeadline" class="ca-form-input" />
+      </div>
+      <div class="ca-form-group">
+        <label class="ca-form-label">Description</label>
+        <textarea id="posDesc" class="ca-form-textarea" placeholder="Short summary of the role + key requirements." maxlength="2000"></textarea>
+      </div>
+      <div class="ca-form-group">
+        <label class="ca-form-label">Status</label>
+        <select id="posStatus" class="ca-form-select">
+          <option value="open">Open (visible on /careers)</option>
+          <option value="draft">Draft (admin-only)</option>
+          <option value="closed">Closed (no new applications)</option>
+        </select>
+      </div>
+    </div>
+    <div class="ca-modal-foot">
+      <button class="ca-btn"           data-modal-close>Cancel</button>
+      <button class="ca-btn ca-btn-primary" id="posSave">Create position</button>
+    </div>
+  </div>
+</div>
+
+<div class="ca-toast" id="toast"></div>
+
 <script type="module">
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-  document.addEventListener('authReady', () => {
-    fetch('partials/navbar.html').then(r => r.text()).then(html => {
+  import {
+    collection, doc, getDoc, getDocs, addDoc, setDoc, updateDoc,
+    query, where, orderBy, limit, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  // ── helpers ───────────────────────────────────────────────────
+  function escHtml(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+  }
+  function safeUrl(u) {
+    return /^https?:\/\//i.test(String(u || '')) ? u : '#';
+  }
+  function fmtDate(ts) {
+    if (!ts) return '—';
+    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    if (isNaN(d.getTime())) return '—';
+    return d.toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
+  function showToast(msg, kind = '') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'ca-toast visible ' + kind;
+    setTimeout(() => t.classList.remove('visible'), 2800);
+  }
+
+  const STATUSES = ['submitted','under_review','shortlisted','interview_scheduled','interview_done','offered','hired','rejected','withdrew'];
+
+  // ── boot ──────────────────────────────────────────────────────
+  let db, auth, currentUser, profile, isAdmin, isHiringMgr, mySchoolId;
+  let allApplications = [];
+  let allPositions    = [];
+  let schoolNameById  = {};
+  let interviewerUsers = [];
+  let activeAppId  = null;
+  let selectedIds  = new Set();
+
+  document.addEventListener('authReady', async (e) => {
+    db          = window.db;
+    auth        = window.auth;
+    currentUser = e.detail.user;
+    profile     = e.detail.profile;
+    isAdmin     = profile?.role_centralhub === 'central_admin'
+                || profile?.role_teachershub === 'teachers_admin';
+    isHiringMgr = Array.isArray(profile?.th_sub_roles) && profile.th_sub_roles.includes('hiring_manager');
+    mySchoolId  = profile?.schoolId || null;
+
+    if (!isAdmin && !isHiringMgr) {
+      document.querySelector('.ca-page').innerHTML = '<div class="ca-empty"><h3>Access denied</h3><p>This page is restricted to <strong>central_admin</strong>, <strong>teachers_admin</strong>, or <strong>hiring_manager</strong> sub-role.</p></div>';
+      return;
+    }
+
+    // Mount navbar
+    fetch('/partials/navbar.html').then(r => r.text()).then(html => {
       document.getElementById('navbar-container').innerHTML = html;
       if (typeof window.initNavbar === 'function') window.initNavbar();
     }).catch(() => {});
+
+    document.getElementById('hdrSub').textContent = isAdmin
+      ? 'You see all applications across the network.'
+      : `You see applications for your school${profile?.schoolName ? ` — ${profile.schoolName}` : ''}.`;
+
+    await Promise.all([loadSchools(), loadPositions(), loadApplications()]);
+    populateFilters();
+    render();
   });
+
+  async function loadSchools() {
+    // @lint-allow-unbounded — partner_schools is a fixed-size network directory (~16 docs); no growth risk.
+    const snap = await getDocs(collection(db, 'partner_schools'));
+    snap.docs.forEach(d => { schoolNameById[d.id] = d.data().name || d.id; });
+    // Populate position-modal school dropdown
+    const sel = document.getElementById('posSchool');
+    sel.innerHTML = '<option value="">— select school —</option>' +
+      snap.docs
+        .filter(d => d.id !== 'eduversal_hq')
+        .sort((a,b) => (a.data().name || '').localeCompare(b.data().name || ''))
+        .map(d => `<option value="${escHtml(d.id)}">${escHtml(d.data().name || d.id)}</option>`)
+        .join('');
+  }
+
+  async function loadPositions() {
+    // Admin sees all; hiring_manager sees own school's positions only
+    let qRef;
+    if (isAdmin) {
+      qRef = query(collection(db, 'job_positions'), orderBy('createdAt', 'desc'), limit(200));
+    } else {
+      qRef = query(collection(db, 'job_positions'),
+        where('schoolId', '==', mySchoolId),
+        orderBy('createdAt', 'desc'),
+        limit(200));
+    }
+    try {
+      const snap = await getDocs(qRef);
+      allPositions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    } catch (err) {
+      console.warn('[ca] loadPositions failed', err);
+      allPositions = [];
+    }
+  }
+
+  async function loadApplications() {
+    let qRef;
+    if (isAdmin) {
+      qRef = query(collection(db, 'job_applications'), orderBy('createdAt', 'desc'), limit(500));
+    } else {
+      qRef = query(collection(db, 'job_applications'),
+        where('schoolId', '==', mySchoolId),
+        orderBy('createdAt', 'desc'),
+        limit(500));
+    }
+    try {
+      const snap = await getDocs(qRef);
+      allApplications = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    } catch (err) {
+      console.warn('[ca] loadApplications failed', err);
+      allApplications = [];
+    }
+  }
+
+  function populateFilters() {
+    const posSel = document.getElementById('positionFilter');
+    posSel.innerHTML = '<option value="">All positions</option>' +
+      allPositions
+        .map(p => `<option value="${escHtml(p.id)}">${escHtml(p.title || '(untitled)')}</option>`)
+        .join('');
+    const schoolSel = document.getElementById('schoolFilter');
+    if (isHiringMgr && !isAdmin) {
+      schoolSel.style.display = 'none';
+    } else {
+      const schoolIds = [...new Set(allApplications.map(a => a.schoolId).filter(Boolean))];
+      schoolSel.innerHTML = '<option value="">All schools</option>' +
+        schoolIds.map(id => `<option value="${escHtml(id)}">${escHtml(schoolNameById[id] || id)}</option>`).join('');
+    }
+  }
+
+  function applyFilters() {
+    const q = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+    const posF = document.getElementById('positionFilter').value;
+    const schF = document.getElementById('schoolFilter').value;
+    const modF = document.getElementById('modeFilter').value;
+    return allApplications.filter(a => {
+      if (posF && a.positionId !== posF) return false;
+      if (schF && a.schoolId !== schF) return false;
+      if (modF) {
+        const pos = allPositions.find(p => p.id === a.positionId);
+        if (!pos || pos.mode !== modF) return false;
+      }
+      if (!q) return true;
+      const hay = [a.applicantEmail, a.applicant?.firstName, a.applicant?.lastName, a.positionTitle, a.schoolName]
+                  .filter(Boolean).join(' ').toLowerCase();
+      return hay.includes(q);
+    });
+  }
+
+  function render() {
+    const filtered = applyFilters();
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('filterMeta').textContent = `${filtered.length} application${filtered.length === 1 ? '' : 's'}`;
+
+    if (allApplications.length === 0) {
+      document.getElementById('emptyState').style.display = 'block';
+      document.getElementById('kanban').style.display = 'none';
+      return;
+    }
+    document.getElementById('emptyState').style.display = 'none';
+    document.getElementById('kanban').style.display = 'grid';
+
+    // Group by status
+    const byStatus = Object.fromEntries(STATUSES.map(s => [s, []]));
+    filtered.forEach(a => {
+      const s = STATUSES.includes(a.status) ? a.status : 'submitted';
+      byStatus[s].push(a);
+    });
+
+    document.querySelectorAll('.ca-col[data-status]').forEach(col => {
+      const st = col.dataset.status;
+      const rows = byStatus[st] || [];
+      // Update count
+      col.querySelector('[data-count]').textContent = rows.length;
+      // Clear existing cards (preserve head)
+      col.querySelectorAll('.ca-card, .ca-empty-col').forEach(n => n.remove());
+      if (rows.length === 0) {
+        const e = document.createElement('div');
+        e.className = 'ca-empty-col';
+        e.textContent = '—';
+        col.appendChild(e);
+      } else {
+        rows.forEach(a => col.appendChild(buildCard(a)));
+      }
+    });
+
+    // Re-attach select state
+    document.querySelectorAll('.ca-card').forEach(c => {
+      c.classList.toggle('selected', selectedIds.has(c.dataset.id));
+    });
+    updateCompareCount();
+  }
+
+  function buildCard(a) {
+    const card = document.createElement('div');
+    card.className = 'ca-card';
+    card.dataset.id = a.id;
+    const name = `${a.applicant?.firstName || ''} ${a.applicant?.lastName || ''}`.trim() || '(no name)';
+    const yrs = a.applicant?.yearsExperience;
+    const yrLabel = ({'0':'New','1':'<1y','2':'1–3y','3':'4–7y','4':'8–15y','5':'15+y'})[yrs] || '';
+    const mode = (allPositions.find(p => p.id === a.positionId) || {}).mode || a.interviewSchedule?.mode;
+    const modeLabel = mode === 'online' ? 'Online' : mode === 'hybrid' ? 'Hybrid' : mode === 'in_person' ? 'On-site' : '';
+    const scoreCount = a.scorecard?.totalSubmittedScorecards || 0;
+    const avg = a.scorecard?.averageScore ? a.scorecard.averageScore.toFixed(1) : null;
+
+    card.innerHTML = `
+      <input type="checkbox" class="ca-card-check" data-select-id="${escHtml(a.id)}" ${selectedIds.has(a.id) ? 'checked' : ''} />
+      <div class="ca-card-name">${escHtml(name)}</div>
+      <div class="ca-card-pos">${escHtml(a.positionTitle || '—')}</div>
+      <div class="ca-card-school">${escHtml(a.schoolName || schoolNameById[a.schoolId] || '—')}</div>
+      <div class="ca-card-meta">
+        ${yrLabel ? `<span class="ca-tag">${escHtml(yrLabel)}</span>` : ''}
+        ${modeLabel ? `<span class="ca-tag">${escHtml(modeLabel)}</span>` : ''}
+        ${scoreCount > 0 ? `<span class="ca-tag score">⭐ ${avg || '—'} · ${scoreCount} scored</span>` : ''}
+      </div>
+    `;
+    card.addEventListener('click', e => {
+      if (e.target.matches('input[type="checkbox"]')) return;
+      openDrawer(a.id);
+    });
+    card.querySelector('input[type="checkbox"]').addEventListener('change', e => {
+      const id = e.target.dataset.selectId;
+      if (e.target.checked) selectedIds.add(id); else selectedIds.delete(id);
+      card.classList.toggle('selected', e.target.checked);
+      updateCompareCount();
+    });
+    return card;
+  }
+
+  function updateCompareCount() {
+    const n = selectedIds.size;
+    document.getElementById('cmpCount').textContent = n;
+    document.getElementById('btnCompare').disabled = (n < 2 || n > 5);
+  }
+
+  // ── filter listeners ──────────────────────────────────────────
+  ['searchInput','positionFilter','schoolFilter','modeFilter'].forEach(id => {
+    document.getElementById(id).addEventListener('input',  render);
+    document.getElementById(id).addEventListener('change', render);
+  });
+  document.getElementById('btnCompare').addEventListener('click', () => {
+    const ids = [...selectedIds].join(',');
+    window.location.href = `/careers-compare?ids=${encodeURIComponent(ids)}`;
+  });
+
+  // ── drawer ────────────────────────────────────────────────────
+  const drawer        = document.getElementById('drawer');
+  const drawerOverlay = document.getElementById('drawerOverlay');
+  document.getElementById('dClose').addEventListener('click', closeDrawer);
+  drawerOverlay.addEventListener('click', closeDrawer);
+
+  function openDrawer(id) {
+    activeAppId = id;
+    const a = allApplications.find(x => x.id === id);
+    if (!a) return;
+    const name = `${a.applicant?.firstName || ''} ${a.applicant?.lastName || ''}`.trim() || '(no name)';
+    document.getElementById('dHeadName').textContent = name;
+    document.getElementById('dHeadSub').innerHTML =
+      `<span class="ca-status-badge ${a.status}">${escHtml((a.status || '').replace(/_/g,' '))}</span> · ${escHtml(a.positionTitle || '—')} · ${escHtml(a.schoolName || schoolNameById[a.schoolId] || '—')}`;
+    drawer.classList.add('open');
+    drawerOverlay.classList.add('open');
+    activateTab('profile');
+    document.querySelectorAll('.ca-card').forEach(c => c.classList.toggle('selected', c.dataset.id === id || selectedIds.has(c.dataset.id)));
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    drawerOverlay.classList.remove('open');
+    activeAppId = null;
+    render();   // re-paint to clear hover-selected styling
+  }
+
+  document.querySelectorAll('.ca-drawer-tab').forEach(t => {
+    t.addEventListener('click', () => activateTab(t.dataset.tab));
+  });
+
+  function activateTab(tab) {
+    document.querySelectorAll('.ca-drawer-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+    if (!activeAppId) return;
+    const a = allApplications.find(x => x.id === activeAppId);
+    if (!a) return;
+    const body = document.getElementById('dBody');
+    if (tab === 'profile')         body.innerHTML = renderProfileTab(a);
+    else if (tab === 'scorecards') { body.innerHTML = '<div class="ca-loading">Loading scorecards…</div>'; renderScorecardsTab(a); }
+    else if (tab === 'audit')      { body.innerHTML = '<div class="ca-loading">Loading activity…</div>'; renderAuditTab(a); }
+  }
+
+  function renderProfileTab(a) {
+    const ap  = a.applicant || {};
+    const sch = a.interviewSchedule || {};
+    const fd  = a.finalDecision;
+    const langs = Array.isArray(ap.languages) ? ap.languages.join(', ') : (ap.languages || '—');
+    const refs  = Array.isArray(ap.references) && ap.references.length
+                  ? '<ul style="margin:0 0 0 16px;padding:0">' + ap.references.map(r => `<li>${escHtml(r)}</li>`).join('') + '</ul>'
+                  : '<span style="color:var(--ink-3)">—</span>';
+    const cv = ap.cvUrl
+      ? `<a href="${escHtml(safeUrl(ap.cvUrl))}" target="_blank" rel="noopener">${escHtml(ap.cvFilename || 'Open CV')} ↗</a>${ap.cvSize ? ` <span style="color:var(--ink-3);font-size:11.5px">(${Math.round(ap.cvSize/1024)} KB)</span>` : ''}`
+      : '<span style="color:var(--ink-3)">—</span>';
+
+    const contactRows = `
+      <div class="ca-row"><div class="lbl">Name</div><div class="val">${escHtml(`${ap.firstName||''} ${ap.lastName||''}`.trim() || '—')}</div></div>
+      <div class="ca-row"><div class="lbl">Email</div><div class="val"><a href="mailto:${escHtml(a.applicantEmail)}">${escHtml(a.applicantEmail || '—')}</a></div></div>
+      <div class="ca-row"><div class="lbl">Phone</div><div class="val"><a href="tel:${escHtml(ap.phone || '')}">${escHtml(ap.phone || '—')}</a></div></div>
+      <div class="ca-row"><div class="lbl">Citizenship</div><div class="val">${escHtml(ap.citizenship || '—')}</div></div>
+      <div class="ca-row"><div class="lbl">Location</div><div class="val">${escHtml(ap.currentLocation || '—')}</div></div>
+      <div class="ca-row"><div class="lbl">Relocate</div><div class="val">${escHtml((ap.willingToRelocate || '—').replace(/_/g,' '))}</div></div>`;
+
+    const bgRows = `
+      <div class="ca-row"><div class="lbl">Experience</div><div class="val">${escHtml(({'0':'No formal teaching','1':'Less than 1 year','2':'1–3 years','3':'4–7 years','4':'8–15 years','5':'15+ years'})[ap.yearsExperience] || ap.yearsExperience || '—')}</div></div>
+      <div class="ca-row"><div class="lbl">Qualification</div><div class="val">${escHtml(({'diploma':'Diploma','bachelor':"Bachelor's","pgce":'PGCE','master':"Master's",'phd':'PhD'})[ap.highestQualification] || ap.highestQualification || '—')}</div></div>
+      <div class="ca-row"><div class="lbl">Institution</div><div class="val">${escHtml(ap.institution || '—')}</div></div>
+      <div class="ca-row"><div class="lbl">Languages</div><div class="val">${escHtml(langs)}</div></div>
+      <div class="ca-row"><div class="lbl">References</div><div class="val">${refs}</div></div>
+      <div class="ca-row"><div class="lbl">CV</div><div class="val">${cv}</div></div>`;
+
+    let interviewRows = '';
+    if (sch?.scheduledAt || (sch?.interviewerUids || []).length) {
+      const interviewers = (sch.interviewerUids || []).map(uid => `<span class="ca-tag">${escHtml(uid.slice(0,6))}…</span>`).join(' ');
+      interviewRows = `
+        <div class="ca-section-head">Interview</div>
+        ${sch.scheduledAt ? `<div class="ca-row"><div class="lbl">Scheduled</div><div class="val">${escHtml(fmtDate(sch.scheduledAt))}</div></div>` : ''}
+        ${sch.mode ? `<div class="ca-row"><div class="lbl">Mode</div><div class="val">${escHtml(sch.mode.replace(/_/g,' '))}</div></div>` : ''}
+        ${sch.meetingUrl ? `<div class="ca-row"><div class="lbl">Meeting URL</div><div class="val"><a href="${escHtml(safeUrl(sch.meetingUrl))}" target="_blank" rel="noopener">${escHtml(sch.meetingUrl)} ↗</a></div></div>` : ''}
+        ${interviewers ? `<div class="ca-row"><div class="lbl">Interviewers</div><div class="val" style="display:flex;gap:4px;flex-wrap:wrap">${interviewers}</div></div>` : ''}
+      `;
+    }
+
+    let decisionRows = '';
+    if (fd?.outcome) {
+      decisionRows = `
+        <div class="ca-section-head">Final decision</div>
+        <div class="ca-row"><div class="lbl">Outcome</div><div class="val"><span class="ca-status-badge ${fd.outcome === 'offered' ? 'offered' : 'rejected'}">${escHtml(fd.outcome)}</span></div></div>
+        ${fd.note ? `<div class="ca-row"><div class="lbl">Note</div><div class="val">${escHtml(fd.note)}</div></div>` : ''}
+        <div class="ca-row"><div class="lbl">Decided at</div><div class="val">${escHtml(fmtDate(fd.decidedAt))}</div></div>
+      `;
+    }
+
+    return `
+      <div class="ca-section-head">Contact</div>
+      ${contactRows}
+      <div class="ca-section-head">Background</div>
+      ${bgRows}
+      ${interviewRows}
+      ${decisionRows}
+      <div class="ca-section-head">Motivation</div>
+      <div class="ca-motivation">${escHtml(ap.motivationLetter || '—')}</div>
+      <div style="margin-top:18px;color:var(--ink-3);font-size:11.5px;text-align:right">Submitted ${escHtml(fmtDate(a.createdAt))}</div>
+    `;
+  }
+
+  async function renderScorecardsTab(a) {
+    const body = document.getElementById('dBody');
+    try {
+      const qRef = query(collection(db, 'interview_scorecards'), where('applicationId', '==', a.id));
+      const snap = await getDocs(qRef);
+      const scorecards = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      if (scorecards.length === 0) {
+        body.innerHTML = '<div class="ca-empty"><h3>No scorecards yet</h3><p style="font-size:13px">Once an interviewer is assigned and they submit a scorecard, it will appear here.</p></div>';
+        return;
+      }
+      body.innerHTML = `
+        <div class="ca-section-head">Scorecards (${scorecards.length})</div>
+        ${scorecards.map(s => `
+          <div class="ca-score-row">
+            <div class="who">${escHtml(s.interviewerName || s.interviewerUid?.slice(0,8) || '—')}<span class="meta">${escHtml(s.recommendation ? '· ' + s.recommendation.replace(/_/g,' ') : '')}</span></div>
+            <div class="score ${s.status === 'submitted' ? '' : 'draft'}">
+              ${s.status === 'submitted'
+                ? `${(s.averageScore || 0).toFixed(1)} / 5`
+                : 'Draft'}
+            </div>
+          </div>
+        `).join('')}
+        <div style="margin-top:14px;padding:12px;background:var(--paper);border-radius:8px;font-size:12.5px;color:var(--ink-2)">
+          <strong>Average across submitted:</strong>
+          ${(() => {
+            const sub = scorecards.filter(s => s.status === 'submitted');
+            if (!sub.length) return ' —';
+            const avg = sub.reduce((sum, s) => sum + (s.averageScore || 0), 0) / sub.length;
+            return ` ${avg.toFixed(2)} / 5 across ${sub.length} interviewer${sub.length === 1 ? '' : 's'}`;
+          })()}
+        </div>
+      `;
+    } catch (err) {
+      console.error('[ca] scorecards load failed', err);
+      body.innerHTML = '<div class="ca-empty"><h3>Could not load scorecards</h3></div>';
+    }
+  }
+
+  async function renderAuditTab(a) {
+    const body = document.getElementById('dBody');
+    try {
+      const qRef = query(collection(db, 'job_application_audit'), where('applicationId', '==', a.id), orderBy('at', 'desc'), limit(50));
+      const snap = await getDocs(qRef);
+      const rows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      if (rows.length === 0) {
+        body.innerHTML = '<div class="ca-empty"><h3>No activity yet</h3><p style="font-size:13px">Status changes and decisions are logged here.</p></div>';
+        return;
+      }
+      body.innerHTML = `
+        <div class="ca-section-head">Activity log</div>
+        ${rows.map(r => `
+          <div class="ca-audit-row">
+            <div class="when">${escHtml(fmtDate(r.at))} · ${escHtml(r.byEmail || r.byUid || '—')}</div>
+            <div class="what">${escHtml(formatAuditAction(r))}</div>
+          </div>
+        `).join('')}
+      `;
+    } catch (err) {
+      console.error('[ca] audit load failed', err);
+      body.innerHTML = '<div class="ca-empty"><h3>Could not load activity</h3></div>';
+    }
+  }
+
+  function formatAuditAction(r) {
+    if (r.action === 'status_changed') return `Status: ${(r.before?.status || '—').replace(/_/g,' ')} → ${(r.after?.status || '—').replace(/_/g,' ')}${r.after?.note ? ' (' + r.after.note + ')' : ''}`;
+    if (r.action === 'interviewer_assigned') return `Assigned ${(r.after?.interviewerUids || []).length} interviewer(s)`;
+    if (r.action === 'interview_scheduled')  return `Interview scheduled for ${fmtDate(r.after?.scheduledAt)} (${(r.after?.mode || '').replace(/_/g,' ')})`;
+    if (r.action === 'decision_recorded')    return `Decision: ${r.after?.outcome}${r.after?.note ? ' — ' + r.after.note : ''}`;
+    return r.action || '—';
+  }
+
+  // ── action: assign interviewer ────────────────────────────────
+  document.getElementById('dBtnAssign').addEventListener('click', async () => {
+    if (!activeAppId) return;
+    const overlay = document.getElementById('assignOverlay');
+    const list = document.getElementById('assignList');
+    list.innerHTML = '<div style="padding:12px;color:var(--ink-3);font-size:13px">Loading interviewers…</div>';
+    overlay.classList.add('open');
+
+    try {
+      // Fetch users with th_sub_roles containing 'interviewer'
+      const qRef = query(collection(db, 'users'),
+        where('th_sub_roles', 'array-contains', 'interviewer'));
+      const snap = await getDocs(qRef);
+      interviewerUsers = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+      if (interviewerUsers.length === 0) {
+        list.innerHTML = '<div style="padding:18px;color:var(--ink-3);font-size:13px;text-align:center">No users have the <strong>interviewer</strong> sub-role yet. Assign it from <a href="/console" style="color:var(--brand)">User Console</a>.</div>';
+        return;
+      }
+      const a = allApplications.find(x => x.id === activeAppId);
+      const assigned = new Set(a?.interviewSchedule?.interviewerUids || []);
+      list.innerHTML = interviewerUsers.map(u => `
+        <label class="ca-checkbox-row">
+          <input type="checkbox" data-uid="${escHtml(u.uid)}" ${assigned.has(u.uid) ? 'checked' : ''} />
+          <span class="name">${escHtml(u.displayName || u.email || u.uid.slice(0,8))}</span>
+          <span class="email">${escHtml(u.email || '')}</span>
+        </label>
+      `).join('');
+    } catch (err) {
+      console.error('[ca] interviewers load failed', err);
+      list.innerHTML = '<div style="padding:14px;color:var(--red);font-size:13px">Could not load interviewers.</div>';
+    }
+  });
+
+  document.getElementById('assignSave').addEventListener('click', async () => {
+    if (!activeAppId) return;
+    const checked = [...document.querySelectorAll('#assignList input[type="checkbox"]:checked')]
+                    .map(el => el.dataset.uid);
+    const a = allApplications.find(x => x.id === activeAppId);
+    const before = a?.interviewSchedule?.interviewerUids || [];
+    try {
+      await updateDoc(doc(db, 'job_applications', activeAppId), {
+        'interviewSchedule.interviewerUids': checked,
+        updatedAt: serverTimestamp(),
+      });
+      await writeAudit(activeAppId, 'interviewer_assigned',
+        { interviewerUids: before }, { interviewerUids: checked });
+      a.interviewSchedule = { ...(a.interviewSchedule || {}), interviewerUids: checked };
+      closeModal('assignOverlay');
+      activateTab('profile');
+      showToast(`Assigned ${checked.length} interviewer${checked.length === 1 ? '' : 's'}.`, 'success');
+    } catch (err) {
+      console.error('[ca] assign failed', err);
+      showToast('Could not save assignment.', 'error');
+    }
+  });
+
+  // ── action: schedule interview ────────────────────────────────
+  document.getElementById('dBtnSchedule').addEventListener('click', () => {
+    if (!activeAppId) return;
+    const a = allApplications.find(x => x.id === activeAppId);
+    const sch = a?.interviewSchedule || {};
+    document.getElementById('schDateTime').value = sch.scheduledAt
+      ? new Date(sch.scheduledAt.toDate ? sch.scheduledAt.toDate() : sch.scheduledAt).toISOString().slice(0,16)
+      : '';
+    document.getElementById('schMode').value = sch.mode || (allPositions.find(p => p.id === a?.positionId)?.mode || 'in_person');
+    document.getElementById('schUrl').value  = sch.meetingUrl || '';
+    document.getElementById('scheduleOverlay').classList.add('open');
+  });
+  document.getElementById('schSave').addEventListener('click', async () => {
+    if (!activeAppId) return;
+    const dt   = document.getElementById('schDateTime').value;
+    const mode = document.getElementById('schMode').value;
+    const url  = (document.getElementById('schUrl').value || '').trim();
+    if (!dt) { showToast('Pick a date & time.', 'error'); return; }
+    const scheduledAt = new Date(dt);
+    if (isNaN(scheduledAt.getTime())) { showToast('Invalid date.', 'error'); return; }
+
+    const a = allApplications.find(x => x.id === activeAppId);
+    try {
+      await updateDoc(doc(db, 'job_applications', activeAppId), {
+        'interviewSchedule.scheduledAt': scheduledAt,
+        'interviewSchedule.mode':        mode,
+        'interviewSchedule.meetingUrl':  url,
+        status: 'interview_scheduled',
+        updatedAt: serverTimestamp(),
+      });
+      await writeAudit(activeAppId, 'interview_scheduled',
+        { status: a.status }, { status: 'interview_scheduled', scheduledAt, mode, meetingUrl: url });
+      // Enqueue mail
+      await enqueueMail({
+        to: a.applicantEmail,
+        subject: `Interview scheduled — ${a.positionTitle}`,
+        text: `Hello ${a.applicant?.firstName || ''},\n\nYour interview for "${a.positionTitle}" has been scheduled for ${scheduledAt.toLocaleString('en-GB')}.\nMode: ${mode.replace(/_/g,' ')}.${url ? '\nMeeting URL: ' + url : ''}\n\nWe'll be in touch with any final logistics. Reply to this email if you have questions.\n\nEduversal Hiring Team`,
+      });
+      a.status = 'interview_scheduled';
+      a.interviewSchedule = { ...(a.interviewSchedule || {}), scheduledAt, mode, meetingUrl: url };
+      closeModal('scheduleOverlay');
+      activateTab('profile');
+      render();
+      showToast('Interview scheduled. Email enqueued.', 'success');
+    } catch (err) {
+      console.error('[ca] schedule failed', err);
+      showToast('Could not save schedule.', 'error');
+    }
+  });
+
+  // ── action: move status ───────────────────────────────────────
+  document.getElementById('dBtnStatus').addEventListener('click', () => {
+    if (!activeAppId) return;
+    const a = allApplications.find(x => x.id === activeAppId);
+    document.getElementById('stNew').value = a?.status || 'submitted';
+    document.getElementById('stNote').value = '';
+    document.getElementById('statusOverlay').classList.add('open');
+  });
+  document.getElementById('stSave').addEventListener('click', async () => {
+    if (!activeAppId) return;
+    const newStatus = document.getElementById('stNew').value;
+    const note = (document.getElementById('stNote').value || '').trim();
+    const a = allApplications.find(x => x.id === activeAppId);
+    if (!STATUSES.includes(newStatus)) { showToast('Invalid status.', 'error'); return; }
+    try {
+      await updateDoc(doc(db, 'job_applications', activeAppId), {
+        status: newStatus,
+        updatedAt: serverTimestamp(),
+      });
+      await writeAudit(activeAppId, 'status_changed',
+        { status: a.status }, { status: newStatus, note });
+      a.status = newStatus;
+      closeModal('statusOverlay');
+      render();
+      activateTab('profile');
+      showToast(`Status moved to ${newStatus.replace(/_/g,' ')}.`, 'success');
+    } catch (err) {
+      console.error('[ca] status failed', err);
+      showToast('Could not save status.', 'error');
+    }
+  });
+
+  // ── action: final decision ────────────────────────────────────
+  document.getElementById('dBtnDecision').addEventListener('click', () => {
+    if (!activeAppId) return;
+    const a = allApplications.find(x => x.id === activeAppId);
+    const fd = a?.finalDecision || {};
+    document.getElementById('dcOutcome').value = fd.outcome || 'offered';
+    document.getElementById('dcNote').value = fd.note || '';
+    document.getElementById('decisionOverlay').classList.add('open');
+  });
+  document.getElementById('dcSave').addEventListener('click', async () => {
+    if (!activeAppId) return;
+    const outcome = document.getElementById('dcOutcome').value;
+    const note = (document.getElementById('dcNote').value || '').trim();
+    if (!['offered','rejected'].includes(outcome)) { showToast('Invalid outcome.', 'error'); return; }
+    const a = allApplications.find(x => x.id === activeAppId);
+    const newStatus = outcome === 'offered' ? 'offered' : 'rejected';
+    try {
+      const decidedAt = new Date();
+      await updateDoc(doc(db, 'job_applications', activeAppId), {
+        status: newStatus,
+        finalDecision: {
+          outcome, note,
+          decidedBy: currentUser.uid,
+          decidedByEmail: currentUser.email,
+          decidedAt,
+        },
+        updatedAt: serverTimestamp(),
+      });
+      await writeAudit(activeAppId, 'decision_recorded',
+        { status: a.status }, { status: newStatus, outcome, note });
+      // Enqueue decision mail
+      const subject = outcome === 'offered'
+        ? `Offer — ${a.positionTitle}`
+        : `Update on your application — ${a.positionTitle}`;
+      const body = outcome === 'offered'
+        ? `Hello ${a.applicant?.firstName || ''},\n\nWe are delighted to offer you the position of "${a.positionTitle}".${note ? '\n\n' + note : ''}\n\nA member of our team will be in touch shortly with the formal offer letter.\n\nEduversal Hiring Team`
+        : `Hello ${a.applicant?.firstName || ''},\n\nThank you for applying for "${a.positionTitle}". After careful consideration, we have decided not to move forward with your application at this time.${note ? '\n\n' + note : ''}\n\nWe wish you the best in your career and hope to stay in touch.\n\nEduversal Hiring Team`;
+      await enqueueMail({ to: a.applicantEmail, subject, text: body });
+      a.status = newStatus;
+      a.finalDecision = { outcome, note, decidedBy: currentUser.uid, decidedAt };
+      closeModal('decisionOverlay');
+      render();
+      activateTab('profile');
+      showToast(`Decision saved (${outcome}). Email enqueued.`, 'success');
+    } catch (err) {
+      console.error('[ca] decision failed', err);
+      showToast('Could not save decision.', 'error');
+    }
+  });
+
+  // ── action: new position ──────────────────────────────────────
+  document.getElementById('btnNewPosition').addEventListener('click', () => {
+    document.getElementById('posTitle').value = '';
+    document.getElementById('posSchool').value = isHiringMgr && !isAdmin ? mySchoolId : '';
+    document.getElementById('posLevel').value = 'primary';
+    document.querySelectorAll('#posSubjects input').forEach(c => c.checked = false);
+    document.getElementById('posMode').value = 'in_person';
+    document.getElementById('posDeadline').value = '';
+    document.getElementById('posDesc').value = '';
+    document.getElementById('posStatus').value = 'open';
+    document.getElementById('positionOverlay').classList.add('open');
+  });
+  document.getElementById('posSave').addEventListener('click', async () => {
+    const title    = (document.getElementById('posTitle').value || '').trim();
+    const schoolId = document.getElementById('posSchool').value;
+    const level    = document.getElementById('posLevel').value;
+    const subjects = [...document.querySelectorAll('#posSubjects input:checked')].map(c => c.value);
+    const mode     = document.getElementById('posMode').value;
+    const deadline = document.getElementById('posDeadline').value;
+    const desc     = (document.getElementById('posDesc').value || '').trim();
+    const status   = document.getElementById('posStatus').value;
+    if (!title || !schoolId) { showToast('Title and school are required.', 'error'); return; }
+    try {
+      const ref = await addDoc(collection(db, 'job_positions'), {
+        title, schoolId,
+        schoolName: schoolNameById[schoolId] || schoolId,
+        gradeLevel: level,
+        subjects, mode,
+        applicationDeadline: deadline || null,
+        description: desc, requirements: '',
+        questionSetId: 'primary-default-v1',
+        status,
+        createdBy: currentUser.uid,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+      await loadPositions();
+      populateFilters();
+      closeModal('positionOverlay');
+      showToast(status === 'open' ? 'Position published.' : 'Position saved as ' + status + '.', 'success');
+    } catch (err) {
+      console.error('[ca] new position failed', err);
+      showToast('Could not save position.', 'error');
+    }
+  });
+
+  // ── modal close handlers ──────────────────────────────────────
+  document.querySelectorAll('[data-modal-close]').forEach(b => {
+    b.addEventListener('click', () => {
+      const ov = b.closest('.ca-modal-overlay');
+      if (ov) ov.classList.remove('open');
+    });
+  });
+  document.querySelectorAll('.ca-modal-overlay').forEach(ov => {
+    ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('open'); });
+  });
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+  // ── audit + mail helpers ──────────────────────────────────────
+  async function writeAudit(applicationId, action, before, after) {
+    try {
+      await addDoc(collection(db, 'job_application_audit'), {
+        applicationId, action,
+        byUid:   currentUser.uid,
+        byEmail: currentUser.email || '',
+        before, after,
+        at: serverTimestamp(),
+      });
+    } catch (err) {
+      console.warn('[ca] audit write failed (non-fatal)', err);
+    }
+  }
+  async function enqueueMail({ to, subject, text }) {
+    try {
+      await addDoc(collection(db, 'mail'), {
+        to, message: { subject, text, html: text.replace(/\n/g, '<br>') },
+        createdAt: serverTimestamp(),
+      });
+    } catch (err) {
+      console.warn('[ca] mail enqueue failed (non-fatal — Trigger Email extension may not be installed yet)', err);
+    }
+  }
 </script>
+
 </body>
 </html>
