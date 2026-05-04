@@ -3,34 +3,710 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Interview scorecard — Teachers Hub</title>
+<title>Interview Scorecard — Teachers Hub</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236c5ce7'/%3E%3C/svg%3E" />
 <link rel="stylesheet" href="base.css" />
 <!-- FIREBASE_ENV -->
 <script type="module" src="auth-guard.js"></script>
 <style>
-  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); }
-  .placeholder-wrap { max-width: 720px; margin: 80px auto; padding: 0 24px; text-align: center; }
-  .placeholder-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 48px 32px; box-shadow: var(--shadow); }
-  h1 { font-family: 'Lora', serif; font-size: 24px; margin-bottom: 12px; }
-  p { color: var(--ink-2); }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; }
+
+  .sc-page { max-width: 1500px; margin: 0 auto; padding: 18px 20px 60px; }
+
+  /* Header strip */
+  .sc-headline { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
+  .sc-headline h1 { font-family: 'Lora', serif; font-size: 20px; font-weight: 600; }
+  .sc-back { color: var(--ink-3); font-size: 13px; text-decoration: none; }
+  .sc-back:hover { color: var(--brand); }
+  .sc-save-state { font-size: 12px; color: var(--ink-3); display: flex; align-items: center; gap: 6px; }
+  .sc-save-state.saving { color: var(--amber); }
+  .sc-save-state.saved  { color: var(--green); }
+  .sc-save-state.error  { color: var(--red); }
+
+  /* 3-column layout */
+  .sc-grid { display: grid; grid-template-columns: 280px 1fr 320px; gap: 18px; align-items: start; }
+
+  /* Left: candidate panel */
+  .sc-cand { position: sticky; top: 18px; background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 18px; box-shadow: var(--shadow-sm); }
+  .sc-cand h2 { font-family: 'Lora', serif; font-size: 17px; font-weight: 600; margin-bottom: 4px; line-height: 1.3; }
+  .sc-cand .sub { color: var(--ink-3); font-size: 12.5px; margin-bottom: 14px; }
+  .sc-cand-meta { font-size: 12.5px; color: var(--ink-2); }
+  .sc-cand-meta .row { display: flex; gap: 8px; margin-bottom: 6px; }
+  .sc-cand-meta .row .lbl { font-weight: 600; color: var(--ink-3); width: 76px; flex-shrink: 0; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; padding-top: 1px; }
+  .sc-cand-meta .row .val { color: var(--ink); }
+  .sc-cand-actions { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+  .sc-cand-btn { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 9px; background: var(--paper); color: var(--ink-2); text-decoration: none; font-size: 13px; font-weight: 600; transition: all .15s; }
+  .sc-cand-btn:hover { border-color: var(--brand); color: var(--brand); }
+  .sc-cand-btn.primary { background: var(--brand); border-color: var(--brand); color: white; }
+  .sc-cand-btn.primary:hover { background: #5a4bd1; border-color: #5a4bd1; color: white; }
+  .sc-mode-badge { display: inline-block; padding: 2px 8px; background: var(--brand-2); color: var(--brand-dark); border-radius: 999px; font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 10px; }
+
+  /* Middle: questions */
+  .sc-cat-head { font-family: 'Lora', serif; font-size: 18px; font-weight: 600; color: var(--ink); margin: 22px 0 10px; padding-bottom: 8px; border-bottom: 2px solid var(--brand); }
+  .sc-cat-head:first-child { margin-top: 0; }
+  .sc-cat-head .cat-meta { font-family: 'DM Sans', sans-serif; font-size: 11.5px; color: var(--ink-3); font-weight: 500; margin-left: 8px; }
+
+  .sc-q { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow-sm); margin-bottom: 12px; }
+  .sc-q.scored { border-color: var(--brand); }
+  .sc-q-num { display: inline-block; background: var(--paper); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; font-size: 11px; color: var(--ink-3); font-weight: 700; margin-bottom: 10px; }
+  .sc-q-text { font-size: 15px; line-height: 1.55; color: var(--ink); margin-bottom: 14px; font-weight: 500; }
+
+  /* Score chips (1-5) */
+  .sc-chips { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+  .sc-chip { width: 42px; height: 42px; border: 1.5px solid var(--border); background: var(--white); border-radius: 9px; font-family: inherit; font-size: 16px; font-weight: 700; color: var(--ink-2); cursor: pointer; transition: all .15s; }
+  .sc-chip:hover { border-color: var(--brand); color: var(--brand); }
+  .sc-chip.selected { background: var(--brand); border-color: var(--brand); color: white; }
+
+  /* Scenario flag chips */
+  .sc-flags { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+  .sc-flag { padding: 7px 14px; border: 1.5px solid var(--border); background: var(--white); border-radius: 999px; font-size: 12.5px; font-weight: 600; cursor: pointer; transition: all .15s; font-family: inherit; }
+  .sc-flag:hover { border-color: var(--brand); }
+  .sc-flag.selected[data-flag="concerning"] { background: #fee2e2; border-color: var(--red);   color: #991b1b; }
+  .sc-flag.selected[data-flag="acceptable"] { background: #fef3c7; border-color: var(--amber); color: #92400e; }
+  .sc-flag.selected[data-flag="strong"]     { background: #d1fae5; border-color: var(--green); color: #065f46; }
+
+  /* Rubric panel (per question) */
+  .sc-rubric { margin-top: 8px; background: var(--paper); border: 1px solid var(--border); border-radius: 9px; padding: 10px 12px; font-size: 12.5px; }
+  .sc-rubric-toggle { font-size: 11.5px; color: var(--ink-3); background: transparent; border: none; cursor: pointer; padding: 0; font-family: inherit; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; display: flex; align-items: center; gap: 4px; }
+  .sc-rubric-toggle:hover { color: var(--brand); }
+  .sc-rubric-levels { margin-top: 10px; display: none; }
+  .sc-rubric.open .sc-rubric-levels { display: block; }
+  .sc-rubric-level { padding: 6px 10px; border-left: 3px solid var(--border); margin-bottom: 5px; }
+  .sc-rubric-level.match { border-left-color: var(--brand); background: var(--brand-2); }
+  .sc-rubric-level .lvl-head { font-size: 11.5px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+  .sc-rubric-level .lvl-head .score { background: var(--ink); color: white; padding: 1px 6px; border-radius: 4px; margin-right: 6px; font-size: 10.5px; }
+  .sc-rubric-level.match .lvl-head .score { background: var(--brand); }
+  .sc-rubric-level .lvl-text { font-size: 12px; color: var(--ink-2); line-height: 1.45; }
+
+  .sc-notes { width: 100%; min-height: 60px; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 9px; font-family: inherit; font-size: 13.5px; resize: vertical; background: var(--paper); color: var(--ink); margin-top: 4px; line-height: 1.5; }
+  .sc-notes:focus { outline: none; border-color: var(--brand); background: var(--white); }
+  .sc-notes-label { font-size: 11px; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; display: block; }
+
+  /* Right: summary */
+  .sc-summary { position: sticky; top: 18px; background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 18px; box-shadow: var(--shadow-sm); }
+  .sc-summary h3 { font-family: 'Lora', serif; font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+  .sc-progress { font-size: 12.5px; color: var(--ink-2); margin-bottom: 14px; }
+  .sc-progress-bar { height: 6px; background: var(--paper); border-radius: 999px; margin-top: 6px; overflow: hidden; }
+  .sc-progress-fill { height: 100%; background: var(--brand); border-radius: 999px; transition: width .3s; }
+  .sc-cat-summary { padding: 8px 0; border-top: 1px solid var(--border); font-size: 12.5px; }
+  .sc-cat-summary:last-of-type { border-bottom: 1px solid var(--border); margin-bottom: 14px; }
+  .sc-cat-summary .name { font-weight: 600; color: var(--ink-2); display: flex; justify-content: space-between; }
+  .sc-cat-summary .name .avg { font-weight: 700; color: var(--brand); }
+  .sc-cat-summary .scale { color: var(--ink-3); font-size: 11.5px; margin-top: 2px; }
+
+  .sc-rec-group { margin-bottom: 14px; }
+  .sc-rec-label { font-size: 11px; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px; display: block; }
+  .sc-rec-select { width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 9px; font-size: 13.5px; background: var(--paper); font-family: inherit; }
+
+  .sc-total { font-size: 13px; padding: 10px 12px; background: var(--paper); border-radius: 9px; margin-bottom: 14px; }
+  .sc-total .big { font-family: 'Lora', serif; font-size: 24px; font-weight: 600; color: var(--brand); }
+  .sc-meets { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-top: 6px; text-transform: uppercase; letter-spacing: .04em; }
+  .sc-meets.yes { background: #d1fae5; color: #065f46; }
+  .sc-meets.no  { background: #fee2e2; color: #991b1b; }
+  .sc-meets.tbd { background: var(--paper); color: var(--ink-3); }
+
+  .sc-btn-submit { width: 100%; padding: 12px; background: var(--brand); color: white; border: none; border-radius: 10px; font-family: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer; transition: all .15s; }
+  .sc-btn-submit:hover:not(:disabled) { background: #5a4bd1; }
+  .sc-btn-submit:disabled { opacity: .45; cursor: not-allowed; }
+  .sc-btn-draft { width: 100%; padding: 9px; margin-top: 8px; background: var(--paper); color: var(--ink-2); border: 1.5px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; }
+  .sc-btn-draft:hover { border-color: var(--brand); color: var(--brand); }
+
+  .sc-submitted-banner { background: linear-gradient(135deg, #065f46, #047857); color: white; padding: 14px 18px; border-radius: 12px; margin-bottom: 18px; font-size: 14px; display: flex; align-items: center; gap: 12px; }
+  .sc-submitted-banner svg { flex-shrink: 0; }
+
+  /* Loading / error */
+  .sc-loading { text-align: center; padding: 60px 24px; color: var(--ink-3); font-size: 14px; }
+  .sc-error { background: var(--white); border: 1.5px solid var(--red); color: #7f1d1d; padding: 24px; border-radius: 12px; }
+  .sc-error h2 { font-family: 'Lora', serif; font-size: 20px; margin-bottom: 8px; color: var(--red); }
+
+  .sc-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: white; padding: 12px 18px; border-radius: 10px; font-size: 13.5px; font-weight: 500; box-shadow: var(--shadow-lg); z-index: 1100; opacity: 0; pointer-events: none; transition: all .25s; }
+  .sc-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .sc-toast.success { background: var(--green); }
+  .sc-toast.error   { background: var(--red); }
+
+  @media (max-width: 1200px) {
+    .sc-grid { grid-template-columns: 1fr; }
+    .sc-cand, .sc-summary { position: static; }
+  }
 </style>
 </head>
 <body>
+
 <div id="navbar-container"></div>
-<div class="placeholder-wrap">
-  <div class="placeholder-card">
-    <h1>Interview scorecard — coming in M2</h1>
-    <p>3-column layout: candidate panel · 18 questions with sticky rubric · summary + submit.</p>
+
+<div class="sc-page">
+  <div id="sc-root">
+    <div class="sc-loading">Loading scorecard…</div>
   </div>
 </div>
+
+<div class="sc-toast" id="toast"></div>
+
 <script type="module">
-  document.addEventListener('authReady', () => {
-    fetch('partials/navbar.html').then(r => r.text()).then(html => {
+  import {
+    doc, getDoc, setDoc, collection, query, where, getDocs,
+    serverTimestamp, Timestamp
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  // ── helpers ───────────────────────────────────────────────────
+  const escHtml = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+  const safeUrl = u => /^https?:\/\//i.test(String(u || '')) ? u : '#';
+  function showToast(msg, kind = '') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'sc-toast visible ' + kind;
+    setTimeout(() => t.classList.remove('visible'), 2800);
+  }
+
+  // ── boot ──────────────────────────────────────────────────────
+  let db, currentUser, profile, isAdmin, isHiringMgr, isInterviewer;
+  let applicationId, application, position, questionSet, scorecardDocId, scorecard;
+  let saveTimer = null;
+  let isSaving = false;
+  let isSubmitted = false;
+
+  document.addEventListener('authReady', async (e) => {
+    db = window.db;
+    currentUser = e.detail.user;
+    profile = e.detail.profile;
+    isAdmin       = profile?.role_centralhub === 'central_admin'
+                 || profile?.role_teachershub === 'teachers_admin';
+    isHiringMgr   = Array.isArray(profile?.th_sub_roles) && profile.th_sub_roles.includes('hiring_manager');
+    isInterviewer = Array.isArray(profile?.th_sub_roles) && profile.th_sub_roles.includes('interviewer');
+
+    // Mount navbar
+    fetch('/partials/navbar.html').then(r => r.text()).then(html => {
       document.getElementById('navbar-container').innerHTML = html;
       if (typeof window.initNavbar === 'function') window.initNavbar();
     }).catch(() => {});
+
+    if (!isAdmin && !isHiringMgr && !isInterviewer) {
+      renderError('Access denied', 'This page is restricted to interviewers, hiring managers, and admins.');
+      return;
+    }
+
+    applicationId = new URLSearchParams(window.location.search).get('app');
+    if (!applicationId) {
+      renderError('No application selected', 'Open this page from the Hiring Funnel by clicking a candidate, or include <code>?app=&lt;applicationId&gt;</code> in the URL.');
+      return;
+    }
+    scorecardDocId = `${applicationId}_${currentUser.uid}`;
+
+    try {
+      await loadAll();
+      render();
+    } catch (err) {
+      console.error('[scorecard] load failed', err);
+      renderError('Could not load scorecard', err?.message || 'Unknown error. The application may not exist or you may not have permission.');
+    }
   });
+
+  async function loadAll() {
+    // Load application
+    const appSnap = await getDoc(doc(db, 'job_applications', applicationId));
+    if (!appSnap.exists()) throw new Error('Application not found.');
+    application = { id: appSnap.id, ...appSnap.data() };
+
+    // Permission check beyond auth-guard:
+    // - admins always allowed
+    // - hiring_manager: same school
+    // - interviewer: must be in interviewSchedule.interviewerUids
+    if (!isAdmin) {
+      if (isHiringMgr) {
+        if (application.schoolId !== profile.schoolId) {
+          throw new Error('You can only score applications at your own school.');
+        }
+      } else if (isInterviewer) {
+        const assigned = application.interviewSchedule?.interviewerUids || [];
+        if (!assigned.includes(currentUser.uid)) {
+          throw new Error('You are not assigned to this candidate. Ask the hiring manager to add you to the interview panel.');
+        }
+      } else {
+        throw new Error('No matching role.');
+      }
+    }
+
+    // Load position (for mode + meeting URL)
+    if (application.positionId) {
+      const posSnap = await getDoc(doc(db, 'job_positions', application.positionId));
+      if (posSnap.exists()) position = { id: posSnap.id, ...posSnap.data() };
+    }
+
+    // Load question set
+    const qsId = position?.questionSetId || 'primary-default-v1';
+    const qsSnap = await getDoc(doc(db, 'interview_question_sets', qsId));
+    if (!qsSnap.exists()) throw new Error(`Question set "${qsId}" not found. Run the seed script.`);
+    questionSet = { id: qsSnap.id, ...qsSnap.data() };
+
+    // Load existing scorecard (if any)
+    const scSnap = await getDoc(doc(db, 'interview_scorecards', scorecardDocId));
+    if (scSnap.exists()) {
+      scorecard = scSnap.data();
+      isSubmitted = scorecard.status === 'submitted';
+    } else {
+      scorecard = {
+        applicationId,
+        positionId:        application.positionId || null,
+        interviewerUid:    currentUser.uid,
+        interviewerName:   profile?.displayName || currentUser.email || '',
+        interviewerEmail:  currentUser.email || '',
+        schoolId:          application.schoolId || null,
+        questionSetId:     questionSet.id,
+        questionSetVersion: questionSet.version || 'v1',
+        scores:            {},
+        notes:             {},
+        scenarioFlags:     {},
+        recommendation:    null,
+        status:            'draft',
+        startedAt:         Timestamp.now(),
+      };
+    }
+  }
+
+  // ── render ────────────────────────────────────────────────────
+  function render() {
+    const root = document.getElementById('sc-root');
+    const ap = application.applicant || {};
+    const candName = `${ap.firstName || ''} ${ap.lastName || ''}`.trim() || '(no name)';
+
+    const submittedBanner = isSubmitted ? `
+      <div class="sc-submitted-banner">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <div>
+          <div style="font-weight:600">Scorecard submitted</div>
+          <div style="font-size:12.5px;opacity:.85">Submitted ${formatDate(scorecard.submittedAt)}. This scorecard is now read-only.</div>
+        </div>
+      </div>` : '';
+
+    root.innerHTML = `
+      <div class="sc-headline">
+        <div>
+          <a class="sc-back" href="/careers-admin">← Hiring Funnel</a>
+          <h1>Interview Scorecard</h1>
+        </div>
+        <div class="sc-save-state" id="saveState">Loaded</div>
+      </div>
+      ${submittedBanner}
+      <div class="sc-grid">
+        <aside class="sc-cand">${renderCandidatePanel(candName, ap)}</aside>
+        <main class="sc-questions" id="sc-questions">${renderQuestions()}</main>
+        <aside class="sc-summary" id="sc-summary">${renderSummary()}</aside>
+      </div>
+    `;
+
+    bindEvents();
+    refreshSummary();
+  }
+
+  function renderCandidatePanel(candName, ap) {
+    const mode = position?.mode || 'in_person';
+    const modeLabel = mode === 'online' ? 'Online' : mode === 'hybrid' ? 'Hybrid' : 'On-site';
+    const sch = application.interviewSchedule || {};
+    const meetingBtn = (mode === 'online' || mode === 'hybrid') && sch.meetingUrl
+      ? `<a class="sc-cand-btn primary" href="${escHtml(safeUrl(sch.meetingUrl))}" target="_blank" rel="noopener">↗ Open meeting</a>`
+      : '';
+    const cvBtn = ap.cvUrl
+      ? `<a class="sc-cand-btn" href="${escHtml(safeUrl(ap.cvUrl))}" target="_blank" rel="noopener">📄 Open CV</a>`
+      : '';
+    const langs = Array.isArray(ap.languages) ? ap.languages.join(', ') : '—';
+
+    return `
+      <span class="sc-mode-badge">${escHtml(modeLabel)} interview</span>
+      <h2>${escHtml(candName)}</h2>
+      <div class="sub">${escHtml(application.positionTitle || '—')}<br/>${escHtml(application.schoolName || '')}</div>
+      <div class="sc-cand-meta">
+        <div class="row"><div class="lbl">Email</div><div class="val">${escHtml(application.applicantEmail || '—')}</div></div>
+        ${ap.phone ? `<div class="row"><div class="lbl">Phone</div><div class="val">${escHtml(ap.phone)}</div></div>` : ''}
+        ${ap.currentLocation ? `<div class="row"><div class="lbl">Location</div><div class="val">${escHtml(ap.currentLocation)}</div></div>` : ''}
+        ${ap.yearsExperience ? `<div class="row"><div class="lbl">Exp.</div><div class="val">${escHtml(({'0':'New','1':'<1y','2':'1–3y','3':'4–7y','4':'8–15y','5':'15+y'})[ap.yearsExperience] || ap.yearsExperience)}</div></div>` : ''}
+        ${ap.highestQualification ? `<div class="row"><div class="lbl">Quals</div><div class="val">${escHtml(ap.highestQualification)}</div></div>` : ''}
+        <div class="row"><div class="lbl">Languages</div><div class="val">${escHtml(langs)}</div></div>
+        ${sch.scheduledAt ? `<div class="row"><div class="lbl">When</div><div class="val">${escHtml(formatDate(sch.scheduledAt))}</div></div>` : ''}
+      </div>
+      <div class="sc-cand-actions">
+        ${meetingBtn}
+        ${cvBtn}
+      </div>
+    `;
+  }
+
+  function renderQuestions() {
+    const cats = questionSet.categories || [];
+    const qs   = questionSet.questions  || [];
+    let html = '';
+    cats.forEach(cat => {
+      const catQs = qs.filter(q => q.categoryId === cat.id).sort((a,b) => (a.orderIndex||0) - (b.orderIndex||0));
+      if (catQs.length === 0) return;
+      html += `<div class="sc-cat-head">${escHtml(cat.name)}<span class="cat-meta">${catQs.length} question${catQs.length===1?'':'s'}</span></div>`;
+      catQs.forEach((q, idx) => html += renderQuestion(q));
+    });
+    return html;
+  }
+
+  function renderQuestion(q) {
+    const score = scorecard.scores[q.id];
+    const note  = scorecard.notes[q.id]  || '';
+    const flag  = scorecard.scenarioFlags[q.id];
+    const scored = q.hasRubric ? (typeof score === 'number') : !!flag;
+
+    let scoreInputs = '';
+    if (q.hasRubric) {
+      // 1-5 chip buttons + rubric
+      scoreInputs = `
+        <div class="sc-chips" data-q="${escHtml(q.id)}" data-kind="score">
+          ${[1,2,3,4,5].map(n => `<button class="sc-chip ${score === n ? 'selected' : ''}" data-score="${n}" type="button" aria-pressed="${score === n}">${n}</button>`).join('')}
+        </div>
+        ${renderRubric(q, score)}
+      `;
+    } else {
+      // Scenario flags
+      const flagOpts = questionSet.scenarioFlagOptions || [];
+      scoreInputs = `
+        <div class="sc-flags" data-q="${escHtml(q.id)}" data-kind="flag">
+          ${flagOpts.map(f => `<button class="sc-flag ${flag === f.value ? 'selected' : ''}" data-flag="${escHtml(f.value)}" type="button" title="${escHtml(f.description || '')}" aria-pressed="${flag === f.value}">${escHtml(f.label)}</button>`).join('')}
+        </div>
+      `;
+    }
+
+    return `
+      <div class="sc-q ${scored ? 'scored' : ''}" data-qid="${escHtml(q.id)}">
+        <span class="sc-q-num">${escHtml(q.orderIndex)} / ${questionSet.questions.length}</span>
+        <div class="sc-q-text">${escHtml(q.text)}</div>
+        ${scoreInputs}
+        <label class="sc-notes-label" for="notes-${escHtml(q.id)}">Notes (visible to admins + hiring panel)</label>
+        <textarea class="sc-notes" id="notes-${escHtml(q.id)}" data-q="${escHtml(q.id)}" placeholder="Capture quote, evidence, or hesitation. Specific is better than generic.">${escHtml(note)}</textarea>
+      </div>
+    `;
+  }
+
+  function renderRubric(q, currentScore) {
+    if (!q.rubricRef) return '';
+    const r = (questionSet.rubrics || {})[q.rubricRef];
+    if (!r) return '';
+    return `
+      <div class="sc-rubric ${currentScore ? 'open' : ''}" data-rubric-for="${escHtml(q.id)}">
+        <button class="sc-rubric-toggle" type="button" data-toggle-rubric="${escHtml(q.id)}">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          Rubric — ${escHtml(r.name)}
+        </button>
+        <div class="sc-rubric-levels">
+          ${(r.levels || []).map(l => `
+            <div class="sc-rubric-level ${currentScore === l.score ? 'match' : ''}" data-rubric-score="${l.score}">
+              <div class="lvl-head"><span class="score">${l.score}</span>${escHtml(l.label || '')}</div>
+              <div class="lvl-text">${escHtml(l.description || '')}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderSummary() {
+    const recOpts = questionSet.recommendationOptions || [];
+    const submitDisabled = isSubmitted || !isAllScored() || !scorecard.recommendation;
+    return `
+      <h3>Summary</h3>
+      <div class="sc-progress">
+        <div><span id="sumScored">0</span> / ${questionSet.questions.length} questions scored</div>
+        <div class="sc-progress-bar"><div class="sc-progress-fill" id="sumFill" style="width:0%"></div></div>
+      </div>
+      <div id="sumCats"></div>
+      <div class="sc-total" id="sumTotal"></div>
+      <div class="sc-rec-group">
+        <label class="sc-rec-label" for="recommendation">Recommendation</label>
+        <select class="sc-rec-select" id="recommendation" ${isSubmitted ? 'disabled' : ''}>
+          <option value="">— select —</option>
+          ${recOpts.map(o => `<option value="${escHtml(o.value)}" ${scorecard.recommendation === o.value ? 'selected' : ''}>${escHtml(o.label)}</option>`).join('')}
+        </select>
+      </div>
+      ${isSubmitted ? '' : `
+        <button class="sc-btn-submit" id="btnSubmit" ${submitDisabled ? 'disabled' : ''}>Submit scorecard</button>
+        <button class="sc-btn-draft"  id="btnDraft">Save draft now</button>
+      `}
+    `;
+  }
+
+  // ── events ────────────────────────────────────────────────────
+  function bindEvents() {
+    if (isSubmitted) return;
+
+    // Score chips
+    document.querySelectorAll('.sc-chips').forEach(group => {
+      group.addEventListener('click', e => {
+        const btn = e.target.closest('.sc-chip');
+        if (!btn) return;
+        const qid = group.dataset.q;
+        const score = Number(btn.dataset.score);
+        if (scorecard.scores[qid] === score) {
+          delete scorecard.scores[qid];   // toggle off
+        } else {
+          scorecard.scores[qid] = score;
+        }
+        // Re-render this single question
+        rerenderQuestion(qid);
+        scheduleSave();
+      });
+    });
+
+    // Scenario flags
+    document.querySelectorAll('.sc-flags').forEach(group => {
+      group.addEventListener('click', e => {
+        const btn = e.target.closest('.sc-flag');
+        if (!btn) return;
+        const qid = group.dataset.q;
+        const flag = btn.dataset.flag;
+        if (scorecard.scenarioFlags[qid] === flag) {
+          delete scorecard.scenarioFlags[qid];
+        } else {
+          scorecard.scenarioFlags[qid] = flag;
+        }
+        rerenderQuestion(qid);
+        scheduleSave();
+      });
+    });
+
+    // Rubric toggle
+    document.querySelectorAll('[data-toggle-rubric]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const qid = btn.dataset.toggleRubric;
+        const rubric = document.querySelector(`[data-rubric-for="${qid}"]`);
+        if (rubric) rubric.classList.toggle('open');
+      });
+    });
+
+    // Notes (debounced)
+    document.querySelectorAll('.sc-notes').forEach(ta => {
+      ta.addEventListener('input', () => {
+        scorecard.notes[ta.dataset.q] = ta.value;
+        scheduleSave();
+      });
+    });
+
+    // Recommendation
+    const rec = document.getElementById('recommendation');
+    if (rec) rec.addEventListener('change', () => {
+      scorecard.recommendation = rec.value || null;
+      refreshSummary();
+      scheduleSave();
+    });
+
+    // Save draft now
+    const btnDraft = document.getElementById('btnDraft');
+    if (btnDraft) btnDraft.addEventListener('click', () => save({ force: true }));
+
+    // Submit
+    const btnSubmit = document.getElementById('btnSubmit');
+    if (btnSubmit) btnSubmit.addEventListener('click', submit);
+  }
+
+  function rerenderQuestion(qid) {
+    const q = questionSet.questions.find(x => x.id === qid);
+    if (!q) return;
+    const wrap = document.querySelector(`.sc-q[data-qid="${qid}"]`);
+    if (!wrap) return;
+    // Preserve textarea cursor / focus where possible
+    const note = scorecard.notes[qid] || '';
+    wrap.outerHTML = renderQuestion(q);
+    // Re-bind events for this single question
+    const newWrap = document.querySelector(`.sc-q[data-qid="${qid}"]`);
+    if (newWrap) {
+      const chips = newWrap.querySelector('.sc-chips');
+      if (chips) chips.addEventListener('click', e => {
+        const btn = e.target.closest('.sc-chip');
+        if (!btn) return;
+        const score = Number(btn.dataset.score);
+        if (scorecard.scores[qid] === score) delete scorecard.scores[qid];
+        else                                  scorecard.scores[qid] = score;
+        rerenderQuestion(qid);
+        scheduleSave();
+      });
+      const flags = newWrap.querySelector('.sc-flags');
+      if (flags) flags.addEventListener('click', e => {
+        const btn = e.target.closest('.sc-flag');
+        if (!btn) return;
+        const flag = btn.dataset.flag;
+        if (scorecard.scenarioFlags[qid] === flag) delete scorecard.scenarioFlags[qid];
+        else                                       scorecard.scenarioFlags[qid] = flag;
+        rerenderQuestion(qid);
+        scheduleSave();
+      });
+      const tog = newWrap.querySelector('[data-toggle-rubric]');
+      if (tog) tog.addEventListener('click', () => {
+        const r = newWrap.querySelector(`[data-rubric-for="${qid}"]`);
+        if (r) r.classList.toggle('open');
+      });
+      const ta = newWrap.querySelector('.sc-notes');
+      if (ta) ta.addEventListener('input', () => {
+        scorecard.notes[qid] = ta.value;
+        scheduleSave();
+      });
+    }
+    refreshSummary();
+  }
+
+  // ── computed totals ───────────────────────────────────────────
+  function isAllScored() {
+    const qs = questionSet.questions || [];
+    return qs.every(q => q.hasRubric ? typeof scorecard.scores[q.id] === 'number'
+                                     : !!scorecard.scenarioFlags[q.id]);
+  }
+  function rubricScores() {
+    return Object.values(scorecard.scores).filter(n => typeof n === 'number');
+  }
+  function avgScore() {
+    const arr = rubricScores();
+    if (!arr.length) return null;
+    return arr.reduce((a,b) => a+b, 0) / arr.length;
+  }
+  function meetsCriteria() {
+    const a = avgScore();
+    if (a === null) return null;
+    return a >= (questionSet.passingAverage || 3);
+  }
+
+  function refreshSummary() {
+    const qs = questionSet.questions || [];
+    const totalQ = qs.length;
+    const scoredCount = qs.filter(q => q.hasRubric ? typeof scorecard.scores[q.id] === 'number'
+                                                   : !!scorecard.scenarioFlags[q.id]).length;
+    const fill = totalQ ? Math.round((scoredCount / totalQ) * 100) : 0;
+
+    const sumScored = document.getElementById('sumScored');
+    const sumFill   = document.getElementById('sumFill');
+    if (sumScored) sumScored.textContent = scoredCount;
+    if (sumFill)   sumFill.style.width   = fill + '%';
+
+    // Per-category averages
+    const cats = questionSet.categories || [];
+    const sumCats = document.getElementById('sumCats');
+    if (sumCats) {
+      sumCats.innerHTML = cats.map(c => {
+        const catQs = qs.filter(q => q.categoryId === c.id);
+        if (!catQs.length) return '';
+        const catScored = catQs.filter(q => q.hasRubric ? typeof scorecard.scores[q.id] === 'number'
+                                                        : !!scorecard.scenarioFlags[q.id]);
+        // Average only over rubric'd questions
+        const rubrics = catQs.filter(q => q.hasRubric);
+        const rubricScored = rubrics.filter(q => typeof scorecard.scores[q.id] === 'number')
+                                    .map(q => scorecard.scores[q.id]);
+        const avg = rubricScored.length ? (rubricScored.reduce((a,b)=>a+b,0) / rubricScored.length).toFixed(2) : '—';
+        const flagsCat = catQs.filter(q => !q.hasRubric)
+                              .map(q => scorecard.scenarioFlags[q.id]).filter(Boolean);
+        return `
+          <div class="sc-cat-summary">
+            <div class="name">${escHtml(c.name)} <span class="avg">${avg === '—' ? '' : avg + ' / 5'}</span></div>
+            <div class="scale">${catScored.length} / ${catQs.length} answered${flagsCat.length ? ' · flags: ' + flagsCat.join(', ') : ''}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Total
+    const sumTotal = document.getElementById('sumTotal');
+    if (sumTotal) {
+      const a = avgScore();
+      const m = meetsCriteria();
+      const meetsCls = m === null ? 'tbd' : m ? 'yes' : 'no';
+      const meetsTxt = m === null ? 'Not yet scored' : m ? 'Meets criteria' : 'Below threshold';
+      sumTotal.innerHTML = `
+        <div style="font-size:11.5px;color:var(--ink-3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">Average (rubric only)</div>
+        <span class="big">${a === null ? '—' : a.toFixed(2)}</span> <span style="font-size:13px;color:var(--ink-3)">/ 5</span>
+        <div><span class="sc-meets ${meetsCls}">${meetsTxt}</span></div>
+      `;
+    }
+
+    // Submit button enabled state
+    const btnSubmit = document.getElementById('btnSubmit');
+    if (btnSubmit) btnSubmit.disabled = isSubmitted || !isAllScored() || !scorecard.recommendation;
+  }
+
+  // ── save / submit ─────────────────────────────────────────────
+  function scheduleSave() {
+    setSaveState('saving', 'Saving…');
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => save(), 1500);
+  }
+
+  async function save({ force } = {}) {
+    if (isSaving && !force) return;
+    if (isSubmitted) return;
+    isSaving = true;
+    setSaveState('saving', 'Saving…');
+    try {
+      const a = avgScore();
+      const totalScore = rubricScores().reduce((acc, n) => acc + n, 0);
+      const payload = {
+        ...scorecard,
+        averageScore: a !== null ? Number(a.toFixed(2)) : null,
+        totalScore,
+        meetsCriteria: meetsCriteria(),
+        lastSavedAt: serverTimestamp(),
+      };
+      await setDoc(doc(db, 'interview_scorecards', scorecardDocId), payload, { merge: true });
+      setSaveState('saved', 'Saved · ' + new Date().toLocaleTimeString('en-GB'));
+    } catch (err) {
+      console.error('[scorecard] save failed', err);
+      setSaveState('error', 'Save failed — check connection');
+      showToast('Could not save scorecard. Try again.', 'error');
+    } finally {
+      isSaving = false;
+    }
+  }
+
+  async function submit() {
+    if (isSubmitted) return;
+    if (!isAllScored() || !scorecard.recommendation) return;
+    if (!confirm('Submit this scorecard? Once submitted, it becomes read-only and cannot be edited.')) return;
+    setSaveState('saving', 'Submitting…');
+    try {
+      const a = avgScore();
+      const totalScore = rubricScores().reduce((acc, n) => acc + n, 0);
+      const payload = {
+        ...scorecard,
+        averageScore: a !== null ? Number(a.toFixed(2)) : null,
+        totalScore,
+        meetsCriteria: meetsCriteria(),
+        status: 'submitted',
+        submittedAt: serverTimestamp(),
+        lastSavedAt: serverTimestamp(),
+      };
+      await setDoc(doc(db, 'interview_scorecards', scorecardDocId), payload, { merge: true });
+      isSubmitted = true;
+      scorecard = payload;
+      showToast('Scorecard submitted.', 'success');
+      // Re-render in read-only mode
+      render();
+    } catch (err) {
+      console.error('[scorecard] submit failed', err);
+      setSaveState('error', 'Submit failed');
+      showToast('Could not submit scorecard.', 'error');
+    }
+  }
+
+  function setSaveState(kind, msg) {
+    const el = document.getElementById('saveState');
+    if (!el) return;
+    el.className = 'sc-save-state ' + kind;
+    el.textContent = msg;
+  }
+
+  function formatDate(ts) {
+    if (!ts) return '—';
+    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    if (isNaN(d.getTime())) return '—';
+    return d.toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
+
+  function renderError(title, body) {
+    document.getElementById('sc-root').innerHTML = `
+      <div class="sc-error">
+        <h2>${escHtml(title)}</h2>
+        <p>${body}</p>
+        <p style="margin-top:14px"><a href="/careers-admin" style="color:var(--brand)">← Back to Hiring Funnel</a></p>
+      </div>
+    `;
+  }
 </script>
+
 </body>
 </html>
