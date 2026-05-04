@@ -422,6 +422,8 @@ Public teacher recruitment + structured interview scoring. Six TH pages + 6 Fire
 
 **Firestore rules** (deployed): see `Central Hub/firestore.rules` "CAREERS + INTERVIEW MODULE" block — 6 collection rules + 4 helpers (`hasTHSubRole`, `isInterviewer`, `isHiringManager`, `hasHiringPower`).
 
+**HQ → TH role caveat:** TH `auth-guard.js` admin bypass is `role_teachershub === 'teachers_admin'` only — NOT `central_admin`. A CH admin landing on `/careers-admin` via the cross-app link without a TH `teachers_admin` role gets page-access gated by `visible_to: ['hiring_manager']`. Operational fix: assign HQ users `teachers_admin` from CH `/console` so they bypass everything in TH (same-team policy across all TH admin pages, not careers-specific).
+
 ---
 
 ## Important Conventions
