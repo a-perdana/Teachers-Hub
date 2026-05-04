@@ -873,6 +873,35 @@
       </div>
     </div>
 
+    <!-- Careers dropdown (visible to hiring_manager / interviewer / admins —
+         page_access_config gates each item; admin bypasses gating) -->
+    <div class="th-dd-wrap" id="thDdWrap-careers">
+      <button class="th-dd-trigger" data-dd="careers" aria-haspopup="true" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="2" y1="13" x2="22" y2="13"/></svg>
+        Careers
+        <svg class="th-dd-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="th-dd-panel" id="thDdPanel-careers">
+        <a href="careers-admin.html" class="th-dd-item" data-nav-key="careers-admin">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          Hiring Funnel
+        </a>
+        <a href="interview-scorecard.html" class="th-dd-item" data-nav-key="interview-scorecard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          Interview Scorecard
+        </a>
+        <a href="careers-compare.html" class="th-dd-item" data-nav-key="careers-compare">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+          Compare Candidates
+        </a>
+        <div class="th-dd-divider"></div>
+        <a href="/careers" class="th-dd-item" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Public careers page
+        </a>
+      </div>
+    </div>
+
     <!-- Feedback -->
     <button class="nav-feedback-btn" id="feedbackBtn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

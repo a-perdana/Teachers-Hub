@@ -70,6 +70,7 @@ function initNavbar() {
                'competency-framework','learning-path','my-portfolio','my-certificates',
                'my-induction','my-mentees','observation-entry','handbook'],
       hub:    ['announcements','messageboard','library','cambridge-calendar','cambridge-standards','surveys'],
+      careers: ['careers-admin','interview-scorecard','careers-compare'],
     };
 
     document.querySelectorAll('.th-dd-wrap').forEach(function(wrap) {
