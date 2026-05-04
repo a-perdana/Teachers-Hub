@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Application status — Eduversal Careers</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236c5ce7'/%3E%3Cpath d='M6 16l10-6 10 6-10 6z' fill='white' opacity='.9'/%3E%3Cpath d='M10 17v4c3 2.5 9 2.5 12 0v-4' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Lora:wght@500;600;700&display=swap" rel="stylesheet" />
+<!-- FIREBASE_ENV -->
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1c1c2e; --ink-2: #44445a; --ink-3: #8888a8;
+    --paper: #f7f6f3; --white: #ffffff; --border: #e0ddd6;
+    --brand: #6c5ce7; --brand-2: #ede9fe;
+    --shadow: 0 3px 14px rgba(28,28,46,.10);
+    --radius-lg: 16px;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .top-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .brand-mark { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  .brand-logo { width: 32px; height: 32px; background: var(--brand); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 14px; }
+  .brand-text { font-family: 'Lora', serif; font-size: 17px; font-weight: 600; }
+  .top-bar-link { color: var(--ink-2); text-decoration: none; font-size: 14px; font-weight: 500; }
+
+  .page-wrap { max-width: 720px; margin: 0 auto; padding: 56px 24px 80px; }
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow); text-align: center; }
+  .icon { width: 72px; height: 72px; background: var(--brand-2); color: var(--brand); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; font-size: 32px; }
+  .title { font-family: 'Lora', serif; font-size: 26px; font-weight: 600; margin-bottom: 12px; }
+  .sub { color: var(--ink-2); font-size: 15px; margin-bottom: 18px; }
+  .btn { background: var(--brand); color: white; padding: 11px 20px; border-radius: 10px; font-family: inherit; font-size: 14.5px; font-weight: 600; text-decoration: none; display: inline-block; margin-top: 8px; }
+  .btn:hover { background: #5a4bd1; }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <a class="brand-mark" href="/careers"><div class="brand-logo">E</div><div class="brand-text">Eduversal Careers</div></a>
+  <a class="top-bar-link" href="/careers">Browse positions</a>
+</header>
+
+<div class="page-wrap">
+  <div class="card">
+    <div class="icon">✉️</div>
+    <h1 class="title">Application tracking</h1>
+    <p class="sub">After submitting an application, we email you a magic-link that opens this page with your full status timeline. Open the email we sent to start tracking.</p>
+    <p class="sub" style="font-size:13.5px;color:var(--ink-3)">Live tracking coming soon — for now, please check the email we sent to your inbox or contact <a href="mailto:careers@eduversal.org" style="color:var(--brand)">careers@eduversal.org</a>.</p>
+    <a class="btn" href="/careers">Browse open positions</a>
+  </div>
+</div>
+
+</body>
+</html>

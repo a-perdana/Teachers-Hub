@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Apply — Eduversal Careers</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236c5ce7'/%3E%3Cpath d='M6 16l10-6 10 6-10 6z' fill='white' opacity='.9'/%3E%3Cpath d='M10 17v4c3 2.5 9 2.5 12 0v-4' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Lora:wght@500;600;700&display=swap" rel="stylesheet" />
+<!-- FIREBASE_ENV -->
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1c1c2e;
+    --ink-2: #44445a;
+    --ink-3: #8888a8;
+    --paper: #f7f6f3;
+    --paper-2: #efede8;
+    --white: #ffffff;
+    --border: #e0ddd6;
+    --brand: #6c5ce7;
+    --brand-2: #ede9fe;
+    --brand-dark: #5a4bd1;
+    --cyan: #0891b2;
+    --green: #059669;
+    --green-2: #d1fae5;
+    --red: #dc2626;
+    --red-2: #fee2e2;
+    --amber: #b07800;
+    --shadow-sm: 0 1px 4px rgba(28,28,46,.07);
+    --shadow: 0 3px 14px rgba(28,28,46,.10);
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+
+  html, body { height: 100%; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .top-bar {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand-mark { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  .brand-logo { width: 32px; height: 32px; background: var(--brand); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 14px; }
+  .brand-text { font-family: 'Lora', serif; font-size: 17px; font-weight: 600; }
+  .top-bar-link { color: var(--ink-2); text-decoration: none; font-size: 14px; font-weight: 500; }
+  .top-bar-link:hover { color: var(--brand); }
+
+  .page-wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+
+  /* ── POSITION SUMMARY (sticky) ───────────────────────── */
+  .pos-summary {
+    background: linear-gradient(135deg, #1c1c2e 0%, #2a2156 100%);
+    color: white;
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+  }
+  .pos-eyebrow {
+    font-size: 11.5px; font-weight: 600; letter-spacing: .14em;
+    text-transform: uppercase; color: rgba(255,255,255,.55);
+    margin-bottom: 8px;
+  }
+  .pos-title {
+    font-family: 'Lora', serif;
+    font-size: 22px; font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .pos-meta {
+    color: rgba(255,255,255,.78);
+    font-size: 13.5px;
+    display: flex; gap: 14px; flex-wrap: wrap;
+  }
+  .pos-meta strong { color: white; font-weight: 600; }
+
+  /* ── STEPPER ──────────────────────────────────────────── */
+  .stepper {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 22px;
+    overflow-x: auto;
+  }
+  .step-pill {
+    flex: 1; min-width: 110px;
+    padding: 10px 14px;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 12.5px; font-weight: 600;
+    color: var(--ink-3);
+    display: flex; align-items: center; gap: 8px;
+    text-align: left;
+  }
+  .step-num {
+    width: 22px; height: 22px;
+    background: var(--paper);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+  }
+  .step-pill.active { border-color: var(--brand); background: var(--brand-2); color: var(--brand-dark); }
+  .step-pill.active .step-num { background: var(--brand); color: white; }
+  .step-pill.done { border-color: var(--green); color: var(--green); }
+  .step-pill.done .step-num { background: var(--green); color: white; }
+
+  /* ── FORM CARD ────────────────────────────────────────── */
+  .form-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 16px;
+  }
+  .step-title {
+    font-family: 'Lora', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .step-sub {
+    color: var(--ink-3);
+    font-size: 14px;
+    margin-bottom: 26px;
+  }
+  .field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 20px;
+  }
+  .field-grid .full { grid-column: 1 / -1; }
+  .field-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-2);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    display: block;
+  }
+  .field-label .req { color: var(--red); }
+  .form-input,
+  .form-select,
+  .form-textarea {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 13px;
+    font-family: inherit;
+    font-size: 14.5px;
+    color: var(--ink);
+    background: var(--paper);
+  }
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: var(--brand);
+    background: var(--white);
+  }
+  .form-textarea { resize: vertical; min-height: 120px; line-height: 1.55; }
+  .field-hint {
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-top: 5px;
+  }
+  .field-error {
+    color: var(--red);
+    font-size: 12.5px;
+    margin-top: 5px;
+    display: none;
+  }
+  .field-error.visible { display: block; }
+  .check-row {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 12px 14px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  .check-row input[type="checkbox"] { margin-top: 3px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--brand); }
+  .check-row label { font-size: 13.5px; color: var(--ink-2); line-height: 1.55; }
+
+  /* CV upload */
+  .cv-drop {
+    border: 1.5px dashed var(--border);
+    border-radius: 12px;
+    padding: 28px 20px;
+    text-align: center;
+    background: var(--paper);
+    cursor: pointer;
+    transition: border-color .18s, background .18s;
+  }
+  .cv-drop:hover, .cv-drop.dragging { border-color: var(--brand); background: var(--brand-2); }
+  .cv-drop input[type="file"] { display: none; }
+  .cv-drop-title { font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .cv-drop-sub { font-size: 12.5px; color: var(--ink-3); }
+  .cv-selected {
+    background: var(--green-2);
+    border: 1px solid var(--green);
+    color: #064e3b;
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-top: 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .cv-remove {
+    background: transparent; border: none; cursor: pointer;
+    color: #064e3b; font-size: 18px; line-height: 1;
+  }
+
+  .char-counter { font-size: 11.5px; color: var(--ink-3); text-align: right; margin-top: 3px; }
+  .char-counter.warn { color: var(--amber); font-weight: 600; }
+
+  /* nav buttons */
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+    gap: 12px;
+  }
+  .btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 600;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: all .18s;
+  }
+  .btn-primary { background: var(--brand); color: white; }
+  .btn-primary:hover:not(:disabled) { background: var(--brand-dark); }
+  .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+  .btn-secondary { background: var(--white); color: var(--ink-2); border-color: var(--border); }
+  .btn-secondary:hover:not(:disabled) { border-color: var(--ink-3); color: var(--ink); }
+
+  /* ── DONE STATE ────────────────────────────────────── */
+  .done-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 56px 36px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .done-icon {
+    width: 72px; height: 72px;
+    background: var(--green-2);
+    color: var(--green);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 22px;
+    font-size: 32px;
+  }
+  .done-title { font-family: 'Lora', serif; font-size: 26px; font-weight: 600; margin-bottom: 10px; }
+  .done-sub { color: var(--ink-2); font-size: 15px; max-width: 520px; margin: 0 auto 22px; }
+  .done-email { background: var(--brand-2); color: var(--brand-dark); padding: 8px 16px; border-radius: 8px; font-weight: 600; display: inline-block; }
+
+  .submit-error {
+    background: var(--red-2);
+    border: 1px solid var(--red);
+    color: #7f1d1d;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-top: 16px;
+    font-size: 13.5px;
+    display: none;
+  }
+  .submit-error.visible { display: block; }
+
+  .progress-overlay {
+    position: fixed; inset: 0;
+    background: rgba(28,28,46,.45);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 100;
+  }
+  .progress-overlay.visible { display: flex; }
+  .progress-card {
+    background: var(--white);
+    padding: 28px 36px;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    max-width: 380px;
+  }
+  .progress-spinner {
+    width: 36px; height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--brand);
+    border-radius: 50%;
+    margin: 0 auto 14px;
+    animation: spin 0.9s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .progress-title { font-weight: 600; margin-bottom: 4px; }
+  .progress-sub { font-size: 13px; color: var(--ink-3); }
+
+  @media (max-width: 720px) {
+    .field-grid { grid-template-columns: 1fr; }
+    .form-card { padding: 24px 20px; }
+    .stepper { gap: 6px; }
+    .step-pill { min-width: auto; padding: 8px 10px; font-size: 11.5px; }
+    .step-pill .step-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <a class="brand-mark" href="/careers">
+    <div class="brand-logo">E</div>
+    <div class="brand-text">Eduversal Careers</div>
+  </a>
+  <nav><a class="top-bar-link" href="/careers">← All positions</a></nav>
+</header>
+
+<div class="page-wrap">
+
+  <!-- Position summary -->
+  <div id="posSummary" class="pos-summary">
+    <div class="pos-eyebrow">Applying for</div>
+    <div class="pos-title" id="posTitle">Loading position…</div>
+    <div class="pos-meta" id="posMeta"></div>
+  </div>
+
+  <!-- Stepper -->
+  <div class="stepper" id="stepper">
+    <div class="step-pill active" data-step="1"><span class="step-num">1</span><span class="step-label">Personal</span></div>
+    <div class="step-pill"        data-step="2"><span class="step-num">2</span><span class="step-label">Background</span></div>
+    <div class="step-pill"        data-step="3"><span class="step-num">3</span><span class="step-label">Documents</span></div>
+    <div class="step-pill"        data-step="4"><span class="step-num">4</span><span class="step-label">Submit</span></div>
+  </div>
+
+  <!-- Form -->
+  <form id="applyForm" class="form-card" novalidate>
+
+    <!-- STEP 1: Personal -->
+    <section data-step-content="1">
+      <div class="step-title">Personal information</div>
+      <div class="step-sub">Tell us how to reach you. We send the magic-link tracking URL to the email you enter here.</div>
+      <div class="field-grid">
+        <div>
+          <label class="field-label" for="firstName">First name <span class="req">*</span></label>
+          <input class="form-input" id="firstName" name="firstName" required maxlength="60" autocomplete="given-name" />
+          <div class="field-error" data-error-for="firstName">Required.</div>
+        </div>
+        <div>
+          <label class="field-label" for="lastName">Last name <span class="req">*</span></label>
+          <input class="form-input" id="lastName" name="lastName" required maxlength="60" autocomplete="family-name" />
+          <div class="field-error" data-error-for="lastName">Required.</div>
+        </div>
+        <div>
+          <label class="field-label" for="email">Email <span class="req">*</span></label>
+          <input class="form-input" id="email" name="email" type="email" required maxlength="120" autocomplete="email" />
+          <div class="field-hint">We'll send you a magic-link to track your application status.</div>
+          <div class="field-error" data-error-for="email">Enter a valid email address.</div>
+        </div>
+        <div>
+          <label class="field-label" for="phone">Phone (with country code) <span class="req">*</span></label>
+          <input class="form-input" id="phone" name="phone" type="tel" required maxlength="30" autocomplete="tel" placeholder="+62 …" />
+          <div class="field-error" data-error-for="phone">Required.</div>
+        </div>
+        <div>
+          <label class="field-label" for="citizenship">Citizenship <span class="req">*</span></label>
+          <input class="form-input" id="citizenship" name="citizenship" required maxlength="60" placeholder="e.g. Indonesian, Malaysian" />
+          <div class="field-error" data-error-for="citizenship">Required.</div>
+        </div>
+        <div>
+          <label class="field-label" for="currentLocation">Current location (city, country) <span class="req">*</span></label>
+          <input class="form-input" id="currentLocation" name="currentLocation" required maxlength="80" />
+          <div class="field-error" data-error-for="currentLocation">Required.</div>
+        </div>
+        <div class="full">
+          <label class="field-label" for="willingToRelocate">Willing to relocate within Indonesia? <span class="req">*</span></label>
+          <select class="form-select" id="willingToRelocate" name="willingToRelocate" required>
+            <option value="">— select —</option>
+            <option value="yes">Yes, anywhere in Indonesia</option>
+            <option value="java_only">Yes, but only on Java</option>
+            <option value="city_only">Yes, but only in the city I currently live in</option>
+            <option value="no">No, I cannot relocate</option>
+          </select>
+          <div class="field-error" data-error-for="willingToRelocate">Required.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 2: Background -->
+    <section data-step-content="2" hidden>
+      <div class="step-title">Background</div>
+      <div class="step-sub">Your teaching experience, qualifications, and languages.</div>
+      <div class="field-grid">
+        <div>
+          <label class="field-label" for="yearsExperience">Years of teaching experience <span class="req">*</span></label>
+          <select class="form-select" id="yearsExperience" name="yearsExperience" required>
+            <option value="">— select —</option>
+            <option value="0">No formal teaching experience yet</option>
+            <option value="1">Less than 1 year</option>
+            <option value="2">1–3 years</option>
+            <option value="3">4–7 years</option>
+            <option value="4">8–15 years</option>
+            <option value="5">More than 15 years</option>
+          </select>
+          <div class="field-error" data-error-for="yearsExperience">Required.</div>
+        </div>
+        <div>
+          <label class="field-label" for="highestQualification">Highest qualification <span class="req">*</span></label>
+          <select class="form-select" id="highestQualification" name="highestQualification" required>
+            <option value="">— select —</option>
+            <option value="diploma">Diploma</option>
+            <option value="bachelor">Bachelor's degree</option>
+            <option value="pgce">PGCE / Teaching Diploma</option>
+            <option value="master">Master's degree</option>
+            <option value="phd">PhD / Doctorate</option>
+          </select>
+          <div class="field-error" data-error-for="highestQualification">Required.</div>
+        </div>
+        <div class="full">
+          <label class="field-label" for="institution">Institution + field of study <span class="req">*</span></label>
+          <input class="form-input" id="institution" name="institution" required maxlength="160" placeholder="e.g. UPI Bandung — B.Ed. Mathematics, 2018" />
+          <div class="field-error" data-error-for="institution">Required.</div>
+        </div>
+        <div class="full">
+          <label class="field-label" for="languages">Languages spoken (comma-separated) <span class="req">*</span></label>
+          <input class="form-input" id="languages" name="languages" required maxlength="200" placeholder="e.g. English (fluent), Indonesian (native), Mandarin (basic)" />
+          <div class="field-error" data-error-for="languages">Required.</div>
+        </div>
+        <div class="full">
+          <label class="field-label" for="references">References (name, role, contact — one per line, optional)</label>
+          <textarea class="form-textarea" id="references" name="references" maxlength="800" rows="4" placeholder="e.g. Dr. Jane Smith — Head of Math at ABC International, jane@example.com"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 3: Documents -->
+    <section data-step-content="3" hidden>
+      <div class="step-title">Documents & motivation</div>
+      <div class="step-sub">Upload your CV and tell us why you want to join Eduversal.</div>
+
+      <label class="field-label" style="margin-top:6px">CV / Resume <span class="req">*</span></label>
+      <label class="cv-drop" id="cvDrop">
+        <input type="file" id="cvFile" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+        <div class="cv-drop-title" id="cvDropTitle">📄 Click to upload or drag a file</div>
+        <div class="cv-drop-sub">PDF, DOC, or DOCX · max 10 MB</div>
+      </label>
+      <div id="cvSelected" class="cv-selected" style="display:none">
+        <span id="cvSelectedName"></span>
+        <button type="button" class="cv-remove" id="cvRemove" aria-label="Remove file">×</button>
+      </div>
+      <div class="field-error" data-error-for="cvFile" style="margin-top:8px">Please attach a CV (PDF, DOC, or DOCX, ≤ 10 MB).</div>
+
+      <div style="margin-top:24px">
+        <label class="field-label" for="motivationLetter">Motivation letter <span class="req">*</span></label>
+        <textarea class="form-textarea" id="motivationLetter" name="motivationLetter" required minlength="500" maxlength="2000" rows="8" placeholder="Why do you want to teach with Eduversal? What experience prepares you for this role? Be specific about subjects, year groups, and approach."></textarea>
+        <div id="motivationCounter" class="char-counter">0 / 2000 (min 500)</div>
+        <div class="field-error" data-error-for="motivationLetter">Please write between 500 and 2000 characters.</div>
+      </div>
+    </section>
+
+    <!-- STEP 4: Submit -->
+    <section data-step-content="4" hidden>
+      <div class="step-title">Review & submit</div>
+      <div class="step-sub">Check your details below, then submit. We'll email you a magic-link to track your application.</div>
+
+      <div id="reviewSummary" style="background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:18px;font-size:13.5px;color:var(--ink-2)"></div>
+
+      <div class="check-row">
+        <input type="checkbox" id="consentData" />
+        <label for="consentData">
+          I consent to Eduversal storing the information and CV I provide for the purpose of evaluating my application. I understand my data will be retained for up to 24 months under Indonesia's PDP regulation, and I can request deletion at any time by emailing <a href="mailto:careers@eduversal.org" style="color:var(--brand)">careers@eduversal.org</a>.
+        </label>
+      </div>
+      <div class="check-row">
+        <input type="checkbox" id="consentTrue" />
+        <label for="consentTrue">
+          I confirm the information I have provided is accurate and that the CV is my own work. I understand misrepresentation may result in withdrawal of any offer.
+        </label>
+      </div>
+      <div class="field-error" data-error-for="consents">Please tick both boxes to submit.</div>
+
+      <div id="submitError" class="submit-error"></div>
+    </section>
+
+    <!-- Navigation -->
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" id="prevBtn" disabled>← Back</button>
+      <button type="button" class="btn btn-primary" id="nextBtn">Next →</button>
+      <button type="submit" class="btn btn-primary" id="submitBtn" hidden>Submit application</button>
+    </div>
+  </form>
+</div>
+
+<!-- Done state (replaces form on success) -->
+<template id="doneTpl">
+  <div class="page-wrap">
+    <div class="done-card">
+      <div class="done-icon">✓</div>
+      <div class="done-title">Application received</div>
+      <div class="done-sub">Thank you. We've emailed a magic-link to <span class="done-email" id="doneEmail"></span> — click it any time to track your application status. The hiring team will be in touch within 7–14 days.</div>
+      <a class="btn btn-secondary" href="/careers" style="display:inline-block;text-decoration:none;margin-top:16px">Back to all positions</a>
+    </div>
+  </div>
+</template>
+
+<!-- Submit overlay -->
+<div class="progress-overlay" id="progressOverlay">
+  <div class="progress-card">
+    <div class="progress-spinner"></div>
+    <div class="progress-title" id="progressTitle">Submitting…</div>
+    <div class="progress-sub" id="progressSub">Please don't close this tab.</div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, sendSignInLinkToEmail }
+    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getFirestore, doc, getDoc, addDoc, collection, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL }
+    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+  const app = getApps().length ? getApps()[0] : initializeApp({
+    apiKey:            window.ENV.FIREBASE_API_KEY,
+    authDomain:        window.ENV.FIREBASE_AUTH_DOMAIN,
+    projectId:         window.ENV.FIREBASE_PROJECT_ID,
+    storageBucket:     window.ENV.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: window.ENV.FIREBASE_MESSAGING_SENDER_ID,
+    appId:             window.ENV.FIREBASE_APP_ID,
+  });
+  const db      = getFirestore(app);
+  const auth    = getAuth(app);
+  const storage = getStorage(app);
+
+  // ── Position bootstrap ────────────────────────────────
+  const params = new URLSearchParams(window.location.search);
+  const positionId = params.get('position');
+  let position = null;
+
+  function escHtml(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+  }
+
+  async function loadPosition() {
+    if (!positionId) {
+      document.getElementById('posTitle').textContent = 'No position selected';
+      document.getElementById('posMeta').innerHTML = '<a href="/careers" style="color:white;text-decoration:underline">Browse open positions →</a>';
+      document.getElementById('applyForm').style.opacity = .4;
+      document.getElementById('applyForm').style.pointerEvents = 'none';
+      return;
+    }
+    try {
+      const snap = await getDoc(doc(db, 'job_positions', positionId));
+      if (!snap.exists() || snap.data().status !== 'open') {
+        document.getElementById('posTitle').textContent = 'Position no longer available';
+        document.getElementById('posMeta').innerHTML = '<a href="/careers" style="color:white;text-decoration:underline">Browse open positions →</a>';
+        document.getElementById('applyForm').style.opacity = .4;
+        document.getElementById('applyForm').style.pointerEvents = 'none';
+        return;
+      }
+      position = { id: snap.id, ...snap.data() };
+      document.getElementById('posTitle').textContent = position.title;
+      const meta = [];
+      if (position.schoolName) meta.push(`<span><strong>School:</strong> ${escHtml(position.schoolName)}</span>`);
+      if (position.gradeLevel) meta.push(`<span><strong>Level:</strong> ${escHtml(position.gradeLevel)}</span>`);
+      if (Array.isArray(position.subjects) && position.subjects.length) {
+        meta.push(`<span><strong>Subject(s):</strong> ${escHtml(position.subjects.join(', '))}</span>`);
+      }
+      if (position.mode) {
+        const lbl = position.mode === 'online' ? 'Online' : position.mode === 'hybrid' ? 'Hybrid' : 'On-site';
+        meta.push(`<span><strong>Interview:</strong> ${lbl}</span>`);
+      }
+      document.getElementById('posMeta').innerHTML = meta.join('');
+    } catch (err) {
+      console.error('[apply] position load failed', err);
+      document.getElementById('posTitle').textContent = 'Could not load position';
+    }
+  }
+
+  // ── Step navigation ───────────────────────────────────
+  let currentStep = 1;
+  const TOTAL_STEPS = 4;
+
+  function showStep(n) {
+    currentStep = n;
+    document.querySelectorAll('[data-step-content]').forEach(el => {
+      el.hidden = Number(el.dataset.stepContent) !== n;
+    });
+    document.querySelectorAll('#stepper .step-pill').forEach(p => {
+      const sn = Number(p.dataset.step);
+      p.classList.toggle('active', sn === n);
+      p.classList.toggle('done', sn < n);
+    });
+    document.getElementById('prevBtn').disabled = n === 1;
+    document.getElementById('nextBtn').hidden = n === TOTAL_STEPS;
+    document.getElementById('submitBtn').hidden = n !== TOTAL_STEPS;
+    if (n === TOTAL_STEPS) renderReview();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function clearErrors(stepN) {
+    document.querySelectorAll(`[data-step-content="${stepN}"] .field-error`).forEach(e => e.classList.remove('visible'));
+  }
+  function showError(name) {
+    const el = document.querySelector(`.field-error[data-error-for="${name}"]`);
+    if (el) el.classList.add('visible');
+  }
+
+  function validateStep(n) {
+    clearErrors(n);
+    let ok = true;
+    if (n === 1) {
+      const required = ['firstName','lastName','email','phone','citizenship','currentLocation','willingToRelocate'];
+      for (const f of required) {
+        const v = (document.getElementById(f).value || '').trim();
+        if (!v) { showError(f); ok = false; }
+      }
+      const email = (document.getElementById('email').value || '').trim();
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('email'); ok = false; }
+    } else if (n === 2) {
+      const required = ['yearsExperience','highestQualification','institution','languages'];
+      for (const f of required) {
+        const v = (document.getElementById(f).value || '').trim();
+        if (!v) { showError(f); ok = false; }
+      }
+    } else if (n === 3) {
+      if (!cvFileRef) { showError('cvFile'); ok = false; }
+      const ml = (document.getElementById('motivationLetter').value || '').trim();
+      if (ml.length < 500 || ml.length > 2000) { showError('motivationLetter'); ok = false; }
+    } else if (n === 4) {
+      if (!document.getElementById('consentData').checked || !document.getElementById('consentTrue').checked) {
+        showError('consents'); ok = false;
+      }
+    }
+    return ok;
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    if (validateStep(currentStep)) showStep(currentStep + 1);
+  });
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    if (currentStep > 1) showStep(currentStep - 1);
+  });
+  document.querySelectorAll('#stepper .step-pill').forEach(p => {
+    p.addEventListener('click', () => {
+      const target = Number(p.dataset.step);
+      if (target < currentStep) showStep(target);   // back-nav free
+      else if (target === currentStep + 1 && validateStep(currentStep)) showStep(target);
+    });
+  });
+
+  // ── CV upload UX ──────────────────────────────────────
+  let cvFileRef = null;
+  const cvDrop = document.getElementById('cvDrop');
+  const cvFileInput = document.getElementById('cvFile');
+  const cvSelected = document.getElementById('cvSelected');
+  const cvSelectedName = document.getElementById('cvSelectedName');
+
+  function handleCvFile(file) {
+    if (!file) return;
+    if (file.size > 10 * 1024 * 1024) {
+      alert('File too large — max 10 MB.');
+      return;
+    }
+    const allowed = ['application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (!allowed.includes(file.type) && !/\.(pdf|docx?|DOCX?)$/i.test(file.name)) {
+      alert('Only PDF, DOC, or DOCX files are accepted.');
+      return;
+    }
+    cvFileRef = file;
+    cvSelectedName.textContent = `📄 ${file.name} (${Math.round(file.size / 1024)} KB)`;
+    cvSelected.style.display = 'flex';
+    document.getElementById('cvDropTitle').textContent = '📄 Replace file';
+  }
+  cvFileInput.addEventListener('change', e => handleCvFile(e.target.files[0]));
+  cvDrop.addEventListener('dragover', e => { e.preventDefault(); cvDrop.classList.add('dragging'); });
+  cvDrop.addEventListener('dragleave', () => cvDrop.classList.remove('dragging'));
+  cvDrop.addEventListener('drop', e => {
+    e.preventDefault();
+    cvDrop.classList.remove('dragging');
+    handleCvFile(e.dataTransfer.files[0]);
+  });
+  document.getElementById('cvRemove').addEventListener('click', () => {
+    cvFileRef = null;
+    cvFileInput.value = '';
+    cvSelected.style.display = 'none';
+    document.getElementById('cvDropTitle').textContent = '📄 Click to upload or drag a file';
+  });
+
+  // ── Motivation letter counter ────────────────────────
+  const ml = document.getElementById('motivationLetter');
+  const mlCounter = document.getElementById('motivationCounter');
+  ml.addEventListener('input', () => {
+    const len = ml.value.length;
+    mlCounter.textContent = `${len} / 2000 (min 500)`;
+    mlCounter.classList.toggle('warn', len < 500 || len > 2000);
+  });
+
+  // ── Review step renders summary ───────────────────────
+  function renderReview() {
+    const v = id => (document.getElementById(id).value || '').trim();
+    const summary = `
+      <div style="margin-bottom:8px"><strong>Name:</strong> ${escHtml(v('firstName') + ' ' + v('lastName'))}</div>
+      <div style="margin-bottom:8px"><strong>Email:</strong> ${escHtml(v('email'))}</div>
+      <div style="margin-bottom:8px"><strong>Phone:</strong> ${escHtml(v('phone'))}</div>
+      <div style="margin-bottom:8px"><strong>Citizenship:</strong> ${escHtml(v('citizenship'))} · <strong>Location:</strong> ${escHtml(v('currentLocation'))}</div>
+      <div style="margin-bottom:8px"><strong>Experience:</strong> ${escHtml(v('yearsExperience'))} · <strong>Qualification:</strong> ${escHtml(v('highestQualification'))}</div>
+      <div style="margin-bottom:8px"><strong>Languages:</strong> ${escHtml(v('languages'))}</div>
+      <div style="margin-bottom:8px"><strong>CV:</strong> ${cvFileRef ? escHtml(cvFileRef.name) : '<span style="color:var(--red)">Missing — go back and attach</span>'}</div>
+      <div style="margin-bottom:0"><strong>Motivation:</strong> ${escHtml(v('motivationLetter')).slice(0, 240)}${v('motivationLetter').length > 240 ? '…' : ''}</div>`;
+    document.getElementById('reviewSummary').innerHTML = summary;
+  }
+
+  // ── Submit ────────────────────────────────────────────
+  function genToken() {
+    const arr = new Uint8Array(24);
+    crypto.getRandomValues(arr);
+    return Array.from(arr, b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  function setProgress(title, sub) {
+    document.getElementById('progressTitle').textContent = title;
+    document.getElementById('progressSub').textContent = sub;
+  }
+  function showProgress() { document.getElementById('progressOverlay').classList.add('visible'); }
+  function hideProgress() { document.getElementById('progressOverlay').classList.remove('visible'); }
+
+  document.getElementById('applyForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!validateStep(4)) return;
+    if (!position) {
+      document.getElementById('submitError').textContent = 'Position not loaded — refresh and try again.';
+      document.getElementById('submitError').classList.add('visible');
+      return;
+    }
+
+    const errBox = document.getElementById('submitError');
+    errBox.classList.remove('visible');
+    showProgress();
+
+    try {
+      const v = id => (document.getElementById(id).value || '').trim();
+      const email = v('email').toLowerCase();
+      const applicantToken = genToken();
+      const positionIdSafe = position.id.replace(/[^a-zA-Z0-9_-]/g, '_');
+
+      // 1) Upload CV
+      setProgress('Uploading CV…', 'This usually takes a few seconds.');
+      const ts = Date.now();
+      const safeName = cvFileRef.name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 80);
+      const cvPath = `careers/cv/${positionIdSafe}/${ts}_${safeName}`;
+      const cvRefStg = ref(storage, cvPath);
+      await uploadBytes(cvRefStg, cvFileRef, { contentType: cvFileRef.type || 'application/octet-stream' });
+      const cvUrl = await getDownloadURL(cvRefStg);
+
+      // 2) Create job_applications doc
+      setProgress('Saving application…', 'Almost there.');
+      const langs = v('languages').split(',').map(s => s.trim()).filter(Boolean);
+      const refs = v('references').split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+
+      const appData = {
+        positionId: position.id,
+        positionTitle: position.title || '',
+        schoolId: position.schoolId || null,
+        schoolName: position.schoolName || null,
+        applicantEmail: email,
+        applicantToken,
+        applicant: {
+          firstName:           v('firstName'),
+          lastName:            v('lastName'),
+          phone:               v('phone'),
+          citizenship:         v('citizenship'),
+          currentLocation:     v('currentLocation'),
+          willingToRelocate:   v('willingToRelocate'),
+          yearsExperience:     v('yearsExperience'),
+          highestQualification: v('highestQualification'),
+          institution:         v('institution'),
+          languages:           langs,
+          references:          refs,
+          motivationLetter:    v('motivationLetter'),
+          cvUrl,
+          cvFilename:          cvFileRef.name,
+          cvSize:              cvFileRef.size,
+        },
+        status: 'submitted',
+        interviewSchedule: { interviewerUids: [] },
+        scorecard: { totalSubmittedScorecards: 0 },
+        source: 'careers',
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      };
+
+      const docRef = await addDoc(collection(db, 'job_applications'), appData);
+
+      // 3) Send magic-link to applicant email
+      setProgress('Sending magic-link…', 'Check your inbox in a moment.');
+      const actionCodeSettings = {
+        url: window.location.origin + '/careers-status',
+        handleCodeInApp: true,
+      };
+      try {
+        await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+        window.localStorage.setItem('eduversal_apply_email', email);
+      } catch (linkErr) {
+        // Non-fatal: application is saved; user can still come back via direct link.
+        console.warn('[apply] sendSignInLinkToEmail failed', linkErr);
+      }
+
+      // 4) Done
+      hideProgress();
+      const wrap = document.querySelector('.page-wrap');
+      const tpl = document.getElementById('doneTpl').content.cloneNode(true);
+      tpl.getElementById('doneEmail').textContent = email;
+      wrap.replaceWith(tpl);
+    } catch (err) {
+      console.error('[apply] submit failed', err);
+      hideProgress();
+      errBox.textContent = 'Could not submit your application. Please try again — if the problem persists, email careers@eduversal.org.';
+      errBox.classList.add('visible');
+    }
+  });
+
+  loadPosition();
+</script>
+
+</body>
+</html>

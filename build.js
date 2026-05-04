@@ -55,6 +55,13 @@ const ROUTES = {
   'my-mentees.html': 'my-mentees',
   'observation-entry.html': 'observation-entry',
   'handbook.html': 'handbook',
+  // Public careers + interview module
+  'careers.html': 'careers',
+  'careers-apply.html': 'careers-apply',
+  'careers-status.html': 'careers-status',
+  'careers-admin.html': 'careers-admin',
+  'careers-compare.html': 'careers-compare',
+  'interview-scorecard.html': 'interview-scorecard',
   // Subject Leader Tracker pages (generated from tracker-template.html)
   'igcse-math-tracker.html':        'igcse-math-tracker',
   'igcse-biology-tracker.html':     'igcse-biology-tracker',
@@ -104,6 +111,13 @@ const LINK_REWRITES = [
   [/href="my-mentees\.html"/g,             'href="/my-mentees"'],
   [/href="observation-entry\.html(\?[^"]*)?"/g, (m, q) => `href="/observation-entry${q || ''}"`],
   [/href="handbook\.html(\?[^"]*)?"/g,     (m, q) => `href="/handbook${q || ''}"`],
+  // Careers + interview module
+  [/href="careers\.html"/g,                       'href="/careers"'],
+  [/href="careers-apply\.html(\?[^"]*)?"/g,       (m, q) => `href="/careers-apply${q || ''}"`],
+  [/href="careers-status\.html(\?[^"]*)?"/g,      (m, q) => `href="/careers-status${q || ''}"`],
+  [/href="careers-admin\.html"/g,                 'href="/careers-admin"'],
+  [/href="careers-compare\.html(\?[^"]*)?"/g,     (m, q) => `href="/careers-compare${q || ''}"`],
+  [/href="interview-scorecard\.html(\?[^"]*)?"/g, (m, q) => `href="/interview-scorecard${q || ''}"`],
   // Subject Leader Tracker pages
   [/href="orientation\.html"/g,                  'href="/orientation"'],
   [/href="igcse-math-tracker\.html"/g,          'href="/igcse-math-tracker"'],
@@ -769,6 +783,9 @@ function processFile(filename) {
   // </body> sitting inside an inline JS template literal.
   if (filename !== 'login.html' && filename !== 'index.html' &&
       filename !== 'orientation.html' &&
+      filename !== 'careers.html' &&
+      filename !== 'careers-apply.html' &&
+      filename !== 'careers-status.html' &&
       !html.includes('/cambridge-crossref.js')) {
     const closeIdx = html.lastIndexOf('</body>');
     if (closeIdx >= 0) {

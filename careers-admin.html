@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Careers admin — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236c5ce7'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="base.css" />
+<!-- FIREBASE_ENV -->
+<script type="module" src="auth-guard.js"></script>
+<style>
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); }
+  .placeholder-wrap { max-width: 720px; margin: 80px auto; padding: 0 24px; text-align: center; }
+  .placeholder-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 48px 32px; box-shadow: var(--shadow); }
+  h1 { font-family: 'Lora', serif; font-size: 24px; margin-bottom: 12px; }
+  p { color: var(--ink-2); margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div id="navbar-container"></div>
+<div class="placeholder-wrap">
+  <div class="placeholder-card">
+    <h1>Careers admin — coming in M3</h1>
+    <p>Hiring funnel + assignment + decision UI. Restricted to <strong>central_admin</strong> and <strong>hiring_manager</strong> sub-role.</p>
+    <p>Public side (<a href="/careers" style="color:var(--brand)">/careers</a> + <a href="/careers-apply" style="color:var(--brand)">apply form</a>) is live in M1.</p>
+  </div>
+</div>
+<script type="module">
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  document.addEventListener('authReady', () => {
+    fetch('partials/navbar.html').then(r => r.text()).then(html => {
+      document.getElementById('navbar-container').innerHTML = html;
+      if (typeof window.initNavbar === 'function') window.initNavbar();
+    }).catch(() => {});
+  });
+</script>
+</body>
+</html>
