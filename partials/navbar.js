@@ -68,7 +68,7 @@ function initNavbar() {
       mywork: ['weekly-checklist','teacher-self-assessment','teacher-kpi-results',
                'teacher-appraisal-results','teacher-self-appraisal',
                'competency-framework','learning-path','my-portfolio','my-certificates'],
-      hub:    ['announcements','messageboard','library','cambridge-calendar','surveys'],
+      hub:    ['announcements','messageboard','library','cambridge-calendar','cambridge-standards','surveys'],
     };
 
     document.querySelectorAll('.th-dd-wrap').forEach(function(wrap) {
