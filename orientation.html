@@ -468,6 +468,127 @@
     .quiz-intro-text h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: var(--brand); }
     .quiz-intro-text p  { font-size: 13px; color: var(--ink-2); }
 
+    /* Cambridge framework banner (above the quiz progress) */
+    .cts-banner {
+      background: linear-gradient(135deg, #ede9fe 0%, #fff 70%);
+      border: 1px solid #c4b5fd;
+      border-left: 4px solid #6c5ce7;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 18px;
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .cts-banner-icon {
+      font-size: 22px; flex-shrink: 0;
+      line-height: 1;
+    }
+    .cts-banner-text h4 {
+      font-size: 13px; font-weight: 700; color: #5b21b6;
+      letter-spacing: .03em; margin-bottom: 4px;
+    }
+    .cts-banner-text p { font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
+
+    /* Per-domain mini progress (5 chips) */
+    .dom-prog {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+      margin-bottom: 18px;
+    }
+    .dom-prog-item {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 11px;
+      position: relative; overflow: hidden;
+    }
+    .dom-prog-item::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+      background: var(--dp-fg, var(--brand));
+    }
+    .dom-prog-item.dp-1 { --dp-fg:#92400e; --dp-bg:#fef3c7; }
+    .dom-prog-item.dp-2 { --dp-fg:#9d174d; --dp-bg:#fce7f3; }
+    .dom-prog-item.dp-3 { --dp-fg:#1e40af; --dp-bg:#dbeafe; }
+    .dom-prog-item.dp-4 { --dp-fg:#166534; --dp-bg:#dcfce7; }
+    .dom-prog-item.dp-5 { --dp-fg:#5b21b6; --dp-bg:#ede9fe; }
+    .dom-prog-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; color: var(--dp-fg); font-weight: 700;
+      letter-spacing: .05em;
+    }
+    .dom-prog-name {
+      font-size: 11.5px; font-weight: 600; color: var(--ink);
+      margin: 2px 0 6px; line-height: 1.25;
+    }
+    .dom-prog-bar {
+      height: 4px; background: var(--paper); border-radius: 2px; overflow: hidden;
+    }
+    .dom-prog-bar-fill {
+      height: 100%; background: var(--dp-fg); transition: width .3s ease;
+    }
+    .dom-prog-count {
+      font-size: 10px; color: var(--ink-3); margin-top: 4px;
+    }
+
+    /* CTS chip on each q-card + the inline expand panel */
+    .q-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: -6px; margin-bottom: 12px; }
+    .q-tag-cts {
+      font-family: 'DM Mono', monospace; font-size: 10.5px;
+      padding: 3px 8px; border-radius: 4px;
+      background: #ede9fe; color: #5b21b6; font-weight: 700;
+      cursor: pointer; border: 1px solid transparent;
+      transition: border-color .15s ease, transform .15s ease;
+    }
+    .q-tag-cts:hover { border-color: #c4b5fd; transform: translateY(-1px); }
+    .q-tag-cts.active { background: #ddd6fe; border-color: #8b5cf6; }
+    .q-cts-detail {
+      margin: 8px 0 16px;
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-left: 3px solid #6c5ce7;
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 12.5px; color: var(--ink); line-height: 1.55;
+      display: none;
+    }
+    .q-cts-detail.open { display: block; }
+    .q-cts-detail-id {
+      font-family: 'DM Mono', monospace; font-size: 10.5px;
+      color: #5b21b6; font-weight: 700; letter-spacing: .04em;
+      text-transform: uppercase; margin-bottom: 4px;
+    }
+    .q-cts-detail-text { color: var(--ink); }
+    .q-cts-detail-meta {
+      margin-top: 8px; font-size: 11px; color: var(--ink-3); font-style: italic;
+    }
+
+    /* Cambridge familiarity Likert (register form) */
+    .likert {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+      margin-top: 8px;
+    }
+    .likert-opt {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 4px; padding: 10px 6px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: border-color .12s ease, background-color .12s ease, transform .12s ease;
+    }
+    .likert-opt:hover { border-color: #c4b5fd; transform: translateY(-1px); }
+    .likert-opt input[type="radio"] { display: none; }
+    .likert-opt-num {
+      font-family: 'Lora', serif; font-size: 18px; font-weight: 700;
+      color: #5b21b6;
+    }
+    .likert-opt-label { font-size: 10.5px; color: var(--ink-3); line-height: 1.2; }
+    .likert-opt.selected {
+      background: #ede9fe; border-color: #6c5ce7;
+    }
+    .likert-opt.selected .likert-opt-num { color: #4c1d95; }
+    .likert-opt.selected .likert-opt-label { color: #5b21b6; font-weight: 600; }
+
     .q-card {
       background: var(--white);
       border: 1px solid var(--border);
@@ -718,6 +839,19 @@
       <p>No questions have been added yet. Check back soon.</p>
     </div>
     <div id="quiz-content" style="display:none;">
+      <!-- Cambridge framework banner: explains the anchor system, only
+           visible when at least one question carries a CTS ref. -->
+      <div class="cts-banner" id="cts-banner" style="display:none;">
+        <div class="cts-banner-icon">🎓</div>
+        <div class="cts-banner-text">
+          <h4>Anchored to Cambridge Teacher Standards (2023)</h4>
+          <p>Each tagged question maps to one of the 27 standards Cambridge expects of every teacher across its 5 domains. Click any <strong>CTS</strong> chip to see the standard's full text. After registration you'll be able to browse all 27 standards and see how they connect to KPI, Appraisal and Competency.</p>
+        </div>
+      </div>
+
+      <!-- Per-domain mini progress (only shown when refs exist) -->
+      <div class="dom-prog" id="dom-prog" style="display:none;"></div>
+
       <div class="quiz-progress-label" id="quiz-progress-label">0 of 0 answered</div>
       <div class="quiz-progress"><div class="quiz-progress-fill" id="quiz-progress-fill" style="width:0%"></div></div>
       <div id="questions-list"></div>
@@ -830,6 +964,32 @@
           <input class="form-input" id="r-linkedin" type="url" placeholder="https://linkedin.com/in/your-name" />
           <p class="form-hint">Optional — helps us learn more about your background.</p>
         </div>
+        <div class="form-row">
+          <label class="form-label">Familiarity with Cambridge Teacher Standards (2023)</label>
+          <p class="form-hint" style="margin:-4px 0 6px;">Honest self-rating. We use this to tailor your onboarding — there's no wrong answer.</p>
+          <div class="likert" id="cambridge-familiarity">
+            <label class="likert-opt" data-val="1" onclick="setFamiliarity(1)">
+              <span class="likert-opt-num">1</span>
+              <span class="likert-opt-label">Never heard of them</span>
+            </label>
+            <label class="likert-opt" data-val="2" onclick="setFamiliarity(2)">
+              <span class="likert-opt-num">2</span>
+              <span class="likert-opt-label">Aware of the name</span>
+            </label>
+            <label class="likert-opt" data-val="3" onclick="setFamiliarity(3)">
+              <span class="likert-opt-num">3</span>
+              <span class="likert-opt-label">Read parts of them</span>
+            </label>
+            <label class="likert-opt" data-val="4" onclick="setFamiliarity(4)">
+              <span class="likert-opt-num">4</span>
+              <span class="likert-opt-label">Apply them in practice</span>
+            </label>
+            <label class="likert-opt" data-val="5" onclick="setFamiliarity(5)">
+              <span class="likert-opt-num">5</span>
+              <span class="likert-opt-label">Coach others on them</span>
+            </label>
+          </div>
+        </div>
         <div class="form-row" style="margin-bottom:0">
           <label class="form-label" for="r-note">Anything else you'd like us to know</label>
           <textarea class="form-textarea" id="r-note" placeholder="Optional — teaching background, certifications, questions, etc."></textarea>
@@ -917,7 +1077,7 @@
 <script type="module">
   import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
   import {
-    getFirestore, collection, getDocs, addDoc, serverTimestamp, query, orderBy, where
+    getFirestore, collection, getDocs, getDoc, doc, addDoc, serverTimestamp, query, orderBy, where
   } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
   import {
     getStorage, ref, uploadBytesResumable, getDownloadURL
@@ -1013,14 +1173,33 @@
   let questions  = [];
   let answers    = {}; // questionId -> { idx, text }
   let notes      = {}; // questionId -> string
+  // Cambridge Teacher Standards lookup ({"3.6": "use a range of …", …}).
+  // Loaded from competency_framework/teachers (rule is read-open, no auth).
+  // Used to render verbatim text inline when a learner clicks a CTS chip.
+  let ctsLookup  = {};
+
+  // Domain meta — verbatim from Cambridge International (2023). Mirrored
+  // in cambridge-standards.html; kept here so this page remains self-
+  // contained and works without any login.
+  const TH_DOMAIN_META = {
+    '1': { name: 'Teacher values & attributes' },
+    '2': { name: 'Classroom culture & environment' },
+    '3': { name: 'Teaching skills & practices' },
+    '4': { name: 'Innovation & improvement' },
+    '5': { name: 'Community engagement' },
+  };
 
   async function loadQuestions() {
     try {
-      const snap = await getDocs(query(
-        collection(db, 'orientation_questions'),
-        orderBy('order', 'asc')
-      ));
-      questions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      // Fetch questions + Cambridge framework in parallel. The framework
+      // doc is small (~30 KB) so it adds negligible load time even when
+      // questions have no anchors.
+      const [qSnap, fwSnap] = await Promise.all([
+        getDocs(query(collection(db, 'orientation_questions'), orderBy('order', 'asc'))),
+        getDoc(doc(db, 'competency_framework', 'teachers')),
+      ]);
+      questions = qSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      ctsLookup = fwSnap.exists() ? (fwSnap.data().cambridgeStandards || {}) : {};
 
       document.getElementById('quiz-loading').style.display = 'none';
 
@@ -1038,12 +1217,32 @@
     }
   }
 
+  // Pull domain id from a CTS ref like "3.6" → "3". Falls back to 5 if
+  // we can't parse (so unknown refs still render in some bucket).
+  function domainOfRef(ref) {
+    const d = String(ref || '').split('.')[0];
+    return TH_DOMAIN_META[d] ? d : '5';
+  }
+
   function renderQuestions() {
     const list = document.getElementById('questions-list');
-    list.innerHTML = questions.map((q, i) => `
+    // Reveal Cambridge banner only if at least one question carries a ref.
+    // This keeps the page friendly to question sets that aren't tagged yet.
+    const anyRefs = questions.some(q => Array.isArray(q.cambridge_standard_refs) && q.cambridge_standard_refs.length);
+    document.getElementById('cts-banner').style.display = anyRefs ? '' : 'none';
+    document.getElementById('dom-prog').style.display   = anyRefs ? '' : 'none';
+
+    list.innerHTML = questions.map((q, i) => {
+      const refs = Array.isArray(q.cambridge_standard_refs) ? q.cambridge_standard_refs : [];
+      const tags = refs.length
+        ? `<div class="q-tags">${refs.map(r => `<span class="q-tag-cts" data-cts-ref="${escHtml(r)}" data-q-id="${escHtml(q.id)}" onclick="toggleCtsDetail('${escHtml(q.id)}', '${escHtml(r)}', this)" title="Click to view the Cambridge standard">CTS ${escHtml(r)}</span>`).join('')}</div>`
+        : '';
+      return `
       <div class="q-card" id="qcard-${q.id}">
         <div class="q-num">Question ${i + 1} of ${questions.length}</div>
         <div class="q-text">${escHtml(q.question)}</div>
+        ${tags}
+        <div class="q-cts-detail" id="qdetail-${q.id}"></div>
         <div class="q-options">
           ${(q.options || []).map((opt, j) => `
             <label class="q-option" id="qopt-${q.id}-${j}">
@@ -1062,8 +1261,76 @@
             oninput="notes['${q.id}'] = this.value.trim()"></textarea>
         </div>
       </div>
-    `).join('');
+    `;
+    }).join('');
+
+    if (anyRefs) renderDomainProgress();
     updateProgress();
+  }
+
+  // Click handler for a CTS chip on a question card. Shows the verbatim
+  // Cambridge standard text in an inline panel beneath the chips. A
+  // second click on the same chip closes the panel; clicking a different
+  // chip on the same card swaps the contents.
+  window.toggleCtsDetail = function(qId, ref, chipEl) {
+    const detail = document.getElementById(`qdetail-${qId}`);
+    if (!detail) return;
+    const card = document.getElementById(`qcard-${qId}`);
+    const chips = card ? card.querySelectorAll('.q-tag-cts') : [];
+    const wasActive = chipEl.classList.contains('active');
+
+    chips.forEach(c => c.classList.remove('active'));
+
+    if (wasActive) {
+      detail.classList.remove('open');
+      detail.innerHTML = '';
+      return;
+    }
+
+    chipEl.classList.add('active');
+    const text = ctsLookup[ref] || '';
+    const dName = TH_DOMAIN_META[domainOfRef(ref)]?.name || '';
+    detail.innerHTML = text
+      ? `
+        <div class="q-cts-detail-id">Cambridge Teacher Standards · CTS ${escHtml(ref)}</div>
+        <div class="q-cts-detail-text">${escHtml(text)}</div>
+        ${dName ? `<div class="q-cts-detail-meta">Domain ${escHtml(domainOfRef(ref))} — ${escHtml(dName)}</div>` : ''}
+      `
+      : `<div class="q-cts-detail-text" style="color:var(--ink-3);font-style:italic">Could not load the standard text. Refresh and try again.</div>`;
+    detail.classList.add('open');
+  };
+
+  // Render the 5 mini-bars showing how many questions per Cambridge
+  // domain the learner has answered. Only called when at least one
+  // question is tagged.
+  function renderDomainProgress() {
+    const wrap = document.getElementById('dom-prog');
+    // Bucket questions by the domain of their first CTS ref. A question
+    // tagged 1.4 + 3.1 counts toward Domain 1 (its lead anchor) for this
+    // simple progress display.
+    const buckets = { '1': [], '2': [], '3': [], '4': [], '5': [] };
+    for (const q of questions) {
+      const refs = Array.isArray(q.cambridge_standard_refs) ? q.cambridge_standard_refs : [];
+      if (!refs.length) continue;
+      const d = domainOfRef(refs[0]);
+      buckets[d].push(q);
+    }
+
+    wrap.innerHTML = ['1','2','3','4','5'].map(d => {
+      const qs = buckets[d];
+      const total = qs.length;
+      const answered = qs.filter(q => q.id in answers).length;
+      const pct = total ? Math.round((answered / total) * 100) : 0;
+      const meta = TH_DOMAIN_META[d];
+      return `
+        <div class="dom-prog-item dp-${d}">
+          <div class="dom-prog-num">DOMAIN ${d}</div>
+          <div class="dom-prog-name">${escHtml(meta.name)}</div>
+          <div class="dom-prog-bar"><div class="dom-prog-bar-fill" style="width:${pct}%"></div></div>
+          <div class="dom-prog-count">${total ? `${answered}/${total} answered` : 'no questions'}</div>
+        </div>
+      `;
+    }).join('');
   }
 
   window.toggleNote = function(qId, btn) {
@@ -1094,6 +1361,11 @@
     document.getElementById('quiz-progress-fill').style.width  = pct + '%';
     document.getElementById('quiz-progress-label').textContent =
       `${answered} of ${total} answered`;
+    // Re-render domain bars when answers change (only if Cambridge banner
+    // is showing — i.e. some questions have anchors).
+    if (document.getElementById('dom-prog').style.display !== 'none') {
+      renderDomainProgress();
+    }
   }
 
   window.goToRegister = function() {
@@ -1106,6 +1378,17 @@
       return;
     }
     switchTab('register');
+  };
+
+  // ── CAMBRIDGE FAMILIARITY (LIKERT) ─────────────────────────────────────────
+
+  let cambridgeFamiliarity = null; // 1..5 or null
+
+  window.setFamiliarity = function(val) {
+    cambridgeFamiliarity = val;
+    document.querySelectorAll('#cambridge-familiarity .likert-opt').forEach(el => {
+      el.classList.toggle('selected', Number(el.dataset.val) === val);
+    });
   };
 
   // ── PHOTO UPLOAD ───────────────────────────────────────────────────────────
@@ -1226,6 +1509,7 @@
         note:         note || null,
         photoUrl:     resolvedPhotoUrl || null,
         quizAnswers:  quizAnswers,
+        cambridge_familiarity: cambridgeFamiliarity, // 1..5 or null
         createdAt:    serverTimestamp(),
         status:       'pending',
       });

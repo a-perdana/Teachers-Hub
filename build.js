@@ -754,10 +754,13 @@ function processFile(filename) {
   // Phase 4 — inject /cambridge-crossref.js once per page (defer; auto-
   // bootstraps from DOM scan, so CTS chips become clickable cross-ref
   // popovers without per-page wiring). Skipped for login.html which
-  // doesn't render CTS chips and doesn't need the runtime.
+  // doesn't render CTS chips and doesn't need the runtime, and for
+  // orientation.html which runs pre-login (no window.db, has its own
+  // inline CTS detail panel).
   // Use lastIndexOf so we target the actual document </body> and not a
   // </body> sitting inside an inline JS template literal.
   if (filename !== 'login.html' && filename !== 'index.html' &&
+      filename !== 'orientation.html' &&
       !html.includes('/cambridge-crossref.js')) {
     const closeIdx = html.lastIndexOf('</body>');
     if (closeIdx >= 0) {

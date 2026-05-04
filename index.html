@@ -1803,6 +1803,36 @@
         text-shadow: 0 0 20px var(--accent);
       }
 
+      /* Orientation banner — sits between footer-brand and footer-contact
+         columns on desktop, full-width above contact on mobile. */
+      .footer-orientation {
+        flex: 0 0 auto;
+        text-align: center;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, rgba(168,85,247,.12), rgba(217,70,239,.12));
+        border: 1px solid rgba(168,85,247,.25);
+        border-radius: 12px;
+      }
+      .footer-orientation a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: transform 0.25s ease;
+      }
+      .footer-orientation a:hover { transform: translateX(3px); }
+      .footer-orientation .footer-orientation-eyebrow {
+        display: block;
+        font-size: 11px;
+        color: var(--text-secondary);
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+      }
+
       /* Animations */
       @keyframes fadeInUp {
         from {
@@ -2315,6 +2345,10 @@
                 <h4>Eduversal Indonesia</h4>
                 <p>Education Department © 2025</p>
               </div>
+            </div>
+            <div class="footer-orientation">
+              <span class="footer-orientation-eyebrow">New to the network?</span>
+              <a href="orientation.html">Start with the Teacher Orientation →</a>
             </div>
             <div class="footer-contact">
               <p>For technical support or questions</p>
