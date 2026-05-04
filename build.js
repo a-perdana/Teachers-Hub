@@ -54,6 +54,7 @@ const ROUTES = {
   'my-induction.html': 'my-induction',
   'my-mentees.html': 'my-mentees',
   'observation-entry.html': 'observation-entry',
+  'handbook.html': 'handbook',
   // Subject Leader Tracker pages (generated from tracker-template.html)
   'igcse-math-tracker.html':        'igcse-math-tracker',
   'igcse-biology-tracker.html':     'igcse-biology-tracker',
@@ -102,6 +103,7 @@ const LINK_REWRITES = [
   [/href="my-induction\.html"/g,           'href="/my-induction"'],
   [/href="my-mentees\.html"/g,             'href="/my-mentees"'],
   [/href="observation-entry\.html(\?[^"]*)?"/g, (m, q) => `href="/observation-entry${q || ''}"`],
+  [/href="handbook\.html(\?[^"]*)?"/g,     (m, q) => `href="/handbook${q || ''}"`],
   // Subject Leader Tracker pages
   [/href="orientation\.html"/g,                  'href="/orientation"'],
   [/href="igcse-math-tracker\.html"/g,          'href="/igcse-math-tracker"'],
