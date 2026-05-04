@@ -125,7 +125,7 @@ Teachers Hub uses `role_teachershub` as the primary access field. **The legacy `
 | Field              | Values                                            |
 |--------------------|---------------------------------------------------|
 | `role_teachershub` | `'teachers_user'` (default) \| `'teachers_admin'` |
-| `th_sub_roles[]`   | `'subject_teacher'`, `'subject_leader'`           |
+| `th_sub_roles[]`   | `'subject_teacher'`, `'subject_leader'`, `'interviewer'`, `'hiring_manager'` |
 | `approval_status_teachershub` | `'pending'` (default) \| `'approved'` \| `'rejected'` |
 
 **Teachers Hub allowed roles:** `['teachers_user', 'teachers_admin']`
@@ -135,8 +135,10 @@ First login automatically assigns `teachers_user` + `approval_status_teachershub
 **Sub-roles (`th_sub_roles[]`)** are set in `console.html` and control:
 - `weekly-checklist.html` — Subject Leader tab is shown only if `th_sub_roles.includes('subject_leader')`. Users without this sub-role see only the Subject Teacher tab (no tab bar). Admins always see both tabs.
 - `index.html` dashboard — categories with a `visible_to[]` field are filtered: `subject_leader` sub-role shows subject_leader categories, otherwise `subject_teacher`. Categories with empty `visible_to` are shown to everyone.
+- **Careers dropdown** in the navbar (added 2026-05-04) — items gated via `page_access_config`: `careers-admin` and `careers-compare` require `hiring_manager`; `interview-scorecard` requires `interviewer` or `hiring_manager`. `teachers_admin` and `central_admin` bypass page-access entirely.
+- **`careers-admin.html` query scoping** — `hiring_manager` users see only their own school's positions and applications via `where('schoolId','==',mySchoolId)`. Firestore rule `isHiringMgrSameSchool()` enforces the same on the rule layer.
 
-A user can have both `subject_teacher` and `subject_leader` in the array simultaneously.
+A user can have multiple sub-roles simultaneously. Common combinations: `[subject_teacher, interviewer]` (a teacher who occasionally interviews) or `[subject_leader, hiring_manager]` (a HoD who hires for their school).
 
 **isAdmin check pattern (pacing pages map this to internal `'coord'` state):**
 ```js
@@ -187,6 +189,12 @@ const isAdmin = profile?.role_teachershub === 'teachers_admin';
 | `induction_pulses/{pulseId}` | Weekly 1-question pulse. Mentee writes from `my-induction.html` sidebar. | owner (mentee) |
 | `mentor_certifications/{uid}_{type}` | Read here by `my-mentees.html` to display the cert-active banner. Written from CH `induction-admin.html` only. | central_admin (write) |
 | `induction_programs/{programId}` | The 3 handbook templates seeded from `docs/induction/handbook-*.json`. Read here by `my-induction.html` to render stage timeline + tasks. | central_admin (write — via seed script only) |
+| `job_positions/{positionId}` | **Careers Module (M1, 2026-05-04).** HQ-published vacancies. Public read for `status:'open'` (powers `/careers` listing). Read by `careers.html` (filtered status==open) + `careers-apply.html` (single doc by id) + `careers-admin.html` (admin sees all; hiring_manager sees own school via `where('schoolId','==',mySchoolId)`). Created/edited from `careers-admin.html`'s "+ New position" modal. | central_admin / teachers_admin / hiring_manager (own school) |
+| `interview_question_sets/{setId}` | **Careers Module.** Question + rubric bundle. `primary-default-v1` is the seeded set (from `Interview Questions for Teacher Candidates - Scoring Rubrics.csv`, 18 questions × 4 categories, 1-5 scale). Read by interviewers; written via seed script (M2). | central_admin / teachers_admin |
+| `job_applications/{applicationId}` | **Careers Module.** Candidate submissions. **Public create** (unauth) — apply form validates required keys + email shape on the rule. Read by admin / hiring_manager (own school) / interviewer (assigned only via `interviewSchedule.interviewerUids`) / applicant (own — Firebase Auth verified email match). Update by admin / hiring_manager (full) or applicant (status='withdrew' only). CV at Storage `careers/cv/{positionId}/{ts}_{filename}`. | public (create); admin / hiring_manager (update) |
+| `interview_scorecards/{applicationId}_{interviewerUid}` | **Careers Module.** Per-interviewer scoring sheet (composite PK prevents duplicate scoring). Drafts mutable, **submitted docs are immutable** (rule blocks all field changes once `status:'submitted'`). Read by admin / hiring_manager (same school) / scoring interviewer (own). | scoring interviewer (own) |
+| `job_application_audit/{auditId}` | **Careers Module.** Append-only event log for status changes / interviewer assignments / interview scheduling / final decisions. Required for legal retention. Read by admin / teachers_admin / hiring_manager. | hiring power (create); no update/delete |
+| `mail/{mailId}` | **Careers Module.** Firebase [Trigger Email extension](https://firebase.google.com/products/extensions/firestore-send-email) queue. `careers-admin.html` enqueues a doc on schedule + decision actions (non-fatal if extension not yet installed). Public create (required by apply form's "received" mail) — abuse bounded by reCAPTCHA at the form (M4). | any (create); central_admin (read) |
 
 **Timestamp field:** always `createdAt` (serverTimestamp). Do not use `timestamp` — that was the legacy name.
 
@@ -259,6 +267,12 @@ FIREBASE_APP_ID
 | `observation-entry.html`       | `/observation-entry`         | **Mentor observation form (2026-05-04)** — URL params `?menteeUid=X&type=mentor_observes_mentee&number=N`. 4-domain rubric (Planning/Management/Instruction/Assessment, 1-4 each). Glow/Grow/Go narrative + SMART action plan. Co-teach + mentee-observes-X types hide the rubric (unscored). Writes `induction_observations`. |
 | `igcse-math-tracker.html`      | `/igcse-math-tracker`        | Subject Leader tracker — IGCSE Math              |
 | *(+ other tracker pages)*      |                              | Subject Leader trackers for all subjects         |
+| `careers.html`                 | `/careers`                   | **Public landing (M1, 2026-05-04)** — open-positions grid (filter by level + search). No auth-guard. In `PAGE_ACCESS_BYPASS`. |
+| `careers-apply.html`           | `/careers-apply`             | **Public application form (M1)** — 4-step wizard: Personal / Background / Documents / Submit. Drag-drop CV upload (PDF/DOC/DOCX ≤10 MB → Storage `careers/cv/{positionId}/{ts}_{filename}`). Sends Firebase email-link to applicant on submit. No auth-guard. URL param `?position=<positionId>`. |
+| `careers-status.html`          | `/careers-status`            | **Applicant status tracker (placeholder; M4 wires email-link callback)** — magic-link callback target. No auth-guard. |
+| `careers-admin.html`           | `/careers-admin`             | **Hiring funnel (M3, 2026-05-04)** — auth'd. 7-column kanban (submitted → under_review → shortlisted → interview_scheduled → interview_done → offered → hired). Filter bar (search / position / school / mode). Per-applicant drawer with Profile / Scorecards / Activity tabs and 4 actions: Assign interviewers, Schedule interview, Move status, Final decision. "+ New position" creates `job_positions`. Compare button (2-5 selected) → `/careers-compare`. Mail enqueue on schedule + decision. Visible to `central_admin` / `teachers_admin` / `hiring_manager` (own school via `where('schoolId','==',mySchoolId)` query scoping). |
+| `careers-compare.html`         | `/careers-compare`           | **Side-by-side scorecard matrix (M5)** — placeholder. URL param `?ids=a,b,c`. |
+| `interview-scorecard.html`     | `/interview-scorecard`       | **Interview scoring sheet (M2)** — placeholder. URL param `?app=<applicationId>`. 18 questions × 4 categories with sticky rubric, autosave; submitted scorecards immutable. Visible to `interviewer` (assigned only) / `hiring_manager` / admins. |
 
 ---
 
@@ -375,6 +389,38 @@ Eduversal runs three independent rating systems across the network: KPI (per-sch
 - Storage import in `my-portfolio.html` MUST come from `firebase-storage.js`, NOT `firebase-firestore.js`.
 - `auth-guard.js` exposes `window.storage`; the upload flow relies on it.
 - Admin reading-override editor (`learning-path.html` → `content_overrides_teachers`) sanitises HTML on save AND on render. The allowlist is `P/BR/STRONG/EM/B/I/U/MARK/UL/OL/LI/H3/H4` only; all attributes stripped.
+
+---
+
+## Careers + Interview Module (M1-M3, 2026-05-04)
+
+Public teacher recruitment + structured interview scoring. Six TH pages + 6 Firestore collections + 1 Storage path.
+
+**Public surface (no auth-guard, in `PAGE_ACCESS_BYPASS`):**
+- `/careers` — open-positions grid with level filter + search. Reads `job_positions` where `status==open`.
+- `/careers-apply?position=<id>` — 4-step wizard (Personal / Background / Documents / Submit). Drag-drop CV upload (PDF/DOC/DOCX ≤10 MB) → Storage `careers/cv/{positionId}/{ts}_{filename}`. On submit: creates `job_applications`, sends Firebase email-link (magic-link) to applicant for status tracking.
+- `/careers-status` — magic-link callback target; placeholder until M4 wires the email-link UI.
+
+**Auth'd surface (page-access gated):**
+- `/careers-admin` — hiring funnel kanban (7 status columns), filter bar, per-applicant drawer (Profile / Scorecards / Activity tabs), 4 actions (Assign interviewers / Schedule / Move status / Final decision), "+ New position" modal. Visible to `central_admin` / `teachers_admin` / `hiring_manager`. Hiring managers see only own school via query scoping.
+- `/interview-scorecard?app=<id>` — placeholder. M2 builds the 18-question × 4-category sheet with sticky rubric + autosave; submitted docs immutable.
+- `/careers-compare?ids=a,b,c` — placeholder. M5 builds the side-by-side scorecard matrix.
+
+**Two new sub-roles** (`th_sub_roles[]`): `'interviewer'` (assigned-only access to scorecard) and `'hiring_manager'` (manages funnel for own school). Set from CH `/console`. Composable with `subject_teacher` / `subject_leader` — common combo: `[subject_teacher, interviewer]`.
+
+**Email flow (M3 implements enqueue; extension install pending):**
+- Schedule interview → `mail/{auto}` doc with applicant's email + meeting details.
+- Final decision (offered/rejected) → `mail/{auto}` doc with templated message.
+- Apply form's "we received your application" mail (M4): also via `mail`.
+- Firebase [Trigger Email extension](https://firebase.google.com/products/extensions/firestore-send-email) reads the `mail` collection and sends via SMTP. Until installed, mail enqueue is non-fatal — applications still save, but no email sends.
+
+**Audit log:** every funnel action writes `job_application_audit/{autoId}` with `before` / `after` / `byUid`. Append-only.
+
+**Page-access config** seeded in `scripts/page-access/seed-th-page-access.js`: `careers-admin` + `careers-compare` → `visible_to: ['hiring_manager']`; `interview-scorecard` → `visible_to: ['interviewer','hiring_manager']`. Public 3 pages need no doc — `PAGE_ACCESS_BYPASS` in `auth-guard.js` covers them.
+
+**Build pattern:** `careers.html` / `careers-apply.html` / `careers-status.html` skip `auth-guard.js` and skip `cambridge-crossref.js` injection (defined in `build.js`'s skip list — same pattern as `orientation.html`).
+
+**Firestore rules** (deployed): see `Central Hub/firestore.rules` "CAREERS + INTERVIEW MODULE" block — 6 collection rules + 4 helpers (`hasTHSubRole`, `isInterviewer`, `isHiringManager`, `hasHiringPower`).
 
 ---
 
