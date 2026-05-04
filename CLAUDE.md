@@ -180,6 +180,13 @@ const isAdmin = profile?.role_teachershub === 'teachers_admin';
 | `nav_config/teachershub`   | Admin-editable navbar item config — labels, hidden flags, ordering. `partials/navbar.js` `bootNavEditor()` dynamic-imports `/nav-edit-simple.js` (shared module copied into dist by build.js) and writes here on save. Doc shape: `{ platform: 'teachershub', items: [{key, label, hidden}], updatedAt }`. teachers_admin only. | teachers_admin |
 | `feedbacks/{fbId}`         | Single canonical feedback collection (consolidated 2026-05-03). The TH writer is in `partials/navbar.js` (Feedback modal); stamps `__src: 'teachershub'` on every doc. CH `feedback-management.html` reads + reviews. | any authorised user (create); central_admin (read/update/delete) |
 | `weekly_progress/{docId}`  | Per-user weekly checklist progress. Doc id: `${uid}_${ACADEMIC_YEAR}_w${week}_${currentPlatform}` where `currentPlatform` is `'teachers'` or `'subject_leader'`. Writes always include `schoolId: window.userProfile.schoolId` (denormalised 2026-05-03) so the rule's `isAHUserAtSameSchool()` helper can read it directly. Reads gated per Step 1.2 hardening (owner only by default; admin/CH-coord/same-school AH leadership can read). | owner (write) |
+| `induction_assignments/{menteeUid}` | **Induction Module (2026-05-04).** One active induction per Year-1 teacher. Read by `my-induction.html` (mentee) and `my-mentees.html` (mentor — filtered by `where('mentorUid','==',uid)`). Charter NN3+NN4: written by central_admin from `induction-admin.html` only. | central_admin (write) |
+| `induction_progress/{uid}_{taskId}` | Mentee task completion. Owner / mentor / school-leader can write own-role tasks. Mentee writes from `my-induction.html` checkbox toggles. | owner / mentor / school-leader |
+| `induction_observations/{obsId}` | Mentor observations. Mentor writes from `observation-entry.html`. **Charter NN1: never feeds `teacher_appraisal_results`.** | observer (mentor) |
+| `induction_journal/{entryId}` | Mentee's private daily 3-sentence journal. Mentee writes from `my-induction.html` sidebar. **Charter NN2: HQ never reads named entries.** Default visibility `mentee_and_mentor`. | owner (mentee) |
+| `induction_pulses/{pulseId}` | Weekly 1-question pulse. Mentee writes from `my-induction.html` sidebar. | owner (mentee) |
+| `mentor_certifications/{uid}_{type}` | Read here by `my-mentees.html` to display the cert-active banner. Written from CH `induction-admin.html` only. | central_admin (write) |
+| `induction_programs/{programId}` | The 3 handbook templates seeded from `docs/induction/handbook-*.json`. Read here by `my-induction.html` to render stage timeline + tasks. | central_admin (write — via seed script only) |
 
 **Timestamp field:** always `createdAt` (serverTimestamp). Do not use `timestamp` — that was the legacy name.
 
@@ -247,6 +254,9 @@ FIREBASE_APP_ID
 | `my-portfolio.html`            | `/my-portfolio`              | Evidence portfolio — submit & review evidence    |
 | `my-certificates.html`         | `/my-certificates`           | My earned competency certificates                |
 | `certificate-verify.html`      | `/certificate-verify`        | Per-certificate verifier (reads `competency_certificates` by id; in `PAGE_ACCESS_BYPASS`) |
+| `my-induction.html`            | `/my-induction`              | **Subject Teacher mentee dashboard (2026-05-04)** — Today / This Week / Stage Timeline. 4 phases (Survival 1-3 wk, Foundation 4-12 wk, Mastery-Building 13-36 wk, Integration 37-44 wk). Sidebar: 3-sentence daily journal + weekly pulse + mentor card. Reads `induction_assignments`, `induction_programs`, `induction_progress`, writes `induction_progress`/`induction_journal`/`induction_pulses`. |
+| `my-mentees.html`              | `/my-mentees`                | **Subject Leader mentor view (2026-05-04)** — own mentees overview. Mentor Certification banner (60-day expiry warning). Per-mentee cards: status, day count, recent observations, 4-week pulse mini, "next observation" button. Charter NN3 — only visible to certified mentors. |
+| `observation-entry.html`       | `/observation-entry`         | **Mentor observation form (2026-05-04)** — URL params `?menteeUid=X&type=mentor_observes_mentee&number=N`. 4-domain rubric (Planning/Management/Instruction/Assessment, 1-4 each). Glow/Grow/Go narrative + SMART action plan. Co-teach + mentee-observes-X types hide the rubric (unscored). Writes `induction_observations`. |
 | `igcse-math-tracker.html`      | `/igcse-math-tracker`        | Subject Leader tracker — IGCSE Math              |
 | *(+ other tracker pages)*      |                              | Subject Leader trackers for all subjects         |
 

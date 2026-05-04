@@ -51,6 +51,9 @@ const ROUTES = {
   'my-certificates.html': 'my-certificates',
   'certificate-verify.html': 'certificate-verify',
   'orientation.html': 'orientation',
+  'my-induction.html': 'my-induction',
+  'my-mentees.html': 'my-mentees',
+  'observation-entry.html': 'observation-entry',
   // Subject Leader Tracker pages (generated from tracker-template.html)
   'igcse-math-tracker.html':        'igcse-math-tracker',
   'igcse-biology-tracker.html':     'igcse-biology-tracker',
@@ -96,6 +99,9 @@ const LINK_REWRITES = [
   [/href="my-portfolio\.html"/g,           'href="/my-portfolio"'],
   [/href="my-certificates\.html"/g,        'href="/my-certificates"'],
   [/href="certificate-verify\.html(\?[^"]*)?"/g, (m, q) => `href="/certificate-verify${q || ''}"`],
+  [/href="my-induction\.html"/g,           'href="/my-induction"'],
+  [/href="my-mentees\.html"/g,             'href="/my-mentees"'],
+  [/href="observation-entry\.html(\?[^"]*)?"/g, (m, q) => `href="/observation-entry${q || ''}"`],
   // Subject Leader Tracker pages
   [/href="orientation\.html"/g,                  'href="/orientation"'],
   [/href="igcse-math-tracker\.html"/g,          'href="/igcse-math-tracker"'],

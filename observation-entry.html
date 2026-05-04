@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Observation Entry — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link rel="stylesheet" href="base.css">
+<script src="firebase-config.js"></script>
+<script>if (!window.ENV) window.ENV = { FIREBASE_API_KEY: "__FIREBASE_API_KEY__", FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__", FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__", FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__", FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__", FIREBASE_APP_ID: "__FIREBASE_APP_ID__" };</script>
+<style>
+:root {
+  --accent: #6c5ce7;
+  --accent-2: #ede9fe;
+  --accent-dark: #4e3db8;
+}
+.page-wrap { max-width: 920px; margin: 0 auto; padding: 28px 20px 80px; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1530 0%, #2d2354 55%, #0a0815 100%);
+  color: #fff; padding: 32px 28px; border-radius: 16px;
+  margin-bottom: 24px; position: relative; overflow: hidden;
+}
+.page-header::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(108,92,231,0.22) 0%, transparent 55%);
+}
+.page-header > * { position: relative; z-index: 1; }
+.page-header .eyebrow { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+.page-header h1 { font-family: 'Lora', serif; font-size: 1.75rem; font-weight: 600; margin-bottom: 6px; }
+.page-header p { font-size: 14px; color: rgba(255,255,255,0.65); max-width: 700px; }
+
+.context-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: 14px;
+  padding: 18px 22px; margin-bottom: 24px; box-shadow: var(--shadow-sm);
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;
+}
+.ctx-row { display: flex; flex-direction: column; gap: 2px; }
+.ctx-label { font-size: 10px; font-weight: 600; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; }
+.ctx-value { font-size: 14px; color: var(--ink); font-weight: 500; }
+
+.section {
+  background: var(--white); border: 1px solid var(--border); border-radius: 14px;
+  padding: 22px 24px; margin-bottom: 18px; box-shadow: var(--shadow-sm);
+}
+.section h2 {
+  font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 4px;
+}
+.section .help {
+  font-size: 12px; color: var(--ink-3); margin-bottom: 16px;
+}
+
+/* RUBRIC */
+.rubric-grid {
+  display: grid; grid-template-columns: 160px repeat(4, 1fr); gap: 6px;
+  margin-bottom: 14px;
+  font-size: 12px;
+}
+.rubric-domain {
+  font-weight: 600; color: var(--ink); padding: 12px 8px;
+  display: flex; flex-direction: column; gap: 2px; align-items: flex-start;
+}
+.rubric-domain small { font-weight: 400; color: var(--ink-3); font-size: 10px; }
+.rubric-cell {
+  border: 2px solid var(--border); border-radius: 8px; padding: 10px;
+  cursor: pointer; transition: all .15s; background: #fafafa;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.rubric-cell:hover { border-color: var(--accent); background: #fff; }
+.rubric-cell.selected {
+  border-color: var(--accent); background: var(--accent-2);
+  box-shadow: 0 0 0 2px rgba(108,92,231,0.15);
+}
+.rubric-cell-label {
+  font-weight: 600; font-size: 11px; color: var(--ink);
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.rubric-cell-num { font-size: 18px; font-weight: 800; color: var(--accent-dark); line-height: 1; }
+.rubric-cell.selected .rubric-cell-num { color: var(--accent-dark); }
+
+.rubric-headers {
+  display: grid; grid-template-columns: 160px repeat(4, 1fr); gap: 6px;
+  margin-bottom: 4px; font-size: 10px; font-weight: 700;
+  color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em;
+}
+.rubric-headers > div { padding: 6px 8px; text-align: center; }
+.rubric-headers > div:first-child { text-align: left; }
+
+textarea, input[type="text"], input[type="date"] {
+  width: 100%; padding: 10px 12px; border: 1px solid var(--border);
+  border-radius: 8px; font-family: inherit; font-size: 14px; color: var(--ink);
+  background: #fff; resize: vertical;
+}
+textarea:focus, input:focus { outline: none; border-color: var(--accent); }
+
+.field-group { margin-bottom: 14px; }
+.field-group label { display: block; font-size: 12px; font-weight: 600; color: var(--ink-2); margin-bottom: 6px; }
+.field-group .hint { font-size: 11px; color: var(--ink-3); margin-top: 4px; }
+
+.glow-grow-go { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.ggg-card {
+  border: 1px solid var(--border); border-radius: 10px; padding: 14px;
+  background: #fafafa;
+}
+.ggg-card.glow { background: linear-gradient(180deg, #fef3c7 0%, #fafafa 100%); border-color: #fde68a; }
+.ggg-card.grow { background: linear-gradient(180deg, #ddd6fe 0%, #fafafa 100%); border-color: #c4b5fd; }
+.ggg-card.go   { background: linear-gradient(180deg, #d1fae5 0%, #fafafa 100%); border-color: #6ee7b7; }
+.ggg-card label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.ggg-card.glow label { color: #92400e; }
+.ggg-card.grow label { color: #5b21b6; }
+.ggg-card.go label   { color: #065f46; }
+.ggg-card textarea { background: #fff; }
+
+.actions {
+  display: flex; gap: 10px; justify-content: flex-end;
+  margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border);
+}
+.btn-primary {
+  background: var(--accent); color: #fff; border: none; padding: 10px 18px;
+  border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: background .15s;
+}
+.btn-primary:hover { background: var(--accent-dark); }
+.btn-primary:disabled { background: #cbd5e1; cursor: not-allowed; }
+.btn-secondary {
+  background: #fff; color: var(--ink); border: 1px solid var(--border);
+  padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer;
+}
+
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 500;
+  box-shadow: var(--shadow-lg); z-index: 1000; animation: toastIn 0.2s;
+}
+.toast.success { background: #065f46; color: #fff; }
+.toast.error { background: #991b1b; color: #fff; }
+@keyframes toastIn { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+.alert {
+  border-radius: 10px; padding: 14px 18px; margin-bottom: 18px;
+  font-size: 13px;
+}
+.alert.warning { background: #fef3c7; color: #78350f; border: 1px solid #fde68a; }
+.alert.info { background: #dbeafe; color: #1e3a8a; border: 1px solid #bfdbfe; }
+
+@media (max-width: 720px) {
+  .glow-grow-go { grid-template-columns: 1fr; }
+  .rubric-grid, .rubric-headers { grid-template-columns: 1fr; }
+  .rubric-headers { display: none; }
+  .rubric-domain { padding: 4px 0; }
+}
+</style>
+</head>
+<body style="display:none">
+<div id="navbar-container"></div>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <p class="eyebrow">Induction Module · Mentor / School Leader</p>
+    <h1>Observation Entry</h1>
+    <p>Record a structured observation against the four-domain rubric (Planning, Management, Instruction, Assessment). Charter Non-Negotiable 1: this collection is induction-scope only and does NOT propagate to the network appraisal scoring engine.</p>
+  </div>
+
+  <div id="loadingState" style="padding:40px;text-align:center;color:var(--ink-3);">Loading mentee context…</div>
+
+  <div id="formContainer" style="display:none;">
+    <!-- CONTEXT -->
+    <div class="context-card" id="contextCard"></div>
+
+    <!-- ALERT (rotation context) -->
+    <div class="alert" id="rotationAlert" style="display:none;"></div>
+
+    <!-- OBSERVATION META -->
+    <div class="section">
+      <h2>Observation details</h2>
+      <p class="help">Pre-conference focus must be agreed with the mentee before the observation, per the Cambridge ICTL 5881 mentor-role guidance.</p>
+      <div class="field-group">
+        <label for="obsDate">Observation date <span style="color:#dc2626;">*</span></label>
+        <input type="date" id="obsDate">
+      </div>
+      <div class="field-group">
+        <label for="preFocus">Pre-conference focus <span style="color:#dc2626;">*</span></label>
+        <textarea id="preFocus" rows="2" placeholder="What aspect of practice did you and the mentee agree to focus on for this observation?"></textarea>
+        <div class="hint">Anchor to specific Cambridge Teacher Standards or specific lesson aims where possible.</div>
+      </div>
+    </div>
+
+    <!-- RUBRIC -->
+    <div class="section" id="rubricSection">
+      <h2>Four-domain rubric</h2>
+      <p class="help">Click a level cell for each domain. Levels: 1 = Unsatisfactory, 2 = Basic, 3 = Proficient, 4 = Distinguished. The four domains are anchored to PIGP Lampiran D (kompetensi pedagogik / kepribadian / sosial / profesional applied at lesson-observation level).</p>
+
+      <div class="rubric-headers">
+        <div>Domain</div>
+        <div>Unsatisfactory</div>
+        <div>Basic</div>
+        <div>Proficient</div>
+        <div>Distinguished</div>
+      </div>
+
+      <div id="rubricGrid"><!-- domain rows rendered here --></div>
+    </div>
+
+    <!-- GLOW / GROW / GO -->
+    <div class="section">
+      <h2>Glow / Grow / Go feedback</h2>
+      <p class="help">Use the GROW conversation structure (Cambridge Mentoring Guide 2020) to frame the post-conference. Short narratives — the mentee will read these in their post-conference reflection.</p>
+      <div class="glow-grow-go">
+        <div class="ggg-card glow">
+          <label>Glow — what worked</label>
+          <textarea id="glow" rows="6" placeholder="A specific moment where the lesson surfaced a real strength."></textarea>
+        </div>
+        <div class="ggg-card grow">
+          <label>Grow — what to develop</label>
+          <textarea id="grow" rows="6" placeholder="One specific area for growth, anchored in observed evidence."></textarea>
+        </div>
+        <div class="ggg-card go">
+          <label>Go — agreed next action</label>
+          <textarea id="go" rows="6" placeholder="The single concrete action the mentee will take before the next observation."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTION PLAN -->
+    <div class="section">
+      <h2>Action plan</h2>
+      <p class="help">A SMART objective for the mentee to work on between this observation and the next. See Cambridge Mentoring Guide 2020 — SMART = Specific / Measurable / Attainable / Relevant / Time-based.</p>
+      <textarea id="actionPlan" rows="3" placeholder="By [date], I will [specific action], measured by [evidence]."></textarea>
+    </div>
+
+    <div class="actions">
+      <button class="btn-secondary" id="btnSaveDraft">Save draft</button>
+      <button class="btn-primary" id="btnComplete">Mark observation complete</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="auth-guard.js"></script>
+<script type="module">
+import { collection, doc, getDoc, getDocs, setDoc, addDoc, updateDoc, query, where, limit, serverTimestamp, Timestamp }
+  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+// --- navbar ---
+fetch('partials/navbar.html').then(r => r.text()).then(html => {
+  document.getElementById('navbar-container').innerHTML = html;
+  if (typeof initNavbar === 'function') initNavbar();
+});
+
+const db = window.db;
+
+// ──────────────────────────────────────────────────────────
+// URL parameters: ?menteeUid=...&type=mentor_observes_mentee&number=4&obsId=...
+// (obsId optional — if present, edits an existing draft)
+// ──────────────────────────────────────────────────────────
+const params = new URLSearchParams(window.location.search);
+const MENTEE_UID = params.get('menteeUid');
+const OBSERVATION_TYPE = params.get('type') || 'mentor_observes_mentee';
+const OBSERVATION_NUMBER = parseInt(params.get('number') || '0', 10) || null;
+const EXISTING_OBS_ID = params.get('obsId') || null;
+
+const RUBRIC_DOMAINS = [
+  { id: 'planning',    label: 'Planning & Organization',  helper: 'Lesson plan clarity, learning objectives, content alignment, differentiation.' },
+  { id: 'management',  label: 'Classroom Management',     helper: 'Positive learning atmosphere, time and resource management, classroom dynamics.' },
+  { id: 'instruction', label: 'Instructional Process',    helper: 'Punctuality, student engagement, subject mastery, teaching strategies, questioning.' },
+  { id: 'assessment',  label: 'Assessment',               helper: 'Communicates assessment criteria, uses formative assessment, maintains records.' },
+];
+
+const LEVELS = [
+  { num: 1, label: 'Unsatisfactory' },
+  { num: 2, label: 'Basic' },
+  { num: 3, label: 'Proficient' },
+  { num: 4, label: 'Distinguished' },
+];
+
+const TYPE_DESCRIPTIONS = {
+  co_teach: { label: 'Co-teach observation', scored: false, note: 'Co-teach observations are unscored. Capture narrative reflections only — the rubric below is hidden.' },
+  mentor_observes_mentee: { label: 'Mentor observes mentee', scored: true, note: '' },
+  mentee_observes_mentor: { label: 'Mentee observes mentor', scored: false, note: 'In this observation type the mentee is the observer and the mentor is the observed. The mentee writes a structured reflection — the rubric below is hidden for this entry.' },
+  mentee_observes_other_teacher: { label: 'Mentee observes another experienced teacher', scored: false, note: 'In this observation type the mentee is the observer. The rubric below is hidden.' },
+  formal_evaluation: { label: 'Q4 formal evaluation', scored: true, note: 'This is the school leader-led formal evaluation. Per Charter Principle 3, this evaluation does NOT feed network appraisal scoring; it is the mentee\'s induction-completion observation.' },
+  specialist_walkthrough: { label: 'Specialist walkthrough', scored: true, note: 'A walkthrough conducted by an HQ Subject Specialist (Stage 2 of the specialist induction).' },
+};
+
+// ──────────────────────────────────────────────────────────
+// STATE
+// ──────────────────────────────────────────────────────────
+let assignment = null;
+let menteeProfile = null;
+let programDoc = null;
+let domainScores = { planning: null, management: null, instruction: null, assessment: null };
+let existingObs = null;
+
+// ──────────────────────────────────────────────────────────
+// BOOT
+// ──────────────────────────────────────────────────────────
+document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
+  if (!MENTEE_UID) {
+    showLoadingError('Missing menteeUid in URL. This page must be opened from the mentor or school-leader dashboard.');
+    return;
+  }
+  try {
+    const [assignSnap, menteeSnap] = await Promise.all([
+      getDoc(doc(db, 'induction_assignments', MENTEE_UID)),
+      getDoc(doc(db, 'users', MENTEE_UID)),
+    ]);
+    if (!assignSnap.exists()) {
+      showLoadingError('No active induction assignment found for this mentee.');
+      return;
+    }
+    assignment = assignSnap.data();
+    menteeProfile = menteeSnap.data();
+
+    // Authorisation gate (UI-side; rule enforces too).
+    const isMentor = assignment.mentorUid === user.uid;
+    const isSchoolLeader = assignment.schoolLeaderUid === user.uid;
+    const isAdminUser = profile?.role_centralhub === 'central_admin';
+    if (!isMentor && !isSchoolLeader && !isAdminUser) {
+      showLoadingError('You are not the assigned mentor, school leader, or admin for this induction.');
+      return;
+    }
+
+    // Load program (for stage label etc.)
+    if (assignment.programId) {
+      const progSnap = await getDoc(doc(db, 'induction_programs', assignment.programId));
+      programDoc = progSnap.exists() ? progSnap.data() : null;
+    }
+
+    // If editing existing draft
+    if (EXISTING_OBS_ID) {
+      const obsSnap = await getDoc(doc(db, 'induction_observations', EXISTING_OBS_ID));
+      if (obsSnap.exists() && obsSnap.data().menteeUid === MENTEE_UID) {
+        existingObs = { id: EXISTING_OBS_ID, ...obsSnap.data() };
+        if (existingObs.completedAt) {
+          showLoadingError('This observation is already finalised and cannot be edited. Create a new observation instead.');
+          return;
+        }
+      }
+    }
+
+    renderForm();
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('formContainer').style.display = '';
+    document.body.style.display = '';
+  } catch (err) {
+    console.error('boot', err);
+    showLoadingError('Could not load mentee context: ' + (err.message || err.code || 'unknown error'));
+  }
+});
+
+function showLoadingError(msg) {
+  document.body.style.display = '';
+  document.getElementById('loadingState').innerHTML = `
+    <div style="max-width:520px;margin:0 auto;padding:32px;background:#fef2f2;border:1px solid #fecaca;border-radius:14px;color:#991b1b;">
+      <h3 style="font-weight:600;margin-bottom:8px;">Cannot load this page</h3>
+      <p>${escapeHtml(msg)}</p>
+    </div>
+  `;
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// ──────────────────────────────────────────────────────────
+// RENDER
+// ──────────────────────────────────────────────────────────
+function renderForm() {
+  const td = TYPE_DESCRIPTIONS[OBSERVATION_TYPE] || { label: OBSERVATION_TYPE, scored: true, note: '' };
+
+  // Context card
+  document.getElementById('contextCard').innerHTML = `
+    <div class="ctx-row"><span class="ctx-label">Mentee</span><span class="ctx-value">${escapeHtml(menteeProfile?.displayName || MENTEE_UID)}</span></div>
+    <div class="ctx-row"><span class="ctx-label">Program</span><span class="ctx-value">${escapeHtml(programDoc?.title || assignment.programId || '')}</span></div>
+    <div class="ctx-row"><span class="ctx-label">Type</span><span class="ctx-value">${escapeHtml(td.label)}</span></div>
+    <div class="ctx-row"><span class="ctx-label">Number</span><span class="ctx-value">${OBSERVATION_NUMBER ? '#' + OBSERVATION_NUMBER : '—'}</span></div>
+    <div class="ctx-row"><span class="ctx-label">Hire date</span><span class="ctx-value">${assignment.hireDate?.toDate ? assignment.hireDate.toDate().toLocaleDateString('en-GB') : '—'}</span></div>
+  `;
+
+  if (td.note) {
+    const a = document.getElementById('rotationAlert');
+    a.className = 'alert info';
+    a.innerHTML = escapeHtml(td.note);
+    a.style.display = '';
+  }
+
+  // Pre-fill from existing draft
+  if (existingObs) {
+    if (existingObs.observationDate?.toDate) {
+      document.getElementById('obsDate').value = existingObs.observationDate.toDate().toISOString().slice(0, 10);
+    }
+    document.getElementById('preFocus').value = existingObs.preObservationFocus || '';
+    document.getElementById('glow').value = existingObs.narrativeGlow || '';
+    document.getElementById('grow').value = existingObs.narrativeGrow || '';
+    document.getElementById('go').value = existingObs.narrativeGo || '';
+    document.getElementById('actionPlan').value = existingObs.actionPlan || '';
+    if (existingObs.domainScores) {
+      domainScores = { ...domainScores, ...existingObs.domainScores };
+    }
+  } else {
+    document.getElementById('obsDate').value = new Date().toISOString().slice(0, 10);
+  }
+
+  // Rubric (scored types only)
+  if (!td.scored) {
+    document.getElementById('rubricSection').style.display = 'none';
+  } else {
+    renderRubric();
+  }
+}
+
+function renderRubric() {
+  const grid = document.getElementById('rubricGrid');
+  grid.innerHTML = RUBRIC_DOMAINS.map(d => `
+    <div class="rubric-grid">
+      <div class="rubric-domain">
+        ${escapeHtml(d.label)}
+        <small>${escapeHtml(d.helper)}</small>
+      </div>
+      ${LEVELS.map(l => `
+        <div class="rubric-cell ${domainScores[d.id] === l.num ? 'selected' : ''}"
+             data-domain="${d.id}" data-num="${l.num}">
+          <span class="rubric-cell-label">${escapeHtml(l.label)}</span>
+          <span class="rubric-cell-num">${l.num}</span>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.rubric-cell').forEach(cell => {
+    cell.addEventListener('click', () => {
+      const domainId = cell.dataset.domain;
+      const num = parseInt(cell.dataset.num, 10);
+      domainScores[domainId] = num;
+      grid.querySelectorAll(`.rubric-cell[data-domain="${domainId}"]`).forEach(c => c.classList.remove('selected'));
+      cell.classList.add('selected');
+    });
+  });
+}
+
+// ──────────────────────────────────────────────────────────
+// SAVE / COMPLETE
+// ──────────────────────────────────────────────────────────
+function buildPayload(markComplete) {
+  const td = TYPE_DESCRIPTIONS[OBSERVATION_TYPE] || { scored: true };
+  const obsDateStr = document.getElementById('obsDate').value;
+  const payload = {
+    menteeUid: MENTEE_UID,
+    observerUid: window.currentUser.uid,
+    observerRole: assignment.mentorUid === window.currentUser.uid
+      ? (OBSERVATION_TYPE === 'specialist_walkthrough' ? 'specialist' : 'mentor')
+      : assignment.schoolLeaderUid === window.currentUser.uid ? 'school_leader' : 'mentor',
+    programId: assignment.programId,
+    stageId: assignment.currentStageId || null,
+    observationType: OBSERVATION_TYPE,
+    observationNumber: OBSERVATION_NUMBER,
+    observationDate: obsDateStr ? Timestamp.fromDate(new Date(obsDateStr)) : null,
+    preObservationFocus: document.getElementById('preFocus').value.trim(),
+    scored: !!td.scored,
+    domainScores: td.scored ? domainScores : null,
+    overallRubricLevel: td.scored ? overallRubricLevel(domainScores) : null,
+    narrativeGlow: document.getElementById('glow').value.trim(),
+    narrativeGrow: document.getElementById('grow').value.trim(),
+    narrativeGo:   document.getElementById('go').value.trim(),
+    actionPlan:    document.getElementById('actionPlan').value.trim(),
+    updatedAt: serverTimestamp(),
+  };
+  if (markComplete) payload.completedAt = serverTimestamp();
+  return payload;
+}
+
+function overallRubricLevel(scores) {
+  const vals = Object.values(scores).filter(v => typeof v === 'number');
+  if (vals.length === 0) return null;
+  const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
+  if (avg >= 3.5) return 'distinguished';
+  if (avg >= 2.5) return 'proficient';
+  if (avg >= 1.5) return 'basic';
+  return 'unsatisfactory';
+}
+
+function validate(markComplete) {
+  const td = TYPE_DESCRIPTIONS[OBSERVATION_TYPE] || { scored: true };
+  if (!document.getElementById('obsDate').value) return 'Observation date is required.';
+  if (!document.getElementById('preFocus').value.trim()) return 'Pre-conference focus is required.';
+  if (markComplete) {
+    if (td.scored) {
+      for (const d of RUBRIC_DOMAINS) {
+        if (!domainScores[d.id]) return `Score for "${d.label}" is required.`;
+      }
+    }
+    if (!document.getElementById('glow').value.trim()) return 'Glow narrative is required to complete.';
+    if (!document.getElementById('grow').value.trim()) return 'Grow narrative is required to complete.';
+    if (!document.getElementById('go').value.trim()) return 'Go narrative is required to complete.';
+  }
+  return null;
+}
+
+async function save(markComplete) {
+  const err = validate(markComplete);
+  if (err) {
+    showToast(err, 'error');
+    return;
+  }
+  const btnDraft = document.getElementById('btnSaveDraft');
+  const btnComplete = document.getElementById('btnComplete');
+  btnDraft.disabled = btnComplete.disabled = true;
+  const origLabel = markComplete ? btnComplete.textContent : btnDraft.textContent;
+  if (markComplete) btnComplete.textContent = 'Saving…'; else btnDraft.textContent = 'Saving…';
+
+  try {
+    const payload = buildPayload(markComplete);
+    if (existingObs) {
+      await updateDoc(doc(db, 'induction_observations', existingObs.id), payload);
+    } else {
+      payload.createdAt = serverTimestamp();
+      const ref = await addDoc(collection(db, 'induction_observations'), payload);
+      existingObs = { id: ref.id, ...payload };
+      // Update URL so subsequent saves edit-in-place.
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.set('obsId', ref.id);
+      window.history.replaceState({}, '', newUrl);
+    }
+    showToast(markComplete ? 'Observation finalised.' : 'Draft saved.', 'success');
+    if (markComplete) {
+      setTimeout(() => { window.location.href = 'my-mentees.html'; }, 1200);
+    }
+  } catch (e) {
+    console.error('save', e);
+    showToast('Save failed: ' + (e.message || e.code || 'unknown error'), 'error');
+  } finally {
+    btnDraft.disabled = btnComplete.disabled = false;
+    btnDraft.textContent = 'Save draft';
+    btnComplete.textContent = 'Mark observation complete';
+  }
+}
+
+document.getElementById('btnSaveDraft').addEventListener('click', () => save(false));
+document.getElementById('btnComplete').addEventListener('click', () => save(true));
+
+// ──────────────────────────────────────────────────────────
+// TOAST
+// ──────────────────────────────────────────────────────────
+function showToast(msg, kind) {
+  const el = document.createElement('div');
+  el.className = `toast ${kind || 'success'}`;
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => { el.style.transition = 'opacity 0.3s'; el.style.opacity = '0'; }, 2200);
+  setTimeout(() => el.remove(), 2700);
+}
+</script>
+</body>
+</html>

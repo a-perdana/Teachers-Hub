@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Induction — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link rel="stylesheet" href="base.css">
+<script src="firebase-config.js"></script>
+<script>if (!window.ENV) window.ENV = { FIREBASE_API_KEY: "__FIREBASE_API_KEY__", FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__", FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__", FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__", FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__", FIREBASE_APP_ID: "__FIREBASE_APP_ID__" };</script>
+<style>
+:root { --accent: #6c5ce7; --accent-2: #ede9fe; --accent-dark: #4e3db8; }
+.page-wrap { max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; }
+
+.welcome-hero {
+  background: linear-gradient(135deg, #1a1530 0%, #2d2354 55%, #0a0815 100%);
+  color: #fff; padding: 30px 28px; border-radius: 16px;
+  margin-bottom: 24px; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+}
+.welcome-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(108,92,231,0.22) 0%, transparent 55%);
+}
+.welcome-hero > * { position: relative; z-index: 1; }
+.welcome-eyebrow { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+.welcome-title { font-family: 'Lora', serif; font-size: 1.75rem; font-weight: 600; margin-bottom: 4px; }
+.welcome-meta { font-size: 13px; color: rgba(255,255,255,0.65); }
+.welcome-stage-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.12); padding: 8px 14px; border-radius: 999px;
+  font-size: 13px; font-weight: 500;
+}
+.welcome-stage-pill .day-num { font-weight: 700; color: #fff; }
+
+.layout {
+  display: grid; grid-template-columns: 1fr 320px; gap: 24px;
+  align-items: start;
+}
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+.section {
+  background: var(--white); border: 1px solid var(--border); border-radius: 14px;
+  padding: 20px 22px; margin-bottom: 18px; box-shadow: var(--shadow-sm);
+}
+.section h2 {
+  font-size: 16px; font-weight: 600; color: var(--ink);
+  margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between;
+}
+.section h2 .pill {
+  font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 999px;
+  background: var(--accent-2); color: var(--accent-dark); text-transform: uppercase; letter-spacing: 0.04em;
+}
+
+/* TODAY */
+.today-card {
+  background: linear-gradient(180deg, #faf5ff 0%, #fff 100%);
+  border-color: #ddd6fe;
+}
+
+.task-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.task-row:last-child { border-bottom: none; }
+.task-checkbox {
+  flex-shrink: 0; width: 22px; height: 22px;
+  border: 2px solid var(--border); border-radius: 6px;
+  cursor: pointer; transition: all .15s; background: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+.task-checkbox:hover { border-color: var(--accent); }
+.task-checkbox.completed {
+  background: var(--accent); border-color: var(--accent);
+  color: #fff; font-size: 14px; font-weight: 700;
+}
+.task-info { flex: 1; }
+.task-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+.task-row.completed .task-title { color: var(--ink-3); text-decoration: line-through; }
+.task-meta { font-size: 11px; color: var(--ink-3); display: flex; gap: 12px; flex-wrap: wrap; }
+.task-meta .pill-stage { background: #f3f4f6; padding: 2px 8px; border-radius: 999px; font-weight: 500; }
+.task-meta .pill-mentor { background: #fef3c7; padding: 2px 8px; border-radius: 999px; color: #92400e; }
+.task-meta .pill-cts { background: var(--accent-2); padding: 2px 8px; border-radius: 999px; color: var(--accent-dark); font-family: 'DM Mono', monospace; }
+.task-meta .pill-skl { background: #d1fae5; padding: 2px 8px; border-radius: 999px; color: #065f46; }
+
+/* STAGE TIMELINE */
+.stage-timeline {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px; margin-bottom: 16px;
+}
+.stage-pill {
+  padding: 12px; border: 2px solid var(--border); border-radius: 10px;
+  background: #fafafa; text-align: center;
+}
+.stage-pill.current { background: var(--accent-2); border-color: var(--accent); }
+.stage-pill.complete { background: #d1fae5; border-color: #6ee7b7; }
+.stage-pill-day { font-size: 10px; color: var(--ink-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.stage-pill-label { font-size: 12px; font-weight: 600; color: var(--ink); margin-top: 2px; }
+.stage-pill-progress { font-size: 11px; color: var(--accent-dark); margin-top: 4px; font-weight: 500; }
+
+/* SIDEBAR */
+.sidebar-section h3 {
+  font-size: 13px; font-weight: 700; color: var(--ink-2);
+  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;
+}
+
+/* JOURNAL */
+.journal-prompts {
+  display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px;
+}
+.journal-prompt label {
+  display: block; font-size: 12px; font-weight: 600; color: var(--ink-2); margin-bottom: 4px;
+}
+.journal-prompt textarea {
+  width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px;
+  font-family: inherit; font-size: 13px; background: #fff; color: var(--ink); resize: vertical;
+}
+.journal-prompt textarea:focus { outline: none; border-color: var(--accent); }
+.journal-meta { font-size: 11px; color: var(--ink-3); margin-bottom: 10px; }
+.btn-primary {
+  background: var(--accent); color: #fff; border: none; padding: 9px 16px;
+  border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; width: 100%;
+}
+.btn-primary:hover { background: var(--accent-dark); }
+.btn-primary:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+/* PULSE */
+.pulse-row {
+  display: flex; gap: 6px; justify-content: space-between; margin-bottom: 10px;
+}
+.pulse-emoji {
+  flex: 1; padding: 10px 4px; border: 1px solid var(--border); border-radius: 8px;
+  background: #fff; cursor: pointer; transition: all .15s;
+  display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 22px;
+}
+.pulse-emoji:hover { border-color: var(--accent); }
+.pulse-emoji.selected { background: var(--accent-2); border-color: var(--accent); }
+.pulse-emoji span { font-size: 9px; font-weight: 600; color: var(--ink-3); margin-top: 2px; }
+.pulse-meta { font-size: 11px; color: var(--ink-3); }
+
+/* MENTOR INFO */
+.mentor-card {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px; border-radius: 10px; background: #f9f9f9;
+}
+.mentor-avatar {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--accent);
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: 16px;
+}
+.mentor-info { flex: 1; }
+.mentor-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.mentor-role { font-size: 11px; color: var(--ink-3); }
+
+.charter-banner {
+  background: linear-gradient(180deg, #fef3c7 0%, #fff 100%);
+  border: 1px solid #fde68a; border-radius: 12px; padding: 14px 16px;
+  font-size: 12px; color: #78350f; margin-bottom: 18px;
+}
+.charter-banner strong { color: #5a2c0f; }
+
+.no-induction {
+  background: var(--white); border: 1px solid var(--border); border-radius: 14px;
+  padding: 60px 40px; text-align: center; box-shadow: var(--shadow-sm);
+}
+.no-induction h2 { font-size: 18px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+.no-induction p { font-size: 14px; color: var(--ink-3); max-width: 480px; margin: 0 auto; }
+</style>
+</head>
+<body style="display:none">
+<div id="navbar-container"></div>
+
+<div class="page-wrap" id="pageWrap">
+  <div id="loadingState" style="padding:40px;text-align:center;color:var(--ink-3);">Loading your induction…</div>
+  <div id="mainContent" style="display:none;"></div>
+</div>
+
+<script type="module" src="auth-guard.js"></script>
+<script type="module">
+import { collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, limit, serverTimestamp, Timestamp }
+  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+fetch('partials/navbar.html').then(r => r.text()).then(html => {
+  document.getElementById('navbar-container').innerHTML = html;
+  if (typeof initNavbar === 'function') initNavbar();
+});
+
+const db = window.db;
+
+// ──────────────────────────────────────────────────────────
+// STATE
+// ──────────────────────────────────────────────────────────
+let assignment = null;
+let program = null;
+let progressMap = {};        // taskId → induction_progress doc
+let mentorProfile = null;
+let dayOfInduction = 0;      // days since hireDate
+let currentStage = null;
+let allTasks = [];           // flattened with stageId / taskId / etc.
+
+// ──────────────────────────────────────────────────────────
+// BOOT
+// ──────────────────────────────────────────────────────────
+document.addEventListener('authReady', async ({ detail: { user } }) => {
+  document.body.style.display = '';
+  try {
+    const assignSnap = await getDoc(doc(db, 'induction_assignments', user.uid));
+    if (!assignSnap.exists()) {
+      showNoInduction();
+      return;
+    }
+    assignment = assignSnap.data();
+    if (!['pre_arrival', 'active', 'extended', 'paused'].includes(assignment.status)) {
+      showCompletedOrWithdrawn();
+      return;
+    }
+
+    // Load program
+    if (assignment.programId) {
+      const progSnap = await getDoc(doc(db, 'induction_programs', assignment.programId));
+      if (progSnap.exists()) program = progSnap.data();
+    }
+
+    // Load mentor profile
+    if (assignment.mentorUid) {
+      const m = await getDoc(doc(db, 'users', assignment.mentorUid));
+      mentorProfile = m.exists() ? m.data() : null;
+    }
+
+    // Compute current day
+    const hire = assignment.hireDate?.toDate ? assignment.hireDate.toDate() : new Date(assignment.hireDate);
+    dayOfInduction = Math.floor((Date.now() - hire.getTime()) / (1000 * 60 * 60 * 24));
+
+    // Flatten tasks from program
+    flattenTasks();
+
+    // Identify current stage
+    if (program?.stages) {
+      currentStage = program.stages.find(s => dayOfInduction >= s.dayStart && dayOfInduction <= s.dayEnd)
+                  || program.stages[0];
+    }
+
+    // Load progress docs (for this mentee)
+    const progSnap = await getDocs(query(
+      collection(db, 'induction_progress'),
+      where('uid', '==', user.uid),
+      limit(500)
+    ));
+    progSnap.docs.forEach(d => { progressMap[d.data().taskId] = { id: d.id, ...d.data() }; });
+
+    render();
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('mainContent').style.display = '';
+  } catch (err) {
+    console.error('boot', err);
+    document.getElementById('loadingState').innerHTML = `
+      <div style="max-width:520px;margin:0 auto;padding:32px;background:#fef2f2;border:1px solid #fecaca;border-radius:14px;color:#991b1b;">
+        <h3 style="font-weight:600;margin-bottom:8px;">Could not load your induction</h3>
+        <p>${escapeHtml(err.message || err.code || 'unknown error')}</p>
+      </div>
+    `;
+  }
+});
+
+function flattenTasks() {
+  allTasks = [];
+  if (!program?.stages) return;
+  program.stages.forEach(stage => {
+    const direct = (stage.tasks || []).map(t => ({ ...t, stageId: stage.stageId, stageLabel: stage.label, stageDayStart: stage.dayStart, stageDayEnd: stage.dayEnd }));
+    allTasks.push(...direct);
+    if (Array.isArray(stage.subStages)) {
+      stage.subStages.forEach(ss => {
+        const subTasks = (ss.tasks || []).map(t => ({
+          ...t,
+          stageId: stage.stageId,
+          stageLabel: stage.label + ' · ' + (ss.label || ss.subStageId),
+          subStageId: ss.subStageId,
+          stageDayStart: stage.dayStart,
+          stageDayEnd: stage.dayEnd,
+        }));
+        allTasks.push(...subTasks);
+      });
+    }
+  });
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function isCompleted(taskId) {
+  return !!progressMap[taskId]?.completedAt;
+}
+
+function showNoInduction() {
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('mainContent').style.display = '';
+  document.getElementById('mainContent').innerHTML = `
+    <div class="no-induction">
+      <h2>You don't have an active induction</h2>
+      <p>Induction is for first-year staff at Eduversal partner schools. If you should have an active induction, ask your school principal to contact the HQ Induction Coordinator.</p>
+    </div>
+  `;
+}
+
+function showCompletedOrWithdrawn() {
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('mainContent').style.display = '';
+  document.getElementById('mainContent').innerHTML = `
+    <div class="no-induction">
+      <h2>Your induction is ${escapeHtml(assignment.status)}</h2>
+      <p>Thank you for completing your first year. Year-2 development continues through the network competency framework, KPI cycle, and appraisal system. Contact your school principal for next steps.</p>
+    </div>
+  `;
+}
+
+// ──────────────────────────────────────────────────────────
+// RENDER
+// ──────────────────────────────────────────────────────────
+function render() {
+  const totalDays = program?.duration?.totalDays || 365;
+  const completedTasks = allTasks.filter(t => isCompleted(t.taskId)).length;
+  const totalTasks = allTasks.length;
+  const stageLabel = currentStage?.label || 'Pre-arrival';
+
+  const container = document.getElementById('mainContent');
+  container.innerHTML = `
+    <div class="welcome-hero">
+      <div>
+        <p class="welcome-eyebrow">${escapeHtml(program?.audience?.platform || 'Induction')} · Year 1</p>
+        <h1 class="welcome-title">Welcome, ${escapeHtml(window.userProfile?.displayName || 'colleague')}</h1>
+        <div class="welcome-meta">${escapeHtml(program?.title || 'Your induction journey')} · ${completedTasks} / ${totalTasks} tasks completed</div>
+      </div>
+      <div class="welcome-stage-pill">
+        <span class="day-num">Day ${dayOfInduction}</span> of ${totalDays} · ${escapeHtml(stageLabel)}
+      </div>
+    </div>
+
+    <div class="charter-banner">
+      <strong>Your data is for support, not surveillance.</strong> Charter Non-Negotiable 1: nothing in this dashboard feeds your network appraisal scoring. Your journal is private to you and your mentor unless you decide otherwise.
+    </div>
+
+    <div class="layout">
+      <div>
+        <div class="section today-card">
+          <h2>Today <span class="pill">Day ${dayOfInduction}</span></h2>
+          <div id="todayList"></div>
+        </div>
+
+        <div class="section">
+          <h2>This week</h2>
+          <div id="thisWeekList"></div>
+        </div>
+
+        <div class="section">
+          <h2>Your journey</h2>
+          <div class="stage-timeline" id="stageTimeline"></div>
+          <div id="upcomingList"></div>
+        </div>
+      </div>
+
+      <aside>
+        <div class="section sidebar-section">
+          <h3>Your mentor</h3>
+          <div class="mentor-card">
+            <div class="mentor-avatar">${escapeHtml(((mentorProfile?.displayName || '?').match(/\b([A-Z])/g) || ['?']).slice(0,2).join(''))}</div>
+            <div class="mentor-info">
+              <div class="mentor-name">${escapeHtml(mentorProfile?.displayName || assignment.mentorUid)}</div>
+              <div class="mentor-role">${escapeHtml(mentorProfile?.email || '')}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section sidebar-section">
+          <h3>Today's reflection</h3>
+          <div class="journal-prompts" id="journalPrompts">
+            <div class="journal-prompt"><label>What surprised me today?</label><textarea id="jp1" rows="2"></textarea></div>
+            <div class="journal-prompt"><label>What am I proud of?</label><textarea id="jp2" rows="2"></textarea></div>
+            <div class="journal-prompt"><label>What am I anxious about?</label><textarea id="jp3" rows="2"></textarea></div>
+          </div>
+          <div class="journal-meta" id="journalMeta">Visible to you and your mentor only.</div>
+          <button class="btn-primary" id="btnSaveJournal">Save today's entry</button>
+        </div>
+
+        <div class="section sidebar-section">
+          <h3>Weekly pulse</h3>
+          <div class="pulse-row" id="pulseRow">
+            <div class="pulse-emoji" data-score="1">😰<span>Very hard</span></div>
+            <div class="pulse-emoji" data-score="2">😟<span>Hard</span></div>
+            <div class="pulse-emoji" data-score="3">😐<span>OK</span></div>
+            <div class="pulse-emoji" data-score="4">🙂<span>Good</span></div>
+            <div class="pulse-emoji" data-score="5">😊<span>Great</span></div>
+          </div>
+          <div class="pulse-meta" id="pulseMeta">One question per week. Anonymised at HQ; mentor + school leader see your school's roll-up.</div>
+        </div>
+      </aside>
+    </div>
+  `;
+
+  renderToday();
+  renderThisWeek();
+  renderStageTimeline();
+  renderUpcomingTasks();
+  setupJournal();
+  setupPulse();
+}
+
+// ──────────────────────────────────────────────────────────
+// TASK SECTIONS
+// ──────────────────────────────────────────────────────────
+function renderTasksInto(elId, tasks, emptyMsg) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  if (tasks.length === 0) {
+    el.innerHTML = `<div style="padding:14px;color:var(--ink-3);font-size:13px;">${escapeHtml(emptyMsg)}</div>`;
+    return;
+  }
+  el.innerHTML = tasks.map(t => {
+    const completed = isCompleted(t.taskId);
+    const cts = Array.isArray(t.cambridgeStandardRefs) ? t.cambridgeStandardRefs : [];
+    const skl = Array.isArray(t.skl_dimensions) ? t.skl_dimensions : [];
+    return `
+      <div class="task-row ${completed ? 'completed' : ''}" data-task-id="${escapeHtml(t.taskId)}">
+        <div class="task-checkbox ${completed ? 'completed' : ''}" data-task-id="${escapeHtml(t.taskId)}">${completed ? '✓' : ''}</div>
+        <div class="task-info">
+          <div class="task-title">${escapeHtml(t.title || t.taskId)}</div>
+          <div class="task-meta">
+            <span class="pill-stage">${escapeHtml(t.stageLabel || t.stageId)}</span>
+            ${t.mentorRequired ? '<span class="pill-mentor">Mentor</span>' : ''}
+            ${t.estimatedMinutes ? `<span>~${t.estimatedMinutes} min</span>` : ''}
+            ${cts.map(c => `<span class="pill-cts">CTS ${escapeHtml(c)}</span>`).join('')}
+            ${skl.map(s => `<span class="pill-skl">${escapeHtml(s)}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  el.querySelectorAll('.task-checkbox').forEach(cb => {
+    cb.addEventListener('click', () => toggleTask(cb.dataset.taskId));
+  });
+}
+
+function renderToday() {
+  // "Today" = uncompleted tasks belonging to current stage, mandatory first.
+  const today = allTasks.filter(t => t.stageId === currentStage?.stageId && !isCompleted(t.taskId) && t.mandatory !== false)
+    .slice(0, 5);
+  renderTasksInto('todayList', today, 'No required tasks for today. Check this week, or take some time to reflect.');
+}
+
+function renderThisWeek() {
+  // "This week" = next 7 days based on stageDayStart.
+  const minDay = dayOfInduction - 1;
+  const maxDay = dayOfInduction + 7;
+  const tasks = allTasks
+    .filter(t => !isCompleted(t.taskId) && (t.stageDayStart || 0) <= maxDay && (t.stageDayEnd || 365) >= minDay)
+    .filter(t => t.stageId !== currentStage?.stageId || t.mandatory === false)
+    .slice(0, 8);
+  renderTasksInto('thisWeekList', tasks, 'Nothing else scheduled this week.');
+}
+
+function renderStageTimeline() {
+  const el = document.getElementById('stageTimeline');
+  if (!el || !program?.stages) return;
+  el.innerHTML = program.stages.map(s => {
+    const isCurrent = s.stageId === currentStage?.stageId;
+    const isPast = dayOfInduction > s.dayEnd;
+    const stageTasks = allTasks.filter(t => t.stageId === s.stageId);
+    const stageDone = stageTasks.filter(t => isCompleted(t.taskId)).length;
+    return `
+      <div class="stage-pill ${isCurrent ? 'current' : ''} ${isPast ? 'complete' : ''}">
+        <div class="stage-pill-day">Day ${s.dayStart} → ${s.dayEnd}</div>
+        <div class="stage-pill-label">${escapeHtml(s.label)}</div>
+        <div class="stage-pill-progress">${stageDone} / ${stageTasks.length}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderUpcomingTasks() {
+  // Next stage tasks (preview).
+  const nextStage = program?.stages?.find(s => s.dayStart > dayOfInduction);
+  if (!nextStage) {
+    document.getElementById('upcomingList').innerHTML = '';
+    return;
+  }
+  const tasks = allTasks.filter(t => t.stageId === nextStage.stageId).slice(0, 4);
+  if (tasks.length === 0) return;
+  const el = document.getElementById('upcomingList');
+  el.innerHTML = `
+    <div style="margin-top:14px;padding:12px;background:#f9f9f9;border-radius:10px;">
+      <div style="font-size:11px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">
+        Coming up · ${escapeHtml(nextStage.label)} (Day ${nextStage.dayStart})
+      </div>
+      ${tasks.map(t => `<div style="font-size:12px;color:var(--ink-2);padding:4px 0;">• ${escapeHtml(t.title || t.taskId)}</div>`).join('')}
+    </div>
+  `;
+}
+
+// ──────────────────────────────────────────────────────────
+// TASK COMPLETE / UNCOMPLETE
+// ──────────────────────────────────────────────────────────
+async function toggleTask(taskId) {
+  const task = allTasks.find(t => t.taskId === taskId);
+  if (!task) return;
+  // Tasks owned by mentor / school leader can't be self-completed by mentee.
+  if (task.ownerRole && !['mentee', 'mentor_and_mentee'].includes(task.ownerRole)) {
+    showToast(`This task is owned by your ${escapeHtml(task.ownerRole.replace('_', ' '))} — they will mark it complete.`, 'info');
+    return;
+  }
+
+  const current = progressMap[taskId];
+  const isCurrentlyComplete = !!current?.completedAt;
+  const docId = `${window.currentUser.uid}_${taskId}`;
+  const payload = {
+    // @lint-allow-uid
+    uid: window.currentUser.uid,
+    programId: assignment.programId,
+    stageId: task.stageId,
+    taskId,
+    completedAt: isCurrentlyComplete ? null : serverTimestamp(),
+    completedBy: isCurrentlyComplete ? null : window.currentUser.uid,
+    updatedAt: serverTimestamp(),
+  };
+  if (!current) payload.createdAt = serverTimestamp();
+
+  try {
+    await setDoc(doc(db, 'induction_progress', docId), payload, { merge: true });
+    progressMap[taskId] = { id: docId, ...payload };
+    renderToday();
+    renderThisWeek();
+    renderStageTimeline();
+  } catch (err) {
+    console.error('toggleTask', err);
+    showToast('Could not save task state: ' + (err.message || err.code), 'error');
+  }
+}
+
+// ──────────────────────────────────────────────────────────
+// JOURNAL
+// ──────────────────────────────────────────────────────────
+async function setupJournal() {
+  // Load today's entry if present.
+  const today = new Date().toISOString().slice(0, 10);
+  const entryId = `${window.currentUser.uid}_${today}_daily`;
+  try {
+    const snap = await getDoc(doc(db, 'induction_journal', entryId));
+    if (snap.exists()) {
+      const data = snap.data();
+      document.getElementById('jp1').value = data.responses?.surprised || '';
+      document.getElementById('jp2').value = data.responses?.proud || '';
+      document.getElementById('jp3').value = data.responses?.anxious || '';
+      document.getElementById('journalMeta').textContent = 'Saved earlier today. Edit and save again to update.';
+    }
+  } catch (err) { console.warn('journal load', err); }
+
+  document.getElementById('btnSaveJournal').addEventListener('click', saveJournal);
+}
+
+async function saveJournal() {
+  const btn = document.getElementById('btnSaveJournal');
+  btn.disabled = true; btn.textContent = 'Saving…';
+  const today = new Date().toISOString().slice(0, 10);
+  const entryId = `${window.currentUser.uid}_${today}_daily`;
+  const responses = {
+    surprised: document.getElementById('jp1').value.trim(),
+    proud: document.getElementById('jp2').value.trim(),
+    anxious: document.getElementById('jp3').value.trim(),
+  };
+  const payload = {
+    // @lint-allow-uid
+    uid: window.currentUser.uid,
+    programId: assignment.programId,
+    stageId: currentStage?.stageId || null,
+    entryType: 'daily_3_sentence',
+    entryDate: Timestamp.fromDate(new Date(today)),
+    promptSet: 'survival_three_sentence_v1',
+    responses,
+    visibility: 'mentee_and_mentor',
+    updatedAt: serverTimestamp(),
+  };
+  try {
+    const snap = await getDoc(doc(db, 'induction_journal', entryId));
+    if (!snap.exists()) payload.createdAt = serverTimestamp();
+    await setDoc(doc(db, 'induction_journal', entryId), payload, { merge: true });
+    showToast('Journal saved.', 'success');
+    document.getElementById('journalMeta').textContent = 'Saved. Visible to you and your mentor only.';
+  } catch (err) {
+    console.error('saveJournal', err);
+    showToast('Save failed: ' + (err.message || err.code), 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Save today\'s entry';
+  }
+}
+
+// ──────────────────────────────────────────────────────────
+// PULSE
+// ──────────────────────────────────────────────────────────
+async function setupPulse() {
+  const weekStart = isoWeekStart(new Date());
+  const pulseId = `${window.currentUser.uid}_${weekStart}`;
+  let savedScore = null;
+  try {
+    const snap = await getDoc(doc(db, 'induction_pulses', pulseId));
+    if (snap.exists()) savedScore = snap.data().score;
+  } catch (err) { console.warn('pulse load', err); }
+
+  document.querySelectorAll('.pulse-emoji').forEach(el => {
+    if (parseInt(el.dataset.score, 10) === savedScore) el.classList.add('selected');
+    el.addEventListener('click', () => savePulse(parseInt(el.dataset.score, 10), el));
+  });
+
+  if (savedScore) {
+    document.getElementById('pulseMeta').textContent = `Recorded for this week. You can update it any time.`;
+  }
+}
+
+async function savePulse(score, el) {
+  document.querySelectorAll('.pulse-emoji').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+
+  const weekStart = isoWeekStart(new Date());
+  const pulseId = `${window.currentUser.uid}_${weekStart}`;
+  const payload = {
+    // @lint-allow-uid
+    uid: window.currentUser.uid,
+    programId: assignment.programId,
+    schoolId: window.userProfile?.schoolId || null,
+    stageId: currentStage?.stageId || null,
+    weekStartDate: Timestamp.fromDate(new Date(weekStart)),
+    score,
+    createdAt: serverTimestamp(),
+  };
+  try {
+    await setDoc(doc(db, 'induction_pulses', pulseId), payload);
+    document.getElementById('pulseMeta').textContent = 'Recorded for this week. You can update it any time.';
+  } catch (err) {
+    console.error('savePulse', err);
+    showToast('Pulse save failed: ' + (err.message || err.code), 'error');
+  }
+}
+
+function isoWeekStart(d) {
+  const date = new Date(d);
+  const day = date.getDay() || 7;
+  if (day !== 1) date.setHours(-24 * (day - 1));
+  return date.toISOString().slice(0, 10);
+}
+
+// ──────────────────────────────────────────────────────────
+// TOAST
+// ──────────────────────────────────────────────────────────
+function showToast(msg, kind) {
+  const el = document.createElement('div');
+  el.style.cssText = `
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 500;
+    box-shadow: var(--shadow-lg); z-index: 1000;
+    background: ${kind === 'error' ? '#991b1b' : kind === 'info' ? '#1e3a8a' : '#065f46'};
+    color: #fff;
+  `;
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => { el.style.transition = 'opacity 0.3s'; el.style.opacity = '0'; }, 2200);
+  setTimeout(() => el.remove(), 2700);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Mentees — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link rel="stylesheet" href="base.css">
+<script src="firebase-config.js"></script>
+<script>if (!window.ENV) window.ENV = { FIREBASE_API_KEY: "__FIREBASE_API_KEY__", FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__", FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__", FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__", FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__", FIREBASE_APP_ID: "__FIREBASE_APP_ID__" };</script>
+<style>
+:root { --accent: #6c5ce7; --accent-2: #ede9fe; --accent-dark: #4e3db8; }
+.page-wrap { max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1530 0%, #2d2354 55%, #0a0815 100%);
+  color: #fff; padding: 30px 28px; border-radius: 16px;
+  margin-bottom: 24px; position: relative; overflow: hidden;
+}
+.page-header::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(108,92,231,0.22) 0%, transparent 55%);
+}
+.page-header > * { position: relative; z-index: 1; }
+.page-header .eyebrow { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+.page-header h1 { font-family: 'Lora', serif; font-size: 1.75rem; font-weight: 600; margin-bottom: 4px; }
+.page-header p { font-size: 14px; color: rgba(255,255,255,0.65); max-width: 680px; }
+
+.cert-banner {
+  background: linear-gradient(180deg, #fef3c7 0%, #fff 100%);
+  border: 1px solid #fde68a; border-radius: 12px; padding: 14px 16px;
+  font-size: 12px; color: #78350f; margin-bottom: 18px;
+}
+.cert-banner.expired {
+  background: linear-gradient(180deg, #fee2e2 0%, #fff 100%);
+  border-color: #fca5a5; color: #7f1d1d;
+}
+.cert-banner strong { font-weight: 700; }
+
+.mentee-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: 14px;
+  padding: 20px 22px; margin-bottom: 16px; box-shadow: var(--shadow-sm);
+}
+.mentee-head {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 14px;
+  align-items: center; margin-bottom: 16px;
+}
+.mentee-info { display: flex; align-items: center; gap: 12px; }
+.mentee-avatar {
+  width: 44px; height: 44px; border-radius: 50%; background: var(--accent);
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: 17px; flex-shrink: 0;
+}
+.mentee-name { font-size: 15px; font-weight: 600; color: var(--ink); }
+.mentee-email { font-size: 12px; color: var(--ink-3); }
+.mentee-program { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--accent-2); color: var(--accent-dark); display: inline-block; margin-top: 4px; font-weight: 500; }
+
+.mentee-stat-block { display: flex; flex-direction: column; gap: 2px; }
+.mentee-stat-label { font-size: 10px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+.mentee-stat-value { font-size: 14px; color: var(--ink); font-weight: 500; }
+
+.mentee-status-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.mentee-status-pre_arrival { background: #f3f4f6; color: #4b5563; }
+.mentee-status-active { background: #dcfce7; color: #15803d; }
+.mentee-status-paused { background: #fef3c7; color: #92400e; }
+.mentee-status-completed { background: var(--accent-2); color: var(--accent-dark); }
+.mentee-status-extended { background: #fed7aa; color: #9a3412; }
+
+.mentee-actions {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  padding-top: 14px; border-top: 1px solid var(--border);
+}
+.action-btn {
+  background: var(--accent); color: #fff; border: none; padding: 8px 16px;
+  border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none;
+}
+.action-btn:hover { background: var(--accent-dark); }
+.action-btn.secondary { background: #fff; color: var(--ink); border: 1px solid var(--border); }
+.action-btn.secondary:hover { background: #f9f9f9; }
+
+.next-obs-box {
+  background: #faf5ff; border: 1px solid var(--accent-2); border-radius: 10px;
+  padding: 12px 14px; margin-bottom: 14px;
+}
+.next-obs-label { font-size: 10px; color: var(--accent-dark); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; margin-bottom: 4px; }
+.next-obs-detail { font-size: 13px; color: var(--ink); }
+
+.recent-obs-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0; font-size: 12px; border-bottom: 1px solid var(--border);
+}
+.recent-obs-row:last-child { border: none; }
+.recent-obs-info { display: flex; flex-direction: column; gap: 2px; }
+.recent-obs-type { font-weight: 500; color: var(--ink); }
+.recent-obs-meta { color: var(--ink-3); font-size: 11px; }
+
+.pulse-mini { display: flex; gap: 4px; align-items: center; }
+.pulse-mini-emoji { font-size: 14px; }
+
+.no-mentees {
+  background: var(--white); border: 1px solid var(--border); border-radius: 14px;
+  padding: 60px 40px; text-align: center; box-shadow: var(--shadow-sm);
+}
+.no-mentees h2 { font-size: 18px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+.no-mentees p { font-size: 14px; color: var(--ink-3); max-width: 480px; margin: 0 auto; }
+
+@media (max-width: 760px) {
+  .mentee-head { grid-template-columns: 1fr; gap: 8px; }
+}
+</style>
+</head>
+<body style="display:none">
+<div id="navbar-container"></div>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <p class="eyebrow">Teachers Hub · Mentor view</p>
+    <h1>My Mentees</h1>
+    <p>The first-year inductions you are responsible for. The monthly observation cycle (PIGP Pasal 9 / Lampiran C) is your primary touchpoint with each mentee. Charter Principle 2 — mentorship is a craft we train: keep your certification active and use the GROW + Glow/Grow/Go conversation structure when you write up observations.</p>
+  </div>
+
+  <div id="certBanner"></div>
+  <div id="content">
+    <div class="skel" style="height:140px;border-radius:14px;margin-bottom:14px;"></div>
+    <div class="skel" style="height:140px;border-radius:14px;"></div>
+  </div>
+</div>
+
+<script type="module" src="auth-guard.js"></script>
+<script type="module">
+import { collection, doc, getDoc, getDocs, query, where, orderBy, limit }
+  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+fetch('partials/navbar.html').then(r => r.text()).then(html => {
+  document.getElementById('navbar-container').innerHTML = html;
+  if (typeof initNavbar === 'function') initNavbar();
+});
+
+const db = window.db;
+
+// ──────────────────────────────────────────────────────────
+// STATE
+// ──────────────────────────────────────────────────────────
+let myAssignments = [];
+let menteeProfiles = {};       // uid → users doc
+let programs = {};             // programId → program doc
+let observationsByMentee = {}; // menteeUid → observations[]
+let pulsesByMentee = {};       // menteeUid → recent pulses
+let myCertification = null;
+
+// ──────────────────────────────────────────────────────────
+// BOOT
+// ──────────────────────────────────────────────────────────
+document.addEventListener('authReady', async ({ detail: { user } }) => {
+  document.body.style.display = '';
+  try {
+    // Check own certification
+    const certSnap = await getDoc(doc(db, 'mentor_certifications', `${user.uid}_mentor_base`));
+    myCertification = certSnap.exists() ? certSnap.data() : null;
+    renderCertBanner();
+
+    // Find inductions where I am mentor
+    const assignSnap = await getDocs(query(
+      collection(db, 'induction_assignments'),
+      where('mentorUid', '==', user.uid),
+      limit(50)
+    ));
+    myAssignments = assignSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+    if (myAssignments.length === 0) {
+      showNoMentees();
+      return;
+    }
+
+    // Load mentee profiles + programs (deduped) + recent observations + recent pulses
+    const menteeUids = myAssignments.map(a => a.uid);
+    const programIds = [...new Set(myAssignments.map(a => a.programId).filter(Boolean))];
+
+    await Promise.all([
+      ...menteeUids.map(async uid => {
+        const s = await getDoc(doc(db, 'users', uid));
+        menteeProfiles[uid] = s.exists() ? s.data() : null;
+      }),
+      ...programIds.map(async pid => {
+        const s = await getDoc(doc(db, 'induction_programs', pid));
+        programs[pid] = s.exists() ? s.data() : null;
+      }),
+      ...menteeUids.map(async uid => {
+        try {
+          const obsSnap = await getDocs(query(
+            collection(db, 'induction_observations'),
+            where('menteeUid', '==', uid),
+            orderBy('observationDate', 'desc'),
+            limit(5)
+          ));
+          observationsByMentee[uid] = obsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+        } catch (e) { observationsByMentee[uid] = []; }
+      }),
+      ...menteeUids.map(async uid => {
+        try {
+          const pulseSnap = await getDocs(query(
+            collection(db, 'induction_pulses'),
+            where('uid', '==', uid),
+            orderBy('weekStartDate', 'desc'),
+            limit(4)
+          ));
+          pulsesByMentee[uid] = pulseSnap.docs.map(d => d.data());
+        } catch (e) { pulsesByMentee[uid] = []; }
+      }),
+    ]);
+
+    renderMentees();
+  } catch (err) {
+    console.error('boot', err);
+    document.getElementById('content').innerHTML = `<div class="no-mentees"><h2>Could not load</h2><p>${escapeHtml(err.message || err.code || 'unknown')}</p></div>`;
+  }
+});
+
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function avatarInitials(name) {
+  return ((name || '?').match(/\b([A-Z])/g) || ['?']).slice(0, 2).join('');
+}
+
+// ──────────────────────────────────────────────────────────
+// CERT BANNER
+// ──────────────────────────────────────────────────────────
+function renderCertBanner() {
+  const banner = document.getElementById('certBanner');
+  if (!myCertification) {
+    banner.innerHTML = `
+      <div class="cert-banner expired">
+        <strong>You have no Mentor Certification on file.</strong> If you are a current mentor, please contact the HQ Induction Coordinator. Per Charter Non-Negotiable 3, new assignments cannot be made to uncertified mentors.
+      </div>
+    `;
+    return;
+  }
+  const validUntil = myCertification.validUntil?.toDate ? myCertification.validUntil.toDate() : null;
+  const daysLeft = validUntil ? Math.floor((validUntil - new Date()) / (1000 * 60 * 60 * 24)) : null;
+  if (myCertification.active === false) {
+    banner.innerHTML = `<div class="cert-banner expired"><strong>Your Mentor Certification is inactive.</strong> Existing inductions continue but no new assignments will be made until you refresh.</div>`;
+  } else if (daysLeft !== null && daysLeft < 60) {
+    banner.innerHTML = `<div class="cert-banner"><strong>Your Mentor Certification expires in ${daysLeft} days</strong> (${validUntil.toLocaleDateString('en-GB')}). The 1-hour refresher takes 1 hour — reach out to HQ to schedule.</div>`;
+  } else {
+    banner.innerHTML = `<div class="cert-banner"><strong>Mentor Certification active</strong> — valid until ${validUntil ? validUntil.toLocaleDateString('en-GB') : '—'}.</div>`;
+  }
+}
+
+// ──────────────────────────────────────────────────────────
+// RENDER MENTEES
+// ──────────────────────────────────────────────────────────
+function showNoMentees() {
+  document.getElementById('content').innerHTML = `
+    <div class="no-mentees">
+      <h2>No active mentees</h2>
+      <p>You are not currently assigned as a mentor for any induction. The HQ Induction Coordinator at Central Hub assigns mentors and mentees together at the start of each cohort.</p>
+    </div>
+  `;
+}
+
+function renderMentees() {
+  const cards = myAssignments.map(a => {
+    const mentee = menteeProfiles[a.uid];
+    const program = programs[a.programId];
+    const obs = observationsByMentee[a.uid] || [];
+    const pulses = pulsesByMentee[a.uid] || [];
+    const hireDate = a.hireDate?.toDate ? a.hireDate.toDate() : new Date(a.hireDate);
+    const days = Math.floor((Date.now() - hireDate.getTime()) / (1000 * 60 * 60 * 24));
+    const stage = computeStage(program, days);
+    const nextObs = computeNextObservation(program, obs, days);
+    const pulseRow = renderPulseMini(pulses);
+
+    return `
+      <div class="mentee-card">
+        <div class="mentee-head">
+          <div class="mentee-info">
+            <div class="mentee-avatar">${escapeHtml(avatarInitials(mentee?.displayName))}</div>
+            <div>
+              <div class="mentee-name">${escapeHtml(mentee?.displayName || a.uid)}</div>
+              <div class="mentee-email">${escapeHtml(mentee?.email || '')}</div>
+              <span class="mentee-program">${escapeHtml(program?.title || a.programId || '')}</span>
+            </div>
+          </div>
+          <div class="mentee-stat-block">
+            <span class="mentee-stat-label">Day</span>
+            <span class="mentee-stat-value">${days} of ${program?.duration?.totalDays || 365}</span>
+            <span style="font-size:11px;color:var(--ink-3);margin-top:2px;">${escapeHtml(stage?.label || '')}</span>
+          </div>
+          <div class="mentee-stat-block">
+            <span class="mentee-stat-label">Status</span>
+            <span><span class="mentee-status-pill mentee-status-${a.status || 'pre_arrival'}">${escapeHtml(a.status || 'pre_arrival')}</span></span>
+            <span style="font-size:11px;color:var(--ink-3);margin-top:6px;">${pulseRow}</span>
+          </div>
+          <div class="mentee-stat-block">
+            <span class="mentee-stat-label">Observations</span>
+            <span class="mentee-stat-value">${obs.filter(o => o.completedAt).length} done</span>
+            <span style="font-size:11px;color:var(--ink-3);margin-top:2px;">${obs.filter(o => !o.completedAt).length} draft</span>
+          </div>
+        </div>
+
+        ${nextObs ? `
+          <div class="next-obs-box">
+            <div class="next-obs-label">Next observation</div>
+            <div class="next-obs-detail">
+              ${escapeHtml(nextObs.label)} (Month ${nextObs.month}) — ${nextObs.scored ? 'scored' : 'unscored'}.
+              ${nextObs.description ? `<br><span style="font-size:11px;color:var(--ink-3);">${escapeHtml(nextObs.description)}</span>` : ''}
+            </div>
+          </div>
+        ` : ''}
+
+        ${obs.length > 0 ? `
+          <div style="margin-bottom:14px;">
+            <div style="font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-bottom:8px;">Recent observations</div>
+            ${obs.slice(0, 3).map(o => `
+              <div class="recent-obs-row">
+                <div class="recent-obs-info">
+                  <div class="recent-obs-type">${escapeHtml((o.observationType || '').replace(/_/g, ' '))}${o.observationNumber ? ' #' + o.observationNumber : ''}</div>
+                  <div class="recent-obs-meta">${o.observationDate?.toDate ? o.observationDate.toDate().toLocaleDateString('en-GB') : '—'} · ${o.completedAt ? 'finalised' : 'draft'}${o.overallRubricLevel ? ' · ' + escapeHtml(o.overallRubricLevel) : ''}</div>
+                </div>
+                <a class="action-btn secondary" href="observation-entry.html?menteeUid=${encodeURIComponent(a.uid)}&type=${encodeURIComponent(o.observationType || '')}&number=${o.observationNumber || ''}&obsId=${encodeURIComponent(o.id)}">Open</a>
+              </div>
+            `).join('')}
+          </div>
+        ` : ''}
+
+        <div class="mentee-actions">
+          ${nextObs ? `<a class="action-btn" href="observation-entry.html?menteeUid=${encodeURIComponent(a.uid)}&type=${encodeURIComponent(nextObs.type)}&number=${nextObs.month}">Start ${escapeHtml(nextObs.label)}</a>` : ''}
+          <a class="action-btn secondary" href="observation-entry.html?menteeUid=${encodeURIComponent(a.uid)}&type=mentor_observes_mentee">New observation</a>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('content').innerHTML = cards;
+}
+
+function computeStage(program, day) {
+  if (!program?.stages) return null;
+  return program.stages.find(s => day >= s.dayStart && day <= s.dayEnd) || program.stages[program.stages.length - 1];
+}
+
+function computeNextObservation(program, completedObs, day) {
+  // Look at stage_3 observation cycle for subject_teacher.
+  const cycle = program?.stages?.find(s => s.observationCycle)?.observationCycle;
+  if (!cycle?.rotation) {
+    // Fall back to specialist walkthrough cycle if exists.
+    const wcycle = program?.stages?.find(s => s.walkthroughCycle)?.walkthroughCycle;
+    if (!wcycle?.rotation) return null;
+    return null; // specialist walkthroughs handled separately
+  }
+  const completedNumbers = new Set(completedObs.filter(o => o.completedAt).map(o => o.observationNumber));
+  for (const r of cycle.rotation) {
+    if (!completedNumbers.has(r.month)) {
+      return { month: r.month, type: r.type, label: r.label, scored: !!r.scored, description: r.description };
+    }
+  }
+  return null;
+}
+
+function renderPulseMini(pulses) {
+  if (pulses.length === 0) return '';
+  const emojiFor = s => ({1: '😰', 2: '😟', 3: '😐', 4: '🙂', 5: '😊'}[s] || '·');
+  return pulses.slice(0, 4).map(p => `<span class="pulse-mini-emoji" title="Week of ${p.weekStartDate?.toDate ? p.weekStartDate.toDate().toLocaleDateString('en-GB') : ''}">${emojiFor(p.score)}</span>`).join(' ');
+}
+</script>
+</body>
+</html>
