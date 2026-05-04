@@ -755,10 +755,16 @@ function processFile(filename) {
   // bootstraps from DOM scan, so CTS chips become clickable cross-ref
   // popovers without per-page wiring). Skipped for login.html which
   // doesn't render CTS chips and doesn't need the runtime.
+  // Use lastIndexOf so we target the actual document </body> and not a
+  // </body> sitting inside an inline JS template literal.
   if (filename !== 'login.html' && filename !== 'index.html' &&
       !html.includes('/cambridge-crossref.js')) {
-    html = html.replace('</body>',
-      '<script src="/cambridge-crossref.js" defer></script>\n</body>');
+    const closeIdx = html.lastIndexOf('</body>');
+    if (closeIdx >= 0) {
+      html = html.slice(0, closeIdx)
+        + '<script src="/cambridge-crossref.js" defer></script>\n'
+        + html.slice(closeIdx);
+    }
   }
 
   // Determine output path
