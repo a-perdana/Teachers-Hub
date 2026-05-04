@@ -67,7 +67,8 @@ function initNavbar() {
                 'as-alevel-math-tracker','as-alevel-biology-tracker','as-alevel-chemistry-tracker','as-alevel-physics-tracker'],
       mywork: ['weekly-checklist','teacher-self-assessment','teacher-kpi-results',
                'teacher-appraisal-results','teacher-self-appraisal',
-               'competency-framework','learning-path','my-portfolio','my-certificates'],
+               'competency-framework','learning-path','my-portfolio','my-certificates',
+               'my-induction','my-mentees','observation-entry'],
       hub:    ['announcements','messageboard','library','cambridge-calendar','cambridge-standards','surveys'],
     };
 
