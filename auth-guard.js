@@ -151,6 +151,7 @@ function slugFromHref(href) {
 function applyPageAccessGating(configs, userSubRoles) {
   const isAllowed = (cfg) => {
     if (!cfg) return true;
+    if (cfg.hidden === true) return false;
     const vt = Array.isArray(cfg.visible_to) ? cfg.visible_to : [];
     if (vt.length === 0) return true;
     return userSubRoles.some(r => vt.includes(r));
@@ -723,15 +724,19 @@ onAuthStateChanged(auth, async (user) => {
   //     - admin bypasses
   //     - root '/' and explicit allow-list pages skip the check
   //     - missing config doc => allow (back-compat)
+  //     - cfg.hidden === true => deny (page hidden from every sub-role)
   //     - empty visible_to  => allow (open to every TH sub-role)
   //     - else: user must hold at least one matching th_sub_role
   if (!isAdminRole) {
     const pageKey = currentPageKey();
     if (pageKey && !PAGE_ACCESS_BYPASS.has(pageKey)) {
       const cfg = await getPageAccessConfig(db, pageKey);
-      if (cfg && Array.isArray(cfg.visible_to) && cfg.visible_to.length > 0) {
+      if (cfg) {
+        const isHidden = cfg.hidden === true;
         const userSubRoles = Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [];
-        const allowed = userSubRoles.some(r => cfg.visible_to.includes(r));
+        const vt = Array.isArray(cfg.visible_to) ? cfg.visible_to : [];
+        const subRoleAllowed = vt.length === 0 || userSubRoles.some(r => vt.includes(r));
+        const allowed = !isHidden && subRoleAllowed;
         if (!allowed) {
           try {
             sessionStorage.setItem('th_access_denied', JSON.stringify({
