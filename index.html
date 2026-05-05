@@ -3811,7 +3811,7 @@
         // The dashboard config is split across two doc kinds in
         // th_resource_sections:
         //   • Regular section docs — cardIds[], visible_to[], etc.
-        //   • A single meta doc id '__uncategorized_settings__' with
+        //   • A single meta doc id '_uncategorized_settings_' with
         //     { isMeta: true, visible_to_users: bool } that lets admins
         //     hide the Uncategorized accordion from non-admin users.
         const catQuery = q(col(db, 'th_resource_sections'), ob('order', 'asc'));
@@ -3820,7 +3820,7 @@
           let uncatSettings = {};
           snap.forEach(docSnap => {
             const data = { id: docSnap.id, ...docSnap.data() };
-            if (data.isMeta || docSnap.id === '__uncategorized_settings__') {
+            if (data.isMeta || docSnap.id === '_uncategorized_settings_') {
               uncatSettings = data;
               return;
             }
@@ -3844,7 +3844,7 @@
               const next = !(cur.visible_to_users === false); // currently shown? → hide. else → show.
               const desired = !next; // visible_to_users
               try {
-                await sd(d(db, 'th_resource_sections', '__uncategorized_settings__'), {
+                await sd(d(db, 'th_resource_sections', '_uncategorized_settings_'), {
                   isMeta: true,
                   visible_to_users: desired,
                   updatedAt: sts(),
