@@ -3712,12 +3712,17 @@
 
             // Special case: the Uncategorized accordion uses the meta
             // doc id `_uncategorized_settings_` for its visibility flag.
+            // We MUST write an `order` field too — the snapshot listener
+            // is bound with orderBy('order','asc'), which silently drops
+            // docs missing that field. Negative order keeps it visually
+            // out of the way (we filter isMeta out of render anyway).
             if (catId === '__uncategorized__' && btn.classList.contains('vis-toggle-btn')) {
               const cur = window.__thUncatSettings || {};
               const desired = cur.visible_to_users === false; // hidden → show; else → hide
               try {
                 await sd(d(db, 'th_resource_sections', '_uncategorized_settings_'), {
                   isMeta: true,
+                  order: -1,
                   visible_to_users: desired,
                   updatedAt: sts(),
                 }, { merge: true });
