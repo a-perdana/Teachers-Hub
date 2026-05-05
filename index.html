@@ -3832,28 +3832,29 @@
           if (isAdmin) refreshUncatToggleUi(uncatSettings);
         });
 
-        // ── Admin: Uncategorized visibility toggle ─────────────────
+        // ── Admin: Uncategorized visibility toggle (delegated) ─────
+        // Bound on document so the handler survives any future re-render
+        // of the Uncategorized header. capture-phase + stopPropagation
+        // prevents the generic accordion handler from also toggling the
+        // section open/closed.
         if (isAdmin) {
-          const adminBox  = document.getElementById('uncategorizedAdminActions');
-          const toggleBtn = document.getElementById('uncatToggleBtn');
-          if (adminBox)  adminBox.style.display  = '';
-          if (toggleBtn) {
-            toggleBtn.addEventListener('click', async (e) => {
-              e.stopPropagation(); // don't toggle the accordion
-              const cur = window.__thUncatSettings || {};
-              const next = !(cur.visible_to_users === false); // currently shown? → hide. else → show.
-              const desired = !next; // visible_to_users
-              try {
-                await sd(d(db, 'th_resource_sections', '_uncategorized_settings_'), {
-                  isMeta: true,
-                  visible_to_users: desired,
-                  updatedAt: sts(),
-                }, { merge: true });
-              } catch (err) {
-                console.warn('uncat toggle failed', err);
-              }
-            });
-          }
+          document.addEventListener('click', async (e) => {
+            const btn = e.target.closest('#uncatToggleBtn');
+            if (!btn) return;
+            e.stopPropagation();
+            e.preventDefault();
+            const cur = window.__thUncatSettings || {};
+            const desired = cur.visible_to_users === false; // hidden → show; else → hide
+            try {
+              await sd(d(db, 'th_resource_sections', '_uncategorized_settings_'), {
+                isMeta: true,
+                visible_to_users: desired,
+                updatedAt: sts(),
+              }, { merge: true });
+            } catch (err) {
+              console.warn('uncat toggle failed', err);
+            }
+          }, true); // capture phase — fire before accordion handler
         }
       }
 
