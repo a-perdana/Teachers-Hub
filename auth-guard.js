@@ -166,8 +166,10 @@ function applyPageAccessGating(configs, userSubRoles) {
     else                              el.removeAttribute('data-pa-hidden');
   });
 
-  // 2. Dashboard cards
-  document.querySelectorAll('a.card[href]').forEach(el => {
+  // 2. Dashboard cards. TH index.html builds them as <a class="resource-card">
+  //    via buildResourceCard(); the legacy a.card selector is kept for any
+  //    hand-crafted cards still using the old class.
+  document.querySelectorAll('a.card[href], a.resource-card[href]').forEach(el => {
     const key = slugFromHref(el.getAttribute('href'));
     if (!key || PAGE_ACCESS_BYPASS.has(key)) return;
     if (!configs.has(key)) return;
@@ -838,8 +840,8 @@ onAuthStateChanged(auth, async (user) => {
       const interesting = muts.some(m =>
         [...m.addedNodes].some(n =>
           n.nodeType === 1 && (
-            n.matches?.('[data-nav-key], a.card[href], [data-pacing-subject]') ||
-            n.querySelector?.('[data-nav-key], a.card[href], [data-pacing-subject]')
+            n.matches?.('[data-nav-key], a.card[href], a.resource-card[href], [data-pacing-subject]') ||
+            n.querySelector?.('[data-nav-key], a.card[href], a.resource-card[href], [data-pacing-subject]')
           )
         )
       );
