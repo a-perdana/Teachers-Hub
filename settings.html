@@ -726,9 +726,12 @@
         <div class="settings-card-label">School</div>
         <div class="settings-input-wrap">
           <label class="settings-input-label" for="sSchool">School name <span style="color:#dc2626">*</span></label>
-          <select class="settings-input" id="sSchool">
+          <select class="settings-input" id="sSchool" disabled aria-readonly="true" style="background:#f5f4f0;color:#6b6b6b;cursor:not-allowed;">
             <option value="">Loading schools…</option>
           </select>
+          <div style="font-size:12px;color:#a8a49c;margin-top:8px;line-height:1.5;">
+            School is set by Eduversal HQ. Contact your administrator if this needs to change.
+          </div>
         </div>
       </div>
 
@@ -1406,20 +1409,14 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     renderClassEditors();
   })();
 
-  // When school changes, reset everything — subjects, levels, classes
-  document.getElementById('sSchool').addEventListener('change', async (e) => {
-    _activeCombos = new Set();
-    _slClasses = {};
-    await loadSchoolClasses(db, e.target.value);
-    renderComboGrid();
-    renderClassEditors();
-    if (window.saveTeachingProfile) window.saveTeachingProfile({ toast: true });
-  });
+  // School is locked post-onboarding — no change handler. To move a teacher
+  // between schools, central_admin updates users/{uid}.schoolId from /console.
 
   window.saveTeachingProfile = async function saveTeachingProfile({ toast = false } = {}) {
-    const schoolSel = document.getElementById('sSchool');
-    const schoolId  = schoolSel.value.trim();
-    const school    = schoolSel.selectedOptions[0]?.dataset.name || window._schoolMap[schoolId] || schoolId;
+    // School is locked — pin to the profile value set during onboarding (or by HQ).
+    // Never trust the DOM select here, even though it's disabled.
+    const schoolId = (window.userProfile?.schoolId || '').trim();
+    const school   = window.userProfile?.school || window._schoolMap?.[schoolId] || schoolId;
     if (!schoolId) return false;
 
     const teaching_combos = [..._activeCombos];
@@ -1433,7 +1430,7 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
 
     try {
       await setDoc(doc(db, 'users', user.uid),
-        { school, schoolId, teaching_combos, subjects: [...subjectsSet], classes: [...levelsSet], ...classFields },
+        { teaching_combos, subjects: [...subjectsSet], classes: [...levelsSet], ...classFields },
         { merge: true }
       );
       window.userProfile = { ...window.userProfile, school, schoolId, teaching_combos, subjects: [...subjectsSet], classes: [...levelsSet], ...classFields };
