@@ -2,343 +2,221 @@
 
 ## What This App Is
 
-Teachers Hub is the **partner school teacher portal** for Eduversal's network. Its users are teaching staff at partner schools:
+Partner school teacher portal. Audiences: **subject_teacher**, **subject_leader**, **interviewer** (careers), **hiring_manager** (careers).
 
-- **Subject Teachers** — classroom teachers delivering Cambridge curriculum
-- **Subject Leaders** — heads of department overseeing subject delivery and cohort progress
+Key features: 11 Cambridge pacing pages (IGCSE / AS-A / Checkpoint × Math/Bio/Chem/Phys/Eng/Sci) + cohort trackers, teaching competency framework with 4-page CPD set, weekly checklists, KPI + Appraisal, Cambridge calendar/standards, induction (Year-1 mentees + mentors), careers + interview scorecard, announcements, message board, library.
 
-Key features: curriculum pacing guides for all Cambridge levels (IGCSE, AS/A-Level, Checkpoint — 11 subjects total), subject leader cohort trackers, teaching competency framework with learning path and evidence portfolio, weekly checklists (role-based), teacher KPI and appraisal results, Cambridge exam calendar, surveys, announcements feed, message board, and resource library.
+**Vanilla HTML/CSS/JS** (no React, no bundler). Pages load Firebase via CDN.
 
-New users complete a profile setup (school, subjects, classes, sub-role) then require approval from a `central_admin` before accessing the platform. It is a **vanilla HTML/CSS/JS application** (no React, no bundler framework). Pages are plain `.html` files with inline scripts that load Firebase via CDN.
-
-**Deployment:** Vercel (build output in `dist/`).
-
----
-
-## Monorepo Structure
-
-```
-Eduversal Web/                    ← monorepo root (not a deployed app)
-├── Academic Hub/                 ← analytics dashboards (Vercel)
-├── Central Hub/                  ← admin control panel (Vercel)
-│   ├── firestore.rules           ← ⚠️ ONLY Firestore rules file — deploy from here
-│   └── firebase.json             ← firebase deploy config
-├── Teachers Hub/                 ← THIS app (Vercel)
-└── keys/                         ← service account JSON keys (gitignored)
-```
-
-Each app has its **own GitHub repository** and its **own deployment target**, but all three share the single Firebase backend `centralhub-8727b`.
+**Deployment:** Vercel (`dist/`).
 
 ---
 
 ## Shared Firebase Backend
 
-**Project ID:** `centralhub-8727b`
+**Project:** `centralhub-8727b` (shared with AH / CH / Research Hub).
 
-| Field                | Value                                      |
-|----------------------|--------------------------------------------|
-| authDomain           | centralhub-8727b.firebaseapp.com           |
-| projectId            | centralhub-8727b                           |
-| storageBucket        | centralhub-8727b.firebasestorage.app       |
-| messagingSenderId    | 244951050014                               |
-| apiKey / appId       | gitignored — see Firebase Console          |
+**SDK:** Firebase modular v10.7.1, CDN imports. NEVER use compat (`firebase.firestore()`).
 
-**SDK:** Firebase modular v10 (`10.7.1`), loaded from the CDN:
-```
-https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js
-https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js
-https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js
-```
-Do NOT use the compat SDK (`firebase/app`, `firebase.firestore()` namespace style). Always use modular imports.
+**Config pattern:**
+- `firebase-config.js` (gitignored) sets `window.ENV.*`
+- Local dev: HTML pages include `<script src="firebase-config.js">` + inline fallback
+- Production: `build.js` substitutes `__FIREBASE_*__` placeholders from Vercel env vars + strips the script tag
 
----
-
-## Firebase Config Pattern
-
-**`firebase-config.js`** (gitignored) sets `window.ENV` at page load:
-```js
-window.ENV = {
-  FIREBASE_API_KEY: "...",
-  FIREBASE_AUTH_DOMAIN: "centralhub-8727b.firebaseapp.com",
-  // ...
-};
+**Firestore rules:** maintained exclusively in `Central Hub/firestore.rules`. NEVER create one here. Deploy from CH:
+```bash
+cd "Central Hub" && firebase deploy --only firestore:rules --project centralhub-8727b
 ```
 
-**Local development:** HTML pages include `<script src="firebase-config.js"></script>` plus an inline fallback:
-```html
-<script>
-  if (!window.ENV) window.ENV = { FIREBASE_API_KEY: "...", ... };
-</script>
-```
-
-**Production (Vercel):** `build.js` replaces `__FIREBASE_*__` placeholders embedded in each HTML file and strips the `<script src="firebase-config.js">` tag entirely. The `firebase-config.js` file is NOT deployed.
-
-**Template:** `firebase-config.example.js` — copy to `firebase-config.js` and fill in the two secrets.
+For full schema + collection catalogue, see [`docs/FIRESTORE_SCHEMA.md`](../docs/FIRESTORE_SCHEMA.md) and the root `CLAUDE.md`. This file documents only TH-touching aspects.
 
 ---
 
 ## Auth Pattern
 
-Every protected page loads `auth-guard.js` as a module:
+Every protected page loads `auth-guard.js` as a module FIRST:
 ```html
 <script type="module" src="auth-guard.js"></script>
 ```
 
-`auth-guard.js` (modular SDK v10):
-1. Hides `document.body` immediately (prevents flash of content).
-2. Initialises Firebase (guards against double-init with `getApps()`).
-3. Listens on `onAuthStateChanged`. If no user → redirects to `/login`.
-4. Fetches (or creates) Firestore profile. If missing, creates it and assigns `role_teachershub: 'teachers_user'` + `approval_status_teachershub: 'pending'` automatically.
-5. **Domain check** — Google SSO users must have an email from `window.TEACHERS_ALLOWED_DOMAINS` (15 school domains). Email/password accounts bypass this check. Fails → `/login?error=domain`.
-6. Role check — `role_teachershub` must be in `['teachers_admin', 'teachers_user']`. Fails → `/login?error=access`.
-7. Name prompt if `displayName` is missing.
-8. **Profile setup prompt** — shown until `school`, `subjects`, `classes`, and `th_sub_roles` are all filled. The school dropdown is sourced from `partner_schools` ordered by name; for new users the prompt auto-defaults to the doc whose `domain` matches the email when exactly one school owns it (multi-school domains like `semesta.sch.id` leave the picker empty). Returns all fields; saved with `setDoc` merge.
-9. **Approval check** — if `approval_status_teachershub !== 'approved'` (and not `teachers_admin`) → redirect to `/waiting`. `waiting.html` polls every 30s and redirects on approval.
-10. Exposes globals and dispatches `authReady`.
+Steps (in order):
+1. Hide `document.body` (prevent flash)
+2. Init Firebase (guarded against double-init)
+3. `onAuthStateChanged` — no user → `/login`
+4. Fetch / create `users/{uid}` profile (auto-assigns `role_teachershub: 'teachers_user'` + `approval_status_teachershub: 'pending'`)
+5. **Domain check** — Google SSO email must be in `window.TEACHERS_ALLOWED_DOMAINS` (15 entries: 14 partner `.sch.id` + `eduversal.org`). Email/password accounts bypass. Fail → `/login?error=domain`
+6. **Role check** — `role_teachershub ∈ ['teachers_admin','teachers_user']`
+7. **Name prompt** if `displayName` missing
+8. **Profile prompt** — until `school`, `subjects`, `classes`, `th_sub_roles` all filled. School auto-defaults from `partner_schools.domain` matching the email (multi-school domains leave picker empty)
+9. **Approval check** — non-admin not yet `approved` → `/waiting`
+10. **Page-access gate** + UI gating (see below)
+11. Expose globals · dispatch `authReady`
 
-**Allowed domains** are defined centrally in `auth-guard.js` as `window.TEACHERS_ALLOWED_DOMAINS` (15 entries: 14 partner school `.sch.id` domains + `eduversal.org`). Individual pages reference this via `const allowedDomains = window.TEACHERS_ALLOWED_DOMAINS` — do NOT redefine the list inline.
+**Globals after `authReady`:** `window.firebaseApp`, `window.auth`, `window.db`, `window.storage`, `window.currentUser`, `window.userProfile`.
 
-**`index.html`** (login page) handles auth inline and does NOT use `auth-guard.js`. It has its own copy of the domain list for the login-time check.
-
-**Globals exposed after `authReady`:**
-| Global               | Value                                |
-|----------------------|--------------------------------------|
-| `window.firebaseApp` | FirebaseApp instance                 |
-| `window.auth`        | Auth instance                        |
-| `window.db`          | Firestore instance                   |
-| `window.currentUser` | firebase.User object                 |
-| `window.userProfile` | Firestore `users/{uid}` document     |
-
-**Listening for auth in page scripts:**
-```js
-document.addEventListener('authReady', ({ detail: { user, profile } }) => {
-  // safe to use window.db, window.currentUser, window.userProfile here
-});
-```
+`index.html` is the LOGIN page (no auth-guard). `waiting.html` polls every 30s.
 
 ---
 
 ## Role System
 
-Teachers Hub uses `role_teachershub` as the primary access field. **The legacy `role` field is no longer read** — `auth-guard.js` uses only `role_teachershub`.
-
-| Field              | Values                                            |
-|--------------------|---------------------------------------------------|
+| Field | Values |
+|---|---|
 | `role_teachershub` | `'teachers_user'` (default) \| `'teachers_admin'` |
-| `th_sub_roles[]`   | `'subject_teacher'`, `'subject_leader'`, `'interviewer'`, `'hiring_manager'` |
+| `th_sub_roles[]` | `'subject_teacher'`, `'subject_leader'`, `'interviewer'`, `'hiring_manager'` |
 | `approval_status_teachershub` | `'pending'` (default) \| `'approved'` \| `'rejected'` |
 
-**Teachers Hub allowed roles:** `['teachers_user', 'teachers_admin']`
+Sub-roles are composable. Common combinations: `[subject_teacher, interviewer]`, `[subject_leader, hiring_manager]`.
 
-First login automatically assigns `teachers_user` + `approval_status_teachershub: 'pending'` via `setDoc` with `{ merge: true }`. Users must fill the profile prompt (school/subjects/classes/th_sub_roles) then wait on `waiting.html` until a `central_admin` sets `approval_status_teachershub: 'approved'` in `console.html`. `teachers_admin` bypasses the approval check entirely.
-
-**Sub-roles (`th_sub_roles[]`)** are set in `console.html` and control:
-- `weekly-checklist.html` — Subject Leader tab is shown only if `th_sub_roles.includes('subject_leader')`. Users without this sub-role see only the Subject Teacher tab (no tab bar). Admins always see both tabs.
-- `index.html` dashboard — categories with a `visible_to[]` field are filtered: `subject_leader` sub-role shows subject_leader categories, otherwise `subject_teacher`. Categories with empty `visible_to` are shown to everyone.
-- **Careers dropdown** in the navbar (added 2026-05-04) — items gated via `page_access_config`: `careers-admin` and `careers-compare` require `hiring_manager`; `interview-scorecard` requires `interviewer` or `hiring_manager`. `teachers_admin` and `central_admin` bypass page-access entirely.
-- **`careers-admin.html` query scoping** — `hiring_manager` users see only their own school's positions and applications via `where('schoolId','==',mySchoolId)`. Firestore rule `isHiringMgrSameSchool()` enforces the same on the rule layer.
-
-A user can have multiple sub-roles simultaneously. Common combinations: `[subject_teacher, interviewer]` (a teacher who occasionally interviews) or `[subject_leader, hiring_manager]` (a HoD who hires for their school).
-
-**isAdmin check pattern (pacing pages map this to internal `'coord'` state):**
+**isAdmin pattern (pacing pages map this to internal `'coord'`):**
 ```js
 const isAdmin = profile?.role_teachershub === 'teachers_admin';
 ```
 
-**weekly-checklist.html Firestore IDs** follow the pattern `${ACADEMIC_YEAR}_w${week}_${currentPlatform}` where `currentPlatform` is `'teachers'` or `'subject_leader'`.
+**Sub-roles control:**
+- `weekly-checklist.html` tab visibility (`subject_leader` adds a tab; admin sees both)
+- `index.html` dashboard category filter (categories with `visible_to[]` filtered to matching sub-role)
+- Careers dropdown gated via `page_access_config` (`careers-admin` + `careers-compare` → `hiring_manager`; `interview-scorecard` → `interviewer` or `hiring_manager`)
+- `careers-admin.html` query scoping — `hiring_manager` sees only own school via `where('schoolId','==',mySchoolId)` (rule helper `isHiringMgrSameSchool()` enforces same)
+
+`weekly-checklist.html` Firestore IDs: `${ACADEMIC_YEAR}_w${week}_${currentPlatform}` where currentPlatform ∈ `'teachers'` / `'subject_leader'`.
 
 ---
 
-## Firestore Collections
+## Firestore Collections (TH-touching)
 
-| Collection              | Purpose                                      | Write access         |
-|-------------------------|----------------------------------------------|----------------------|
-| `users/{uid}`           | User profiles (uid, email, displayName, photoURL, role, createdAt) | owner or central_admin |
-| `partner_schools/{schoolId}` | Canonical school directory used by `auth-guard.js`'s profile prompt + every page that needs class lists. Each doc has `name`, `domain` (e.g. `fatih.sch.id` — drives the email-based auto-default in `promptForProfile`), and a `classes/{classId}` subcollection (`name`, `grade`, `section`). | central_admin (write) |
-| `staff/{staffId}`       | Staff records                                | central_admin        |
-| `announcements/{annId}` | Platform-wide announcements                  | central_admin        |
-| `central_documents/{docId}` | CentralHub-managed documents            | central_admin        |
-| `topics/{topicId}`      | Message board topics                         | any authorised user  |
-| `topics/{topicId}/replies/{replyId}` | Message board replies           | any authorised user  |
-| `calendar_settings/current` | **Read-only here.** Academic year config set by Central Hub: `academicYearStart`, `totalTeachingWeeks`, `terms[]`. Loaded at startup via `loadCalendarSettings()` to drive pace alerts. Never write to this from Teachers Hub. | central_admin (write) |
-| `calendar_events/{docId}` | **Read-only here.** Academic calendar events. Pacing pages read `category === 'Public Holiday'` entries to build `HOLIDAY_RANGES` for teaching-day calculations. | central_admin (write) |
-| `math_pacing/year9-10`  | IGCSE math pacing structure: `chapters[]`, `classes[]`, `objPrefixes[]`. Written by CH admin, read here via `onSnapshot`. | central_admin (write) |
-| `biology_pacing/year9-10` | IGCSE biology pacing — same structure as math_pacing. | central_admin (write) |
-| `chemistry_pacing/year9-10` | IGCSE chemistry pacing — same structure as math_pacing. | central_admin (write) |
-| `physics_pacing/year9-10` | IGCSE physics pacing — same structure as math_pacing. | central_admin (write) |
-| `cambridge_syllabus/{docId}` | Syllabus reference items indexed by objective code (e.g. C1.1). Doc ID format `{subjectCode}_{code}`. Loaded once at startup into `window.syllabusIndex`. | read-only here |
-| `cambridge_scheme_of_work/{docId}` | Scheme-of-work content per ref code (teaching activities, resources, SDG links). Doc ID format `{subjectCode}_{code}` (same as `cambridge_syllabus`). **Lazy-fetched per code** when the Teaching Guide tab on the objectives modal opens; results cached in `window._sowCache`. Read-only here; managed via monorepo-root seed scripts. **IGCSE Math 0580 + Lower Secondary Math 0862 (Stages 7-8-9, 179 entries) + AS & A Level Mathematics 9709 (38 entries across Pure 1/2/3, Mechanics, Probability & Statistics 1/2) seeded.** Biology/chemistry/physics (IGCSE & AS) + Checkpoint English (0861) + Checkpoint Science (0893) not yet — UI gracefully shows "No teaching guide available yet" when a doc is missing. The 0862 + 9709 schema also includes `commonMisconceptions[]` and `keyVocabulary[]` fields rendered by the Checkpoint and AS/A-Level templates' Teaching Guide tabs. | read-only here |
-| `userProgress/{uid}`    | Per-teacher pacing progress. Each teacher writes only their own doc. Fields: `statuses`, `statuses_<class>` maps keyed by `ci-ti`. | owner (teacher) |
-| `competency_framework/teachers` | Read-only here. The TH track of the 3-track Cambridge competency system. Fields: `domains[]`, `competencies[]` (with `cambridgeStandardRefs[]` + `cambridgeStandardTexts[]` per competency), `levelOrder`, `levelLabels`, `cambridgeAttributes[]` (5 Cambridge teacher attributes), full `cambridgeStandards{}` lookup. Loaded by `competency-framework.html`, `learning-path.html`, `my-portfolio.html`, `my-certificates.html`. Seeded by `scripts/competency/seed-th-competency-framework.js` from `docs/research/cambridge/teacher-standards-2023.json`. | central_admin (write) |
-| `competency_framework/teachers/levels/{compId}_{level}` | Read-only here. Per-(competency, level) base learning content. Fields: `reading` (~250 words), `keyTakeaways[]`, `selfAssessment[]` (5 statements), `activity{task,output,duration,evidence}`. Lazy-fetched on modal open by `learning-path.html`. **Admin overrides** in `content_overrides_teachers/{compId}_{lvl}` layer on top (HTML sanitised on save AND on render via a strict tag allowlist — Phase 1.5 fix). Seeded by `scripts/competency/seed-competency-content.js` from `Central Hub/resources/teaching-competency-framework.json`. | central_admin (write) |
-| `cambridge_crossref/index` | Read-only here. Single aggregator doc — for every Cambridge Teacher Standards (2023) ID that any Eduversal artefact tags, lists every sibling artefact across KPI / Appraisal / Competency. Read by `cambridge-crossref.js` (singleton runtime, build-injected) when a teacher clicks any CTS chip on any TH page. | central_admin (write) |
-| `content_overrides_teachers/{compId}_{lvl}` | Admin-edited override of the base learning content. Fields: `reading` (HTML, sanitised). Sanitised on save AND on render through a strict tag allowlist (`P/BR/STRONG/EM/B/I/U/MARK/UL/OL/LI/H3/H4` only; all attributes stripped) — Phase 1.5 fix closing an XSS where a compromised `teachers_admin` could inject script into every other teacher's modal. | teachers_admin |
-| `user_competencies/{uid}` | Teacher competency progress. Fields: `earned` (map of compId → `{level, date}`), `matDone` (map of matId → bool), `saScores` (per-(comp, level, idx) self-rating 1-4). Written by the owner, read by `learning-path.html` and `competency-framework.html`. AH leadership progress lives on the same doc under `earned_academic`; CH specialist under `earned_central`. | owner (teacher) |
-| `competency_evidence/{docId}` | Evidence submissions for competency level certification. Fields: `uid`, `platform` (`'teachers'`), `compId`, `compName`, `domain`, `level`, `description`, `fileUrl`, `fileName`, `status` (`'pending'`\|`'approved'`\|`'rejected'`), `reviewerNote`, `createdAt`, `updatedAt`. **Storage path** for `fileUrl`: `competency_evidence/teachers/{uid}/{timestamp}_{filename}` (≤25 MB cap, deployed in `Central Hub/storage.rules`). Written by teacher (create), reviewed by `central_admin` via `competency-admin.html`. | owner (create), central_admin (review) |
-| `competency_certificates/{certId}` | Read-only here. Issued certificates filtered by `where('platform','==','teachers')`. Read by `my-certificates.html`. Issued from `Central Hub/competency-admin.html` once a teacher has demonstrated all competencies in a domain at Lead level. | central_admin (write) |
-| `teacher_kpi_submissions/{uid}_{periodId}` | Teacher KPI self-assessments written by `teacher-self-assessment.html`. **`schoolId` is required on every write** (Step 1.3 hardening) — `save()` reads `userProfile.schoolId` and includes it on the payload; the Firestore rule rejects writes where `schoolId != userProfile().schoolId`. Lets AH evaluators be school-scoped at both query and rule level. | owner (teacher); AH evaluator can flip workflow status fields only |
-| `teacher_self_appraisals/{uid}_{year}` | Teacher self-appraisal written by `teacher-self-appraisal.html`. After Step 1.4 hardening: get is owner / admin / same-school AH evaluator (sub-role gated); list is admin-only (no app code lists this collection — evaluators look up by deterministic doc ID). | owner (create/update while not yet `submitted`) |
-| `page_access_config/{slug}` | Per-page sub-role visibility for TH (extended 2026-05-03; previously AH-only). Read here, written from CH `/page-access`. `auth-guard.js` enforces per-nav (Step 5d) + UI gating (Step 6.5) — bulk-fetches with cache key `pac:__all__:teachershub`, hides items via `data-pa-hidden="1"`. teachers_admin bypasses. Seeded by `scripts/page-access/seed-th-page-access.js` (37 pages, default `visible_to: []`). | central_admin (write) |
-| `nav_config/teachershub`   | Admin-editable navbar item config — labels, hidden flags, ordering. `partials/navbar.js` `bootNavEditor()` dynamic-imports `/nav-edit-simple.js` (shared module copied into dist by build.js) and writes here on save. Doc shape: `{ platform: 'teachershub', items: [{key, label, hidden}], updatedAt }`. teachers_admin only. | teachers_admin |
-| `feedbacks/{fbId}`         | Single canonical feedback collection (consolidated 2026-05-03). The TH writer is in `partials/navbar.js` (Feedback modal); stamps `__src: 'teachershub'` on every doc. CH `feedback-management.html` reads + reviews. | any authorised user (create); central_admin (read/update/delete) |
-| `weekly_progress/{docId}`  | Per-user weekly checklist progress. Doc id: `${uid}_${ACADEMIC_YEAR}_w${week}_${currentPlatform}` where `currentPlatform` is `'teachers'` or `'subject_leader'`. Writes always include `schoolId: window.userProfile.schoolId` (denormalised 2026-05-03) so the rule's `isAHUserAtSameSchool()` helper can read it directly. Reads gated per Step 1.2 hardening (owner only by default; admin/CH-coord/same-school AH leadership can read). | owner (write) |
-| `induction_assignments/{menteeUid}` | **Induction Module (2026-05-04).** One active induction per Year-1 teacher. Read by `my-induction.html` (mentee) and `my-mentees.html` (mentor — filtered by `where('mentorUid','==',uid)`). Charter NN3+NN4: written by central_admin from `induction-admin.html` only. | central_admin (write) |
-| `induction_progress/{uid}_{taskId}` | Mentee task completion. Owner / mentor / school-leader can write own-role tasks. Mentee writes from `my-induction.html` checkbox toggles. | owner / mentor / school-leader |
-| `induction_observations/{obsId}` | Mentor observations. Mentor writes from `observation-entry.html`. **Charter NN1: never feeds `teacher_appraisal_results`.** | observer (mentor) |
-| `induction_journal/{entryId}` | Mentee's private daily 3-sentence journal. Mentee writes from `my-induction.html` sidebar. **Charter NN2: HQ never reads named entries.** Default visibility `mentee_and_mentor`. | owner (mentee) |
-| `induction_pulses/{pulseId}` | Weekly 1-question pulse. Mentee writes from `my-induction.html` sidebar. | owner (mentee) |
-| `mentor_certifications/{uid}_{type}` | Read here by `my-mentees.html` to display the cert-active banner. Written from CH `induction-admin.html` only. | central_admin (write) |
-| `induction_programs/{programId}` | The 3 handbook templates seeded from `docs/induction/handbook-*.json`. Read here by `my-induction.html` to render stage timeline + tasks. | central_admin (write — via seed script only) |
-| `job_positions/{positionId}` | **Careers Module (M1, 2026-05-04).** HQ-published vacancies. Public read for `status:'open'` (powers `/careers` listing). Read by `careers.html` (filtered status==open) + `careers-apply.html` (single doc by id) + `careers-admin.html` (admin sees all; hiring_manager sees own school via `where('schoolId','==',mySchoolId)`). Created/edited from `careers-admin.html`'s "+ New position" modal. | central_admin / teachers_admin / hiring_manager (own school) |
-| `interview_question_sets/{setId}` | **Careers Module.** Question + rubric bundle. `primary-default-v1` is the seeded set (from `Interview Questions for Teacher Candidates - Scoring Rubrics.csv`, 18 questions × 4 categories, 1-5 scale). Read by interviewers; written via seed script (M2). | central_admin / teachers_admin |
-| `job_applications/{applicationId}` | **Careers Module.** Candidate submissions. **Public create** (unauth) — apply form validates required keys + email shape on the rule. Read by admin / hiring_manager (own school) / interviewer (assigned only via `interviewSchedule.interviewerUids`) / applicant (own — Firebase Auth verified email match). Update by admin / hiring_manager (full) or applicant (status='withdrew' only). CV at Storage `careers/cv/{positionId}/{ts}_{filename}`. | public (create); admin / hiring_manager (update) |
-| `interview_scorecards/{applicationId}_{interviewerUid}` | **Careers Module.** Per-interviewer scoring sheet (composite PK prevents duplicate scoring). Drafts mutable, **submitted docs are immutable** (rule blocks all field changes once `status:'submitted'`). Read by admin / hiring_manager (same school) / scoring interviewer (own). | scoring interviewer (own) |
-| `job_application_audit/{auditId}` | **Careers Module.** Append-only event log for status changes / interviewer assignments / interview scheduling / final decisions. Required for legal retention. Read by admin / teachers_admin / hiring_manager. | hiring power (create); no update/delete |
-| `mail/{mailId}` | **Careers Module.** Firebase [Trigger Email extension](https://firebase.google.com/products/extensions/firestore-send-email) queue. `careers-admin.html` enqueues a doc on schedule + decision actions (non-fatal if extension not yet installed). Public create (required by apply form's "received" mail) — abuse bounded by reCAPTCHA at the form (M4). | any (create); central_admin (read) |
+| Collection | Purpose | Write |
+|---|---|---|
+| `users/{uid}` | Profile | owner / central_admin |
+| `partner_schools/{schoolId}` | School directory + `domain` (drives auto-default) + `classes/{classId}` subcollection | central_admin |
+| `staff` · `announcements` · `central_documents` | CH-managed | central_admin |
+| `topics/{topicId}` + `replies/` | Message board | any auth user |
+| `calendar_settings/current` · `calendar_events/{docId}` | **Read-only here.** Drives pace alerts + holiday detection | central_admin |
+| `math_pacing/year9-10` · `biology_pacing/year9-10` · `chemistry_pacing/year9-10` · `physics_pacing/year9-10` | IGCSE pacing structure (`chapters[]`, `classes[]`, `objPrefixes[]`). Read via `onSnapshot`. | central_admin |
+| `cambridge_syllabus/{subjectCode}_{code}` | Syllabus reference (e.g. `0580_C1.1`). Loaded into `window.syllabusIndex` at startup. | read-only |
+| `cambridge_scheme_of_work/{subjectCode}_{code}` | Scheme-of-work content. Lazy-fetched per-code on Teaching Guide tab; cached in `window._sowCache`. **Seeded:** IGCSE Math 0580 + Lower Secondary Math 0862 + AS Math 9709. Others gracefully show "No teaching guide available yet". | read-only |
+| `userProgress/{uid}` | Per-teacher pacing progress. Owner-only writes. | owner |
+| `competency_framework/teachers` (+ `levels/` subcoll) | TH track of 3-track Cambridge competency. Lazy-fetched on modal open in `learning-path.html`. | central_admin |
+| `content_overrides_teachers/{compId}_{lvl}` | Admin reading override. **HTML allowlist sanitiser on save AND render** (`P/BR/STRONG/EM/B/I/U/MARK/UL/OL/LI/H3/H4` only). Closes XSS where compromised admin could inject script into every other teacher's modal. | teachers_admin |
+| `user_competencies/{uid}` | TH progress under `earned`; AH leadership under `earned_academic`; CH specialist under `earned_central` | owner per platform |
+| `competency_evidence/{docId}` | TH submissions with `platform: 'teachers'`. Storage: `competency_evidence/teachers/{uid}/{ts}_{filename}` (≤25 MB). | owner create / central_admin review |
+| `competency_certificates/{certId}` | Filtered `where('platform','==','teachers')` | central_admin |
+| `cambridge_crossref/index` | Single aggregator doc — every CTS sibling across KPI / Appraisal / Competency / Induction. Read by `cambridge-crossref.js` runtime (build-injected) when CTS chips are clicked. | central_admin |
+| `teacher_kpi_submissions/{uid}_{periodId}` | KPI self-assessment. **Always writes `schoolId`** (rule rejects mismatch). Lets AH evaluators be school-scoped. | owner; AH evaluator flips status fields only |
+| `teacher_self_appraisals/{uid}_{year}` | Self-appraisal. `get` = owner / admin / same-school AH evaluator; `list` = admin only. Evaluators look up by deterministic doc ID. | owner |
+| `page_access_config/{slug}` | Per-page sub-role visibility. Cache key: `pac:__all__:teachershub` | central_admin (write from CH `/page-access`) |
+| `nav_config/teachershub` | Admin-editable navbar config (label/order/hidden). Edited via `bootNavEditor()` → `/nav-edit-simple.js`. Shape: `{platform, items:[{key,label,hidden}], updatedAt}` | teachers_admin |
+| `feedbacks/{fbId}` | Single canonical feedback collection. TH writes via `partials/navbar.js` Feedback modal; stamps `__src: 'teachershub'`. | any auth (create); central_admin (read/update/delete) |
+| `weekly_progress/{docId}` | Doc id: `${uid}_${ACADEMIC_YEAR}_w${week}_${currentPlatform}`. **Always include `schoolId`** for the `isAHUserAtSameSchool()` rule helper. | owner |
+| `induction_assignments/{menteeUid}` | One active induction. Read by `my-induction` (mentee) + `my-mentees` (mentor — `where('mentorUid','==',uid)`). Charter NN3+NN4 enforced on rule. | central_admin |
+| `induction_progress/{uid}_{taskId}` | Task completion. Mentee writes from `my-induction.html` checkbox toggles. | owner / mentor / school-leader |
+| `induction_observations/{obsId}` | Mentor observations. **Charter NN1: never feeds appraisal.** | observer (mentor) |
+| `induction_journal/{entryId}` | Mentee's daily 3-sentence journal. **Charter NN2: HQ never reads.** Default visibility `mentee_and_mentor`. | owner (mentee) |
+| `induction_pulses/{pulseId}` | Weekly 1-question pulse. | owner (mentee) |
+| `mentor_certifications/{uid}_{type}` | Read by `my-mentees.html` for cert-active banner. | central_admin |
+| `induction_programs/{programId}` | 3 handbook templates. Read by `my-induction.html`. | central_admin via seed only |
+| `job_positions` · `interview_question_sets` · `job_applications` · `interview_scorecards/{appId}_{interviewerUid}` (submitted = **immutable** at rule level) · `job_application_audit` (append-only) · `mail` (Firebase Trigger Email queue) | Careers Module — see [Careers section below](#careers--interview-module) | various |
 
-**Timestamp field:** always `createdAt` (serverTimestamp). Do not use `timestamp` — that was the legacy name.
-
-**Firestore rules** live **exclusively** in `CentralHub/firestore.rules` — the single source of truth for all three apps.
-
-⚠️ **Always deploy rules from the `CentralHub/` directory:**
-```bash
-cd "Eduversal Web/CentralHub"
-firebase deploy --only firestore:rules --project centralhub-8727b
-```
-Teachers Hub does NOT have its own `firestore.rules`. Never create one — it would overwrite the shared rules with an outdated version.
+**Timestamp:** `createdAt` (serverTimestamp). NEVER `timestamp`.
 
 ---
 
 ## Build & Deployment
 
-**Platform:** Vercel
-**Build command:** `node build.js`
-**Output directory:** `dist/`
+`node build.js` → `dist/`. What it does:
+1. Reads source HTML files in `ROUTES` map
+2. Substitutes `__FIREBASE_*__` placeholders, strips `<script src="firebase-config.js">`
+3. Rewrites internal `.html` href → clean URL via `LINK_REWRITES`
+4. Writes `dist/<slug>/index.html` (`index.html` → `dist/index.html`)
+5. Copies `auth-guard.js`, `base.css`, `partials/`, other assets
 
-### What `build.js` does:
-1. Reads each `.html` source file listed in the `ROUTES` map.
-2. Replaces `__FIREBASE_*__` placeholders with Vercel environment variables.
-3. Strips the `<script src="firebase-config.js"></script>` tag.
-4. Rewrites internal `.html` href links to clean URL paths via `LINK_REWRITES`.
-5. Writes output files into `dist/<slug>/index.html` (clean URL structure). `index.html` goes to `dist/index.html`.
-6. Copies `auth-guard.js`, `base.css`, `partials/` (navbar.html, navbar.js, pacing-shared.js), and other assets into `dist/`.
+**Vercel env vars required:** `FIREBASE_API_KEY`, `FIREBASE_AUTH_DOMAIN`, `FIREBASE_PROJECT_ID`, `FIREBASE_STORAGE_BUCKET`, `FIREBASE_MESSAGING_SENDER_ID`, `FIREBASE_APP_ID`.
 
-### Vercel environment variables required:
-```
-FIREBASE_API_KEY
-FIREBASE_AUTH_DOMAIN
-FIREBASE_PROJECT_ID
-FIREBASE_STORAGE_BUCKET
-FIREBASE_MESSAGING_SENDER_ID
-FIREBASE_APP_ID
-```
-
-### Pages built (ROUTES map → clean URL):
-| File                           | Clean URL                    | Purpose                                          |
-|--------------------------------|------------------------------|--------------------------------------------------|
-| `index.html`                   | `/`                          | Login / home (no auth guard)                     |
-| `waiting.html`                 | `/waiting`                   | Approval pending page (polls Firestore every 30s)|
-| `announcements.html`           | `/announcements`             | Announcements feed                               |
-| `messageboard.html`            | `/messageboard`              | Message board                                    |
-| `library.html`                 | `/library`                   | Resource library                                 |
-| `weekly-checklist.html`        | `/weekly-checklist`          | Weekly teacher checklist (tabs by th_sub_roles)  |
-| `cambridge-calendar.html`      | `/cambridge-calendar`        | Cambridge exam calendar                          |
-| `surveys.html`                 | `/surveys`                   | Survey responses                                 |
-| `teacher-self-assessment.html` | `/teacher-self-assessment`   | Teacher self-assessment form                     |
-| `teacher-kpi-results.html`     | `/teacher-kpi-results`       | Teacher KPI results view                         |
-| `igcse-math-pacing.html`       | `/igcse-math`                | IGCSE Maths pacing guide                         |
-| `igcse-physics-pacing.html`    | `/igcse-physics`             | IGCSE Physics pacing guide                       |
-| `igcse-chemistry-pacing.html`  | `/igcse-chemistry`           | IGCSE Chemistry pacing guide                     |
-| `igcse-biology-pacing.html`    | `/igcse-biology`             | IGCSE Biology pacing guide                       |
-| `checkpoint-math-pacing.html`  | `/checkpoint-math`           | Checkpoint Maths pacing guide                    |
-| `checkpoint-english-pacing.html`| `/checkpoint-english`       | Checkpoint English pacing guide                  |
-| `checkpoint-science-pacing.html`| `/checkpoint-science`       | Checkpoint Science pacing guide                  |
-| `as-alevel-math-pacing.html`    | `/as-alevel-math`             | AS/A-Level Maths pacing guide                    |
-| `as-alevel-biology-pacing.html` | `/as-alevel-biology`          | AS/A-Level Biology pacing guide                  |
-| `as-alevel-chemistry-pacing.html`| `/as-alevel-chemistry`       | AS/A-Level Chemistry pacing guide                |
-| `as-alevel-physics-pacing.html` | `/as-alevel-physics`          | AS/A-Level Physics pacing guide                  |
-| `competency-framework.html`    | `/competency-framework`      | Teaching Competency Framework — 6 domains        |
-| `learning-path.html`           | `/learning-path`             | Learning Path — materials & progress per competency |
-| `my-portfolio.html`            | `/my-portfolio`              | Evidence portfolio — submit & review evidence    |
-| `my-certificates.html`         | `/my-certificates`           | My earned competency certificates                |
-| `certificate-verify.html`      | `/certificate-verify`        | Per-certificate verifier (reads `competency_certificates` by id; in `PAGE_ACCESS_BYPASS`) |
-| `my-induction.html`            | `/my-induction`              | **Subject Teacher mentee dashboard (2026-05-04)** — Today / This Week / Stage Timeline. 4 phases (Survival 1-3 wk, Foundation 4-12 wk, Mastery-Building 13-36 wk, Integration 37-44 wk). Sidebar: 3-sentence daily journal + weekly pulse + mentor card. Reads `induction_assignments`, `induction_programs`, `induction_progress`, writes `induction_progress`/`induction_journal`/`induction_pulses`. |
-| `my-mentees.html`              | `/my-mentees`                | **Subject Leader mentor view (2026-05-04)** — own mentees overview. Mentor Certification banner (60-day expiry warning). Per-mentee cards: status, day count, recent observations, 4-week pulse mini, "next observation" button. Charter NN3 — only visible to certified mentors. |
-| `observation-entry.html`       | `/observation-entry`         | **Mentor observation form (2026-05-04)** — URL params `?menteeUid=X&type=mentor_observes_mentee&number=N`. 4-domain rubric (Planning/Management/Instruction/Assessment, 1-4 each). Glow/Grow/Go narrative + SMART action plan. Co-teach + mentee-observes-X types hide the rubric (unscored). Writes `induction_observations`. |
-| `igcse-math-tracker.html`      | `/igcse-math-tracker`        | Subject Leader tracker — IGCSE Math              |
-| *(+ other tracker pages)*      |                              | Subject Leader trackers for all subjects         |
-| `careers.html`                 | `/careers`                   | **Public landing (M1, 2026-05-04)** — open-positions grid (filter by level + search). No auth-guard. In `PAGE_ACCESS_BYPASS`. |
-| `careers-apply.html`           | `/careers-apply`             | **Public application form (M1)** — 4-step wizard: Personal / Background / Documents / Submit. Drag-drop CV upload (PDF/DOC/DOCX ≤10 MB → Storage `careers/cv/{positionId}/{ts}_{filename}`). Sends Firebase email-link to applicant on submit. No auth-guard. URL param `?position=<positionId>`. |
-| `careers-status.html`          | `/careers-status`            | **Applicant status tracker (M4)** — Firebase email-link callback handler (`signInWithEmailLink`). Lists all applications matching the signed-in email with timeline + interview block + decision block. Withdraw button (rule allows applicant to set `status:'withdrew'` only). No auth-guard at the route level — the page itself drives auth via email-link. |
-| `careers-admin.html`           | `/careers-admin`             | **Hiring funnel (M3)** — auth'd. 7-column kanban (submitted → under_review → shortlisted → interview_scheduled → interview_done → offered → hired). Filter bar (search / position / school / mode). Per-applicant drawer with Profile / Scorecards / Activity tabs and 4 actions: Assign interviewers, Schedule interview, Move status, Final decision. "+ New position" creates `job_positions`. Compare button (2-5 selected) → `/careers-compare`. Mail enqueue on schedule + decision. Visible to `central_admin` / `teachers_admin` / `hiring_manager` (own school via `where('schoolId','==',mySchoolId)` query scoping). |
-| `careers-compare.html`         | `/careers-compare?ids=a,b,c` | **Side-by-side scorecard matrix (M5)** — 2–5 candidates compared in a wide table. Per-question avg + per-interviewer breakdown rows. Section rows show category averages. Header column shows overall avg, meets-criteria badge, and recommendation chips per candidate. "Show notes" toggle reveals interviewer notes inline. |
-| `interview-scorecard.html`     | `/interview-scorecard?app=X` | **Interview scoring sheet (M2)** — 3-column layout (sticky candidate panel · 18 questions · sticky summary). Per question: 1-5 chip score buttons (or 3-flag scenario chips) + collapsible rubric (highlights matching level) + notes textarea. Autosave 1.5s debounce. Submit only when all 18 scored AND recommendation picked; post-submit page is read-only with green banner. Visible to `interviewer` (assigned only) / `hiring_manager` / admins; permission re-checked after auth-guard against `application.interviewSchedule.interviewerUids` and `application.schoolId`. |
+**Public + auth-flow pages skip auth-guard AND `cambridge-crossref.js` injection** (controlled in `build.js` skip lists): `index.html`, `login.html`, `waiting.html`, `careers.html`, `careers-apply.html`, `careers-status.html`. New public pages need both skips.
 
 ---
 
-## Key Files
+## Pages
 
-| File                         | Purpose                                                    |
-|------------------------------|------------------------------------------------------------|
-| `auth-guard.js`              | Auth + role gate for protected pages (modular SDK v10)     |
-| `build.js`                   | Vercel build script — ROUTES map, placeholder replacement, link rewrites, copies assets |
-| `base.css`                   | Shared design system (DM Sans, CSS variables, components)  |
-| `partials/navbar.html`       | Shared navbar HTML partial (light theme)                   |
-| `partials/navbar.js`         | Navbar init (`initNavbar()`), badge logic (`setupNavBadges()`), feedback button |
-| `partials/pacing-shared.js`  | Shared JS for all pacing pages — injected via `<!-- PACING_SHARED_JS -->`. Contains: utility helpers (`escHtml`, `safeUrl`, `allTopics`, `parseObjCodes`, `showToast`), constants (`PAGE_SIZE`, `PACE_LABELS`, `DIAG_LABELS`), exam countdown, syllabus filter, diagnostic tags, coord notes, actual hours, variance report, GLH projection |
-| `partials/pacing-page.css`   | Shared CSS for all 11 pacing pages — linked via `<link>`. Each page keeps only a minimal `:root` block with `--accent`, `--accent-2`, `--accent-dark` and semantic color variables |
-| `partials/pacing-tracker-core.js` | Shared ES module for all 11 tracker pages — access check, data loading, all render functions |
-| `partials/pacing-tracker-core.css` | Shared CSS for all 11 tracker pages |
-| `firebase-config.js`         | Local dev config (gitignored)                              |
-| `firebase-config.example.js` | Template for firebase-config.js                            |
-| `vercel.json`                | Vercel deployment config (build cmd, output dir)           |
-| `dist/`                      | Build output (not committed)                               |
-| `scripts/`                   | One-off Node scripts (Firebase Admin SDK). Currently: `seed-orientation.js`, `fix-orientation-videos.js`, `update-orientation-links.js`. Run from repo root: `node scripts/<name>.js`. They expect the service account at `../../keys/centralhub-service-account.json` (monorepo-root `keys/`). Not part of the build. |
-| `docs/STRUCTURE.md`          | Folder map — groups root HTML pages into 6 functional clusters (Pacing, Tracker, Appraisal, Competency, Communication, Auth). Read this first when orienting in the repo. |
+**Auth + landing:**
+- `index.html` (`/`) — LOGIN page, no auth-guard
+- `login.html` / `waiting.html` — auth flow
+
+**Pacing (11 — share `partials/pacing-page.css` + `partials/pacing-shared.js`, generated from 3 templates):**
+- IGCSE: `igcse-{math,physics,chemistry,biology}` (Year 9–10)
+- AS/A-Level: `as-alevel-{math,biology,chemistry,physics}` (Year 11–12)
+- Checkpoint: `checkpoint-{math,english,science}` (Year 7–8)
+
+Each page defines `window.PACING_CONFIG` and runs `initSubjectConfig()`. Status states: `pending` → `inprogress` → `done` cycle (checkbox); `revisit` is a 4th state set via status pill (amber). Per-topic meta: planned + actual hours, week + pace alert, AO badge, paper indicator, teacher/coordinator notes, diagnostic tag, resource links. **Bulk "✓ All Done"** on chapter header.
+
+**Objectives modal** (per topic): two tabs — Syllabus Detail (default) + Teaching Guide (lazy-fetches `cambridge_scheme_of_work/{prefix}_{code}`, renders learning objectives + activities with `I/E/F/TWM/SDG` tag badges + misconceptions + vocabulary + resources + SDG links). Subject-to-prefix wiring in `build.js`'s `SUBJECT_CONFIG.syllabusPrefix`.
+
+**Hours Report tab:** GLH projection vs Cambridge 130 GLH target + per-topic actual vs planned variance.
+
+**Offline persistence:** `enableIndexedDbPersistence(db)` on `authReady`.
+
+**Trackers (11 — Subject Leader cohort dashboards):** `igcse-{math,biology,chemistry,physics}-tracker`, `as-alevel-…-tracker`, `checkpoint-…-tracker`. Share `partials/pacing-tracker-core.js` + `.css`.
+
+**My Work:**
+- `weekly-checklist` (tabs by `th_sub_roles`)
+- `teacher-self-assessment` (KPI) · `teacher-kpi-results`
+- `teacher-self-appraisal` · `teacher-appraisal-results`
+- `competency-framework` · `learning-path` · `my-portfolio` · `my-certificates`
+- `certificate-verify` (in `PAGE_ACCESS_BYPASS` — any signed-in user can verify by id)
+
+**Induction (Year 1):**
+- `my-induction` — Subject Teacher mentee dashboard. 4 phases (Survival 1-3 wk → Foundation 4-12 wk → Mastery-Building 13-36 wk → Integration 37-44 wk). Sidebar journal + pulse + mentor card.
+- `my-mentees` — Subject Leader mentor view (Charter NN3 — only certified mentors). Per-mentee cards + 4-week pulse mini + cert expiry banner.
+- `observation-entry` — `?menteeUid=X&type=...&number=N`. 4-domain rubric (Planning/Management/Instruction/Assessment, 1-4 each) + Glow/Grow/Go + SMART action plan. Co-teach + mentee-observes-X types hide rubric (unscored).
+- `handbook` — print-friendly handbook viewer.
+
+**Hub:**
+- `announcements` · `messageboard` · `library` · `cambridge-calendar` · `cambridge-standards` · `orientation` · `surveys`
+
+**Careers (see section below):** `careers` · `careers-apply` · `careers-status` (public 3) + `careers-admin` · `interview-scorecard` · `careers-compare` (auth'd 3)
+
+**Settings:** `settings` (in `PAGE_ACCESS_BYPASS` — reachable from profile dropdown only, doesn't need a page-access doc, isn't surfaced as a card or main-nav link)
 
 ---
 
-## Pacing Pages — Feature Reference
+## Dashboard Pattern (`index.html`)
 
-All 11 pacing pages share a common architecture via `partials/pacing-page.css` (shared CSS) and `partials/pacing-shared.js` (shared JS, build-time injected). Each page defines `window.PACING_CONFIG` and runs `initSubjectConfig()` to populate the topbar from config rather than hardcoded HTML.
+Single accordion-based dashboard. Cards = static `<a class="resource-card">` defined in inline `resources` array (44 entries). Categories managed by admin from the dashboard itself.
 
-**Topic status states:** `pending` → `inprogress` → `done` → `pending` (cycle via checkbox). `revisit` is a 4th state set via the status pill (amber, means needs re-teaching; outside the cycle).
+- **Category collection:** `th_resource_sections`. Each doc: `{ name, color, cardIds[], visible_to[], hidden_for_users, order, createdAt }`
+- **Admin actions per category** (only when `body.is-admin`): move-up · move-down · manage-cards · **eye-toggle** (`hidden_for_users` boolean) · rename · delete
+- **Uncategorized accordion** = cards not assigned to a category. Eye-toggle on the Uncategorized header writes a meta doc `_uncategorized_settings_` (carries `isMeta: true` + `order: -1` + `visible_to_users` flag). The non-admin path subscribes to the meta doc DIRECTLY by ID — `where('visible_to','==',[])` would miss it because the meta doc has no `visible_to` field.
+- **Visual cue for admins** on hidden sections: `body.is-admin .category-section.is-hidden-for-users > .category-header` gets `opacity:0.55` + appended " (hidden)" in red.
+- **No auto-card section** — every navbar slug has a hand-crafted entry in the `resources` array. New TH page → add a `resources` entry + a navbar item + a `seed-th-page-access.js` entry, then re-seed.
 
-**Per-topic meta shown in topic rows:**
-- Planned hours (editable by admin) + Actual hours (editable by all)
-- Week number + pace alert badge (overdue / behind / on-track / upcoming)
-- Status pill (Pending / In Progress / Done / ↺ Revisit)
-- AO badge (AO1 = Knowledge & techniques, AO2 = Analyse & interpret, or both) — auto-inferred from topic text, override via `t.ao` field
-- Paper indicator badge (P1+P3 Core / P2+P4 Ext / P1/2/3/4) — derived from syllabus code prefix (C = Core, E = Extended)
-- Teacher note + Coordinator note + Diagnostic tag (Weak / Review / Good)
-- Resource links
+**Pilot enrolment filter:** `filterPilotSystemCards(db, profile, isAdmin)` on `authReady` reads `partner_schools/{schoolId}.enabled_systems[]` and hides cards from disabled systems (KPI / Appraisal / Competency). Admin and HQ users bypass.
 
-**Bulk actions:** "✓ All Done" button on chapter header (hover to reveal; admin always sees it). Toggles all topics in chapter between done ↔ pending.
+---
 
-**Objectives modal (per topic — opens by clicking a code badge):** two-tab layout, default tab is **Syllabus Detail** (preserves prior behaviour). The **Teaching Guide** tab lazy-fetches `cambridge_scheme_of_work/{prefix}_{code}` per code on the topic, renders learning objectives, teaching activities (with `I`/`E`/`F`/`TWM`/SDG tag badges), common misconceptions, key vocabulary, external resource links, and SDG sustainability links. Tab implementation is duplicated across `igcse-pacing-template.html`, `checkpoint-pacing-template.html` and `as-alevel-pacing-template.html` (`switchObjTab()`, `renderTeachingGuide()`, and `window.fetchSchemeOfWork()` — module-scope, exposed on window because `showObj` is in the regular script block). The Checkpoint and AS/A-Level templates additionally render `commonMisconceptions[]` + `keyVocabulary[]` (0862 + 9709 schema fields). All four IGCSE pacing pages, all three Checkpoint pacing pages, and all four AS/A-Level pacing pages share their respective template — pages whose subject prefix has not been seeded yet (IGCSE biology/chemistry/physics, Checkpoint English/Science, AS/A-Level biology/chemistry/physics) show the tab but render "No teaching guide available yet". Subject-to-prefix wiring lives in `build.js`: `SUBJECT_CONFIG.syllabusPrefix` is set per subject (`'0580'` for IGCSE math, `'0862'` for Checkpoint math, `'9709'` for AS/A-Level math; absent for unseeded subjects).
+## Page-Access Gating
 
-**Syllabus Detail modal (separate from Objectives modal):** Shows Cambridge learning objectives + notes when a code in the Objectives modal is clicked through. Footer shows all 13 Cambridge command words (Calculate, Construct, Determine, Describe, Explain, Give, Plot, Show(that), Sketch, State, Work out, Write, Write down); words detected in the syllabus entry are highlighted blue.
+`auth-guard.js` enforces three layers (TH-specific selectors):
 
-**Hours Report tab:** GLH projection banner at top — compares total planned hours vs Cambridge's 130 GLH target, plus pace-extrapolated projected total. Below that: per-topic actual vs planned variance table.
+1. **Per-navigation gate** — direct URL access redirects to `/?denied=<slug>` if not allowed.
+2. **UI gating** (`applyPageAccessGating`):
+   - desktop navbar items: `[data-nav-key]` → `data-pa-hidden="1"`
+   - dashboard cards: `a.resource-card[href]` / `a.card[href]` (slug from href)
+   - **mobile drawer items**: `[data-mobile-nav-key]` (different attribute because mobile clones don't carry `data-nav-key`)
+   - empty `.th-dd-wrap` / `.th-dd-col` / `.th-mobile-section` get hidden too
+   - **Mobile drawer rebuilds** when `data-pa-hidden` / `data-th-subject-hidden` flips — MutationObserver in `partials/navbar.js`'s `addItem` skips source anchors carrying these flags
+3. **Subject + level gate** for pacing/tracker pages (`PAGE_SUBJECT_LEVEL_MAP`): user's `subjects[]` + `classes[]` must cover the page's subject + level. `data-th-subject-hidden="1"` attribute.
 
-**Offline persistence:** `enableIndexedDbPersistence(db)` called on `authReady` — teacher progress cached locally, survives connectivity drops. Fails gracefully on multiple tabs / unsupported browsers.
+**Bypass list** (`PAGE_ACCESS_BYPASS`): `''`, `'index'`, `'login'`, `'waiting'`, `'settings'`, `'certificate-verify'`, `'careers'`, `'careers-apply'`, `'careers-status'`.
 
-**`SUBJECT_CONFIG` block** (top of each pacing page) — only this block changes per subject:
-```js
-const SUBJECT_CONFIG = {
-  collection, docId, syllabusPrefix,
-  subjectKey, label, code, qualifier, years, accentColor,
-  examLocalKey, examPapers,
-  hasSyllabusFilter,   // true for IGCSE (shows Core/Extended UI)
-  crossSubjects,       // other subjects shown in Weekly View
-};
-```
+**Cache key:** `pac:__all__:teachershub` (5 min TTL in `sessionStorage`).
+
+**Profile dropdown** — reads `profile.school` + `profile.th_sub_roles` + `profile.subjects/classes` and shows them as **read-only chips**. School + sub-role mutations only via CH `/console`. Sign-out button. (No inline edit form — would let users self-promote.)
 
 ---
 
 ## Navbar Loading Pattern
 
-All protected pages (except pacing pages which have their own layout) use this pattern:
+All protected pages (except pacing pages with their own layout):
 
 ```js
 fetch('partials/navbar.html')
@@ -346,99 +224,103 @@ fetch('partials/navbar.html')
   .then(html => {
     document.getElementById('navbar-container').innerHTML = html;
     initNavbar();
-    if (typeof window._pendingNavbarUpdate === 'function') { window._pendingNavbarUpdate(); window._pendingNavbarUpdate = null; }
-    if (typeof window._pendingBadgeSetup === 'function')   { window._pendingBadgeSetup();   window._pendingBadgeSetup   = null; }
-    if (typeof window._pendingFeedbackSetup === 'function'){ window._pendingFeedbackSetup(); window._pendingFeedbackSetup= null; }
+    if (typeof window._pendingNavbarUpdate === 'function')   { window._pendingNavbarUpdate();  window._pendingNavbarUpdate  = null; }
+    if (typeof window._pendingBadgeSetup    === 'function')  { window._pendingBadgeSetup();    window._pendingBadgeSetup    = null; }
+    if (typeof window._pendingFeedbackSetup === 'function')  { window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
   });
 ```
 
-Then in `authReady`:
-```js
-document.addEventListener('authReady', ({ detail: { user, profile } }) => {
-  // Update navbar profile elements (name, avatar)
-  const updateNavbarElements = () => { /* set #profileNameShort, #profileAvatar, #profileWrap */ };
-  if (document.getElementById('profileNameShort')) updateNavbarElements();
-  else window._pendingNavbarUpdate = updateNavbarElements;
+The `_pending*` callbacks handle the race between navbar fetch completing and `authReady`.
 
-  // Set up announcement/message board badge counters
-  const doBadgeSetup = () => setupNavBadges(db, { onSnapshot, collection });
-  if (document.getElementById('msgBoardBadge')) doBadgeSetup();
-  else window._pendingBadgeSetup = doBadgeSetup;
-});
-```
+**Navbar dropdown semantic structure** (4 dropdowns):
+- **Pacing** (4 columns): IGCSE × 4 / AS-A × 4 / Checkpoint × 3 / Trackers × 11
+- **My Work** (5 columns, `th-dd-panel--xwide` 980px min-width): Daily / KPI / Appraisal / Competency / Induction
+- **Hub** (2 columns): Communications (announcements, messageboard, surveys) / Reference (library, cambridge-calendar, cambridge-standards, orientation)
+- **Careers** (visible to `interviewer` / `hiring_manager` / admins): Hiring Funnel · Scorecard · Compare · Public careers ↗
 
-The `_pending*` callbacks handle the race between navbar fetch completing and `authReady` firing.  
-`setupNavBadges` is defined in `partials/navbar.js` — requires `onSnapshot` and `collection` from Firestore imports.
+`groupKeys` map in `partials/navbar.js` lists all slugs per dropdown so the trigger highlights when user is on a child page.
 
 ---
 
-## Cambridge Competency Framework — TH track (2026-05-03 / 2026-05-04)
+## Careers + Interview Module
 
-Eduversal runs three independent rating systems across the network: KPI (per-school), Appraisal (Eduversal v2.1), and Competency (Cambridge-grounded CPD). All three carry `cambridge_standard_refs[]` so a single Cambridge anchor can be traced across all three. See the root CLAUDE.md "Three Rating Systems" section for the full architecture.
+Public teacher recruitment + structured interview scoring. 6 pages + 6 collections + 1 Storage path.
 
-**TH-specific:**
-- The 6-domain × 24-competency taxonomy is in `competency_framework/teachers` (Firestore, seeded). Pages no longer hard-code the framework — they read from there. Fallback inline copies remain for graceful degradation.
-- `learning-path.html` lazy-fetches per-(comp, level) content from the `levels/` subcollection on modal open. Inline `CONTENT_DATA` is preserved as fallback.
-- `competency_evidence` uploads go to Storage path `competency_evidence/teachers/{uid}/{timestamp}_{filename}` (≤25 MB).
-- KPI rows (`teacher-self-assessment.html`, `teacher-kpi-results.html`) and Appraisal items (`teacher-self-appraisal.html`, `teacher-appraisal-results.html`) render mor `CTS X.Y` chips. Click → `cambridge-crossref.js` runtime opens a popover showing every sibling artefact across the 3 systems.
-- `certificate-verify.html` is bypassed in `PAGE_ACCESS_BYPASS` so any signed-in TH user can verify any cert by id.
-- Per-school pilot enrolment: `index.html` calls `filterPilotSystemCards(db, profile, isAdmin)` on `authReady`, which reads `partner_schools/{schoolId}.enabled_systems[]` and hides cards from disabled systems (KPI / Appraisal / Competency). Admin and HQ users (no `schoolId`) bypass.
+**Three audiences:**
+| Audience | URL | Auth |
+|---|---|---|
+| **Candidates** | `/careers`, `/careers-apply?position=X`, `/careers-status` | none — public, in `PAGE_ACCESS_BYPASS` |
+| **Interviewers** | `/interview-scorecard?app=X` | `interviewer` sub-role + assigned to application |
+| **Hiring panel** | `/careers-admin`, `/careers-compare?ids=…` | `central_admin` / `teachers_admin` / `hiring_manager` |
 
-**Phase 1 bug-fix discipline (don't reintroduce):**
-- Domain IDs are canonical: `smc/lcp/afl/icp/pie/cce`. The legacy `cur/asm/cls/ped/dig/pro` IDs are gone everywhere.
-- Storage import in `my-portfolio.html` MUST come from `firebase-storage.js`, NOT `firebase-firestore.js`.
-- `auth-guard.js` exposes `window.storage`; the upload flow relies on it.
-- Admin reading-override editor (`learning-path.html` → `content_overrides_teachers`) sanitises HTML on save AND on render. The allowlist is `P/BR/STRONG/EM/B/I/U/MARK/UL/OL/LI/H3/H4` only; all attributes stripped.
+**Two new sub-roles** in `th_sub_roles[]`: `interviewer` (assigned-only scorecard access) and `hiring_manager` (funnel + same-school scoping). Set from CH `/console` 4-checkbox panel.
 
----
+**Storage:** `careers/cv/{positionId}/{ts}_{filename}` — public write ≤10 MB, MIME limited to PDF/DOC/DOCX.
 
-## Careers + Interview Module (M1-M3, 2026-05-04)
+**Email flow:** `careers-admin.html` enqueues `mail/{auto}` docs on schedule + decision actions. Apply form's "received" mail also via `mail`. Firebase [Trigger Email extension](https://firebase.google.com/products/extensions/firestore-send-email) reads + sends. **Until extension installed, mail enqueue is non-fatal** — apps still save, no email sends.
 
-Public teacher recruitment + structured interview scoring. Six TH pages + 6 Firestore collections + 1 Storage path.
-
-**Public surface (no auth-guard, in `PAGE_ACCESS_BYPASS`):**
-- `/careers` — open-positions grid with level filter + search. Reads `job_positions` where `status==open`.
-- `/careers-apply?position=<id>` — 4-step wizard (Personal / Background / Documents / Submit). Drag-drop CV upload (PDF/DOC/DOCX ≤10 MB) → Storage `careers/cv/{positionId}/{ts}_{filename}`. On submit: creates `job_applications`, sends Firebase email-link (magic-link) to applicant for status tracking.
-- `/careers-status` — magic-link callback target; placeholder until M4 wires the email-link UI.
-
-**Auth'd surface (page-access gated):**
-- `/careers-admin` — hiring funnel kanban (7 status columns), filter bar, per-applicant drawer (Profile / Scorecards / Activity tabs), 4 actions (Assign interviewers / Schedule / Move status / Final decision), "+ New position" modal. Visible to `central_admin` / `teachers_admin` / `hiring_manager`. Hiring managers see only own school via query scoping.
-- `/interview-scorecard?app=<id>` — placeholder. M2 builds the 18-question × 4-category sheet with sticky rubric + autosave; submitted docs immutable.
-- `/careers-compare?ids=a,b,c` — placeholder. M5 builds the side-by-side scorecard matrix.
-
-**Two new sub-roles** (`th_sub_roles[]`): `'interviewer'` (assigned-only access to scorecard) and `'hiring_manager'` (manages funnel for own school). Set from CH `/console`. Composable with `subject_teacher` / `subject_leader` — common combo: `[subject_teacher, interviewer]`.
-
-**Email flow (M3 implements enqueue; extension install pending):**
-- Schedule interview → `mail/{auto}` doc with applicant's email + meeting details.
-- Final decision (offered/rejected) → `mail/{auto}` doc with templated message.
-- Apply form's "we received your application" mail (M4): also via `mail`.
-- Firebase [Trigger Email extension](https://firebase.google.com/products/extensions/firestore-send-email) reads the `mail` collection and sends via SMTP. Until installed, mail enqueue is non-fatal — applications still save, but no email sends.
+**Scorecard immutability:** rule blocks all field changes once `status:'submitted'`. To "reopen" a scorecard later, add an admin-only Cloud Function path — NOT a client rule loosen.
 
 **Audit log:** every funnel action writes `job_application_audit/{autoId}` with `before` / `after` / `byUid`. Append-only.
 
-**Page-access config** seeded in `scripts/page-access/seed-th-page-access.js`: `careers-admin` + `careers-compare` → `visible_to: ['hiring_manager']`; `interview-scorecard` → `visible_to: ['interviewer','hiring_manager']`. Public 3 pages need no doc — `PAGE_ACCESS_BYPASS` in `auth-guard.js` covers them.
+**HQ → TH role caveat:** TH `auth-guard.js` admin bypass is `teachers_admin` only, NOT `central_admin`. CH admins clicking "Hiring Funnel ↗" need either `teachers_admin` OR `hiring_manager` on their TH profile. Operational fix: assign HQ users `teachers_admin` from CH `/console`.
 
-**Build pattern:** `careers.html` / `careers-apply.html` / `careers-status.html` skip `auth-guard.js` and skip `cambridge-crossref.js` injection (defined in `build.js`'s skip list — same pattern as `orientation.html`).
+---
 
-**Firestore rules** (deployed): see `Central Hub/firestore.rules` "CAREERS + INTERVIEW MODULE" block — 6 collection rules + 4 helpers (`hasTHSubRole`, `isInterviewer`, `isHiringManager`, `hasHiringPower`).
+## Cambridge Competency Framework — TH track
 
-**HQ → TH role caveat:** TH `auth-guard.js` admin bypass is `role_teachershub === 'teachers_admin'` only — NOT `central_admin`. A CH admin landing on `/careers-admin` via the cross-app link without a TH `teachers_admin` role gets page-access gated by `visible_to: ['hiring_manager']`. Operational fix: assign HQ users `teachers_admin` from CH `/console` so they bypass everything in TH (same-team policy across all TH admin pages, not careers-specific).
+The `teachers` track of the 3-track Cambridge competency system (root CLAUDE.md "Three Rating Systems" has the full architecture).
+
+**TH-specific:**
+- 6-domain × 24-competency taxonomy in `competency_framework/teachers` (Firestore-seeded). Inline fallback for graceful degradation.
+- `learning-path.html` lazy-fetches per-(comp, level) content from `levels/` subcollection on modal open.
+- KPI rows + Appraisal F-items render mor `CTS X.Y` chips → click opens cross-ref popover.
+- Per-school pilot enrolment via `partner_schools.enabled_systems[]` (admin + HQ bypass).
+
+**Don't reintroduce:**
+- Domain IDs are canonical: `smc/lcp/afl/icp/pie/cce`. Legacy `cur/asm/cls/ped/dig/pro` gone everywhere.
+- `my-portfolio.html` Storage import MUST come from `firebase-storage.js`, NOT `firebase-firestore.js`.
+- `auth-guard.js` exposes `window.storage`; the upload flow relies on it.
+- Admin override (`learning-path.html` → `content_overrides_teachers`) HTML allowlist on save AND render — strict tag list, all attributes stripped.
+
+---
+
+## Key Files
+
+| File | Purpose |
+|---|---|
+| `auth-guard.js` | Auth + role gate (modular SDK v10) |
+| `build.js` | Vercel build — ROUTES map, link rewrites, asset copy |
+| `base.css` | Shared design tokens + components |
+| `partials/navbar.html` | Shared navbar partial |
+| `partials/navbar.js` | `initNavbar()`, `setupNavBadges()`, feedback modal, mobile drawer (`addItem` walks `.th-dd-col` children, mirrors `data-pa-hidden`/`data-th-subject-hidden` from source anchors) |
+| `partials/pacing-shared.js` | Build-injected via `<!-- PACING_SHARED_JS -->`. Helpers (`escHtml`, `safeUrl`, `allTopics`, `parseObjCodes`, `showToast`), constants (`PAGE_SIZE=5`, `PACE_LABELS`, `DIAG_LABELS`), exam countdown, syllabus filter, diagnostic tags, coord notes, actual hours, variance report, GLH projection. **Don't duplicate inline.** |
+| `partials/pacing-page.css` | Shared CSS for all 11 pacing pages. Each page's `<style>` only carries `:root` accent overrides. |
+| `partials/pacing-tracker-core.js` + `.css` | Shared module + CSS for all 11 tracker pages |
+| `firebase-config.js` / `.example.js` | Local dev config (gitignored) / template |
+| `vercel.json` | Vercel config |
+| `dist/` | Build output (not committed) |
+| `scripts/` | One-off Node scripts: `seed-orientation.js`, `fix-orientation-videos.js`, `update-orientation-links.js`. Run from repo root. Service account at `../../keys/centralhub-service-account.json`. |
 
 ---
 
 ## Important Conventions
 
-- **No React, no npm bundler.** All JS runs directly in the browser via CDN ESM imports.
-- **Always use modular SDK v10.** Never use the compat namespace (`firebase.firestore()` etc.).
-- **`createdAt` not `timestamp`** for all Firestore timestamp fields.
-- **`academic_coordinator` not `coordinator`** — the old legacy role name was `coordinator`; it was renamed during the shared-project migration.
-- **Never commit `firebase-config.js`.** It is in `.gitignore`.
-- **Auth guard goes first.** On protected pages, `auth-guard.js` must be the first `<script type="module">` tag so it hides the body before any content renders.
-- **Use `authReady` event** to gate all Firestore reads in page scripts — never call `window.db` before the event fires.
-- **`central_documents` collection, not `documents`** — use the renamed collection name when linking to CentralHub documents.
-- **`pacing-hub.html` is deleted** — its content was moved to `index.html` cards. Do not recreate it.
-- **Shared pacing logic lives in `partials/pacing-shared.js`** — utility helpers (`escHtml`, `safeUrl`, `allTopics`, `parseObjCodes`, `showToast`), constants (`PAGE_SIZE=5`, `PACE_LABELS`, `DIAG_LABELS`), exam countdown, syllabus filter, diagnostic tags, coord notes, actual hours, variance report, GLH projection. Do not duplicate any of these inline in individual pacing pages.
-- **Shared pacing CSS lives in `partials/pacing-page.css`** — all layout, sidebar, chapter blocks, table, modals. Each page's `<style>` block contains only `:root` with accent + semantic color variables. Do not add page-level CSS that belongs in the shared file.
-- **`<!-- PACING_SHARED_CSS -->` and `<!-- PACING_SHARED_JS -->`** are build-time placeholders in pacing pages — VS Code CSS linter flags the HTML comment inside `<style>` as an error, but browsers handle it correctly. Do not remove these placeholders.
-- **Competency framework IDs** — domain IDs: `smc`, `lcp`, `afl`, `icp`, `pie`, `cce`. Competency IDs: `smc-1..4`, `lcp-1..4`, `afl-1..4`, `icp-1..4`, `pie-1..4`, `cce-1..4`. Grounded in Cambridge Teacher Standards 2019 + Permendiknas No.16/2007. Do NOT revert to old IDs (`cur-1`, `asm-1` etc.) — Firestore data uses new IDs.
-- **Nav-edit toolbar uses the `hidden` HTML attribute, not CSS-only display.** Both `#btnNavEdit` and `#navEditBar` in `partials/navbar.html` ship with `hidden` so non-admins (e.g. `teachers_user`) never see the "Drag to reorder…" bar — even if `nav-edit-simple.js` fails to load. The shared `shared-design/nav-edit-simple.js` removes/re-adds the attribute when admin is detected (`btnNavEdit`) and on `enterEditMode`/`exitEditMode` (`navEditBar`). Reason: a CSS-only `display:none` rule lives inside the JS-injected `<style>` block — if the import 404s, the bar renders full-width with naked text. Past incident, fixed 2026-05-03. How to apply: any new edit-mode chrome added to the navbar partial must also default to `hidden`.
+- **Modular SDK v10 only.** Never compat (`firebase.firestore()`).
+- **`createdAt` not `timestamp`.**
+- **`academic_coordinator` not `coordinator`** — old legacy name renamed during migration.
+- **Never commit `firebase-config.js`** — gitignored.
+- **Auth guard goes first** on protected pages (first `<script type="module">`).
+- **Use `authReady`** — never call `window.db` before the event fires.
+- **`central_documents` not `documents`** — collection rename.
+- **`pacing-hub.html` is deleted** — content moved to `index.html` cards.
+- **Shared pacing logic in `partials/pacing-shared.js`** — don't duplicate inline.
+- **Shared pacing CSS in `partials/pacing-page.css`** — each page's `<style>` carries only `:root` accent overrides.
+- **Build-time placeholders** `<!-- PACING_SHARED_CSS -->` and `<!-- PACING_SHARED_JS -->` — VS Code linter complains but browsers are fine. Keep them.
+- **Competency domain IDs canonical:** `smc/lcp/afl/icp/pie/cce`. Legacy IDs (`cur-1` etc.) gone.
+- **Nav-edit toolbar uses `hidden` HTML attribute, not CSS-only display.** `#btnNavEdit` and `#navEditBar` ship with `hidden` so non-admins never see them — even if `nav-edit-simple.js` 404s. CSS-only `display:none` lives inside the JS-injected `<style>` block; if the import 404s the bar would render full-width with naked text. Past incident, fixed 2026-05-03.
+- **Profile dropdown is read-only.** Only displayName edits go to `setDoc(userRef, {displayName})`. School / sub-roles / subjects / email NEVER editable from here — only via CH `/console`. Past incident in AH (2026-05-05): inline edit form let users self-promote.
+- **Mobile drawer page-access gating uses `[data-mobile-nav-key]`.** Drawer items are clones of desktop items with a different attribute name. Auth-guard handles both selectors; new mobile patterns need the same.
+- **Decorative full-screen background layers must `pointer-events: none`.** Past incident: `bg-container` swallowed every footer click. Children inherit through.
+- **Reserved Firestore doc IDs** — `__name__`-style (double-underscore start AND end). Use `_uncategorized_settings_` (single underscore each side), not `__uncategorized_settings__`.
+- **Firestore `orderBy` query silently drops docs missing the field.** Meta doc must include `order: -1` to be picked up by the `orderBy('order','asc')` listener.
