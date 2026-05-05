@@ -1123,6 +1123,28 @@
         cursor: not-allowed;
       }
 
+      /* Visual cue for admins: sections hidden from non-admins */
+      body.is-admin .category-section.is-hidden-for-users > .category-header {
+        opacity: 0.55;
+      }
+      body.is-admin .category-section.is-hidden-for-users > .category-header .category-name::after {
+        content: ' (hidden)';
+        font-size: 0.7em;
+        color: #ef4444;
+        font-weight: 500;
+        margin-left: 4px;
+      }
+      body.is-admin .uncategorized-section.is-hidden-for-users > .category-section > .category-header {
+        opacity: 0.55;
+      }
+      body.is-admin .uncategorized-section.is-hidden-for-users > .category-section > .category-header .category-name::after {
+        content: ' (hidden)';
+        font-size: 0.7em;
+        color: #ef4444;
+        font-weight: 500;
+        margin-left: 4px;
+      }
+
       .category-body {
         overflow: hidden;
         transition: max-height 0.4s cubic-bezier(0.23,1,0.32,1);
@@ -2299,6 +2321,12 @@
                   <span class="category-color-dot" style="background:#6b7280; color:#6b7280;"></span>
                   <span class="category-name">Uncategorized</span>
                   <span class="category-count" id="uncategorizedCount">0</span>
+                  <div class="category-admin-actions" id="uncategorizedAdminActions">
+                    <button class="cat-action-btn uncat-toggle-btn" id="uncatToggleBtn" title="Toggle visibility for non-admins">
+                      <svg id="uncatToggleIconShown" viewBox="0 0 24 24" style="display:none"><path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5C21.3 7.6 17 4.5 12 4.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>
+                      <svg id="uncatToggleIconHidden" viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>
+                    </button>
+                  </div>
                   <svg class="category-chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
                 </div>
                 <div class="category-body">
@@ -2309,22 +2337,6 @@
               </div>
             </div>
 
-            <!-- Other available pages (auto-generated from page_access_config) -->
-            <div class="other-pages-section" id="otherPagesSection" style="display:none">
-              <div class="category-section" id="otherPagesAccordion" data-cat-id="__otherpages__">
-                <div class="category-header" data-cat-id="__otherpages__">
-                  <span class="category-color-dot" style="background:#6c5ce7; color:#6c5ce7;"></span>
-                  <span class="category-name">Other available pages</span>
-                  <span class="category-count" id="otherPagesCount">0</span>
-                  <svg class="category-chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
-                </div>
-                <div class="category-body">
-                  <div class="category-cards-grid" id="otherPagesGrid">
-                    <!-- Auto-cards injected by renderOtherAvailablePages() -->
-                  </div>
-                </div>
-              </div>
-            </div>
 
           </div>
         </section>
@@ -2847,6 +2859,134 @@
           color1: "#d97706",
           color2: "#fbbf24",
         },
+
+        // ── Communications ──────────────────────────────────────
+        {
+          id: 200,
+          title: "Announcements",
+          description: "Platform-wide announcements from Eduversal HQ and school admins.",
+          icon: "📢",
+          url: "/announcements",
+          target: "_self",
+          linkLabel: "Read Announcements",
+          category: "Communications",
+          color1: "#0ea5e9",
+          color2: "#7dd3fc",
+        },
+        {
+          id: 201,
+          title: "Message Board",
+          description: "Cross-platform forum for teachers to share questions and ideas.",
+          icon: "💬",
+          url: "/messageboard",
+          target: "_self",
+          linkLabel: "Open Message Board",
+          category: "Communications",
+          color1: "#0891b2",
+          color2: "#67e8f9",
+        },
+
+        // ── Reference ──────────────────────────────────────────
+        {
+          id: 202,
+          title: "Teacher Orientation",
+          description: "New-teacher orientation handbook — onboarding videos, links and welcome materials.",
+          icon: "🧭",
+          url: "/orientation",
+          target: "_self",
+          linkLabel: "Open Orientation",
+          category: "Reference",
+          color1: "#9333ea",
+          color2: "#c4b5fd",
+        },
+        {
+          id: 203,
+          title: "Cambridge Standards",
+          description: "Cambridge Teacher Standards and School Leader Standards (2023) with cross-refs to KPI / Appraisal / Competency.",
+          icon: "📜",
+          url: "/cambridge-standards",
+          target: "_self",
+          linkLabel: "View Standards",
+          category: "Reference",
+          color1: "#1d4ed8",
+          color2: "#93c5fd",
+        },
+        {
+          id: 204,
+          title: "Induction Handbook",
+          description: "Print-friendly read-only viewer for the 3 induction handbook templates.",
+          icon: "📘",
+          url: "/handbook",
+          target: "_self",
+          linkLabel: "Open Handbook",
+          category: "Reference",
+          color1: "#4f46e5",
+          color2: "#a5b4fc",
+        },
+
+        // ── Induction (Year 1) ─────────────────────────────────
+        {
+          id: 205,
+          title: "My Induction",
+          description: "First-year subject teacher mentee dashboard — Today / This Week / Stage Timeline plus journal and pulse.",
+          icon: "🌱",
+          url: "/my-induction",
+          target: "_self",
+          linkLabel: "Open My Induction",
+          category: "Induction",
+          color1: "#16a34a",
+          color2: "#86efac",
+        },
+        {
+          id: 206,
+          title: "My Mentees",
+          description: "Mentor view of own assigned induction mentees with observation cycle progress and certification banner.",
+          icon: "🤝",
+          url: "/my-mentees",
+          target: "_self",
+          linkLabel: "Open My Mentees",
+          category: "Induction",
+          color1: "#15803d",
+          color2: "#4ade80",
+        },
+
+        // ── Careers + Hiring ───────────────────────────────────
+        {
+          id: 207,
+          title: "Hiring Funnel",
+          description: "Hiring funnel kanban — applicants, assignments, scheduling and final decision.",
+          icon: "📋",
+          url: "/careers-admin",
+          target: "_self",
+          linkLabel: "Open Hiring Funnel",
+          category: "Hiring",
+          color1: "#be185d",
+          color2: "#f9a8d4",
+        },
+        {
+          id: 208,
+          title: "Interview Scorecard",
+          description: "Per-interviewer 18-question scorecard with sticky rubric and autosave.",
+          icon: "📝",
+          url: "/interview-scorecard",
+          target: "_self",
+          linkLabel: "Open Scorecard",
+          category: "Hiring",
+          color1: "#9d174d",
+          color2: "#fbcfe8",
+        },
+        {
+          id: 209,
+          title: "Compare Candidates",
+          description: "Side-by-side scorecard matrix for 2–5 shortlisted applicants.",
+          icon: "⚖️",
+          url: "/careers-compare",
+          target: "_self",
+          linkLabel: "Open Comparison",
+          category: "Hiring",
+          color1: "#a21caf",
+          color2: "#f0abfc",
+        },
       ];
 
       // ── Search across all accordion sections ─────────────────────
@@ -2923,91 +3063,6 @@
         document.getElementById('uncategorizedCount').textContent = resources.length;
       }
 
-      // ── Auto-generated "Other available pages" section ────────────
-      // Surface every page the user has access to via page_access_config
-      // that lacks a hand-crafted card. As proper cards are added over
-      // time, those auto-cards disappear (de-duped by slug).
-      async function renderOtherAvailablePages(db, profile) {
-        const isAdmin  = profile?.role_teachershub === 'teachers_admin';
-        const subRoles = Array.isArray(profile?.th_sub_roles) ? profile.th_sub_roles : [];
-        const wrap  = document.getElementById('otherPagesSection');
-        const grid  = document.getElementById('otherPagesGrid');
-        const count = document.getElementById('otherPagesCount');
-        if (!wrap || !grid || !count) return;
-
-        // Reuse the bulk cache populated by auth-guard if available.
-        let configsMap;
-        try {
-          const raw = sessionStorage.getItem('pac:__all__:teachershub');
-          const cached = raw ? JSON.parse(raw) : null;
-          if (cached?.entries && (Date.now() - cached.at) < 5 * 60 * 1000) {
-            configsMap = new Map(cached.entries);
-          }
-        } catch (_) {}
-        if (!configsMap) {
-          const { getDocs, collection } =
-            await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
-          // @lint-allow-unbounded — auto-annotated; revisit if collection grows large
-          const snap = await getDocs(collection(db, 'page_access_config'));
-          configsMap = new Map();
-          snap.forEach(d => {
-            const data = d.data() || {};
-            if (data.platform && data.platform !== 'teachershub') return;
-            configsMap.set(d.id, data);
-          });
-        }
-
-        // Pages already represented by a hand-crafted card → de-dupe.
-        const existingKeys = new Set();
-        document.querySelectorAll('a.resource-card[href], a.card[href]').forEach(a => {
-          try {
-            const u = new URL(a.getAttribute('href'), window.location.origin);
-            let p = u.pathname.toLowerCase()
-              .replace(/^\/+/, '').replace(/\/+$/, '').replace(/\.html$/, '');
-            if (p.includes('/')) p = p.split('/').pop();
-            if (p) existingKeys.add(p);
-          } catch (_) {}
-        });
-
-        // observation-entry is a sub-page opened with URL params from
-        // my-mentees — don't surface it as a standalone card.
-        const SKIP = new Set(['', 'index', 'login', 'waiting', 'observation-entry', 'certificate-verify', 'careers', 'careers-apply', 'careers-status']);
-        const items = [];
-        configsMap.forEach((cfg, key) => {
-          if (SKIP.has(key)) return;
-          if (existingKeys.has(key)) return;
-          if (cfg.hidden === true) return;
-          const vt = Array.isArray(cfg.visible_to) ? cfg.visible_to : [];
-          const allowed = isAdmin || vt.length === 0 || subRoles.some(r => vt.includes(r));
-          if (!allowed) return;
-          items.push({ key, ...cfg });
-        });
-
-        if (!items.length) {
-          wrap.style.display = 'none';
-          return;
-        }
-
-        items.sort((a, b) => (a.label || a.key).localeCompare(b.label || b.key));
-        count.textContent = items.length;
-        grid.innerHTML = items.map(it => `
-          <a href="/${escHtml(it.key)}" class="resource-card card-appear" data-card-id="auto_${escHtml(it.key)}" style="--card-color-1:#6c5ce7;--card-color-2:#0891b2;--card-glow:#6c5ce740;">
-            <div class="card-content">
-              <div class="card-header">
-                <div class="card-icon">📄</div>
-                <span class="card-badge">${escHtml(it.label || it.key)}</span>
-              </div>
-              <h3 class="card-title">${escHtml(it.label || it.key)}</h3>
-              <p class="card-description">${escHtml(it.description || '')}</p>
-              <div class="card-footer">
-                <span class="card-link">Open page</span>
-                <div class="card-arrow">→</div>
-              </div>
-            </div>
-          </a>
-        `).join('');
-        wrap.style.display = 'block';
-      }
 
       // ── Phase 3 ops: pilot-enrolment gating ───────────────────────
       // Each partner school can opt into a pilot subset of {kpi, appraisal,
@@ -3126,11 +3181,15 @@
         const cardMap = new Map();
         allCards.forEach(c => cardMap.set(c.getAttribute('data-card-id'), c));
 
-        // Filter by visible_to — admins see all; users see based on sub-role
+        // Filter by visible_to — admins see all; users see based on sub-role.
+        // Admins can also flip a per-section "hidden_for_users" toggle that
+        // hides the entire accordion from every non-admin (cleaner than
+        // listing every sub-role to exclude in visible_to[]).
         const profile = window.userProfile || {};
         const thSubs = Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [];
         const userRole = thSubs.includes('subject_leader') ? 'subject_leader' : 'subject_teacher';
         const visibleCats = isAdmin ? cats : cats.filter(cat => {
+          if (cat.hidden_for_users === true) return false;
           const vt = cat.visible_to || [];
           return vt.length === 0 || vt.includes(userRole);
         });
@@ -3150,7 +3209,7 @@
           const catCards = (cat.cardIds || []).map(id => cardMap.get(id)).filter(Boolean);
 
           const sec = document.createElement('div');
-          sec.className = 'category-section';
+          sec.className = 'category-section' + (cat.hidden_for_users === true ? ' is-hidden-for-users' : '');
           sec.dataset.catId = cat.id;
 
           const defaultCollapsed = isFirstRender ? idx > 0 : (collapsedState[cat.id] ?? idx > 0);
@@ -3159,6 +3218,13 @@
           const isFirst = idx === 0;
           const isLast  = idx === visibleCats.length - 1;
 
+          const hiddenForUsers = cat.hidden_for_users === true;
+          const visToggleIcon = hiddenForUsers
+            ? '<svg viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>'
+            : '<svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5C21.3 7.6 17 4.5 12 4.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>';
+          const visToggleTitle = hiddenForUsers
+            ? 'Hidden from non-admins — click to show'
+            : 'Visible to non-admins — click to hide';
           const adminHtml = isAdmin ? `
             <div class="category-admin-actions">
               <button class="cat-action-btn move-up-btn" title="Move up" data-cat-id="${cat.id}" ${isFirst ? 'disabled' : ''}>
@@ -3169,6 +3235,9 @@
               </button>
               <button class="cat-action-btn manage-btn" title="Manage cards" data-cat-id="${cat.id}">
                 <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+              </button>
+              <button class="cat-action-btn vis-toggle-btn" title="${visToggleTitle}" data-cat-id="${cat.id}" data-cat-hidden="${hiddenForUsers ? '1' : '0'}">
+                ${visToggleIcon}
               </button>
               <button class="cat-action-btn rename-btn" title="Rename" data-cat-id="${cat.id}">
                 <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
@@ -3205,10 +3274,18 @@
         const uncatCount = uncatGrid.querySelectorAll('.resource-card').length;
         document.getElementById('uncategorizedCount').textContent = uncatCount;
 
-        if (!isAdmin && uncatCount === 0) {
-          document.getElementById('uncategorizedSection').style.display = 'none';
+        // Visibility rules for non-admins:
+        //   1) empty grid → always hide
+        //   2) admin toggled hidden via uncategorized_settings.visible_to_users === false → hide
+        // Admins always see the section so they can manage cards.
+        const settings = window.__thUncatSettings || {};
+        const hiddenForUsers = settings.visible_to_users === false;
+        const uncatSection = document.getElementById('uncategorizedSection');
+        uncatSection.classList.toggle('is-hidden-for-users', hiddenForUsers);
+        if (!isAdmin && (uncatCount === 0 || hiddenForUsers)) {
+          uncatSection.style.display = 'none';
         } else {
-          document.getElementById('uncategorizedSection').style.display = '';
+          uncatSection.style.display = '';
           // Open uncategorized by default when there are no named sections
           if (cats.length === 0) {
             document.getElementById('uncategorizedAccordion').classList.remove('collapsed');
@@ -3552,13 +3629,6 @@
         // Admin keeps full visibility.
         filterPilotSystemCards(db, profile, isAdmin);
 
-        // Auto-generated "Other available pages" — surface accessible
-        // pages that don't have a hand-crafted card yet (e.g. announcements,
-        // messageboard, orientation, careers admin, induction module pages).
-        renderOtherAvailablePages(db, profile).catch(err => {
-          console.warn('renderOtherAvailablePages failed', err);
-        });
-
         // Category system
         initCategorySystem(db, isAdmin, { onSnapshot, collection, query, orderBy, setDoc, doc, addDoc, deleteDoc, serverTimestamp });
 
@@ -3649,6 +3719,16 @@
               if (idx < cats.length-1) await swapCatOrder(db, cats[idx], cats[idx+1], { setDoc: sd, doc: d });
             } else if (btn.classList.contains('manage-btn')) {
               openManageModal(cat, cats, db, { setDoc: sd, doc: d });
+            } else if (btn.classList.contains('vis-toggle-btn')) {
+              const next = !(cat.hidden_for_users === true);
+              try {
+                await sd(d(db, 'th_resource_sections', cat.id), {
+                  hidden_for_users: next,
+                  updatedAt: sts(),
+                }, { merge: true });
+              } catch (err) {
+                console.warn('section visibility toggle failed', err);
+              }
             } else if (btn.classList.contains('rename-btn')) {
               const sec = btn.closest('.category-section');
               if (sec) startRename(sec, cat, db, { setDoc: sd, doc: d });
@@ -3728,13 +3808,68 @@
         }
 
         // ── Firestore: listen to sections ─────────────────────────
+        // The dashboard config is split across two doc kinds in
+        // th_resource_sections:
+        //   • Regular section docs — cardIds[], visible_to[], etc.
+        //   • A single meta doc id '__uncategorized_settings__' with
+        //     { isMeta: true, visible_to_users: bool } that lets admins
+        //     hide the Uncategorized accordion from non-admin users.
         const catQuery = q(col(db, 'th_resource_sections'), ob('order', 'asc'));
         ons(catQuery, snap => {
           const cats = [];
-          snap.forEach(docSnap => cats.push({ id: docSnap.id, ...docSnap.data() }));
+          let uncatSettings = {};
+          snap.forEach(docSnap => {
+            const data = { id: docSnap.id, ...docSnap.data() };
+            if (data.isMeta || docSnap.id === '__uncategorized_settings__') {
+              uncatSettings = data;
+              return;
+            }
+            cats.push(data);
+          });
           window.__thCatsSnapshot = cats;
+          window.__thUncatSettings = uncatSettings;
           renderCategories(cats, db, isAdmin);
+          if (isAdmin) refreshUncatToggleUi(uncatSettings);
         });
+
+        // ── Admin: Uncategorized visibility toggle ─────────────────
+        if (isAdmin) {
+          const adminBox  = document.getElementById('uncategorizedAdminActions');
+          const toggleBtn = document.getElementById('uncatToggleBtn');
+          if (adminBox)  adminBox.style.display  = '';
+          if (toggleBtn) {
+            toggleBtn.addEventListener('click', async (e) => {
+              e.stopPropagation(); // don't toggle the accordion
+              const cur = window.__thUncatSettings || {};
+              const next = !(cur.visible_to_users === false); // currently shown? → hide. else → show.
+              const desired = !next; // visible_to_users
+              try {
+                await sd(d(db, 'th_resource_sections', '__uncategorized_settings__'), {
+                  isMeta: true,
+                  visible_to_users: desired,
+                  updatedAt: sts(),
+                }, { merge: true });
+              } catch (err) {
+                console.warn('uncat toggle failed', err);
+              }
+            });
+          }
+        }
+      }
+
+      // ── Refresh the admin toggle icon + tooltip from settings ────
+      function refreshUncatToggleUi(settings) {
+        const shownIcon  = document.getElementById('uncatToggleIconShown');
+        const hiddenIcon = document.getElementById('uncatToggleIconHidden');
+        const btn        = document.getElementById('uncatToggleBtn');
+        if (!shownIcon || !hiddenIcon || !btn) return;
+        const hiddenForUsers = settings?.visible_to_users === false;
+        // When hidden for users we show the "eye-off" icon; users can't see it.
+        shownIcon.style.display  = hiddenForUsers ? 'none' : '';
+        hiddenIcon.style.display = hiddenForUsers ? '' : 'none';
+        btn.title = hiddenForUsers
+          ? 'Hidden from non-admins — click to show'
+          : 'Visible to non-admins — click to hide';
       }
 
     </script>
