@@ -3,34 +3,339 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Compare candidates — Teachers Hub</title>
+<title>Compare Candidates — Teachers Hub</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236c5ce7'/%3E%3C/svg%3E" />
 <link rel="stylesheet" href="base.css" />
 <!-- FIREBASE_ENV -->
 <script type="module" src="auth-guard.js"></script>
 <style>
-  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); }
-  .placeholder-wrap { max-width: 720px; margin: 80px auto; padding: 0 24px; text-align: center; }
-  .placeholder-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 48px 32px; box-shadow: var(--shadow); }
-  h1 { font-family: 'Lora', serif; font-size: 24px; margin-bottom: 12px; }
-  p { color: var(--ink-2); }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; }
+
+  .cmp-page { max-width: 1700px; margin: 0 auto; padding: 18px 18px 60px; }
+  .cmp-head { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; }
+  .cmp-head h1 { font-family: 'Lora', serif; font-size: 22px; font-weight: 600; }
+  .cmp-back { color: var(--ink-3); font-size: 13px; text-decoration: none; }
+  .cmp-back:hover { color: var(--brand); }
+  .cmp-toolbar { display: flex; gap: 8px; align-items: center; }
+  .cmp-btn { padding: 8px 14px; border: 1.5px solid var(--border); background: var(--white); border-radius: 8px; font-family: inherit; font-size: 13px; font-weight: 600; color: var(--ink-2); cursor: pointer; }
+  .cmp-btn:hover { border-color: var(--brand); color: var(--brand); }
+  .cmp-btn.active { background: var(--brand); border-color: var(--brand); color: white; }
+
+  /* Matrix table */
+  .cmp-wrap { background: var(--white); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow-sm); overflow: hidden; }
+  .cmp-table-scroll { overflow-x: auto; }
+  table.cmp { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 800px; }
+  table.cmp th, table.cmp td { padding: 12px 14px; vertical-align: top; border-bottom: 1px solid var(--border); }
+  table.cmp thead th { background: var(--paper); position: sticky; top: 0; z-index: 5; font-size: 12px; font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: .04em; text-align: left; }
+  table.cmp thead th.cand-col { min-width: 180px; }
+  table.cmp tbody tr:hover { background: rgba(108,92,231,.025); }
+  table.cmp tbody tr.section-row td { background: var(--paper); padding: 10px 14px; font-family: 'Lora', serif; font-size: 14px; font-weight: 600; color: var(--ink); border-top: 2px solid var(--brand); }
+  table.cmp tbody tr.totals-row td { background: var(--brand-2); font-weight: 700; }
+  table.cmp .qcell { width: 320px; min-width: 280px; font-size: 13px; color: var(--ink); position: sticky; left: 0; background: var(--white); z-index: 4; border-right: 1px solid var(--border); }
+  table.cmp tbody tr:hover .qcell { background: #fafaf7; }
+  table.cmp tbody tr.section-row .qcell { background: var(--paper); }
+  table.cmp tbody tr.totals-row .qcell { background: var(--brand-2); }
+  table.cmp .qcell .qnum { font-size: 10.5px; color: var(--ink-3); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 3px; }
+  table.cmp .qcell .qtext { font-size: 13px; line-height: 1.45; }
+
+  /* Per-cell score block */
+  .cell-score { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+  .cell-score .avg { font-size: 18px; font-weight: 700; color: var(--brand); }
+  .cell-score .avg.empty { color: var(--ink-3); font-weight: 400; font-size: 14px; }
+  .cell-score .breakdown { font-size: 11px; color: var(--ink-3); }
+  .cell-score .interviewers { display: flex; flex-direction: column; gap: 3px; margin-top: 4px; font-size: 11.5px; color: var(--ink-2); }
+  .cell-score .interviewers .row { display: flex; justify-content: space-between; gap: 8px; padding: 2px 6px; background: var(--paper); border-radius: 4px; }
+  .cell-score .interviewers .row .who { color: var(--ink-3); }
+  .cell-score .interviewers .row .pt { font-weight: 700; color: var(--ink); }
+
+  /* Notes mode (toggled) */
+  .show-notes .cell-score .notes { font-size: 11.5px; color: var(--ink-2); margin-top: 6px; padding: 6px 8px; background: var(--paper); border-radius: 6px; border-left: 2px solid var(--brand); white-space: pre-wrap; line-height: 1.45; }
+  body:not(.show-notes) .cell-score .notes { display: none; }
+
+  /* Scenario flag chips in cells */
+  .flag-chip { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+  .flag-chip.concerning { background: #fee2e2; color: #991b1b; }
+  .flag-chip.acceptable { background: #fef3c7; color: #92400e; }
+  .flag-chip.strong     { background: #d1fae5; color: #065f46; }
+
+  /* Header — candidate column */
+  .cand-head { display: flex; flex-direction: column; gap: 4px; }
+  .cand-head .cname { font-family: 'Lora', serif; font-size: 15px; font-weight: 600; color: var(--ink); text-transform: none; letter-spacing: 0; }
+  .cand-head .cmeta { font-size: 11px; color: var(--ink-3); font-weight: 500; text-transform: none; letter-spacing: 0; }
+  .cand-head .ctotal { font-size: 11.5px; color: var(--ink-2); font-weight: 600; text-transform: none; letter-spacing: 0; margin-top: 4px; }
+  .cand-head .ctotal .big { font-size: 18px; color: var(--brand); font-weight: 700; }
+  .cand-head .meets { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin-top: 3px; }
+  .cand-head .meets.yes { background: #d1fae5; color: #065f46; }
+  .cand-head .meets.no  { background: #fee2e2; color: #991b1b; }
+  .cand-head .meets.tbd { background: var(--paper); color: var(--ink-3); }
+  .cand-head .recos { display: flex; gap: 3px; flex-wrap: wrap; margin-top: 4px; }
+  .reco-chip { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+  .reco-chip.strong_yes { background: #047857; color: white; }
+  .reco-chip.yes        { background: #d1fae5; color: #065f46; }
+  .reco-chip.no         { background: #fee2e2; color: #991b1b; }
+  .reco-chip.strong_no  { background: #b91c1c; color: white; }
+
+  /* Loading / errors */
+  .cmp-loading { padding: 48px; text-align: center; color: var(--ink-3); }
+  .cmp-error { background: var(--white); border: 1.5px solid var(--red); color: #7f1d1d; padding: 24px; border-radius: 12px; }
+  .cmp-error h2 { font-family: 'Lora', serif; font-size: 20px; margin-bottom: 8px; color: var(--red); }
 </style>
 </head>
 <body>
+
 <div id="navbar-container"></div>
-<div class="placeholder-wrap">
-  <div class="placeholder-card">
-    <h1>Compare candidates — coming in M5</h1>
-    <p>Side-by-side scorecard matrix for shortlisted applicants.</p>
+
+<div class="cmp-page">
+  <div class="cmp-head">
+    <div>
+      <a class="cmp-back" href="/careers-admin">← Hiring Funnel</a>
+      <h1>Compare Candidates</h1>
+    </div>
+    <div class="cmp-toolbar">
+      <button class="cmp-btn" id="btnNotes">Show notes</button>
+    </div>
+  </div>
+  <div id="cmp-root">
+    <div class="cmp-loading">Loading…</div>
   </div>
 </div>
+
 <script type="module">
-  document.addEventListener('authReady', () => {
-    fetch('partials/navbar.html').then(r => r.text()).then(html => {
+  import { doc, getDoc, getDocs, collection, query, where, documentId }
+    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const escHtml = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+
+  let db, profile, isAdmin, isHiringMgr;
+  let applicationIds = [];
+  let applications  = [];   // [{id, ...applicationData, scorecards: []}]
+  let questionSet   = null;
+
+  document.addEventListener('authReady', async (e) => {
+    db = window.db;
+    profile = e.detail.profile;
+    isAdmin     = profile?.role_centralhub === 'central_admin'
+               || profile?.role_teachershub === 'teachers_admin';
+    isHiringMgr = Array.isArray(profile?.th_sub_roles) && profile.th_sub_roles.includes('hiring_manager');
+
+    fetch('/partials/navbar.html').then(r => r.text()).then(html => {
       document.getElementById('navbar-container').innerHTML = html;
       if (typeof window.initNavbar === 'function') window.initNavbar();
     }).catch(() => {});
+
+    if (!isAdmin && !isHiringMgr) {
+      renderError('Access denied', 'Restricted to admins and hiring managers.');
+      return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    applicationIds = (params.get('ids') || '').split(',').map(s => s.trim()).filter(Boolean);
+    if (applicationIds.length < 2) {
+      renderError('Pick at least 2 candidates', 'Open the Hiring Funnel, tick 2–5 candidate cards, then click "Compare selected".');
+      return;
+    }
+    if (applicationIds.length > 5) {
+      renderError('Too many candidates', 'Compare up to 5 at a time. Pick a smaller set.');
+      return;
+    }
+
+    try {
+      await loadAll();
+      render();
+    } catch (err) {
+      console.error('[compare] load failed', err);
+      renderError('Could not load comparison', err?.message || 'Unknown error.');
+    }
+  });
+
+  async function loadAll() {
+    // Fetch each application individually (rule allows get; documentId() in[] would also work but get is simpler)
+    applications = [];
+    for (const id of applicationIds) {
+      const snap = await getDoc(doc(db, 'job_applications', id));
+      if (snap.exists()) applications.push({ id: snap.id, ...snap.data(), scorecards: [] });
+    }
+    if (applications.length === 0) throw new Error('None of the selected applications could be loaded.');
+
+    // Load question set (use first app's position to find questionSetId)
+    let qsId = 'primary-default-v1';
+    if (applications[0].positionId) {
+      const posSnap = await getDoc(doc(db, 'job_positions', applications[0].positionId));
+      if (posSnap.exists() && posSnap.data().questionSetId) qsId = posSnap.data().questionSetId;
+    }
+    const qsSnap = await getDoc(doc(db, 'interview_question_sets', qsId));
+    if (!qsSnap.exists()) throw new Error(`Question set "${qsId}" not found.`);
+    questionSet = { id: qsSnap.id, ...qsSnap.data() };
+
+    // Load scorecards per application (one query per app, scoped by where applicationId)
+    for (const app of applications) {
+      try {
+        const qRef = query(collection(db, 'interview_scorecards'),
+                           where('applicationId', '==', app.id));
+        const snap = await getDocs(qRef);
+        app.scorecards = snap.docs
+          .map(d => ({ id: d.id, ...d.data() }))
+          .filter(s => s.status === 'submitted');   // only count submitted
+      } catch (err) {
+        console.warn('[compare] scorecards load failed for', app.id, err);
+        app.scorecards = [];
+      }
+    }
+  }
+
+  function getCellAvg(app, qid) {
+    const scores = app.scorecards
+      .map(s => s.scores?.[qid])
+      .filter(n => typeof n === 'number');
+    if (!scores.length) return null;
+    return { avg: scores.reduce((a,b)=>a+b,0) / scores.length, count: scores.length, scores };
+  }
+  function getCellFlags(app, qid) {
+    return app.scorecards
+      .map(s => ({ uid: s.interviewerUid, name: s.interviewerName || s.interviewerEmail || s.interviewerUid?.slice(0,6), flag: s.scenarioFlags?.[qid] }))
+      .filter(x => x.flag);
+  }
+  function getCellNotes(app, qid) {
+    return app.scorecards
+      .map(s => ({ uid: s.interviewerUid, name: s.interviewerName || s.interviewerEmail || s.interviewerUid?.slice(0,6), note: s.notes?.[qid] }))
+      .filter(x => x.note && x.note.trim());
+  }
+
+  function getAppOverallAvg(app) {
+    if (!app.scorecards.length) return null;
+    const avgs = app.scorecards.map(s => s.averageScore).filter(n => typeof n === 'number');
+    if (!avgs.length) return null;
+    return avgs.reduce((a,b)=>a+b,0) / avgs.length;
+  }
+  function getAppCategoryAvg(app, categoryId) {
+    const qs = (questionSet.questions || []).filter(q => q.categoryId === categoryId && q.hasRubric);
+    const scores = [];
+    qs.forEach(q => {
+      app.scorecards.forEach(s => {
+        const v = s.scores?.[q.id];
+        if (typeof v === 'number') scores.push(v);
+      });
+    });
+    if (!scores.length) return null;
+    return scores.reduce((a,b)=>a+b,0) / scores.length;
+  }
+
+  function render() {
+    const root = document.getElementById('cmp-root');
+    const cats = questionSet.categories || [];
+    const qs   = questionSet.questions || [];
+    const passing = questionSet.passingAverage || 3;
+
+    // Header row — 1 question column + N candidate columns
+    let html = `<div class="cmp-wrap"><div class="cmp-table-scroll"><table class="cmp">`;
+    html += `<thead><tr><th class="qcell" style="position:sticky;left:0;z-index:6">Question</th>`;
+    applications.forEach(app => {
+      const ap = app.applicant || {};
+      const name = `${ap.firstName||''} ${ap.lastName||''}`.trim() || '(no name)';
+      const overall = getAppOverallAvg(app);
+      const meets = overall === null ? null : overall >= passing;
+      const meetsCls = meets === null ? 'tbd' : meets ? 'yes' : 'no';
+      const meetsTxt = meets === null ? 'No scorecards' : meets ? 'Meets criteria' : 'Below threshold';
+      const recos = app.scorecards
+        .map(s => s.recommendation).filter(Boolean);
+      const recoChips = recos.map(r => `<span class="reco-chip ${escHtml(r)}">${escHtml(r.replace(/_/g,' '))}</span>`).join('');
+      html += `<th class="cand-col">
+        <div class="cand-head">
+          <div class="cname">${escHtml(name)}</div>
+          <div class="cmeta">${escHtml(app.positionTitle || '')}${app.schoolName ? ' · ' + escHtml(app.schoolName) : ''}</div>
+          <div class="ctotal">Avg <span class="big">${overall === null ? '—' : overall.toFixed(2)}</span> / 5 · ${app.scorecards.length} scored</div>
+          <span class="meets ${meetsCls}">${meetsTxt}</span>
+          ${recoChips ? `<div class="recos">${recoChips}</div>` : ''}
+        </div>
+      </th>`;
+    });
+    html += `</tr></thead><tbody>`;
+
+    // Question rows, grouped by category
+    cats.forEach(cat => {
+      const catQs = qs.filter(q => q.categoryId === cat.id).sort((a,b) => (a.orderIndex||0)-(b.orderIndex||0));
+      if (!catQs.length) return;
+      // Section header
+      html += `<tr class="section-row"><td class="qcell">${escHtml(cat.name)}</td>`;
+      applications.forEach(app => {
+        const catAvg = getAppCategoryAvg(app, cat.id);
+        html += `<td>${catAvg === null ? '<span style="color:var(--ink-3)">—</span>' : `<span style="font-weight:700;color:var(--brand)">${catAvg.toFixed(2)}</span> <span style="color:var(--ink-3);font-size:11px">avg</span>`}</td>`;
+      });
+      html += `</tr>`;
+      // Questions
+      catQs.forEach(q => {
+        html += `<tr><td class="qcell">
+          <div class="qnum">Q${q.orderIndex} · ${escHtml(cat.name)}</div>
+          <div class="qtext">${escHtml(q.text)}</div>
+        </td>`;
+        applications.forEach(app => {
+          html += `<td><div class="cell-score">${renderCell(app, q)}</div></td>`;
+        });
+        html += `</tr>`;
+      });
+    });
+
+    // Totals row
+    html += `<tr class="totals-row"><td class="qcell">Overall</td>`;
+    applications.forEach(app => {
+      const overall = getAppOverallAvg(app);
+      html += `<td>${overall === null ? '—' : `<span style="font-size:18px;color:var(--brand);font-weight:700">${overall.toFixed(2)}</span> / 5`}</td>`;
+    });
+    html += `</tr>`;
+
+    html += `</tbody></table></div></div>`;
+    root.innerHTML = html;
+  }
+
+  function renderCell(app, q) {
+    if (q.hasRubric) {
+      const cell = getCellAvg(app, q.id);
+      const notes = getCellNotes(app, q.id);
+      if (!cell) {
+        return `<span class="avg empty">—</span>`;
+      }
+      const interviewerRows = app.scorecards
+        .filter(s => typeof s.scores?.[q.id] === 'number')
+        .map(s => `<div class="row"><span class="who">${escHtml(s.interviewerName || s.interviewerEmail || s.interviewerUid?.slice(0,6))}</span><span class="pt">${s.scores[q.id]}</span></div>`)
+        .join('');
+      const notesBlock = notes.length
+        ? `<div class="notes">${notes.map(n => `<div><strong>${escHtml(n.name)}:</strong> ${escHtml(n.note)}</div>`).join('')}</div>`
+        : '';
+      return `
+        <span class="avg">${cell.avg.toFixed(1)}</span>
+        <span class="breakdown">avg of ${cell.count}</span>
+        <div class="interviewers">${interviewerRows}</div>
+        ${notesBlock}
+      `;
+    } else {
+      const flags = getCellFlags(app, q.id);
+      const notes = getCellNotes(app, q.id);
+      if (!flags.length && !notes.length) return `<span class="avg empty">—</span>`;
+      const flagChips = flags.map(f => `<span class="flag-chip ${escHtml(f.flag)}" title="${escHtml(f.name)}">${escHtml(f.flag)}</span>`).join(' ');
+      const notesBlock = notes.length
+        ? `<div class="notes">${notes.map(n => `<div><strong>${escHtml(n.name)}:</strong> ${escHtml(n.note)}</div>`).join('')}</div>`
+        : '';
+      return `<div>${flagChips}</div>${notesBlock}`;
+    }
+  }
+
+  function renderError(title, body) {
+    document.getElementById('cmp-root').innerHTML = `
+      <div class="cmp-error">
+        <h2>${escHtml(title)}</h2>
+        <p>${escHtml(body)}</p>
+        <p style="margin-top:14px"><a href="/careers-admin" style="color:var(--brand)">← Back to Hiring Funnel</a></p>
+      </div>
+    `;
+  }
+
+  // Toggle notes
+  document.getElementById('btnNotes').addEventListener('click', () => {
+    document.body.classList.toggle('show-notes');
+    document.getElementById('btnNotes').classList.toggle('active');
+    document.getElementById('btnNotes').textContent = document.body.classList.contains('show-notes') ? 'Hide notes' : 'Show notes';
   });
 </script>
+
 </body>
 </html>

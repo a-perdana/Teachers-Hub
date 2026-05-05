@@ -199,8 +199,79 @@ function ensurePageAccessStyles() {
   if (document.getElementById('paGatingStyle')) return;
   const style = document.createElement('style');
   style.id = 'paGatingStyle';
-  style.textContent = '[data-pa-hidden="1"] { display: none !important; }';
+  style.textContent = '[data-pa-hidden="1"], [data-th-subject-hidden="1"] { display: none !important; }';
   document.head.appendChild(style);
+}
+
+// ── Subject + Level gating (pacing / tracker pages) ──────────────
+// Each pacing or tracker URL is mapped to {subject, level}. A user
+// sees the link only when both: subjects[] includes the page's
+// subject AND classes[] includes the page's level.
+//
+// teachers_admin bypasses entirely. A profile with empty subjects[]
+// or empty classes[] sees nothing (intentional — forces the user to
+// fill the profile prompt first).
+const PAGE_SUBJECT_LEVEL_MAP = {
+  // IGCSE pacing
+  'igcse-math':              { subject: 'math',      level: 'igcse'      },
+  'igcse-biology':           { subject: 'biology',   level: 'igcse'      },
+  'igcse-chemistry':         { subject: 'chemistry', level: 'igcse'      },
+  'igcse-physics':           { subject: 'physics',   level: 'igcse'      },
+  // AS/A-Level pacing
+  'as-alevel-math':          { subject: 'math',      level: 'asalevel'   },
+  'as-alevel-biology':       { subject: 'biology',   level: 'asalevel'   },
+  'as-alevel-chemistry':     { subject: 'chemistry', level: 'asalevel'   },
+  'as-alevel-physics':       { subject: 'physics',   level: 'asalevel'   },
+  // Checkpoint pacing
+  'checkpoint-math':         { subject: 'math',      level: 'checkpoint' },
+  'checkpoint-english':      { subject: 'english',   level: 'checkpoint' },
+  'checkpoint-science':      { subject: 'science',   level: 'checkpoint' },
+  // IGCSE trackers
+  'igcse-math-tracker':      { subject: 'math',      level: 'igcse'      },
+  'igcse-biology-tracker':   { subject: 'biology',   level: 'igcse'      },
+  'igcse-chemistry-tracker': { subject: 'chemistry', level: 'igcse'      },
+  'igcse-physics-tracker':   { subject: 'physics',   level: 'igcse'      },
+  // AS/A-Level trackers
+  'as-alevel-math-tracker':      { subject: 'math',      level: 'asalevel' },
+  'as-alevel-biology-tracker':   { subject: 'biology',   level: 'asalevel' },
+  'as-alevel-chemistry-tracker': { subject: 'chemistry', level: 'asalevel' },
+  'as-alevel-physics-tracker':   { subject: 'physics',   level: 'asalevel' },
+  // Checkpoint trackers
+  'checkpoint-math-tracker':    { subject: 'math',    level: 'checkpoint' },
+  'checkpoint-english-tracker': { subject: 'english', level: 'checkpoint' },
+  'checkpoint-science-tracker': { subject: 'science', level: 'checkpoint' },
+};
+
+function userQualifiesForPage(userSubjects, userLevels, pageSubject, pageLevel) {
+  return userSubjects.includes(pageSubject) && userLevels.includes(pageLevel);
+}
+
+function applySubjectGating(userSubjects, userLevels) {
+  // 1. Hide every nav link / dashboard card that carries pacing meta
+  //    and does not match the user's subject + level.
+  document.querySelectorAll('[data-pacing-subject][data-pacing-level]').forEach(el => {
+    const sub = el.getAttribute('data-pacing-subject');
+    const lv  = el.getAttribute('data-pacing-level');
+    if (!sub || !lv) return;
+    if (userQualifiesForPage(userSubjects, userLevels, sub, lv)) {
+      el.removeAttribute('data-th-subject-hidden');
+    } else {
+      el.setAttribute('data-th-subject-hidden', '1');
+    }
+  });
+
+  // 2. Empty TH dropdown wrappers / mobile sections / columns: hide
+  //    when every interactive child is hidden by either gate.
+  const isHiddenAny = (n) => n.getAttribute('data-pa-hidden') === '1' || n.getAttribute('data-th-subject-hidden') === '1';
+  ['.th-dd-wrap', '.th-mobile-section', '.th-dd-col'].forEach(selector => {
+    document.querySelectorAll(selector).forEach(group => {
+      const items = group.querySelectorAll('[data-nav-key], [data-pacing-subject][data-pacing-level]');
+      if (!items.length) return;
+      const allHidden = [...items].every(isHiddenAny);
+      if (allHidden) group.setAttribute('data-th-subject-hidden', '1');
+      else            group.removeAttribute('data-th-subject-hidden');
+    });
+  });
 }
 
 // ── Name prompt (shown when displayName is missing) ───────────────
@@ -676,6 +747,33 @@ onAuthStateChanged(auth, async (user) => {
     }
   }
 
+  // 5e. Subject + level gate (pacing / tracker pages).
+  //     Direct-URL access to a pacing/tracker page redirects home if
+  //     the user's subjects[] / classes[] don't cover it. Empty profile
+  //     fields => no access (forces profile prompt to be filled).
+  if (!isAdminRole) {
+    const pageKey = currentPageKey();
+    const meta    = PAGE_SUBJECT_LEVEL_MAP[pageKey];
+    if (meta) {
+      const userSubjects = Array.isArray(profile.subjects) ? profile.subjects : [];
+      const userLevels   = Array.isArray(profile.classes)  ? profile.classes  : [];
+      if (!userQualifiesForPage(userSubjects, userLevels, meta.subject, meta.level)) {
+        try {
+          sessionStorage.setItem('th_access_denied', JSON.stringify({
+            pageKey,
+            label: pageKey,
+            reason: 'subject',
+            subject: meta.subject,
+            level:   meta.level,
+            at: Date.now(),
+          }));
+        } catch (_) {}
+        window.location.replace('/?denied=' + encodeURIComponent(pageKey) + '&reason=subject');
+        return;
+      }
+    }
+  }
+
   // 6. All checks passed — expose globals
   window.currentUser = user;
   window.userProfile = profile;
@@ -715,20 +813,28 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   // 6.5. Page-access UI gating — hide navbar links + cards user cannot access.
-  //      The navbar partial is fetched async, so we run an initial pass + a
-  //      MutationObserver to catch late-added items.
+  //      Two layers run together: sub-role page-access AND subject+level
+  //      pacing gating. The navbar partial is fetched async, so we run an
+  //      initial pass + a MutationObserver to catch late-added items.
+  //      Subject order matters: page-access first sets data-pa-hidden, then
+  //      subject gating decides empty-column hiding using BOTH attributes.
   if (!isAdminRole) {
     ensurePageAccessStyles();
-    const subRoles = Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [];
-    const configs  = await getAllPageAccessConfigs(db);
-    const runGating = () => applyPageAccessGating(configs, subRoles);
+    const subRoles     = Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [];
+    const userSubjects = Array.isArray(profile.subjects)     ? profile.subjects     : [];
+    const userLevels   = Array.isArray(profile.classes)      ? profile.classes      : [];
+    const configs      = await getAllPageAccessConfigs(db);
+    const runGating = () => {
+      applyPageAccessGating(configs, subRoles);
+      applySubjectGating(userSubjects, userLevels);
+    };
     runGating();
     const mo = new MutationObserver(muts => {
       const interesting = muts.some(m =>
         [...m.addedNodes].some(n =>
           n.nodeType === 1 && (
-            n.matches?.('[data-nav-key], a.card[href]') ||
-            n.querySelector?.('[data-nav-key], a.card[href]')
+            n.matches?.('[data-nav-key], a.card[href], [data-pacing-subject]') ||
+            n.querySelector?.('[data-nav-key], a.card[href], [data-pacing-subject]')
           )
         )
       );
