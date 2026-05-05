@@ -68,7 +68,9 @@ window.__firestoreHelpers = { db, setDoc, doc };
 
 // ── Page-access helpers ──────────────────────────────────────────
 // Pages that never get gated (auth flow + dashboard itself).
-const PAGE_ACCESS_BYPASS = new Set(['', 'index', 'login', 'waiting', 'certificate-verify', 'careers', 'careers-apply', 'careers-status']);
+// settings is reachable from the profile dropdown only (not the main
+// navbar) — bypassed so it doesn't need a page_access_config doc.
+const PAGE_ACCESS_BYPASS = new Set(['', 'index', 'login', 'waiting', 'settings', 'certificate-verify', 'careers', 'careers-apply', 'careers-status']);
 const PAGE_ACCESS_TTL_MS = 5 * 60 * 1000; // 5 min sessionStorage cache
 
 // Convert window.location.pathname to a clean URL slug (the doc ID
