@@ -2309,6 +2309,23 @@
               </div>
             </div>
 
+            <!-- Other available pages (auto-generated from page_access_config) -->
+            <div class="other-pages-section" id="otherPagesSection" style="display:none">
+              <div class="category-section" id="otherPagesAccordion" data-cat-id="__otherpages__">
+                <div class="category-header" data-cat-id="__otherpages__">
+                  <span class="category-color-dot" style="background:#6c5ce7; color:#6c5ce7;"></span>
+                  <span class="category-name">Other available pages</span>
+                  <span class="category-count" id="otherPagesCount">0</span>
+                  <svg class="category-chevron" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                </div>
+                <div class="category-body">
+                  <div class="category-cards-grid" id="otherPagesGrid">
+                    <!-- Auto-cards injected by renderOtherAvailablePages() -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
 
@@ -2906,6 +2923,92 @@
         document.getElementById('uncategorizedCount').textContent = resources.length;
       }
 
+      // ── Auto-generated "Other available pages" section ────────────
+      // Surface every page the user has access to via page_access_config
+      // that lacks a hand-crafted card. As proper cards are added over
+      // time, those auto-cards disappear (de-duped by slug).
+      async function renderOtherAvailablePages(db, profile) {
+        const isAdmin  = profile?.role_teachershub === 'teachers_admin';
+        const subRoles = Array.isArray(profile?.th_sub_roles) ? profile.th_sub_roles : [];
+        const wrap  = document.getElementById('otherPagesSection');
+        const grid  = document.getElementById('otherPagesGrid');
+        const count = document.getElementById('otherPagesCount');
+        if (!wrap || !grid || !count) return;
+
+        // Reuse the bulk cache populated by auth-guard if available.
+        let configsMap;
+        try {
+          const raw = sessionStorage.getItem('pac:__all__:teachershub');
+          const cached = raw ? JSON.parse(raw) : null;
+          if (cached?.entries && (Date.now() - cached.at) < 5 * 60 * 1000) {
+            configsMap = new Map(cached.entries);
+          }
+        } catch (_) {}
+        if (!configsMap) {
+          const { getDocs, collection } =
+            await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+          // @lint-allow-unbounded — auto-annotated; revisit if collection grows large
+          const snap = await getDocs(collection(db, 'page_access_config'));
+          configsMap = new Map();
+          snap.forEach(d => {
+            const data = d.data() || {};
+            if (data.platform && data.platform !== 'teachershub') return;
+            configsMap.set(d.id, data);
+          });
+        }
+
+        // Pages already represented by a hand-crafted card → de-dupe.
+        const existingKeys = new Set();
+        document.querySelectorAll('a.resource-card[href], a.card[href]').forEach(a => {
+          try {
+            const u = new URL(a.getAttribute('href'), window.location.origin);
+            let p = u.pathname.toLowerCase()
+              .replace(/^\/+/, '').replace(/\/+$/, '').replace(/\.html$/, '');
+            if (p.includes('/')) p = p.split('/').pop();
+            if (p) existingKeys.add(p);
+          } catch (_) {}
+        });
+
+        // observation-entry is a sub-page opened with URL params from
+        // my-mentees — don't surface it as a standalone card.
+        const SKIP = new Set(['', 'index', 'login', 'waiting', 'observation-entry', 'certificate-verify', 'careers', 'careers-apply', 'careers-status']);
+        const items = [];
+        configsMap.forEach((cfg, key) => {
+          if (SKIP.has(key)) return;
+          if (existingKeys.has(key)) return;
+          if (cfg.hidden === true) return;
+          const vt = Array.isArray(cfg.visible_to) ? cfg.visible_to : [];
+          const allowed = isAdmin || vt.length === 0 || subRoles.some(r => vt.includes(r));
+          if (!allowed) return;
+          items.push({ key, ...cfg });
+        });
+
+        if (!items.length) {
+          wrap.style.display = 'none';
+          return;
+        }
+
+        items.sort((a, b) => (a.label || a.key).localeCompare(b.label || b.key));
+        count.textContent = items.length;
+        grid.innerHTML = items.map(it => `
+          <a href="/${escHtml(it.key)}" class="resource-card card-appear" data-card-id="auto_${escHtml(it.key)}" style="--card-color-1:#6c5ce7;--card-color-2:#0891b2;--card-glow:#6c5ce740;">
+            <div class="card-content">
+              <div class="card-header">
+                <div class="card-icon">📄</div>
+                <span class="card-badge">${escHtml(it.label || it.key)}</span>
+              </div>
+              <h3 class="card-title">${escHtml(it.label || it.key)}</h3>
+              <p class="card-description">${escHtml(it.description || '')}</p>
+              <div class="card-footer">
+                <span class="card-link">Open page</span>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+          </a>
+        `).join('');
+        wrap.style.display = 'block';
+      }
+
       // ── Phase 3 ops: pilot-enrolment gating ───────────────────────
       // Each partner school can opt into a pilot subset of {kpi, appraisal,
       // competency} via partner_schools/{schoolId}.enabled_systems[]. If the
@@ -3448,6 +3551,13 @@
         // cards if the user's partner school has narrowed enabled_systems[].
         // Admin keeps full visibility.
         filterPilotSystemCards(db, profile, isAdmin);
+
+        // Auto-generated "Other available pages" — surface accessible
+        // pages that don't have a hand-crafted card yet (e.g. announcements,
+        // messageboard, orientation, careers admin, induction module pages).
+        renderOtherAvailablePages(db, profile).catch(err => {
+          console.warn('renderOtherAvailablePages failed', err);
+        });
 
         // Category system
         initCategorySystem(db, isAdmin, { onSnapshot, collection, query, orderBy, setDoc, doc, addDoc, deleteDoc, serverTimestamp });

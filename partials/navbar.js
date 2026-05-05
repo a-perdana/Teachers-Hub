@@ -69,7 +69,7 @@ function initNavbar() {
                'teacher-appraisal-results','teacher-self-appraisal',
                'competency-framework','learning-path','my-portfolio','my-certificates',
                'my-induction','my-mentees','observation-entry','handbook'],
-      hub:    ['announcements','messageboard','library','cambridge-calendar','cambridge-standards','surveys'],
+      hub:    ['announcements','messageboard','library','cambridge-calendar','cambridge-standards','orientation','surveys'],
       careers: ['careers-admin','interview-scorecard','careers-compare'],
     };
 
@@ -379,6 +379,11 @@ function initThMobileMenu() {
 
   function addItem(srcAnchor) {
     if (srcAnchor.dataset.navHidden === '1') return; // hidden items don't show in mobile either
+    // Page-access + subject/level gating set on the desktop anchor by
+    // auth-guard.js — mirror it into the mobile menu so the hamburger
+    // doesn't surface links the user can't open.
+    if (srcAnchor.getAttribute('data-pa-hidden') === '1') return;
+    if (srcAnchor.getAttribute('data-th-subject-hidden') === '1') return;
     const key = srcAnchor.dataset.navKey;
     const a = document.createElement('a');
     // Prefer the live href (nav-edit stashes it as data-nav-href in edit mode)
@@ -447,7 +452,7 @@ function initThMobileMenu() {
     new MutationObserver(() => {
       clearTimeout(rebuildTimer);
       rebuildTimer = setTimeout(build, 120);
-    }).observe(navRoot, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-nav-hidden'] });
+    }).observe(navRoot, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-nav-hidden', 'data-pa-hidden', 'data-th-subject-hidden'] });
   }
 }
 
