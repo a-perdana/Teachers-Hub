@@ -58,6 +58,7 @@ const ROUTES = {
   'my-mentees.html': 'my-mentees',
   'observation-entry.html': 'observation-entry',
   'handbook.html': 'handbook',
+  'mentor-certification.html': 'mentor-certification',
   // Public careers + interview module
   'careers.html': 'careers',
   'careers-apply.html': 'careers-apply',
@@ -114,6 +115,7 @@ const LINK_REWRITES = [
   [/href="my-mentees\.html"/g,             'href="/my-mentees"'],
   [/href="observation-entry\.html(\?[^"]*)?"/g, (m, q) => `href="/observation-entry${q || ''}"`],
   [/href="handbook\.html(\?[^"]*)?"/g,     (m, q) => `href="/handbook${q || ''}"`],
+  [/href="mentor-certification\.html"/g,   'href="/mentor-certification"'],
   // Careers + interview module
   [/href="careers\.html"/g,                       'href="/careers"'],
   [/href="careers-apply\.html(\?[^"]*)?"/g,       (m, q) => `href="/careers-apply${q || ''}"`],
@@ -830,6 +832,40 @@ console.log('Copied: dist/base.css');
 if (fs.existsSync(path.join(__dirname, 'cambridge-crossref.js'))) {
   fs.copyFileSync(path.join(__dirname, 'cambridge-crossref.js'), path.join(distDir, 'cambridge-crossref.js'));
   console.log('Copied: dist/cambridge-crossref.js');
+}
+
+// Research archive JSONs — fetched at runtime by cambridge-crossref.js
+// (PIGP + SKL chips) and by mentor-certification.html (Mentoring Guide +
+// ICTL syllabus). Source lives in monorepo-root docs/research/.
+{
+  const pigpSklSrc  = path.join(__dirname, '..', 'docs', 'research', 'permendiknas');
+  const pigpSklDest = path.join(distDir, 'research', 'permendiknas');
+  if (fs.existsSync(pigpSklSrc)) {
+    fs.mkdirSync(pigpSklDest, { recursive: true });
+    ['no-27-2010-pigp.json', 'no-10-2025-skl.json'].forEach(name => {
+      const src = path.join(pigpSklSrc, name);
+      if (fs.existsSync(src)) {
+        fs.copyFileSync(src, path.join(pigpSklDest, name));
+        console.log(`Copied: dist/research/permendiknas/${name}`);
+      } else {
+        console.warn(`WARNING: ${name} not found in docs/research/permendiknas/`);
+      }
+    });
+  }
+  const cambridgeSrc  = path.join(__dirname, '..', 'docs', 'research', 'cambridge');
+  const cambridgeDest = path.join(distDir, 'research', 'cambridge');
+  if (fs.existsSync(cambridgeSrc)) {
+    fs.mkdirSync(cambridgeDest, { recursive: true });
+    ['mentoring-guide-2020.json', 'ictl-5881-syllabus.json'].forEach(name => {
+      const src = path.join(cambridgeSrc, name);
+      if (fs.existsSync(src)) {
+        fs.copyFileSync(src, path.join(cambridgeDest, name));
+        console.log(`Copied: dist/research/cambridge/${name}`);
+      } else {
+        console.warn(`WARNING: ${name} not found in docs/research/cambridge/`);
+      }
+    });
+  }
 }
 
 // Copy tokens.css to dist root

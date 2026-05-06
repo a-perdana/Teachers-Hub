@@ -68,7 +68,7 @@ function initNavbar() {
       mywork: ['weekly-checklist','teacher-self-assessment','teacher-kpi-results',
                'teacher-appraisal-results','teacher-self-appraisal',
                'competency-framework','learning-path','my-portfolio','my-certificates',
-               'my-induction','my-mentees','observation-entry','handbook'],
+               'my-induction','my-mentees','observation-entry','handbook','mentor-certification'],
       hub:    ['announcements','messageboard','library','cambridge-calendar','cambridge-standards','orientation','surveys'],
       careers: ['careers-admin','interview-scorecard','careers-compare'],
     };

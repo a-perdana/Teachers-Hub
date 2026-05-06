@@ -101,7 +101,7 @@ const isAdmin = profile?.role_teachershub === 'teachers_admin';
 | `user_competencies/{uid}` | TH progress under `earned`; AH leadership under `earned_academic`; CH specialist under `earned_central` | owner per platform |
 | `competency_evidence/{docId}` | TH submissions with `platform: 'teachers'`. Storage: `competency_evidence/teachers/{uid}/{ts}_{filename}` (≤25 MB). | owner create / central_admin review |
 | `competency_certificates/{certId}` | Filtered `where('platform','==','teachers')` | central_admin |
-| `cambridge_crossref/index` | Single aggregator doc — every CTS sibling across KPI / Appraisal / Competency / Induction. Read by `cambridge-crossref.js` runtime (build-injected) when CTS chips are clicked. | central_admin |
+| `cambridge_crossref/index` | Single aggregator doc — every CTS sibling across KPI / Appraisal / Competency / Induction. Read by `cambridge-crossref.js` runtime (build-injected) when CTS chips are clicked. The same runtime ALSO handles `.hb-tag.skl` and `.hb-tag.pigp` chips on handbook pages — those popovers fetch `/research/permendiknas/no-10-2025-skl.json` and `/research/permendiknas/no-27-2010-pigp.json` respectively (statically copied by build.js, no Firestore read). | central_admin |
 | `teacher_kpi_submissions/{uid}_{periodId}` | KPI self-assessment. **Always writes `schoolId`** (rule rejects mismatch). Lets AH evaluators be school-scoped. | owner; AH evaluator flips status fields only |
 | `teacher_self_appraisals/{uid}_{year}` | Self-appraisal. `get` = owner / admin / same-school AH evaluator; `list` = admin only. Evaluators look up by deterministic doc ID. | owner |
 | `page_access_config/{slug}` | Per-page sub-role visibility. Cache key: `pac:__all__:teachershub` | central_admin (write from CH `/page-access`) |
@@ -169,6 +169,7 @@ Each page defines `window.PACING_CONFIG` and runs `initSubjectConfig()`. Status 
 - `my-mentees` — Subject Leader mentor view (Charter NN3 — only certified mentors). Per-mentee cards + 4-week pulse mini + cert expiry banner.
 - `observation-entry` — `?menteeUid=X&type=...&number=N`. 4-domain rubric (Planning/Management/Instruction/Assessment, 1-4 each) + Glow/Grow/Go + SMART action plan. Co-teach + mentee-observes-X types hide rubric (unscored).
 - `handbook` — print-friendly handbook viewer.
+- `mentor-certification` — 8-module curriculum viewer (Cambridge Mentoring Guide 2020 + ICTL 5881 + PIGP 27/2010) with live cert-status banner. `subject_leader`-gated. Read-only; cert issuance still happens via CH `/induction-admin`. Fetches `/research/cambridge/mentoring-guide-2020.json` + `/research/cambridge/ictl-5881-syllabus.json` at boot — `build.js` copies both into `dist/research/cambridge/`.
 
 **Hub:**
 - `announcements` · `messageboard` · `library` · `cambridge-calendar` · `cambridge-standards` · `orientation` · `surveys`

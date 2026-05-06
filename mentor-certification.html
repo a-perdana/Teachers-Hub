@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentor Certification — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+<link rel="stylesheet" href="base.css">
+<script src="firebase-config.js"></script>
+<script>if (!window.ENV) window.ENV = { FIREBASE_API_KEY: "__FIREBASE_API_KEY__", FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__", FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__", FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__", FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__", FIREBASE_APP_ID: "__FIREBASE_APP_ID__" };</script>
+<style>
+:root { --accent: #6c5ce7; --accent-2: #ede9fe; --accent-dark: #4e3db8; --cyan: #0891b2; }
+body { padding-top: 60px; background: var(--paper); }
+
+.page-wrap { max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1530 0%, #2d2354 55%, #0a0815 100%);
+  color: #fff; padding: 32px 28px; border-radius: 16px;
+  margin-bottom: 24px; position: relative; overflow: hidden;
+}
+.page-header::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(108,92,231,0.25) 0%, transparent 55%);
+  pointer-events: none;
+}
+.page-header > * { position: relative; z-index: 1; }
+.page-header .eyebrow { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.55); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+.page-header h1 { font-family: 'Lora', serif; font-size: 1.85rem; font-weight: 600; margin-bottom: 6px; }
+.page-header p { font-size: 14px; color: rgba(255,255,255,0.7); max-width: 720px; line-height: 1.55; }
+
+.status-banner {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 14px;
+  align-items: center; padding: 14px 18px;
+  border-radius: 12px; margin-bottom: 20px; font-size: 13px;
+}
+.status-banner.active   { background: linear-gradient(180deg, #d1fae5 0%, #fff 100%); border: 1px solid #6ee7b7; color: #065f46; }
+.status-banner.expired  { background: linear-gradient(180deg, #fee2e2 0%, #fff 100%); border: 1px solid #fca5a5; color: #7f1d1d; }
+.status-banner.none     { background: linear-gradient(180deg, #fef3c7 0%, #fff 100%); border: 1px solid #fde68a; color: #78350f; }
+.status-banner-icon { font-size: 22px; }
+.status-banner strong { font-weight: 700; }
+.status-banner-meta { font-size: 11px; opacity: 0.85; margin-top: 2px; }
+
+.intro-card {
+  background: #fff; border: 1px solid var(--border); border-radius: 14px;
+  padding: 20px 22px; margin-bottom: 22px; box-shadow: var(--shadow-sm);
+}
+.intro-card h2 { font-family: 'Lora', serif; font-size: 1.2rem; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+.intro-card p { font-size: 13.5px; color: var(--ink-2); line-height: 1.6; margin-bottom: 8px; }
+.intro-card .source-row { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border); }
+.intro-card .source-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--accent-dark); text-decoration: none; font-weight: 600;
+}
+.intro-card .source-link:hover { text-decoration: underline; }
+
+.tabs {
+  display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap;
+  border-bottom: 1px solid var(--border); padding-bottom: 0;
+}
+.tab {
+  padding: 10px 16px; background: transparent; border: none; cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 600; color: var(--ink-3);
+  border-bottom: 2px solid transparent; transition: color .15s, border-color .15s;
+}
+.tab:hover { color: var(--ink); }
+.tab.active { color: var(--accent-dark); border-bottom-color: var(--accent); }
+.tab-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-3); margin-right: 6px; }
+.tab.active .tab-num { color: var(--accent); }
+
+.module {
+  background: #fff; border: 1px solid var(--border); border-radius: 14px;
+  padding: 24px 26px; box-shadow: var(--shadow-sm);
+}
+.module-head {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 18px;
+  align-items: flex-start; padding-bottom: 16px; border-bottom: 2px solid var(--accent-2);
+  margin-bottom: 18px;
+}
+.module-num {
+  background: var(--accent); color: #fff; width: 44px; height: 44px;
+  border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  font-family: 'Lora', serif; font-size: 1.2rem; font-weight: 600;
+}
+.module-titles h2 { font-family: 'Lora', serif; font-size: 1.35rem; font-weight: 600; color: var(--ink); }
+.module-titles .module-aim { font-size: 13px; color: var(--ink-2); margin-top: 4px; line-height: 1.5; }
+.module-meta {
+  text-align: right; font-size: 11px; color: var(--ink-3); white-space: nowrap;
+  background: var(--accent-2); color: var(--accent-dark); padding: 6px 10px; border-radius: 999px; font-weight: 600;
+}
+
+.section-h {
+  font-size: 11px; font-weight: 700; color: var(--ink-3); text-transform: uppercase;
+  letter-spacing: 0.08em; margin-top: 18px; margin-bottom: 8px;
+}
+.section-h:first-of-type { margin-top: 0; }
+
+.body-text { font-size: 14px; color: var(--ink-2); line-height: 1.65; margin-bottom: 12px; }
+.body-text strong { color: var(--ink); font-weight: 600; }
+
+.bullet-list { padding-left: 18px; }
+.bullet-list li { font-size: 13.5px; color: var(--ink-2); line-height: 1.6; margin-bottom: 6px; }
+.bullet-list li strong { color: var(--ink); font-weight: 600; }
+
+.acronym-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;
+}
+.acronym-card {
+  background: var(--paper); border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 14px;
+}
+.acronym-letter {
+  display: inline-block; background: var(--accent); color: #fff;
+  width: 26px; height: 26px; border-radius: 6px;
+  text-align: center; line-height: 26px; font-family: 'Lora', serif; font-weight: 600;
+  margin-right: 6px;
+}
+.acronym-meaning { font-size: 12.5px; color: var(--ink-2); line-height: 1.55; margin-top: 6px; }
+
+.qtype-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;
+}
+.qtype-card {
+  background: var(--paper); border-left: 3px solid var(--accent); border-radius: 8px;
+  padding: 12px 14px;
+}
+.qtype-name { font-size: 13px; font-weight: 700; color: var(--accent-dark); }
+.qtype-def { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; line-height: 1.55; }
+.qtype-eg { font-size: 12px; color: var(--ink-3); font-style: italic; margin-top: 4px; }
+
+.case-card {
+  border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px;
+  margin-bottom: 12px; background: var(--paper);
+}
+.case-card .case-num { font-size: 11px; color: var(--accent-dark); font-weight: 700; letter-spacing: 0.05em; }
+.case-card h4 { font-size: 14px; font-weight: 600; color: var(--ink); margin-top: 4px; margin-bottom: 6px; }
+.case-card p { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+
+.callout {
+  background: var(--accent-2); border: 1px solid #d8d0fe; border-radius: 10px;
+  padding: 12px 16px; margin: 14px 0; font-size: 13px; color: var(--accent-dark);
+  line-height: 1.55;
+}
+.callout strong { font-weight: 700; }
+
+.warn-callout {
+  background: #fee2e2; border: 1px solid #fca5a5; border-radius: 10px;
+  padding: 12px 16px; margin: 14px 0; font-size: 13px; color: #7f1d1d; line-height: 1.55;
+}
+
+.tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.tag { padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+.tag.cts  { background: var(--accent-2); color: var(--accent-dark); font-family: 'DM Mono', monospace; }
+.tag.skl  { background: #d1fae5; color: #065f46; }
+.tag.pigp { background: #fee2e2; color: #991b1b; font-family: 'DM Mono', monospace; }
+.tag.ictl { background: #cffafe; color: #155e75; font-family: 'DM Mono', monospace; }
+
+.outcomes-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px;
+  margin-top: 8px;
+}
+.outcome-card {
+  background: var(--paper); border-left: 3px solid var(--cyan); border-radius: 8px;
+  padding: 10px 14px;
+}
+.outcome-id { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--cyan); font-weight: 700; }
+.outcome-text { font-size: 13px; color: var(--ink); margin-top: 4px; line-height: 1.5; font-weight: 600; }
+.outcome-mentor { font-size: 12px; color: var(--ink-2); margin-top: 6px; line-height: 1.55; font-style: italic; padding-top: 6px; border-top: 1px dashed var(--border); }
+
+.checklist {
+  list-style: none; padding: 0;
+}
+.checklist li {
+  font-size: 13px; color: var(--ink-2); line-height: 1.55;
+  padding: 6px 0 6px 26px; position: relative;
+}
+.checklist li::before {
+  content: '✓'; position: absolute; left: 0; top: 6px;
+  background: var(--accent); color: #fff; width: 18px; height: 18px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+}
+
+.assessment-card {
+  background: linear-gradient(180deg, #fef3c7 0%, #fff 100%);
+  border: 1px solid #fde68a; border-radius: 12px; padding: 16px 18px;
+  margin-top: 16px;
+}
+.assessment-card h3 { font-size: 14px; font-weight: 700; color: #78350f; margin-bottom: 8px; }
+
+.loading { padding: 60px 40px; text-align: center; color: var(--ink-3); font-size: 14px; }
+
+@media (max-width: 720px) {
+  .module-head { grid-template-columns: auto 1fr; }
+  .module-meta { grid-column: 2; text-align: left; justify-self: start; margin-top: 6px; }
+}
+</style>
+</head>
+<body style="display:none">
+<div id="navbar-container"></div>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <div class="eyebrow">Eduversal Mentor Certification · v1.0</div>
+    <h1>Mentor Certification — 8-module curriculum</h1>
+    <p>A 2-hour internal training that every prospective induction mentor must complete before being assigned a mentee. Anchored in the Cambridge Mentoring Guide 2020 (relational craft) and Cambridge ICTL 5881 (classroom-observation craft), with PIGP 27/2010 as the statutory backdrop. Charter Non-Negotiable 3 requires it; Firestore rules enforce it.</p>
+  </div>
+
+  <div id="certStatus"></div>
+
+  <div class="intro-card">
+    <h2>What this curriculum is</h2>
+    <p>Mentor Certification is observation-of-practice based: the trainer scores a mock conversation in Module 8. Pass / fail; on fail, a 30-minute coached re-attempt is offered same day. Cohort size: 4-8 mentors per session.</p>
+    <p>The curriculum is deliberately tight at 2 hours. We do <strong>not</strong> cover subject-specific pedagogy (that's ICTL 5881's job), school operations, or specialised conflict mediation — those would expand the session past honest attendance and dilute the relational craft we are training.</p>
+    <div class="source-row">
+      <a class="source-link" id="lnkMentoringGuide" href="https://www.ppd.admin.cam.ac.uk/files/mentoring_guide_2020_v3.pdf" target="_blank" rel="noopener">📘 Cambridge Mentoring Guide (2020) ↗</a>
+      <a class="source-link" id="lnkIctl" href="https://www.cambridgeinternational.org/Images/733049-ci-certificate-teaching-and-learning-5881.pdf" target="_blank" rel="noopener">📗 Cambridge ICTL 5881 syllabus ↗</a>
+      <a class="source-link" href="https://peraturan.bpk.go.id/Details/163907/permendikbud-no-27-tahun-2010" target="_blank" rel="noopener">📙 PIGP 27/2010 (Indonesian induction law) ↗</a>
+      <a class="source-link" href="/handbook">📕 Subject Teacher Handbook</a>
+    </div>
+  </div>
+
+  <div class="tabs" id="moduleTabs"></div>
+
+  <div id="moduleHost">
+    <div class="loading">Loading curriculum…</div>
+  </div>
+</div>
+
+<script type="module" src="auth-guard.js"></script>
+<script type="module">
+  import { collection, doc, getDoc, query, where, getDocs, limit }
+    from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+  fetch('partials/navbar.html').then(r => r.text()).then(html => {
+    document.getElementById('navbar-container').innerHTML = html;
+    if (typeof initNavbar === 'function') initNavbar();
+  });
+
+  // Module 6's outcomes section uses ICTL Unit 2 + Unit 3 data; loaded
+  // lazily on first tab open.
+  let MENTORING = null;
+  let ICTL = null;
+
+  async function loadResearchJson(path) {
+    try {
+      const r = await fetch(path, { cache: 'force-cache' });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return await r.json();
+    } catch (err) {
+      console.warn('[mentor-cert] failed to load ' + path, err);
+      return null;
+    }
+  }
+
+  document.addEventListener('authReady', async () => {
+    document.body.style.display = '';
+
+    // Cert-status banner — read mentor_certifications/{uid}_mentor_base
+    renderCertStatus();
+
+    const [mg, ictl] = await Promise.all([
+      loadResearchJson('/research/cambridge/mentoring-guide-2020.json'),
+      loadResearchJson('/research/cambridge/ictl-5881-syllabus.json'),
+    ]);
+    MENTORING = mg;
+    ICTL = ictl;
+
+    initTabs();
+  });
+
+  async function renderCertStatus() {
+    const host = document.getElementById('certStatus');
+    try {
+      const uid = window.currentUser?.uid;
+      if (!uid) return;
+      const ref = doc(window.db, 'mentor_certifications', uid + '_mentor_base');
+      const snap = await getDoc(ref);
+      if (!snap.exists()) {
+        host.innerHTML = `
+          <div class="status-banner none">
+            <div class="status-banner-icon">⏳</div>
+            <div>
+              <strong>You do not yet hold an active Mentor Certification.</strong>
+              <div class="status-banner-meta">Complete the 2-hour session below with a central_admin trainer to be eligible for mentee assignment. Charter NN3 requires active certification before any induction_assignments doc can be created for you as mentor.</div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      const d = snap.data();
+      const validUntilDate = d.validUntil?.toDate?.() || null;
+      const stillValid = d.active && validUntilDate && validUntilDate.getTime() > Date.now();
+      if (stillValid) {
+        host.innerHTML = `
+          <div class="status-banner active">
+            <div class="status-banner-icon">✅</div>
+            <div>
+              <strong>Active Mentor Certification.</strong>
+              <div class="status-banner-meta">Issued ${fmtDate(d.issuedAt?.toDate?.())} · Valid until ${fmtDate(validUntilDate)} (24-month cycle). Refresher is a 1-hour video session with the HQ Induction Coordinator.</div>
+            </div>
+            <div></div>
+          </div>
+        `;
+      } else {
+        host.innerHTML = `
+          <div class="status-banner expired">
+            <div class="status-banner-icon">⚠️</div>
+            <div>
+              <strong>Your Mentor Certification has expired.</strong>
+              <div class="status-banner-meta">Last issued ${fmtDate(d.issuedAt?.toDate?.())} · Expired ${fmtDate(validUntilDate)}. Book a 1-hour refresher to reactivate. While inactive, no new mentee assignments can be made (Charter NN3, rule-enforced).</div>
+            </div>
+          </div>
+        `;
+      }
+    } catch (err) {
+      // Fail silent — the curriculum is the primary content.
+      console.warn('[mentor-cert] cert status read failed', err);
+    }
+  }
+
+  function fmtDate(d) {
+    if (!(d instanceof Date) || isNaN(d)) return '—';
+    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  // ─────────────────────────────────────────────────────────────────
+  // Tabs
+  // ─────────────────────────────────────────────────────────────────
+
+  const MODULES = [
+    { num: 1, label: 'What mentoring is',  minutes: 20 },
+    { num: 2, label: 'Listening (LISTEN)', minutes: 20 },
+    { num: 3, label: 'Questioning (funnel)', minutes: 20 },
+    { num: 4, label: 'Conversation structure', minutes: 15 },
+    { num: 5, label: 'GROW model',         minutes: 15 },
+    { num: 6, label: 'Observation cycle',  minutes: 20 },
+    { num: 7, label: 'Charter principles', minutes: 15 },
+    { num: 8, label: 'Cases + assessment', minutes: 15 },
+  ];
+
+  function initTabs() {
+    const tabsEl = document.getElementById('moduleTabs');
+    tabsEl.innerHTML = MODULES.map(m => `
+      <button class="tab" data-module="${m.num}">
+        <span class="tab-num">M${m.num}</span>${escapeHtml(m.label)}
+      </button>
+    `).join('');
+    tabsEl.addEventListener('click', e => {
+      const btn = e.target.closest('.tab');
+      if (!btn) return;
+      const n = Number(btn.dataset.module);
+      if (Number.isFinite(n)) selectModule(n);
+    });
+    selectModule(1);
+  }
+
+  function selectModule(n) {
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.toggle('active', Number(t.dataset.module) === n);
+    });
+    const host = document.getElementById('moduleHost');
+    host.innerHTML = renderModule(n);
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function moduleShell(n, title, aim, body) {
+    const m = MODULES.find(x => x.num === n);
+    return `
+      <div class="module">
+        <div class="module-head">
+          <div class="module-num">${n}</div>
+          <div class="module-titles">
+            <h2>${escapeHtml(title)}</h2>
+            <div class="module-aim"><strong>Aim:</strong> ${escapeHtml(aim)}</div>
+          </div>
+          <div class="module-meta">${m?.minutes ?? ''} min</div>
+        </div>
+        ${body}
+      </div>
+    `;
+  }
+
+  function renderModule(n) {
+    if (n === 1) return renderModule1();
+    if (n === 2) return renderModule2();
+    if (n === 3) return renderModule3();
+    if (n === 4) return renderModule4();
+    if (n === 5) return renderModule5();
+    if (n === 6) return renderModule6();
+    if (n === 7) return renderModule7();
+    if (n === 8) return renderModule8();
+    return '<div class="loading">Module not found.</div>';
+  }
+
+  // ─── Module 1 — definition ──────────────────────────────────────
+  function renderModule1() {
+    const def = MENTORING?.definitionOfMentoring;
+    const isnt = def?.whatMentoringIsNot || [];
+    const enables = def?.mentoringEnablesMenteeTo || [];
+    const body = `
+      <div class="section-h">Definition (Cambridge Mentoring Guide 2020)</div>
+      <div class="callout">
+        ${def?.verbatimQuote ? '"' + escapeHtml(def.verbatimQuote) + '"' : 'Mentoring is a relationship in which an individual supports a colleague to achieve their own goals, by sharing experience and using listening + questioning skills.'}
+      </div>
+
+      <div class="section-h">Mentoring enables the mentee to…</div>
+      <ul class="bullet-list">
+        ${enables.map(s => `<li>${escapeHtml(s)}</li>`).join('') || '<li>Progress in their professional life and career.</li><li>Develop their skills, knowledge, and capability.</li><li>Reach their potential as a teacher.</li>'}
+      </ul>
+
+      <div class="section-h">What mentoring is not</div>
+      <ul class="bullet-list">
+        ${isnt.map(s => `<li>${escapeHtml(s)}</li>`).join('') || `
+          <li>Not advice-giving ("do it the way I did it"). The mentor empowers the mentee to find their own solution.</li>
+          <li>Not coaching, counselling, or therapy. If the mentee needs those, the mentor's job is to recognise the limit and redirect.</li>
+        `}
+        <li>Not the mentee's evaluator. (The school leader plays that role at Q4.)</li>
+      </ul>
+
+      <div class="section-h">Activity</div>
+      <div class="body-text">Trainer reads a vignette where a mentor "tells the mentee what to do". Group discusses what the mentor should have done instead, using the Cambridge definition.</div>
+
+      <div class="tag-row">
+        <span class="tag cts" title="Cambridge Teacher Standards · CTS 4.1 — Reflective practice">CTS 4.1</span>
+        <span class="tag pigp">PIGP pasal-1</span>
+        <span class="tag ictl">ICTL 5881</span>
+      </div>
+    `;
+    return moduleShell(1, 'What mentoring is (and isn\'t)', 'Establish a shared definition of mentoring that distinguishes it from coaching, counselling, and line-management.', body);
+  }
+
+  // ─── Module 2 — LISTEN ─────────────────────────────────────────
+  function renderModule2() {
+    const acronym = MENTORING?.listeningSkills?.listenAcronym || [
+      { letter: 'L', meaning: 'Listen to what is being said and how it is being said.' },
+      { letter: 'I', meaning: 'Interpret non-verbal messages.' },
+      { letter: 'S', meaning: 'Show you are being attentive.' },
+      { letter: 'T', meaning: 'Try to understand the meaning, not just hear the words.' },
+      { letter: 'E', meaning: 'Evaluate and summarise/paraphrase to confirm understanding.' },
+      { letter: 'N', meaning: 'Neutralise your feelings — don\'t show shock or disapproval.' },
+    ];
+    const body = `
+      <div class="section-h">The LISTEN model</div>
+      <div class="acronym-grid">
+        ${acronym.map(a => `
+          <div class="acronym-card">
+            <div><span class="acronym-letter">${escapeHtml(a.letter)}</span></div>
+            <div class="acronym-meaning">${escapeHtml(a.meaning)}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="section-h">Activity</div>
+      <div class="body-text">Pair-work. Mentee-role tells a 3-minute story about a recent classroom challenge. Mentor-role practises LISTEN. Switch roles. Trainer observes 2 pairs and gives one targeted feedback to each.</div>
+
+      <div class="section-h">Indonesian-context case study</div>
+      <div class="callout">
+        An Indonesian mentee describes a parent meeting that went badly. The mentor's instinct is to jump in with "you should have…". Practise instead the LISTEN move that pauses that instinct.
+      </div>
+
+      <div class="tag-row">
+        <span class="tag cts" title="Cambridge Teacher Standards · CTS 5.1 — Communication">CTS 5.1</span>
+        <span class="tag skl">SKL: komunikasi</span>
+      </div>
+    `;
+    return moduleShell(2, 'Listening — the LISTEN model', 'Practise active listening as a craft, not a personality trait.', body);
+  }
+
+  // ─── Module 3 — funnel / question types ────────────────────────
+  function renderModule3() {
+    const types = MENTORING?.questioningSkills?.questionTypes || [];
+    const body = `
+      <div class="section-h">Funnel technique</div>
+      <div class="body-text">${escapeHtml(MENTORING?.questioningSkills?.funnelTechnique || 'Start with general open questions, then drill down asking for more detail each time.')}</div>
+
+      <div class="section-h">Question types</div>
+      <div class="qtype-grid">
+        ${types.map(t => `
+          <div class="qtype-card">
+            <div class="qtype-name">${escapeHtml(t.type)}</div>
+            <div class="qtype-def">${escapeHtml(t.definition)}</div>
+            ${t.example  ? `<div class="qtype-eg">e.g. "${escapeHtml(t.example)}"</div>` : ''}
+            ${Array.isArray(t.examples) ? t.examples.map(e => `<div class="qtype-eg">e.g. "${escapeHtml(e)}"</div>`).join('') : ''}
+          </div>
+        `).join('') || '<div class="body-text">Open / Probing / Closed / Reflective / Comparative.</div>'}
+      </div>
+
+      <div class="warn-callout">
+        <strong>Anti-pattern — do NOT ask:</strong>
+        <ul class="bullet-list" style="margin-top:6px;">
+          <li>Leading questions — "Don't you think you should have…?" (advice in disguise)</li>
+          <li>Why-questions on emotion — "Why are you upset?" (rarely productive; reframe as "What was the hardest part?")</li>
+        </ul>
+      </div>
+
+      <div class="section-h">Activity</div>
+      <div class="body-text">The trainer presents a mentee statement. Each mentor in the cohort writes one question of each type that they would ask. Group discusses which would be most productive.</div>
+    `;
+    return moduleShell(3, 'Questioning — the funnel technique', 'Ask questions that help the mentee think, not questions that give them the mentor\'s answer in disguise.', body);
+  }
+
+  // ─── Module 4 — conversation structure ─────────────────────────
+  function renderModule4() {
+    const steps = MENTORING?.conversationCycle?.fourSteps || [
+      'Introduce with a good open question',
+      'Listen and ask follow-up probing questions; use the funnel technique',
+      'Observe and offer constructive feedback',
+      'Summarise briefly and agree objectives/actions',
+    ];
+    const headline = MENTORING?.conversationCycle?.headlineQuote || '';
+    const body = `
+      ${headline ? `<div class="callout">"${escapeHtml(headline)}"</div>` : ''}
+
+      <div class="section-h">The four steps</div>
+      <ol class="bullet-list" style="padding-left:22px;">
+        ${steps.map((s, i) => `<li><strong>${i === 0 ? 'Open' : i === 1 ? 'Listen + funnel' : i === 2 ? 'Observe + feedback' : 'Summarise + agree actions'}.</strong> ${escapeHtml(s)}</li>`).join('')}
+      </ol>
+
+      <div class="callout">
+        <strong>Step 4 is non-negotiable.</strong> Every mentor session must end with a SMART action (Module 5 below) — otherwise it was a chat, not a mentor session. The action belongs in the mentee's induction journal.
+      </div>
+
+      <div class="section-h">Activity</div>
+      <div class="body-text">Trainer plays mentee. Each mentor takes 5 minutes leading the 4-step rhythm. Cohort observes; trainer calls out which step is happening.</div>
+    `;
+    return moduleShell(4, 'Structuring a conversation', 'Internalise a simple 4-step rhythm that keeps mentoring conversations focused.', body);
+  }
+
+  // ─── Module 5 — GROW + SMART ───────────────────────────────────
+  function renderModule5() {
+    const grow = MENTORING?.growTechnique?.fourSteps || [];
+    const smart = MENTORING?.smartObjectives?.fiveCharacteristics || [];
+    const body = `
+      <div class="section-h">GROW</div>
+      <div class="acronym-grid">
+        ${grow.map(g => `
+          <div class="acronym-card">
+            <div><span class="acronym-letter">${escapeHtml((g.step || '?')[0])}</span><strong style="font-size:13px;color:var(--ink);">${escapeHtml(g.step)}</strong></div>
+            <div class="acronym-meaning"><strong>${escapeHtml(g.question || '')}</strong><br>${escapeHtml(g.guidance || '')}</div>
+          </div>
+        `).join('') || '<div class="body-text">Goal · Reality · Options · Way forward.</div>'}
+      </div>
+
+      <div class="callout">
+        <strong>Why this matters for observations:</strong> in a pre-observation conference, the mentor uses GROW to agree the focus of the observation (Goal). In the post-observation, GROW frames what happened (Reality), what the mentee could try next (Options), and what they commit to before the next observation (Way Forward).
+      </div>
+
+      <div class="section-h">SMART objectives — the structure of every "agreed action"</div>
+      <div class="acronym-grid">
+        ${smart.map(s => `
+          <div class="acronym-card">
+            <div><span class="acronym-letter">${escapeHtml(s.letter)}</span></div>
+            <div class="acronym-meaning">${escapeHtml(s.meaning)}</div>
+          </div>
+        `).join('') || ''}
+      </div>
+
+      <div class="warn-callout">
+        <strong>Avoid making suggestions on the mentee's behalf during Options.</strong> The mentor's instinct is to jump in with "have you tried…". The discipline is to keep asking "what choices do you have?" until the mentee surfaces their own.
+      </div>
+    `;
+    return moduleShell(5, 'GROW — for monthly observation conferences', 'Use a structured framework for the monthly pre-observation and post-observation conferences in Stage 3 of the Subject Teacher induction.', body);
+  }
+
+  // ─── Module 6 — observation cycle + 4-domain rubric ────────────
+  function renderModule6() {
+    const u2 = ICTL?.module1?.units?.find(u => u.unitId === '5881-unit-2');
+    const u3 = ICTL?.module1?.units?.find(u => u.unitId === '5881-unit-3');
+    const ictlOutcomes = [
+      ...(u2?.learningOutcomes || []).filter(lo => ['E','F','G','H'].includes(lo.id)),
+      ...(u3?.learningOutcomes || []).filter(lo => ['I','J','K','L'].includes(lo.id)),
+    ];
+
+    const cycle = [
+      { months: 'Months 2–3', label: 'Co-teach', scored: false },
+      { months: 'Months 4–6', label: 'Mentor observes mentee', scored: true },
+      { months: 'Month 7',    label: 'Mentee observes mentor', scored: false },
+      { months: 'Month 8',    label: 'Mentee observes another experienced teacher', scored: false },
+      { months: 'Month 9',    label: 'Mentor observes mentee, final formative', scored: true },
+      { months: 'Q4',         label: 'School-leader formal evaluation', scored: true },
+    ];
+
+    const domains = [
+      { name: 'Planning & Organization', text: 'Lesson plan clarity, learning objectives, content alignment, differentiation.' },
+      { name: 'Classroom Management',    text: 'Positive learning atmosphere, time + resource management, classroom dynamics.' },
+      { name: 'Instructional Process',   text: 'Punctuality, student engagement, subject mastery, teaching strategies, questioning.' },
+      { name: 'Assessment',              text: 'Communicates assessment criteria, uses formative assessment, maintains records.' },
+    ];
+
+    const body = `
+      <div class="section-h">Observation cycle (Subject Teacher induction, statutory anchor: PIGP Lampiran C — minimum 1 mentor observation per month, months 2-9)</div>
+      <ul class="bullet-list">
+        ${cycle.map(c => `
+          <li><strong>${escapeHtml(c.months)} — ${escapeHtml(c.label)}.</strong> ${c.scored ? 'Scored, 4-domain rubric.' : 'Unsatisfactory / Basic / Proficient / Distinguished — unscored, structured reflection.'}</li>
+        `).join('')}
+      </ul>
+
+      <div class="section-h">The Eduversal 4-domain rubric (each scored 1–4)</div>
+      <div class="qtype-grid">
+        ${domains.map(d => `
+          <div class="qtype-card">
+            <div class="qtype-name">${escapeHtml(d.name)}</div>
+            <div class="qtype-def">${escapeHtml(d.text)}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="section-h">Glow / Grow / Go feedback (always required, even on unscored observations)</div>
+      <ul class="bullet-list">
+        <li><strong>Glow.</strong> What worked, anchored in observed evidence.</li>
+        <li><strong>Grow.</strong> One specific area for development.</li>
+        <li><strong>Go.</strong> The single concrete action the mentee will take before the next observation.</li>
+      </ul>
+
+      ${ictlOutcomes.length ? `
+        <div class="section-h">ICTL 5881 mentor-anchored learning outcomes (Units 2 + 3)</div>
+        <div class="outcomes-grid">
+          ${ictlOutcomes.map(lo => `
+            <div class="outcome-card">
+              <div class="outcome-id">ICTL 5881 · LO ${escapeHtml(lo.id)}</div>
+              <div class="outcome-text">${escapeHtml(lo.outcome)}</div>
+            </div>
+          `).join('')}
+        </div>
+        ${u2?.mentorRole ? `<div class="callout"><strong>ICTL Unit 2 — mentor role:</strong> ${escapeHtml(u2.mentorRole)}</div>` : ''}
+        ${u3?.mentorRole ? `<div class="callout"><strong>ICTL Unit 3 — mentor role:</strong> ${escapeHtml(u3.mentorRole)}</div>` : ''}
+      ` : ''}
+
+      <div class="section-h">Tooling</div>
+      <div class="body-text">The <a href="/observation-entry" style="color:var(--accent-dark);font-weight:600;">observation-entry form</a> mirrors this rubric exactly. URL parameters: <code>?menteeUid=X&type=mentor_observes_mentee&number=4</code>. Walk through the draft → finalise flow. The form posts to <code>induction_observations/{obsId}</code>; <strong>Charter NN1 means it never feeds appraisal scoring</strong>.</div>
+
+      <div class="tag-row">
+        <span class="tag cts" title="Cambridge Teacher Standards · CTS 3.6 — Assessment for learning">CTS 3.6</span>
+        <span class="tag pigp">PIGP lampiran-C</span>
+        <span class="tag pigp">PIGP lampiran-D-1</span>
+        <span class="tag ictl">ICTL 5881 · Unit 2</span>
+        <span class="tag ictl">ICTL 5881 · Unit 3</span>
+      </div>
+    `;
+    return moduleShell(6, 'Observation cycle and the Eduversal 4-domain rubric', 'Confidence in completing the structured monthly observation write-up.', body);
+  }
+
+  // ─── Module 7 — Charter principles + non-negotiables ───────────
+  function renderModule7() {
+    const nonNegs = [
+      { num: 1, title: 'Year-1 induction data never feeds network appraisal scoring.', body: 'If a school leader asks "what did you score the mentee in October?" — the answer is "induction observations don\'t feed appraisal." Direct them to the year-end formal evaluation, which does.' },
+      { num: 2, title: 'Mentee journal entries are private.', body: 'Default visibility is mentee_and_mentor. Do NOT discuss journal content with the school leader unless the mentee has opted into broader visibility. Never discuss it at HQ.' },
+      { num: 3, title: 'No user without active Mentor Certification can be assigned as mentor.', body: 'This is your role gate. You earn it; you keep it active. The Firestore rule blocks induction_assignments creation for any mentor whose mentor_certifications/{uid}_mentor_base is missing or inactive.' },
+      { num: 4, title: 'Three-party assignment.', body: 'A mentor who hasn\'t met the school leader at start-of-induction has not had a complete handover. Insist on the three-party meeting before the relationship begins.' },
+      { num: 5, title: 'Induction Completion Certificate is binary.', body: 'No numeric score, no predicate. The mentee either completed or did not. PIGP\'s 5-category rating is signed off at the moment required by the local education office; we do not propagate it into a network record.' },
+    ];
+
+    const escalation = [
+      'Mentee raises concern with mentor (or vice versa).',
+      'Either party raises with the school leader.',
+      'Any party raises with the HQ Induction Coordinator.',
+      'HQ Induction Coordinator escalates to Foundation Rep if the school leader is the source.',
+    ];
+
+    const body = `
+      <div class="section-h">The 5 non-negotiables — what mentors must commit to</div>
+      ${nonNegs.map(nn => `
+        <div class="case-card">
+          <div class="case-num">NON-NEGOTIABLE ${nn.num}</div>
+          <h4>${escapeHtml(nn.title)}</h4>
+          <p>${escapeHtml(nn.body)}</p>
+        </div>
+      `).join('')}
+
+      <div class="section-h">Escalation route (Charter §Escalation Route)</div>
+      <ol class="bullet-list" style="padding-left:22px;">
+        ${escalation.map(s => `<li>${escapeHtml(s)}</li>`).join('')}
+      </ol>
+
+      <div class="section-h">Two-way contract (Charter Principle 5)</div>
+      <ul class="bullet-list">
+        <li><strong>Mentor commits to:</strong> active certification; weekly time (1 hr stages 1-2, 30 min stage 3); 7-day observation write-up turnaround; raising concerns through the published route.</li>
+        <li><strong>Mentee commits to:</strong> completing tasks; attending sessions; honest reflections.</li>
+        <li><strong>3 missed sessions</strong> (either side) → automatic notification to the school leader.</li>
+      </ul>
+
+      <div class="callout">
+        <strong>No-fault termination.</strong> If the mentor-mentee relationship doesn\'t gel, either party can request reassignment without blame. A replacement mentor must be assigned within 14 days. Cambridge Mentoring Guide 2020 §"Relationships that don\'t gel" is the source for this principle.
+      </div>
+
+      <div class="tag-row">
+        <span class="tag cts" title="Cambridge Teacher Standards · CTS 4.2 — Professional code">CTS 4.2</span>
+        <span class="tag pigp">PIGP pasal-3</span>
+        <span class="tag pigp">PIGP pasal-8</span>
+      </div>
+    `;
+    return moduleShell(7, 'Charter principles + non-negotiables + escalation', 'Internalise the constitutional limits of the induction system.', body);
+  }
+
+  // ─── Module 8 — Indonesian-context cases + assessment ──────────
+  function renderModule8() {
+    const cases = [
+      {
+        title: 'The mentee who is older than you',
+        body: 'New university graduate? No — this mentee is a career-changer in their 40s assigned to you (a 35-year-old subject leader). They keep deferring to your judgment in a way that feels deferential rather than collegial. Run a 5-minute mentor session that addresses this.',
+      },
+      {
+        title: 'The mentor whose own classroom is struggling',
+        body: 'Your own Y10 IGCSE Maths class is having a difficult term and your appraiser visit went poorly. Your mentee hears about it from staff-room gossip. They open today\'s session by asking "are you OK?" Run the session.',
+      },
+      {
+        title: 'Cambridge-vs-KM conflict',
+        body: 'Your mentee is teaching Cambridge IGCSE while also delivering Indonesian Kurikulum Merdeka content. They feel pulled in two directions and the school principal has not been clear about priority. Run a session that uses GROW to identify where the mentee can act, vs. where they need the school leader to decide.',
+      },
+      {
+        title: 'Parent escalation',
+        body: 'A parent has emailed the school principal complaining about the mentee\'s grading. The school leader has asked you, as the mentor, to "have a word". Charter NN1 prohibits induction observations feeding appraisal — but this isn\'t an observation, it\'s a discipline conversation. Where is the line? Run the session, and afterwards explain to the trainer where you stayed within Charter and where you would have crossed it.',
+      },
+      {
+        title: 'The mentee who wants you to be their friend',
+        body: 'Your mentee is the only other person in the staff room who shares your subject specialty. You\'re becoming friends. They start asking for advice on personal matters (housing, family, religion). Where does mentor-mentee end and friendship begin? Run a redirect conversation.',
+      },
+    ];
+
+    const criteria = [
+      'Used the 4-step structure (open → listen → observe → agree)?',
+      'Listened more than spoke (rule of thumb: mentor speaks ≤30% of the time)?',
+      'Asked open and probing questions, avoided leading ones?',
+      'Avoided giving direct advice; surfaced options instead?',
+      'Ended with a SMART action and follow-up commitment?',
+      'Stayed within Charter limits?',
+    ];
+
+    const body = `
+      <div class="section-h">Five Indonesian-context case studies (one assigned per mentor at random)</div>
+      ${cases.map((c, i) => `
+        <div class="case-card">
+          <div class="case-num">CASE ${i + 1}</div>
+          <h4>${escapeHtml(c.title)}</h4>
+          <p>${escapeHtml(c.body)}</p>
+        </div>
+      `).join('')}
+
+      <div class="assessment-card">
+        <h3>Assessment criteria — the trainer scores each conversation</h3>
+        <ul class="checklist">
+          ${criteria.map(c => `<li>${escapeHtml(c)}</li>`).join('')}
+        </ul>
+        <div class="body-text" style="margin-top:10px;color:#78350f;"><strong>Pass criterion:</strong> 4 of 6 demonstrated. On fail, a 30-minute coached re-attempt is offered same day.</div>
+      </div>
+
+      <div class="callout">
+        <strong>What happens next.</strong> On pass, central_admin issues your <code>mentor_certifications/{uid}_mentor_base</code> doc via Central Hub <code>/induction-admin</code>. Validity: 24 months. The status banner at the top of this page reflects your current certification state.
+      </div>
+    `;
+    return moduleShell(8, 'Indonesian-context cases + observation-of-practice assessment', 'Practise a mentoring conversation against a realistic Indonesian Cambridge-school scenario, while the trainer observes and scores.', body);
+  }
+</script>
+
+</body>
+</html>
