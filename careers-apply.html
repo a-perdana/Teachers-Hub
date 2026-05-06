@@ -539,7 +539,7 @@
     from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
   import { getFirestore, doc, getDoc, addDoc, collection, serverTimestamp }
     from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL }
+  import { getStorage, ref, uploadBytes }
     from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
   const app = getApps().length ? getApps()[0] : initializeApp({
@@ -773,7 +773,11 @@
       const cvPath = `careers/cv/${positionIdSafe}/${ts}_${safeName}`;
       const cvRefStg = ref(storage, cvPath);
       await uploadBytes(cvRefStg, cvFileRef, { contentType: cvFileRef.type || 'application/octet-stream' });
-      const cvUrl = await getDownloadURL(cvRefStg);
+      // NOTE: We don't call getDownloadURL here — that requires Storage
+      // read access, but the read rule for careers/cv only grants
+      // hiring_manager/interviewer/admin (rightly). Anonymous candidates
+      // would get 403. Instead persist the cvPath; the hiring panel
+      // resolves it to a download URL with its own authed session.
 
       // 2) Create job_applications doc
       setProgress('Saving application…', 'Almost there.');
@@ -800,7 +804,7 @@
           languages:           langs,
           references:          refs,
           motivationLetter:    v('motivationLetter'),
-          cvUrl,
+          cvPath,
           cvFilename:          cvFileRef.name,
           cvSize:              cvFileRef.size,
         },

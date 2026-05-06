@@ -147,6 +147,7 @@
     doc, getDoc, setDoc, collection, query, where, getDocs,
     serverTimestamp, Timestamp
   } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { ref as storageRef, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
   // ── helpers ───────────────────────────────────────────────────
   const escHtml = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
@@ -305,9 +306,14 @@
     const meetingBtn = (mode === 'online' || mode === 'hybrid') && sch.meetingUrl
       ? `<a class="sc-cand-btn primary" href="${escHtml(safeUrl(sch.meetingUrl))}" target="_blank" rel="noopener">↗ Open meeting</a>`
       : '';
+    // Legacy applications: cvUrl persisted (long-lived). New: cvPath
+    // only — resolve to a download URL on click using the interviewer's
+    // authed session (Storage read rule grants interviewer + hiring power).
     const cvBtn = ap.cvUrl
       ? `<a class="sc-cand-btn" href="${escHtml(safeUrl(ap.cvUrl))}" target="_blank" rel="noopener">📄 Open CV</a>`
-      : '';
+      : (ap.cvPath
+          ? `<a class="sc-cand-btn" href="#" data-cv-path="${escHtml(ap.cvPath)}">📄 Open CV</a>`
+          : '');
     const langs = Array.isArray(ap.languages) ? ap.languages.join(', ') : '—';
 
     return `
@@ -696,6 +702,23 @@
     if (isNaN(d.getTime())) return '—';
     return d.toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   }
+
+  // CV link click — resolve cvPath → download URL with this user's authed
+  // session, then open in new tab. New-style applications store cvPath
+  // (anonymous candidates can't call getDownloadURL); legacy ones still
+  // have ap.cvUrl which is rendered as a direct anchor.
+  document.addEventListener('click', async (e) => {
+    const a = e.target.closest('a[data-cv-path]');
+    if (!a) return;
+    e.preventDefault();
+    const path = a.getAttribute('data-cv-path');
+    try {
+      const url = await getDownloadURL(storageRef(window.storage, path));
+      window.open(url, '_blank', 'noopener');
+    } catch (err) {
+      console.error('[scorecard] CV download URL failed', err);
+    }
+  });
 
   function renderError(title, body) {
     document.getElementById('sc-root').innerHTML = `

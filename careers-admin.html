@@ -513,6 +513,7 @@
     collection, doc, getDoc, getDocs, addDoc, setDoc, updateDoc, deleteDoc,
     query, where, orderBy, limit, serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { ref as storageRef, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
   // ── helpers ───────────────────────────────────────────────────
   function escHtml(s) {
@@ -765,6 +766,23 @@
   document.getElementById('dClose').addEventListener('click', closeDrawer);
   drawerOverlay.addEventListener('click', closeDrawer);
 
+  // CV link click — resolve cvPath → download URL with admin's authed
+  // session, then open in new tab. Used for new-style applications that
+  // store cvPath instead of a long-lived cvUrl.
+  drawer.addEventListener('click', async (e) => {
+    const a = e.target.closest('a[data-cv-path]');
+    if (!a) return;
+    e.preventDefault();
+    const path = a.getAttribute('data-cv-path');
+    try {
+      const url = await getDownloadURL(storageRef(window.storage, path));
+      window.open(url, '_blank', 'noopener');
+    } catch (err) {
+      console.error('[ca] CV download URL failed', err);
+      showToast('Could not open CV. ' + (err?.message || ''), 'error');
+    }
+  });
+
   function openDrawer(id) {
     activeAppId = id;
     const a = allApplications.find(x => x.id === id);
@@ -808,9 +826,17 @@
     const refs  = Array.isArray(ap.references) && ap.references.length
                   ? '<ul style="margin:0 0 0 16px;padding:0">' + ap.references.map(r => `<li>${escHtml(r)}</li>`).join('') + '</ul>'
                   : '<span style="color:var(--ink-3)">—</span>';
+    // Resolve CV: legacy applications stored a long-lived cvUrl; new
+    // applications store cvPath only (anonymous candidates can't call
+    // getDownloadURL — Storage read rule is gated to hiring power).
+    // We resolve cvPath → URL on click using the admin's authed session.
+    const cvFilename = escHtml(ap.cvFilename || 'Open CV');
+    const cvSizeStr  = ap.cvSize ? ` <span style="color:var(--ink-3);font-size:11.5px">(${Math.round(ap.cvSize/1024)} KB)</span>` : '';
     const cv = ap.cvUrl
-      ? `<a href="${escHtml(safeUrl(ap.cvUrl))}" target="_blank" rel="noopener">${escHtml(ap.cvFilename || 'Open CV')} ↗</a>${ap.cvSize ? ` <span style="color:var(--ink-3);font-size:11.5px">(${Math.round(ap.cvSize/1024)} KB)</span>` : ''}`
-      : '<span style="color:var(--ink-3)">—</span>';
+      ? `<a href="${escHtml(safeUrl(ap.cvUrl))}" target="_blank" rel="noopener">${cvFilename} ↗</a>${cvSizeStr}`
+      : (ap.cvPath
+          ? `<a href="#" data-cv-path="${escHtml(ap.cvPath)}" data-cv-filename="${cvFilename}">${cvFilename} ↗</a>${cvSizeStr}`
+          : '<span style="color:var(--ink-3)">—</span>');
 
     const contactRows = `
       <div class="ca-row"><div class="lbl">Name</div><div class="val">${escHtml(`${ap.firstName||''} ${ap.lastName||''}`.trim() || '—')}</div></div>
