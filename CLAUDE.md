@@ -115,7 +115,7 @@ const isAdmin = profile?.role_teachershub === 'teachers_admin';
 | `induction_pulses/{pulseId}` | Weekly 1-question pulse. | owner (mentee) |
 | `mentor_certifications/{uid}_{type}` | Read by `my-mentees.html` for cert-active banner. | central_admin |
 | `induction_programs/{programId}` | 3 handbook templates. Read by `my-induction.html`. | central_admin via seed only |
-| `job_positions` · `interview_question_sets` · `job_applications` · `interview_scorecards/{appId}_{interviewerUid}` (submitted = **immutable** at rule level) · `job_application_audit` (append-only) · `mail` (Firebase Trigger Email queue) | Careers Module — see [Careers section below](#careers--interview-module) | various |
+| `job_positions` · `interview_question_sets` · `job_applications` · `interview_scorecards/{appId}_{interviewerUid}` (submitted = **immutable** at rule level) · `job_application_audit` (append-only) | Careers Module — see [Careers section below](#careers--interview-module) | various |
 
 **Timestamp:** `createdAt` (serverTimestamp). NEVER `timestamp`.
 
@@ -257,7 +257,12 @@ Public teacher recruitment + structured interview scoring. 6 pages + 6 collectio
 
 **Storage:** `careers/cv/{positionId}/{ts}_{filename}` — public write ≤10 MB, MIME limited to PDF/DOC/DOCX.
 
-**Email flow:** `careers-admin.html` enqueues `mail/{auto}` docs on schedule + decision actions. Apply form's "received" mail also via `mail`. Firebase [Trigger Email extension](https://firebase.google.com/products/extensions/firestore-send-email) reads + sends. **Until extension installed, mail enqueue is non-fatal** — apps still save, no email sends.
+**Email flow (2026-05-06 — Resend, replaces Firebase Trigger Email):**
+- All candidate-facing emails go through `partials/mailer.js` → POST to `MAIL_SERVICE_URL/send-transactional` (Resend on Railway).
+- **FROM:** `Eduversal Education <noreply@eduversal.org>` (DKIM-signed, verified domain). **Reply-To:** `careers@eduversal.org` (Railway `DEFAULT_REPLY_TO` env, fallback if caller omits per-call `replyTo`).
+- 4 templates (set `templateName` per call): `application_received` (mor — sent on apply submit fire-and-forget), `interview` (mor — sent on schedule), `offer` (green — sent on offered decision), `reject` (neutral grey — sent on rejected decision). Each renders a branded wrapper with eyebrow text + colour-coded gradient header.
+- `enqueueMail()` in `careers-admin.html` is now a thin wrapper around `window.eduversalMailer.sendTransactional()` (kept for callsite compatibility). Sends are non-fatal — failure logs to console + toast, never blocks the underlying Firestore write.
+- The legacy `mail/{auto}` Firestore queue + Firebase Trigger Email extension is no longer used. New TH pages that need to email candidates should call `window.eduversalMailer.sendTransactional()` directly.
 
 **Scorecard immutability:** rule blocks all field changes once `status:'submitted'`. To "reopen" a scorecard later, add an admin-only Cloud Function path — NOT a client rule loosen.
 

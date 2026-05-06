@@ -15,4 +15,7 @@ window.ENV = {
   FIREBASE_STORAGE_BUCKET:      "centralhub-8727b.firebasestorage.app",
   FIREBASE_MESSAGING_SENDER_ID: "244951050014",
   FIREBASE_APP_ID:              "YOUR_APP_ID",
+  // Resend mail-service (used by careers-admin candidate emails + careers-apply confirmations)
+  MAIL_SERVICE_URL:             "https://YOUR_RAILWAY_APP.railway.app",
+  MAIL_SERVICE_SECRET:          "YOUR_API_SECRET",
 };

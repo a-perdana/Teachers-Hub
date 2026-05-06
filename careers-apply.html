@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Lora:wght@500;600;700&display=swap" rel="stylesheet" />
 <!-- FIREBASE_ENV -->
+<script src="partials/mailer.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -833,6 +834,30 @@
       } catch (linkErr) {
         // Non-fatal: application is saved; user can still come back via direct link.
         console.warn('[apply] sendSignInLinkToEmail failed', linkErr);
+      }
+
+      // 3b) Send branded application-received confirmation (fire-and-forget,
+      //     never blocks the success view).
+      if (window.eduversalMailer) {
+        const fullName = [v('firstName'), v('lastName')].filter(Boolean).join(' ');
+        const positionLine = position.title
+          + (position.schoolName ? ` at ${position.schoolName}` : '');
+        const bodyText =
+          `Hello ${v('firstName') || ''},\n\n`
+          + `Thank you for applying for ${positionLine}. We have received your application and the hiring team will review it shortly.\n\n`
+          + `What happens next:\n`
+          + `• You will hear from us within 7-10 working days.\n`
+          + `• If your profile matches the role, we will reach out to schedule an interview.\n`
+          + `• You can revisit your application status any time using the magic-link we just sent in a separate email.\n\n`
+          + `If you have any questions about your application, simply reply to this email and the hiring team will get back to you.\n\n`
+          + `With regards,\nEduversal Hiring Team`;
+        window.eduversalMailer.sendTransactional({
+          toEmail:      email,
+          toName:       fullName,
+          subject:      `Application received — ${position.title}`,
+          bodyText,
+          templateName: 'application_received',
+        }).catch(err => console.warn('[apply] confirmation email failed', err));
       }
 
       // 4) Done

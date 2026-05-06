@@ -14,7 +14,10 @@ const envVars = [
   'FIREBASE_PROJECT_ID',
   'FIREBASE_STORAGE_BUCKET',
   'FIREBASE_MESSAGING_SENDER_ID',
-  'FIREBASE_APP_ID'
+  'FIREBASE_APP_ID',
+  // Resend mail-service (used by careers-admin + careers-apply)
+  'MAIL_SERVICE_URL',
+  'MAIL_SERVICE_SECRET'
 ];
 
 // Map: source filename -> clean URL path (relative to dist root)
@@ -761,6 +764,7 @@ function processFile(filename) {
 
   // Use absolute paths for partials so subdirectory pages resolve them correctly
   html = html.replace(/src="partials\/navbar\.js"/g, 'src="/partials/navbar.js"');
+  html = html.replace(/src="partials\/mailer\.js"/g, 'src="/partials/mailer.js"');
   html = html.replace(/src="partials\/pacing-tracker-core\.js"/g, 'src="/partials/pacing-tracker-core.js"');
   html = html.replace(/src="partials\/pacing-schedule\.js"/g, 'src="/partials/pacing-schedule.js"');
   html = html.replace(/src="partials\/pacing-week-timeline\.js"/g, 'src="/partials/pacing-week-timeline.js"');
