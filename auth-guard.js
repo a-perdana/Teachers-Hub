@@ -606,6 +606,24 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
+  // 1b. Career applicant guard. Public /careers-apply uses
+  // sendSignInLinkToEmail to send the candidate a magic-link so they can
+  // track their application from /careers-status. That sign-in must NEVER
+  // grant Teachers Hub access — applicants are not staff. We detect them
+  // two ways:
+  //   - providerData carries 'emailLink' (Firebase passwordless sign-in), OR
+  //   - users/{uid} doc does not exist AND email-verified state was issued
+  //     by Firebase's email-link flow (emailVerified flips to true on link
+  //     completion even though no Firestore profile was ever provisioned).
+  // For applicants we redirect to /careers-status WITHOUT creating a
+  // users/{uid} doc (so the staff directory stays clean) and WITHOUT
+  // signing them out (careers-status needs the auth session).
+  const isEmailLinkUser = user.providerData.some(p => p.providerId === 'emailLink');
+  if (isEmailLinkUser) {
+    window.location.replace('/careers-status');
+    return;
+  }
+
   // 2. Fetch (or create) Firestore profile
   let profile;
   const userRef = doc(db, 'users', user.uid);
