@@ -149,11 +149,12 @@ body { background: var(--paper); }
 }
 
 .tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
-.tag { padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+.tag { padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; text-decoration: none; }
 .tag.cts  { background: var(--accent-2); color: var(--accent-dark); font-family: 'DM Mono', monospace; }
 .tag.skl  { background: #d1fae5; color: #065f46; }
 .tag.pigp { background: #fee2e2; color: #991b1b; font-family: 'DM Mono', monospace; }
 .tag.ictl { background: #cffafe; color: #155e75; font-family: 'DM Mono', monospace; }
+a.tag:hover { filter: brightness(0.96); text-decoration: none; }
 
 .outcomes-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px;
@@ -427,8 +428,8 @@ body { background: var(--paper); }
 
       <div class="tag-row">
         <span class="tag cts" title="Cambridge Teacher Standards · CTS 4.1 — Reflective practice">CTS 4.1</span>
-        <span class="tag pigp">PIGP pasal-1</span>
-        <span class="tag ictl">ICTL 5881</span>
+        <span class="tag pigp hb-tag">PIGP pasal-1</span>
+        <a class="tag ictl" href="https://www.cambridgeinternational.org/Images/733049-ci-certificate-teaching-and-learning-5881.pdf" target="_blank" rel="noopener" title="Open Cambridge ICTL 5881 syllabus PDF">ICTL 5881 ↗</a>
       </div>
     `;
     return moduleShell(1, 'What mentoring is (and isn\'t)', 'Establish a shared definition of mentoring that distinguishes it from coaching, counselling, and line-management.', body);
@@ -465,7 +466,7 @@ body { background: var(--paper); }
 
       <div class="tag-row">
         <span class="tag cts" title="Cambridge Teacher Standards · CTS 5.1 — Communication">CTS 5.1</span>
-        <span class="tag skl">SKL: komunikasi</span>
+        <span class="tag skl hb-tag">SKL: komunikasi</span>
       </div>
     `;
     return moduleShell(2, 'Listening — the LISTEN model', 'Practise active listening as a craft, not a personality trait.', body);
@@ -636,10 +637,10 @@ body { background: var(--paper); }
 
       <div class="tag-row">
         <span class="tag cts" title="Cambridge Teacher Standards · CTS 3.6 — Assessment for learning">CTS 3.6</span>
-        <span class="tag pigp">PIGP lampiran-C</span>
-        <span class="tag pigp">PIGP lampiran-D-1</span>
-        <span class="tag ictl">ICTL 5881 · Unit 2</span>
-        <span class="tag ictl">ICTL 5881 · Unit 3</span>
+        <span class="tag pigp hb-tag">PIGP lampiran-C</span>
+        <span class="tag pigp hb-tag">PIGP lampiran-D-1</span>
+        <a class="tag ictl" href="https://www.cambridgeinternational.org/Images/733049-ci-certificate-teaching-and-learning-5881.pdf" target="_blank" rel="noopener" title="Open Cambridge ICTL 5881 syllabus PDF">ICTL 5881 · Unit 2 ↗</a>
+        <a class="tag ictl" href="https://www.cambridgeinternational.org/Images/733049-ci-certificate-teaching-and-learning-5881.pdf" target="_blank" rel="noopener" title="Open Cambridge ICTL 5881 syllabus PDF">ICTL 5881 · Unit 3 ↗</a>
       </div>
     `;
     return moduleShell(6, 'Observation cycle and the Eduversal 4-domain rubric', 'Confidence in completing the structured monthly observation write-up.', body);
@@ -690,8 +691,8 @@ body { background: var(--paper); }
 
       <div class="tag-row">
         <span class="tag cts" title="Cambridge Teacher Standards · CTS 4.2 — Professional code">CTS 4.2</span>
-        <span class="tag pigp">PIGP pasal-3</span>
-        <span class="tag pigp">PIGP pasal-8</span>
+        <span class="tag pigp hb-tag">PIGP pasal-3</span>
+        <span class="tag pigp hb-tag">PIGP pasal-8</span>
       </div>
     `;
     return moduleShell(7, 'Charter principles + non-negotiables + escalation', 'Internalise the constitutional limits of the induction system.', body);
