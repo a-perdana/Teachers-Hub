@@ -236,7 +236,7 @@ The `_pending*` callbacks handle the race between navbar fetch completing and `a
 - **Pacing** (4 columns): IGCSE × 4 / AS-A × 4 / Checkpoint × 3 / Trackers × 11
 - **My Work** (5 columns, `th-dd-panel--xwide` 980px min-width): Daily / KPI / Appraisal / Competency / Induction
 - **Hub** (2 columns): Communications (announcements, messageboard, surveys) / Reference (library, cambridge-calendar, cambridge-standards, orientation)
-- **Careers** (visible to `interviewer` / `hiring_manager` / admins): Hiring Funnel · Scorecard · Compare · Public careers ↗
+- **Careers** (visible to `hiring_manager` / admins): Hiring Funnel · Public careers ↗ (Interview Scorecard + Compare Candidates removed from navbar 2026-05-06 — reachable from inside the funnel; interviewers arrive via emailed `?app=<id>` links)
 
 `groupKeys` map in `partials/navbar.js` lists all slugs per dropdown so the trigger highlights when user is on a child page.
 
