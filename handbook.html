@@ -10,109 +10,302 @@
   <script>if (!window.ENV) window.ENV = { FIREBASE_API_KEY: "__FIREBASE_API_KEY__", FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__", FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__", FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__", FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__", FIREBASE_APP_ID: "__FIREBASE_APP_ID__" };</script>
   <style>
     :root {
-      --accent: #6c5ce7; --accent-dk: #4e3db8; --accent-2: #ddd6fe;
+      --accent: #6c5ce7; --accent-dk: #4e3db8; --accent-2: #ede9fe;
+      --cyan: #0891b2; --cyan-dk: #0e7490; --cyan-2: #cffafe;
       --ink: #1f2937; --ink-2: #4b5563; --ink-3: #6b7280;
       --border: #e5e7eb; --paper: #fafafa; --white: #ffffff;
       --radius: 12px;
+      --shadow-sm: 0 1px 2px rgba(15,23,42,0.04), 0 1px 3px rgba(15,23,42,0.06);
+      --shadow-md: 0 4px 14px rgba(15,23,42,0.06), 0 2px 4px rgba(15,23,42,0.04);
     }
+    body { background: var(--paper); }
 
+    /* ── Toolbar (sticky under navbar) ──────────────────────────── */
     .toolbar {
       position: sticky; top: 0; z-index: 50;
-      background: #fff; border-bottom: 1px solid var(--border);
-      padding: 14px 40px; display: flex; align-items: center; gap: 18px;
+      background: rgba(255,255,255,0.92); backdrop-filter: saturate(160%) blur(8px);
+      -webkit-backdrop-filter: saturate(160%) blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 40px; display: flex; align-items: center; gap: 14px;
     }
+    .toolbar label { font-size: 11px; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.08em; }
     .toolbar select {
       padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px;
       font-family: inherit; font-size: 14px; background: #fff; color: var(--ink);
-      min-width: 280px;
+      min-width: 280px; transition: border-color .15s, box-shadow .15s;
     }
-    .toolbar select:focus { outline: none; border-color: var(--accent); }
+    .toolbar select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-2); }
     .toolbar .btn-print {
-      margin-left: auto; padding: 8px 16px; background: var(--accent); color: #fff;
-      border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;
-      display: inline-flex; align-items: center; gap: 6px;
+      margin-left: auto; padding: 9px 18px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dk) 100%);
+      color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      box-shadow: 0 1px 2px rgba(76,29,149,0.18), 0 4px 12px rgba(108,92,231,0.18);
+      transition: transform .12s, box-shadow .12s;
     }
-    .toolbar .btn-print:hover { background: var(--accent-dk); }
+    .toolbar .btn-print:hover { transform: translateY(-1px); box-shadow: 0 2px 4px rgba(76,29,149,0.22), 0 6px 18px rgba(108,92,231,0.28); }
     .toolbar .btn-print svg { width: 14px; height: 14px; }
 
-    .handbook-page { max-width: 880px; margin: 0 auto; padding: 32px 40px 80px; }
+    /* ── Page wrap + hero ───────────────────────────────────────── */
+    .handbook-page { max-width: 940px; margin: 0 auto; padding: 28px 32px 100px; }
 
-    .hb-header { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 2px solid var(--accent); }
-    .hb-eyebrow { font-size: 11px; font-weight: 500; color: var(--ink-3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
-    .hb-title { font-family: 'Lora', serif; font-size: 2.2rem; font-weight: 600; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
-    .hb-subtitle { font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+    .hb-hero {
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #1a1530 0%, #2d2354 55%, #0a0815 100%);
+      color: #fff; border-radius: 18px;
+      padding: 40px 36px 36px; margin-bottom: 28px;
+      box-shadow: 0 18px 40px -22px rgba(15,23,42,0.5);
+    }
+    .hb-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 88% 18%, rgba(108,92,231,0.32) 0%, transparent 55%),
+        radial-gradient(circle at 12% 92%, rgba(8,145,178,0.18) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .hb-hero::after {
+      content: ''; position: absolute; right: -60px; bottom: -60px;
+      width: 220px; height: 220px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hb-hero > * { position: relative; z-index: 1; }
+    .hb-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.62);
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px;
+    }
+    .hb-eyebrow::before {
+      content: ''; width: 22px; height: 2px; background: var(--accent); border-radius: 2px;
+    }
+    .hb-title { font-family: 'Lora', serif; font-size: 2.4rem; font-weight: 600; line-height: 1.15; margin-bottom: 10px; letter-spacing: -0.01em; }
+    .hb-subtitle { font-size: 15px; color: rgba(255,255,255,0.78); line-height: 1.55; max-width: 680px; }
     .hb-meta {
-      display: flex; gap: 24px; flex-wrap: wrap; margin-top: 14px;
-      font-size: 12px; color: var(--ink-3);
+      display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px;
     }
-    .hb-meta span strong { color: var(--ink-2); }
+    .hb-meta span {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; color: rgba(255,255,255,0.86);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 5px 11px; border-radius: 999px;
+      backdrop-filter: blur(4px);
+    }
+    .hb-meta span strong { color: rgba(255,255,255,0.55); font-weight: 500; }
 
+    /* ── Charter callout ────────────────────────────────────────── */
     .hb-charter-box {
-      background: linear-gradient(180deg, #ddd6fe 0%, #fff 100%);
-      border: 1px solid var(--accent); border-radius: 12px;
-      padding: 16px 20px; margin-bottom: 28px; font-size: 13px; color: #4c1d95;
+      position: relative;
+      background: linear-gradient(180deg, #f5f3ff 0%, #fafafa 100%);
+      border: 1px solid var(--accent-2);
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      padding: 16px 20px 16px 52px; margin-bottom: 32px;
+      font-size: 13px; color: #3b0764; line-height: 1.6;
+      box-shadow: var(--shadow-sm);
     }
-    .hb-charter-box strong { display: block; font-weight: 700; margin-bottom: 4px; color: #3b0764; }
+    .hb-charter-box::before {
+      content: '⚖️'; position: absolute; left: 18px; top: 14px; font-size: 20px;
+    }
+    .hb-charter-box strong { display: block; font-weight: 700; margin-bottom: 4px; color: #3b0764; font-size: 13.5px; }
+    .hb-charter-box code { background: rgba(76,29,149,0.08); color: #4c1d95; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
 
-    .hb-section { margin-bottom: 32px; }
-    .hb-section-h { font-family: 'Lora', serif; font-size: 1.3rem; font-weight: 600; color: var(--ink); margin-bottom: 12px; padding-top: 8px; }
-    .hb-section-text { font-size: 14px; line-height: 1.6; color: var(--ink-2); margin-bottom: 14px; }
+    /* ── Section headings ───────────────────────────────────────── */
+    .hb-section { margin-bottom: 36px; }
+    .hb-section-h {
+      font-family: 'Lora', serif; font-size: 1.4rem; font-weight: 600;
+      color: var(--ink); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hb-section-h::before {
+      content: ''; width: 4px; height: 22px; border-radius: 2px;
+      background: linear-gradient(180deg, var(--accent) 0%, var(--cyan) 100%);
+    }
+    .hb-section-text { font-size: 14px; line-height: 1.65; color: var(--ink-2); margin-bottom: 14px; }
 
+    /* ── Design philosophy (windows / phases) ───────────────────── */
     .hb-roles { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 18px; }
-    .hb-role-card { background: #fafafa; border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
-    .hb-role-card .role-label { font-size: 11px; font-weight: 700; color: var(--accent-dk); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
-    .hb-role-card .role-resp { font-size: 12px; line-height: 1.5; color: var(--ink-2); margin-top: 4px; }
-    .hb-role-card ul { padding-left: 16px; margin-top: 6px; }
-    .hb-role-card li { font-size: 12px; line-height: 1.55; color: var(--ink-2); margin-bottom: 3px; }
+    .hb-window-card {
+      position: relative; background: #fff;
+      border: 1px solid var(--border); border-radius: 14px;
+      padding: 18px 16px 16px; box-shadow: var(--shadow-sm);
+      transition: transform .15s, box-shadow .15s, border-color .15s;
+      overflow: hidden;
+    }
+    .hb-window-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--win-from, var(--accent)) 0%, var(--win-to, var(--accent-dk)) 100%);
+    }
+    .hb-window-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--win-from, var(--accent)); }
+    .hb-window-num {
+      position: absolute; top: 14px; right: 14px;
+      width: 28px; height: 28px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Lora', serif; font-size: 14px; font-weight: 600;
+      background: var(--win-bg, var(--accent-2)); color: var(--win-fg, var(--accent-dk));
+    }
+    .hb-window-card .role-label {
+      font-size: 12px; font-weight: 700; color: var(--win-fg, var(--accent-dk));
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;
+      padding-right: 36px;
+    }
+    .hb-window-card .role-resp { font-size: 12px; line-height: 1.55; color: var(--ink-2); margin-top: 5px; }
+    .hb-window-card .role-resp:first-of-type { font-size: 13px; font-weight: 600; color: var(--ink); }
 
+    /* ── Roles cards ────────────────────────────────────────────── */
+    .hb-role-card {
+      position: relative; background: #fff;
+      border: 1px solid var(--border); border-radius: 12px;
+      padding: 16px 16px 14px 18px; box-shadow: var(--shadow-sm);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .hb-role-card::before {
+      content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px;
+      background: var(--role-color, var(--accent)); border-radius: 0 3px 3px 0;
+    }
+    .hb-role-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .hb-role-card .role-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700;
+      color: var(--role-color, var(--accent-dk));
+      text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;
+    }
+    .hb-role-card .role-icon { font-size: 14px; }
+    .hb-role-card .role-resp { font-size: 12.5px; line-height: 1.55; color: var(--ink-2); margin-top: 4px; }
+    .hb-role-card .role-resp strong { color: var(--ink); }
+    .hb-role-card ul { padding-left: 16px; margin-top: 8px; }
+    .hb-role-card li { font-size: 12px; line-height: 1.6; color: var(--ink-2); margin-bottom: 4px; }
+
+    /* ── Stage cards ────────────────────────────────────────────── */
     .hb-stage {
-      border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
-      margin-bottom: 18px; background: #fff;
+      position: relative;
+      border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+      margin-bottom: 22px; background: #fff;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow .2s;
     }
+    .hb-stage:hover { box-shadow: var(--shadow-md); }
     .hb-stage-head {
-      background: linear-gradient(180deg, #faf5ff 0%, #fff 100%);
-      padding: 16px 22px; border-bottom: 1px solid var(--accent-2);
+      position: relative; padding: 20px 24px 18px 84px;
+      background:
+        linear-gradient(135deg, rgba(108,92,231,0.07) 0%, rgba(8,145,178,0.04) 100%),
+        #fff;
+      border-bottom: 1px solid var(--accent-2);
     }
-    .hb-stage-name { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
-    .hb-stage-days { font-size: 12px; color: var(--accent-dk); font-weight: 600; }
-    .hb-stage-narrative { font-size: 13px; color: var(--ink-2); margin-top: 8px; line-height: 1.5; }
+    .hb-stage-num {
+      position: absolute; left: 22px; top: 50%; transform: translateY(-50%);
+      width: 46px; height: 46px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dk) 100%);
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      font-family: 'Lora', serif; font-size: 18px; font-weight: 600;
+      box-shadow: 0 4px 12px rgba(108,92,231,0.32);
+    }
+    .hb-stage-name { font-family: 'Lora', serif; font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 6px; line-height: 1.3; }
+    .hb-stage-days {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; color: var(--accent-dk); font-weight: 600;
+      background: var(--accent-2); padding: 3px 10px; border-radius: 999px;
+      letter-spacing: 0.02em;
+    }
+    .hb-stage-narrative { font-size: 13px; color: var(--ink-2); margin-top: 10px; line-height: 1.6; }
 
-    .hb-task { padding: 14px 22px; border-top: 1px solid var(--border); }
+    /* ── Task rows ──────────────────────────────────────────────── */
+    .hb-task {
+      position: relative; padding: 16px 24px 16px 24px;
+      border-top: 1px solid var(--border);
+      transition: background .12s;
+    }
+    .hb-task::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      background: transparent; transition: background .12s;
+    }
+    .hb-task:hover { background: rgba(108,92,231,0.025); }
+    .hb-task:hover::before { background: var(--accent); }
     .hb-task:first-of-type { border-top: none; }
-    .hb-task-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
-    .hb-task-desc { font-size: 13px; color: var(--ink-2); line-height: 1.5; margin-bottom: 8px; }
+    .hb-task-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+    .hb-task-desc { font-size: 13px; color: var(--ink-2); line-height: 1.55; margin-bottom: 10px; }
     .hb-task-meta { display: flex; gap: 6px; flex-wrap: wrap; font-size: 11px; }
-    .hb-tag { padding: 2px 8px; border-radius: 999px; font-weight: 500; }
+    .hb-tag { padding: 3px 9px; border-radius: 999px; font-weight: 600; font-size: 11px; line-height: 1.4; }
     .hb-tag.role { background: #f3f4f6; color: #4b5563; }
     .hb-tag.mentor { background: #fef3c7; color: #92400e; }
-    .hb-tag.minutes { background: #e0e7ff; color: #3730a3; }
-    .hb-tag.cts { background: var(--accent-2); color: var(--accent-dk); font-family: 'DM Mono', monospace; }
-    .hb-tag.skl { background: #d1fae5; color: #065f46; }
-    .hb-tag.pigp { background: #fee2e2; color: #991b1b; font-family: 'DM Mono', monospace; }
-    .hb-tag.signoff { background: #ddd6fe; color: #5b21b6; font-weight: 700; }
+    .hb-tag.minutes { background: var(--cyan-2); color: var(--cyan-dk); }
+    .hb-tag.cts { background: var(--accent-2); color: var(--accent-dk); font-family: 'DM Mono', monospace; cursor: help; }
+    .hb-tag.skl { background: #d1fae5; color: #065f46; cursor: help; }
+    .hb-tag.pigp { background: #fee2e2; color: #991b1b; font-family: 'DM Mono', monospace; cursor: help; }
+    .hb-tag.signoff { background: linear-gradient(135deg, var(--accent-2) 0%, var(--cyan-2) 100%); color: #5b21b6; font-weight: 700; }
 
-    .hb-substage-h { font-size: 13px; font-weight: 700; color: var(--accent-dk); padding: 12px 22px; background: #fafafa; border-top: 1px solid var(--border); }
-
-    .hb-obs-cycle {
-      background: #fafafa; border: 1px solid var(--border); border-radius: 10px;
-      padding: 14px 16px; margin: 14px 0;
+    .hb-substage-h {
+      font-size: 12px; font-weight: 700; color: var(--accent-dk);
+      padding: 12px 24px; background: #faf7ff;
+      border-top: 1px solid var(--accent-2);
+      text-transform: uppercase; letter-spacing: 0.06em;
     }
-    .hb-obs-cycle h4 { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
-    .hb-obs-cycle ol { padding-left: 22px; }
-    .hb-obs-cycle li { font-size: 12px; line-height: 1.6; color: var(--ink-2); margin-bottom: 6px; }
-    .hb-obs-cycle li b { color: var(--ink); font-weight: 600; }
 
-    .hb-loading { padding: 60px 40px; text-align: center; color: var(--ink-3); }
+    /* ── Observation cycle ──────────────────────────────────────── */
+    .hb-obs-cycle {
+      background: linear-gradient(135deg, var(--accent-2) 0%, #fff 70%);
+      border: 1px solid var(--accent-2); border-radius: 12px;
+      padding: 16px 18px; margin: 16px 0 4px;
+    }
+    .hb-obs-cycle h4 {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 700; color: var(--accent-dk);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;
+    }
+    .hb-obs-cycle h4::before { content: '🔄'; font-size: 14px; }
+    .hb-obs-cycle ol { padding-left: 0; list-style: none; counter-reset: rot; display: grid; gap: 8px; }
+    .hb-obs-cycle li {
+      counter-increment: rot;
+      position: relative; padding: 8px 12px 8px 38px;
+      background: #fff; border: 1px solid var(--accent-2); border-radius: 8px;
+      font-size: 12.5px; line-height: 1.55; color: var(--ink-2);
+    }
+    .hb-obs-cycle li::before {
+      content: counter(rot); position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; font-family: 'DM Mono', monospace;
+    }
+    .hb-obs-cycle li b { color: var(--ink); font-weight: 700; }
 
-    /* PRINT — keep readable, hide chrome. */
+    .hb-loading { padding: 60px 40px; text-align: center; color: var(--ink-3); font-size: 14px; }
+
+    @media (max-width: 720px) {
+      .toolbar { padding: 10px 18px; gap: 10px; flex-wrap: wrap; }
+      .toolbar select { min-width: 0; flex: 1; }
+      .toolbar .btn-print { padding: 8px 12px; font-size: 12px; }
+      .handbook-page { padding: 20px 18px 60px; }
+      .hb-hero { padding: 30px 22px 26px; }
+      .hb-title { font-size: 1.75rem; }
+      .hb-stage-head { padding: 18px 20px 16px 76px; }
+      .hb-stage-num { left: 18px; width: 42px; height: 42px; font-size: 16px; }
+    }
+
+    /* ── PRINT — flatten chrome, keep readable ─────────────────── */
     @media print {
       .toolbar, nav, .navbar, #navbar-container { display: none !important; }
       body { background: #fff !important; }
       .handbook-page { max-width: 100%; padding: 20px 24px; }
-      .hb-stage { break-inside: avoid; box-shadow: none; }
+      .hb-hero {
+        background: #fff !important; color: var(--ink) !important;
+        border: none !important; border-bottom: 2px solid var(--accent) !important;
+        border-radius: 0 !important; padding: 0 0 18px !important;
+        box-shadow: none !important; margin-bottom: 22px !important;
+      }
+      .hb-hero::before, .hb-hero::after { display: none !important; }
+      .hb-eyebrow { color: var(--ink-3) !important; }
+      .hb-eyebrow::before { background: var(--accent) !important; }
+      .hb-subtitle { color: var(--ink-2) !important; }
+      .hb-meta span { background: #f3f4f6 !important; color: var(--ink-2) !important; border-color: var(--border) !important; }
+      .hb-meta span strong { color: var(--ink-3) !important; }
+      .hb-stage, .hb-window-card, .hb-role-card, .hb-charter-box { break-inside: avoid; box-shadow: none !important; }
+      .hb-stage-num { box-shadow: none !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
       .hb-task { break-inside: avoid; }
-      .hb-charter-box { background: #fef3c7 !important; border-color: #fde68a !important; }
       a { color: var(--ink) !important; text-decoration: none !important; }
+      .hb-tag, .hb-stage-num, .hb-stage-days, .hb-window-card::before, .hb-obs-cycle li::before {
+        print-color-adjust: exact; -webkit-print-color-adjust: exact;
+      }
     }
     @page { margin: 18mm; }
   </style>
@@ -121,7 +314,7 @@
 <div id="navbar-container"></div>
 
 <div class="toolbar" id="toolbar">
-  <label for="hbSelect" style="font-size: 12px; font-weight: 600; color: var(--ink-2);">Handbook:</label>
+  <label for="hbSelect">Handbook</label>
   <select id="hbSelect">
     <option value="">Loading…</option>
   </select>
@@ -189,7 +382,7 @@
       return;
     }
     const stages = Array.isArray(hb.stages) ? hb.stages : [];
-    const stageBlocks = stages.map(renderStage).join('');
+    const stageBlocks = stages.map((s, i) => renderStage(s, i)).join('');
 
     const audienceLine = [
       hb.audience?.platform,
@@ -197,15 +390,15 @@
     ].filter(Boolean).join(' · ');
 
     document.getElementById('hbContent').innerHTML = `
-      <div class="hb-header">
+      <div class="hb-hero">
         <div class="hb-eyebrow">Eduversal Induction Handbook · v${escapeHtml(hb.version || '?')}</div>
         <h1 class="hb-title">${escapeHtml(hb.title || hb.id)}</h1>
         <div class="hb-subtitle">${escapeHtml(hb.subtitle || '')}</div>
         <div class="hb-meta">
-          ${audienceLine ? `<span><strong>Audience:</strong> ${escapeHtml(audienceLine)}</span>` : ''}
-          ${hb.duration?.totalDays ? `<span><strong>Duration:</strong> ${hb.duration.totalDays} days</span>` : ''}
-          ${hb.publishedOn ? `<span><strong>Published:</strong> ${escapeHtml(hb.publishedOn)}</span>` : ''}
-          ${hb.publishedBy ? `<span><strong>By:</strong> ${escapeHtml(hb.publishedBy)}</span>` : ''}
+          ${audienceLine ? `<span><strong>Audience</strong> ${escapeHtml(audienceLine)}</span>` : ''}
+          ${hb.duration?.totalDays ? `<span><strong>Duration</strong> ${hb.duration.totalDays} days</span>` : ''}
+          ${hb.publishedOn ? `<span><strong>Published</strong> ${escapeHtml(hb.publishedOn)}</span>` : ''}
+          ${hb.publishedBy ? `<span><strong>By</strong> ${escapeHtml(hb.publishedBy)}</span>` : ''}
         </div>
       </div>
 
@@ -233,6 +426,25 @@
     `;
   }
 
+  // Window/phase palette — each card gets its own gradient stripe + numbered badge.
+  const WINDOW_PALETTE = [
+    { from: '#6c5ce7', to: '#4e3db8', bg: '#ede9fe', fg: '#4c1d95' }, // mor — Listen / Survival
+    { from: '#0891b2', to: '#0e7490', bg: '#cffafe', fg: '#155e75' }, // cyan — Diagnose / Foundation
+    { from: '#d97706', to: '#92400e', bg: '#fef3c7', fg: '#78350f' }, // amber — Act / Mastery
+    { from: '#059669', to: '#065f46', bg: '#d1fae5', fg: '#064e3b' }, // green — Anchor / Integration
+    { from: '#db2777', to: '#9d174d', bg: '#fce7f3', fg: '#831843' }, // rose
+    { from: '#2563eb', to: '#1d4ed8', bg: '#dbeafe', fg: '#1e40af' }, // blue
+  ];
+
+  // Role colours + icons.
+  const ROLE_META = {
+    mentee:                  { color: '#6c5ce7', icon: '🌱' },
+    mentor:                  { color: '#0891b2', icon: '🧭' },
+    schoolLeader:            { color: '#d97706', icon: '🏫' },
+    foundationRepresentative:{ color: '#059669', icon: '🏛️' },
+    eduversalHQ:             { color: '#5b21b6', icon: '🎓' },
+  };
+
   function renderDesignPhilosophy(dp) {
     const phasesOrWindows = dp.fourPhases || dp.fourWindows;
     return `
@@ -241,17 +453,20 @@
         ${dp.summary ? `<p class="hb-section-text">${escapeHtml(dp.summary)}</p>` : ''}
         ${Array.isArray(phasesOrWindows) ? `
           <div class="hb-roles">
-            ${phasesOrWindows.map(p => `
-              <div class="hb-role-card">
-                <div class="role-label">${escapeHtml(p.label)}</div>
-                <div class="role-resp" style="font-weight:600;color:var(--ink);">
-                  ${escapeHtml(p.weeks || p.days || '')}
+            ${phasesOrWindows.map((p, i) => {
+              const pal = WINDOW_PALETTE[i % WINDOW_PALETTE.length];
+              const styleVars = `--win-from:${pal.from};--win-to:${pal.to};--win-bg:${pal.bg};--win-fg:${pal.fg};`;
+              return `
+                <div class="hb-window-card" style="${styleVars}">
+                  <div class="hb-window-num">${i + 1}</div>
+                  <div class="role-label">${escapeHtml(p.label)}</div>
+                  <div class="role-resp">${escapeHtml(p.weeks || p.days || '')}</div>
+                  ${p.cognitivePriority ? `<div class="role-resp">${escapeHtml(p.cognitivePriority)}</div>` : ''}
+                  ${p.leadershipPriority ? `<div class="role-resp">${escapeHtml(p.leadershipPriority)}</div>` : ''}
+                  ${p.successSignal ? `<div class="role-resp" style="margin-top:8px;font-style:italic;"><strong>Success:</strong> ${escapeHtml(p.successSignal)}</div>` : ''}
                 </div>
-                ${p.cognitivePriority ? `<div class="role-resp">${escapeHtml(p.cognitivePriority)}</div>` : ''}
-                ${p.leadershipPriority ? `<div class="role-resp">${escapeHtml(p.leadershipPriority)}</div>` : ''}
-                ${p.successSignal ? `<div class="role-resp" style="margin-top:6px;font-style:italic;"><strong>Success:</strong> ${escapeHtml(p.successSignal)}</div>` : ''}
-              </div>
-            `).join('')}
+              `;
+            }).join('')}
           </div>
         ` : ''}
       </div>
@@ -264,10 +479,11 @@
       .filter(k => rar[k])
       .map(k => {
         const r = rar[k];
+        const meta = ROLE_META[k] || { color: 'var(--accent)', icon: '👤' };
         const items = Array.isArray(r.responsibilities) ? r.responsibilities : [];
         return `
-          <div class="hb-role-card">
-            <div class="role-label">${escapeHtml(r.label || k)}</div>
+          <div class="hb-role-card" style="--role-color:${meta.color};">
+            <div class="role-label"><span class="role-icon">${meta.icon}</span> ${escapeHtml(r.label || k)}</div>
             ${r.ownership ? `<div class="role-resp"><strong>Ownership:</strong> ${escapeHtml(r.ownership)}</div>` : ''}
             ${items.length ? `<ul>${items.map(i => `<li>${escapeHtml(i)}</li>`).join('')}</ul>` : ''}
           </div>
@@ -281,14 +497,16 @@
     `;
   }
 
-  function renderStage(stage) {
+  function renderStage(stage, idx) {
     const tasks = Array.isArray(stage.tasks) ? stage.tasks : [];
     const subStages = Array.isArray(stage.subStages) ? stage.subStages : [];
     const cycle = stage.observationCycle || stage.walkthroughCycle;
+    const num = (typeof idx === 'number' ? idx + 1 : '');
 
     return `
       <div class="hb-stage">
         <div class="hb-stage-head">
+          ${num ? `<div class="hb-stage-num">${num}</div>` : ''}
           <div class="hb-stage-name">${escapeHtml(stage.label || stage.stageId)}</div>
           <div class="hb-stage-days">Day ${stage.dayStart} → ${stage.dayEnd}</div>
           ${stage.narrative ? `<div class="hb-stage-narrative">${escapeHtml(stage.narrative)}</div>` : ''}
