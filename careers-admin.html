@@ -120,6 +120,26 @@
   .ca-modal-overlay { position: fixed; inset: 0; background: rgba(28,28,46,.55); z-index: 1000; opacity: 0; pointer-events: none; transition: opacity .2s; display: flex; align-items: center; justify-content: center; padding: 24px; }
   .ca-modal-overlay.open { opacity: 1; pointer-events: auto; }
   .ca-modal { background: var(--white); border-radius: 16px; max-width: 560px; width: 100%; box-shadow: var(--shadow-lg); max-height: 90vh; display: flex; flex-direction: column; }
+  .ca-modal.ca-modal-wide { max-width: 920px; }
+  .ca-btn-danger { background: #dc2626; color: #fff; border-color: #dc2626; }
+  .ca-btn-danger:hover { background: #b91c1c; border-color: #b91c1c; }
+  .mp-toolbar { display: flex; gap: 10px; align-items: center; margin-bottom: 14px; flex-wrap: wrap; }
+  .mp-table-wrap { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .mp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .mp-table thead { background: var(--paper); }
+  .mp-table th { text-align: left; padding: 10px 12px; font-weight: 600; color: var(--ink-2); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid var(--border); }
+  .mp-table td { padding: 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .mp-table tbody tr:last-child td { border-bottom: none; }
+  .mp-table tbody tr:hover { background: var(--paper); }
+  .mp-empty { text-align: center; color: var(--ink-3); padding: 24px !important; }
+  .mp-status-badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+  .mp-status-badge.open   { background: #dcfce7; color: #166534; }
+  .mp-status-badge.draft  { background: #f1f5f9; color: #475569; }
+  .mp-status-badge.closed { background: #fee2e2; color: #991b1b; }
+  .mp-actions { display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap; }
+  .mp-actions .ca-btn { padding: 5px 10px; font-size: 12px; }
+  .mp-pos-title { font-weight: 600; color: var(--ink); }
+  .mp-pos-meta  { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
   .ca-modal-head { padding: 22px 24px 14px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; }
   .ca-modal-head h3 { font-family: 'Lora', serif; font-size: 18px; font-weight: 600; }
   .ca-modal-body { padding: 22px 24px; flex: 1; overflow-y: auto; }
@@ -175,6 +195,7 @@
     </div>
     <div class="ca-header-actions">
       <a class="ca-btn" href="/careers" target="_blank" rel="noopener">↗ View public page</a>
+      <button class="ca-btn" id="btnManagePositions">Manage positions</button>
       <button class="ca-btn" id="btnNewPosition">+ New position</button>
       <button class="ca-btn ca-btn-primary" id="btnCompare" disabled>Compare selected (<span id="cmpCount">0</span>)</button>
     </div>
@@ -354,11 +375,11 @@
   </div>
 </div>
 
-<!-- NEW POSITION MODAL -->
+<!-- NEW / EDIT POSITION MODAL -->
 <div class="ca-modal-overlay" id="positionOverlay">
   <div class="ca-modal">
     <div class="ca-modal-head">
-      <h3>New position</h3>
+      <h3 id="posModalTitle">New position</h3>
       <button class="ca-drawer-close" data-modal-close>×</button>
     </div>
     <div class="ca-modal-body">
@@ -424,12 +445,72 @@
   </div>
 </div>
 
+<!-- MANAGE POSITIONS MODAL -->
+<div class="ca-modal-overlay" id="managePositionsOverlay">
+  <div class="ca-modal ca-modal-wide">
+    <div class="ca-modal-head">
+      <h3>Manage positions</h3>
+      <button class="ca-drawer-close" data-modal-close>×</button>
+    </div>
+    <div class="ca-modal-body">
+      <div class="mp-toolbar">
+        <input id="mpSearch" class="ca-form-input" placeholder="Search by title or school…" style="max-width:320px" />
+        <select id="mpStatusFilter" class="ca-form-select" style="max-width:180px">
+          <option value="">All statuses</option>
+          <option value="open">Open</option>
+          <option value="draft">Draft</option>
+          <option value="closed">Closed</option>
+        </select>
+        <span class="ca-meta" id="mpCount" style="margin-left:auto">— positions</span>
+      </div>
+      <div class="mp-table-wrap">
+        <table class="mp-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>School</th>
+              <th>Status</th>
+              <th>Apps</th>
+              <th>Deadline</th>
+              <th style="text-align:right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="mpTbody">
+            <tr><td colspan="6" class="mp-empty">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ca-modal-foot">
+      <button class="ca-btn" data-modal-close>Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE POSITION CONFIRM MODAL -->
+<div class="ca-modal-overlay" id="deletePosOverlay">
+  <div class="ca-modal" style="max-width:460px">
+    <div class="ca-modal-head">
+      <h3>Delete position?</h3>
+      <button class="ca-drawer-close" data-modal-close>×</button>
+    </div>
+    <div class="ca-modal-body">
+      <p style="margin:0 0 8px 0">You are about to permanently delete <strong id="delPosTitle">—</strong>.</p>
+      <p style="color:var(--ink-3);font-size:13px;margin:0">This cannot be undone. Deletion is only allowed when the position has <strong>no applications</strong>. Otherwise, close the position instead to preserve audit trail.</p>
+    </div>
+    <div class="ca-modal-foot">
+      <button class="ca-btn" data-modal-close>Cancel</button>
+      <button class="ca-btn ca-btn-danger" id="delPosConfirm">Delete permanently</button>
+    </div>
+  </div>
+</div>
+
 <div class="ca-toast" id="toast"></div>
 
 <script type="module">
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
   import {
-    collection, doc, getDoc, getDocs, addDoc, setDoc, updateDoc,
+    collection, doc, getDoc, getDocs, addDoc, setDoc, updateDoc, deleteDoc,
     query, where, orderBy, limit, serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -1041,18 +1122,28 @@
     }
   });
 
-  // ── action: new position ──────────────────────────────────────
-  document.getElementById('btnNewPosition').addEventListener('click', () => {
-    document.getElementById('posTitle').value = '';
-    document.getElementById('posSchool').value = isHiringMgr && !isAdmin ? mySchoolId : '';
-    document.getElementById('posLevel').value = 'primary';
-    document.querySelectorAll('#posSubjects input').forEach(c => c.checked = false);
-    document.getElementById('posMode').value = 'in_person';
-    document.getElementById('posDeadline').value = '';
-    document.getElementById('posDesc').value = '';
-    document.getElementById('posStatus').value = 'open';
+  // ── action: new / edit position ──────────────────────────────
+  let editingPositionId = null;
+
+  function openPositionModal(pos) {
+    editingPositionId = pos ? pos.id : null;
+    document.getElementById('posModalTitle').textContent = pos ? 'Edit position' : 'New position';
+    document.getElementById('posSave').textContent       = pos ? 'Save changes'  : 'Create position';
+    document.getElementById('posTitle').value    = pos?.title    || '';
+    document.getElementById('posSchool').value   = pos?.schoolId || (isHiringMgr && !isAdmin ? mySchoolId : '');
+    document.getElementById('posLevel').value    = pos?.gradeLevel || 'primary';
+    document.querySelectorAll('#posSubjects input').forEach(c => {
+      c.checked = Array.isArray(pos?.subjects) && pos.subjects.includes(c.value);
+    });
+    document.getElementById('posMode').value     = pos?.mode || 'in_person';
+    document.getElementById('posDeadline').value = pos?.applicationDeadline || '';
+    document.getElementById('posDesc').value     = pos?.description || '';
+    document.getElementById('posStatus').value   = pos?.status || 'open';
     document.getElementById('positionOverlay').classList.add('open');
-  });
+  }
+
+  document.getElementById('btnNewPosition').addEventListener('click', () => openPositionModal(null));
+
   document.getElementById('posSave').addEventListener('click', async () => {
     const title    = (document.getElementById('posTitle').value || '').trim();
     const schoolId = document.getElementById('posSchool').value;
@@ -1064,25 +1155,44 @@
     const status   = document.getElementById('posStatus').value;
     if (!title || !schoolId) { showToast('Title and school are required.', 'error'); return; }
     try {
-      const ref = await addDoc(collection(db, 'job_positions'), {
-        title, schoolId,
-        schoolName: schoolNameById[schoolId] || schoolId,
-        gradeLevel: level,
-        subjects, mode,
-        applicationDeadline: deadline || null,
-        description: desc, requirements: '',
-        questionSetId: 'primary-default-v1',
-        status,
-        createdBy: currentUser.uid,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      });
-      await loadPositions();
-      populateFilters();
-      closeModal('positionOverlay');
-      showToast(status === 'open' ? 'Position published.' : 'Position saved as ' + status + '.', 'success');
+      if (editingPositionId) {
+        await updateDoc(doc(db, 'job_positions', editingPositionId), {
+          title, schoolId,
+          schoolName: schoolNameById[schoolId] || schoolId,
+          gradeLevel: level,
+          subjects, mode,
+          applicationDeadline: deadline || null,
+          description: desc,
+          status,
+          updatedAt: serverTimestamp(),
+        });
+        await loadPositions();
+        populateFilters();
+        renderManagePositions();
+        closeModal('positionOverlay');
+        showToast('Position updated.', 'success');
+      } else {
+        await addDoc(collection(db, 'job_positions'), {
+          title, schoolId,
+          schoolName: schoolNameById[schoolId] || schoolId,
+          gradeLevel: level,
+          subjects, mode,
+          applicationDeadline: deadline || null,
+          description: desc, requirements: '',
+          questionSetId: 'primary-default-v1',
+          status,
+          createdBy: currentUser.uid,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        });
+        await loadPositions();
+        populateFilters();
+        renderManagePositions();
+        closeModal('positionOverlay');
+        showToast(status === 'open' ? 'Position published.' : 'Position saved as ' + status + '.', 'success');
+      }
     } catch (err) {
-      console.error('[ca] new position failed', err);
+      console.error('[ca] save position failed', err);
       showToast('Could not save position.', 'error');
     }
   });
@@ -1098,6 +1208,120 @@
     ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('open'); });
   });
   function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+  // ── manage positions (list / edit / close-reopen / delete) ───
+  let pendingDeletePosId = null;
+
+  function appCountForPosition(posId) {
+    return allApplications.filter(a => a.positionId === posId).length;
+  }
+
+  function renderManagePositions() {
+    const tbody = document.getElementById('mpTbody');
+    if (!tbody) return;
+    const term   = (document.getElementById('mpSearch').value || '').toLowerCase().trim();
+    const sFilt  = document.getElementById('mpStatusFilter').value;
+    const rows = allPositions.filter(p => {
+      if (sFilt && (p.status || 'open') !== sFilt) return false;
+      if (!term) return true;
+      const hay = `${p.title || ''} ${p.schoolName || ''}`.toLowerCase();
+      return hay.includes(term);
+    });
+    document.getElementById('mpCount').textContent = `${rows.length} position${rows.length === 1 ? '' : 's'}`;
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="6" class="mp-empty">No positions match these filters.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = rows.map(p => {
+      const status = p.status || 'open';
+      const apps   = appCountForPosition(p.id);
+      const canDelete = isAdmin && apps === 0;
+      const subjList = Array.isArray(p.subjects) && p.subjects.length ? p.subjects.join(', ') : '—';
+      const toggleLabel = status === 'open' ? 'Close' : (status === 'closed' ? 'Reopen' : 'Open');
+      return `
+        <tr data-pid="${escHtml(p.id)}">
+          <td>
+            <div class="mp-pos-title">${escHtml(p.title || '(untitled)')}</div>
+            <div class="mp-pos-meta">${escHtml(p.gradeLevel || '')} · ${escHtml(subjList)}</div>
+          </td>
+          <td>${escHtml(p.schoolName || p.schoolId || '—')}</td>
+          <td><span class="mp-status-badge ${status}">${status}</span></td>
+          <td>${apps}</td>
+          <td>${p.applicationDeadline ? escHtml(p.applicationDeadline) : '—'}</td>
+          <td>
+            <div class="mp-actions">
+              <button class="ca-btn" data-mp-edit="${escHtml(p.id)}">Edit</button>
+              <button class="ca-btn" data-mp-toggle="${escHtml(p.id)}">${toggleLabel}</button>
+              <button class="ca-btn ca-btn-danger" data-mp-delete="${escHtml(p.id)}" ${canDelete ? '' : 'disabled title="Delete is only allowed when no applications exist (admins only)"'}>Delete</button>
+            </div>
+          </td>
+        </tr>`;
+    }).join('');
+  }
+
+  document.getElementById('btnManagePositions').addEventListener('click', () => {
+    renderManagePositions();
+    document.getElementById('managePositionsOverlay').classList.add('open');
+  });
+  document.getElementById('mpSearch').addEventListener('input', renderManagePositions);
+  document.getElementById('mpStatusFilter').addEventListener('change', renderManagePositions);
+
+  document.getElementById('mpTbody').addEventListener('click', async (e) => {
+    const editId   = e.target.getAttribute('data-mp-edit');
+    const toggleId = e.target.getAttribute('data-mp-toggle');
+    const delId    = e.target.getAttribute('data-mp-delete');
+    if (editId) {
+      const pos = allPositions.find(p => p.id === editId);
+      if (!pos) return;
+      closeModal('managePositionsOverlay');
+      openPositionModal(pos);
+      return;
+    }
+    if (toggleId) {
+      const pos = allPositions.find(p => p.id === toggleId);
+      if (!pos) return;
+      const next = (pos.status === 'open') ? 'closed' : 'open';
+      try {
+        await updateDoc(doc(db, 'job_positions', toggleId), { status: next, updatedAt: serverTimestamp() });
+        pos.status = next;
+        renderManagePositions();
+        populateFilters();
+        showToast(next === 'open' ? 'Position reopened.' : 'Position closed.', 'success');
+      } catch (err) {
+        console.error('[ca] toggle position failed', err);
+        showToast('Could not change status.', 'error');
+      }
+      return;
+    }
+    if (delId) {
+      const pos = allPositions.find(p => p.id === delId);
+      if (!pos) return;
+      if (!isAdmin) { showToast('Only admins can delete positions.', 'error'); return; }
+      if (appCountForPosition(delId) > 0) {
+        showToast('Cannot delete a position with applications. Close it instead.', 'error');
+        return;
+      }
+      pendingDeletePosId = delId;
+      document.getElementById('delPosTitle').textContent = pos.title || '(untitled)';
+      document.getElementById('deletePosOverlay').classList.add('open');
+    }
+  });
+
+  document.getElementById('delPosConfirm').addEventListener('click', async () => {
+    if (!pendingDeletePosId) return;
+    try {
+      await deleteDoc(doc(db, 'job_positions', pendingDeletePosId));
+      allPositions = allPositions.filter(p => p.id !== pendingDeletePosId);
+      pendingDeletePosId = null;
+      closeModal('deletePosOverlay');
+      renderManagePositions();
+      populateFilters();
+      showToast('Position deleted.', 'success');
+    } catch (err) {
+      console.error('[ca] delete position failed', err);
+      showToast('Could not delete position.', 'error');
+    }
+  });
 
   // ── audit + mail helpers ──────────────────────────────────────
   async function writeAudit(applicationId, action, before, after) {
