@@ -346,28 +346,41 @@
     document.body.style.display = '';
     try {
       const snap = await getDocs(query(collection(db, 'induction_programs'), limit(50)));
-      allHandbooks = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const all = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      // TH viewer surfaces only the teachers-platform handbook(s).
+      // Principal and HQ Specialist handbooks live in their own hubs;
+      // CH /references is the cross-hub superset.
+      allHandbooks = all.filter(hb => hb.audience?.platform === 'teachershub');
+
       const select = document.getElementById('hbSelect');
-      select.innerHTML = '';
-      allHandbooks.forEach(hb => {
-        const opt = document.createElement('option');
-        opt.value = hb.id;
-        opt.textContent = hb.title || hb.id;
-        select.appendChild(opt);
-      });
-      const params = new URLSearchParams(window.location.search);
-      const requested = params.get('id') || allHandbooks[0]?.id;
-      if (requested && allHandbooks.find(h => h.id === requested)) {
-        select.value = requested;
+      const toolbar = document.getElementById('toolbar');
+      if (allHandbooks.length <= 1) {
+        // Single handbook → hide the picker, jump straight to render.
+        if (select) select.style.display = 'none';
+        const lbl = toolbar?.querySelector('label[for="hbSelect"]');
+        if (lbl) lbl.style.display = 'none';
+      } else {
+        select.innerHTML = '';
+        allHandbooks.forEach(hb => {
+          const opt = document.createElement('option');
+          opt.value = hb.id;
+          opt.textContent = hb.title || hb.id;
+          select.appendChild(opt);
+        });
+        select.addEventListener('change', () => {
+          const newId = select.value;
+          const url = new URL(window.location.href);
+          url.searchParams.set('id', newId);
+          window.history.replaceState({}, '', url);
+          renderHandbook(newId);
+        });
       }
-      select.addEventListener('change', () => {
-        const newId = select.value;
-        const url = new URL(window.location.href);
-        url.searchParams.set('id', newId);
-        window.history.replaceState({}, '', url);
-        renderHandbook(newId);
-      });
-      renderHandbook(select.value);
+
+      const params = new URLSearchParams(window.location.search);
+      const requested = params.get('id');
+      const initialId = (requested && allHandbooks.find(h => h.id === requested)?.id) || allHandbooks[0]?.id;
+      if (select && initialId && select.style.display !== 'none') select.value = initialId;
+      renderHandbook(initialId);
     } catch (err) {
       console.error('boot', err);
       document.getElementById('hbContent').innerHTML = `<div class="hb-loading" style="color:#991b1b;">Could not load: ${escapeHtml(err.message || err.code || 'unknown')}</div>`;
