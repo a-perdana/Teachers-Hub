@@ -173,6 +173,7 @@ Each page defines `window.PACING_CONFIG` and runs `initSubjectConfig()`. Status 
 
 **Hub:**
 - `announcements` · `messageboard` · `library` · `cambridge-calendar` · `cambridge-standards` · `orientation` · `surveys`
+- **`references` (2026-05-09)** — narrowed TH variant of the references hub (3 tabs · 15 docs: Frameworks · Cambridge · Permendiknas). Fetches references-data cross-origin from `https://centralhub.eduversal.org/references-data/*` (CORS-open, single source of truth). Modal viewer auto-wires CTS / SKL / PIGP chips via `cambridge-crossref.js`.
 
 **Careers (see section below):** `careers` · `careers-apply` · `careers-status` (public 3) + `careers-admin` · `interview-scorecard` · `careers-compare` (auth'd 3)
 
