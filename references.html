@@ -136,6 +136,30 @@
     .md-render th { background: #faf5ff; color: var(--ink); font-weight: 600; }
 
     .json-render { background: #0f172a; color: #e2e8f0; padding: 16px 20px; border-radius: 10px; font-family: 'DM Mono', monospace; font-size: 12.5px; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
+    /* Inline cross-ref chips inside JSON viewer (dark) */
+    .json-render .task-chip.cts {
+      display: inline-block; padding: 0 6px; margin: 0 1px; border-radius: 4px;
+      background: rgba(167,139,250,0.22); color: #ddd6fe; font-weight: 600;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .json-render .task-chip.cts:hover { background: rgba(167,139,250,0.42); }
+    .json-render .hb-tag.skl, .json-render .hb-tag.pigp {
+      display: inline-block; padding: 0 6px; margin: 0 1px; border-radius: 4px;
+      cursor: pointer; font-weight: 600;
+    }
+    .json-render .hb-tag.skl  { background: rgba(110,231,183,0.22); color: #6ee7b7; }
+    .json-render .hb-tag.pigp { background: rgba(252,165,165,0.22); color: #fca5a5; }
+    .md-render .task-chip.cts {
+      display: inline-block; padding: 1px 7px; border-radius: 4px;
+      background: #ede9fe; color: #4c1d95; font-weight: 600;
+      font-family: 'DM Mono', monospace; font-size: 12px; cursor: pointer;
+    }
+    .md-render .hb-tag.skl, .md-render .hb-tag.pigp {
+      display: inline-block; padding: 1px 7px; border-radius: 4px;
+      cursor: pointer; font-weight: 600; font-family: 'DM Mono', monospace; font-size: 12px;
+    }
+    .md-render .hb-tag.skl  { background: #d1fae5; color: #065f46; }
+    .md-render .hb-tag.pigp { background: #fee2e2; color: #991b1b; }
 
     .doc-loading { text-align: center; padding: 60px 20px; color: var(--ink-3); font-size: 13px; }
     .doc-error { background: #fee2e2; color: #991b1b; padding: 14px 18px; border-radius: 10px; font-size: 13px; }
@@ -352,11 +376,11 @@
         const text = await res.text();
         if (kind === 'md') {
           const html = window.marked ? window.marked.parse(text) : `<pre>${escapeHtml(text)}</pre>`;
-          bodyEl.innerHTML = `<div class="md-render">${html}</div>`;
+          bodyEl.innerHTML = `<div class="md-render">${injectCrossrefChips(html)}</div>`;
         } else if (kind === 'json') {
           let pretty = text;
           try { pretty = JSON.stringify(JSON.parse(text), null, 2); } catch(_) {}
-          bodyEl.innerHTML = `<pre class="json-render">${escapeHtml(pretty)}</pre>`;
+          bodyEl.innerHTML = `<pre class="json-render">${injectCrossrefChips(escapeHtml(pretty))}</pre>`;
         } else {
           bodyEl.innerHTML = `<pre>${escapeHtml(text)}</pre>`;
         }
@@ -367,6 +391,15 @@
     }
 
     function closeDoc() { document.getElementById('docModalOverlay').classList.remove('open'); }
+
+    function injectCrossrefChips(html) {
+      let out = html;
+      out = out.replace(/\bCTS\s+(\d+\.\d+)\b/g, (m, n) => `<span class="task-chip cts" title="Cambridge Teacher Standards CTS ${n}">CTS ${n}</span>`);
+      out = out.replace(/\bPIGP\s+((?:pasal|lampiran)-[A-Za-z0-9-]+)/gi, (m, n) => `<span class="hb-tag pigp">PIGP ${n}</span>`);
+      out = out.replace(/\bSKL[:\s]+([a-z_]+)\b/gi, (m, n) => `<span class="hb-tag skl">SKL: ${n}</span>`);
+      return out;
+    }
+
     function escapeHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
   </script>
 </body>
