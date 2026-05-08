@@ -331,6 +331,11 @@
       `;
     }
 
+    /* references-data lives in CH (single source of truth, CORS-open).
+       TH and AH fetch cross-origin so we don't have to mirror 17+ JSON
+       files into every hub's repo. */
+    const REF_DATA_BASE = 'https://centralhub.eduversal.org/references-data';
+
     async function openDoc({ path, kind, title }) {
       const overlay = document.getElementById('docModalOverlay');
       const titleEl = document.getElementById('docModalTitle');
@@ -341,7 +346,7 @@
       bodyEl.innerHTML = '<div class="doc-loading">Loading…</div>';
       overlay.classList.add('open');
       try {
-        const url = `/references-data/${path}`;
+        const url = `${REF_DATA_BASE}/${path}`;
         const res = await fetch(url);
         if (!res.ok) throw new Error(`HTTP ${res.status} fetching ${url}`);
         const text = await res.text();

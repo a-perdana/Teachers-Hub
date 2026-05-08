@@ -876,43 +876,14 @@ if (fs.existsSync(path.join(__dirname, 'tokens.css'))) {
   console.log('Copied: dist/tokens.css');
 }
 
-// References & Standards data tree (TH-narrowed subset).
-// The /references page loads these via fetch('/references-data/<path>').
-// Source of truth: monorepo-root docs/ + Academic Hub/resources/.
-// Keep this list in sync with the MANIFEST in references.html.
-const refDestRoot = path.join(distDir, 'references-data');
-fs.mkdirSync(refDestRoot, { recursive: true });
-const refAssetMap = [
-  // Frameworks — TH track + the cross-track scoring artefacts a Subject
-  // Leader genuinely needs (appraisal scale, walkthrough rubric).
-  ['frameworks/appraisal-framework-v2.json',                path.join(__dirname, '..', 'Academic Hub', 'resources', 'appraisal-framework-v2.json')],
-  ['frameworks/appraisal-levels.json',                      path.join(__dirname, '..', 'Academic Hub', 'resources', 'appraisal-levels.json')],
-  ['frameworks/walkthrough-rubric.json',                    path.join(__dirname, '..', 'Academic Hub', 'resources', 'walkthrough-rubric.json')],
-  ['frameworks/teaching-competency-framework.json',         path.join(__dirname, '..', 'Central Hub', 'resources', 'teaching-competency-framework.json')],
-  ['frameworks/teacher-kpi-extensions-v1.json',             path.join(__dirname, '..', 'docs', 'kpi', 'teacher-kpi-extensions-v1.json')],
-  ['frameworks/teacher-kpi-legacy-backfill-v1.json',        path.join(__dirname, '..', 'docs', 'kpi', 'teacher-kpi-legacy-backfill-v1.json')],
-  ['frameworks/weekly-checklists/_academic-year-arc.json',  path.join(__dirname, '..', 'docs', 'weekly-checklists', '_academic-year-arc.json')],
-  ['frameworks/weekly-checklists/subject-teacher.json',     path.join(__dirname, '..', 'docs', 'weekly-checklists', 'subject-teacher.json')],
-  ['frameworks/weekly-checklists/subject-leader.json',      path.join(__dirname, '..', 'docs', 'weekly-checklists', 'subject-leader.json')],
-  // Cambridge verbatim
-  ['cambridge/teacher-standards-2023.json',                 path.join(__dirname, '..', 'docs', 'research', 'cambridge', 'teacher-standards-2023.json')],
-  ['cambridge/teacher-standards-rationale.json',            path.join(__dirname, '..', 'docs', 'research', 'cambridge', 'teacher-standards-rationale.json')],
-  ['cambridge/school-leader-standards-2023.json',           path.join(__dirname, '..', 'docs', 'research', 'cambridge', 'school-leader-standards-2023.json')],
-  ['cambridge/mentoring-guide-2020.json',                   path.join(__dirname, '..', 'docs', 'research', 'cambridge', 'mentoring-guide-2020.json')],
-  ['cambridge/ictl-5881-syllabus.json',                     path.join(__dirname, '..', 'docs', 'research', 'cambridge', 'ictl-5881-syllabus.json')],
-  // Permendiknas verbatim
-  ['permendiknas/no-10-2025-skl.json',                      path.join(__dirname, '..', 'docs', 'research', 'permendiknas', 'no-10-2025-skl.json')],
-  ['permendiknas/no-27-2010-pigp.json',                     path.join(__dirname, '..', 'docs', 'research', 'permendiknas', 'no-27-2010-pigp.json')],
-  ['permendiknas/no-16-2007.json',                          path.join(__dirname, '..', 'docs', 'research', 'permendiknas', 'no-16-2007.json')],
-];
-let refCopied = 0, refMissing = 0;
-refAssetMap.forEach(([rel, src]) => {
-  const dest = path.join(refDestRoot, rel);
-  fs.mkdirSync(path.dirname(dest), { recursive: true });
-  if (fs.existsSync(src)) { fs.copyFileSync(src, dest); refCopied++; }
-  else { console.warn(`WARNING: TH references-data source missing: ${src}`); refMissing++; }
-});
-console.log(`Copied: dist/references-data/ (${refCopied} files, ${refMissing} missing)`);
+// References & Standards data — TH does NOT mirror references-data
+// locally. The /references viewer fetches from
+// https://centralhub.eduversal.org/references-data/* (CORS-open) so
+// we keep one source of truth in CH. See references.html REF_DATA_BASE.
+//
+// (Earlier revisions of this file copied 17 JSONs from monorepo-root
+// docs/ here. That works locally but breaks on Vercel because the
+// Teachers-Hub repo is deployed standalone and has no monorepo root.)
 
 // Simple nav editor module — local copy lives in this repo (committed) so
 // Vercel builds don't depend on the monorepo-root /shared-design/ folder.
