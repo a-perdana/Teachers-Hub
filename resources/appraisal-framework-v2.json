@@ -2627,6 +2627,205 @@
               "text": "establish professional relationships with colleagues in other institutions, professional bodies and educational organisations to develop professional practice"
             }
           ]
+        },
+        {
+          "id": "L7",
+          "title": "Lesson Plan Quality Governance",
+          "visible_from": "lead",
+          "coaching_focus": "leadership",
+          "feedback_prompts": {
+            "grow": "Describe how you currently spot-check department lesson plans against the LPQR standards. Is the rotation systematic? Which standard is the most consistent department weakness?",
+            "go": "Identify one LPQR standard your department is weakest on this term and design a co-planning workshop that addresses it. Submit the plan to the Academic Coordinator by [date]."
+          },
+          "follow_up_indicators": [
+            "Monthly Lesson Plan Quality Report submitted to Academic Coordinator on the first Monday of each month",
+            "Each department teacher receives substantive LPQR feedback at least once per month",
+            "Department-wide weakness on a single LPQR standard moves up at least one level term-on-term",
+            "Exemplar plans curated and shared in monthly Week-4 PLC"
+          ],
+          "theory_basis": "Adapted from Semesta Academic Leadership Governance Handbook §6.5-6.6 (LPQR governance) and CTS 4.1-4.5.",
+          "rubric": {
+            "1": "No systematic LPQR oversight. Department lesson plans go unreviewed or are reviewed only on complaint. Submission compliance not monitored.",
+            "2": "LPQR spot-checks happen sporadically. Monthly report incomplete or late. Feedback to teachers is inconsistent.",
+            "3": "Rolling 20% LPQR spot-check completed every week. Monthly Lesson Plan Quality Report submitted on time. Feedback to teachers is specific and actionable.",
+            "4": "LPQR oversight is systematic and developmental. Department-wide weaknesses identified, addressed via co-planning, and demonstrably improved term-on-term. Exemplars curated and shared as a department resource."
+          },
+          "cambridge_standard_refs": [
+            "4.1",
+            "4.2",
+            "4.4",
+            "4.5"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "4.1",
+              "text": "plan and prepare effectively to ensure that learners progress in their learning and meet their potential"
+            },
+            {
+              "ref": "4.2",
+              "text": "use a range of teaching strategies to facilitate active learning and ensure that all learners can engage and progress"
+            },
+            {
+              "ref": "4.4",
+              "text": "share key information on progress, attainment and areas for development with colleagues, and collaboratively work towards improving student learning"
+            },
+            {
+              "ref": "4.5",
+              "text": "critically engage with research and evidence in learning and teaching, and apply new ideas and approaches to improve the quality of their practice"
+            }
+          ],
+          "weekly_checklist_link": [
+            "SL-C1-002",
+            "SL-C1-003"
+          ],
+          "framework_alignment": "Subject Leader weekly tasks SL-C1-002 (review and approve dept lesson plans) and SL-C1-003 (monthly LPQR report submission)"
+        },
+        {
+          "id": "L8",
+          "title": "Walkthrough Discipline & Database Integrity",
+          "visible_from": "lead",
+          "coaching_focus": "leadership",
+          "feedback_prompts": {
+            "grow": "Walk me through your weekly walkthrough rhythm. Is every department teacher visited at least once every 14 days? Where does the rhythm break down?",
+            "go": "Run the Walkthrough Coverage Report for your department. Identify any teacher not visited in 14+ days and visit them this week. Schedule the next 4 weeks of walkthroughs in your calendar."
+          },
+          "follow_up_indicators": [
+            "Minimum 3-5 walkthroughs per week documented in the Central Academic Database",
+            "Every department teacher visited at least once every 14 days (zero coverage gaps in monthly report)",
+            "All walkthrough data entered within 24 hours of the visit",
+            "Monthly Joint Walkthrough with Principal completed for calibration",
+            "Feedback notes (\"I noticed / I wonder\") delivered to teachers within 24 hours"
+          ],
+          "theory_basis": "Adapted from Semesta Academic Leadership Governance Handbook §4.8 (HoD Weekly Monitoring) and §4.14 (Documentation Standards).",
+          "rubric": {
+            "1": "Walkthrough rhythm sporadic. Coverage gaps frequent. Database entries late or missing. Feedback to teachers inconsistent or absent.",
+            "2": "Walkthroughs happen but not at quota. Some teachers visited regularly, others rarely. Database entries delayed. Feedback notes generic.",
+            "3": "Weekly quota met (3-5 walkthroughs). Every teacher visited within 14 days. Database current within 24h. Feedback specific and timely.",
+            "4": "Walkthrough rhythm is exemplary and visible. Coverage gaps closed proactively. Database immaculate. Feedback notes drive observable Monday Commitments. Joint Walkthrough with Principal demonstrates strong calibration."
+          },
+          "cambridge_standard_refs": [
+            "6.1",
+            "6.2",
+            "6.3"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "6.1",
+              "text": "engage in continuous professional learning and development, and reflect on the effects of these on their professional practice"
+            },
+            {
+              "ref": "6.2",
+              "text": "collaborate with colleagues to enhance the quality of their teaching, share resources, and reflect on practice together"
+            },
+            {
+              "ref": "6.3",
+              "text": "engage critically with feedback and evidence about their professional practice from a range of sources"
+            }
+          ],
+          "weekly_checklist_link": [
+            "SL-C2-001",
+            "SL-C2-002",
+            "SL-C2-003",
+            "SL-C2-004"
+          ],
+          "framework_alignment": "Subject Leader weekly tasks SL-C2-001 (3-5 walkthroughs/week), SL-C2-002 (24h database entry), SL-C2-003 (fortnightly coverage audit), SL-C2-004 (monthly Joint Walkthrough)"
+        },
+        {
+          "id": "L9",
+          "title": "PLC Facilitation & Monday Commitment Follow-Through",
+          "visible_from": "lead",
+          "coaching_focus": "leadership",
+          "feedback_prompts": {
+            "grow": "Reflect on your last Week-4 PLC. What proportion of meeting time was instructional dialogue versus logistics? Did every teacher leave with a specific Monday Morning Commitment? Did your walkthroughs the following week verify implementation?",
+            "go": "For your next Week-4 PLC, assemble the materials 24 hours in advance: anonymised Domain Heatmap, the borderline student artifact, and the Bright Spot evidence. Hold the 70/30 line strictly. Write each teacher's Monday Commitment in their own words."
+          },
+          "follow_up_indicators": [
+            "Week-4 Strategy PLC held monthly with 90-minute mandatory format",
+            "70% of meeting time on instructional dialogue (verifiable in minutes)",
+            "Every teacher leaves with a specific, measurable Monday Morning Commitment recorded by the HoD",
+            "Following week's walkthroughs target each commitment specifically",
+            "Monthly PLC Impact Report submitted documenting commitment implementation rate"
+          ],
+          "theory_basis": "Adapted from Semesta Academic Leadership Governance Handbook §7 (PLCs) and DuFour's Professional Learning Community framework.",
+          "rubric": {
+            "1": "PLC happens irregularly or is dominated by logistics. No artifact analysis. Monday Commitments vague or absent. No walkthrough follow-up.",
+            "2": "PLC happens monthly but logistics drift past 30%. Artifact analysis brief or absent. Commitments inconsistently recorded. Follow-up sporadic.",
+            "3": "Week-4 PLC held monthly per the 5-stage agenda. 70% instructional dialogue. Each teacher records a specific commitment. Walkthrough verifies implementation. PLC Impact Report submitted.",
+            "4": "PLC is exemplary in facilitation and impact. Bright Spots reliably identified. Artifact Analysis follows the 4-stage protocol with rigour. Commitment implementation rate >80%. PLC has become a culture of distributed governance, not a meeting on a calendar."
+          },
+          "cambridge_standard_refs": [
+            "6.1",
+            "6.2",
+            "6.3"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "6.1",
+              "text": "engage in continuous professional learning and development, and reflect on the effects of these on their professional practice"
+            },
+            {
+              "ref": "6.2",
+              "text": "collaborate with colleagues to enhance the quality of their teaching, share resources, and reflect on practice together"
+            },
+            {
+              "ref": "6.3",
+              "text": "engage critically with feedback and evidence about their professional practice from a range of sources"
+            }
+          ],
+          "weekly_checklist_link": [
+            "SL-C4-001",
+            "SL-C4-002"
+          ],
+          "framework_alignment": "Subject Leader weekly tasks SL-C4-001 (Week-4 PLC facilitation), SL-C4-002 (PLC Impact Report)"
+        },
+        {
+          "id": "L10",
+          "title": "Internal Moderation Leadership",
+          "visible_from": "lead",
+          "coaching_focus": "leadership",
+          "feedback_prompts": {
+            "grow": "Describe your last departmental moderation session. Did blind-marking happen? How many discrepancies surfaced? How were they resolved? What did the team learn about marking standards?",
+            "go": "For the next moderation session, prepare 5 anonymised samples spanning the full grade range. Run blind-marking before any discussion. Document every divergence over 2 grade boundaries and the agreed resolution. Share findings as a department exemplar."
+          },
+          "follow_up_indicators": [
+            "Termly internal moderation session held mid-Sem and end-of-Sem",
+            "Blind-marking conducted before any discussion of grades",
+            "Divergences over 2 grade boundaries trigger third-marker review (recorded)",
+            "Moderation minutes and standardisation samples retained in Governance Archive",
+            "Cambridge syllabus + examiner reports drive scheme-of-work adjustments within 4 weeks of results release"
+          ],
+          "theory_basis": "Adapted from Semesta Academic Leadership Governance Handbook §9.10 (Grading Integrity Audits) and Cambridge Centre internal moderation expectations.",
+          "rubric": {
+            "1": "Moderation does not happen or happens only when grades are challenged. No blind-marking. Discrepancies absorbed silently. No examiner report engagement.",
+            "2": "Moderation happens once or twice a year. Blind-marking attempted but inconsistent. Discrepancies discussed but not always resolved against the rubric.",
+            "3": "Termly moderation per protocol. Blind-marking standard. Discrepancies systematically resolved against marking schemes. Cambridge examiner reports reviewed termly with scheme-of-work updates.",
+            "4": "Moderation is a culture of standards. Department-wide marking calibration measurably improves year-on-year (variance against external benchmarks narrows). Cambridge examiner reports drive curriculum updates that produce demonstrable outcome improvements. Department becomes a network reference point for moderation discipline."
+          },
+          "cambridge_standard_refs": [
+            "5.1",
+            "5.2",
+            "5.3"
+          ],
+          "cambridge_standard_texts": [
+            {
+              "ref": "5.1",
+              "text": "use a range of formative and summative assessment strategies to monitor learners' progress and provide them with constructive feedback"
+            },
+            {
+              "ref": "5.2",
+              "text": "use assessment data effectively to identify learners' needs and inform their teaching"
+            },
+            {
+              "ref": "5.3",
+              "text": "engage with internal and external moderation processes to ensure consistency and accuracy in assessment judgments"
+            }
+          ],
+          "weekly_checklist_link": [
+            "SL-C3-001",
+            "SL-C3-002",
+            "SL-C5-002"
+          ],
+          "framework_alignment": "Subject Leader weekly tasks SL-C3-001 (monthly student work review), SL-C3-002 (termly moderation), SL-C5-002 (termly Cambridge syllabus review)"
         }
       ]
     },
@@ -2981,5 +3180,15 @@
       "total": 87,
       "tagged": 87
     }
+  },
+  "last_extended": {
+    "by": "extend-f3l-items.js",
+    "at": "2026-05-08T04:35:48.078Z",
+    "items_added": [
+      "L7",
+      "L8",
+      "L9",
+      "L10"
+    ]
   }
 }
