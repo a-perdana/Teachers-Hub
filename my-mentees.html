@@ -138,6 +138,9 @@ import { collection, doc, getDoc, getDocs, query, where, orderBy, limit }
 fetch('partials/navbar.html').then(r => r.text()).then(html => {
   document.getElementById('navbar-container').innerHTML = html;
   if (typeof initNavbar === 'function') initNavbar();
+  if (typeof window._pendingNavbarUpdate === 'function')   { window._pendingNavbarUpdate();  window._pendingNavbarUpdate  = null; }
+  if (typeof window._pendingBadgeSetup    === 'function')  { window._pendingBadgeSetup();    window._pendingBadgeSetup    = null; }
+  if (typeof window._pendingFeedbackSetup === 'function')  { window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
 });
 
 const db = window.db;
@@ -158,9 +161,15 @@ let myCertification = null;
 document.addEventListener('authReady', async ({ detail: { user } }) => {
   document.body.style.display = '';
   try {
-    // Check own certification
-    const certSnap = await getDoc(doc(db, 'mentor_certifications', `${user.uid}_mentor_base`));
-    myCertification = certSnap.exists() ? certSnap.data() : null;
+    // Check own certification — non-existent doc returns permission-denied
+    // because the rule reads resource.data on null. Treat as "not certified".
+    try {
+      const certSnap = await getDoc(doc(db, 'mentor_certifications', `${user.uid}_mentor_base`));
+      myCertification = certSnap.exists() ? certSnap.data() : null;
+    } catch (err) {
+      if (err?.code !== 'permission-denied') console.warn('mentor_certifications read failed:', err);
+      myCertification = null;
+    }
     renderCertBanner();
 
     // Find inductions where I am mentor

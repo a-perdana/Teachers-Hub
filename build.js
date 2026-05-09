@@ -854,7 +854,13 @@ if (fs.existsSync(path.join(__dirname, 'cambridge-crossref.js'))) {
       }
     });
   }
-  const cambridgeSrc  = path.join(__dirname, '..', 'docs', 'research', 'cambridge');
+  // Prefer the local TH copy (committed under resources/research/cambridge/)
+  // because Vercel only checks out the TH repo — the monorepo's docs/research
+  // folder isn't available at build time. Fall back to the monorepo path
+  // when running build locally from the parent directory.
+  const cambridgeSrcLocal    = path.join(__dirname, 'resources', 'research', 'cambridge');
+  const cambridgeSrcMonorepo = path.join(__dirname, '..', 'docs', 'research', 'cambridge');
+  const cambridgeSrc = fs.existsSync(cambridgeSrcLocal) ? cambridgeSrcLocal : cambridgeSrcMonorepo;
   const cambridgeDest = path.join(distDir, 'research', 'cambridge');
   if (fs.existsSync(cambridgeSrc)) {
     fs.mkdirSync(cambridgeDest, { recursive: true });
@@ -864,9 +870,11 @@ if (fs.existsSync(path.join(__dirname, 'cambridge-crossref.js'))) {
         fs.copyFileSync(src, path.join(cambridgeDest, name));
         console.log(`Copied: dist/research/cambridge/${name}`);
       } else {
-        console.warn(`WARNING: ${name} not found in docs/research/cambridge/`);
+        console.warn(`WARNING: ${name} not found in ${cambridgeSrc}`);
       }
     });
+  } else {
+    console.warn(`WARNING: cambridge research source dir not found (tried ${cambridgeSrcLocal} and ${cambridgeSrcMonorepo})`);
   }
 }
 

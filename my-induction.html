@@ -183,6 +183,11 @@ import { collection, doc, getDoc, getDocs, setDoc, query, where, orderBy, limit,
 fetch('partials/navbar.html').then(r => r.text()).then(html => {
   document.getElementById('navbar-container').innerHTML = html;
   if (typeof initNavbar === 'function') initNavbar();
+  // Run any pending init callbacks queued before the navbar partial loaded
+  // (mirrors the standard pattern used by every other TH page).
+  if (typeof window._pendingNavbarUpdate === 'function')   { window._pendingNavbarUpdate();  window._pendingNavbarUpdate  = null; }
+  if (typeof window._pendingBadgeSetup    === 'function')  { window._pendingBadgeSetup();    window._pendingBadgeSetup    = null; }
+  if (typeof window._pendingFeedbackSetup === 'function')  { window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
 });
 
 const db = window.db;
