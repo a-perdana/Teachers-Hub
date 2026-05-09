@@ -20,7 +20,7 @@ import { initializeApp, getApps }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp, getDocs, query, orderBy }
+import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp, getDocs, query, orderBy, where, limit }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getStorage }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
@@ -43,6 +43,42 @@ window.TEACHERS_ALLOWED_DOMAINS = [
 
 // Hide page content until auth is confirmed (prevents flash of content)
 document.body.style.visibility = 'hidden';
+
+// ── Staff ↔ users bridge ─────────────────────────────────────────
+// On a user's very first login, look up `staff/{...}` by emailLower.
+// If found, copy schoolId / school / displayName / phone / position
+// onto the new users/{uid} doc, AND write the user's uid back to the
+// staff doc (bidirectional link). All errors are swallowed — bridging
+// is a best-effort enrichment, never blocks signup.
+async function applyStaffBridge(database, user, newProfile) {
+  if (!user?.email) return;
+  const emailLower = user.email.toLowerCase();
+  try {
+    const snap = await getDocs(query(
+      collection(database, 'staff'),
+      where('emailLower', '==', emailLower),
+      limit(1),
+    ));
+    if (snap.empty) return;
+    const staffDoc = snap.docs[0];
+    const staff = staffDoc.data() || {};
+    if (staff.schoolId)                        newProfile.schoolId = staff.schoolId;
+    if (staff.school)                          newProfile.school = staff.school;
+    if (!newProfile.displayName && staff.name) newProfile.displayName = staff.name;
+    if (staff.phone)                           newProfile.phone = staff.phone;
+    if (staff.position)                        newProfile.title = staff.position;
+    newProfile.staffId = staffDoc.id;
+    // `userId` (FK -> users.uid) per naming convention — staff doc id is
+    // sha1(emailLower), not the auth uid.
+    await setDoc(doc(database, 'staff', staffDoc.id), {
+      userId:   user.uid,
+      linkedAt: serverTimestamp(),
+      invited:  false,
+    }, { merge: true });
+  } catch (err) {
+    console.warn('auth-guard: staff bridge failed (non-fatal)', err);
+  }
+}
 
 // ── Initialise Firebase (guard against double-init) ──────────────
 const firebaseConfig = {
@@ -753,6 +789,9 @@ onAuthStateChanged(auth, async (user) => {
         [APPROVAL_KEY]: 'pending',
         createdAt:      serverTimestamp(),
       };
+      // Pre-fill from staff/{...} record if HQ has seeded one for this email.
+      // See "Staff ↔ users bridge" section in /docs/FIRESTORE_SCHEMA.md.
+      await applyStaffBridge(db, user, newProfile);
       await setDoc(userRef, newProfile);
       profile = newProfile;
 
