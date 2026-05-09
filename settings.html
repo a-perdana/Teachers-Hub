@@ -162,6 +162,118 @@
   margin-bottom: 14px;
 }
 
+/* Profile photo uploader */
+.photo-uploader {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.photo-preview {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6c5ce7, #0891b2);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Lora', serif;
+  font-size: 30px;
+  font-weight: 600;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.18);
+}
+.photo-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.photo-action-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.photo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #fafaf8;
+  border: 1.5px solid #e0ddd6;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a2e;
+  cursor: pointer;
+  transition: all .15s;
+}
+.photo-btn:hover { background: #f3f0e8; border-color: #6c5ce7; color: #6c5ce7; }
+.photo-btn.danger { color: #dc2626; }
+.photo-btn.danger:hover { background: rgba(220,38,38,0.06); border-color: rgba(220,38,38,0.4); color: #dc2626; }
+.photo-hint {
+  font-size: 12px;
+  color: #8b8b9e;
+}
+
+/* CV uploader */
+.cv-uploader {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cv-current {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #fafaf8;
+  border: 1.5px solid #e0ddd6;
+  border-radius: 10px;
+}
+.cv-current-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(108,92,231,0.1);
+  color: #6c5ce7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.cv-current-info {
+  flex: 1;
+  min-width: 0;
+}
+.cv-current-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1a1a2e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cv-current-meta {
+  font-size: 12px;
+  color: #8b8b9e;
+}
+.cv-current a {
+  color: #6c5ce7;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.cv-current a:hover { text-decoration: underline; }
+.cv-empty {
+  font-size: 13px;
+  color: #8b8b9e;
+  font-style: italic;
+}
+
 /* Inputs */
 .settings-input {
   width: 100%;
@@ -767,6 +879,28 @@
       </div>
 
       <div class="settings-card">
+        <div class="settings-card-label">Profile Photo</div>
+        <div class="photo-uploader">
+          <div class="photo-preview" id="sPhotoPreview"></div>
+          <div class="photo-actions">
+            <div class="photo-action-row">
+              <input type="file" id="sPhotoInput" accept="image/png,image/jpeg,image/webp" style="display:none;">
+              <button type="button" class="photo-btn" id="sPhotoUploadBtn">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Upload photo
+              </button>
+              <button type="button" class="photo-btn danger" id="sPhotoRemoveBtn" style="display:none;">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/></svg>
+                Remove
+              </button>
+            </div>
+            <div class="photo-hint">PNG, JPG or WebP · max 5 MB</div>
+            <div class="settings-msg" id="sPhotoMsg"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-card">
         <div class="settings-card-label">Name &amp; Identity</div>
         <div class="settings-input-wrap">
           <label class="settings-input-label" for="sDisplayName">Full name <span style="color:#dc2626">*</span></label>
@@ -776,6 +910,20 @@
           <label class="settings-input-label" for="sBio">Bio / Tagline</label>
           <textarea class="settings-textarea" id="sBio" placeholder="e.g. Passionate IGCSE Math teacher with 8 years of experience…" maxlength="200"></textarea>
           <div class="settings-char-count"><span id="sBioCount">0</span>/200</div>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <div class="settings-card-label">Contact &amp; Links</div>
+        <div class="settings-row">
+          <div class="settings-input-wrap">
+            <label class="settings-input-label" for="sPhone">Phone number</label>
+            <input type="tel" class="settings-input" id="sPhone" placeholder="+62 xxx xxx xxxx">
+          </div>
+          <div class="settings-input-wrap">
+            <label class="settings-input-label" for="sLinkedin">LinkedIn profile</label>
+            <input type="url" class="settings-input" id="sLinkedin" placeholder="https://linkedin.com/in/username">
+          </div>
         </div>
       </div>
 
@@ -801,6 +949,35 @@
         </div>
       </div>
 
+      <div class="settings-card">
+        <div class="settings-card-label">Curriculum Vitae (CV)</div>
+        <div class="cv-uploader">
+          <div id="sCvCurrentWrap">
+            <div class="cv-empty" id="sCvEmpty">No CV uploaded yet.</div>
+            <div class="cv-current" id="sCvCurrent" style="display:none;">
+              <div class="cv-current-icon">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div class="cv-current-info">
+                <div class="cv-current-name" id="sCvName">resume.pdf</div>
+                <div class="cv-current-meta" id="sCvMeta">Uploaded —</div>
+              </div>
+              <a href="#" id="sCvViewLink" target="_blank" rel="noopener">View</a>
+              <button type="button" class="photo-btn danger" id="sCvRemoveBtn" style="padding:6px 10px;">Remove</button>
+            </div>
+          </div>
+          <div class="photo-action-row">
+            <input type="file" id="sCvInput" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,.doc,.docx" style="display:none;">
+            <button type="button" class="photo-btn" id="sCvUploadBtn">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <span id="sCvUploadLabel">Upload CV</span>
+            </button>
+            <span class="photo-hint" style="align-self:center;">PDF, DOC or DOCX · max 10 MB</span>
+          </div>
+          <div class="settings-msg" id="sCvMsg"></div>
+        </div>
+      </div>
+
       <div>
         <button class="settings-save-btn" id="sPersonalBtn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -816,20 +993,12 @@
       <div class="settings-section-sub">Your login credentials and contact information.</div>
 
       <div class="settings-card">
-        <div class="settings-card-label">Contact</div>
+        <div class="settings-card-label">Email</div>
         <div class="settings-input-wrap">
           <label class="settings-input-label">Email address</label>
           <input type="email" class="settings-input" id="sEmail" disabled>
         </div>
-        <div class="settings-input-wrap">
-          <label class="settings-input-label" for="sPhone">Phone number</label>
-          <input type="tel" class="settings-input" id="sPhone" placeholder="+62 xxx xxx xxxx">
-        </div>
-        <button class="settings-save-btn" id="sPhoneBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          Save Phone Number
-        </button>
-        <div class="settings-msg" id="sPhoneMsg"></div>
+        <div class="photo-hint" style="margin-top:4px;">Phone number, LinkedIn and CV moved to <a href="#" data-go-personal style="color:#6c5ce7;font-weight:600;text-decoration:none;">Personal Info</a>.</div>
       </div>
 
       <div class="settings-card" id="sPwCard" style="display:none;">
@@ -931,10 +1100,12 @@
 </div>
 
 <script type="module">
-import { getAuth, signOut, updatePassword, EmailAuthProvider, reauthenticateWithCredential }
+import { getAuth, signOut, updatePassword, updateProfile, EmailAuthProvider, reauthenticateWithCredential }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, updateDoc, collection, onSnapshot, addDoc, serverTimestamp, getDocs, query, orderBy }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { ref as storageRef, uploadBytes, getDownloadURL, deleteObject }
+  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 window.__thNavActiveKey = 'settings';
 
@@ -1458,6 +1629,176 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   document.getElementById('sBioCount').textContent = (profile.bio || '').length;
   document.getElementById('sDepartment').value = profile.department || '';
   document.getElementById('sYearsExp').value = profile.years_experience || '';
+  document.getElementById('sPhone').value = profile.phone || '';
+  document.getElementById('sLinkedin').value = profile.linkedin_url || '';
+
+  // ── Profile photo render + upload ─────────────────────────────
+  const photoPreviewEl = document.getElementById('sPhotoPreview');
+  const photoRemoveBtn = document.getElementById('sPhotoRemoveBtn');
+  function renderPhotoPreview(url, fallbackName) {
+    if (url) {
+      photoPreviewEl.style.backgroundImage = `url("${url}")`;
+      photoPreviewEl.textContent = '';
+      photoRemoveBtn.style.display = '';
+    } else {
+      photoPreviewEl.style.backgroundImage = '';
+      const initial = (fallbackName || user.email || '?').trim().charAt(0).toUpperCase();
+      photoPreviewEl.textContent = initial;
+      photoRemoveBtn.style.display = 'none';
+    }
+  }
+  renderPhotoPreview(profile.photoURL || user.photoURL || '', profile.displayName);
+
+  document.getElementById('sPhotoUploadBtn').addEventListener('click', () => {
+    document.getElementById('sPhotoInput').click();
+  });
+  document.getElementById('sPhotoInput').addEventListener('change', async (ev) => {
+    const file = ev.target.files && ev.target.files[0];
+    if (!file) return;
+    if (!/^image\/(png|jpeg|webp)$/.test(file.type)) {
+      showMsg('sPhotoMsg', 'Please pick a PNG, JPG or WebP image.', 'err');
+      ev.target.value = '';
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      showMsg('sPhotoMsg', 'Image is larger than 5 MB.', 'err');
+      ev.target.value = '';
+      return;
+    }
+    const safeName = file.name.replace(/[^A-Za-z0-9._-]+/g, '_');
+    const path = `user_profile/${user.uid}/photo/${Date.now()}_${safeName}`;
+    showMsg('sPhotoMsg', 'Uploading…', 'ok');
+    try {
+      const sRef = storageRef(window.storage, path);
+      const snap = await uploadBytes(sRef, file, { contentType: file.type });
+      const url = await getDownloadURL(snap.ref);
+      await setDoc(doc(db, 'users', user.uid), {
+        photoURL: url,
+        photoStoragePath: path,
+      }, { merge: true });
+      try { await updateProfile(user, { photoURL: url }); } catch { /* non-fatal */ }
+      window.userProfile = { ...window.userProfile, photoURL: url, photoStoragePath: path };
+      renderPhotoPreview(url, profile.displayName);
+      showMsg('sPhotoMsg', 'Photo updated ✓', 'ok');
+    } catch (e) {
+      console.warn('photo upload failed', e);
+      showMsg('sPhotoMsg', 'Upload failed. Try again.', 'err');
+    } finally {
+      ev.target.value = '';
+    }
+  });
+  document.getElementById('sPhotoRemoveBtn').addEventListener('click', async () => {
+    if (!window.userProfile?.photoURL && !window.userProfile?.photoStoragePath) return;
+    showMsg('sPhotoMsg', 'Removing…', 'ok');
+    try {
+      const oldPath = window.userProfile?.photoStoragePath;
+      if (oldPath) {
+        try { await deleteObject(storageRef(window.storage, oldPath)); }
+        catch (e) { console.warn('photo delete (storage) failed', e); }
+      }
+      await setDoc(doc(db, 'users', user.uid), {
+        photoURL: '',
+        photoStoragePath: '',
+      }, { merge: true });
+      try { await updateProfile(user, { photoURL: '' }); } catch { /* non-fatal */ }
+      window.userProfile = { ...window.userProfile, photoURL: '', photoStoragePath: '' };
+      renderPhotoPreview('', profile.displayName);
+      showMsg('sPhotoMsg', 'Photo removed ✓', 'ok');
+    } catch (e) {
+      showMsg('sPhotoMsg', 'Failed to remove. Try again.', 'err');
+    }
+  });
+
+  // ── CV upload ─────────────────────────────────────────────────
+  function renderCvCurrent(meta) {
+    const empty = document.getElementById('sCvEmpty');
+    const card  = document.getElementById('sCvCurrent');
+    const labelBtn = document.getElementById('sCvUploadLabel');
+    if (meta && meta.url) {
+      empty.style.display = 'none';
+      card.style.display = '';
+      document.getElementById('sCvName').textContent = meta.fileName || 'CV';
+      const when = meta.uploadedAt
+        ? new Date(meta.uploadedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+        : '—';
+      const sizeKb = meta.size ? Math.round(meta.size / 1024) + ' KB' : '';
+      document.getElementById('sCvMeta').textContent = `Uploaded ${when}${sizeKb ? ' · ' + sizeKb : ''}`;
+      document.getElementById('sCvViewLink').href = meta.url;
+      labelBtn.textContent = 'Replace CV';
+    } else {
+      empty.style.display = '';
+      card.style.display = 'none';
+      labelBtn.textContent = 'Upload CV';
+    }
+  }
+  renderCvCurrent(profile.cv || null);
+
+  document.getElementById('sCvUploadBtn').addEventListener('click', () => {
+    document.getElementById('sCvInput').click();
+  });
+  document.getElementById('sCvInput').addEventListener('change', async (ev) => {
+    const file = ev.target.files && ev.target.files[0];
+    if (!file) return;
+    const okExt = /\.(pdf|docx?|)$/i.test(file.name);
+    const okMime = /^(application\/pdf|application\/msword|application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document)$/.test(file.type);
+    if (!okExt && !okMime) {
+      showMsg('sCvMsg', 'Please pick a PDF, DOC or DOCX file.', 'err');
+      ev.target.value = '';
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      showMsg('sCvMsg', 'File is larger than 10 MB.', 'err');
+      ev.target.value = '';
+      return;
+    }
+    const safeName = file.name.replace(/[^A-Za-z0-9._-]+/g, '_');
+    const path = `user_profile/${user.uid}/cv/${Date.now()}_${safeName}`;
+    showMsg('sCvMsg', 'Uploading…', 'ok');
+    try {
+      const oldPath = window.userProfile?.cv?.storagePath;
+      const sRef = storageRef(window.storage, path);
+      const snap = await uploadBytes(sRef, file, { contentType: file.type || 'application/octet-stream' });
+      const url = await getDownloadURL(snap.ref);
+      const cv = {
+        url,
+        storagePath: path,
+        fileName: file.name,
+        size: file.size,
+        contentType: file.type || '',
+        uploadedAt: Date.now(),
+      };
+      await setDoc(doc(db, 'users', user.uid), { cv }, { merge: true });
+      window.userProfile = { ...window.userProfile, cv };
+      if (oldPath && oldPath !== path) {
+        try { await deleteObject(storageRef(window.storage, oldPath)); }
+        catch (e) { console.warn('old CV delete failed', e); }
+      }
+      renderCvCurrent(cv);
+      showMsg('sCvMsg', 'CV uploaded ✓', 'ok');
+    } catch (e) {
+      console.warn('cv upload failed', e);
+      showMsg('sCvMsg', 'Upload failed. Try again.', 'err');
+    } finally {
+      ev.target.value = '';
+    }
+  });
+  document.getElementById('sCvRemoveBtn').addEventListener('click', async () => {
+    const cv = window.userProfile?.cv;
+    if (!cv) return;
+    showMsg('sCvMsg', 'Removing…', 'ok');
+    try {
+      if (cv.storagePath) {
+        try { await deleteObject(storageRef(window.storage, cv.storagePath)); }
+        catch (e) { console.warn('cv delete (storage) failed', e); }
+      }
+      await setDoc(doc(db, 'users', user.uid), { cv: null }, { merge: true });
+      window.userProfile = { ...window.userProfile, cv: null };
+      renderCvCurrent(null);
+      showMsg('sCvMsg', 'CV removed ✓', 'ok');
+    } catch (e) {
+      showMsg('sCvMsg', 'Failed to remove. Try again.', 'err');
+    }
+  });
 
   document.getElementById('sPersonalBtn').addEventListener('click', async () => {
     const btn = document.getElementById('sPersonalBtn');
@@ -1465,13 +1806,36 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     const bio         = document.getElementById('sBio').value.trim();
     const department  = document.getElementById('sDepartment').value.trim();
     const years_experience = document.getElementById('sYearsExp').value;
+    const phone        = document.getElementById('sPhone').value.trim();
+    const linkedinRaw  = document.getElementById('sLinkedin').value.trim();
 
     if (!displayName) { showMsg('sPersonalMsg', 'Full name is required.', 'err'); return; }
 
+    let linkedin_url = '';
+    if (linkedinRaw) {
+      const candidate = /^https?:\/\//i.test(linkedinRaw) ? linkedinRaw : 'https://' + linkedinRaw;
+      try {
+        const u = new URL(candidate);
+        if (!/(^|\.)linkedin\.com$/i.test(u.hostname)) {
+          showMsg('sPersonalMsg', 'LinkedIn URL must be on linkedin.com.', 'err');
+          return;
+        }
+        linkedin_url = u.toString();
+      } catch {
+        showMsg('sPersonalMsg', 'LinkedIn URL is not valid.', 'err');
+        return;
+      }
+    }
+
     btn.disabled = true; btn.textContent = 'Saving…';
     try {
-      await setDoc(doc(db, 'users', user.uid), { displayName, bio, department, years_experience }, { merge: true });
-      window.userProfile = { ...window.userProfile, displayName, bio, department, years_experience };
+      await setDoc(doc(db, 'users', user.uid), {
+        displayName, bio, department, years_experience, phone, linkedin_url,
+      }, { merge: true });
+      window.userProfile = {
+        ...window.userProfile,
+        displayName, bio, department, years_experience, phone, linkedin_url,
+      };
       renderProgress(window.userProfile);
       const personalOk = displayName && bio && department;
       document.getElementById('sPersonalBanner').style.display = personalOk ? 'none' : 'flex';
@@ -1486,23 +1850,8 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
 
   // ── Account & Security ─────────────────────────────────────────
   document.getElementById('sEmail').value = user.email || '';
-  document.getElementById('sPhone').value = profile.phone || '';
-
-  document.getElementById('sPhoneBtn').addEventListener('click', async () => {
-    const btn = document.getElementById('sPhoneBtn');
-    const phone = document.getElementById('sPhone').value.trim();
-    btn.disabled = true; btn.textContent = 'Saving…';
-    try {
-      await setDoc(doc(db, 'users', user.uid), { phone }, { merge: true });
-      window.userProfile = { ...window.userProfile, phone };
-      renderProgress(window.userProfile);
-      showMsg('sPhoneMsg', 'Phone number saved ✓', 'ok');
-    } catch (e) {
-      showMsg('sPhoneMsg', 'Failed to save. Try again.', 'err');
-    } finally {
-      btn.disabled = false;
-      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Save Phone Number`;
-    }
+  document.querySelectorAll('[data-go-personal]').forEach(el => {
+    el.addEventListener('click', (e) => { e.preventDefault(); switchPanel('personal'); });
   });
 
   // Password (email users only)
