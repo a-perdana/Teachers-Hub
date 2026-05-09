@@ -796,8 +796,18 @@
     const commList = card.querySelector(`#comments-${annId}`);
     const noComm = card.querySelector(`#no-comments-${annId}`);
 
+    // Surface stuck "Loading comments…" when Firestore Listen is blocked
+    // (ad-blockers commonly block firestore.googleapis.com/.../Listen → ERR_BLOCKED_BY_CLIENT).
+    const stuckTimer = setTimeout(() => {
+      if (noComm && noComm.textContent === 'Loading comments…') {
+        noComm.textContent = 'Could not load comments. Disable ad-blocker for this page or refresh.';
+        noComm.style.display = 'block';
+      }
+    }, 6000);
+
     const q = query(collection(db, 'announcements', annId, 'comments'), orderBy('createdAt', 'asc'));
     commentUnsubs[annId] = onSnapshot(q, (snap) => {
+      clearTimeout(stuckTimer);
       // Remove old comment items (keep no-comments msg)
       [...commList.querySelectorAll('.comment-item')].forEach(c => c.remove());
 
@@ -807,7 +817,15 @@
       }
       if (noComm) noComm.style.display = 'none';
 
-      snap.docs.forEach(docSnap => {
+      // serverTimestamp resolves to null in the local cache before the server roundtrip;
+      // re-sort defensively so a freshly-posted comment (createdAt:null) sticks at the end.
+      const sortedDocs = [...snap.docs].sort((a, b) => {
+        const ta = a.data().createdAt?.toMillis?.() ?? Number.MAX_SAFE_INTEGER;
+        const tb = b.data().createdAt?.toMillis?.() ?? Number.MAX_SAFE_INTEGER;
+        return ta - tb;
+      });
+
+      sortedDocs.forEach(docSnap => {
         const c = docSnap.data();
         const item = document.createElement('div');
         item.className = 'comment-item';

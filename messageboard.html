@@ -726,7 +726,7 @@
         const el = document.getElementById("topicPost");
         if (!el || !currentTopicData) return;
         const d = currentTopicData;
-        const canEdit = canModify(d.uid);
+        const canEdit = canModify(d.authorUid);
         const editedBadge = d.editedAt
           ? `<span class="edited-badge">(edited) ${formatDate(d.editedAt)}</span>`
           : "";
@@ -800,7 +800,7 @@
           ? '<div class="empty-state" style="padding: 28px 0;">No replies yet. Start the conversation!</div>'
           : docs.map((d) => {
               const data = d.data();
-              const canEdit = canModify(data.uid);
+              const canEdit = canModify(data.authorUid);
               const editedBadge = data.editedAt
                 ? `<span class="edited-badge">(edited) ${formatDate(data.editedAt)}</span>`
                 : "";

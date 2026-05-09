@@ -69,19 +69,53 @@
       border-radius: 14px;
       box-shadow: var(--shadow-sm);
       overflow: hidden;
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      transition: box-shadow 0.2s ease;
     }
     .survey-card:hover {
       box-shadow: 0 8px 28px rgba(217,119,6,.14);
-      transform: translateY(-2px);
     }
     .survey-head {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       gap: 12px;
-      padding: 18px 20px 12px;
+      padding: 18px 20px 14px;
       background: linear-gradient(to right, rgba(217,119,6,.06), transparent);
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s ease;
+    }
+    .survey-head:hover {
+      background: linear-gradient(to right, rgba(217,119,6,.10), rgba(217,119,6,.02));
+    }
+    .survey-head-main {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
+    }
+    .survey-chevron {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      transition: transform 0.2s ease;
+      margin-top: 4px;
+    }
+    .survey-card.is-collapsed .survey-chevron {
+      transform: rotate(-90deg);
+    }
+    .survey-collapsible {
+      overflow: hidden;
+      transition: max-height 0.25s ease, opacity 0.2s ease;
+    }
+    .survey-card.is-collapsed .survey-collapsible {
+      max-height: 0 !important;
+      opacity: 0;
     }
     .survey-title {
       font-size: 1.1rem;
@@ -533,6 +567,25 @@
         renderSurveys();
       });
 
+      // Accordion: click on header toggles expand/collapse. First card starts open.
+      document.getElementById("surveyList").addEventListener("click", (e) => {
+        const head = e.target.closest('[data-action="toggle-survey"]');
+        if (!head) return;
+        // Don't toggle when clicking interactive elements inside the body
+        if (e.target.closest("input, textarea, label, button, a")) return;
+        const card = head.closest(".survey-card");
+        if (!card) return;
+        const collapsible = card.querySelector(".survey-collapsible");
+        if (!collapsible) return;
+        if (card.classList.contains("is-collapsed")) {
+          card.classList.remove("is-collapsed");
+          collapsible.style.maxHeight = "none";
+        } else {
+          card.classList.add("is-collapsed");
+          collapsible.style.maxHeight = "0";
+        }
+      });
+
       document.getElementById("surveyList").addEventListener("click", async (e) => {
         const btn = e.target.closest(".response-btn");
         if (!btn) return;
@@ -666,7 +719,7 @@
         return;
       }
 
-      listEl.innerHTML = filtered.map((s) => {
+      listEl.innerHTML = filtered.map((s, surveyIdx) => {
         const status = normalizeStatus(s.status);
         const isOpen = status === "published" && s.allowResponses !== false;
         const statusLabel = status === "closed" ? "Closed" : "Published";
@@ -782,20 +835,39 @@
           </div>
         ` : "";
 
+        const collapsedClass = surveyIdx === 0 ? "" : "is-collapsed";
+
         return `
-          <article class="survey-card">
-            <div class="survey-head">
-              <h2 class="survey-title">${esc(s.title || "Untitled Survey")}</h2>
-              <div class="badge-row">${badges}</div>
+          <article class="survey-card ${collapsedClass}" data-survey-id="${s.id}">
+            <div class="survey-head" data-action="toggle-survey">
+              <div class="survey-head-main">
+                <h2 class="survey-title">${esc(s.title || "Untitled Survey")}</h2>
+                <div class="badge-row">${badges}</div>
+              </div>
+              <span class="survey-chevron" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
             </div>
-            <div class="survey-body">${renderBody(s.body || "")}</div>
-            ${questionsHtml}
-            <div class="platforms">${platformChips}</div>
-            ${responseSection}
-            <div class="survey-meta">${esc(s.author || "Admin")} &middot; ${formatDate(s.createdAt)}</div>
+            <div class="survey-collapsible">
+              <div class="survey-body">${renderBody(s.body || "")}</div>
+              ${questionsHtml}
+              <div class="platforms">${platformChips}</div>
+              ${responseSection}
+              <div class="survey-meta">${esc(s.author || "Admin")} &middot; ${formatDate(s.createdAt)}</div>
+            </div>
           </article>
         `;
       }).join("");
+
+      // Initialize collapsible heights so the CSS transition works (max-height needs a numeric start)
+      listEl.querySelectorAll(".survey-card").forEach((card) => {
+        const collapsible = card.querySelector(".survey-collapsible");
+        if (!collapsible) return;
+        // Allow auto-grow when content changes (response inputs, etc.)
+        if (!card.classList.contains("is-collapsed")) {
+          collapsible.style.maxHeight = "none";
+        }
+      });
     }
 
     function buildResponseDocId(surveyId, uid) {
