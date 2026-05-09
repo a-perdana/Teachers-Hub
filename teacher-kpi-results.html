@@ -467,8 +467,13 @@ async function loadPeriods() {
 
 // ── Load KPI config ──────────────────────────────────
 async function loadKpiConfig() {
-  const snap = await getDocs(query(collection(db, 'teacher_kpi_config'), where('active', '==', true)));
-  kpiConfig = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  try {
+    const snap = await getDocs(query(collection(db, 'teacher_kpi_config'), where('active', '==', true)));
+    kpiConfig = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  } catch (err) {
+    console.error('loadKpiConfig failed (teacher_kpi_config read denied?):', err);
+    kpiConfig = [];
+  }
 }
 
 // ── Load results for a period ───────────────────────
@@ -480,9 +485,17 @@ async function loadResultsForPeriod(periodId) {
   ['noPeriods','notSubmitted','pending','results'].forEach(s => showState(s, false));
   document.getElementById('scoreStrip').style.display = 'none';
 
-  // Load submission
+  // Load submission. permission-denied on a non-existent doc is the
+  // expected "not submitted yet" path — the rule reads resource.data
+  // which is null for a missing doc.
   const subId  = `${currentUser.uid}_${periodId}`;
-  const subSnap = await getDoc(doc(db, 'teacher_kpi_submissions', subId));
+  let subSnap;
+  try {
+    subSnap = await getDoc(doc(db, 'teacher_kpi_submissions', subId));
+  } catch (err) {
+    if (err?.code !== 'permission-denied') console.warn('submission read failed:', err);
+    showState('notSubmitted'); return;
+  }
   if (!subSnap.exists()) { showState('notSubmitted'); return; }
 
   submission = { id: subSnap.id, ...subSnap.data() };
@@ -493,8 +506,14 @@ async function loadResultsForPeriod(periodId) {
   }
 
   // Load evaluation
-  const evalSnap = await getDoc(doc(db, 'teacher_kpi_evaluations', subId));
-  evaluation = evalSnap.exists() ? { id: evalSnap.id, ...evalSnap.data() } : null;
+  let evalSnap;
+  try {
+    evalSnap = await getDoc(doc(db, 'teacher_kpi_evaluations', subId));
+  } catch (err) {
+    if (err?.code !== 'permission-denied') console.warn('evaluation read failed:', err);
+    evalSnap = null;
+  }
+  evaluation = (evalSnap && evalSnap.exists()) ? { id: evalSnap.id, ...evalSnap.data() } : null;
 
   if (!evaluation || evaluation.status !== 'finalized') {
     showState('pending'); return;
