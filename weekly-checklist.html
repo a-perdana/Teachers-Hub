@@ -1231,12 +1231,18 @@ function setupWeekNav() {
     else if (currentWeek < TOTAL_WEEKS) loadWeek(currentWeek + 1);
   });
   const jumpSel = document.getElementById('weekJumpSelect');
-  for (let w = 1; w <= TOTAL_WEEKS; w++) {
+  // Prefer the actual teaching schedule so we don't show fake "Wk N" slots
+  // for academic-year weeks the schedule doesn't define (post-year-end / gaps).
+  const tw = _pacingScheduleCache?.teachingWeeks || [];
+  const weekNos = tw.length
+    ? tw.map(w => w.weekNo)
+    : Array.from({ length: TOTAL_WEEKS }, (_, i) => i + 1);
+  weekNos.forEach(w => {
     const opt = document.createElement('option');
     opt.value = w;
     opt.textContent = `${getWeekLabelShort(w)}  (${getWeekDates(w)})`;
     jumpSel.appendChild(opt);
-  }
+  });
   jumpSel.addEventListener('change', () => loadWeek(Number(jumpSel.value)));
 }
 
