@@ -817,7 +817,7 @@
         const item = document.createElement('div');
         item.className = 'comment-item';
         item.dataset.id = docSnap.id;
-        const canDelete = isAdmin || (currentUser && c.authorId === currentUser.uid);
+        const canDelete = isAdmin || (currentUser && c.authorUid === currentUser.uid);
         const avatarDiv = document.createElement('div');
         avatarDiv.className = 'comment-avatar';
         buildAvatarFromName(avatarDiv, c.authorName || '', c.authorPhotoURL || '');
