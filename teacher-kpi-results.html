@@ -434,11 +434,16 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
 
 // ── Load periods ────────────────────────────────────
 async function loadPeriods() {
-  const snap = await getDocs(query(
-    collection(db, 'teacher_kpi_settings'),
-    orderBy('createdAt', 'desc')
-  ));
-  periods = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  try {
+    const snap = await getDocs(query(
+      collection(db, 'teacher_kpi_settings'),
+      orderBy('createdAt', 'desc')
+    ));
+    periods = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch (err) {
+    console.error('loadPeriods failed (teacher_kpi_settings read denied?):', err);
+    periods = [];
+  }
 
   showState('loading', false);
 
