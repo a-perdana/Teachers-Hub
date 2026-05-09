@@ -2352,6 +2352,14 @@
             </div>
             <input class="manage-modal-search" id="manageCatSearch" type="search" placeholder="Search resources…">
             <div class="manage-modal-list" id="manageCatList"></div>
+            <div class="manage-modal-vt" id="manageCatPilot">
+              <span class="manage-modal-vt-label">Pilot systems</span>
+              <label class="cat-vt-check"><input type="checkbox" id="mmPilotKpi"        value="kpi"> KPI</label>
+              <label class="cat-vt-check"><input type="checkbox" id="mmPilotAppraisal"  value="appraisal"> Appraisal</label>
+              <label class="cat-vt-check"><input type="checkbox" id="mmPilotCompetency" value="competency"> Competency</label>
+              <label class="cat-vt-check"><input type="checkbox" id="mmPilotInduction"  value="induction"> Induction</label>
+              <span class="cat-vt-hint">Tick a system to hide this whole collection at schools where the system is opted out. Leave all unchecked = relies on individual card gating only.</span>
+            </div>
             <div class="manage-modal-vt" id="manageCatVt">
               <span class="manage-modal-vt-label">Visible to</span>
               <label class="cat-vt-check"><input type="checkbox" id="mmVtSubjectTeacher" value="subject_teacher"> Subject Teacher</label>
@@ -3118,6 +3126,11 @@
           }
         } catch { /* fail open — leave everything visible */ return; }
 
+        // Cache for the category renderer so collection-level pilot gates
+        // (cat.pilot_systems[]) can use the same enabled set without
+        // re-fetching the partner_schools doc.
+        window.__pilotEnabledSystems = enabled;
+
         if (!enabled) return; // missing field → no gating
 
         for (const [cardId, system] of Object.entries(PILOT_CARD_MAP)) {
@@ -3206,10 +3219,21 @@
         const profile = window.userProfile || {};
         const thSubs = Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [];
         const userRole = thSubs.includes('subject_leader') ? 'subject_leader' : 'subject_teacher';
+        // Per-school pilot enrolment also gates whole collections.
+        // window.__pilotEnabledSystems is set by filterPilotSystemCards
+        // (Set | null | undefined). null/undefined = back-compat all on.
+        const enabledSystems = window.__pilotEnabledSystems || null;
         const visibleCats = isAdmin ? cats : cats.filter(cat => {
           if (cat.hidden_for_users === true) return false;
           const vt = cat.visible_to || [];
-          return vt.length === 0 || vt.includes(userRole);
+          if (vt.length > 0 && !vt.includes(userRole)) return false;
+          // Hybrid pilot rule: if admin tagged the collection with one or
+          // more pilot systems, hide it whenever ANY of those systems is
+          // disabled at the user's school. Untagged collections rely on
+          // individual card gating only.
+          const ps = Array.isArray(cat.pilot_systems) ? cat.pilot_systems : [];
+          if (ps.length && enabledSystems && ps.some(s => !enabledSystems.has(s))) return false;
+          return true;
         });
 
         const assignedIds = new Set();
@@ -3223,7 +3247,18 @@
 
         container.innerHTML = '';
 
-        visibleCats.forEach((cat, idx) => {
+        // Auto-fallback for untagged collections: hide a collection
+        // when every one of its cards is pilot-gated out at this school.
+        // Admins still see it (so they can recover / re-tag).
+        const pilotHidden = window.__pilotHiddenCardIds || new Set();
+        const renderableCats = isAdmin ? visibleCats : visibleCats.filter(cat => {
+          const ids = cat.cardIds || [];
+          if (!ids.length) return true; // empty collection — admin still places cards in it
+          const allHidden = ids.every(id => pilotHidden.has(id));
+          return !allHidden;
+        });
+
+        renderableCats.forEach((cat, idx) => {
           const catCards = (cat.cardIds || []).map(id => cardMap.get(id)).filter(Boolean);
 
           const sec = document.createElement('div');
@@ -3234,7 +3269,7 @@
           if (defaultCollapsed) sec.classList.add('collapsed');
 
           const isFirst = idx === 0;
-          const isLast  = idx === visibleCats.length - 1;
+          const isLast  = idx === renderableCats.length - 1;
 
           const hiddenForUsers = cat.hidden_for_users === true;
           const visToggleIcon = hiddenForUsers
@@ -3387,6 +3422,13 @@
         document.getElementById('mmVtSubjectTeacher').checked = currentVt.includes('subject_teacher');
         document.getElementById('mmVtSubjectLeader').checked  = currentVt.includes('subject_leader');
 
+        // Populate pilot_systems checkboxes
+        const currentPilot = Array.isArray(cat.pilot_systems) ? cat.pilot_systems : [];
+        document.getElementById('mmPilotKpi').checked        = currentPilot.includes('kpi');
+        document.getElementById('mmPilotAppraisal').checked  = currentPilot.includes('appraisal');
+        document.getElementById('mmPilotCompetency').checked = currentPilot.includes('competency');
+        document.getElementById('mmPilotInduction').checked  = currentPilot.includes('induction');
+
         let selectedOrder = [...(cat.cardIds || [])];
 
         function renderList(filter) {
@@ -3467,7 +3509,17 @@
               document.getElementById('mmVtSubjectTeacher').checked ? 'subject_teacher' : null,
               document.getElementById('mmVtSubjectLeader').checked  ? 'subject_leader'  : null,
             ].filter(Boolean);
-            await sd(d(db, 'th_resource_sections', cat.id), { cardIds: [...selectedOrder], visible_to: visibleTo }, { merge: true });
+            const pilotSystems = [
+              document.getElementById('mmPilotKpi').checked        ? 'kpi'        : null,
+              document.getElementById('mmPilotAppraisal').checked  ? 'appraisal'  : null,
+              document.getElementById('mmPilotCompetency').checked ? 'competency' : null,
+              document.getElementById('mmPilotInduction').checked  ? 'induction'  : null,
+            ].filter(Boolean);
+            await sd(d(db, 'th_resource_sections', cat.id), {
+              cardIds:        [...selectedOrder],
+              visible_to:     visibleTo,
+              pilot_systems:  pilotSystems,
+            }, { merge: true });
             statusEl.textContent = 'Saved!';
             statusEl.className = 'manage-modal-status ok';
             setTimeout(closeModal, 700);
@@ -3618,7 +3670,7 @@
         }
       }
 
-      document.addEventListener('authReady', ({ detail: { user, profile } }) => {
+      document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
         document.getElementById('loading').classList.add('hidden');
         const db = window.db;
         const isAdmin = profile?.role_teachershub === 'teachers_admin';
@@ -3642,10 +3694,12 @@
         // Hide pacing cards the user doesn't teach
         filterPacingCards(profile, isAdmin);
 
-        // Phase 3 ops — pilot enrolment. Hide KPI / Appraisal / Competency
-        // cards if the user's partner school has narrowed enabled_systems[].
-        // Admin keeps full visibility.
-        filterPilotSystemCards(db, profile, isAdmin);
+        // Phase 3 ops — pilot enrolment. Hide KPI / Appraisal / Competency /
+        // Induction cards if the user's partner school has narrowed
+        // enabled_systems[]. Admin keeps full visibility. AWAITED so the
+        // category renderer sees window.__pilotEnabledSystems +
+        // __pilotHiddenCardIds when it filters collections.
+        await filterPilotSystemCards(db, profile, isAdmin);
 
         // Category system
         initCategorySystem(db, isAdmin, { onSnapshot, collection, query, orderBy, setDoc, doc, addDoc, deleteDoc, serverTimestamp });

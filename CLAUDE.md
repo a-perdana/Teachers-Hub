@@ -185,7 +185,7 @@ Each page defines `window.PACING_CONFIG` and runs `initSubjectConfig()`. Status 
 
 Single accordion-based dashboard. Cards = static `<a class="resource-card">` defined in inline `resources` array (44 entries). Categories managed by admin from the dashboard itself.
 
-- **Category collection:** `th_resource_sections`. Each doc: `{ name, color, cardIds[], visible_to[], hidden_for_users, order, createdAt }`
+- **Category collection:** `th_resource_sections`. Each doc: `{ name, color, cardIds[], visible_to[], hidden_for_users, pilot_systems[], order, createdAt }`. `pilot_systems[]` (added 2026-05-10) optional — admin tags a collection with one or more of `kpi`/`appraisal`/`competency`/`induction` from the Manage Cards modal so the entire collection (header included) hides when ANY of those systems is opted out at the user's school. Untagged (`[]`) collections fall back to per-card pilot gating only; admins always bypass.
 - **Admin actions per category** (only when `body.is-admin`): move-up · move-down · manage-cards · **eye-toggle** (`hidden_for_users` boolean) · rename · delete
 - **Uncategorized accordion** = cards not assigned to a category. Eye-toggle on the Uncategorized header writes a meta doc `_uncategorized_settings_` (carries `isMeta: true` + `order: -1` + `visible_to_users` flag). The non-admin path subscribes to the meta doc DIRECTLY by ID — `where('visible_to','==',[])` would miss it because the meta doc has no `visible_to` field.
 - **Visual cue for admins** on hidden sections: `body.is-admin .category-section.is-hidden-for-users > .category-header` gets `opacity:0.55` + appended " (hidden)" in red.
