@@ -549,12 +549,23 @@
 
   .th-dd-divider { height:1px; background:rgba(255,255,255,0.07); margin: 4px 0; }
 
-  /* Wide 4-column panel for Pacing */
-  .th-dd-panel--wide { min-width: 820px; left: 0; right: auto; }
-  /* Extra-wide 5-column panel for My Work */
-  .th-dd-panel--xwide { min-width: 980px; left: 0; right: auto; }
+  /* Wide 4-column panel for Pacing.
+     min-width applies only when 4 columns visible; gating shrinks naturally. */
+  .th-dd-panel--wide  { left: 0; right: auto; max-width: 95vw; }
+  .th-dd-panel--xwide { left: 0; right: auto; max-width: 95vw; }
+  /* Default sizes when no columns are pa-hidden — degrade to content-width
+     when gating hides one or more columns. */
+  .th-dd-panel--wide  .th-dd-col-group:not(.has-hidden)  { min-width: 820px; }
+  .th-dd-panel--xwide .th-dd-col-group:not(.has-hidden)  { min-width: 980px; }
   .th-dd-col-group { display: flex; gap: 0; }
-  .th-dd-col { flex: 1; min-width: 0; }
+  .th-dd-col { flex: 1; min-width: 200px; }
+  /* When some columns are hidden, surviving columns size to content. */
+  .th-dd-col-group.has-hidden .th-dd-col { flex: 0 0 auto; min-width: 200px; }
+  /* Hide the divider that immediately follows a gated-out column.
+     Adjacent-sibling combinator works in every modern browser without
+     needing :has() support. With multiple gated columns, this leaves
+     exactly one divider between any two visible neighbours. */
+  .th-dd-col[data-pa-hidden="1"] + .th-dd-col-divider { display: none; }
   .th-dd-col-header {
     padding: 6px 10px 3px;
     font-size: 10px; font-weight: 700; letter-spacing: .08em;

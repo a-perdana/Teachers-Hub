@@ -292,6 +292,17 @@ function applyPageAccessGating(configs, userSubRoles) {
     if (allHidden) col.setAttribute('data-pa-hidden', '1');
     else            col.removeAttribute('data-pa-hidden');
   });
+
+  // 4b. Flag column groups that have at least one hidden column so the
+  //     panel CSS can drop its sticky min-width and shrink to content.
+  //     Avoids the "wide empty middle" look when only Daily + Induction
+  //     remain visible in a 5-column "My Work" panel, for example.
+  document.querySelectorAll('.th-dd-col-group').forEach(group => {
+    const cols = group.querySelectorAll('.th-dd-col');
+    if (!cols.length) return;
+    const anyHidden = [...cols].some(c => c.getAttribute('data-pa-hidden') === '1');
+    group.classList.toggle('has-hidden', anyHidden);
+  });
 }
 
 function ensurePageAccessStyles() {
