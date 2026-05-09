@@ -21,20 +21,30 @@
 }
 
 /* ─── PAGE TOPBAR ───────────────────────────── */
+/* Sits flush under the 60px sticky navbar (z-index 1000). Topbar must
+   stay BELOW the navbar in stacking context, so we keep z-index <1000.
+   Backdrop-filter mirrors the navbar so the seam reads as one unified
+   bar rather than two stacked black slabs. */
 .page-topbar {
-  background: #1a1a2e; border-bottom: 2px solid var(--accent);
-  position: sticky; top: 60px; z-index: 90; height: 56px;
-  display: flex; align-items: center; padding: 0 24px; gap: 16px;
+  background: rgba(10, 10, 26, 0.78);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  position: sticky; top: 60px; z-index: 90; height: 48px;
+  display: flex; align-items: center; padding: 0 24px; gap: 14px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(108,92,231,0.18) inset, 0 4px 12px rgba(0,0,0,0.18);
 }
-.topbar-title { font-size: 14px; font-weight: 700; color: #fff; }
+.topbar-title { font-size: 13px; font-weight: 600; color: #fff; letter-spacing: 0.01em; }
 .topbar-back {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 12px; color: rgba(255,255,255,.55); text-decoration: none;
-  transition: color .15s ease;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px; border-radius: 8px;
+  font-size: 12px; font-weight: 500;
+  color: rgba(255,255,255,.6); text-decoration: none;
+  transition: color .15s ease, background .15s ease;
 }
-.topbar-back:hover { color: #fff; }
+.topbar-back:hover { color: #fff; background: rgba(255,255,255,0.06); }
 .topbar-back svg { width: 14px; height: 14px; }
-.topbar-sep { color: rgba(255,255,255,.25); font-size: 12px; }
+.topbar-sep { color: rgba(255,255,255,.22); font-size: 12px; }
 
 /* ─── SUBMIT FORM ───────────────────────────── */
 .submit-card {
