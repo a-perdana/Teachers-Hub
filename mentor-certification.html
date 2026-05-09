@@ -246,13 +246,31 @@ a.tag:hover { filter: brightness(0.96); text-decoration: none; }
 
   async function loadResearchJson(path) {
     try {
-      const r = await fetch(path, { cache: 'force-cache' });
+      // force-cache served stale 404s to users on a previous deploy where
+      // build.js hadn't yet copied these files into dist/. Switch to
+      // default cache so Vercel's CDN re-validates against the latest
+      // build, and a deploy that fixes the 404 propagates without users
+      // having to hard-refresh.
+      const r = await fetch(path, { cache: 'no-cache' });
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return await r.json();
     } catch (err) {
       console.warn('[mentor-cert] failed to load ' + path, err);
       return null;
     }
+  }
+
+  function showResearchLoadError(host, missing) {
+    host.innerHTML = '';
+    const div = document.createElement('div');
+    div.className = 'cert-status cert-status--err';
+    div.style.cssText = 'margin: 16px 0; padding: 14px 18px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.35); border-radius: 12px; color: #fca5a5; font-size: 13.5px; line-height: 1.55;';
+    div.innerHTML =
+      '<strong>Could not load reference materials.</strong> ' +
+      'The ' + missing.join(' and ') + ' JSON file' + (missing.length > 1 ? 's' : '') +
+      ' returned 404. This usually clears after a fresh deploy — try a hard refresh (Ctrl+Shift+R). ' +
+      'If it persists, ping the platform team.';
+    host.prepend(div);
   }
 
   document.addEventListener('authReady', async () => {
@@ -267,6 +285,16 @@ a.tag:hover { filter: brightness(0.96); text-decoration: none; }
     ]);
     MENTORING = mg;
     ICTL = ictl;
+
+    // Surface a visible warning if either failed — silent console-only
+    // failure left tabs blank with no hint as to why.
+    const missing = [];
+    if (!MENTORING) missing.push('Mentoring Guide 2020');
+    if (!ICTL)      missing.push('ICTL 5881 syllabus');
+    if (missing.length) {
+      const banner = document.querySelector('.cert-status') || document.body.firstElementChild;
+      if (banner?.parentElement) showResearchLoadError(banner.parentElement, missing);
+    }
 
     initTabs();
   });
