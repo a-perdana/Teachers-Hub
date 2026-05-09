@@ -1039,12 +1039,22 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
 
 // ── Loaders ─────────────────────────────────────────
 async function loadKPIs() {
-  const snap = await getDocs(query(collection(db, 'teacher_kpi_config'), where('active', '==', true)));
-  kpis = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  try {
+    const snap = await getDocs(query(collection(db, 'teacher_kpi_config'), where('active', '==', true)));
+    kpis = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  } catch (err) {
+    console.error('loadKPIs failed (teacher_kpi_config read denied?):', err);
+    kpis = [];
+  }
 }
 async function loadActivePeriod() {
-  const snap = await getDocs(query(collection(db, 'teacher_kpi_settings'), where('active', '==', true)));
-  activePeriod = snap.empty ? null : { id: snap.docs[0].id, ...snap.docs[0].data() };
+  try {
+    const snap = await getDocs(query(collection(db, 'teacher_kpi_settings'), where('active', '==', true)));
+    activePeriod = snap.empty ? null : { id: snap.docs[0].id, ...snap.docs[0].data() };
+  } catch (err) {
+    console.error('loadActivePeriod failed (teacher_kpi_settings read denied?):', err);
+    activePeriod = null;
+  }
 }
 async function loadExisting() {
   const snap = await getDoc(doc(db, 'teacher_kpi_submissions', submissionId));

@@ -165,6 +165,10 @@
       .edit-btn:hover { background: var(--paper-2); color: var(--ink); border-color: var(--ink-3); }
 
       .delete-btn:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+      .action-btn.delete-btn.confirming {
+        background: #dc2626; border-color: #dc2626; color: #fff;
+      }
+      .action-btn.delete-btn.confirming:hover { background: #b91c1c; border-color: #b91c1c; color: #fff; }
 
       /* ─── INLINE EDIT ──────────────────────────────── */
       .inline-edit-form { display: flex; flex-direction: column; gap: 10px; }
@@ -784,7 +788,25 @@
               editingTarget = { type: "topic" };
               renderTopicPost();
             });
-            document.getElementById("deleteTopicBtn").addEventListener("click", deleteTopic);
+            const delTopicBtn = document.getElementById("deleteTopicBtn");
+            delTopicBtn.addEventListener("click", () => {
+              if (delTopicBtn.dataset.confirming !== "1") {
+                delTopicBtn.dataset.confirming = "1";
+                delTopicBtn.dataset.originalHtml = delTopicBtn.innerHTML;
+                delTopicBtn.innerHTML = "Confirm?";
+                delTopicBtn.classList.add("confirming");
+                setTimeout(() => {
+                  if (delTopicBtn.isConnected && delTopicBtn.dataset.confirming === "1") {
+                    delTopicBtn.dataset.confirming = "";
+                    delTopicBtn.innerHTML = delTopicBtn.dataset.originalHtml;
+                    delTopicBtn.classList.remove("confirming");
+                  }
+                }, 3000);
+                return;
+              }
+              delTopicBtn.disabled = true;
+              deleteTopic();
+            });
           }
         }
       }
@@ -793,6 +815,9 @@
       function renderReplies(docs) {
         const area = document.getElementById("repliesArea");
         if (!area) return;
+        // Preserve in-flight reply text across snapshot-driven re-renders.
+        const existingTextarea = document.getElementById("replyTextarea");
+        const draft = existingTextarea ? existingTextarea.value : "";
         cachedReplyDocs = docs;
 
         const cnt = docs.length;
@@ -869,7 +894,17 @@
           area.addEventListener("click", handleReplyAreaClick);
           area.dataset.replyDelegationBound = "1";
         }
-        document.getElementById("replySendBtn").addEventListener("click", submitReply);
+        // Send button: bind via delegation guard so re-renders don't pile up listeners.
+        const sendBtn = document.getElementById("replySendBtn");
+        if (sendBtn && !sendBtn.dataset.bound) {
+          sendBtn.addEventListener("click", submitReply);
+          sendBtn.dataset.bound = "1";
+        }
+        // Restore in-flight reply text after re-render
+        if (draft) {
+          const ta = document.getElementById("replyTextarea");
+          if (ta) ta.value = draft;
+        }
       }
 
       function handleReplyAreaClick(e) {
@@ -882,6 +917,25 @@
           editingTarget = { type: "reply", replyId };
           renderReplies(cachedReplyDocs);
         } else if (action === "deleteReply") {
+          // Two-click confirm pattern (no native confirm() per CLAUDE.md).
+          if (btn.dataset.confirming !== "1") {
+            btn.dataset.confirming = "1";
+            const originalHTML = btn.innerHTML;
+            btn.dataset.originalHtml = originalHTML;
+            btn.innerHTML = "Confirm?";
+            btn.classList.add("confirming");
+            const t = setTimeout(() => {
+              if (btn.isConnected && btn.dataset.confirming === "1") {
+                btn.dataset.confirming = "";
+                btn.innerHTML = originalHTML;
+                btn.classList.remove("confirming");
+              }
+            }, 3000);
+            btn.dataset.confirmTimer = String(t);
+            return;
+          }
+          clearTimeout(Number(btn.dataset.confirmTimer));
+          btn.disabled = true;
           deleteReply(replyId);
         } else if (action === "saveReply") {
           saveReplyEdit(replyId);
@@ -921,7 +975,6 @@
       }
 
       async function deleteTopic() {
-        if (!confirm("Delete this topic and all its replies? This cannot be undone.")) return;
         try {
           await deleteDoc(doc(db, "topics", currentTopicId));
           showTopicList();
@@ -980,7 +1033,6 @@
       }
 
       async function deleteReply(replyId) {
-        if (!confirm("Delete this reply?")) return;
         try {
           await deleteDoc(doc(db, "topics", currentTopicId, "replies", replyId));
           await updateDoc(doc(db, "topics", currentTopicId), {
