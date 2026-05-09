@@ -530,6 +530,7 @@
       let editingTarget = null;
       let currentCategory = 'all';
       let allTopicDocs = [];
+      let _submittingReply = false;
 
       const CAT_CONFIG = {
         general:   { label: 'General',   emoji: '&#x1F4AC;' },
@@ -815,9 +816,11 @@
       function renderReplies(docs) {
         const area = document.getElementById("repliesArea");
         if (!area) return;
-        // Preserve in-flight reply text across snapshot-driven re-renders.
+        // Preserve in-flight reply text across snapshot-driven re-renders,
+        // EXCEPT when a submit is in progress (we just cleared the textarea
+        // and don't want to restore the about-to-be-sent draft).
         const existingTextarea = document.getElementById("replyTextarea");
-        const draft = existingTextarea ? existingTextarea.value : "";
+        const draft = (!_submittingReply && existingTextarea) ? existingTextarea.value : "";
         cachedReplyDocs = docs;
 
         const cnt = docs.length;
@@ -984,15 +987,23 @@
       }
 
       // -- Reply CRUD ------------------------------------------------------
+      // _submittingReply (declared at top-level in this script) tracks an
+      // in-flight submit so renderReplies() can skip restoring the draft
+      // (which would un-clear the textarea after addDoc succeeds).
       async function submitReply() {
-        const textarea = document.getElementById("replyTextarea");
-        if (!textarea) return;
-        const body = textarea.value.trim();
+        const textareaInit = document.getElementById("replyTextarea");
+        if (!textareaInit) return;
+        const body = textareaInit.value.trim();
         if (!body || !currentUser) return;
 
-        const btn = document.getElementById("replySendBtn");
-        btn.disabled = true;
-        btn.innerHTML = `<span class="btn-spinner"></span> Sending...`;
+        const btnInit = document.getElementById("replySendBtn");
+        btnInit.disabled = true;
+        btnInit.innerHTML = `<span class="btn-spinner"></span> Sending...`;
+
+        _submittingReply = true;
+        // Optimistically clear the source textarea so the local-cache snapshot
+        // (which fires synchronously on addDoc) doesn't re-capture the draft.
+        textareaInit.value = "";
 
         try {
           await addDoc(collection(db, "topics", currentTopicId, "replies"), {
@@ -1004,14 +1015,22 @@
           await updateDoc(doc(db, "topics", currentTopicId), {
             replyCount: increment(1),
           });
-          textarea.value = "";
         } catch (err) {
           console.error("Reply submit error:", err);
+          // Restore the user's text so they don't lose it on failure
+          const ta = document.getElementById("replyTextarea");
+          if (ta) ta.value = body;
         } finally {
+          _submittingReply = false;
+          // Re-fetch the button — renderReplies() may have replaced the node
+          const btn = document.getElementById("replySendBtn");
           if (btn) {
             btn.disabled = false;
             btn.innerHTML = `${SEND_ICON} Send Reply`;
           }
+          // And the textarea — make sure it's empty after a successful send
+          const ta = document.getElementById("replyTextarea");
+          if (ta && !ta.value) ta.value = "";
         }
       }
 
