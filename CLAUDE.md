@@ -43,7 +43,7 @@ Steps (in order):
 1. Hide `document.body` (prevent flash)
 2. Init Firebase (guarded against double-init)
 3. `onAuthStateChanged` — no user → `/login`
-4. Fetch / create `users/{uid}` profile (auto-assigns `role_teachershub: 'teachers_user'` + `approval_status_teachershub: 'pending'`)
+4. Fetch / create `users/{uid}` profile (auto-assigns `role_teachershub: 'teachers_user'` + `approval_status_teachershub: 'pending'`). On first sign-in, `applyStaffBridge()` looks up `staff/{...}` by `emailLower`: a match prefills `schoolId` / `school` / `displayName` / `phone` / `title` (so the school step in step 8 is skipped) and back-links the staff row; no match auto-creates a staff row keyed by `sha1(emailLower).slice(0,20)` with `source:'auth-guard-autocreate'`. Subjects / classes / `th_sub_roles` are NOT in the staff record so step 8's prompt still runs for those fields. Bridging is best-effort (try/catch/warn), never blocks signup. **Helper is shared with AH + CH — keep all three in sync.** See root CLAUDE.md "Staff Directory & ↔ users Bridge".
 5. **Domain check** — Google SSO email must be in `window.TEACHERS_ALLOWED_DOMAINS` (15 entries: 14 partner `.sch.id` + `eduversal.org`). Email/password accounts bypass. Fail → `/login?error=domain`
 6. **Role check** — `role_teachershub ∈ ['teachers_admin','teachers_user']`
 7. **Name prompt** if `displayName` missing
