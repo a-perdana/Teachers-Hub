@@ -1061,7 +1061,12 @@ async function loadExisting() {
   try {
     snap = await getDoc(doc(db, 'teacher_kpi_submissions', submissionId));
   } catch (err) {
-    console.error('loadExisting failed (teacher_kpi_submissions read denied?):', err);
+    // Non-existent submission yields permission-denied at the rule layer
+    // (resource.data.userId access throws on null resource). Treat as "no
+    // existing submission yet" — first-time user just hasn't submitted.
+    if (err?.code !== 'permission-denied') {
+      console.warn('loadExisting unexpected error:', err);
+    }
     return;
   }
   if (!snap.exists()) return;
