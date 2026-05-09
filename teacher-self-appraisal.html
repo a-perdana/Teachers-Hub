@@ -564,7 +564,17 @@ function visibleItems(items) {
 
 // ── Load existing ────────────────────────────────────────
 async function loadExisting() {
-  const snap = await getDoc(doc(db, 'teacher_self_appraisals', selfDocId));
+  let snap;
+  try {
+    snap = await getDoc(doc(db, 'teacher_self_appraisals', selfDocId));
+  } catch (err) {
+    // Non-existent doc → rule reads resource.data on null → permission-denied.
+    // First-time user just hasn't created their self-appraisal yet.
+    if (err?.code !== 'permission-denied') {
+      console.warn('teacher_self_appraisals read failed:', err);
+    }
+    return;
+  }
   if (!snap.exists()) return;
   const data = snap.data();
   if (data.scores)   scores   = data.scores;
