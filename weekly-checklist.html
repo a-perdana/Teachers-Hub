@@ -1098,6 +1098,18 @@ function _getWeekRange(weekNum) {
   return { startIso: iso(mon), endIso: iso(sun) };
 }
 
+// Holiday-aware nav: returns the next/prev teachingWeeks[].weekNo (NOT weekNum+1),
+// so clicking Next from Sem 2 W15 lands on the next real teaching week, not a
+// non-existent academic-year-relative slot inside a holiday gap.
+function _adjacentTeachingWeekNo(currentWeekNo, direction) {
+  const tw = _pacingScheduleCache?.teachingWeeks || [];
+  if (!tw.length) return currentWeekNo + direction;
+  const idx = tw.findIndex(w => w.weekNo === currentWeekNo);
+  if (idx < 0) return currentWeekNo + direction;
+  const target = tw[idx + direction];
+  return target ? target.weekNo : null;
+}
+
 function _eventsInRange(events, startIso, endIso) {
   return events
     .filter(e => e.date_end >= startIso && e.date_start <= endIso)
@@ -1134,10 +1146,11 @@ function renderEventsBand() {
   _cambPage.next = 0;
 
   const thisRange = _getWeekRange(currentWeek);
-  const nextRange = currentWeek < TOTAL_WEEKS ? _getWeekRange(currentWeek + 1) : null;
+  const nextWeekNo = _adjacentTeachingWeekNo(currentWeek, +1);
+  const nextRange = nextWeekNo != null ? _getWeekRange(nextWeekNo) : null;
 
   document.getElementById('evThisWeekTag').textContent = getWeekLabelShort(currentWeek);
-  document.getElementById('evNextWeekTag').textContent = nextRange ? getWeekLabelShort(currentWeek + 1) : '—';
+  document.getElementById('evNextWeekTag').textContent = nextWeekNo != null ? getWeekLabelShort(nextWeekNo) : '—';
 
   const renderAcadSection = (items) => {
     if (!items.length) return '';
@@ -1208,10 +1221,14 @@ function renderEventsBand() {
 
 function setupWeekNav() {
   document.getElementById('prevWeekBtn').addEventListener('click', () => {
-    if (currentWeek > 1) loadWeek(currentWeek - 1);
+    const prev = _adjacentTeachingWeekNo(currentWeek, -1);
+    if (prev != null) loadWeek(prev);
+    else if (currentWeek > 1) loadWeek(currentWeek - 1);
   });
   document.getElementById('nextWeekBtn').addEventListener('click', () => {
-    if (currentWeek < TOTAL_WEEKS) loadWeek(currentWeek + 1);
+    const next = _adjacentTeachingWeekNo(currentWeek, +1);
+    if (next != null) loadWeek(next);
+    else if (currentWeek < TOTAL_WEEKS) loadWeek(currentWeek + 1);
   });
   const jumpSel = document.getElementById('weekJumpSelect');
   for (let w = 1; w <= TOTAL_WEEKS; w++) {
@@ -1236,8 +1253,8 @@ function updateWeekUI() {
   document.getElementById('weekLabel').textContent = label;
   document.getElementById('weekDates').textContent  = getWeekDates(currentWeek);
   document.getElementById('heroTitle').textContent  = `${label} — Weekly Checklist`;
-  document.getElementById('prevWeekBtn').disabled   = currentWeek <= 1;
-  document.getElementById('nextWeekBtn').disabled   = currentWeek >= TOTAL_WEEKS;
+  document.getElementById('prevWeekBtn').disabled   = _adjacentTeachingWeekNo(currentWeek, -1) == null && currentWeek <= 1;
+  document.getElementById('nextWeekBtn').disabled   = _adjacentTeachingWeekNo(currentWeek, +1) == null && currentWeek >= TOTAL_WEEKS;
   const ind = document.getElementById('weekThisIndicator');
   ind.style.display = isCurrentWeek(currentWeek) ? '' : 'none';
   const jumpSel = document.getElementById('weekJumpSelect');
