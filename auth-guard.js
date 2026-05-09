@@ -135,6 +135,38 @@ window.__firestoreHelpers = { db, setDoc, doc };
 const PAGE_ACCESS_BYPASS = new Set(['', 'index', 'login', 'waiting', 'settings', 'certificate-verify', 'careers', 'careers-apply', 'careers-status']);
 const PAGE_ACCESS_TTL_MS = 5 * 60 * 1000; // 5 min sessionStorage cache
 
+// ── Pilot-system gating (per-school enrolment) ─────────────────────
+// partner_schools/{schoolId}.enabled_systems[] ⊂ {kpi, appraisal,
+// competency, induction}. When the field is missing the school is
+// treated as "all enabled" (back-compat); empty array means every
+// system is explicitly disabled. Admins and HQ users (no schoolId)
+// always bypass.
+//
+// PILOT_SLUG_MAP gates pages whose route slug belongs to a pilot
+// system. Each entry maps a navbar / card slug to its parent system.
+// When enabled_systems[] excludes that system the slug is hidden in
+// navbar + dashboard + URL gate. Pilot-irrelevant slugs (pacing,
+// trackers, hub, careers) are absent — they're always reachable.
+const PILOT_SLUG_MAP = {
+  // KPI track
+  'teacher-self-assessment': 'kpi',
+  'teacher-kpi-results':     'kpi',
+  // Appraisal track
+  'teacher-self-appraisal':    'appraisal',
+  'teacher-appraisal-results': 'appraisal',
+  // Competency track
+  'competency-framework': 'competency',
+  'learning-path':        'competency',
+  'my-portfolio':         'competency',
+  'my-certificates':      'competency',
+  // Induction track
+  'my-induction':          'induction',
+  'my-mentees':            'induction',
+  'handbook':              'induction',
+  'mentor-certification':  'induction',
+  'observation-entry':     'induction',
+};
+
 // Convert window.location.pathname to a clean URL slug (the doc ID
 // in page_access_config). '/igcse-math' -> 'igcse-math';
 // '/igcse-math-pacing.html' -> 'igcse-math-pacing'; '/' -> ''.
@@ -268,6 +300,74 @@ function ensurePageAccessStyles() {
   style.id = 'paGatingStyle';
   style.textContent = '[data-pa-hidden="1"], [data-th-subject-hidden="1"] { display: none !important; }';
   document.head.appendChild(style);
+}
+
+// Pilot-system UI gating. Reuses data-pa-hidden so the existing
+// "hide empty column / dropdown / mobile section" logic in
+// applyPageAccessGating composes — pilot-disabled items count as
+// hidden when checking whether a column went empty.
+//   - enabled === null  ⇒ field missing on partner_schools doc → no
+//                          gating (back-compat: all systems on).
+//   - enabled === Set() ⇒ every system explicitly disabled.
+function applyPilotSystemGating(enabled) {
+  if (!enabled) return; // null = all enabled (back-compat) — nothing to do
+
+  const isPilotAllowed = (slug) => {
+    const sys = PILOT_SLUG_MAP[slug];
+    if (!sys) return true; // not a pilot-gated page
+    return enabled.has(sys);
+  };
+
+  // 1. Navbar items (desktop + any data-mobile-nav-key clones).
+  document.querySelectorAll('[data-nav-key], [data-mobile-nav-key]').forEach(el => {
+    const key = (el.getAttribute('data-nav-key') || el.getAttribute('data-mobile-nav-key') || '').toLowerCase();
+    if (!key || PAGE_ACCESS_BYPASS.has(key)) return;
+    if (!isPilotAllowed(key)) el.setAttribute('data-pa-hidden', '1');
+  });
+
+  // 2. Dashboard cards by href slug.
+  document.querySelectorAll('a.card[href], a.resource-card[href]').forEach(el => {
+    const key = slugFromHref(el.getAttribute('href'));
+    if (!key || PAGE_ACCESS_BYPASS.has(key)) return;
+    if (!isPilotAllowed(key)) el.setAttribute('data-pa-hidden', '1');
+  });
+
+  // 3. Re-evaluate empty wrappers / columns now that pilot hides
+  //    layered on top of page-access hides. Mirrors the logic at the
+  //    bottom of applyPageAccessGating.
+  ['.th-dd-wrap', '.th-mobile-section'].forEach(selector => {
+    document.querySelectorAll(selector).forEach(group => {
+      const items = group.querySelectorAll('[data-nav-key]');
+      if (!items.length) return;
+      const allHidden = [...items].every(it => it.getAttribute('data-pa-hidden') === '1');
+      if (allHidden) group.setAttribute('data-pa-hidden', '1');
+      else            group.removeAttribute('data-pa-hidden');
+    });
+  });
+  document.querySelectorAll('.th-dd-col').forEach(col => {
+    const items = col.querySelectorAll('[data-nav-key]');
+    if (!items.length) return;
+    const allHidden = [...items].every(it => it.getAttribute('data-pa-hidden') === '1');
+    if (allHidden) col.setAttribute('data-pa-hidden', '1');
+    else            col.removeAttribute('data-pa-hidden');
+  });
+}
+
+// Read partner_schools/{schoolId}.enabled_systems[]. Returns:
+//   null      → field absent / read failed → all systems enabled
+//   Set([…])  → explicit list (possibly empty)
+async function getEnabledSystemsForSchool(database, schoolId) {
+  if (!schoolId) return null;
+  try {
+    const snap = await getDoc(doc(database, 'partner_schools', schoolId));
+    if (!snap.exists()) return null;
+    const data = snap.data();
+    if (!Array.isArray(data.enabled_systems)) return null;
+    return new Set(data.enabled_systems);
+  } catch (err) {
+    console.warn('partner_schools read failed for pilot gating', err);
+    return null; // fail-open
+  }
 }
 
 // ── Subject + Level gating (pacing / tracker pages) ──────────────
@@ -959,6 +1059,32 @@ onAuthStateChanged(auth, async (user) => {
     }
   }
 
+  // 5d-bis. Pilot-system gate (per-school enrolment).
+  //     Direct-URL access to a KPI / Appraisal / Competency / Induction
+  //     page is rejected when the user's school has narrowed
+  //     partner_schools.enabled_systems[] to exclude that system.
+  //     Admins + HQ users (no schoolId) bypass; missing field = open.
+  if (!isAdminRole && profile.schoolId) {
+    const pageKey = currentPageKey();
+    const requiredSystem = PILOT_SLUG_MAP[pageKey];
+    if (requiredSystem) {
+      const enabled = await getEnabledSystemsForSchool(db, profile.schoolId);
+      if (enabled && !enabled.has(requiredSystem)) {
+        try {
+          sessionStorage.setItem('th_access_denied', JSON.stringify({
+            pageKey,
+            label:  pageKey,
+            reason: 'pilot',
+            system: requiredSystem,
+            at:     Date.now(),
+          }));
+        } catch (_) {}
+        window.location.replace('/?denied=' + encodeURIComponent(pageKey) + '&reason=pilot');
+        return;
+      }
+    }
+  }
+
   // 5e. Subject + level gate (pacing / tracker pages).
   //     Direct-URL access to a pacing/tracker page redirects home if
   //     the user's subjects[] / classes[] don't cover it. Empty profile
@@ -1036,8 +1162,11 @@ onAuthStateChanged(auth, async (user) => {
     const userSubjects = Array.isArray(profile.subjects)     ? profile.subjects     : [];
     const userLevels   = Array.isArray(profile.classes)      ? profile.classes      : [];
     const configs      = await getAllPageAccessConfigs(db);
+    // HQ users (no schoolId) bypass pilot gating entirely.
+    const enabledSystems = await getEnabledSystemsForSchool(db, profile.schoolId);
     const runGating = () => {
       applyPageAccessGating(configs, subRoles);
+      applyPilotSystemGating(enabledSystems);
       applySubjectGating(userSubjects, userLevels);
     };
     runGating();
