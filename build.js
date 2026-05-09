@@ -938,16 +938,26 @@ if (fs.existsSync(partialsSrcDir)) {
 }
 
 // Copy resources/ folder to dist root (JSON data files: appraisal framework, walkthrough rubric, etc.)
+// Walks subdirectories recursively (e.g. resources/research/cambridge/*.json) so
+// adding a nested data folder doesn't break the build with EISDIR.
 const resourcesSrcDir = path.join(__dirname, 'resources');
 const resourcesDistDir = path.join(distDir, 'resources');
 if (fs.existsSync(resourcesSrcDir)) {
-  if (!fs.existsSync(resourcesDistDir)) {
-    fs.mkdirSync(resourcesDistDir, { recursive: true });
-  }
-  fs.readdirSync(resourcesSrcDir).forEach(file => {
-    fs.copyFileSync(path.join(resourcesSrcDir, file), path.join(resourcesDistDir, file));
-    console.log(`Copied: dist/resources/${file}`);
-  });
+  const copyResourcesRecursive = (srcDir, destDir, relPath = '') => {
+    if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
+    fs.readdirSync(srcDir, { withFileTypes: true }).forEach(entry => {
+      const src = path.join(srcDir, entry.name);
+      const dest = path.join(destDir, entry.name);
+      const logPath = relPath ? `${relPath}/${entry.name}` : entry.name;
+      if (entry.isDirectory()) {
+        copyResourcesRecursive(src, dest, logPath);
+      } else {
+        fs.copyFileSync(src, dest);
+        console.log(`Copied: dist/resources/${logPath}`);
+      }
+    });
+  };
+  copyResourcesRecursive(resourcesSrcDir, resourcesDistDir);
 }
 
 // Copy interactive/ folder to dist (standalone HTML tools, no auth)
