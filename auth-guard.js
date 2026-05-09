@@ -362,6 +362,14 @@ function applyPilotSystemGating(enabled) {
     if (allHidden) col.setAttribute('data-pa-hidden', '1');
     else            col.removeAttribute('data-pa-hidden');
   });
+  // Mirror the has-hidden flag refresh from page-access gating so the
+  // panel CSS shrinks even when only pilot rules hid columns.
+  document.querySelectorAll('.th-dd-col-group').forEach(group => {
+    const cols = group.querySelectorAll('.th-dd-col');
+    if (!cols.length) return;
+    const anyHidden = [...cols].some(c => c.getAttribute('data-pa-hidden') === '1');
+    group.classList.toggle('has-hidden', anyHidden);
+  });
 }
 
 // Read partner_schools/{schoolId}.enabled_systems[]. Returns:
