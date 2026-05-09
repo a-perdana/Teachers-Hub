@@ -1143,7 +1143,14 @@ function renderClassEditors() {
   }
   card.style.display = '';
 
-  [..._activeCombos].forEach(combo => {
+  const lvOrder = Object.fromEntries(LEVELS.map((l, i) => [l.value, i]));
+  const svOrder = Object.fromEntries(CAMBRIDGE_SUBJECTS.map((s, i) => [s.value, i]));
+  [..._activeCombos].sort((a, b) => {
+    const [la, sa] = a.split('_');
+    const [lb, sb] = b.split('_');
+    return (lvOrder[la] ?? 99) - (lvOrder[lb] ?? 99)
+        || (svOrder[sa] ?? 99) - (svOrder[sb] ?? 99);
+  }).forEach(combo => {
     const [lv, sv] = combo.split('_');
     const key = slKey(lv, sv);
     if (!Array.isArray(_slClasses[key])) _slClasses[key] = [];
