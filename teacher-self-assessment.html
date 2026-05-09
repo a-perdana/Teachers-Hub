@@ -1057,7 +1057,13 @@ async function loadActivePeriod() {
   }
 }
 async function loadExisting() {
-  const snap = await getDoc(doc(db, 'teacher_kpi_submissions', submissionId));
+  let snap;
+  try {
+    snap = await getDoc(doc(db, 'teacher_kpi_submissions', submissionId));
+  } catch (err) {
+    console.error('loadExisting failed (teacher_kpi_submissions read denied?):', err);
+    return;
+  }
   if (!snap.exists()) return;
   const data = snap.data();
   isSubmitted = data.status === 'submitted';
