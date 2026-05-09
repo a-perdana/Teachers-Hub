@@ -790,14 +790,93 @@
 
   // ── Comments ─────────────────────────────────────────────────
   const commentUnsubs = {};
+  const commentCardRefs = {}; // annId → card (so postComment can re-render after addDoc)
 
-  function loadComments(card, annId) {
-    if (commentUnsubs[annId]) return; // already listening
+  // Render a snapshot's docs into the card. Used by both the realtime listener
+  // and the one-shot fallback in postComment (covers ad-blocker scenarios).
+  function paintComments(card, annId, docs) {
     const commList = card.querySelector(`#comments-${annId}`);
     const noComm = card.querySelector(`#no-comments-${annId}`);
+    if (!commList) return;
 
-    // Surface stuck "Loading comments…" when Firestore Listen is blocked
-    // (ad-blockers commonly block firestore.googleapis.com/.../Listen → ERR_BLOCKED_BY_CLIENT).
+    [...commList.querySelectorAll('.comment-item')].forEach(c => c.remove());
+
+    if (!docs.length) {
+      if (noComm) { noComm.textContent = 'No comments yet. Be the first!'; noComm.style.display = 'block'; }
+      return;
+    }
+    if (noComm) noComm.style.display = 'none';
+
+    // serverTimestamp resolves to null in the local cache before the server roundtrip;
+    // re-sort defensively so a freshly-posted comment (createdAt:null) sticks at the end.
+    const sortedDocs = [...docs].sort((a, b) => {
+      const ta = a.data().createdAt?.toMillis?.() ?? Number.MAX_SAFE_INTEGER;
+      const tb = b.data().createdAt?.toMillis?.() ?? Number.MAX_SAFE_INTEGER;
+      return ta - tb;
+    });
+
+    sortedDocs.forEach(docSnap => {
+      const c = docSnap.data();
+      const item = document.createElement('div');
+      item.className = 'comment-item';
+      item.dataset.id = docSnap.id;
+      const canDelete = isAdmin || (currentUser && c.authorUid === currentUser.uid);
+      const avatarDiv = document.createElement('div');
+      avatarDiv.className = 'comment-avatar';
+      buildAvatarFromName(avatarDiv, c.authorName || '', c.authorPhotoURL || '');
+      item.innerHTML = `
+        <div class="comment-body">
+          <div class="comment-author">${escHtml(c.authorName || 'Unknown')}</div>
+          <div class="comment-text">${escHtml(c.body || '')}</div>
+          <div class="comment-time">${relativeTime(c.createdAt)}</div>
+        </div>
+        ${canDelete ? `<button class="comment-del-btn" title="Delete comment">✕</button>` : ''}`;
+      item.prepend(avatarDiv);
+
+      if (canDelete) {
+        item.querySelector('.comment-del-btn').addEventListener('click', async () => {
+          try {
+            await deleteDoc(doc(db, 'announcements', annId, 'comments', docSnap.id));
+            const annRef = doc(db, 'announcements', annId);
+            const annSnap = await getDoc(annRef);
+            if (annSnap.exists()) {
+              const cur = annSnap.data().commentCount || 0;
+              await updateDoc(annRef, { commentCount: Math.max(0, cur - 1) });
+            }
+            // Optimistic local repaint in case the listener channel is blocked
+            await refreshCommentsOnce(annId);
+          } catch (err) { console.error(err); }
+        });
+      }
+      commList.appendChild(item);
+    });
+  }
+
+  // One-shot fetch + paint. Used after post/delete so the UI updates even if
+  // the realtime Listen channel is blocked (ad-blockers drop firestore.googleapis.com).
+  async function refreshCommentsOnce(annId) {
+    const card = commentCardRefs[annId];
+    if (!card) return;
+    try {
+      const q = query(collection(db, 'announcements', annId, 'comments'), orderBy('createdAt', 'asc'));
+      const snap = await getDocs(q);
+      paintComments(card, annId, snap.docs);
+    } catch (err) {
+      console.error('refreshCommentsOnce failed', err);
+    }
+  }
+
+  function loadComments(card, annId) {
+    commentCardRefs[annId] = card;
+    if (commentUnsubs[annId]) return; // already listening
+    const noComm = card.querySelector(`#no-comments-${annId}`);
+
+    // Kick off an immediate one-shot fetch so the panel populates even if
+    // the realtime Listen channel is blocked by an ad-blocker.
+    refreshCommentsOnce(annId);
+
+    // Surface stuck "Loading comments…" when both the one-shot and the
+    // realtime listener fail to deliver within 6s.
     const stuckTimer = setTimeout(() => {
       if (noComm && noComm.textContent === 'Loading comments…') {
         noComm.textContent = 'Could not load comments. Disable ad-blocker for this page or refresh.';
@@ -806,60 +885,19 @@
     }, 6000);
 
     const q = query(collection(db, 'announcements', annId, 'comments'), orderBy('createdAt', 'asc'));
-    commentUnsubs[annId] = onSnapshot(q, (snap) => {
-      clearTimeout(stuckTimer);
-      // Remove old comment items (keep no-comments msg)
-      [...commList.querySelectorAll('.comment-item')].forEach(c => c.remove());
-
-      if (snap.empty) {
-        if (noComm) { noComm.textContent = 'No comments yet. Be the first!'; noComm.style.display = 'block'; }
-        return;
+    commentUnsubs[annId] = onSnapshot(
+      q,
+      (snap) => {
+        clearTimeout(stuckTimer);
+        paintComments(card, annId, snap.docs);
+      },
+      (err) => {
+        clearTimeout(stuckTimer);
+        console.error('comments onSnapshot error', err);
+        // Listener died — fall back to one-shot so existing comments still render
+        refreshCommentsOnce(annId);
       }
-      if (noComm) noComm.style.display = 'none';
-
-      // serverTimestamp resolves to null in the local cache before the server roundtrip;
-      // re-sort defensively so a freshly-posted comment (createdAt:null) sticks at the end.
-      const sortedDocs = [...snap.docs].sort((a, b) => {
-        const ta = a.data().createdAt?.toMillis?.() ?? Number.MAX_SAFE_INTEGER;
-        const tb = b.data().createdAt?.toMillis?.() ?? Number.MAX_SAFE_INTEGER;
-        return ta - tb;
-      });
-
-      sortedDocs.forEach(docSnap => {
-        const c = docSnap.data();
-        const item = document.createElement('div');
-        item.className = 'comment-item';
-        item.dataset.id = docSnap.id;
-        const canDelete = isAdmin || (currentUser && c.authorUid === currentUser.uid);
-        const avatarDiv = document.createElement('div');
-        avatarDiv.className = 'comment-avatar';
-        buildAvatarFromName(avatarDiv, c.authorName || '', c.authorPhotoURL || '');
-        item.innerHTML = `
-          <div class="comment-body">
-            <div class="comment-author">${escHtml(c.authorName || 'Unknown')}</div>
-            <div class="comment-text">${escHtml(c.body || '')}</div>
-            <div class="comment-time">${relativeTime(c.createdAt)}</div>
-          </div>
-          ${canDelete ? `<button class="comment-del-btn" title="Delete comment">✕</button>` : ''}`;
-        item.prepend(avatarDiv);
-
-        if (canDelete) {
-          item.querySelector('.comment-del-btn').addEventListener('click', async () => {
-            try {
-              await deleteDoc(doc(db, 'announcements', annId, 'comments', docSnap.id));
-              // Decrement count
-              const annRef = doc(db, 'announcements', annId);
-              const annSnap = await getDoc(annRef);
-              if (annSnap.exists()) {
-                const cur = annSnap.data().commentCount || 0;
-                await updateDoc(annRef, { commentCount: Math.max(0, cur - 1) });
-              }
-            } catch (err) { console.error(err); }
-          });
-        }
-        commList.appendChild(item);
-      });
-    });
+    );
   }
 
   async function postComment(annId, inputEl, btn) {
@@ -883,6 +921,9 @@
       }
       inputEl.value = '';
       inputEl.style.height = 'auto';
+      // Optimistic repaint so the new comment appears immediately even if
+      // the realtime Listen channel is blocked (ad-blockers drop it).
+      await refreshCommentsOnce(annId);
     } catch (err) { console.error(err); }
     btn.disabled = false;
   }
