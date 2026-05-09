@@ -341,6 +341,25 @@
   padding: 1px 8px; border-radius: 10px;
 }
 
+/* ─── TASK PAGER ─────────────────────────────── */
+.task-pager {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  margin-top: 16px; padding: 8px 0;
+}
+.task-pager-btn {
+  width: 32px; height: 32px; border-radius: 8px;
+  border: 1.5px solid var(--border); background: var(--white);
+  color: var(--ink-2); font-size: 16px; font-weight: 700; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.task-pager-btn:not(:disabled):hover { border-color: var(--accent); color: var(--accent); }
+.task-pager-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.task-pager-info {
+  font-size: 12px; font-weight: 600; color: var(--ink-3);
+  letter-spacing: 0.04em; min-width: 64px; text-align: center;
+}
+
 /* ─── TASK CARD ──────────────────────────────── */
 .task-list { display: flex; flex-direction: column; gap: 10px; }
 .task-card {
@@ -1437,6 +1456,9 @@ async function saveNote(taskId, note) {
 }
 
 // ── Render ────────────────────────────────────────────────────────
+const TASK_PAGE_SIZE = 3;
+let _taskPage = 0;
+
 function render() {
   document.getElementById('loadingState').style.display = 'none';
 
@@ -1472,15 +1494,40 @@ function render() {
   taskArea.appendChild(filterDiv);
   renderCatFilter();
 
-  // Flat task list
+  // Pagination — clamp current page to valid range
+  const totalPages = Math.max(1, Math.ceil(filtered.length / TASK_PAGE_SIZE));
+  if (_taskPage >= totalPages) _taskPage = totalPages - 1;
+  if (_taskPage < 0) _taskPage = 0;
+  const pageStart = _taskPage * TASK_PAGE_SIZE;
+  const pageItems = filtered.slice(pageStart, pageStart + TASK_PAGE_SIZE);
+
+  // Flat task list (paged)
   const listEl = document.createElement('div');
   listEl.className = 'task-list';
   taskArea.appendChild(listEl);
 
-  filtered.forEach(task => {
+  pageItems.forEach(task => {
     const catColor = CAT_COLORS[task.category] || CAT_COLORS['Other'];
     listEl.appendChild(buildTaskCard(task, catColor));
   });
+
+  // Pager (only when more than one page)
+  if (totalPages > 1) {
+    const pager = document.createElement('div');
+    pager.className = 'task-pager';
+    pager.innerHTML = `
+      <button class="task-pager-btn" data-pager="prev" ${_taskPage === 0 ? 'disabled' : ''} aria-label="Previous tasks">&#8592;</button>
+      <span class="task-pager-info">${_taskPage + 1} / ${totalPages}</span>
+      <button class="task-pager-btn" data-pager="next" ${_taskPage >= totalPages - 1 ? 'disabled' : ''} aria-label="Next tasks">&#8594;</button>
+    `;
+    pager.querySelector('[data-pager="prev"]').addEventListener('click', () => {
+      if (_taskPage > 0) { _taskPage--; render(); }
+    });
+    pager.querySelector('[data-pager="next"]').addEventListener('click', () => {
+      if (_taskPage < totalPages - 1) { _taskPage++; render(); }
+    });
+    taskArea.appendChild(pager);
+  }
 }
 
 const expandedTasks = new Set();
@@ -1651,6 +1698,7 @@ function renderCatFilter() {
   row.querySelectorAll('.cat-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       activeFilter = btn.dataset.cat;
+      _taskPage = 0;
       render();
     });
   });
