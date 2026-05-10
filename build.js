@@ -62,6 +62,8 @@ const ROUTES = {
   'mentor-certification.html': 'mentor-certification',
   'student-approvals.html': 'student-approvals',
   'test-session-launcher.html': 'test-session-launcher',
+  'test-monitor.html': 'test-monitor',
+  'class-assessment.html': 'class-assessment',
   'references.html': 'references',
   // Public careers + interview module
   'careers.html': 'careers',
@@ -123,6 +125,8 @@ const LINK_REWRITES = [
   [/href="mentor-certification\.html"/g,   'href="/mentor-certification"'],
   [/href="student-approvals\.html"/g,      'href="/student-approvals"'],
   [/href="test-session-launcher\.html"/g,  'href="/test-session-launcher"'],
+  [/href="test-monitor\.html(\?[^"]*)?"/g, (m, q) => `href="/test-monitor${q || ''}"`],
+  [/href="class-assessment\.html"/g,       'href="/class-assessment"'],
   [/href="references\.html(\?[^"]*)?"/g,   (m, q) => `href="/references${q || ''}"`],
   // Careers + interview module
   [/href="careers\.html"/g,                       'href="/careers"'],

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Test Monitor — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%236c5ce7'/><text x='50' y='66' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>E</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+:root { --accent: #6c5ce7; --accent-2: #ede9fe; }
+.hero {
+  background: linear-gradient(130deg, #0d0628 0%, #1e0a4e 40%, #3b1a8a 72%, #6c5ce7 100%);
+  padding: 36px 40px; color: #fff;
+}
+.hero-inner { max-width: 1080px; margin: 0 auto; }
+.hero h1 { font-family: 'Lora', serif; font-size: 1.6rem; margin-bottom: 6px; }
+.hero p  { color: rgba(255,255,255,.7); font-size: .9rem; max-width: 580px; }
+.page-wrap { max-width: 1080px; margin: 0 auto; padding: 28px 32px 80px; }
+
+.session-meta {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 20px; margin-bottom: 18px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+.meta-cell { font-size: 12.5px; }
+.meta-label { color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; font-size: 10.5px; font-weight: 600; }
+.meta-value { color: var(--ink); font-weight: 500; margin-top: 2px; }
+.meta-value strong { font-weight: 600; }
+
+.stat-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px; margin-bottom: 18px;
+}
+.stat-card {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px;
+}
+.stat-num { font-family: 'Lora', serif; font-size: 1.7rem; line-height: 1; color: var(--ink); }
+.stat-lbl { font-size: 11.5px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; margin-top: 6px; }
+
+.attempt-row {
+  display: grid; grid-template-columns: 36px 1fr auto auto auto;
+  gap: 14px; align-items: center;
+  padding: 12px 16px; background: #fff;
+  border: 1px solid var(--border); border-radius: 10px;
+  margin-bottom: 6px;
+}
+.attempt-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--accent-2); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600;
+}
+.attempt-name { font-weight: 500; font-size: 14px; }
+.attempt-meta { font-size: 11.5px; color: var(--ink-3); margin-top: 2px; }
+.pill {
+  font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 99px;
+}
+.pill-draft     { background: #f3f4f6; color: #4b5563; }
+.pill-progress  { background: #dbeafe; color: #1e40af; }
+.pill-submitted { background: #fef3c7; color: #92400e; }
+.pill-scored    { background: #dcfce7; color: #166534; }
+.pill-flagged   { background: #fee2e2; color: #b91c1c; }
+.score {
+  font-weight: 600; font-size: 13px;
+}
+.score-pass { color: #16a34a; }
+.score-fail { color: #dc2626; }
+.empty {
+  text-align: center; padding: 60px 20px; color: var(--ink-3);
+}
+.empty-title { font-weight: 600; color: var(--ink-2); margin-bottom: 6px; }
+.access-warn {
+  padding: 14px 18px; background: #fef3c7; color: #92400e;
+  border: 1px solid #fcd34d; border-radius: 10px; margin-bottom: 18px;
+  font-size: 13px;
+}
+.session-pick {
+  padding: 12px 16px; background: #fff;
+  border: 1px solid var(--border); border-radius: 10px;
+  margin-bottom: 8px; cursor: pointer;
+  transition: border-color .15s;
+}
+.session-pick:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+  <!-- FIREBASE_ENV -->
+  <script src="partials/navbar.js"></script>
+  <script type="module" src="auth-guard.js"></script>
+
+  <div id="navbar-container"></div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div style="font-size:.7rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:8px;">Live Monitoring</div>
+      <h1>Test Monitor</h1>
+      <p>Watch a chapter test session in real time. See who has started, who is stuck, who has submitted, and the live score distribution.</p>
+    </div>
+  </header>
+
+  <main class="page-wrap">
+    <div id="accessWarn" class="access-warn" hidden></div>
+
+    <div id="pickerView" hidden>
+      <h3 style="margin-bottom:10px">Pick a session to monitor</h3>
+      <div id="sessionList"></div>
+    </div>
+
+    <div id="monitorView" hidden>
+      <a href="#" id="backToPicker" style="font-size:.86rem; color:var(--ink-3);">← Back to all sessions</a>
+
+      <div class="session-meta" style="margin-top:14px">
+        <div class="meta-cell"><div class="meta-label">Test</div><div class="meta-value" id="mTest">—</div></div>
+        <div class="meta-cell"><div class="meta-label">Class</div><div class="meta-value" id="mClass">—</div></div>
+        <div class="meta-cell"><div class="meta-label">Window</div><div class="meta-value" id="mWindow">—</div></div>
+        <div class="meta-cell"><div class="meta-label">Note</div><div class="meta-value" id="mNote">—</div></div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-card"><div class="stat-num" id="sTotal">0</div><div class="stat-lbl">Total students</div></div>
+        <div class="stat-card"><div class="stat-num" id="sStarted">0</div><div class="stat-lbl">Started</div></div>
+        <div class="stat-card"><div class="stat-num" id="sSubmitted">0</div><div class="stat-lbl">Submitted</div></div>
+        <div class="stat-card"><div class="stat-num" id="sAvg">—</div><div class="stat-lbl">Avg score</div></div>
+        <div class="stat-card"><div class="stat-num" id="sPass">—</div><div class="stat-lbl">Pass rate</div></div>
+      </div>
+
+      <h3 style="margin:20px 0 10px">Per-student status</h3>
+      <div id="attemptList"></div>
+    </div>
+  </main>
+
+  <script type="module">
+    import {
+      collection, query, where, onSnapshot, doc, getDoc, orderBy
+    } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    let _navbarInjected = false;
+    function injectNavbar(user) {
+      if (_navbarInjected) return; _navbarInjected = true;
+      fetch('partials/navbar.html').then(r => r.text()).then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+        if (typeof initNavbar === 'function') initNavbar();
+        const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+        const set = (id, fn) => { const el = document.getElementById(id); if (el) fn(el); };
+        set('profileNameShort', el => el.textContent = nameShort);
+        set('profileAvatar',    el => typeof buildAvatarEl === 'function' && buildAvatarEl(el, user));
+        set('profileWrap',      el => el.style.display = 'flex');
+        set('pdName',           el => el.textContent = user.displayName || user.email.split('@')[0]);
+        set('pdEmail',          el => el.textContent = user.email);
+        set('pdAvatarLg',       el => typeof buildAvatarEl === 'function' && buildAvatarEl(el, user));
+      }).catch(() => {});
+    }
+    import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js').then(({ signOut }) => {
+      window.authSignOut = () => signOut(window.auth).then(() => { window.location.href = 'login.html'; });
+    });
+
+    let sessions = [];
+    let currentSessionId = null;
+    let unsubAttempts = null;
+
+    document.addEventListener('authReady', (ev) => {
+      const { user, profile } = (ev && ev.detail) || window.__authReadyDetail || {};
+      injectNavbar(user || window.currentUser);
+      if (!profile) return;
+      const isAdmin = profile.role_teachershub === 'teachers_admin';
+      const sub = profile.th_sub_roles || [];
+      const canMonitor = isAdmin || sub.includes('subject_teacher') || sub.includes('subject_leader');
+      if (!canMonitor) {
+        document.getElementById('accessWarn').hidden = false;
+        document.getElementById('accessWarn').textContent =
+          'Test monitor is restricted to subject teachers, subject leaders, and admins.';
+        return;
+      }
+
+      // Read ?session=... or list all teacher's sessions for picker
+      const qs = new URLSearchParams(window.location.search);
+      const preselect = qs.get('session');
+      if (preselect) {
+        currentSessionId = preselect;
+        loadSession(preselect);
+      } else {
+        loadSessionPicker(profile);
+      }
+    });
+
+    function loadSessionPicker(profile) {
+      document.getElementById('pickerView').hidden = false;
+      const isAdmin = profile.role_teachershub === 'teachers_admin';
+      const q = isAdmin
+        ? query(collection(window.db, 'scheduled_sessions'), orderBy('opensAt', 'desc'))
+        : query(collection(window.db, 'scheduled_sessions'),
+                where('teacherUid', '==', window.currentUser.uid),
+                orderBy('opensAt', 'desc'));
+      onSnapshot(q, snap => {
+        sessions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderPicker();
+      }, err => console.error('[monitor] sessions error', err));
+    }
+
+    function renderPicker() {
+      const box = document.getElementById('sessionList');
+      if (sessions.length === 0) {
+        box.innerHTML = '<div class="empty"><div class="empty-title">No sessions yet</div>Schedule a test from the launcher first.</div>';
+        return;
+      }
+      box.innerHTML = sessions.map(s => `
+        <div class="session-pick" data-id="${escAttr(s.id)}">
+          <div style="font-weight:500">${escHtml(s.testTitle || s.testId)}</div>
+          <div style="font-size:11.5px; color:var(--ink-3); margin-top:3px">
+            ${escHtml(s.className)} · ${formatTs(s.opensAt)} → ${formatTs(s.closesAt)} · ${s.attemptCount||0} students
+          </div>
+        </div>
+      `).join('');
+      box.querySelectorAll('.session-pick').forEach(el => {
+        el.addEventListener('click', () => {
+          const id = el.dataset.id;
+          history.replaceState(null, '', '?session=' + id);
+          loadSession(id);
+        });
+      });
+    }
+
+    async function loadSession(sessionId) {
+      document.getElementById('pickerView').hidden = true;
+      document.getElementById('monitorView').hidden = false;
+      currentSessionId = sessionId;
+
+      const sSnap = await getDoc(doc(window.db, 'scheduled_sessions', sessionId));
+      if (!sSnap.exists()) {
+        document.getElementById('mTest').textContent = '(session not found)';
+        return;
+      }
+      const s = sSnap.data();
+      document.getElementById('mTest').textContent = s.testTitle || s.testId;
+      document.getElementById('mClass').textContent = (s.className || '') + (s.gradeLevel ? ' · Grade ' + s.gradeLevel : '');
+      document.getElementById('mWindow').textContent = formatTs(s.opensAt) + ' → ' + formatTs(s.closesAt);
+      document.getElementById('mNote').textContent = s.note || '—';
+
+      if (unsubAttempts) unsubAttempts();
+      unsubAttempts = onSnapshot(
+        query(collection(window.db, 'chapter_test_attempts'),
+              where('sessionId', '==', sessionId)),
+        snap => {
+          const attempts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderAttempts(attempts);
+        }, err => console.error('[monitor] attempts error', err)
+      );
+    }
+
+    function renderAttempts(attempts) {
+      const total = attempts.length;
+      const started = attempts.filter(a => a.status !== 'draft' && a.status !== 'cancelled').length;
+      const submitted = attempts.filter(a => ['submitted','scored','flagged'].includes(a.status)).length;
+      const scored = attempts.filter(a => typeof a.rawScorePct === 'number');
+      const avg = scored.length ? Math.round(scored.reduce((s, a) => s + a.rawScorePct, 0) / scored.length) : null;
+      const pass = scored.length ? Math.round(scored.filter(a => a.passed).length / scored.length * 100) : null;
+
+      document.getElementById('sTotal').textContent = total;
+      document.getElementById('sStarted').textContent = started;
+      document.getElementById('sSubmitted').textContent = submitted;
+      document.getElementById('sAvg').textContent = avg == null ? '—' : avg + '%';
+      document.getElementById('sPass').textContent = pass == null ? '—' : pass + '%';
+
+      // Sort: in_progress first, then submitted, then draft, then by name
+      const order = { in_progress: 0, scored: 1, submitted: 1, flagged: 1, draft: 2, cancelled: 3 };
+      attempts.sort((a, b) => (order[a.status] ?? 9) - (order[b.status] ?? 9) ||
+                              (a.studentName || '').localeCompare(b.studentName || ''));
+
+      document.getElementById('attemptList').innerHTML = attempts.map(a => {
+        const initial = (a.studentName || '?').charAt(0).toUpperCase();
+        const score = typeof a.rawScorePct === 'number'
+          ? `<span class="score ${a.passed ? 'score-pass' : 'score-fail'}">${a.rawScorePct}%</span>`
+          : '<span style="color:var(--ink-3); font-size:12px">—</span>';
+        const tabSwitches = a.tabSwitches > 0
+          ? `<span style="font-size:11px; color:#dc2626; padding:2px 6px; background:#fee2e2; border-radius:6px;" title="Tab switches detected">⚠ ${a.tabSwitches}× tab</span>`
+          : '<span></span>';
+        return `
+          <div class="attempt-row">
+            <div class="attempt-avatar">${escHtml(initial)}</div>
+            <div>
+              <div class="attempt-name">${escHtml(a.studentName || a.studentUid)}</div>
+              <div class="attempt-meta">${a.startedAt ? 'Started ' + formatTs(a.startedAt) : 'Not started'}${a.submittedAt ? ' · Submitted ' + formatTs(a.submittedAt) : ''}</div>
+            </div>
+            ${tabSwitches}
+            ${score}
+            <span class="pill pill-${escAttr(a.status)}">${escHtml(a.status)}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.getElementById('backToPicker').addEventListener('click', e => {
+      e.preventDefault();
+      if (unsubAttempts) unsubAttempts();
+      history.replaceState(null, '', window.location.pathname);
+      document.getElementById('monitorView').hidden = true;
+      document.getElementById('pickerView').hidden = false;
+    });
+
+    function formatTs(ts) {
+      if (!ts || !ts.toDate) return '';
+      return ts.toDate().toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+    }
+    function escHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      })[c]);
+    }
+    function escAttr(s) { return escHtml(s); }
+  </script>
+</body>
+</html>

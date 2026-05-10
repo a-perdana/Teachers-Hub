@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class Assessment — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%236c5ce7'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+:root { --accent: #6c5ce7; --accent-2: #ede9fe; }
+.hero { background: linear-gradient(130deg, #0d0628 0%, #1e0a4e 40%, #3b1a8a 72%, #6c5ce7 100%); padding: 36px 40px; color: #fff; }
+.hero-inner { max-width: 1180px; margin: 0 auto; }
+.hero h1 { font-family: 'Lora', serif; font-size: 1.6rem; }
+.hero p { color: rgba(255,255,255,.7); font-size: .9rem; max-width: 580px; }
+.page-wrap { max-width: 1180px; margin: 0 auto; padding: 28px 32px 80px; }
+
+.toolbar { display: flex; gap: 10px; align-items: center; margin-bottom: 18px; flex-wrap: wrap; }
+.toolbar select {
+  padding: 8px 12px; font-family: inherit; font-size: 13px;
+  border: 1px solid var(--border); border-radius: 8px; background: #fff;
+}
+
+.heatmap-wrap { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; overflow-x: auto; }
+table.heatmap { border-collapse: collapse; min-width: 800px; width: 100%; font-size: 12.5px; }
+table.heatmap th { padding: 8px 12px; text-align: left; font-weight: 600; font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
+table.heatmap th.unit { writing-mode: vertical-rl; transform: rotate(180deg); padding: 14px 6px; vertical-align: bottom; height: 100px; min-width: 32px; }
+table.heatmap td { padding: 0; border: 1px solid var(--border); height: 32px; min-width: 32px; max-width: 32px; text-align: center; font-weight: 600; }
+table.heatmap td.name { padding: 6px 12px; min-width: 160px; max-width: 200px; text-align: left; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cell-emerging   { background: #fee2e2; color: #b91c1c; }
+.cell-developing { background: #fef3c7; color: #92400e; }
+.cell-secure     { background: #dcfce7; color: #166534; }
+.cell-exceeding  { background: #dbeafe; color: #1e40af; }
+.cell-empty      { background: #fafafa; color: var(--ink-3); }
+.cell-empty::before { content:'·'; }
+
+.legend { display: flex; gap: 14px; margin-top: 14px; font-size: 11.5px; color: var(--ink-2); flex-wrap: wrap; }
+.legend-chip { display: inline-flex; align-items: center; gap: 6px; }
+.legend-swatch { width: 14px; height: 14px; border-radius: 4px; }
+
+.summary {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+  margin-bottom: 20px;
+}
+.summary-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+.summary-num { font-family: 'Lora', serif; font-size: 1.7rem; line-height: 1; }
+.summary-lbl { font-size: 11.5px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; margin-top: 6px; }
+
+.empty { text-align: center; padding: 60px 20px; color: var(--ink-3); }
+.empty-title { font-weight: 600; color: var(--ink-2); margin-bottom: 6px; }
+.access-warn { padding: 14px 18px; background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; border-radius: 10px; margin-bottom: 18px; font-size: 13px; }
+</style>
+</head>
+<body>
+  <!-- FIREBASE_ENV -->
+  <script src="partials/navbar.js"></script>
+  <script type="module" src="auth-guard.js"></script>
+
+  <div id="navbar-container"></div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div style="font-size:.7rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:8px;">Class Insights</div>
+      <h1>Class Assessment</h1>
+      <p>Per-student chapter mastery heatmap. Click a class + subject and see who has secured each unit, who is still developing, and who needs intervention.</p>
+    </div>
+  </header>
+
+  <main class="page-wrap">
+    <div id="accessWarn" class="access-warn" hidden></div>
+
+    <div class="toolbar">
+      <label style="font-size:12.5px; color:var(--ink-2)">Class</label>
+      <select id="fClass"></select>
+      <label style="font-size:12.5px; color:var(--ink-2); margin-left:10px">Subject</label>
+      <select id="fSubject">
+        <option value="">All subjects</option>
+        <option value="math">Mathematics</option>
+        <option value="english">English</option>
+        <option value="science">Science</option>
+        <option value="biology">Biology</option>
+        <option value="chemistry">Chemistry</option>
+        <option value="physics">Physics</option>
+        <option value="bahasa">Bahasa</option>
+        <option value="religion">Religion</option>
+      </select>
+    </div>
+
+    <div class="summary" id="summary"></div>
+
+    <div id="heatmapBox" class="heatmap-wrap">
+      <div class="empty"><div class="empty-title">Pick a class above</div></div>
+    </div>
+
+    <div class="legend">
+      <span class="legend-chip"><span class="legend-swatch" style="background:#fee2e2"></span> Emerging (&lt; 40%)</span>
+      <span class="legend-chip"><span class="legend-swatch" style="background:#fef3c7"></span> Developing (40–60%)</span>
+      <span class="legend-chip"><span class="legend-swatch" style="background:#dcfce7"></span> Secure (60–80%)</span>
+      <span class="legend-chip"><span class="legend-swatch" style="background:#dbeafe"></span> Exceeding (&gt; 80%)</span>
+      <span class="legend-chip"><span class="legend-swatch" style="background:#fafafa; border:1px solid var(--border)"></span> Not yet attempted</span>
+    </div>
+  </main>
+
+  <script type="module">
+    import {
+      collection, query, where, onSnapshot, getDocs, orderBy
+    } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    let _navbarInjected = false;
+    function injectNavbar(user) {
+      if (_navbarInjected) return; _navbarInjected = true;
+      fetch('partials/navbar.html').then(r => r.text()).then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+        if (typeof initNavbar === 'function') initNavbar();
+        const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+        const set = (id, fn) => { const el = document.getElementById(id); if (el) fn(el); };
+        set('profileNameShort', el => el.textContent = nameShort);
+        set('profileAvatar',    el => typeof buildAvatarEl === 'function' && buildAvatarEl(el, user));
+        set('profileWrap',      el => el.style.display = 'flex');
+        set('pdName',           el => el.textContent = user.displayName || user.email.split('@')[0]);
+        set('pdEmail',          el => el.textContent = user.email);
+        set('pdAvatarLg',       el => typeof buildAvatarEl === 'function' && buildAvatarEl(el, user));
+      }).catch(() => {});
+    }
+    import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js').then(({ signOut }) => {
+      window.authSignOut = () => signOut(window.auth).then(() => { window.location.href = 'login.html'; });
+    });
+
+    let myClasses = [];   // {id, name, grade}
+    let students = [];    // active students in current class
+    let attempts = [];    // chapter_test_attempts for current class
+    let unsubAttempts = null;
+
+    document.addEventListener('authReady', async (ev) => {
+      const { user, profile } = (ev && ev.detail) || window.__authReadyDetail || {};
+      injectNavbar(user || window.currentUser);
+      if (!profile) return;
+      const isAdmin = profile.role_teachershub === 'teachers_admin';
+      const sub = profile.th_sub_roles || [];
+      const canRead = isAdmin || sub.includes('subject_teacher') || sub.includes('subject_leader');
+      if (!canRead) {
+        document.getElementById('accessWarn').hidden = false;
+        document.getElementById('accessWarn').textContent = 'Access restricted.';
+        return;
+      }
+
+      // Build class list (intersect school's classes/ subcollection with profile's *_classes[])
+      if (profile.schoolId) {
+        const teachClassNames = new Set();
+        Object.keys(profile).forEach(k => {
+          if (/_classes$/.test(k) && Array.isArray(profile[k])) {
+            profile[k].forEach(n => teachClassNames.add(String(n)));
+          }
+        });
+        try {
+          const snap = await getDocs(collection(window.db, 'partner_schools', profile.schoolId, 'classes'));
+          snap.forEach(d => {
+            const data = d.data();
+            if (isAdmin || teachClassNames.has(data.name)) {
+              myClasses.push({ id: d.id, name: data.name, grade: Number(data.grade) });
+            }
+          });
+        } catch (_) {}
+        myClasses.sort((a, b) => (a.grade - b.grade) || a.name.localeCompare(b.name));
+      }
+
+      const sel = document.getElementById('fClass');
+      sel.innerHTML = '<option value="">— pick a class —</option>' +
+        myClasses.map(c => `<option value="${escAttr(c.name)}">${escHtml(c.name)} · Grade ${c.grade}</option>`).join('');
+      sel.addEventListener('change', () => loadClass(profile));
+      document.getElementById('fSubject').addEventListener('change', render);
+    });
+
+    async function loadClass(profile) {
+      const className = document.getElementById('fClass').value;
+      if (!className) {
+        document.getElementById('heatmapBox').innerHTML = '<div class="empty"><div class="empty-title">Pick a class above</div></div>';
+        document.getElementById('summary').innerHTML = '';
+        return;
+      }
+      // Active students in class
+      const stuSnap = await getDocs(query(
+        collection(window.db, 'students'),
+        where('schoolId', '==', profile.schoolId),
+        where('className', '==', className),
+        where('status', '==', 'active')
+      ));
+      students = stuSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+      // Live attempts for this class
+      if (unsubAttempts) unsubAttempts();
+      unsubAttempts = onSnapshot(
+        query(collection(window.db, 'chapter_test_attempts'),
+              where('schoolId', '==', profile.schoolId),
+              where('className', '==', className)),
+        snap => { attempts = snap.docs.map(d => ({ id: d.id, ...d.data() })); render(); },
+        err => console.error('[class-assessment] attempts error', err)
+      );
+    }
+
+    function bandFor(pct) {
+      if (typeof pct !== 'number') return null;
+      if (pct < 40) return 'emerging';
+      if (pct < 60) return 'developing';
+      if (pct < 80) return 'secure';
+      return 'exceeding';
+    }
+    const SUBJ_LABEL = { math:'Math', english:'English', science:'Science', biology:'Biology', chemistry:'Chemistry', physics:'Physics', bahasa:'Bahasa', religion:'Religion' };
+
+    function render() {
+      const subjectFilter = document.getElementById('fSubject').value;
+      const submitted = attempts.filter(a => ['scored','submitted','flagged'].includes(a.status));
+      // testId → metadata gathered from attempt docs (testTitle stored denormalised)
+      const tests = {};
+      submitted.forEach(a => {
+        if (subjectFilter) {
+          // Need to know subjectId — embedded as part of testId pattern {subject}_{year}_{unit}_v1.
+          // Fall back: split by '_' and check first segment.
+          const subj = (a.testId || '').split('_')[0];
+          if (subj !== subjectFilter) return;
+        }
+        if (!tests[a.testId]) tests[a.testId] = { id: a.testId, title: a.testTitle || a.testId, attempts: 0, scores: [] };
+        tests[a.testId].attempts++;
+        if (typeof a.rawScorePct === 'number') tests[a.testId].scores.push(a.rawScorePct);
+      });
+      const testList = Object.values(tests).sort((a, b) => a.title.localeCompare(b.title));
+
+      // Per-(student, test) score map
+      const cell = {};
+      submitted.forEach(a => {
+        if (subjectFilter && (a.testId || '').split('_')[0] !== subjectFilter) return;
+        cell[`${a.studentUid}|${a.testId}`] = a.rawScorePct;
+      });
+
+      // Summary stats
+      const allScores = submitted
+        .filter(a => !subjectFilter || (a.testId || '').split('_')[0] === subjectFilter)
+        .map(a => a.rawScorePct).filter(s => typeof s === 'number');
+      const avg = allScores.length ? Math.round(allScores.reduce((s, n) => s + n, 0) / allScores.length) : null;
+      const pass = allScores.length ? Math.round(allScores.filter(s => s >= 60).length / allScores.length * 100) : null;
+      const lowKids = students.filter(s =>
+        testList.some(t => {
+          const v = cell[`${s.id}|${t.id}`];
+          return typeof v === 'number' && v < 40;
+        })
+      );
+
+      document.getElementById('summary').innerHTML = `
+        <div class="summary-card"><div class="summary-num">${students.length}</div><div class="summary-lbl">Active students</div></div>
+        <div class="summary-card"><div class="summary-num">${testList.length}</div><div class="summary-lbl">Chapter tests submitted</div></div>
+        <div class="summary-card"><div class="summary-num">${avg == null ? '—' : avg + '%'}</div><div class="summary-lbl">Class average</div></div>
+        <div class="summary-card"><div class="summary-num">${pass == null ? '—' : pass + '%'}</div><div class="summary-lbl">Pass rate (≥60%)</div></div>
+        <div class="summary-card"><div class="summary-num" style="color:#b91c1c">${lowKids.length}</div><div class="summary-lbl">Need intervention</div></div>
+      `;
+
+      const box = document.getElementById('heatmapBox');
+      if (students.length === 0) {
+        box.innerHTML = '<div class="empty"><div class="empty-title">No active students</div>Approve students in /student-approvals first.</div>';
+        return;
+      }
+      if (testList.length === 0) {
+        box.innerHTML = '<div class="empty"><div class="empty-title">No submitted chapter tests yet</div>Once tests are scheduled and submitted you will see a per-student heatmap.</div>';
+        return;
+      }
+
+      const headerCells = testList.map(t => `<th class="unit" title="${escAttr(t.title)}">${escHtml(t.title)}</th>`).join('');
+      const sortedStudents = students.slice().sort((a, b) => (a.displayName || '').localeCompare(b.displayName || ''));
+      const rows = sortedStudents.map(s => {
+        const cells = testList.map(t => {
+          const v = cell[`${s.id}|${t.id}`];
+          const band = bandFor(v);
+          if (!band) return `<td class="cell-empty"></td>`;
+          return `<td class="cell-${band}" title="${escAttr(t.title + ': ' + v + '%')}">${v}</td>`;
+        }).join('');
+        return `<tr><td class="name" title="${escAttr(s.displayName)}">${escHtml(s.displayName || s.email)}</td>${cells}</tr>`;
+      }).join('');
+
+      box.innerHTML = `<table class="heatmap"><thead><tr><th>Student</th>${headerCells}</tr></thead><tbody>${rows}</tbody></table>`;
+    }
+
+    function escHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      })[c]);
+    }
+    function escAttr(s) { return escHtml(s); }
+  </script>
+</body>
+</html>
