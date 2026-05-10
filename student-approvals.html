@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Approvals — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%236c5ce7'/><text x='50' y='66' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>E</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+:root { --accent: #6c5ce7; --accent-2: #ede9fe; }
+.hero {
+  background: linear-gradient(130deg, #0d0628 0%, #1e0a4e 40%, #3b1a8a 72%, #6c5ce7 100%);
+  padding: 36px 40px; color: #fff;
+}
+.hero-inner { max-width: 1080px; margin: 0 auto; }
+.hero h1 { font-family: 'Lora', serif; font-size: 1.7rem; margin-bottom: 6px; font-weight: 600; }
+.hero p { color: rgba(255,255,255,.7); font-size: .9rem; max-width: 580px; }
+
+.page-wrap { max-width: 1080px; margin: 0 auto; padding: 28px 32px 80px; }
+.toolbar {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.toolbar select, .toolbar input {
+  font-family: inherit; font-size: 13px;
+  padding: 8px 12px; border: 1px solid var(--border);
+  border-radius: 8px; background: #fff;
+}
+.toolbar .count {
+  font-size: 12.5px; color: var(--ink-2); margin-left: auto;
+}
+
+.tab-bar {
+  display: flex; gap: 4px; margin-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.tab-btn {
+  padding: 10px 16px; border: none; background: transparent;
+  font-family: inherit; font-size: 13px; font-weight: 500;
+  color: var(--ink-3); cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-count {
+  display: inline-block; margin-left: 6px;
+  font-size: 11px; padding: 1px 6px; border-radius: 8px;
+  background: var(--accent-2); color: var(--accent);
+}
+
+.student-card {
+  display: grid; grid-template-columns: 38px 1fr auto;
+  gap: 14px; align-items: center;
+  padding: 14px 16px; background: #fff;
+  border: 1px solid var(--border); border-radius: 12px;
+  margin-bottom: 8px;
+}
+.student-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--accent-2); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600;
+  overflow: hidden;
+}
+.student-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.student-info { min-width: 0; }
+.student-name { font-weight: 500; color: var(--ink); }
+.student-meta {
+  font-size: 12px; color: var(--ink-3); margin-top: 2px;
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.student-actions { display: flex; gap: 6px; }
+
+.btn-approve {
+  padding: 7px 14px; border: 1px solid #16a34a;
+  background: #f0fdf4; color: #15803d; border-radius: 8px;
+  font-family: inherit; font-size: 12.5px; font-weight: 600;
+  cursor: pointer;
+}
+.btn-approve:hover { background: #dcfce7; }
+.btn-reject {
+  padding: 7px 14px; border: 1px solid #dc2626;
+  background: #fef2f2; color: #b91c1c; border-radius: 8px;
+  font-family: inherit; font-size: 12.5px; font-weight: 600;
+  cursor: pointer;
+}
+.btn-reject:hover { background: #fee2e2; }
+
+.empty {
+  text-align: center; padding: 60px 20px; color: var(--ink-3);
+}
+.empty-title { font-weight: 600; color: var(--ink-2); margin-bottom: 6px; }
+
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  padding: 10px 18px; background: var(--ink); color: #fff;
+  border-radius: 10px; font-size: 13px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25); z-index: 999;
+  opacity: 0; transition: opacity .2s;
+}
+.toast.is-visible { opacity: 1; }
+
+.access-warn {
+  padding: 14px 18px; background: #fef3c7; color: #92400e;
+  border: 1px solid #fcd34d; border-radius: 10px; margin-bottom: 18px;
+  font-size: 13px; line-height: 1.5;
+}
+</style>
+</head>
+<body style="display:none">
+  <script src="firebase-config.js"></script>
+  <script type="module" src="auth-guard.js"></script>
+
+  <div id="navbar-container"></div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div style="font-size:.7rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:8px;">Students Hub Admin</div>
+      <h1>Student Approvals</h1>
+      <p>Approve students who picked your class so they can take chapter tests and EASE assessments. Reject anyone who picked the wrong class — they'll be sent back to the class picker.</p>
+    </div>
+  </header>
+
+  <main class="page-wrap">
+    <div id="accessWarn" class="access-warn" hidden></div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="pending">Pending <span class="tab-count" id="cPending">0</span></button>
+      <button class="tab-btn"        data-tab="active">Active  <span class="tab-count" id="cActive">0</span></button>
+      <button class="tab-btn"        data-tab="rejected">Rejected <span class="tab-count" id="cRejected">0</span></button>
+    </div>
+
+    <div class="toolbar">
+      <select id="classFilter">
+        <option value="">All my classes</option>
+      </select>
+      <input id="searchBox" placeholder="Search by name or email…">
+      <span class="count" id="resultCount">0 students</span>
+    </div>
+
+    <div id="listBox"></div>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script type="module">
+    import {
+      collection, query, where, onSnapshot, doc, updateDoc,
+      serverTimestamp, getDocs
+    } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    // Inject navbar
+    fetch('partials/navbar.html').then(r => r.text()).then(html => {
+      document.getElementById('navbar-container').innerHTML = html;
+      if (typeof window.initNavbar === 'function') window.initNavbar();
+    }).catch(() => {});
+
+    let students = [];
+    let unsub = null;
+    let currentTab = 'pending';
+    let myClasses = []; // {classId, className, gradeLevel}
+
+    window.addEventListener('authReady', async () => {
+      const profile = window.userProfile || {};
+      const isAdmin = profile.role_teachershub === 'teachers_admin';
+      const subRoles = profile.th_sub_roles || [];
+      const canApprove = isAdmin || subRoles.includes('subject_teacher') || subRoles.includes('subject_leader');
+
+      if (!canApprove) {
+        document.getElementById('accessWarn').hidden = false;
+        document.getElementById('accessWarn').textContent =
+          'You need to be a subject teacher, subject leader, or admin to approve students. Ask central_admin to update your TH sub-roles.';
+        return;
+      }
+
+      // Derive class list from teacher's profile-stored class fields.
+      // TH stores per-(level,subject) class arrays e.g. checkpoint_math_classes:['7A','7B'].
+      // We aggregate them into a unique set; teacher approves any student
+      // whose className matches one of their classes at the same school.
+      const classNames = new Set();
+      Object.keys(profile).forEach(k => {
+        if (/_classes$/.test(k) && Array.isArray(profile[k])) {
+          profile[k].forEach(n => { if (n) classNames.add(String(n)); });
+        }
+      });
+
+      // Also pull the school's class subcollection so we can show grade level.
+      if (profile.schoolId) {
+        try {
+          const snap = await getDocs(collection(window.db, 'partner_schools', profile.schoolId, 'classes'));
+          snap.forEach(d => {
+            const data = d.data();
+            if (classNames.has(data.name) || isAdmin) {
+              myClasses.push({ classId: d.id, className: data.name, gradeLevel: Number(data.grade) });
+            }
+          });
+        } catch (_) {}
+      }
+
+      // Populate class filter
+      const sel = document.getElementById('classFilter');
+      myClasses.sort((a, b) => (a.gradeLevel - b.gradeLevel) || a.className.localeCompare(b.className));
+      myClasses.forEach(c => {
+        const o = document.createElement('option');
+        o.value = c.classId;
+        o.textContent = `${c.className} · Grade ${c.gradeLevel}`;
+        sel.appendChild(o);
+      });
+
+      subscribe(profile.schoolId, isAdmin);
+    });
+
+    function subscribe(schoolId, isAdmin) {
+      if (unsub) unsub();
+      // Admin sees all schools; teacher scoped to own school.
+      const base = collection(window.db, 'students');
+      const q = isAdmin ? query(base) : query(base, where('schoolId', '==', schoolId));
+      unsub = onSnapshot(q, snap => {
+        students = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        recount(); render();
+      });
+    }
+
+    function recount() {
+      const c = { pending: 0, active: 0, rejected: 0 };
+      students.forEach(s => {
+        if (s.status === 'pending_approval') c.pending++;
+        else if (s.status === 'active')      c.active++;
+        else if (s.status === 'rejected')    c.rejected++;
+      });
+      document.getElementById('cPending').textContent  = c.pending;
+      document.getElementById('cActive').textContent   = c.active;
+      document.getElementById('cRejected').textContent = c.rejected;
+    }
+
+    function render() {
+      const tabFilter = currentTab === 'pending' ? 'pending_approval'
+                       : currentTab === 'active' ? 'active'
+                       : 'rejected';
+      const classId  = document.getElementById('classFilter').value;
+      const search   = (document.getElementById('searchBox').value || '').trim().toLowerCase();
+
+      const myClassNames = new Set(myClasses.map(c => c.className));
+      const filtered = students.filter(s => {
+        if (s.status !== tabFilter) return false;
+        // Restrict to teacher's classes (admin sees all; teachers limited)
+        const profile = window.userProfile || {};
+        const isAdmin = profile.role_teachershub === 'teachers_admin';
+        if (!isAdmin && s.className && !myClassNames.has(s.className)) return false;
+        if (classId) {
+          const cls = myClasses.find(c => c.classId === classId);
+          if (cls && s.className !== cls.className) return false;
+        }
+        if (search) {
+          const blob = `${s.displayName || ''} ${s.email || ''}`.toLowerCase();
+          if (!blob.includes(search)) return false;
+        }
+        return true;
+      });
+
+      document.getElementById('resultCount').textContent =
+        filtered.length + (filtered.length === 1 ? ' student' : ' students');
+
+      const box = document.getElementById('listBox');
+      if (filtered.length === 0) {
+        const msg = currentTab === 'pending'
+          ? 'No students waiting for approval right now.'
+          : currentTab === 'active'
+          ? 'No active students yet.'
+          : 'No rejected students.';
+        box.innerHTML = `<div class="empty"><div class="empty-title">All clear</div>${msg}</div>`;
+        return;
+      }
+      box.innerHTML = filtered.map(s => `
+        <div class="student-card">
+          <div class="student-avatar">
+            ${s.photoURL ? `<img src="${escAttr(s.photoURL)}" alt="">` : escHtml((s.displayName || s.email || '?').charAt(0).toUpperCase())}
+          </div>
+          <div class="student-info">
+            <div class="student-name">${escHtml(s.displayName || s.email || '—')}</div>
+            <div class="student-meta">
+              <span>${escHtml(s.email || '')}</span>
+              <span>·</span>
+              <span>${escHtml(s.className || '—')}${s.gradeLevel ? ' · Grade ' + s.gradeLevel : ''}</span>
+              <span>·</span>
+              <span>${escHtml(s.school || '')}</span>
+            </div>
+          </div>
+          <div class="student-actions">
+            ${currentTab === 'pending' ? `
+              <button class="btn-approve" data-act="approve" data-uid="${escAttr(s.id)}">Approve</button>
+              <button class="btn-reject"  data-act="reject"  data-uid="${escAttr(s.id)}">Reject</button>
+            ` : currentTab === 'rejected' ? `
+              <button class="btn-approve" data-act="approve" data-uid="${escAttr(s.id)}">Reactivate</button>
+            ` : `
+              <button class="btn-reject"  data-act="reject"  data-uid="${escAttr(s.id)}">Remove</button>
+            `}
+          </div>
+        </div>
+      `).join('');
+
+      box.querySelectorAll('button[data-act]').forEach(btn => {
+        btn.addEventListener('click', () => act(btn.dataset.act, btn.dataset.uid));
+      });
+    }
+
+    async function act(action, uid) {
+      try {
+        const ref = doc(window.db, 'students', uid);
+        const update = action === 'approve'
+          ? { status: 'active',   approvedAt: serverTimestamp(), approvedBy: window.currentUser.uid }
+          : { status: 'rejected', rejectedAt: serverTimestamp(), rejectedBy: window.currentUser.uid };
+        await updateDoc(ref, update);
+        toast(action === 'approve' ? 'Student approved' : 'Student rejected');
+      } catch (e) {
+        toast('Could not update: ' + (e.message || e.code));
+      }
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        currentTab = b.dataset.tab;
+        render();
+      });
+    });
+    document.getElementById('classFilter').addEventListener('change', render);
+    document.getElementById('searchBox').addEventListener('input', render);
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('is-visible');
+      setTimeout(() => t.classList.remove('is-visible'), 1800);
+    }
+
+    function escHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      })[c]);
+    }
+    function escAttr(s) { return escHtml(s); }
+  </script>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Session Launcher — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%236c5ce7'/><text x='50' y='66' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>E</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+:root { --accent: #6c5ce7; --accent-2: #ede9fe; }
+.hero {
+  background: linear-gradient(130deg, #0d0628 0%, #1e0a4e 40%, #3b1a8a 72%, #6c5ce7 100%);
+  padding: 36px 40px; color: #fff;
+}
+.hero-inner { max-width: 1080px; margin: 0 auto; }
+.hero h1 { font-family: 'Lora', serif; font-size: 1.7rem; margin-bottom: 6px; }
+.hero p { color: rgba(255,255,255,.7); font-size: .9rem; max-width: 580px; }
+
+.page-wrap { max-width: 1080px; margin: 0 auto; padding: 28px 32px 80px; }
+
+.toolbar {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px;
+}
+.toolbar select, .toolbar input {
+  font-family: inherit; font-size: 13px;
+  padding: 8px 12px; border: 1px solid var(--border);
+  border-radius: 8px; background: #fff;
+}
+.btn-primary {
+  padding: 8px 16px; background: var(--accent); color: #fff;
+  border: none; border-radius: 8px; font-family: inherit;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.btn-secondary {
+  padding: 8px 14px; background: #fff; color: var(--ink);
+  border: 1px solid var(--border); border-radius: 8px;
+  font-family: inherit; font-size: 13px; cursor: pointer;
+}
+
+.session-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 14px; align-items: center;
+  padding: 14px 16px; background: #fff;
+  border: 1px solid var(--border); border-radius: 12px;
+  margin-bottom: 8px;
+}
+.session-info { min-width: 0; }
+.session-title { font-weight: 600; color: var(--ink); }
+.session-meta { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+.session-status {
+  font-size: 11.5px; font-weight: 600; padding: 3px 10px;
+  border-radius: 99px;
+}
+.session-status.scheduled { background: #fef3c7; color: #92400e; }
+.session-status.live      { background: #dcfce7; color: #166534; }
+.session-status.completed { background: #f3f4f6; color: #4b5563; }
+
+.empty { text-align: center; padding: 60px 20px; color: var(--ink-3); }
+.empty-title { font-weight: 600; color: var(--ink-2); margin-bottom: 6px; }
+
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5);
+  display: none; align-items: flex-start; justify-content: center;
+  z-index: 100; padding: 40px 20px; overflow-y: auto;
+}
+.modal-overlay.is-open { display: flex; }
+.modal {
+  background: #fff; border-radius: 14px;
+  width: min(560px, 100%); padding: 24px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.3);
+}
+.modal h2 { font-family: 'Lora', serif; font-size: 1.3rem; margin-bottom: 14px; }
+.field { margin-bottom: 14px; }
+.field label {
+  display: block; font-size: 12.5px; font-weight: 500;
+  color: var(--ink-2); margin-bottom: 5px;
+}
+.field input, .field select, .field textarea {
+  width: 100%; padding: 9px 12px; font-family: inherit; font-size: 14px;
+  border: 1px solid var(--border); border-radius: 8px;
+}
+.field-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.modal-actions {
+  display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px;
+}
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  padding: 10px 18px; background: var(--ink); color: #fff;
+  border-radius: 10px; font-size: 13px; opacity: 0;
+  transition: opacity .2s; z-index: 999;
+}
+.toast.is-visible { opacity: 1; }
+.access-warn {
+  padding: 14px 18px; background: #fef3c7; color: #92400e;
+  border: 1px solid #fcd34d; border-radius: 10px; margin-bottom: 18px;
+  font-size: 13px;
+}
+.preview-list {
+  background: #fafafa; border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px; max-height: 180px; overflow-y: auto;
+  font-size: 12px; color: var(--ink-2);
+}
+.preview-list-row { padding: 4px 0; border-bottom: 1px dashed var(--border); }
+.preview-list-row:last-child { border: none; }
+</style>
+</head>
+<body style="display:none">
+  <script src="firebase-config.js"></script>
+  <script type="module" src="auth-guard.js"></script>
+
+  <div id="navbar-container"></div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div style="font-size:.7rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:8px;">Assessment Delivery</div>
+      <h1>Test Session Launcher</h1>
+      <p>Schedule a published chapter test for one of your classes. Each enrolled student gets a draft attempt; on session day, they sign in to Students Hub and the test appears on their dashboard.</p>
+    </div>
+  </header>
+
+  <main class="page-wrap">
+    <div id="accessWarn" class="access-warn" hidden></div>
+
+    <div class="toolbar">
+      <select id="filterStatus">
+        <option value="">All sessions</option>
+        <option value="scheduled">Scheduled</option>
+        <option value="live">Live</option>
+        <option value="completed">Completed</option>
+      </select>
+      <span style="margin-left:auto"></span>
+      <button id="newSessionBtn" class="btn-primary">+ Schedule a test</button>
+    </div>
+
+    <div id="sessionList"></div>
+  </main>
+
+  <!-- Schedule modal -->
+  <div id="schedModal" class="modal-overlay" role="dialog" aria-hidden="true">
+    <div class="modal">
+      <h2>Schedule chapter test</h2>
+      <div class="field">
+        <label>Chapter test</label>
+        <select id="fTest"></select>
+      </div>
+      <div class="field">
+        <label>Class</label>
+        <select id="fClass"></select>
+      </div>
+      <div class="field-grid-2">
+        <div class="field">
+          <label>Available from</label>
+          <input id="fOpensAt" type="datetime-local">
+        </div>
+        <div class="field">
+          <label>Closes at</label>
+          <input id="fClosesAt" type="datetime-local">
+        </div>
+      </div>
+      <div class="field">
+        <label>Note for students (optional)</label>
+        <input id="fNote" placeholder="e.g. Bring calculator, paper for working">
+      </div>
+      <div class="field">
+        <label style="margin-bottom:8px">Eligible students <span id="previewCount" style="color:var(--ink-3); font-weight:400">(none)</span></label>
+        <div id="previewList" class="preview-list"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="schedCancel" type="button">Cancel</button>
+        <button class="btn-primary"   id="schedSave"  type="button">Schedule session</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script type="module">
+    import {
+      collection, query, where, onSnapshot, doc, addDoc, getDoc, getDocs,
+      updateDoc, serverTimestamp, Timestamp, orderBy, limit, writeBatch
+    } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    // Inject navbar
+    fetch('partials/navbar.html').then(r => r.text()).then(html => {
+      document.getElementById('navbar-container').innerHTML = html;
+      if (typeof window.initNavbar === 'function') window.initNavbar();
+    }).catch(() => {});
+
+    let publishedTests = [];
+    let myClasses = [];
+    let sessions = [];
+    let activeStudentsCache = {}; // classId → student docs[]
+    let unsubSessions = null;
+
+    window.addEventListener('authReady', async () => {
+      const profile = window.userProfile || {};
+      const isAdmin = profile.role_teachershub === 'teachers_admin';
+      const sub = profile.th_sub_roles || [];
+      const canLaunch = isAdmin || sub.includes('subject_teacher') || sub.includes('subject_leader');
+      if (!canLaunch) {
+        document.getElementById('accessWarn').hidden = false;
+        document.getElementById('accessWarn').textContent =
+          'Test session launcher is restricted to subject teachers, subject leaders, and admins.';
+        return;
+      }
+
+      // Load published tests
+      const tsnap = await getDocs(query(
+        collection(window.db, 'chapter_tests'),
+        where('status', '==', 'published')
+      ));
+      publishedTests = tsnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+      // Load own classes (from school's class subcollection, intersected with profile classes)
+      if (profile.schoolId) {
+        const csnap = await getDocs(collection(window.db, 'partner_schools', profile.schoolId, 'classes'));
+        const teachClassNames = new Set();
+        Object.keys(profile).forEach(k => {
+          if (/_classes$/.test(k) && Array.isArray(profile[k])) {
+            profile[k].forEach(n => teachClassNames.add(String(n)));
+          }
+        });
+        csnap.forEach(d => {
+          const data = d.data();
+          if (isAdmin || teachClassNames.has(data.name)) {
+            myClasses.push({ id: d.id, name: data.name, grade: Number(data.grade) });
+          }
+        });
+        myClasses.sort((a,b) => (a.grade-b.grade) || a.name.localeCompare(b.name));
+      }
+
+      // Subscribe to scheduled_sessions where teacherUid == me
+      unsubSessions = onSnapshot(
+        query(collection(window.db, 'scheduled_sessions'),
+              where('teacherUid', '==', window.currentUser.uid),
+              orderBy('opensAt', 'desc')),
+        snap => { sessions = snap.docs.map(d => ({ id: d.id, ...d.data() })); render(); }
+      );
+    });
+
+    document.getElementById('filterStatus').addEventListener('change', render);
+    document.getElementById('newSessionBtn').addEventListener('click', openModal);
+    document.getElementById('schedCancel').addEventListener('click', closeModal);
+    document.getElementById('schedSave').addEventListener('click', schedule);
+
+    function render() {
+      const stat = document.getElementById('filterStatus').value;
+      const filtered = stat ? sessions.filter(s => sessionStatus(s) === stat) : sessions;
+      const box = document.getElementById('sessionList');
+      if (filtered.length === 0) {
+        box.innerHTML = `<div class="empty"><div class="empty-title">No sessions yet</div>Click <strong>+ Schedule a test</strong> to get started.</div>`;
+        return;
+      }
+      box.innerHTML = filtered.map(s => {
+        const status = sessionStatus(s);
+        return `
+          <div class="session-row">
+            <div class="session-info">
+              <div class="session-title">${escHtml(s.testTitle || s.testId)}</div>
+              <div class="session-meta">
+                ${escHtml(s.className)} · ${escHtml(formatRange(s.opensAt, s.closesAt))} · ${s.attemptCount || 0} students
+              </div>
+            </div>
+            <span class="session-status ${status}">${status}</span>
+            <button class="btn-secondary" data-act="view" data-id="${escAttr(s.id)}">View</button>
+            ${status === 'scheduled' ? `<button class="btn-secondary" data-act="cancel" data-id="${escAttr(s.id)}">Cancel</button>` : ''}
+          </div>
+        `;
+      }).join('');
+      box.querySelectorAll('button[data-act]').forEach(b => {
+        b.addEventListener('click', () => sessionAction(b.dataset.act, b.dataset.id));
+      });
+    }
+
+    function sessionStatus(s) {
+      const now = Date.now();
+      const opens = s.opensAt && s.opensAt.toDate ? s.opensAt.toDate().getTime() : 0;
+      const closes = s.closesAt && s.closesAt.toDate ? s.closesAt.toDate().getTime() : 0;
+      if (s.cancelled) return 'completed';
+      if (now < opens) return 'scheduled';
+      if (now <= closes) return 'live';
+      return 'completed';
+    }
+
+    function formatRange(opens, closes) {
+      if (!opens || !opens.toDate) return '';
+      const o = opens.toDate(), c = closes && closes.toDate ? closes.toDate() : null;
+      const fmt = d => d.toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+      return c ? `${fmt(o)} → ${fmt(c)}` : fmt(o);
+    }
+
+    async function sessionAction(act, id) {
+      if (act === 'cancel') {
+        if (!confirm('Cancel this session? Existing draft attempts will be marked cancelled too.')) return;
+        try {
+          await updateDoc(doc(window.db, 'scheduled_sessions', id),
+            { cancelled: true, cancelledAt: serverTimestamp() });
+          toast('Session cancelled.');
+        } catch (e) { toast('Cancel failed: ' + (e.message || e.code)); }
+      }
+      if (act === 'view') {
+        // simple: link out to a per-attempt monitor stub (Phase 2 implements it)
+        toast('Live monitor coming in Phase 2.');
+      }
+    }
+
+    async function openModal() {
+      const tSel = document.getElementById('fTest');
+      tSel.innerHTML = publishedTests.length === 0
+        ? '<option value="">(no published tests yet — ask CH Specialists to publish)</option>'
+        : publishedTests.map(t =>
+            `<option value="${escAttr(t.id)}">${escHtml(t.unitTitle || t.id)} · ${escHtml(t.subjectId)} · S${escHtml(t.stage || '?')}</option>`
+          ).join('');
+      const cSel = document.getElementById('fClass');
+      cSel.innerHTML = myClasses.map(c =>
+        `<option value="${escAttr(c.id)}|${escAttr(c.name)}|${c.grade}">${escHtml(c.name)} · Grade ${c.grade}</option>`
+      ).join('');
+      // Default times: today 08:00 → today 09:00 (rounded next hour)
+      const now = new Date();
+      const opens = new Date(now); opens.setMinutes(0, 0, 0); opens.setHours(opens.getHours() + 1);
+      const closes = new Date(opens); closes.setHours(closes.getHours() + 1);
+      document.getElementById('fOpensAt').value  = toDateTimeLocal(opens);
+      document.getElementById('fClosesAt').value = toDateTimeLocal(closes);
+      document.getElementById('fNote').value = '';
+      await refreshPreview();
+      [tSel, cSel].forEach(el => el.addEventListener('change', refreshPreview));
+      document.getElementById('schedModal').classList.add('is-open');
+    }
+
+    function closeModal() { document.getElementById('schedModal').classList.remove('is-open'); }
+
+    function toDateTimeLocal(d) {
+      const pad = n => String(n).padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    async function refreshPreview() {
+      const cVal = document.getElementById('fClass').value;
+      if (!cVal) return;
+      const [classId, className] = cVal.split('|');
+      const profile = window.userProfile || {};
+      const cacheKey = `${profile.schoolId}|${className}`;
+      let students = activeStudentsCache[cacheKey];
+      if (!students) {
+        const snap = await getDocs(query(
+          collection(window.db, 'students'),
+          where('schoolId', '==', profile.schoolId),
+          where('className', '==', className),
+          where('status', '==', 'active')
+        ));
+        students = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        activeStudentsCache[cacheKey] = students;
+      }
+      document.getElementById('previewCount').textContent = `(${students.length} active)`;
+      const list = document.getElementById('previewList');
+      list.innerHTML = students.length === 0
+        ? '<div style="color:var(--ink-3); padding:8px; text-align:center;">No active students in this class. Approve them in /student-approvals first.</div>'
+        : students.map(s => `<div class="preview-list-row">${escHtml(s.displayName || s.email)}</div>`).join('');
+    }
+
+    async function schedule() {
+      const testId   = document.getElementById('fTest').value;
+      const cVal     = document.getElementById('fClass').value;
+      const opensStr = document.getElementById('fOpensAt').value;
+      const closeStr = document.getElementById('fClosesAt').value;
+      const note     = document.getElementById('fNote').value.trim() || null;
+      if (!testId || !cVal || !opensStr || !closeStr) return toast('Fill all required fields.');
+      const [classId, className, grade] = cVal.split('|');
+      const opensAt  = new Date(opensStr);
+      const closesAt = new Date(closeStr);
+      if (closesAt <= opensAt) return toast('Closes must be after Opens.');
+
+      const profile = window.userProfile || {};
+      const test = publishedTests.find(t => t.id === testId);
+      const students = activeStudentsCache[`${profile.schoolId}|${className}`] || [];
+      if (students.length === 0) return toast('No active students in that class.');
+
+      try {
+        const btn = document.getElementById('schedSave');
+        btn.disabled = true; btn.textContent = 'Scheduling…';
+
+        // 1. Create scheduled_sessions doc
+        const sessRef = await addDoc(collection(window.db, 'scheduled_sessions'), {
+          testId, testTitle: test ? test.unitTitle : testId,
+          subjectId: test ? test.subjectId : null,
+          schoolId: profile.schoolId, classId, className, gradeLevel: Number(grade) || null,
+          teacherUid: window.currentUser.uid,
+          teacherName: profile.displayName || profile.email,
+          opensAt: Timestamp.fromDate(opensAt),
+          closesAt: Timestamp.fromDate(closesAt),
+          note,
+          attemptCount: students.length,
+          durationMin: test ? test.durationMin : 30,
+          createdAt: serverTimestamp(),
+          cancelled: false,
+        });
+
+        // 2. Create draft chapter_test_attempts for each student in batches
+        const batch = writeBatch(window.db);
+        const baseId = sessRef.id;
+        students.forEach(s => {
+          const attemptId = `${baseId}_${s.id}`;
+          const ref = doc(window.db, 'chapter_test_attempts', attemptId);
+          batch.set(ref, {
+            attemptId, sessionId: sessRef.id, testId,
+            studentUid: s.id, studentName: s.displayName || s.email,
+            schoolId: profile.schoolId, classId, className,
+            opensAt: Timestamp.fromDate(opensAt),
+            closesAt: Timestamp.fromDate(closesAt),
+            status: 'draft',
+            createdAt: serverTimestamp(),
+          });
+        });
+        await batch.commit();
+
+        toast(`Session scheduled for ${students.length} students.`);
+        closeModal();
+        btn.disabled = false; btn.textContent = 'Schedule session';
+      } catch (e) {
+        toast('Schedule failed: ' + (e.message || e.code));
+        document.getElementById('schedSave').disabled = false;
+        document.getElementById('schedSave').textContent = 'Schedule session';
+      }
+    }
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('is-visible');
+      setTimeout(() => t.classList.remove('is-visible'), 1800);
+    }
+    function escHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      })[c]);
+    }
+    function escAttr(s) { return escHtml(s); }
+  </script>
+</body>
+</html>
