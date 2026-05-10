@@ -116,8 +116,10 @@ const isAdmin = profile?.role_teachershub === 'teachers_admin';
 | `mentor_certifications/{uid}_{type}` | Read by `my-mentees.html` for cert-active banner. | central_admin |
 | `induction_programs/{programId}` | 3 handbook templates. Read by `my-induction.html`. | central_admin via seed only |
 | `job_positions` · `interview_question_sets` · `job_applications` · `interview_scorecards/{appId}_{interviewerUid}` (submitted = **immutable** at rule level) · `job_application_audit` (append-only) | Careers Module — see [Careers section below](#careers--interview-module) | various |
-
-**Timestamp:** `createdAt` (serverTimestamp). NEVER `timestamp`.
+| `students/{uid}` | Read by `student-approvals.html` (own school) for pending list. Write: status flips on approve/reject. NO `users/{uid}` access — `students` is a separate collection. | TH teacher (status flips); central_admin (any field) |
+| `chapter_tests/{testId}` (+ `items/`) | Read-only here. `test-session-launcher.html` lists `where status == 'published'` for the dropdown. | central_admin / coordinator (CH-side authoring) |
+| `scheduled_sessions/{sessionId}` | Created by `test-session-launcher.html`. Rule pins `teacherUid == request.auth.uid` and `schoolId` matches the teacher's. `test-monitor.html` reads `where teacherUid == me`. | same-school teacher who launched the session |
+| `chapter_test_attempts/{attemptId}` | Pre-created in writeBatch when a session is launched (one doc per active student). Read by `test-monitor` + `class-assessment`. Same-school teachers can update freely (Phase 2 essay regrade); students self-update with affected-keys allowlist. | mixed |
 
 ---
 
@@ -178,6 +180,12 @@ Each page defines `window.PACING_CONFIG` and runs `initSubjectConfig()`. Status 
 **Careers (see section below):** `careers` · `careers-apply` · `careers-status` (public 3) + `careers-admin` · `interview-scorecard` · `careers-compare` (auth'd 3)
 
 **Settings:** `settings` (in `PAGE_ACCESS_BYPASS` — reachable from profile dropdown only, doesn't need a page-access doc, isn't surfaced as a card or main-nav link)
+
+**Students Hub bridge (Phase 1 + 1.5, 2026-05-10):** four pages connect TH to the Students-Hub assessment pipeline. All gated to `subject_teacher` / `subject_leader` / `teachers_admin`. All use the SH-bridge auth pattern (`document.addEventListener('authReady')`, navbar paint inside `injectNavbar(user)` helper, `partials/navbar.js` loaded BEFORE `auth-guard.js` so `initNavbar` + `buildAvatarEl` exist when the partial mounts).
+- `student-approvals` — Pending / active / rejected tabs. Approve flips `students/{uid}.status` to `'active'` + writes `approvedBy` / `approvedAt`. Class filter from school's `partner_schools/{id}/classes/` subcollection. **Pilot day-1 BLOCKER** — without approvals, students sit in `pending_approval` forever.
+- `test-session-launcher` — Schedule a published `chapter_tests/{testId}` for one of your classes. Live preview of active students. Submit creates `scheduled_sessions/{id}` doc + writeBatch of N draft `chapter_test_attempts` (one per student). Teacher uses TH global `.modal-overlay.open` class (NOT `.is-open`) — base.css supplies the fade-in transition.
+- `test-monitor` (`?session=X`) — Live session board. Per-student status pills (draft / in_progress / submitted / scored / flagged), tab-switch warnings, score distribution KPIs (total / started / submitted / avg / pass rate). onSnapshot on `chapter_test_attempts where sessionId == X`.
+- `class-assessment` — Per-(student × chapter test) heatmap. Emerging (<40%) / Developing (40-60%) / Secure (60-80%) / Exceeding (>80%) bands. Subject filter + class picker. Summary cards (active students / tests submitted / avg / pass rate / intervention count). Pulls live `chapter_test_attempts where schoolId + className match`.
 
 ---
 
