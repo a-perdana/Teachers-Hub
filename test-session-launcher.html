@@ -325,26 +325,38 @@
     }
 
     async function openModal() {
-      const tSel = document.getElementById('fTest');
-      tSel.innerHTML = publishedTests.length === 0
-        ? '<option value="">(no published tests yet — ask CH Specialists to publish)</option>'
-        : publishedTests.map(t =>
-            `<option value="${escAttr(t.id)}">${escHtml(t.unitTitle || t.id)} · ${escHtml(t.subjectId)} · S${escHtml(t.stage || '?')}</option>`
-          ).join('');
-      const cSel = document.getElementById('fClass');
-      cSel.innerHTML = myClasses.map(c =>
-        `<option value="${escAttr(c.id)}|${escAttr(c.name)}|${c.grade}">${escHtml(c.name)} · Grade ${c.grade}</option>`
-      ).join('');
-      // Default times: today 08:00 → today 09:00 (rounded next hour)
-      const now = new Date();
-      const opens = new Date(now); opens.setMinutes(0, 0, 0); opens.setHours(opens.getHours() + 1);
-      const closes = new Date(opens); closes.setHours(closes.getHours() + 1);
-      document.getElementById('fOpensAt').value  = toDateTimeLocal(opens);
-      document.getElementById('fClosesAt').value = toDateTimeLocal(closes);
-      document.getElementById('fNote').value = '';
-      await refreshPreview();
-      [tSel, cSel].forEach(el => el.addEventListener('change', refreshPreview));
-      document.getElementById('schedModal').classList.add('is-open');
+      console.log('[launcher] openModal — publishedTests=', publishedTests.length, 'myClasses=', myClasses.length);
+      try {
+        const tSel = document.getElementById('fTest');
+        tSel.innerHTML = publishedTests.length === 0
+          ? '<option value="">(no published tests yet — ask CH Specialists to publish)</option>'
+          : publishedTests.map(t =>
+              `<option value="${escAttr(t.id)}">${escHtml(t.unitTitle || t.id)} · ${escHtml(t.subjectId)} · Year ${escHtml(t.stage || '?')}</option>`
+            ).join('');
+        const cSel = document.getElementById('fClass');
+        cSel.innerHTML = myClasses.length === 0
+          ? '<option value="">(no classes — set your *_classes[] in TH settings or ask admin)</option>'
+          : myClasses.map(c =>
+              `<option value="${escAttr(c.id)}|${escAttr(c.name)}|${c.grade}">${escHtml(c.name)} · Grade ${c.grade}</option>`
+            ).join('');
+        // Default times: now + 1 hour, closes 1 hour later
+        const now = new Date();
+        const opens = new Date(now); opens.setMinutes(0, 0, 0); opens.setHours(opens.getHours() + 1);
+        const closes = new Date(opens); closes.setHours(closes.getHours() + 1);
+        document.getElementById('fOpensAt').value  = toDateTimeLocal(opens);
+        document.getElementById('fClosesAt').value = toDateTimeLocal(closes);
+        document.getElementById('fNote').value = '';
+        // Open modal FIRST so the user sees something even if preview fails.
+        document.getElementById('schedModal').classList.add('is-open');
+        // Then load preview (best-effort, async).
+        [tSel, cSel].forEach(el => el.addEventListener('change', refreshPreview));
+        if (myClasses.length > 0) {
+          refreshPreview().catch(e => console.warn('[launcher] preview failed', e));
+        }
+      } catch (e) {
+        console.error('[launcher] openModal failed', e);
+        alert('Could not open the schedule modal: ' + (e.message || e.code));
+      }
     }
 
     function closeModal() { document.getElementById('schedModal').classList.remove('is-open'); }
