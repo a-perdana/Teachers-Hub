@@ -108,6 +108,7 @@
 </head>
 <body>
   <!-- FIREBASE_ENV -->
+  <script src="partials/navbar.js"></script>
   <script type="module" src="auth-guard.js"></script>
 
   <div id="navbar-container"></div>
@@ -182,11 +183,26 @@
       updateDoc, serverTimestamp, Timestamp, orderBy, limit, writeBatch
     } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-    // Inject navbar
-    fetch('partials/navbar.html').then(r => r.text()).then(html => {
-      document.getElementById('navbar-container').innerHTML = html;
-      if (typeof window.initNavbar === 'function') window.initNavbar();
-    }).catch(() => {});
+    // Inject navbar + paint profile dropdown once auth is ready
+    let _navbarInjected = false;
+    function injectNavbar(user) {
+      if (_navbarInjected) return; _navbarInjected = true;
+      fetch('partials/navbar.html').then(r => r.text()).then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+        if (typeof initNavbar === 'function') initNavbar();
+        const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+        const set = (id, fn) => { const el = document.getElementById(id); if (el) fn(el); };
+        set('profileNameShort', el => el.textContent = nameShort);
+        set('profileAvatar',    el => typeof buildAvatarEl === 'function' && buildAvatarEl(el, user));
+        set('profileWrap',      el => el.style.display = 'flex');
+        set('pdName',           el => el.textContent = user.displayName || user.email.split('@')[0]);
+        set('pdEmail',          el => el.textContent = user.email);
+        set('pdAvatarLg',       el => typeof buildAvatarEl === 'function' && buildAvatarEl(el, user));
+      }).catch(() => {});
+    }
+    import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js').then(({ signOut }) => {
+      window.authSignOut = () => signOut(window.auth).then(() => { window.location.href = 'login.html'; });
+    });
 
     let publishedTests = [];
     let myClasses = [];
@@ -194,8 +210,10 @@
     let activeStudentsCache = {}; // classId → student docs[]
     let unsubSessions = null;
 
-    window.addEventListener('authReady', async () => {
-      const profile = window.userProfile || {};
+    document.addEventListener('authReady', async (ev) => {
+      const { user, profile } = (ev && ev.detail) || window.__authReadyDetail || {};
+      injectNavbar(user || window.currentUser);
+      if (!profile) return;
       const isAdmin = profile.role_teachershub === 'teachers_admin';
       const sub = profile.th_sub_roles || [];
       const canLaunch = isAdmin || sub.includes('subject_teacher') || sub.includes('subject_leader');
