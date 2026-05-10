@@ -766,6 +766,11 @@ function processFile(filename) {
   // Use absolute path for base.css so subdirectory pages resolve it correctly
   html = html.replace(/href="base\.css"/g, 'href="/base.css"');
 
+  // references-viewer.{js,css} — same absolute-path treatment so the
+  // /references clean-URL route can resolve them from dist/ root.
+  html = html.replace(/href="references-viewer\.css"/g, 'href="/references-viewer.css"');
+  html = html.replace(/src="references-viewer\.js"/g, 'src="/references-viewer.js"');
+
   // Use absolute paths for partials so subdirectory pages resolve them correctly
   html = html.replace(/src="partials\/navbar\.js"/g, 'src="/partials/navbar.js"');
   html = html.replace(/src="partials\/mailer\.js"/g, 'src="/partials/mailer.js"');
