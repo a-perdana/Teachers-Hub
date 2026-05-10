@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Events — Teachers Hub</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="base.css">
+  <style>
+    :root {
+      --accent:    #6c5ce7;
+      --accent-dk: #5a4bd1;
+      --accent-2:  #ede9fe;
+    }
+    body { padding-top: 62px; }
+
+    .hero {
+      background: linear-gradient(130deg, #1a0a2e 0%, #2d1b4e 40%, #4a2d6e 72%, #6c5ce7 100%);
+      padding: 36px 40px 0; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 8% 80%, rgba(108,92,231,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse at 90% 10%, rgba(255,255,255,0.04) 0%, transparent 45%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 30%, rgba(108,92,231,0.4) 55%, rgba(255,255,255,0.12) 80%, transparent 100%);
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding-bottom: 28px; }
+    .hero-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 8px; }
+    .hero-text .eyebrow {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(255,255,255,0.42); margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .hero-text .eyebrow::before {
+      content: ''; display: inline-block; width: 18px; height: 1.5px;
+      background: rgba(108,92,231,0.7); border-radius: 2px; flex-shrink: 0;
+    }
+    .hero-text h1 {
+      font-family: 'Lora', serif; font-size: 1.9rem; font-weight: 600;
+      color: #fff; line-height: 1.2; margin-bottom: 8px; letter-spacing: -0.01em;
+    }
+    .hero-text .sub { font-size: 0.875rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
+    .school-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 20px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      font-size: 0.78rem; font-weight: 600; color: #fff; margin-top: 12px;
+    }
+    .school-pill::before {
+      content: ''; width: 7px; height: 7px; border-radius: 50%; background: #a78bfa;
+    }
+
+    .year-select-wrap { display: flex; align-items: center; gap: 8px; }
+    .year-select-wrap label { font-size: 0.8rem; color: rgba(255,255,255,0.6); font-weight: 600; }
+    .year-select {
+      padding: 6px 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
+      background: rgba(255,255,255,0.1); color: #fff;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; cursor: pointer; outline: none;
+    }
+    .year-select option { background: #2d1b4e; color: #fff; }
+
+    .cat-tabs {
+      display: flex; gap: 0; overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; position: relative; z-index: 2;
+    }
+    .cat-tabs::-webkit-scrollbar { display: none; }
+    .cat-tab {
+      padding: 11px 22px; border: none; background: transparent;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600;
+      color: rgba(255,255,255,0.5); cursor: pointer;
+      border-radius: 10px 10px 0 0; transition: color 0.2s, background 0.2s;
+      position: relative; white-space: nowrap;
+    }
+    .cat-tab::after {
+      content: ''; position: absolute; bottom: 0; left: 14px; right: 14px; height: 2.5px;
+      background: rgba(255,255,255,0.2); border-radius: 2px 2px 0 0; transition: background 0.2s;
+    }
+    .cat-tab:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.06); }
+    .cat-tab.active { color: #fff; background: rgba(255,255,255,0.1); font-weight: 700; }
+    .cat-tab.active::after { background: #a78bfa; }
+
+    .page-wrap { max-width: 1200px; margin: 0 auto; padding: 28px 40px 72px; }
+
+    .filter-bar-ev {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .search-ev {
+      padding: 7px 12px; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: var(--ink);
+      background: var(--white); outline: none; flex: 1; min-width: 160px; max-width: 300px;
+    }
+    .search-ev:focus { border-color: var(--accent); }
+
+    .readonly-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 20px;
+      background: var(--accent-2); color: var(--accent);
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      margin-left: auto;
+    }
+    .readonly-pill::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+    }
+
+    .section-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--ink-3); margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .months-grid { display: flex; flex-direction: column; gap: 20px; }
+    .month-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow: hidden;
+    }
+    .month-card.past { opacity: 0.62; }
+    .month-card.current { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(108,92,231,0.15), var(--shadow-sm); }
+
+    .month-head {
+      padding: 14px 20px; display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border); background: var(--paper);
+      cursor: pointer; user-select: none;
+    }
+    .month-head-left { display: flex; align-items: center; gap: 12px; }
+    .month-name { font-size: 1rem; font-weight: 700; color: var(--ink); }
+    .month-current-pill {
+      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px;
+      background: rgba(108,92,231,0.12); color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .month-event-count {
+      font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px;
+      background: var(--accent-2); color: #5b21b6;
+    }
+    .month-chevron { font-size: 1rem; color: var(--ink-3); transition: transform 0.2s; }
+    .month-card.collapsed .month-chevron { transform: rotate(-90deg); }
+    .month-body { padding: 0; }
+    .month-card.collapsed .month-body { display: none; }
+
+    .ev-list { padding: 0; }
+    .ev-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 20px; border-bottom: 1px solid var(--paper-2);
+    }
+    .ev-item:last-child { border-bottom: none; }
+
+    .ev-date-col {
+      font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500;
+      color: var(--ink-3); white-space: nowrap; min-width: 90px; flex-shrink: 0;
+    }
+    .ev-date-col.upcoming { color: #ea580c; font-weight: 600; }
+    .ev-date-col.urgent { color: #dc2626; font-weight: 700; }
+    .ev-date-col.past { color: var(--ink-3); }
+
+    .ev-body { flex: 1; min-width: 0; }
+    .ev-title { font-size: 0.875rem; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+    .ev-desc { font-size: 0.78rem; color: var(--ink-2); margin-top: 2px; line-height: 1.4; }
+
+    .ev-cat-badge {
+      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px;
+      text-transform: uppercase; letter-spacing: 0.06em; flex-shrink: 0; white-space: nowrap;
+    }
+    .cat-workshop   { background: #dbeafe; color: #1e40af; }
+    .cat-open_day   { background: #dcfce7; color: #166534; }
+    .cat-fair       { background: #fef3c7; color: #92400e; }
+    .cat-sports     { background: #ffe4e6; color: #9f1239; }
+    .cat-cultural   { background: #f3e8ff; color: #6b21a8; }
+    .cat-academic   { background: #e0f2fe; color: #075985; }
+    .cat-ceremony   { background: #fce7f3; color: #9d174d; }
+    .cat-other      { background: #f1f5f9; color: #475569; }
+
+    .ev-empty { padding: 20px; text-align: center; font-size: 0.82rem; color: var(--ink-3); font-style: italic; }
+
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; font-size: 0.875rem;
+      padding: 12px 20px; border-radius: 10px; z-index: 9999;
+      opacity: 0; transform: translateY(8px); transition: all 0.28s;
+      pointer-events: none; background: var(--ink); color: #fff;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.error { background: #dc2626; }
+
+    .loading-state { text-align: center; padding: 56px; color: var(--ink-3); }
+    .spinner {
+      width: 26px; height: 26px; border: 3px solid var(--border); border-top-color: var(--accent);
+      border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .stats-row { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+    .stat-chip {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 14px; background: var(--white); border: 1px solid var(--border);
+      border-radius: 10px; font-size: 0.78rem; color: var(--ink-2);
+    }
+    .stat-chip strong { font-weight: 700; color: var(--ink); }
+
+    .no-school-banner {
+      background: #fef3c7; color: #92400e; border: 1px solid #fcd34d;
+      padding: 14px 18px; border-radius: 10px; font-size: 0.875rem;
+      margin-bottom: 18px; line-height: 1.5;
+    }
+    .no-school-banner strong { font-weight: 700; }
+
+    @media (max-width: 768px) {
+      .hero { padding: 24px 20px 0; }
+      .hero-text h1 { font-size: 1.4rem; }
+      .hero-top { flex-direction: column; gap: 14px; }
+      .page-wrap { padding: 20px 16px 56px; }
+      .filter-bar-ev { flex-direction: column; align-items: stretch; }
+      .search-ev { max-width: none; }
+      .readonly-pill { margin-left: 0; align-self: flex-start; }
+      .ev-item { flex-wrap: wrap; gap: 8px; padding: 12px 16px; }
+      .ev-date-col { min-width: auto; }
+      .stats-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body style="display:none">
+
+<div id="navbar-container"></div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div class="hero-text">
+        <div class="eyebrow">My School</div>
+        <h1>School Events</h1>
+        <p class="sub">Activities and events at your school. Read-only — your school's leadership team adds and updates these from Academic Hub.</p>
+        <div class="school-pill" id="schoolPill" style="display:none"></div>
+      </div>
+      <div class="year-select-wrap" id="yearSelectWrap" style="display:none">
+        <label for="yearSelect">Year</label>
+        <select class="year-select" id="yearSelect">
+          <option value="2025">2025</option>
+          <option value="2026" selected>2026</option>
+          <option value="2027">2027</option>
+        </select>
+      </div>
+    </div>
+    <nav class="cat-tabs" id="catTabs">
+      <button class="cat-tab active" data-cat="all">All Events</button>
+      <button class="cat-tab" data-cat="workshop">Workshop</button>
+      <button class="cat-tab" data-cat="open_day">Open Day</button>
+      <button class="cat-tab" data-cat="fair">Fair</button>
+      <button class="cat-tab" data-cat="sports">Sports</button>
+      <button class="cat-tab" data-cat="cultural">Cultural</button>
+      <button class="cat-tab" data-cat="academic">Academic</button>
+      <button class="cat-tab" data-cat="ceremony">Ceremony</button>
+      <button class="cat-tab" data-cat="other">Other</button>
+    </nav>
+  </div>
+</section>
+
+<div class="page-wrap">
+
+  <div id="loadingState" class="loading-state">
+    <div class="spinner"></div>
+    Loading events...
+  </div>
+
+  <div id="mainContent" style="display:none">
+
+    <div id="noSchoolBanner" class="no-school-banner" style="display:none">
+      <strong>No school assigned.</strong> Your profile is not linked to a partner school yet, so there are no events to show. Ask central admin to set your school from the console.
+    </div>
+
+    <div class="filter-bar-ev">
+      <input class="search-ev" id="searchInput" type="text" placeholder="Search events...">
+      <span class="readonly-pill">Read-only</span>
+    </div>
+
+    <div class="stats-row" id="statsRow"></div>
+
+    <div class="section-label" id="yearLabel">Events 2026</div>
+    <div class="months-grid" id="monthsGrid"></div>
+
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="firebase-config.js"></script>
+<script>
+  window.ENV = window.ENV || {
+    FIREBASE_API_KEY:             "__FIREBASE_API_KEY__",
+    FIREBASE_AUTH_DOMAIN:         "__FIREBASE_AUTH_DOMAIN__",
+    FIREBASE_PROJECT_ID:          "__FIREBASE_PROJECT_ID__",
+    FIREBASE_STORAGE_BUCKET:      "__FIREBASE_STORAGE_BUCKET__",
+    FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__",
+    FIREBASE_APP_ID:              "__FIREBASE_APP_ID__",
+  };
+</script>
+
+<script src="partials/navbar.js"></script>
+<script>
+  fetch('partials/navbar.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('navbar-container').innerHTML = html;
+      initNavbar();
+      if (typeof window._pendingNavbarUpdate === 'function') {
+        window._pendingNavbarUpdate();
+        window._pendingNavbarUpdate = null;
+      }
+      if (typeof window._pendingBadgeSetup === 'function') {
+        window._pendingBadgeSetup();
+        window._pendingBadgeSetup = null;
+      }
+      if (typeof window._pendingFeedbackSetup === 'function') {
+        window._pendingFeedbackSetup();
+        window._pendingFeedbackSetup = null;
+      }
+    })
+    .catch(err => console.error('Error loading navbar:', err));
+</script>
+<script type="module" src="auth-guard.js"></script>
+<script type="module">
+import {
+  collection, query, where, orderBy, getDocs
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+const CAT_LABELS = {
+  workshop: 'Workshop', open_day: 'Open Day', fair: 'Fair', sports: 'Sports',
+  cultural: 'Cultural', academic: 'Academic', ceremony: 'Ceremony', other: 'Other'
+};
+
+let currentYear = 2026;
+let currentCat  = 'all';
+let searchTerm  = '';
+let allEvents   = [];
+let mySchoolId  = null;
+let mySchoolName = '';
+
+document.addEventListener('authReady', ({ detail: { user, profile } }) => {
+  mySchoolId   = profile?.schoolId || null;
+  mySchoolName = profile?.school || profile?.schoolName || '';
+
+  // Navbar avatar + name (TH pattern — guarded for navbar fetch race)
+  const nameShort = (profile.displayName || user.displayName || user.email || '').split(' ')[0];
+  const updateNavbarElements = () => {
+    const profileNameShort = document.getElementById('profileNameShort');
+    const profileAvatar    = document.getElementById('profileAvatar');
+    const profileWrap      = document.getElementById('profileWrap');
+    if (profileNameShort) profileNameShort.textContent = nameShort;
+    if (profileAvatar && typeof buildAvatarEl === 'function') buildAvatarEl(profileAvatar, user);
+    if (profileWrap) profileWrap.style.display = 'flex';
+  };
+  if (document.getElementById('profileNameShort')) updateNavbarElements();
+  else window._pendingNavbarUpdate = updateNavbarElements;
+
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('mainContent').style.display  = '';
+  document.getElementById('yearSelectWrap').style.display = '';
+
+  if (mySchoolName) {
+    const pill = document.getElementById('schoolPill');
+    pill.textContent = mySchoolName;
+    pill.style.display = '';
+  }
+
+  if (!mySchoolId) document.getElementById('noSchoolBanner').style.display = '';
+
+  document.querySelectorAll('.cat-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentCat = tab.dataset.cat;
+      renderPage();
+    });
+  });
+
+  document.getElementById('yearSelect').addEventListener('change', e => {
+    currentYear = Number(e.target.value);
+    loadAndRender();
+  });
+
+  let searchTimer;
+  document.getElementById('searchInput').addEventListener('input', e => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => { searchTerm = e.target.value.trim().toLowerCase(); renderPage(); }, 200);
+  });
+
+  document.body.style.display = '';
+  loadAndRender();
+});
+
+async function loadEvents() {
+  if (!mySchoolId) { allEvents = []; return; }
+  const yearStart = `${currentYear}-01-01`;
+  const yearEnd   = `${currentYear}-12-31`;
+  const snap = await getDocs(
+    query(
+      collection(window.db, 'school_events'),
+      where('schoolId',   '==', mySchoolId),
+      where('date_start', '>=', yearStart),
+      where('date_start', '<=', yearEnd),
+      orderBy('date_start')
+    )
+  );
+  allEvents = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+}
+
+async function loadAndRender() {
+  try {
+    await loadEvents();
+  } catch (e) {
+    console.error(e);
+    showToast('Failed to load events.', true);
+  }
+  renderPage();
+}
+
+function filteredEvents() {
+  return allEvents.filter(ev => {
+    if (currentCat !== 'all' && ev.category !== currentCat) return false;
+    if (searchTerm && !ev.title.toLowerCase().includes(searchTerm)) return false;
+    return true;
+  });
+}
+
+function renderPage() {
+  document.getElementById('yearLabel').textContent = `Events ${currentYear}`;
+
+  const events = filteredEvents();
+
+  const statsRow = document.getElementById('statsRow');
+  const upcoming = events.filter(e => e.date_start >= todayIso()).length;
+  statsRow.innerHTML = `
+    <div class="stat-chip"><strong>${events.length}</strong> event${events.length !== 1 ? 's' : ''} this year</div>
+    <div class="stat-chip"><strong>${upcoming}</strong> upcoming</div>
+  `;
+
+  const byMonth = {};
+  for (let m = 1; m <= 12; m++) byMonth[m] = [];
+  events.forEach(ev => {
+    const m = parseInt(ev.date_start.split('-')[1], 10);
+    if (m >= 1 && m <= 12) byMonth[m].push(ev);
+  });
+
+  const grid = document.getElementById('monthsGrid');
+  const todayM = new Date().getMonth() + 1;
+  const todayY = new Date().getFullYear();
+  grid.innerHTML = '';
+
+  for (let m = 1; m <= 12; m++) {
+    const monthEvents = byMonth[m];
+    const isPast = (currentYear < todayY) || (currentYear === todayY && m < todayM);
+    const isCurr = (currentYear === todayY && m === todayM);
+
+    const card = document.createElement('div');
+    card.className = `month-card${isPast ? ' past' : ''}${isCurr ? ' current' : ''}`;
+    card.id = `month-${m}`;
+
+    const head = document.createElement('div');
+    head.className = 'month-head';
+    let headHTML = `<div class="month-head-left"><span class="month-name">${MONTH_NAMES[m-1]}</span>`;
+    if (isCurr) headHTML += `<span class="month-current-pill">Current</span>`;
+    if (monthEvents.length > 0) headHTML += `<span class="month-event-count">${monthEvents.length} event${monthEvents.length > 1 ? 's' : ''}</span>`;
+    headHTML += `</div><span class="month-chevron">▾</span>`;
+    head.innerHTML = headHTML;
+    head.addEventListener('click', () => card.classList.toggle('collapsed'));
+
+    const body = document.createElement('div');
+    body.className = 'month-body';
+
+    if (monthEvents.length === 0) {
+      body.innerHTML = '<div class="ev-empty">No events this month.</div>';
+    } else {
+      const list = document.createElement('div');
+      list.className = 'ev-list';
+
+      monthEvents.forEach(ev => {
+        const item = document.createElement('div');
+        item.className = 'ev-item';
+
+        const dateDisplay = formatDateRange(ev.date_start, ev.date_end);
+        const urgCls = urgencyDateClass(ev.date_start);
+        const catCls = `cat-${ev.category || 'other'}`;
+
+        item.innerHTML = `
+          <span class="ev-date-col ${urgCls}">${dateDisplay}</span>
+          <div class="ev-body">
+            <div class="ev-title">${escHtml(ev.title)}</div>
+            ${ev.description ? `<div class="ev-desc">${escHtml(ev.description)}</div>` : ''}
+          </div>
+          <span class="ev-cat-badge ${catCls}">${escHtml(CAT_LABELS[ev.category] || ev.category || 'Other')}</span>
+        `;
+
+        list.appendChild(item);
+      });
+
+      body.appendChild(list);
+    }
+
+    card.appendChild(head);
+    card.appendChild(body);
+    grid.appendChild(card);
+
+    if (isPast && !isCurr) card.classList.add('collapsed');
+  }
+
+  const currCard = document.getElementById(`month-${todayM}`);
+  if (currCard && currentYear === todayY) {
+    requestAnimationFrame(() => currCard.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  }
+}
+
+function todayIso() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function formatDateRange(start, end) {
+  if (!start) return 'TBC';
+  const [, sm, sd] = start.split('-').map(Number);
+  const startStr = `${sd} ${MONTH_NAMES[sm - 1].slice(0, 3)}`;
+  if (!end || end === start) return startStr;
+  const [, em, ed] = end.split('-').map(Number);
+  const endStr = `${ed} ${MONTH_NAMES[em - 1].slice(0, 3)}`;
+  return `${startStr} – ${endStr}`;
+}
+
+function daysDiff(dateStr) {
+  if (!dateStr) return null;
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const target = new Date(y, m - 1, d);
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  return Math.round((target - today) / 86400000);
+}
+
+function urgencyDateClass(dateStr) {
+  const diff = daysDiff(dateStr);
+  if (diff === null) return '';
+  if (diff < 0) return 'past';
+  if (diff <= 7) return 'urgent';
+  if (diff <= 30) return 'upcoming';
+  return '';
+}
+
+function showToast(msg, isError = false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast show${isError ? ' error' : ''}`;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
