@@ -147,11 +147,23 @@
       for (const tid of testIds) {
         if (itemsCache[tid]) continue;
         try {
-          const isnap = await getDocs(query(
-            collection(window.db, 'chapter_tests', tid, 'items'),
-            orderBy('seq', 'asc')
-          ));
-          itemsCache[tid] = isnap.docs.map(d => ({ id: d.id, ...d.data() }));
+          // Post-2026-05-11 Question Bank refactor: prefer top-level
+          // chapter_test_items via parent.itemIds[]; fall back to legacy
+          // items/ subcollection for pre-migration tests.
+          const parentSnap = await getDoc(doc(window.db, 'chapter_tests', tid));
+          const parent = parentSnap.exists() ? parentSnap.data() : null;
+          if (parent && Array.isArray(parent.itemIds) && parent.itemIds.length > 0) {
+            const fetched = await Promise.all(
+              parent.itemIds.map(id => getDoc(doc(window.db, 'chapter_test_items', id)))
+            );
+            itemsCache[tid] = fetched.filter(s => s.exists()).map(s => ({ id: s.id, ...s.data() }));
+          } else {
+            const isnap = await getDocs(query(
+              collection(window.db, 'chapter_tests', tid, 'items'),
+              orderBy('seq', 'asc')
+            ));
+            itemsCache[tid] = isnap.docs.map(d => ({ id: d.id, ...d.data() }));
+          }
         } catch (_) { itemsCache[tid] = []; }
       }
     }
