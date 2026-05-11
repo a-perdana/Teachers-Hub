@@ -64,6 +64,7 @@ const ROUTES = {
   'test-session-launcher.html': 'test-session-launcher',
   'test-monitor.html': 'test-monitor',
   'class-assessment.html': 'class-assessment',
+  'essay-grader.html': 'essay-grader',
   'references.html': 'references',
   // Public careers + interview module
   'careers.html': 'careers',
@@ -127,6 +128,7 @@ const LINK_REWRITES = [
   [/href="test-session-launcher\.html"/g,  'href="/test-session-launcher"'],
   [/href="test-monitor\.html(\?[^"]*)?"/g, (m, q) => `href="/test-monitor${q || ''}"`],
   [/href="class-assessment\.html"/g,       'href="/class-assessment"'],
+  [/href="essay-grader\.html"/g,           'href="/essay-grader"'],
   [/href="references\.html(\?[^"]*)?"/g,   (m, q) => `href="/references${q || ''}"`],
   // Careers + interview module
   [/href="careers\.html"/g,                       'href="/careers"'],

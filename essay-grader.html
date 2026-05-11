@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Essay Grader — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%236c5ce7'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+:root { --accent: #6c5ce7; --accent-2: #ede9fe; }
+.hero { background: linear-gradient(130deg, #0d0628 0%, #1e0a4e 40%, #3b1a8a 72%, #6c5ce7 100%); padding: 36px 40px; color: #fff; }
+.hero-inner { max-width: 1080px; margin: 0 auto; }
+.hero h1 { font-family: 'Lora', serif; font-size: 1.6rem; }
+.hero p { color: rgba(255,255,255,.7); font-size: .9rem; max-width: 580px; }
+.page-wrap { max-width: 1080px; margin: 0 auto; padding: 28px 32px 80px; }
+
+.stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 18px; }
+.stat-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+.stat-num { font-family: 'Lora', serif; font-size: 1.7rem; line-height: 1; }
+.stat-lbl { font-size: 11.5px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; margin-top: 6px; }
+
+.flag-card {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 18px; margin-bottom: 12px;
+}
+.flag-head {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 12px; flex-wrap: wrap; margin-bottom: 8px;
+}
+.flag-meta { font-size: 12px; color: var(--ink-3); }
+.flag-item { padding: 10px 12px; background: #fafafa; border-radius: 8px; margin: 8px 0; }
+.flag-stem { font-weight: 500; margin-bottom: 4px; }
+.flag-answer {
+  font-family: 'DM Mono', monospace; background: #fff;
+  padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px;
+  margin: 6px 0; font-size: 13px;
+}
+.flag-expected { font-size: 12px; color: var(--ink-3); margin-top: 4px; }
+.flag-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.btn {
+  padding: 7px 14px; border: 1px solid var(--border);
+  background: #fff; border-radius: 8px; font-family: inherit;
+  font-size: 12.5px; cursor: pointer;
+}
+.btn-ok    { background: #f0fdf4; color: #15803d; border-color: #86efac; }
+.btn-no    { background: #fef2f2; color: #b91c1c; border-color: #fca5a5; }
+.btn-half  { background: #fef3c7; color: #92400e; border-color: #fcd34d; }
+.empty { text-align: center; padding: 60px 20px; color: var(--ink-3); }
+.empty-title { font-weight: 600; color: var(--ink-2); margin-bottom: 6px; }
+.access-warn { padding: 14px 18px; background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; border-radius: 10px; margin-bottom: 18px; font-size: 13px; }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); padding: 10px 18px; background: var(--ink); color: #fff; border-radius: 10px; font-size: 13px; opacity: 0; transition: opacity .2s; z-index: 999; }
+.toast.is-visible { opacity: 1; }
+.note {
+  padding: 12px 16px; background: var(--accent-2); color: var(--accent);
+  border: 1px solid #d6d1f5; border-radius: 10px; margin-bottom: 18px; font-size: 13px;
+}
+</style>
+</head>
+<body>
+  <!-- FIREBASE_ENV -->
+  <script src="partials/navbar.js"></script>
+  <script type="module" src="auth-guard.js"></script>
+
+  <div id="navbar-container"></div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div style="font-size:.7rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:8px;">Subject Leader Review</div>
+      <h1>Essay Grader</h1>
+      <p>Review short-answer items where the student's response didn't match the author's expected text exactly. Award full / partial / no credit. Subject leaders + admins only.</p>
+    </div>
+  </header>
+
+  <main class="page-wrap">
+    <div id="accessWarn" class="access-warn" hidden></div>
+    <div class="note">
+      <strong>How this works:</strong> chapter test items of type <code>short</code> are auto-graded by exact (case-insensitive) match. If a student's answer doesn't match but is plausibly correct (synonym, abbreviation, paraphrase), the attempt is marked <code>flagged</code> and the score is recalculated here when you award credit.
+    </div>
+
+    <div class="stat-row" id="statRow"></div>
+
+    <div id="flagBox"></div>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script type="module">
+    import {
+      collection, query, where, onSnapshot, doc, getDoc, getDocs, updateDoc, orderBy
+    } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    let _navbarInjected = false;
+    function injectNavbar(user) {
+      if (_navbarInjected) return; _navbarInjected = true;
+      fetch('partials/navbar.html').then(r => r.text()).then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+        if (typeof initNavbar === 'function') initNavbar();
+        const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+        const set = (id, fn) => { const el = document.getElementById(id); if (el) fn(el); };
+        set('profileNameShort', el => el.textContent = nameShort);
+        set('profileAvatar',    el => typeof buildAvatarEl === 'function' && buildAvatarEl(el, user));
+        set('profileWrap',      el => el.style.display = 'flex');
+        set('pdName',           el => el.textContent = user.displayName || user.email.split('@')[0]);
+        set('pdEmail',          el => el.textContent = user.email);
+        set('pdAvatarLg',       el => typeof buildAvatarEl === 'function' && buildAvatarEl(el, user));
+      }).catch(() => {});
+    }
+    import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js').then(({ signOut }) => {
+      window.authSignOut = () => signOut(window.auth).then(() => { window.location.href = 'login.html'; });
+    });
+
+    let flagged = [];
+    // testId → items[] cache so we don't refetch the same test on every render
+    const itemsCache = {};
+
+    document.addEventListener('authReady', (ev) => {
+      const { user, profile } = (ev && ev.detail) || window.__authReadyDetail || {};
+      injectNavbar(user || window.currentUser);
+      if (!profile) return;
+      const isAdmin = profile.role_teachershub === 'teachers_admin';
+      const sub = profile.th_sub_roles || [];
+      if (!(isAdmin || sub.includes('subject_leader'))) {
+        document.getElementById('accessWarn').hidden = false;
+        document.getElementById('accessWarn').textContent =
+          'Essay grader is restricted to subject_leader sub-role (or admin).';
+        return;
+      }
+      if (!profile.schoolId && !isAdmin) {
+        document.getElementById('accessWarn').hidden = false;
+        document.getElementById('accessWarn').textContent = 'Set your school first.';
+        return;
+      }
+      const base = collection(window.db, 'chapter_test_attempts');
+      const q = isAdmin
+        ? query(base, where('status', '==', 'flagged'))
+        : query(base, where('status', '==', 'flagged'), where('schoolId', '==', profile.schoolId));
+      onSnapshot(q, async snap => {
+        flagged = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        await preloadItems(flagged);
+        render();
+      }, err => console.error('[essay-grader] error', err));
+    });
+
+    async function preloadItems(attempts) {
+      const testIds = [...new Set(attempts.map(a => a.testId).filter(Boolean))];
+      for (const tid of testIds) {
+        if (itemsCache[tid]) continue;
+        try {
+          const isnap = await getDocs(query(
+            collection(window.db, 'chapter_tests', tid, 'items'),
+            orderBy('seq', 'asc')
+          ));
+          itemsCache[tid] = isnap.docs.map(d => ({ id: d.id, ...d.data() }));
+        } catch (_) { itemsCache[tid] = []; }
+      }
+    }
+
+    function render() {
+      document.getElementById('statRow').innerHTML = `
+        <div class="stat-card"><div class="stat-num">${flagged.length}</div><div class="stat-lbl">Flagged attempts</div></div>
+        <div class="stat-card"><div class="stat-num">${countShortItems()}</div><div class="stat-lbl">Items needing review</div></div>
+      `;
+
+      const box = document.getElementById('flagBox');
+      if (flagged.length === 0) {
+        box.innerHTML = '<div class="empty"><div class="empty-title">No flagged attempts</div>Once a student submits a chapter test with a non-matching short-text answer, it appears here for review.</div>';
+        return;
+      }
+      box.innerHTML = flagged.map(a => renderAttempt(a)).join('');
+      box.querySelectorAll('button[data-act]').forEach(b => {
+        b.addEventListener('click', () => act(b.dataset.act, b.dataset.attempt, b.dataset.item));
+      });
+    }
+
+    function countShortItems() {
+      let n = 0;
+      flagged.forEach(a => {
+        const items = itemsCache[a.testId] || [];
+        const shortIds = new Set(items.filter(i => i.type === 'short').map(i => i.id));
+        (a.responses || []).forEach(r => {
+          if (shortIds.has(r.itemId) && !r.isCorrect && r.gradeOverride == null) n++;
+        });
+      });
+      return n;
+    }
+
+    function renderAttempt(a) {
+      const items = itemsCache[a.testId] || [];
+      const shortMisses = (a.responses || [])
+        .filter(r => {
+          const it = items.find(i => i.id === r.itemId);
+          return it && it.type === 'short' && !r.isCorrect;
+        });
+      if (shortMisses.length === 0) {
+        return `
+          <div class="flag-card">
+            <div class="flag-head">
+              <strong>${escHtml(a.studentName || a.studentUid)}</strong>
+              <span class="flag-meta">${escHtml(a.testTitle || a.testId)} · ${escHtml(a.className || '')}</span>
+            </div>
+            <div style="color:var(--ink-3); font-size:12px">No short-text items to review on this attempt.</div>
+            <div class="flag-actions">
+              <button class="btn" data-act="clear-flag" data-attempt="${escAttr(a.id)}">Mark as scored</button>
+            </div>
+          </div>
+        `;
+      }
+      return `
+        <div class="flag-card">
+          <div class="flag-head">
+            <strong>${escHtml(a.studentName || a.studentUid)}</strong>
+            <span class="flag-meta">${escHtml(a.testTitle || a.testId)} · ${escHtml(a.className || '')} · current score ${a.rawScorePct != null ? a.rawScorePct + '%' : '—'}</span>
+          </div>
+          ${shortMisses.map(r => {
+            const it = items.find(i => i.id === r.itemId) || {};
+            const override = r.gradeOverride;
+            return `
+              <div class="flag-item">
+                <div class="flag-stem">Q${r.seq}. ${escHtml(it.stem || '(stem unavailable)')}</div>
+                <div style="font-size:11.5px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.06em;">Student's answer</div>
+                <div class="flag-answer">${escHtml(String(r.answer || '(blank)'))}</div>
+                <div class="flag-expected">Author's expected: <code>${escHtml(it.correctAnswer || '—')}</code></div>
+                ${override != null ? `<div style="margin-top:6px; font-size:12px; color:var(--ok); font-weight:600;">✓ Reviewed: awarded ${override} mark(s) of ${it.marks || 1}</div>` : ''}
+                <div class="flag-actions">
+                  <button class="btn btn-ok" data-act="full"  data-attempt="${escAttr(a.id)}" data-item="${escAttr(r.itemId)}">Full credit</button>
+                  <button class="btn btn-half" data-act="half" data-attempt="${escAttr(a.id)}" data-item="${escAttr(r.itemId)}">Partial</button>
+                  <button class="btn btn-no"   data-act="zero" data-attempt="${escAttr(a.id)}" data-item="${escAttr(r.itemId)}">No credit</button>
+                </div>
+              </div>
+            `;
+          }).join('')}
+          <div class="flag-actions" style="margin-top:10px">
+            <button class="btn" data-act="finalize" data-attempt="${escAttr(a.id)}">Done — mark scored</button>
+          </div>
+        </div>
+      `;
+    }
+
+    async function act(action, attemptId, itemId) {
+      try {
+        const ref = doc(window.db, 'chapter_test_attempts', attemptId);
+        const snap = await getDoc(ref);
+        if (!snap.exists()) return;
+        const a = snap.data();
+        const items = itemsCache[a.testId] || [];
+        const responses = (a.responses || []).slice();
+
+        if (action === 'finalize' || action === 'clear-flag') {
+          // Recompute rawScorePct from current responses (gradeOverride wins over isCorrect)
+          const totalMarks = items.reduce((s, i) => s + (i.marks || 1), 0);
+          const earned = responses.reduce((s, r) => {
+            const it = items.find(i => i.id === r.itemId);
+            const max = (it?.marks || 1);
+            const award = (typeof r.gradeOverride === 'number') ? r.gradeOverride : (r.isCorrect ? max : 0);
+            return s + award;
+          }, 0);
+          const rawScorePct = totalMarks > 0 ? Math.round((earned / totalMarks) * 100) : 0;
+          const passThreshold = 60; // matches CH author default; production version reads from test doc
+          await updateDoc(ref, {
+            responses, rawScorePct, earnedMarks: earned, totalMarks,
+            passed: rawScorePct >= passThreshold,
+            status: 'scored',
+          });
+          toast('Attempt finalised.');
+          return;
+        }
+
+        // Per-item override
+        const idx = responses.findIndex(r => r.itemId === itemId);
+        if (idx < 0) return toast('Response not found.');
+        const it = items.find(i => i.id === itemId);
+        const max = (it?.marks || 1);
+        const award = action === 'full' ? max : action === 'half' ? Math.ceil(max / 2) : 0;
+        responses[idx] = { ...responses[idx], gradeOverride: award, isCorrect: award > 0 };
+        await updateDoc(ref, { responses });
+        toast(action === 'full' ? 'Full credit awarded.' : action === 'half' ? 'Partial credit awarded.' : 'No credit.');
+      } catch (e) {
+        toast('Failed: ' + (e.message || e.code));
+      }
+    }
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('is-visible');
+      setTimeout(() => t.classList.remove('is-visible'), 1800);
+    }
+    function escHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function escAttr(s) { return escHtml(s); }
+  </script>
+</body>
+</html>

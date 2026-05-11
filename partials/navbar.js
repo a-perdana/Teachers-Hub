@@ -69,7 +69,7 @@ function initNavbar() {
                'teacher-appraisal-results','teacher-self-appraisal',
                'competency-framework','learning-path','my-portfolio','my-certificates',
                'my-induction','my-mentees','observation-entry','handbook','mentor-certification',
-               'student-approvals','test-session-launcher','test-monitor','class-assessment'],
+               'student-approvals','test-session-launcher','test-monitor','class-assessment','essay-grader'],
       hub:    ['announcements','messageboard','library','cambridge-calendar','school-events','cambridge-standards','surveys'],
       careers: ['careers-admin','interview-scorecard','careers-compare'],
     };
