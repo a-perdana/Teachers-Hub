@@ -328,8 +328,7 @@
         } catch (e) { toast('Cancel failed: ' + (e.message || e.code)); }
       }
       if (act === 'view') {
-        // simple: link out to a per-attempt monitor stub (Phase 2 implements it)
-        toast('Live monitor coming in Phase 2.');
+        window.location.href = '/test-monitor?session=' + encodeURIComponent(id);
       }
     }
 
