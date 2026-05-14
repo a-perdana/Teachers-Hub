@@ -632,6 +632,20 @@
       <button class="checklist-tab active" data-tab="teachers">Subject Teacher</button>
       <button class="checklist-tab" data-tab="subject_leader" id="slTab" style="display:none">Subject Leader</button>
     </nav>
+    <!-- Cross-link to the matching handbook on CH. Updated by JS on tab
+         change. Cross-hub (TH → CH) — target=_blank. -->
+    <a id="pairedHandbookLink" href="https://centralhub.eduversal.org/handbook" target="_blank" rel="noopener"
+       style="display:none;margin-top:14px;align-self:flex-start;
+              padding:6px 12px;border-radius:8px;
+              background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);
+              color:rgba(255,255,255,0.88);font-size:12.5px;font-weight:600;
+              text-decoration:none;line-height:1.3;
+              align-items:center;gap:6px;
+              transition:background .12s, border-color .12s;">
+      <span aria-hidden="true">📕</span>
+      <span id="pairedHandbookLabel">Open paired handbook</span>
+      <span aria-hidden="true" style="opacity:.7;">↗</span>
+    </a>
   </div>
 </section>
 
@@ -900,10 +914,31 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
             : 'Admin — manage tasks for this week';
       }
       updateHeroSub();
+      updatePairedHandbookLink(currentPlatform);
       loadWeek(currentWeek);
       loadEssentials();
     });
   });
+
+  // Paired-handbook mapping. TH sub-roles → handbook ids on CH.
+  // Subject Teacher uses the existing Year-1 induction handbook (no
+  // first-90-days variant exists — induction handbook IS the canonical
+  // ramp). Subject Leader uses the first-90-days operational handbook.
+  const PAIRED_HANDBOOK_TH = {
+    teachers:       { id: 'handbook_subject_teacher_v2',                   label: 'Subject Teacher · Year-1 induction handbook' },
+    subject_leader: { id: 'eduversal_subject_leader_first_90_days_v1',     label: 'Subject Leader · 90-day handbook' },
+  };
+  function updatePairedHandbookLink(platform) {
+    const link = document.getElementById('pairedHandbookLink');
+    const labelEl = document.getElementById('pairedHandbookLabel');
+    const m = PAIRED_HANDBOOK_TH[platform];
+    if (!link) return;
+    if (!m) { link.style.display = 'none'; return; }
+    link.href = `https://centralhub.eduversal.org/handbook?id=${encodeURIComponent(m.id)}`;
+    labelEl.textContent = m.label;
+    link.style.display = 'inline-flex';
+  }
+  updatePairedHandbookLink(currentPlatform);
 
   // Load teaching schedule first so week labels can show "Semester II · Week 15"
   // instead of academic-year-relative "Week 40".
