@@ -28,7 +28,7 @@ Key features: 11 Cambridge pacing pages (IGCSE / AS-A / Checkpoint × Math/Bio/C
 cd "Central Hub" && firebase deploy --only firestore:rules --project centralhub-8727b
 ```
 
-For full schema + collection catalogue, see [`docs/FIRESTORE_SCHEMA.md`](../docs/FIRESTORE_SCHEMA.md) and the root `CLAUDE.md`. This file documents only TH-touching aspects.
+For full schema + collection catalogue, see [`docs/architecture/FIRESTORE_SCHEMA.md`](../docs/architecture/FIRESTORE_SCHEMA.md) and the root `CLAUDE.md`. This file documents only TH-touching aspects.
 
 ---
 
