@@ -871,6 +871,26 @@ if (fs.existsSync(path.join(__dirname, 'cambridge-crossref.js'))) {
       }
     });
   }
+
+  // Eduversal Academic Standards manifest + blurbs — fetched at runtime
+  // by cambridge-crossref.js when the user clicks an ES chip. Full
+  // section JSONs are hosted by CH (/references reader); TH only needs
+  // the lookup files for popover content. Source built by
+  // scripts/eduversal-standards/build-academic-standards.js --apply.
+  const eduStdSrc  = path.join(__dirname, '..', 'docs', 'research', 'eduversal', 'academic-standards');
+  const eduStdDest = path.join(distDir, 'research', 'eduversal', 'academic-standards');
+  if (fs.existsSync(eduStdSrc)) {
+    fs.mkdirSync(eduStdDest, { recursive: true });
+    ['manifest.json', 'search-blurbs.json'].forEach(name => {
+      const src = path.join(eduStdSrc, name);
+      if (fs.existsSync(src)) {
+        fs.copyFileSync(src, path.join(eduStdDest, name));
+        console.log(`Copied: dist/research/eduversal/academic-standards/${name}`);
+      } else {
+        console.warn(`WARNING: ${name} not found in docs/research/eduversal/academic-standards/ — run build-academic-standards.js --apply first.`);
+      }
+    });
+  }
   // Prefer the local TH copy (committed under resources/research/cambridge/)
   // because Vercel only checks out the TH repo — the monorepo's docs/research
   // folder isn't available at build time. Fall back to the monorepo path
