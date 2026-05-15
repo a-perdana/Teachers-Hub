@@ -901,6 +901,15 @@ if (fs.existsSync(path.join(__dirname, 'tokens.css'))) {
   console.log('Copied: dist/tokens.css');
 }
 
+// Copy Eduversal master logo (white-on-transparent, 600x176)
+// Source of truth = monorepo root copy; mirrored into each hub repo so Vercel
+// builds don't depend on the monorepo. Login + navbar reference it directly.
+const logoSrc = path.join(__dirname, 'eduversal-logo-white.png');
+if (fs.existsSync(logoSrc)) {
+  fs.copyFileSync(logoSrc, path.join(distDir, 'eduversal-logo-white.png'));
+  console.log('Copied: dist/eduversal-logo-white.png');
+}
+
 // References & Standards data — TH does NOT mirror references-data
 // locally. The /references viewer fetches from
 // https://centralhub.eduversal.org/references-data/* (CORS-open) so

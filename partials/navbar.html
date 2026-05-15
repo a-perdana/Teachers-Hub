@@ -32,31 +32,22 @@
     text-decoration: none;
     flex-shrink: 0;
   }
-  .nav-logo-icon {
-    width: 36px; height: 36px;
-    background: linear-gradient(135deg, #5b21b6, #7c3aed);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    box-shadow: 0 2px 14px rgba(109, 40, 217, 0.55);
+  .nav-logo-img {
+    height: 28px; width: auto; display: block; flex-shrink: 0;
+    filter: drop-shadow(0 2px 10px rgba(109, 40, 217, 0.45));
   }
-  .nav-logo-icon svg { width: 22px; height: 22px; }
+  .nav-logo-divider {
+    width: 1px; height: 22px;
+    background: rgba(255, 255, 255, 0.18);
+    flex-shrink: 0;
+  }
   .nav-logo-text {
     font-family: 'DM Sans', sans-serif;
-    font-weight: 700;
-    font-size: 15px;
-    color: #ffffff;
+    font-weight: 600;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.92);
     white-space: nowrap;
     letter-spacing: -0.01em;
-  }
-  .nav-logo-sub {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 10px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.4);
-    display: block;
-    margin-top: 0px;
-    letter-spacing: 0.02em;
   }
 
   /* Nav links */
@@ -197,10 +188,10 @@
   }
 
   /* ── Responsive breakpoints ───────────────────────────────────── */
-  /* Stage 1 — 1100px: tighten padding, hide brand sub-text */
+  /* Stage 1 — 1100px: tighten padding, hide brand divider + hub-name text */
   @media (max-width: 1100px) {
     .nav { padding: 0 18px; }
-    .nav-logo-sub { display: none; }
+    .nav-logo-divider, .nav-logo-text { display: none; }
   }
   /* Stage 2 — 1024px: hide desktop nav-links + feedback button, show hamburger */
   @media (max-width: 1024px) {
@@ -661,17 +652,9 @@
 <!-- Navigation -->
 <nav class="nav" id="nav">
   <a href="/" class="nav-logo">
-    <div class="nav-logo-icon">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 3L2 8l10 5 10-5-10-5z" fill="white" fill-opacity="0.95"/>
-        <path d="M2 8v6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-        <path d="M6 10.5v4.5c0 1.5 2.686 3 6 3s6-1.5 6-3v-4.5" fill="white" fill-opacity="0.25" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-    <div>
-      <span class="nav-logo-text">Teachers Hub</span>
-      <span class="nav-logo-sub">Eduversal</span>
-    </div>
+    <img class="nav-logo-img" src="eduversal-logo-white.png" alt="Eduversal">
+    <span class="nav-logo-divider" aria-hidden="true"></span>
+    <span class="nav-logo-text">Teachers Hub</span>
   </a>
 
   <!-- Hamburger (mobile only — hidden via @media on .nav-links) -->
