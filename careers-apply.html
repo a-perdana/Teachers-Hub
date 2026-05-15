@@ -52,7 +52,8 @@
     display: flex; align-items: center; justify-content: space-between;
   }
   .brand-mark { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
-  .brand-logo { width: 32px; height: 32px; background: var(--brand); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 14px; }
+  .brand-logo { height: 34px; padding: 0 12px; background: var(--brand); border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(108, 92, 231, 0.25); }
+  .brand-logo img { height: 18px; width: auto; display: block; }
   .brand-text { font-family: 'Lora', serif; font-size: 17px; font-weight: 600; }
   .top-bar-link { color: var(--ink-2); text-decoration: none; font-size: 14px; font-weight: 500; }
   .top-bar-link:hover { color: var(--brand); }
@@ -332,8 +333,8 @@
 
 <header class="top-bar">
   <a class="brand-mark" href="/careers">
-    <div class="brand-logo">E</div>
-    <div class="brand-text">Eduversal Careers</div>
+    <div class="brand-logo"><img src="eduversal-logo-white.png" alt="Eduversal"></div>
+    <div class="brand-text">Careers</div>
   </a>
   <nav><a class="top-bar-link" href="/careers">← All positions</a></nav>
 </header>
