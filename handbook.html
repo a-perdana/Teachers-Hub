@@ -591,18 +591,72 @@
     .hb-charter-box strong { display: block; font-weight: 700; margin-bottom: 4px; color: #3b0764; font-size: 13.5px; }
     .hb-charter-box code { background: rgba(76,29,149,0.08); color: #4c1d95; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
 
-    /* ── Section headings ───────────────────────────────────────── */
-    .hb-section { margin-bottom: 36px; }
+    /* ── Section headings — editorial typography pass (CH parity) ─
+       Bigger Lora h2s, generous vertical rhythm, drop-cap on the lead
+       paragraph of each section, decorative ◆ ◆ ◆ break between sibling
+       sections. Aims for a Medium / Stripe Press reading feel while
+       keeping the existing mor→cyan accent bar on each heading. */
+    .hb-section {
+      margin-bottom: 56px;
+      position: relative;
+    }
+    .hb-section + .hb-section::before {
+      content: '◆ ◆ ◆';
+      display: block;
+      position: absolute;
+      top: -36px; left: 0; right: 0;
+      text-align: center;
+      letter-spacing: 0.7em;
+      font-size: 8px;
+      color: var(--accent);
+      opacity: 0.4;
+      pointer-events: none;
+    }
     .hb-section-h {
-      font-family: 'Lora', serif; font-size: 1.4rem; font-weight: 600;
-      color: var(--ink); margin-bottom: 16px;
-      display: flex; align-items: center; gap: 10px;
+      font-family: 'Lora', serif; font-size: 2rem; font-weight: 600;
+      color: var(--ink); margin-bottom: 18px;
+      display: flex; align-items: center; gap: 14px;
+      line-height: 1.15; letter-spacing: -0.01em;
     }
     .hb-section-h::before {
-      content: ''; width: 4px; height: 22px; border-radius: 2px;
+      content: ''; width: 4px; height: 28px; border-radius: 2px;
       background: linear-gradient(180deg, var(--accent) 0%, var(--cyan) 100%);
+      flex-shrink: 0;
     }
-    .hb-section-text { font-size: 14px; line-height: 1.65; color: var(--ink-2); margin-bottom: 14px; }
+    .hb-section-text {
+      font-size: 16px; line-height: 1.75; color: var(--ink-2);
+      margin-bottom: 18px;
+      font-feature-settings: 'kern', 'liga';
+    }
+    /* Drop-cap on the FIRST paragraph after each section heading. */
+    .hb-section-h + .hb-section-text::first-letter {
+      font-family: 'Lora', serif;
+      font-size: 3.2rem; font-weight: 600;
+      color: var(--accent-dk);
+      float: left;
+      line-height: 0.95;
+      margin: 6px 10px 0 0;
+      padding: 0;
+    }
+    .hb-section-text em { font-style: italic; color: var(--ink); font-family: 'Lora', serif; }
+    .hb-section-text strong { color: var(--ink); font-weight: 700; }
+
+    /* Pull-quote — optional, surfaces when authoring adds a
+       <blockquote class="hb-pull"> in the rendered section body. */
+    .hb-pull {
+      margin: 22px 0 28px;
+      padding: 8px 0 8px 22px;
+      border-left: 3px solid var(--accent);
+      font-family: 'Lora', serif;
+      font-size: 1.15rem; line-height: 1.55; font-style: italic;
+      color: var(--ink);
+    }
+    .hb-pull cite {
+      display: block; margin-top: 8px;
+      font-family: 'DM Sans', sans-serif; font-style: normal;
+      font-size: 12px; color: var(--ink-3); letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
 
     /* ── Design philosophy (windows / phases) ───────────────────── */
     .hb-roles { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 18px; }
