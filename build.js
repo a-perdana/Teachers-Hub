@@ -806,12 +806,16 @@ function processFile(filename) {
   // inline CTS detail panel).
   // Use lastIndexOf so we target the actual document </body> and not a
   // </body> sitting inside an inline JS template literal.
+  // Idempotency check: look for the actual <script src="..."> tag, not
+  // a plain substring of the filename. Mirrors the CH 1200d81 fix —
+  // CSS/JS comments referencing the filename fool a loose substring
+  // check, leaving chips rendered but unclickable.
   if (filename !== 'login.html' && filename !== 'index.html' &&
       filename !== 'orientation.html' &&
       filename !== 'careers.html' &&
       filename !== 'careers-apply.html' &&
       filename !== 'careers-status.html' &&
-      !html.includes('/cambridge-crossref.js')) {
+      !/<script\s[^>]*src=["']\/?cambridge-crossref\.js["']/.test(html)) {
     const closeIdx = html.lastIndexOf('</body>');
     if (closeIdx >= 0) {
       html = html.slice(0, closeIdx)

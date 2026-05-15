@@ -885,6 +885,10 @@
     .hb-tag.cts { background: var(--accent-2); color: var(--accent-dk); font-family: 'DM Mono', monospace; cursor: help; }
     .hb-tag.skl { background: #d1fae5; color: #065f46; cursor: help; }
     .hb-tag.pigp { background: #fee2e2; color: #991b1b; font-family: 'DM Mono', monospace; cursor: help; }
+    /* ES chip family (Eduversal Academic Standards, 2026-05-15) — 4th
+       alongside CTS / SKL / PIGP. Auto-wired by the shared crossref
+       runtime; cyan-deep #0e7490 matches the popover header. */
+    .hb-tag.es { background: #cffafe; color: #0e7490; font-family: 'DM Mono', monospace; cursor: help; }
     .hb-tag.signoff { background: linear-gradient(135deg, var(--accent-2) 0%, var(--cyan-2) 100%); color: #5b21b6; font-weight: 700; }
 
     .hb-substage-h {
@@ -1977,6 +1981,10 @@
     const cts  = Array.isArray(t.cambridgeStandardRefs) ? t.cambridgeStandardRefs : [];
     const skl  = Array.isArray(t.skl_dimensions) ? t.skl_dimensions : [];
     const pigp = Array.isArray(t.pigp_articleRefs) ? t.pigp_articleRefs : [];
+    // ES — Eduversal Academic Standards madde refs. Same camelCase
+    // convention as cambridgeStandardRefs[]. Auto-wired by the shared
+    // crossref runtime once the chip is in the DOM.
+    const es   = Array.isArray(t.eduversalStandardRefs) ? t.eduversalStandardRefs : [];
     // Charter Non-Negotiables: task JSON uses uppercase IDs ("NN3"),
     // charter doc uses lowercase ("nn3"). Lookup is case-insensitive.
     const nns  = Array.isArray(t.charterNonNegotiables) ? t.charterNonNegotiables : [];
@@ -1997,6 +2005,7 @@
           ${cts.map(c => `<span class="hb-tag cts">CTS ${escapeHtml(c)}</span>`).join('')}
           ${skl.map(s => `<span class="hb-tag skl">SKL: ${escapeHtml(s)}</span>`).join('')}
           ${pigp.map(p => `<span class="hb-tag pigp">PIGP ${escapeHtml(p)}</span>`).join('')}
+          ${es.map(e => `<span class="hb-tag es">ES ${escapeHtml(e)}</span>`).join('')}
         </div>
       </div>
     `;
