@@ -20,7 +20,104 @@
     }
     body { background: var(--paper); }
 
-    /* ── Toolbar (sticky under navbar) ──────────────────────────── */
+    /* ── Full-width hero band (CH parity) ───────────────────────
+       Sits in body flow above the sticky handbook switcher toolbar.
+       TH's topbar is itself sticky in body flow (60px), so the hero
+       lands directly under it as expected without any padding-top
+       trick — unlike AH where the navbar is position:fixed. */
+    .hb-hero-band {
+      background:
+        radial-gradient(ellipse at 85% 20%, rgba(108,92,231,.35) 0%, transparent 60%),
+        linear-gradient(135deg, #2e1065 0%, #4c1d95 35%, #5a4ed1 75%, #6c5ce7 100%);
+      color: #fff;
+      padding: 28px 40px 32px;
+      position: relative; overflow: hidden;
+    }
+    .hb-hero-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: flex-start; gap: 32px; flex-wrap: wrap;
+      position: relative; z-index: 1;
+    }
+    .hb-hero-back {
+      position: absolute; top: 22px; left: 40px;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border-radius: 8px;
+      background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85);
+      font-size: 12px; font-weight: 600; text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.18);
+      z-index: 2; transition: background .12s, color .12s;
+    }
+    .hb-hero-back:hover { background: rgba(255,255,255,0.18); color: #fff; }
+    .hb-hero-back::before { content: '←'; font-weight: 700; }
+    .hb-hero-back.is-hidden { display: none; }
+
+    .hb-hero-title-col { flex: 1 1 360px; min-width: 280px; padding-top: 8px; }
+    .hb-hero-band .hb-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .65rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: rgba(196,181,253,.85);
+      margin-bottom: 8px;
+    }
+    .hb-hero-band .hb-eyebrow::before { display: none; }
+    .hb-hero-band .hb-title {
+      font-family: 'Lora', serif; font-size: 2rem; font-weight: 600;
+      line-height: 1.15; margin: 0 0 10px; letter-spacing: -0.01em;
+      color: #fff;
+    }
+    .hb-hero-band .hb-subtitle {
+      font-size: 14px; color: rgba(255,255,255,.78);
+      line-height: 1.55; max-width: 540px; margin: 0;
+    }
+
+    .hb-hero-kpis {
+      display: flex; gap: 14px; align-items: stretch; flex-wrap: wrap;
+      flex: 0 0 auto;
+    }
+    .hb-hero-kpi {
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 12px; padding: 14px 18px; min-width: 130px;
+      backdrop-filter: blur(4px);
+      text-decoration: none; color: inherit;
+    }
+    .hb-hero-kpi-primary {
+      background: linear-gradient(135deg, rgba(108,92,231,.32) 0%, rgba(108,92,231,.18) 100%);
+      border-color: rgba(196,181,253,.4); min-width: 170px;
+    }
+    .hb-hero-kpi-paired {
+      background: linear-gradient(135deg, rgba(14,116,144,.32) 0%, rgba(14,116,144,.18) 100%);
+      border-color: rgba(165,243,252,.5); min-width: 200px;
+      transition: transform .12s, box-shadow .12s;
+    }
+    .hb-hero-kpi-paired:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px -10px rgba(8,145,178,.5);
+    }
+    .hb-hero-kpi-num {
+      font-family: 'Lora', serif; font-size: 2.4rem; line-height: 1; font-weight: 600;
+      letter-spacing: -.02em; color: #fff; font-feature-settings: 'tnum';
+    }
+    .hb-hero-kpi-primary .hb-hero-kpi-num { font-size: 2.8rem; }
+    .hb-hero-kpi-lbl {
+      font-size: 10px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(255,255,255,.6); margin-top: 6px;
+    }
+    .hb-hero-kpi-primary .hb-hero-kpi-lbl { color: rgba(221,214,254,.85); }
+    .hb-hero-kpi-sub { font-size: 11px; color: rgba(255,255,255,.55); margin-top: 3px; font-weight: 400; }
+    .hb-hero-kpi-paired .hb-hero-kpi-num {
+      font-size: 1rem; font-family: 'DM Sans', sans-serif; color: #cffafe;
+    }
+    .hb-hero-kpi-paired .hb-hero-kpi-lbl { color: rgba(207,250,254,.85); }
+    .hb-hero-kpi-paired .hb-hero-kpi-sub { color: rgba(207,250,254,.6); }
+
+    @media (max-width: 720px) {
+      .hb-hero-band { padding: 64px 22px 22px; }
+      .hb-hero-back { top: 16px; left: 22px; }
+      .hb-hero-band .hb-title { font-size: 1.55rem; }
+      .hb-hero-kpi-primary .hb-hero-kpi-num { font-size: 2.2rem; }
+      .hb-hero-kpi-num { font-size: 1.8rem; }
+    }
+
+    /* ── Toolbar (sticky under navbar, BELOW the hero band) ─────── */
     .toolbar {
       position: sticky; top: 0; z-index: 50;
       background: rgba(255,255,255,0.92); backdrop-filter: saturate(160%) blur(8px);
@@ -176,72 +273,8 @@
     /* scroll-margin so anchor jumps don't slip under topbar + toolbar */
     .hb-section, .hb-stage, .hb-charter-box { scroll-margin-top: 130px; }
 
-    .hb-hero {
-      position: relative; overflow: hidden;
-      background: linear-gradient(135deg, #1a1530 0%, #2d2354 55%, #0a0815 100%);
-      color: #fff; border-radius: 18px;
-      padding: 40px 36px 36px; margin-bottom: 28px;
-      box-shadow: 0 18px 40px -22px rgba(15,23,42,0.5);
-    }
-    .hb-hero::before {
-      content: ''; position: absolute; inset: 0;
-      background:
-        radial-gradient(circle at 88% 18%, rgba(108,92,231,0.32) 0%, transparent 55%),
-        radial-gradient(circle at 12% 92%, rgba(8,145,178,0.18) 0%, transparent 55%);
-      pointer-events: none;
-    }
-    .hb-hero::after {
-      content: ''; position: absolute; right: -60px; bottom: -60px;
-      width: 220px; height: 220px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hb-hero > * { position: relative; z-index: 1; }
-    .hb-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.62);
-      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px;
-    }
-    .hb-eyebrow::before {
-      content: ''; width: 22px; height: 2px; background: var(--accent); border-radius: 2px;
-    }
-    .hb-title { font-family: 'Lora', serif; font-size: 2.4rem; font-weight: 600; line-height: 1.15; margin-bottom: 10px; letter-spacing: -0.01em; }
-    .hb-subtitle { font-size: 15px; color: rgba(255,255,255,0.78); line-height: 1.55; max-width: 680px; }
-    .hb-meta {
-      display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px;
-    }
-    .hb-meta span {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 12px; color: rgba(255,255,255,0.86);
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      padding: 5px 11px; border-radius: 999px;
-      backdrop-filter: blur(4px);
-    }
-    .hb-meta span strong { color: rgba(255,255,255,0.55); font-weight: 500; }
-
-    /* Hero KPI tiles — 3 stat blocks (Days / Stages / Audience).
-       Glassmorphic, mirrors CH treatment. */
-    .hb-hero-kpis {
-      display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px;
-    }
-    .hb-hero-kpi {
-      flex: 1 1 140px; min-width: 130px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 12px; padding: 12px 16px;
-      backdrop-filter: blur(4px);
-    }
-    .hb-hero-kpi-num {
-      font-family: 'Lora', serif; font-size: 1.6rem; line-height: 1; font-weight: 600;
-      color: #fff; font-feature-settings: 'tnum'; letter-spacing: -.02em;
-      margin-bottom: 4px;
-    }
-    .hb-hero-kpi-lbl {
-      font-size: 10px; font-weight: 600; letter-spacing: .12em;
-      text-transform: uppercase; color: rgba(196,181,253,.85);
-    }
-    .hb-hero-kpi-sub { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 4px; line-height: 1.35; }
+    /* (Sprint 5: legacy boxed .hb-hero/.hb-hero-kpi-* rules removed.
+       The new full-width hero band is defined at top of this <style>.) */
 
     /* ── Charter Non-Negotiables chip + popover ──────────────────
        Task-level ⚖ NNx chip; click pops a tooltip with the rule
@@ -475,35 +508,45 @@
       .toolbar .btn-print { padding: 8px 12px; font-size: 12px; }
       .hb-search { flex: 1 1 100%; max-width: none; order: 3; }
       .hb-search-count { order: 4; flex: 1 1 100%; text-align: right; }
-      .handbook-page { padding: 20px 18px 60px; }
-      .hb-hero { padding: 30px 22px 26px; }
-      .hb-title { font-size: 1.75rem; }
+      .handbook-page { padding: 0 18px 60px; }
       .hb-stage-head { padding: 18px 20px 16px 76px; }
       .hb-stage-num { left: 18px; width: 42px; height: 42px; font-size: 16px; }
     }
 
     /* ── PRINT — flatten chrome, keep readable ─────────────────── */
     @media print {
-      .toolbar, nav, .navbar, #navbar-container { display: none !important; }
+      .toolbar, nav, .navbar, #navbar-container, .hb-hero-back, .hb-toc { display: none !important; }
       body { background: #fff !important; }
-      .handbook-page { max-width: 100%; padding: 20px 24px; }
-      .hb-hero {
+      .handbook-page { max-width: 100%; padding: 0 24px 20px; }
+      /* Hero band collapses to a flat title with a thin mor underline. */
+      .hb-hero-band {
         background: #fff !important; color: var(--ink) !important;
-        border: none !important; border-bottom: 2px solid var(--accent) !important;
-        border-radius: 0 !important; padding: 0 0 18px !important;
-        box-shadow: none !important; margin-bottom: 22px !important;
+        border-bottom: 2px solid var(--accent) !important;
+        padding: 0 0 14px !important; margin-bottom: 18px !important;
       }
-      .hb-hero::before, .hb-hero::after { display: none !important; }
-      .hb-eyebrow { color: var(--ink-3) !important; }
-      .hb-eyebrow::before { background: var(--accent) !important; }
-      .hb-subtitle { color: var(--ink-2) !important; }
-      .hb-meta span { background: #f3f4f6 !important; color: var(--ink-2) !important; border-color: var(--border) !important; }
-      .hb-meta span strong { color: var(--ink-3) !important; }
+      .hb-hero-inner { gap: 12px; }
+      .hb-hero-title-col { padding-top: 0; }
+      .hb-hero-band .hb-eyebrow { color: var(--ink-3) !important; margin-bottom: 4px !important; }
+      .hb-hero-band .hb-title { color: var(--ink) !important; font-size: 1.5rem !important; }
+      .hb-hero-band .hb-subtitle { color: var(--ink-2) !important; }
+      .hb-hero-kpis { gap: 6px !important; }
+      .hb-hero-kpi {
+        background: #f3f4f6 !important; border-color: var(--border) !important;
+        padding: 6px 10px !important; min-width: 90px !important;
+      }
+      .hb-hero-kpi-primary, .hb-hero-kpi-paired {
+        background: #ede9fe !important; border-color: var(--accent-2) !important;
+      }
+      .hb-hero-kpi-num { font-size: 1.2rem !important; color: var(--ink) !important; }
+      .hb-hero-kpi-primary .hb-hero-kpi-num { font-size: 1.4rem !important; }
+      .hb-hero-kpi-lbl, .hb-hero-kpi-paired .hb-hero-kpi-lbl { color: var(--ink-3) !important; }
+      .hb-hero-kpi-sub, .hb-hero-kpi-paired .hb-hero-kpi-sub { color: var(--ink-3) !important; }
+      .hb-layout { grid-template-columns: 1fr !important; padding-top: 0 !important; }
       .hb-stage, .hb-window-card, .hb-role-card, .hb-charter-box { break-inside: avoid; box-shadow: none !important; }
       .hb-stage-num { box-shadow: none !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
       .hb-task { break-inside: avoid; }
       a { color: var(--ink) !important; text-decoration: none !important; }
-      .hb-tag, .hb-stage-num, .hb-stage-days, .hb-window-card::before, .hb-obs-cycle li::before {
+      .hb-tag, .hb-stage-num, .hb-stage-days, .hb-window-card::before, .hb-obs-cycle li::before, .hb-hero-kpi {
         print-color-adjust: exact; -webkit-print-color-adjust: exact;
       }
     }
@@ -512,6 +555,9 @@
 </head>
 <body style="display:none">
 <div id="navbar-container"></div>
+
+<!-- Hero band sits in body flow above the sticky handbook switcher. -->
+<div id="hbHeroMount"></div>
 
 <div class="toolbar" id="toolbar">
   <label for="hbSelect">Handbook</label>
@@ -598,7 +644,9 @@
 
   function renderHandbook(id) {
     const hb = allHandbooks.find(h => h.id === id);
+    const heroMount = document.getElementById('hbHeroMount');
     if (!hb) {
+      if (heroMount) heroMount.innerHTML = '';
       document.getElementById('hbContent').innerHTML = '<div class="hb-loading">Pick a handbook from the dropdown.</div>';
       return;
     }
@@ -613,6 +661,21 @@
     const hasDesign = !!hb.designPhilosophy;
     const hasRoles = !!hb.rolesAndResponsibilities;
     const hasOpen = !!(hb.openItems?.length);
+
+    // Hero band — full-width mor gradient above the sticky toolbar.
+    document.getElementById('hbHeroMount').innerHTML = `
+      <header class="hb-hero-band">
+        <a class="hb-hero-back ${allHandbooks.length > 1 ? '' : 'is-hidden'}" href="?" title="Back to handbook list">Back to all handbooks</a>
+        <div class="hb-hero-inner">
+          <div class="hb-hero-title-col">
+            <div class="hb-eyebrow">Eduversal Induction Handbook · v${escapeHtml(hb.version || '?')}</div>
+            <h1 class="hb-title">${escapeHtml(hb.title || hb.id)}</h1>
+            <p class="hb-subtitle">${escapeHtml(hb.subtitle || '')}</p>
+          </div>
+          ${renderHeroKpis(hb, stages, audienceLine)}
+        </div>
+      </header>
+    `;
 
     document.getElementById('hbContent').innerHTML = `
       <div class="hb-layout">
@@ -636,18 +699,6 @@
         </aside>
 
         <div class="hb-content">
-          <div class="hb-hero">
-            <div class="hb-eyebrow">Eduversal Induction Handbook · v${escapeHtml(hb.version || '?')}</div>
-            <h1 class="hb-title">${escapeHtml(hb.title || hb.id)}</h1>
-            <div class="hb-subtitle">${escapeHtml(hb.subtitle || '')}</div>
-            <div class="hb-meta">
-              ${audienceLine ? `<span><strong>Audience</strong> ${escapeHtml(audienceLine)}</span>` : ''}
-              ${hb.publishedOn ? `<span><strong>Published</strong> ${escapeHtml(hb.publishedOn)}</span>` : ''}
-              ${hb.publishedBy ? `<span><strong>By</strong> ${escapeHtml(hb.publishedBy)}</span>` : ''}
-            </div>
-            ${renderHeroKpis(hb, stages)}
-          </div>
-
           <div class="hb-charter-box" id="hb-sec-charter">
             <strong>This handbook sits under the Eduversal Induction Charter.</strong>
             Year-1 induction data does not feed network appraisal scoring. Mentor + mentee + school leader all read the same source. Edits go through <code>docs/induction/handbook-*.json</code> + <code>scripts/induction/seed-induction-programs.js</code> — not Firestore directly.
@@ -763,33 +814,64 @@
     });
   }
 
-  // Hero KPI tiles — Duration / Stages / Audience.
-  function renderHeroKpis(hb, stages) {
+  // Hero KPI tiles — CH parity. Up to 4 tiles:
+  //   1. Primary "Days" tile (bigger Lora numeral, mor-tinted background).
+  //   2. "Stages" — count of top-level stages.
+  //   3. "Audience" — platform · sub-role line.
+  //   4. Optional "Paired with" — anchor to the matching weekly-checklist
+  //      surface on the audience's hub. Only renders when the handbook
+  //      JSON declares weeklyChecklistLink.
+  function renderHeroKpis(hb, stages, audienceLine) {
     const dur = hb.duration?.totalDays;
     const stageCount = Array.isArray(stages) ? stages.length : 0;
-    const audSubRole = hb.audience?.subRole || (Array.isArray(hb.audience?.subRoleValues) ? hb.audience.subRoleValues.join(' · ') : null);
-    const audLabel = audSubRole ? prettyAudience(audSubRole) : (hb.audience?.platform || '—');
-    const tiles = [
-      dur ? { num: dur, lbl: 'Days', sub: 'Total programme duration' } : null,
-      stageCount ? { num: stageCount, lbl: 'Stages', sub: 'Sections in this handbook' } : null,
-      { num: audLabel, lbl: 'Audience', sub: hb.audience?.platform || '' },
-    ].filter(Boolean);
-    if (!tiles.length) return '';
+    const audPrimary = hb.audience?.platform || 'Network';
+    const audSecondary = audienceLine && audienceLine !== audPrimary
+      ? audienceLine.replace(`${audPrimary} · `, '')
+      : 'platform · sub-role';
+
+    const pairedTile = (() => {
+      if (!hb.weeklyChecklistLink) return '';
+      const host = ({
+        academichub: 'https://academichub.eduversal.org',
+        teachershub: 'https://teachershub.eduversal.org',
+        centralhub:  'https://centralhub.eduversal.org',
+      })[hb.audience?.platform] || '';
+      const platformParam = hb.weeklyChecklistLink.replace(/-/g, '_');
+      const url = host
+        ? `${host}/weekly-checklist?platform=${encodeURIComponent(platformParam)}`
+        : `weekly-checklist?platform=${encodeURIComponent(platformParam)}`;
+      const sameHub = hb.audience?.platform === 'teachershub';
+      const targetAttr = sameHub ? '' : 'target="_blank" rel="noopener"';
+      return `
+        <a class="hb-hero-kpi hb-hero-kpi-paired" href="${url}" ${targetAttr}
+           title="Open the matching weekly checklist">
+          <div class="hb-hero-kpi-num">Weekly Checklist ↗</div>
+          <div class="hb-hero-kpi-lbl">Paired with</div>
+          <div class="hb-hero-kpi-sub">${escapeHtml(hb.weeklyChecklistLabel || hb.weeklyChecklistLink)}</div>
+        </a>
+      `;
+    })();
+
     return `
       <div class="hb-hero-kpis">
-        ${tiles.map(t => `
-          <div class="hb-hero-kpi">
-            <div class="hb-hero-kpi-num">${escapeHtml(t.num)}</div>
-            <div class="hb-hero-kpi-lbl">${escapeHtml(t.lbl)}</div>
-            ${t.sub ? `<div class="hb-hero-kpi-sub">${escapeHtml(t.sub)}</div>` : ''}
-          </div>
-        `).join('')}
+        <div class="hb-hero-kpi hb-hero-kpi-primary">
+          <div class="hb-hero-kpi-num">${escapeHtml(dur || '—')}</div>
+          <div class="hb-hero-kpi-lbl">Days</div>
+          <div class="hb-hero-kpi-sub">${hb.duration?.totalMonths ? hb.duration.totalMonths + ' months' : 'Year-1 induction'}</div>
+        </div>
+        <div class="hb-hero-kpi">
+          <div class="hb-hero-kpi-num">${stageCount}</div>
+          <div class="hb-hero-kpi-lbl">Stages</div>
+          <div class="hb-hero-kpi-sub">${hb.publishedOn ? escapeHtml(hb.publishedOn) : ''}</div>
+        </div>
+        <div class="hb-hero-kpi">
+          <div class="hb-hero-kpi-num" style="font-size:1.1rem;font-family:'DM Sans',sans-serif;">${escapeHtml(audPrimary)} · ${escapeHtml(audSecondary)}</div>
+          <div class="hb-hero-kpi-lbl">Audience</div>
+          <div class="hb-hero-kpi-sub">platform · sub-role</div>
+        </div>
+        ${pairedTile}
       </div>
     `;
-  }
-  function prettyAudience(s) {
-    if (typeof s !== 'string') return String(s);
-    return s.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
   }
 
   // ── Charter Non-Negotiables popover ─────────────────────────────
