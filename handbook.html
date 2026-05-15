@@ -32,10 +32,14 @@
       color: #fff;
       padding: 28px 40px 32px;
       position: relative; overflow: hidden;
+      /* Fixed minimum so the hero looks the same height whether the handbook
+         JSON declares 3 KPI tiles or 4. */
+      min-height: 280px;
+      display: flex; align-items: center;
     }
     .hb-hero-inner {
-      max-width: 1200px; margin: 0 auto;
-      display: flex; align-items: flex-start; gap: 32px; flex-wrap: wrap;
+      max-width: 1200px; margin: 0 auto; width: 100%;
+      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
       position: relative; z-index: 1;
     }
     .hb-hero-back {
@@ -51,7 +55,7 @@
     .hb-hero-back::before { content: '←'; font-weight: 700; }
     .hb-hero-back.is-hidden { display: none; }
 
-    .hb-hero-title-col { flex: 1 1 360px; min-width: 280px; padding-top: 8px; }
+    .hb-hero-title-col { flex: 1 1 360px; min-width: 280px; }
     .hb-hero-band .hb-eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
       font-size: .65rem; font-weight: 700; letter-spacing: .2em;
@@ -110,7 +114,11 @@
     .hb-hero-kpi-paired .hb-hero-kpi-sub { color: rgba(207,250,254,.6); }
 
     @media (max-width: 720px) {
-      .hb-hero-band { padding: 64px 22px 22px; }
+      .hb-hero-band {
+        padding: 64px 22px 22px;
+        min-height: 0;
+        align-items: flex-start;
+      }
       .hb-hero-back { top: 16px; left: 22px; }
       .hb-hero-band .hb-title { font-size: 1.55rem; }
       .hb-hero-kpi-primary .hb-hero-kpi-num { font-size: 2.2rem; }
