@@ -46,6 +46,55 @@
     .toolbar .btn-print:hover { transform: translateY(-1px); box-shadow: 0 2px 4px rgba(76,29,149,0.22), 0 6px 18px rgba(108,92,231,0.28); }
     .toolbar .btn-print svg { width: 14px; height: 14px; }
 
+    /* Search input — sits in the toolbar. Filters tasks in-page
+       (client-side, no Firestore query) so the user can jump to a task
+       by name, CTS ref, role, etc. */
+    .hb-search {
+      position: relative; flex: 1; max-width: 360px;
+      display: flex; align-items: center;
+    }
+    .hb-search svg.search-icon {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      width: 14px; height: 14px; color: var(--ink-3); pointer-events: none;
+    }
+    .hb-search input {
+      width: 100%; padding: 8px 32px 8px 34px;
+      font-family: inherit; font-size: 13px;
+      border: 1px solid var(--border); border-radius: 8px;
+      background: #fff; color: var(--ink);
+      outline: none; transition: border-color .12s, box-shadow .12s;
+    }
+    .hb-search input::placeholder { color: var(--ink-3); }
+    .hb-search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-2); }
+    .hb-search-clear {
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      width: 22px; height: 22px; border-radius: 6px;
+      background: none; border: none; cursor: pointer;
+      color: var(--ink-3); font-size: 16px; line-height: 1;
+      display: none; align-items: center; justify-content: center;
+    }
+    .hb-search-clear:hover { background: #f3f4f6; color: var(--ink); }
+    .hb-search.has-value .hb-search-clear { display: inline-flex; }
+    .hb-search-count {
+      font-size: 11px; color: var(--ink-3); font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .hb-search-count.is-active { color: var(--accent-dk); font-weight: 600; }
+
+    /* Filter state on tasks + stages */
+    .hb-task.is-filtered,
+    .hb-stage.is-filtered,
+    .hb-section.is-filtered { display: none; }
+
+    /* Stage task count pill */
+    .hb-stage-tasks-pill {
+      font-size: 11px; font-weight: 600; color: var(--ink-3);
+      background: rgba(108,92,231,0.08); padding: 3px 10px; border-radius: 999px;
+      margin-left: 10px; vertical-align: middle;
+      font-variant-numeric: tabular-nums;
+    }
+    .hb-stage-tasks-pill.is-narrowed { color: var(--accent-dk); background: var(--accent-2); font-weight: 700; }
+
     /* ── Page wrap + 2-col layout (TOC + content) ───────────────── */
     .handbook-page {
       max-width: 1200px; margin: 0 auto; padding: 0 32px 100px;
@@ -353,6 +402,8 @@
       .toolbar { padding: 10px 18px; gap: 10px; flex-wrap: wrap; }
       .toolbar select { min-width: 0; flex: 1; }
       .toolbar .btn-print { padding: 8px 12px; font-size: 12px; }
+      .hb-search { flex: 1 1 100%; max-width: none; order: 3; }
+      .hb-search-count { order: 4; flex: 1 1 100%; text-align: right; }
       .handbook-page { padding: 20px 18px 60px; }
       .hb-hero { padding: 30px 22px 26px; }
       .hb-title { font-size: 1.75rem; }
@@ -396,6 +447,12 @@
   <select id="hbSelect">
     <option value="">Loading…</option>
   </select>
+  <div class="hb-search" id="hbSearchWrap">
+    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="search" id="hbSearch" placeholder="Search tasks, CTS refs, roles…" autocomplete="off">
+    <button type="button" class="hb-search-clear" id="hbSearchClear" title="Clear search" aria-label="Clear search">×</button>
+  </div>
+  <span class="hb-search-count" id="hbSearchCount" aria-live="polite"></span>
   <button class="btn-print" id="btnPrint" title="Use your browser's Save-as-PDF option in the print dialog.">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
     Print / Save as PDF
@@ -464,6 +521,7 @@
       document.getElementById('hbContent').innerHTML = `<div class="hb-loading" style="color:#991b1b;">Could not load: ${escapeHtml(err.message || err.code || 'unknown')}</div>`;
     }
     document.getElementById('btnPrint').addEventListener('click', () => window.print());
+    wireSearchInput();
   });
 
   function renderHandbook(id) {
@@ -544,6 +602,93 @@
     `;
 
     wireTocScrollSpy();
+    applyFilter();   // re-apply any active search term to the freshly rendered DOM
+  }
+
+  // Search + filter: substring match against task title + description +
+  // meta-row text (CTS / SKL / PIGP / role / minutes chips all searchable).
+  // Debounced via requestAnimationFrame. Stage hides if every task inside
+  // is filtered out; stage header pill shows "X of Y" when narrowed.
+  let _searchTerm = '';
+  function applyFilter() {
+    const term = _searchTerm.trim().toLowerCase();
+    const searchWrap = document.getElementById('hbSearchWrap');
+    const countEl = document.getElementById('hbSearchCount');
+    if (searchWrap) searchWrap.classList.toggle('has-value', !!term);
+
+    const tasks = Array.from(document.querySelectorAll('.hb-task'));
+    let matchCount = 0;
+    tasks.forEach(t => {
+      if (!term) {
+        t.classList.remove('is-filtered');
+        matchCount++;
+      } else {
+        const text = (t.textContent || '').toLowerCase();
+        const hit = text.includes(term);
+        t.classList.toggle('is-filtered', !hit);
+        if (hit) matchCount++;
+      }
+    });
+
+    document.querySelectorAll('.hb-stage').forEach(stage => {
+      const stageTasks = stage.querySelectorAll('.hb-task');
+      const visible = Array.from(stageTasks).filter(t => !t.classList.contains('is-filtered'));
+      const total = parseInt(stage.dataset.taskCount || '0', 10);
+      stage.classList.toggle('is-filtered', !!term && stageTasks.length > 0 && visible.length === 0);
+      const pill = stage.querySelector('[data-stage-pill]');
+      if (pill) {
+        if (term && stageTasks.length > 0) {
+          pill.textContent = `${visible.length} of ${total}`;
+          pill.classList.toggle('is-narrowed', visible.length < total);
+        } else {
+          pill.textContent = `${total} task${total === 1 ? '' : 's'}`;
+          pill.classList.remove('is-narrowed');
+        }
+      }
+    });
+
+    const stagesSection = document.getElementById('hb-sec-stages');
+    if (stagesSection) {
+      const anyVisible = !!stagesSection.querySelector('.hb-stage:not(.is-filtered)');
+      stagesSection.classList.toggle('is-filtered', !!term && !anyVisible);
+    }
+
+    if (countEl) {
+      if (term) {
+        countEl.textContent = `${matchCount} task${matchCount === 1 ? '' : 's'} match`;
+        countEl.classList.add('is-active');
+      } else {
+        countEl.textContent = '';
+        countEl.classList.remove('is-active');
+      }
+    }
+  }
+
+  function wireSearchInput() {
+    const input = document.getElementById('hbSearch');
+    const clear = document.getElementById('hbSearchClear');
+    if (!input || input.__wired) return;
+    input.__wired = true;
+
+    let raf = null;
+    const onInput = () => {
+      _searchTerm = input.value;
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(applyFilter);
+    };
+    input.addEventListener('input', onInput);
+    input.addEventListener('search', onInput);
+    clear?.addEventListener('click', () => {
+      input.value = ''; _searchTerm = '';
+      applyFilter();
+      input.focus();
+    });
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && input.value) {
+        input.value = ''; _searchTerm = '';
+        applyFilter();
+      }
+    });
   }
 
   // Scroll-spy: as user scrolls, the matching TOC link gets .active.
@@ -678,11 +823,17 @@
     const num = (typeof idx === 'number' ? idx + 1 : '');
     const stageId = (typeof idx === 'number') ? `hb-sec-stage-${idx}` : '';
 
+    const subTaskCount = subStages.reduce((n, ss) => n + (Array.isArray(ss.tasks) ? ss.tasks.length : 0), 0);
+    const totalTaskCount = tasks.length + subTaskCount;
+
     return `
-      <div class="hb-stage"${stageId ? ` id="${stageId}"` : ''}>
+      <div class="hb-stage"${stageId ? ` id="${stageId}"` : ''} data-task-count="${totalTaskCount}">
         <div class="hb-stage-head">
           ${num ? `<div class="hb-stage-num">${num}</div>` : ''}
-          <div class="hb-stage-name">${escapeHtml(stage.label || stage.stageId)}</div>
+          <div class="hb-stage-name">
+            ${escapeHtml(stage.label || stage.stageId)}
+            ${totalTaskCount ? `<span class="hb-stage-tasks-pill" data-stage-pill>${totalTaskCount} task${totalTaskCount === 1 ? '' : 's'}</span>` : ''}
+          </div>
           <div class="hb-stage-days">Day ${stage.dayStart} → ${stage.dayEnd}</div>
           ${stage.narrative ? `<div class="hb-stage-narrative">${escapeHtml(stage.narrative)}</div>` : ''}
         </div>
