@@ -42,10 +42,6 @@
       display: flex; flex-direction: column; gap: 20px;
       position: relative; z-index: 1;
     }
-    /* Reader hero starts content from the left padding edge on wide
-       viewports — matches the CH /handbook reader fix (left-align
-       parity). Browser-mode hero is full-width without a max-width clamp. */
-    body.hb-reader-mode .hb-hero-inner { margin: 0; max-width: none; }
     .hb-hero-back {
       position: absolute; top: 22px; left: 40px;
       display: inline-flex; align-items: center; gap: 6px;
@@ -149,7 +145,7 @@
       position: relative; overflow: hidden;
     }
     .hb-browser-hero-inner {
-      width: 100%;
+      max-width: 1200px; margin: 0 auto; width: 100%;
       display: flex; flex-direction: column; gap: 20px;
       position: relative; z-index: 1;
     }
