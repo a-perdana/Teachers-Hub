@@ -736,6 +736,17 @@
       box-shadow: 0 4px 12px rgba(108,92,231,0.32);
     }
     .hb-stage-name { font-family: 'Lora', serif; font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 6px; line-height: 1.3; }
+    /* Window glyph next to the stage name — emoji inferred from the
+       stage label (Survival / Foundation / Mastery / Integration etc.).
+       Generic 📕 falls back when nothing matches. */
+    .hb-stage-glyph {
+      display: inline-block;
+      font-size: 18px; line-height: 1;
+      margin-right: 8px;
+      vertical-align: -2px;
+      filter: saturate(1.1);
+      user-select: none;
+    }
     .hb-stage-days {
       display: inline-flex; align-items: center; gap: 6px;
       font-size: 11px; color: var(--accent-dk); font-weight: 600;
@@ -746,9 +757,13 @@
 
     /* ── Task rows ──────────────────────────────────────────────── */
     .hb-task {
-      position: relative; padding: 16px 24px 16px 24px;
+      position: relative; padding: 16px 24px;
       border-top: 1px solid var(--border);
       transition: background .12s;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 4px 14px;
+      align-items: start;
     }
     .hb-task::before {
       content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
@@ -757,9 +772,19 @@
     .hb-task:hover { background: rgba(108,92,231,0.025); }
     .hb-task:hover::before { background: var(--accent); }
     .hb-task:first-of-type { border-top: none; }
-    .hb-task-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
-    .hb-task-desc { font-size: 13px; color: var(--ink-2); line-height: 1.55; margin-bottom: 10px; }
-    .hb-task-meta { display: flex; gap: 6px; flex-wrap: wrap; font-size: 11px; }
+    /* Task category glyph (emoji) inferred from t.evidenceType — sits
+       to the left of the title like an editorial bullet. Generic ◆
+       falls back when authoring forgot to set the field. */
+    .hb-task-glyph {
+      grid-row: 1 / span 3;
+      font-size: 20px; line-height: 1;
+      margin-top: 1px;
+      filter: saturate(1.1);
+      user-select: none;
+    }
+    .hb-task-title { grid-column: 2; font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 5px; line-height: 1.4; }
+    .hb-task-desc { grid-column: 2; font-size: 14px; color: var(--ink-2); line-height: 1.65; margin-bottom: 10px; }
+    .hb-task-meta { grid-column: 2; display: flex; gap: 6px; flex-wrap: wrap; font-size: 11px; }
     .hb-tag { padding: 3px 9px; border-radius: 999px; font-weight: 600; font-size: 11px; line-height: 1.4; }
     .hb-tag.role { background: #f3f4f6; color: #4b5563; }
     .hb-tag.mentor { background: #fef3c7; color: #92400e; }
@@ -1632,6 +1657,50 @@
     `;
   }
 
+  // Window glyph inference — handbook stage labels often contain a
+  // window verb or stage type keyword. Maps to expressive emoji so
+  // each stage banner reads at a glance. Falls back to 📕 when nothing
+  // matches.
+  function stageGlyph(label) {
+    const s = String(label || '').toLowerCase();
+    if (/\blisten\b/.test(s))                  return '🌱';
+    if (/\bdiagnose\b/.test(s))                return '🔍';
+    if (/\bact\b/.test(s))                     return '🎯';
+    if (/\banchor\b/.test(s))                  return '⚓';
+    if (/\bsurvival\b/.test(s))                return '🛟';
+    if (/\bfoundation\b/.test(s))              return '🧱';
+    if (/\bmastery\b/.test(s))                 return '🎓';
+    if (/\bintegration\b/.test(s))             return '🔗';
+    if (/\bfamiliariz/.test(s))                return '👋';
+    if (/\bmeeting\b|\bpreparation\b/.test(s)) return '📝';
+    if (/\bsense.?making\b/.test(s))           return '🧭';
+    if (/\bapprentice/.test(s))                return '🤝';
+    if (/\bsolo\b|\bpractice\b/.test(s))       return '🚶';
+    if (/\bstrategic\b|\bcontribution\b/.test(s)) return '♟';
+    if (/\bpre.?arrival\b|\bstage 0\b/.test(s)) return '🛬';
+    if (/\bobserv/.test(s))                    return '👁';
+    if (/\breflection\b|\bretrospect/.test(s)) return '🪞';
+    return '📕';
+  }
+
+  // Task category glyph — inferred from evidenceType field. Generic
+  // ◆ fallback keeps the grid aligned even when evidenceType is missing.
+  function taskGlyph(t) {
+    const ev = String(t.evidenceType || '').toLowerCase();
+    if (ev === 'observation' || ev === 'walkthrough') return '👁';
+    if (ev === 'meeting' || ev === 'briefing')        return '🗣';
+    if (ev === 'journal' || ev === 'reflection')      return '✍';
+    if (ev === 'report' || ev === 'document')         return '📋';
+    if (ev === 'plan' || ev === 'planning')           return '🗺';
+    if (ev === 'delivery' || ev === 'execute')        return '🎯';
+    if (ev === 'review' || ev === 'feedback')         return '🔄';
+    if (ev === 'training' || ev === 'cpd')            return '🎓';
+    if (ev === 'audit' || ev === 'check')             return '✅';
+    if (ev === 'survey' || ev === 'pulse')            return '📊';
+    if (ev === 'data' || ev === 'analysis')           return '📈';
+    return '◆';
+  }
+
   function renderStage(stage, idx) {
     const tasks = Array.isArray(stage.tasks) ? stage.tasks : [];
     const subStages = Array.isArray(stage.subStages) ? stage.subStages : [];
@@ -1641,13 +1710,15 @@
 
     const subTaskCount = subStages.reduce((n, ss) => n + (Array.isArray(ss.tasks) ? ss.tasks.length : 0), 0);
     const totalTaskCount = tasks.length + subTaskCount;
+    const stageName = stage.label || stage.stageId;
+    const stageGly  = stageGlyph(stageName);
 
     return `
       <div class="hb-stage"${stageId ? ` id="${stageId}"` : ''} data-task-count="${totalTaskCount}">
         <div class="hb-stage-head">
           ${num ? `<div class="hb-stage-num">${num}</div>` : ''}
           <div class="hb-stage-name">
-            ${escapeHtml(stage.label || stage.stageId)}
+            <span class="hb-stage-glyph" aria-hidden="true">${stageGly}</span>${escapeHtml(stageName)}
             ${totalTaskCount ? `<span class="hb-stage-tasks-pill" data-stage-pill>${totalTaskCount} task${totalTaskCount === 1 ? '' : 's'}</span>` : ''}
           </div>
           <div class="hb-stage-days">Day ${stage.dayStart} → ${stage.dayEnd}</div>
@@ -1672,6 +1743,7 @@
     const nns  = Array.isArray(t.charterNonNegotiables) ? t.charterNonNegotiables : [];
     return `
       <div class="hb-task">
+        <span class="hb-task-glyph" aria-hidden="true">${taskGlyph(t)}</span>
         <div class="hb-task-title">${escapeHtml(t.title || t.taskId)}</div>
         ${t.description ? `<div class="hb-task-desc">${escapeHtml(t.description)}</div>` : ''}
         <div class="hb-task-meta">
