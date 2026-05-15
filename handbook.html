@@ -39,7 +39,7 @@
     }
     .hb-hero-inner {
       max-width: 1200px; margin: 0 auto; width: 100%;
-      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+      display: flex; flex-direction: column; gap: 20px;
       position: relative; z-index: 1;
     }
     .hb-hero-back {
@@ -55,7 +55,7 @@
     .hb-hero-back::before { content: '←'; font-weight: 700; }
     .hb-hero-back.is-hidden { display: none; }
 
-    .hb-hero-title-col { flex: 1 1 360px; min-width: 280px; }
+    .hb-hero-title-col { width: 100%; }
     .hb-hero-band .hb-eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
       font-size: .65rem; font-weight: 700; letter-spacing: .2em;
