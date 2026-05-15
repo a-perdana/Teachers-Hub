@@ -46,8 +46,86 @@
     .toolbar .btn-print:hover { transform: translateY(-1px); box-shadow: 0 2px 4px rgba(76,29,149,0.22), 0 6px 18px rgba(108,92,231,0.28); }
     .toolbar .btn-print svg { width: 14px; height: 14px; }
 
-    /* ── Page wrap + hero ───────────────────────────────────────── */
-    .handbook-page { max-width: 940px; margin: 0 auto; padding: 28px 32px 100px; }
+    /* ── Page wrap + 2-col layout (TOC + content) ───────────────── */
+    .handbook-page {
+      max-width: 1200px; margin: 0 auto; padding: 0 32px 100px;
+    }
+    /* Loading state stays single-column; .hb-layout wraps the rendered
+       handbook so the 2-col grid only kicks in once content is injected. */
+    .hb-layout {
+      display: grid; grid-template-columns: 240px 1fr;
+      gap: 36px; align-items: start;
+      padding-top: 28px;
+    }
+    @media (max-width: 960px) {
+      .hb-layout { grid-template-columns: 1fr; gap: 18px; padding-top: 20px; }
+    }
+    .hb-content { min-width: 0; }   /* prevent grid blowout from long tag rows */
+
+    /* TOC sidebar — TH topbar is 60px sticky + toolbar ~52px sticky, so
+       sidebar pins ~130px from viewport top. Mobile becomes horizontal
+       scroll-strip. Scrollbars hidden (per AH pattern). */
+    .hb-toc {
+      position: sticky; top: 130px;
+      max-height: calc(100vh - 150px);
+      overflow-y: auto; overflow-x: hidden;
+      padding: 4px 4px 12px;
+      scrollbar-width: none;
+      scrollbar-gutter: stable;
+    }
+    .hb-toc::-webkit-scrollbar { width: 0; height: 0; display: none; }
+    @media (max-width: 960px) {
+      .hb-toc {
+        position: sticky; top: 110px;
+        max-height: none; padding: 8px 0;
+        background: var(--paper); z-index: 40;
+        border-bottom: 1px solid var(--border);
+      }
+      .hb-toc ul {
+        display: flex; gap: 4px; overflow-x: auto; padding: 4px 16px;
+        scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .hb-toc ul::-webkit-scrollbar { height: 0; display: none; }
+      .hb-toc li { flex: 0 0 auto; scroll-snap-align: start; }
+      .hb-toc li.toc-sub { display: none; }
+      .hb-toc-title { display: none; }
+      .hb-toc-divider { display: none; }
+    }
+    .hb-toc-title {
+      font-size: 10.5px; font-weight: 700; color: var(--ink-3);
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px;
+      padding: 0 10px;
+    }
+    .hb-toc ul { list-style: none; padding: 0; margin: 0; }
+    .hb-toc li { margin: 1px 0; }
+    .hb-toc a {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 10px; border-radius: 6px;
+      font-size: 13px; color: var(--ink-2); text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: background .12s, color .12s, border-color .12s;
+      white-space: nowrap;
+    }
+    .hb-toc a:hover { background: #fafbfc; color: var(--ink); }
+    .hb-toc a.active {
+      background: var(--accent-2); color: var(--accent-dk);
+      border-left-color: var(--accent); font-weight: 600;
+    }
+    .hb-toc a.toc-sub { padding-left: 22px; font-size: 12px; color: var(--ink-3); }
+    .hb-toc a.toc-sub.active { color: var(--accent-dk); }
+    .hb-toc-divider { height: 1px; background: var(--border); margin: 8px 4px; }
+    .hb-toc-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 18px; height: 18px; border-radius: 4px;
+      background: var(--accent-2); color: var(--accent-dk);
+      font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .hb-toc a.active .hb-toc-num { background: var(--accent); color: #fff; }
+
+    /* scroll-margin so anchor jumps don't slip under topbar + toolbar */
+    .hb-section, .hb-stage, .hb-charter-box { scroll-margin-top: 130px; }
 
     .hb-hero {
       position: relative; overflow: hidden;
@@ -402,42 +480,124 @@
       hb.audience?.subRole || (Array.isArray(hb.audience?.subRoleValues) ? hb.audience.subRoleValues.join(',') : null),
     ].filter(Boolean).join(' · ');
 
+    const hasDesign = !!hb.designPhilosophy;
+    const hasRoles = !!hb.rolesAndResponsibilities;
+    const hasOpen = !!(hb.openItems?.length);
+
     document.getElementById('hbContent').innerHTML = `
-      <div class="hb-hero">
-        <div class="hb-eyebrow">Eduversal Induction Handbook · v${escapeHtml(hb.version || '?')}</div>
-        <h1 class="hb-title">${escapeHtml(hb.title || hb.id)}</h1>
-        <div class="hb-subtitle">${escapeHtml(hb.subtitle || '')}</div>
-        <div class="hb-meta">
-          ${audienceLine ? `<span><strong>Audience</strong> ${escapeHtml(audienceLine)}</span>` : ''}
-          ${hb.duration?.totalDays ? `<span><strong>Duration</strong> ${hb.duration.totalDays} days</span>` : ''}
-          ${hb.publishedOn ? `<span><strong>Published</strong> ${escapeHtml(hb.publishedOn)}</span>` : ''}
-          ${hb.publishedBy ? `<span><strong>By</strong> ${escapeHtml(hb.publishedBy)}</span>` : ''}
-        </div>
-      </div>
-
-      <div class="hb-charter-box">
-        <strong>This handbook sits under the Eduversal Induction Charter.</strong>
-        Year-1 induction data does not feed network appraisal scoring. Mentor + mentee + school leader all read the same source. Edits go through <code>docs/induction/handbook-*.json</code> + <code>scripts/induction/seed-induction-programs.js</code> — not Firestore directly.
-      </div>
-
-      ${hb.designPhilosophy ? renderDesignPhilosophy(hb.designPhilosophy) : ''}
-      ${hb.rolesAndResponsibilities ? renderRoles(hb.rolesAndResponsibilities) : ''}
-
-      <div class="hb-section">
-        <h2 class="hb-section-h">Stages</h2>
-        ${stageBlocks || '<div class="hb-task-desc">No stages defined.</div>'}
-      </div>
-
-      ${hb.openItems?.length ? `
-        <div class="hb-section">
-          <h2 class="hb-section-h">Open items</h2>
-          <ul style="padding-left:20px;">
-            ${hb.openItems.map(o => `<li class="hb-section-text" style="margin-bottom:6px;">${escapeHtml(o)}</li>`).join('')}
+      <div class="hb-layout">
+        <aside class="hb-toc" id="hbToc">
+          <div class="hb-toc-title">On this page</div>
+          <ul>
+            <li><a href="#hb-sec-charter" data-toc="hb-sec-charter">Charter</a></li>
+            ${hasDesign ? '<li><a href="#hb-sec-design" data-toc="hb-sec-design">Design philosophy</a></li>' : ''}
+            ${hasRoles ? '<li><a href="#hb-sec-roles" data-toc="hb-sec-roles">Roles &amp; responsibilities</a></li>' : ''}
+            <li><a href="#hb-sec-stages" data-toc="hb-sec-stages">Stages</a></li>
+            ${stages.map((s, i) => `
+              <li class="toc-sub">
+                <a href="#hb-sec-stage-${i}" data-toc="hb-sec-stage-${i}" class="toc-sub">
+                  <span class="hb-toc-num">${i + 1}</span>
+                  <span>${escapeHtml(s.label || s.stageId || `Stage ${i + 1}`)}</span>
+                </a>
+              </li>
+            `).join('')}
+            ${hasOpen ? '<li><div class="hb-toc-divider"></div></li><li><a href="#hb-sec-open" data-toc="hb-sec-open">Open items</a></li>' : ''}
           </ul>
+        </aside>
+
+        <div class="hb-content">
+          <div class="hb-hero">
+            <div class="hb-eyebrow">Eduversal Induction Handbook · v${escapeHtml(hb.version || '?')}</div>
+            <h1 class="hb-title">${escapeHtml(hb.title || hb.id)}</h1>
+            <div class="hb-subtitle">${escapeHtml(hb.subtitle || '')}</div>
+            <div class="hb-meta">
+              ${audienceLine ? `<span><strong>Audience</strong> ${escapeHtml(audienceLine)}</span>` : ''}
+              ${hb.duration?.totalDays ? `<span><strong>Duration</strong> ${hb.duration.totalDays} days</span>` : ''}
+              ${hb.publishedOn ? `<span><strong>Published</strong> ${escapeHtml(hb.publishedOn)}</span>` : ''}
+              ${hb.publishedBy ? `<span><strong>By</strong> ${escapeHtml(hb.publishedBy)}</span>` : ''}
+            </div>
+          </div>
+
+          <div class="hb-charter-box" id="hb-sec-charter">
+            <strong>This handbook sits under the Eduversal Induction Charter.</strong>
+            Year-1 induction data does not feed network appraisal scoring. Mentor + mentee + school leader all read the same source. Edits go through <code>docs/induction/handbook-*.json</code> + <code>scripts/induction/seed-induction-programs.js</code> — not Firestore directly.
+          </div>
+
+          ${hasDesign ? renderDesignPhilosophy(hb.designPhilosophy) : ''}
+          ${hasRoles ? renderRoles(hb.rolesAndResponsibilities) : ''}
+
+          <div class="hb-section" id="hb-sec-stages">
+            <h2 class="hb-section-h">Stages ${stages.length ? `<span class="count">${stages.length}</span>` : ''}</h2>
+            ${stageBlocks || '<div class="hb-task-desc">No stages defined.</div>'}
+          </div>
+
+          ${hasOpen ? `
+            <div class="hb-section" id="hb-sec-open">
+              <h2 class="hb-section-h">Open items <span class="count">${hb.openItems.length}</span></h2>
+              <ul style="padding-left:20px;">
+                ${hb.openItems.map(o => `<li class="hb-section-text" style="margin-bottom:6px;">${escapeHtml(o)}</li>`).join('')}
+              </ul>
+            </div>
+          ` : ''}
         </div>
-      ` : ''}
+      </div>
     `;
+
+    wireTocScrollSpy();
   }
+
+  // Scroll-spy: as user scrolls, the matching TOC link gets .active.
+  // IntersectionObserver because passive scroll listener is jank-prone
+  // on long handbooks with hundreds of tasks. rootMargin pushes the
+  // trigger line ~30% down the viewport so the "active" link feels right.
+  let _spyObserver = null;
+  function wireTocScrollSpy() {
+    if (_spyObserver) { _spyObserver.disconnect(); _spyObserver = null; }
+    const targets = Array.from(document.querySelectorAll('[id^="hb-sec-"]'));
+    if (!targets.length) return;
+    const links = new Map();
+    document.querySelectorAll('.hb-toc a[data-toc]').forEach(a => links.set(a.dataset.toc, a));
+
+    const setActive = id => {
+      links.forEach(a => a.classList.remove('active'));
+      const link = links.get(id);
+      if (link) {
+        link.classList.add('active');
+        if (window.matchMedia('(max-width: 960px)').matches) {
+          link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+      }
+    };
+
+    _spyObserver = new IntersectionObserver(entries => {
+      const visible = entries.filter(e => e.isIntersecting);
+      if (!visible.length) return;
+      visible.sort((a, b) => a.target.getBoundingClientRect().top - b.target.getBoundingClientRect().top);
+      setActive(visible[0].target.id);
+    }, {
+      rootMargin: '-130px 0px -65% 0px',
+      threshold: 0,
+    });
+    targets.forEach(t => _spyObserver.observe(t));
+  }
+
+  // Section-heading count pill — mirrors AH treatment. Reuses existing
+  // .hb-section-h::before gradient bar by adding a sibling count span.
+  // CSS added via tiny style block so we don't refactor the whole CSS
+  // section in this diff.
+  (function injectCountPillCss() {
+    const css = `
+      .hb-section-h .count {
+        font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 999px;
+        background: var(--accent-2); color: var(--accent-dk);
+        font-variant-numeric: tabular-nums; font-family: 'DM Sans', sans-serif;
+        margin-left: 4px;
+      }
+    `;
+    const s = document.createElement('style');
+    s.textContent = css;
+    document.head.appendChild(s);
+  })();
 
   // Window/phase palette — each card gets its own gradient stripe + numbered badge.
   const WINDOW_PALETTE = [
@@ -460,9 +620,10 @@
 
   function renderDesignPhilosophy(dp) {
     const phasesOrWindows = dp.fourPhases || dp.fourWindows;
+    const count = Array.isArray(phasesOrWindows) ? phasesOrWindows.length : 0;
     return `
-      <div class="hb-section">
-        <h2 class="hb-section-h">Design philosophy</h2>
+      <div class="hb-section" id="hb-sec-design">
+        <h2 class="hb-section-h">Design philosophy${count ? ` <span class="count">${count}</span>` : ''}</h2>
         ${dp.summary ? `<p class="hb-section-text">${escapeHtml(dp.summary)}</p>` : ''}
         ${Array.isArray(phasesOrWindows) ? `
           <div class="hb-roles">
@@ -488,8 +649,8 @@
 
   function renderRoles(rar) {
     const order = ['mentee', 'mentor', 'schoolLeader', 'foundationRepresentative', 'eduversalHQ'];
-    const cards = order
-      .filter(k => rar[k])
+    const present = order.filter(k => rar[k]);
+    const cards = present
       .map(k => {
         const r = rar[k];
         const meta = ROLE_META[k] || { color: 'var(--accent)', icon: '👤' };
@@ -503,8 +664,8 @@
         `;
       }).join('');
     return `
-      <div class="hb-section">
-        <h2 class="hb-section-h">Roles and responsibilities</h2>
+      <div class="hb-section" id="hb-sec-roles">
+        <h2 class="hb-section-h">Roles and responsibilities ${present.length ? `<span class="count">${present.length}</span>` : ''}</h2>
         <div class="hb-roles">${cards}</div>
       </div>
     `;
@@ -515,9 +676,10 @@
     const subStages = Array.isArray(stage.subStages) ? stage.subStages : [];
     const cycle = stage.observationCycle || stage.walkthroughCycle;
     const num = (typeof idx === 'number' ? idx + 1 : '');
+    const stageId = (typeof idx === 'number') ? `hb-sec-stage-${idx}` : '';
 
     return `
-      <div class="hb-stage">
+      <div class="hb-stage"${stageId ? ` id="${stageId}"` : ''}>
         <div class="hb-stage-head">
           ${num ? `<div class="hb-stage-num">${num}</div>` : ''}
           <div class="hb-stage-name">${escapeHtml(stage.label || stage.stageId)}</div>
