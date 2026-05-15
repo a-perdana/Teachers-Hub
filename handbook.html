@@ -220,6 +220,77 @@
     }
     .hb-meta span strong { color: rgba(255,255,255,0.55); font-weight: 500; }
 
+    /* Hero KPI tiles — 3 stat blocks (Days / Stages / Audience).
+       Glassmorphic, mirrors CH treatment. */
+    .hb-hero-kpis {
+      display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px;
+    }
+    .hb-hero-kpi {
+      flex: 1 1 140px; min-width: 130px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px; padding: 12px 16px;
+      backdrop-filter: blur(4px);
+    }
+    .hb-hero-kpi-num {
+      font-family: 'Lora', serif; font-size: 1.6rem; line-height: 1; font-weight: 600;
+      color: #fff; font-feature-settings: 'tnum'; letter-spacing: -.02em;
+      margin-bottom: 4px;
+    }
+    .hb-hero-kpi-lbl {
+      font-size: 10px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(196,181,253,.85);
+    }
+    .hb-hero-kpi-sub { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 4px; line-height: 1.35; }
+
+    /* ── Charter Non-Negotiables chip + popover ──────────────────
+       Task-level ⚖ NNx chip; click pops a tooltip with the rule
+       verbatim from INDUCTION_CHARTER.json. Charter is binding so
+       colour is darker than CTS chips. */
+    .hb-tag.nn {
+      background: #ede9fe; color: #4c1d95;
+      font-family: 'DM Mono', monospace; font-size: 10.5px;
+      font-weight: 700;
+      cursor: help; user-select: none;
+      transition: background .12s;
+      border: none;
+      padding: 3px 9px;
+    }
+    .hb-tag.nn::before { content: '\2696'; font-size: 10px; margin-right: 2px; }
+    .hb-tag.nn:hover, .hb-tag.nn[aria-expanded="true"] { background: #ddd6fe; }
+
+    .hb-nn-popover {
+      position: absolute; z-index: 200;
+      max-width: 360px; padding: 12px 14px;
+      background: #fff; border: 1px solid var(--accent-2);
+      border-radius: 10px; box-shadow: 0 12px 28px -16px rgba(76,29,149,0.4);
+      font-size: 12.5px; line-height: 1.5; color: var(--ink);
+      display: none;
+    }
+    .hb-nn-popover.open { display: block; }
+    .hb-nn-popover-head {
+      font-size: 10.5px; font-weight: 700;
+      color: #4c1d95; letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 4px;
+      display: flex; align-items: baseline; gap: 6px;
+    }
+    .hb-nn-popover-head::before { content: '\2696'; font-size: 12px; }
+    .hb-nn-popover-id {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      background: #ede9fe; padding: 1px 6px; border-radius: 4px;
+      color: #4c1d95; font-weight: 700;
+    }
+    .hb-nn-popover-rule { color: var(--ink-2); }
+    .hb-nn-popover-source {
+      margin-top: 8px; padding-top: 6px;
+      border-top: 1px dashed var(--border);
+      font-size: 10.5px; color: var(--ink-3);
+    }
+    .hb-nn-popover-source code {
+      background: #f3f4f6; padding: 1px 4px; border-radius: 3px;
+      font-family: 'DM Mono', monospace; font-size: 10.5px;
+    }
+
     /* ── Charter callout ────────────────────────────────────────── */
     .hb-charter-box {
       position: relative;
@@ -522,6 +593,7 @@
     }
     document.getElementById('btnPrint').addEventListener('click', () => window.print());
     wireSearchInput();
+    wireNnChipDelegation();
   });
 
   function renderHandbook(id) {
@@ -570,10 +642,10 @@
             <div class="hb-subtitle">${escapeHtml(hb.subtitle || '')}</div>
             <div class="hb-meta">
               ${audienceLine ? `<span><strong>Audience</strong> ${escapeHtml(audienceLine)}</span>` : ''}
-              ${hb.duration?.totalDays ? `<span><strong>Duration</strong> ${hb.duration.totalDays} days</span>` : ''}
               ${hb.publishedOn ? `<span><strong>Published</strong> ${escapeHtml(hb.publishedOn)}</span>` : ''}
               ${hb.publishedBy ? `<span><strong>By</strong> ${escapeHtml(hb.publishedBy)}</span>` : ''}
             </div>
+            ${renderHeroKpis(hb, stages)}
           </div>
 
           <div class="hb-charter-box" id="hb-sec-charter">
@@ -687,6 +759,119 @@
       if (e.key === 'Escape' && input.value) {
         input.value = ''; _searchTerm = '';
         applyFilter();
+      }
+    });
+  }
+
+  // Hero KPI tiles — Duration / Stages / Audience.
+  function renderHeroKpis(hb, stages) {
+    const dur = hb.duration?.totalDays;
+    const stageCount = Array.isArray(stages) ? stages.length : 0;
+    const audSubRole = hb.audience?.subRole || (Array.isArray(hb.audience?.subRoleValues) ? hb.audience.subRoleValues.join(' · ') : null);
+    const audLabel = audSubRole ? prettyAudience(audSubRole) : (hb.audience?.platform || '—');
+    const tiles = [
+      dur ? { num: dur, lbl: 'Days', sub: 'Total programme duration' } : null,
+      stageCount ? { num: stageCount, lbl: 'Stages', sub: 'Sections in this handbook' } : null,
+      { num: audLabel, lbl: 'Audience', sub: hb.audience?.platform || '' },
+    ].filter(Boolean);
+    if (!tiles.length) return '';
+    return `
+      <div class="hb-hero-kpis">
+        ${tiles.map(t => `
+          <div class="hb-hero-kpi">
+            <div class="hb-hero-kpi-num">${escapeHtml(t.num)}</div>
+            <div class="hb-hero-kpi-lbl">${escapeHtml(t.lbl)}</div>
+            ${t.sub ? `<div class="hb-hero-kpi-sub">${escapeHtml(t.sub)}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+  function prettyAudience(s) {
+    if (typeof s !== 'string') return String(s);
+    return s.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  // ── Charter Non-Negotiables popover ─────────────────────────────
+  // Canonical source: docs/induction/INDUCTION_CHARTER.json. CH copies
+  // it to dist/references-data/schemas/ at build time and serves it
+  // CORS-open. TH fetches cross-origin, caches in-memory.
+  // Reference citation discipline: task-level NNx chip quotes the rule
+  // verbatim from the canonical source — never inline.
+  const CHARTER_URL = 'https://centralhub.eduversal.org/references-data/schemas/INDUCTION_CHARTER.json';
+  let _charterPromise = null;
+  function loadCharter() {
+    if (_charterPromise) return _charterPromise;
+    _charterPromise = fetch(CHARTER_URL)
+      .then(r => r.ok ? r.json() : null)
+      .catch(() => null);
+    return _charterPromise;
+  }
+
+  function ensureNnPopover() {
+    let pop = document.getElementById('hbNnPopover');
+    if (pop) return pop;
+    pop = document.createElement('div');
+    pop.id = 'hbNnPopover';
+    pop.className = 'hb-nn-popover';
+    pop.setAttribute('role', 'tooltip');
+    document.body.appendChild(pop);
+    document.addEventListener('click', e => {
+      if (!pop.classList.contains('open')) return;
+      if (pop.contains(e.target) || e.target.closest?.('.hb-tag.nn')) return;
+      closeNnPopover();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeNnPopover();
+    });
+    return pop;
+  }
+  function closeNnPopover() {
+    const pop = document.getElementById('hbNnPopover');
+    if (!pop) return;
+    pop.classList.remove('open');
+    document.querySelectorAll('.hb-tag.nn[aria-expanded="true"]').forEach(c => c.setAttribute('aria-expanded', 'false'));
+  }
+  async function openNnPopover(chip, nnId) {
+    const pop = ensureNnPopover();
+    const charter = await loadCharter();
+    const lookup = nnId.toLowerCase();
+    const entry = charter?.nonNegotiables?.find(n => (n.id || '').toLowerCase() === lookup);
+    pop.innerHTML = `
+      <div class="hb-nn-popover-head">Charter Non-Negotiable <span class="hb-nn-popover-id">${escapeHtml(nnId.toUpperCase())}</span></div>
+      <div class="hb-nn-popover-rule">${entry ? escapeHtml(entry.rule) : 'Charter source unavailable offline.'}</div>
+      <div class="hb-nn-popover-source">Source: <code>docs/induction/INDUCTION_CHARTER.json → nonNegotiables[${escapeHtml(lookup)}]</code></div>
+    `;
+    const rect = chip.getBoundingClientRect();
+    const popWidth = Math.min(360, window.innerWidth - 32);
+    let left = rect.left + window.scrollX;
+    if (left + popWidth > window.scrollX + window.innerWidth - 16) {
+      left = window.scrollX + window.innerWidth - popWidth - 16;
+    }
+    pop.style.left = `${Math.max(16, left)}px`;
+    pop.style.top = `${rect.bottom + window.scrollY + 6}px`;
+    pop.style.maxWidth = `${popWidth}px`;
+    pop.classList.add('open');
+    document.querySelectorAll('.hb-tag.nn[aria-expanded="true"]').forEach(c => c.setAttribute('aria-expanded', 'false'));
+    chip.setAttribute('aria-expanded', 'true');
+  }
+
+  let _nnDelegated = false;
+  function wireNnChipDelegation() {
+    if (_nnDelegated) return;
+    _nnDelegated = true;
+    document.addEventListener('click', e => {
+      const chip = e.target.closest?.('.hb-tag.nn');
+      if (!chip) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const nnId = chip.dataset.nnId;
+      if (!nnId) return;
+      const pop = document.getElementById('hbNnPopover');
+      if (pop?.classList.contains('open') && chip.getAttribute('aria-expanded') === 'true') {
+        closeNnPopover();
+      } else {
+        openNnPopover(chip, nnId);
       }
     });
   }
@@ -851,6 +1036,9 @@
     const cts  = Array.isArray(t.cambridgeStandardRefs) ? t.cambridgeStandardRefs : [];
     const skl  = Array.isArray(t.skl_dimensions) ? t.skl_dimensions : [];
     const pigp = Array.isArray(t.pigp_articleRefs) ? t.pigp_articleRefs : [];
+    // Charter Non-Negotiables: task JSON uses uppercase IDs ("NN3"),
+    // charter doc uses lowercase ("nn3"). Lookup is case-insensitive.
+    const nns  = Array.isArray(t.charterNonNegotiables) ? t.charterNonNegotiables : [];
     return `
       <div class="hb-task">
         <div class="hb-task-title">${escapeHtml(t.title || t.taskId)}</div>
@@ -861,6 +1049,7 @@
           ${t.mentorSignOffRequired ? `<span class="hb-tag signoff">Mentor sign-off</span>` : ''}
           ${t.schoolLeaderSignOffRequired ? `<span class="hb-tag signoff">School-leader sign-off</span>` : ''}
           ${t.estimatedMinutes ? `<span class="hb-tag minutes">${t.estimatedMinutes >= 60 ? Math.round(t.estimatedMinutes/60) + ' hr' : t.estimatedMinutes + ' min'}</span>` : ''}
+          ${nns.map(n => `<span class="hb-tag nn" data-nn-id="${escapeHtml(String(n).toLowerCase())}" tabindex="0" role="button" aria-expanded="false" title="Charter Non-Negotiable — click for rule">${escapeHtml(String(n).toUpperCase())}</span>`).join('')}
           ${cts.map(c => `<span class="hb-tag cts">CTS ${escapeHtml(c)}</span>`).join('')}
           ${skl.map(s => `<span class="hb-tag skl">SKL: ${escapeHtml(s)}</span>`).join('')}
           ${pigp.map(p => `<span class="hb-tag pigp">PIGP ${escapeHtml(p)}</span>`).join('')}
