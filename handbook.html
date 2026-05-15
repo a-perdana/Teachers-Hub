@@ -42,8 +42,15 @@
     }
     .hb-hero-inner {
       max-width: 1200px; margin: 0 auto; width: 100%;
+      /* 40px left padding nudges hero copy + KPI tiles inward to match
+         the CH reader-hero look (search bar uses 32px on its container,
+         so this reads as a small intentional indent). Mobile drops to 0. */
+      padding-left: 40px;
       display: flex; flex-direction: column; gap: 20px;
       position: relative; z-index: 1;
+    }
+    @media (max-width: 720px) {
+      .hb-hero-inner { padding-left: 0; }
     }
     .hb-hero-back {
       position: absolute; top: 22px; left: 40px;
