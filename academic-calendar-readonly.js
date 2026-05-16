@@ -143,57 +143,82 @@
     wireChrome();
   }
 
+  let filtersOpen = false;
+
   function chrome() {
     const counts = countsByYear();
-    const yearBadges = Object.entries(counts).sort()
-      .map(([y, n]) => `<span class="ec-year-badge"><span class="ec-year-dot"></span>${escapeHtml(y)}<span class="ec-year-count">${n}</span></span>`)
+    const yearChips = Object.entries(counts).sort()
+      .map(([y, n]) => `<span class="ec-year-chip" title="${escapeHtml(y)} — ${n} events"><span class="ec-year-dot"></span>${escapeHtml(y)}<span class="ec-year-count">${n}</span></span>`)
       .join('');
 
     const viewBtns = [
-      ['strip', '2-Month'],
-      ['month', '1-Month'],
+      ['strip', '2-Mo'],
+      ['month', '1-Mo'],
       ['list',  'List'],
-    ].map(([v, label]) => `<button class="ec-view-btn${view === v ? ' is-active' : ''}" data-view="${v}">${label}</button>`).join('');
+    ].map(([v, label]) => `<button class="ec-view-btn${view === v ? ' is-active' : ''}" data-view="${v}" title="${label === '2-Mo' ? '2-Month' : label === '1-Mo' ? '1-Month' : 'List'} view">${label}</button>`).join('');
 
     let navUI = '';
     if (view === 'strip') {
       const a = unMonthKey(stripAnchor);
       const b = unMonthKey(stripAnchor + 1);
       navUI = `
-        <button class="ec-nav-btn" data-strip-nav="-1" title="Previous 2 months">← Prev</button>
-        <div class="ec-nav-label">${MONTHS_LONG[a.month]} ${a.year} – ${MONTHS_LONG[b.month]} ${b.year}</div>
-        <button class="ec-nav-btn" data-strip-nav="1" title="Next 2 months">Next →</button>
-        <button class="ec-nav-btn ec-nav-today" data-strip-nav="today">Today</button>
+        <button class="ec-nav-btn ec-nav-arrow" data-strip-nav="-1" title="Previous 2 months">‹</button>
+        <span class="ec-nav-label">${MONTHS_SHORT[a.month]} ${a.year} – ${MONTHS_SHORT[b.month]} ${b.year}</span>
+        <button class="ec-nav-btn ec-nav-arrow" data-strip-nav="1" title="Next 2 months">›</button>
+        <button class="ec-nav-btn ec-nav-today" data-strip-nav="today" title="Jump to today">Today</button>
       `;
     } else if (view === 'month') {
       const a = unMonthKey(monthAnchor);
       navUI = `
-        <button class="ec-nav-btn" data-month-nav="-1" title="Previous month">← Prev</button>
-        <div class="ec-nav-label">${MONTHS_LONG[a.month]} ${a.year}</div>
-        <button class="ec-nav-btn" data-month-nav="1" title="Next month">Next →</button>
-        <button class="ec-nav-btn ec-nav-today" data-month-nav="today">Today</button>
+        <button class="ec-nav-btn ec-nav-arrow" data-month-nav="-1" title="Previous month">‹</button>
+        <span class="ec-nav-label">${MONTHS_SHORT[a.month]} ${a.year}</span>
+        <button class="ec-nav-btn ec-nav-arrow" data-month-nav="1" title="Next month">›</button>
+        <button class="ec-nav-btn ec-nav-today" data-month-nav="today" title="Jump to today">Today</button>
       `;
+    } else {
+      navUI = `<span class="ec-nav-label ec-nav-label-list">All events · sorted by date</span>`;
     }
 
+    // Compact filter trigger — count of active vs total
+    const totals = filterTotals();
+    const allActive = !activeFilters && !activeCatFilters;
+    const activeCount = (activeFilters ? activeFilters.size : totals.depts) + (activeCatFilters ? activeCatFilters.size : totals.cats);
+    const totalCount = totals.depts + totals.cats;
+    const filterLabel = allActive
+      ? `Filter`
+      : `Filter <span class="ec-filter-active-badge">${activeCount}/${totalCount}</span>`;
+
     return `
-      <div class="ec-chrome">
-        <div class="ec-chrome-top">
-          <div class="ec-year-badges">${yearBadges || '<span class="ec-empty-pill">No events in Firestore yet</span>'}</div>
-          <div class="ec-view-switch" role="tablist">${viewBtns}</div>
+      <div class="ec-chrome ec-chrome-compact">
+        <div class="ec-chrome-row">
+          ${yearChips ? `<div class="ec-year-chips">${yearChips}</div>` : '<span class="ec-empty-pill">No events</span>'}
+          <div class="ec-nav-cluster">${navUI}</div>
+          <div class="ec-chrome-actions">
+            <button class="ec-filter-trigger${allActive ? '' : ' is-active'}${filtersOpen ? ' is-open' : ''}" data-toggle-filters title="Toggle filters">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+              ${filterLabel}
+            </button>
+            <div class="ec-view-switch" role="tablist">${viewBtns}</div>
+          </div>
         </div>
-        ${navUI ? `<div class="ec-chrome-nav">${navUI}</div>` : ''}
+        ${filtersOpen ? filtersDropdown() : ''}
       </div>
     `;
   }
 
-  function filtersBar() {
-    if (!loaded || events.length === 0) return '';
+  function filterTotals() {
+    if (events.length === 0) return { depts: 0, cats: 0 };
+    const depts = new Set(events.map(e => e.department).filter(Boolean)
+      .filter(d => !Object.keys(CATEGORY_OVERRIDES).some(c => events.find(e => e.department === d && e.category === c))));
+    const cats  = new Set(events.map(e => e.category).filter(c => CATEGORY_OVERRIDES[c]));
+    return { depts: depts.size, cats: cats.size };
+  }
+
+  function filtersDropdown() {
+    if (events.length === 0) return '';
     const depts = Array.from(new Set(events.map(e => e.department).filter(Boolean)
       .filter(d => !Object.keys(CATEGORY_OVERRIDES).some(c => events.find(e => e.department === d && e.category === c))))).sort();
     const cats  = Array.from(new Set(events.map(e => e.category).filter(c => CATEGORY_OVERRIDES[c]))).sort();
-
-    const dCount = activeFilters ? activeFilters.size : depts.length;
-    const cCount = activeCatFilters ? activeCatFilters.size : cats.length;
 
     const deptChips = depts.map(d => {
       const st = DEPT_PALETTE[d] || DEFAULT_DEPT;
@@ -207,20 +232,22 @@
     }).join('');
 
     return `
-      <div class="ec-filters">
+      <div class="ec-filters-dropdown">
         <div class="ec-filter-row">
-          <span class="ec-filter-label">Departments (${dCount}/${depts.length})</span>
+          <span class="ec-filter-label">Depts</span>
           <div class="ec-chips">${deptChips}</div>
           <button class="ec-filter-reset" data-reset="dept" ${activeFilters ? '' : 'disabled'}>Reset</button>
         </div>
         <div class="ec-filter-row">
-          <span class="ec-filter-label">Categories (${cCount}/${cats.length})</span>
+          <span class="ec-filter-label">Cats</span>
           <div class="ec-chips">${catChips}</div>
           <button class="ec-filter-reset" data-reset="cat" ${activeCatFilters ? '' : 'disabled'}>Reset</button>
         </div>
       </div>
     `;
   }
+
+  function filtersBar() { return ''; /* moved into chrome dropdown */ }
 
   function viewBody() {
     if (events.length === 0) {
@@ -374,6 +401,27 @@
       });
     });
 
+    const toggleBtn = root.querySelector('[data-toggle-filters]');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        filtersOpen = !filtersOpen;
+        render();
+      });
+    }
+    // Close on outside click
+    if (filtersOpen) {
+      const closer = (ev) => {
+        const inside = ev.target.closest('.ec-chrome');
+        if (!inside) {
+          filtersOpen = false;
+          document.removeEventListener('click', closer);
+          render();
+        }
+      };
+      setTimeout(() => document.addEventListener('click', closer), 0);
+    }
+
     root.querySelectorAll('[data-strip-nav]').forEach(btn => {
       btn.addEventListener('click', () => {
         const v = btn.getAttribute('data-strip-nav');
@@ -453,37 +501,63 @@
   const style = document.createElement('style');
   style.id = 'academic-calendar-readonly-styles';
   style.textContent = `
-    #academic-calendar-mount { font-family: 'DM Sans', 'Helvetica Neue', sans-serif; color: #0f172a; max-width: 1280px; margin: 0 auto; padding: 16px; box-sizing: border-box; }
+    #academic-calendar-mount { font-family: 'DM Sans', 'Helvetica Neue', sans-serif; color: #0f172a; max-width: 1280px; margin: 0 auto; padding: 12px 16px 16px; box-sizing: border-box; }
     .ec-loading { padding: 48px; text-align: center; color: #64748b; font-size: 14px; }
     .ec-empty { padding: 48px 24px; text-align: center; color: #64748b; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; }
     .ec-empty-icon { font-size: 40px; margin-bottom: 12px; }
     .ec-empty-hint { font-size: 12px; margin-top: 6px; color: #94a3b8; }
     .ec-empty-pill { font-size: 11px; padding: 4px 10px; background: #fef3c7; color: #92400e; border-radius: 999px; }
-    .ec-chrome { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
-    .ec-chrome-top { display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-    .ec-year-badges { display: flex; gap: 8px; flex-wrap: wrap; }
-    .ec-year-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 999px; font-size: 11px; font-weight: 700; color: #475569; letter-spacing: 0.02em; }
-    .ec-year-dot { width: 6px; height: 6px; border-radius: 50%; background: #2563eb; }
-    .ec-year-count { padding: 1px 6px; background: #fff; border-radius: 999px; color: #0f172a; font-size: 10px; }
-    .ec-view-switch { display: flex; gap: 4px; background: #f1f5f9; padding: 4px; border-radius: 8px; }
-    .ec-view-btn { padding: 6px 14px; border: none; background: transparent; font-size: 12px; font-weight: 700; color: #64748b; border-radius: 6px; cursor: pointer; font-family: inherit; }
+
+    /* Compact one-row chrome */
+    .ec-chrome { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(15,23,42,0.04); position: relative; }
+    .ec-chrome-row { display: flex; align-items: center; gap: 16px; padding: 8px 12px; flex-wrap: nowrap; }
+
+    .ec-year-chips { display: flex; gap: 4px; flex-shrink: 0; }
+    .ec-year-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 7px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 999px; font-size: 10px; font-weight: 700; color: #475569; letter-spacing: 0.02em; }
+    .ec-year-dot { width: 5px; height: 5px; border-radius: 50%; background: #2563eb; }
+    .ec-year-count { padding: 0 5px; background: #fff; border: 1px solid #e2e8f0; border-radius: 999px; color: #0f172a; font-size: 9px; }
+
+    .ec-nav-cluster { display: flex; align-items: center; gap: 6px; flex: 1; justify-content: center; min-width: 0; }
+    .ec-nav-btn { padding: 4px 10px; background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 12px; font-weight: 600; color: #475569; cursor: pointer; font-family: inherit; line-height: 1.4; }
+    .ec-nav-btn:hover { background: #f8fafc; border-color: #cbd5e1; color: #0f172a; }
+    .ec-nav-arrow { padding: 2px 9px; font-size: 16px; line-height: 1; font-weight: 600; }
+    .ec-nav-label { font-size: 13px; font-weight: 700; color: #0f172a; padding: 0 6px; white-space: nowrap; }
+    .ec-nav-label-list { color: #64748b; font-weight: 500; font-style: italic; }
+    .ec-nav-today { margin-left: 4px; }
+
+    .ec-chrome-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ec-filter-trigger { display: inline-flex; align-items: center; padding: 5px 11px; background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 12px; font-weight: 600; color: #475569; cursor: pointer; font-family: inherit; }
+    .ec-filter-trigger:hover { background: #f8fafc; border-color: #cbd5e1; }
+    .ec-filter-trigger.is-active { background: #eff6ff; border-color: #bfdbfe; color: #2563eb; }
+    .ec-filter-trigger.is-open { background: #2563eb; border-color: #2563eb; color: #fff; }
+    .ec-filter-active-badge { margin-left: 6px; padding: 1px 6px; background: rgba(255,255,255,0.25); border-radius: 999px; font-size: 10px; font-weight: 700; }
+    .ec-filter-trigger:not(.is-open) .ec-filter-active-badge { background: #2563eb; color: #fff; }
+    .ec-view-switch { display: flex; gap: 2px; background: #f1f5f9; padding: 2px; border-radius: 6px; }
+    .ec-view-btn { padding: 4px 10px; border: none; background: transparent; font-size: 11px; font-weight: 700; color: #64748b; border-radius: 4px; cursor: pointer; font-family: inherit; letter-spacing: 0.02em; }
     .ec-view-btn.is-active { background: #fff; color: #0f172a; box-shadow: 0 1px 2px rgba(15,23,42,0.08); }
-    .ec-chrome-nav { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e2e8f0; }
-    .ec-nav-btn { padding: 6px 12px; background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 12px; font-weight: 600; color: #475569; cursor: pointer; font-family: inherit; }
-    .ec-nav-btn:hover { background: #f8fafc; border-color: #cbd5e1; }
-    .ec-nav-label { flex: 1; text-align: center; font-size: 14px; font-weight: 700; color: #0f172a; }
-    .ec-nav-today { margin-left: auto; }
-    .ec-filters { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; }
-    .ec-filter-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 6px 0; }
+
+    /* Filter dropdown */
+    .ec-filters-dropdown { position: absolute; top: calc(100% + 4px); right: 12px; left: auto; width: min(720px, calc(100vw - 32px)); background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 14px; box-shadow: 0 8px 28px -8px rgba(15,23,42,0.18); z-index: 50; }
+    .ec-filter-row { display: flex; gap: 10px; align-items: flex-start; flex-wrap: nowrap; padding: 6px 0; }
     .ec-filter-row + .ec-filter-row { border-top: 1px dashed #f1f5f9; }
-    .ec-filter-label { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; min-width: 140px; }
-    .ec-chips { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; }
-    .ec-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: var(--bg, #f1f5f9); border: 1px solid var(--br, #e2e8f0); color: var(--c, #475569); border-radius: 999px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit; opacity: 0.45; transition: opacity 0.15s; }
+    .ec-filter-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; min-width: 42px; padding-top: 5px; flex-shrink: 0; }
+    .ec-chips { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; }
+    .ec-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; background: var(--bg, #f1f5f9); border: 1px solid var(--br, #e2e8f0); color: var(--c, #475569); border-radius: 999px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit; opacity: 0.45; transition: opacity 0.12s; }
     .ec-chip.is-active { opacity: 1; }
     .ec-chip:hover { opacity: 1; }
     .ec-chip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--c, #64748b); }
-    .ec-filter-reset { padding: 4px 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 11px; font-weight: 600; color: #64748b; cursor: pointer; font-family: inherit; }
+    .ec-filter-reset { padding: 3px 9px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 5px; font-size: 11px; font-weight: 600; color: #64748b; cursor: pointer; font-family: inherit; flex-shrink: 0; align-self: flex-start; }
     .ec-filter-reset:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Mobile: drop year chips + collapse nav cluster */
+    @media (max-width: 720px) {
+      .ec-chrome-row { flex-wrap: wrap; gap: 8px; padding: 8px 10px; }
+      .ec-year-chips { order: 3; width: 100%; justify-content: flex-start; }
+      .ec-nav-cluster { order: 1; flex: 1; justify-content: flex-start; }
+      .ec-chrome-actions { order: 2; }
+      .ec-nav-label { font-size: 12px; }
+      .ec-filters-dropdown { right: 8px; left: 8px; width: auto; }
+    }
 
     /* Strip + month views */
     .ec-strip { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
