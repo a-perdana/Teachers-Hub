@@ -305,11 +305,24 @@
       footHtml = dayList.map(({ day, ev }) => {
         const st = getEventStyle(ev);
         let dayLabel = String(day);
+        // Build the list of in-month days this event covers, so hover can
+        // highlight every covered tile (multi-day events span several cells).
+        const start = parseIso(ev.date_start);
+        const end   = parseIso(ev.date_end || ev.date_start) || start;
+        const covered = [];
+        if (start && end) {
+          const cur = new Date(start);
+          while (cur <= end) {
+            if (cur.getFullYear() === year && cur.getMonth() === month) covered.push(cur.getDate());
+            cur.setDate(cur.getDate() + 1);
+          }
+        }
         const endParts = String(ev.date_end || ev.date_start).split('-').map(Number);
         if (ev.date_end && ev.date_end !== ev.date_start && endParts[0] === year && endParts[1] === month + 1) {
           dayLabel = `${day}-${endParts[2]}`;
         }
-        return `<div class="ec-foot-row"><span class="ec-foot-day" style="color:${st.color}">${dayLabel}:</span><span class="ec-foot-title">${escapeHtml(ev.title)}</span></div>`;
+        const dayKeys = covered.map(d => `${year}-${month}-${d}`).join(',');
+        return `<div class="ec-foot-row" data-foot-days="${dayKeys}" data-foot-event-id="${escapeHtml(ev.id || '')}" role="button" tabindex="0"><span class="ec-foot-day" style="color:${st.color}">${dayLabel}:</span><span class="ec-foot-title">${escapeHtml(ev.title)}</span></div>`;
       }).join('');
     }
 
@@ -455,6 +468,35 @@
     root.querySelectorAll('[data-event-id]').forEach(row => {
       const open = () => {
         const id = row.getAttribute('data-event-id');
+        const ev = events.find(e => e.id === id);
+        if (!ev) return;
+        const start = parseIso(ev.date_start);
+        if (!start) return;
+        popoverDay = {
+          year: start.getFullYear(), month: start.getMonth(), day: start.getDate(),
+          events: [ev], singleEvent: true,
+        };
+        render();
+      };
+      row.addEventListener('click', open);
+      row.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    });
+
+    // Foot-row hover → highlight every tile this event covers (within the
+    // same month card). Click opens the popover for that single event.
+    root.querySelectorAll('[data-foot-days]').forEach(row => {
+      const card = row.closest('.ec-month-card');
+      if (!card) return;
+      const keys = (row.getAttribute('data-foot-days') || '').split(',').filter(Boolean);
+      const cells = keys.map(k => card.querySelector(`.ec-cell[data-day-key="${k}"]`)).filter(Boolean);
+      const enter = () => { row.classList.add('ec-foot-row-hover'); cells.forEach(c => c.classList.add('ec-cell-foot-hover')); };
+      const leave = () => { row.classList.remove('ec-foot-row-hover'); cells.forEach(c => c.classList.remove('ec-cell-foot-hover')); };
+      row.addEventListener('mouseenter', enter);
+      row.addEventListener('mouseleave', leave);
+      row.addEventListener('focus', enter);
+      row.addEventListener('blur',  leave);
+      const open = () => {
+        const id = row.getAttribute('data-foot-event-id');
         const ev = events.find(e => e.id === id);
         if (!ev) return;
         const start = parseIso(ev.date_start);
@@ -656,9 +698,20 @@
     .ec-month-wrap { max-width: 900px; margin: 0 auto; padding: 20px 24px 32px; }
 
     /* Tile click affordance — only event cells get a pointer */
-    .ec-cell[data-day-key] { cursor: pointer; transition: transform 0.08s, box-shadow 0.12s; }
+    .ec-cell[data-day-key] { cursor: pointer; transition: transform 0.08s, box-shadow 0.12s, outline 0.08s; }
     .ec-cell[data-day-key]:hover { transform: scale(1.04); box-shadow: 0 4px 10px rgba(15,23,42,0.18); z-index: 2; }
     .ec-cell[data-day-key]:focus-visible { outline: 2px solid #2563EB; outline-offset: 2px; z-index: 3; }
+    /* Reverse hover — foot-row hover scales + outlines every covered tile */
+    .ec-cell.ec-cell-foot-hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 14px rgba(15,23,42,0.22);
+      outline: 2px solid var(--c, #2563EB); outline-offset: 2px;
+      z-index: 2;
+    }
+    /* Foot-row hover affordance */
+    .ec-foot-row { cursor: pointer; padding: 2px 4px; border-radius: 4px; transition: background 0.1s; }
+    .ec-foot-row:hover, .ec-foot-row-hover { background: #F1F5F9; }
+    .ec-foot-row:focus-visible { outline: 2px solid #2563EB; outline-offset: -2px; }
     .ec-list-row[data-event-id] { cursor: pointer; }
     .ec-list-row[data-event-id]:hover { background: #F8FAFC; }
     .ec-list-row[data-event-id]:focus-visible { outline: 2px solid #2563EB; outline-offset: -2px; }
