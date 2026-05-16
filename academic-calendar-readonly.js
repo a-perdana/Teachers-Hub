@@ -181,11 +181,13 @@
   }
 
   function formatYearLabel(counts) {
+    // Earliest start year → latest end year across all academicYear stamps.
+    // Single year: "2025–2026". Multi-year: span "2025–2027". No "+N more".
     const keys = Object.keys(counts).filter(k => /^\d{2}_\d{2}$/.test(k)).sort();
     if (keys.length === 0) return '';
-    const fmt = k => '20' + k.replace('_', '–20');
-    if (keys.length === 1) return fmt(keys[0]);
-    return `${fmt(keys[0])} · +${keys.length - 1} more`;
+    const startYear = '20' + keys[0].split('_')[0];
+    const endYear   = '20' + keys[keys.length - 1].split('_')[1];
+    return `${startYear}–${endYear}`;
   }
 
   function viewBody() {
