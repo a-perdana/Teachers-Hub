@@ -247,7 +247,7 @@
     .hb-browser-search-info { font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
     .hb-browser-facets {
-      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 8px; align-items: stretch;
     }
     .hb-browser-facet {
@@ -366,6 +366,100 @@
       font-weight: 500;
     }
     .hb-browser-card-meta .pill.firestore { background: #ddd6fe; color: #5b21b6; }
+    /* School-facing handbook variant — blue accent stripe (compass/guide
+       vibe). Distinct from induction (mor) and role-operational (pink). */
+    .hb-browser-card.is-school { box-shadow: inset 4px 0 0 #0ea5e9; }
+    .hb-browser-card.is-school:hover {
+      background: #f0f9ff; border-color: #bae6fd;
+      box-shadow: inset 4px 0 0 #0ea5e9, 0 6px 18px -10px rgba(14,165,233,0.32);
+    }
+    .hb-browser-card.is-school .hb-browser-card-icon {
+      background: #e0f2fe; color: #075985;
+    }
+
+    /* ── SCHOOL-FACING SECTION RENDERER (reader mode) ──
+       Distinct styling layer that piggybacks on .hb-stage but tunes the
+       feel for prose reading (vs. task-list browsing). Blue accent +
+       readable body type + callout boxes. */
+    .hb-stage.hb-sec-school {
+      box-shadow: inset 4px 0 0 #0ea5e9;
+    }
+    .hb-stage.hb-sec-school .hb-stage-glyph {
+      background: #e0f2fe; color: #075985;
+    }
+    .hb-charter-box.hb-charter-school {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+      border-color: #bae6fd !important;
+      border-left-color: #0ea5e9 !important;
+      color: #075985 !important;
+    }
+    .hb-charter-box.hb-charter-school strong { color: #075985 !important; }
+    .hb-charter-box.hb-charter-school code {
+      background: rgba(14,116,144,0.10); color: #0e7490;
+    }
+    .hb-section-body {
+      padding: 8px 4px 4px;
+      font-size: 14.5px; line-height: 1.7; color: var(--ink);
+    }
+    .hb-body-p { margin: 0 0 12px; }
+    .hb-body-h3 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 17px; font-weight: 600; color: var(--ink);
+      margin: 18px 0 8px; padding-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hb-body-h4 {
+      font-size: 14px; font-weight: 600; color: var(--ink);
+      margin: 14px 0 6px;
+    }
+    .hb-body-ul, .hb-body-ol { margin: 6px 0 14px; padding-left: 22px; }
+    .hb-body-ul li, .hb-body-ol li { margin-bottom: 4px; }
+    .hb-body-quote {
+      margin: 12px 0; padding: 10px 14px;
+      background: #f9fafb; border-left: 3px solid #0ea5e9;
+      color: var(--ink-2); font-style: italic;
+    }
+    .hb-body-hr {
+      border: 0; height: 1px; background: var(--border);
+      margin: 18px 0;
+    }
+    .hb-section-slot-guide {
+      margin: 8px 4px 12px;
+      padding: 10px 14px;
+      background: #fef3c7; border: 1px solid #fde68a;
+      border-radius: 8px;
+      font-size: 13px; color: #78350f; line-height: 1.6;
+    }
+    .hb-section-slot-guide strong { color: #78350f; }
+    .hb-callout {
+      margin: 12px 4px;
+      padding: 12px 14px;
+      background: #f9fafb; border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13.5px;
+    }
+    .hb-callout-label {
+      font-weight: 600; font-size: 13px; color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .hb-callout ul, .hb-callout ol { margin: 0; padding-left: 20px; }
+    .hb-callout li { margin-bottom: 3px; }
+    .hb-callout.hb-callout-slot {
+      background: #fef3c7; border-color: #fde68a;
+    }
+    .hb-callout.hb-callout-slot .hb-callout-label { color: #78350f; }
+    .hb-callout.hb-callout-ref {
+      background: #ecfeff; border-color: #a5f3fc;
+    }
+    .hb-callout.hb-callout-ref .hb-callout-label { color: #155e75; }
+    .hb-callout.hb-callout-quickref {
+      background: #f5f3ff; border-color: #ddd6fe;
+    }
+    .hb-callout.hb-callout-quickref .hb-callout-label { color: #5b21b6; }
+    .hb-callout.hb-callout-violated {
+      background: #fef2f2; border-color: #fecaca;
+    }
+    .hb-callout.hb-callout-violated .hb-callout-label { color: #991b1b; }
 
     /* ── Toolbar (sticky under navbar, BELOW the hero band) ─────── */
     .toolbar {
@@ -1001,13 +1095,13 @@
       <div>
         <div class="eyebrow">Teachers Hub</div>
         <h1>Handbooks</h1>
-        <p>Year-1 induction tracks + first-90-days role-operational guides for teaching staff. Source-of-truth in <code>docs/induction/</code> + <code>docs/handbooks/</code>; Firestore <code>induction_programs</code> reverted on every seed.</p>
+        <p>Year-1 induction tracks at <code>docs/induction/</code>, role-operational quick-refs at <code>docs/handbooks/</code>, and partner-school-facing handbooks at <code>docs/handbooks/school-facing/</code>. Firestore <code>induction_programs</code> reverted on every seed.</p>
       </div>
       <div class="hb-browser-kpis">
         <div class="hb-browser-kpi primary">
           <div class="hb-browser-kpi-num" id="bwKpiTotal">—</div>
           <div class="hb-browser-kpi-lbl">Handbooks available</div>
-          <div class="hb-browser-kpi-sub">induction + role tracks</div>
+          <div class="hb-browser-kpi-sub">induction + role + school-facing</div>
         </div>
         <div class="hb-browser-kpi">
           <div class="hb-browser-kpi-num" id="bwKpiInduction">—</div>
@@ -1018,6 +1112,11 @@
           <div class="hb-browser-kpi-num" id="bwKpiRole">—</div>
           <div class="hb-browser-kpi-lbl">Role / operational</div>
           <div class="hb-browser-kpi-sub">first-90-days guides</div>
+        </div>
+        <div class="hb-browser-kpi">
+          <div class="hb-browser-kpi-num" id="bwKpiSchoolFacing">—</div>
+          <div class="hb-browser-kpi-lbl">School-facing</div>
+          <div class="hb-browser-kpi-sub">student / teacher / parent / staff</div>
         </div>
       </div>
     </div>
@@ -1037,6 +1136,7 @@
         <button class="hb-browser-facet active" data-cat="all" role="tab" aria-selected="true"><span>All</span><span class="count" id="bwCntAll">0</span></button>
         <button class="hb-browser-facet" data-cat="induction" role="tab" aria-selected="false"><span>Induction Handbooks</span><span class="count" id="bwCntInduction">0</span></button>
         <button class="hb-browser-facet" data-cat="role" role="tab" aria-selected="false"><span>Role &amp; Operational</span><span class="count" id="bwCntRole">0</span></button>
+        <button class="hb-browser-facet" data-cat="school" role="tab" aria-selected="false"><span>School-facing</span><span class="count" id="bwCntSchool">0</span></button>
       </div>
     </div>
   </div>
@@ -1062,6 +1162,18 @@
         <p class="hb-browser-section-blurb">First-90-days operational guides per role. Source: <code>docs/handbooks/*.json</code>.</p>
       </summary>
       <div class="hb-browser-grid" id="hbBrowserGridRole">
+        <div class="hb-loading" style="grid-column:1/-1;padding:32px;text-align:center;color:var(--ink-3);font-size:13px;">Loading handbooks…</div>
+      </div>
+    </details>
+
+    <details class="hb-browser-section" data-cat="school" open>
+      <summary class="hb-browser-section-head">
+        <span class="hb-browser-section-caret" aria-hidden="true">▸</span>
+        <h2 class="hb-browser-section-title">School-facing Handbooks</h2>
+        <span class="hb-browser-section-count" data-count-for="school">0</span>
+        <p class="hb-browser-section-blurb">Partner-school audience handbooks — Student / Teacher / Parent / Staff Code of Conduct. Network-uniform core + hybrid school customization slots. Source: <code>docs/handbooks/school-facing/*.json</code>; same Firestore collection, <code>handbookKind: 'school-facing'</code>.</p>
+      </summary>
+      <div class="hb-browser-grid" id="hbBrowserGridSchool">
         <div class="hb-loading" style="grid-column:1/-1;padding:32px;text-align:center;color:var(--ink-3);font-size:13px;">Loading handbooks…</div>
       </div>
     </details>
@@ -1133,10 +1245,14 @@
     try {
       const snap = await getDocs(query(collection(db, 'induction_programs'), limit(50)));
       const all = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      // TH viewer surfaces only the teachers-platform handbook(s).
-      // Principal and HQ Specialist handbooks live in their own hubs;
-      // CH /references is the cross-hub superset.
-      allHandbooks = all.filter(hb => hb.audience?.platform === 'teachershub');
+      // TH viewer surfaces teachers-platform handbook(s) AND school-facing
+      // handbooks (audience.platform = 'partner-school'). Principal and HQ
+      // Specialist hub-targeted handbooks live in their own hubs; CH
+      // /references is the cross-hub superset.
+      allHandbooks = all.filter(hb =>
+        hb.audience?.platform === 'teachershub'
+        || hb.handbookKind === 'school-facing'
+      );
 
       // Dual-mode dispatcher (CH parity): ?id=X → reader; otherwise
       // landing-catalogue (browser mode). Navigation between modes is
@@ -1198,35 +1314,49 @@
   let _bwActiveFacet = 'all';
 
   function bootBrowserMode() {
+    // 3-way partition by handbookKind: induction (default), role-operational, school-facing.
     const partition = (kind) => allHandbooks.filter(hb => {
       const k = hb.handbookKind || 'induction';
-      return kind === 'induction' ? (k === 'induction') : (k === 'role-operational');
+      return k === kind;
     });
     const induction = partition('induction');
     const role = partition('role-operational');
+    const school = partition('school-facing');
 
     document.getElementById('bwKpiTotal').textContent = allHandbooks.length;
     document.getElementById('bwKpiInduction').textContent = induction.length;
     document.getElementById('bwKpiRole').textContent = role.length;
+    const bwKpiSchool = document.getElementById('bwKpiSchoolFacing');
+    if (bwKpiSchool) bwKpiSchool.textContent = school.length;
 
     if (!allHandbooks.length) {
       const msg = '<div class="hb-loading" style="grid-column:1/-1;padding:32px;text-align:center;color:var(--ink-3);font-size:13px;">No handbooks available for Teachers Hub yet.</div>';
       document.getElementById('hbBrowserGridInduction').innerHTML = msg;
       document.getElementById('hbBrowserGridRole').innerHTML = msg;
+      const schoolGrid = document.getElementById('hbBrowserGridSchool');
+      if (schoolGrid) schoolGrid.innerHTML = msg;
       return;
     }
     renderBrowserCardGrid('hbBrowserGridInduction', induction);
     renderBrowserCardGrid('hbBrowserGridRole', role);
+    const schoolGrid = document.getElementById('hbBrowserGridSchool');
+    if (schoolGrid) renderBrowserCardGrid('hbBrowserGridSchool', school);
 
     document.getElementById('bwCntAll').textContent = allHandbooks.length;
     document.getElementById('bwCntInduction').textContent = induction.length;
     document.getElementById('bwCntRole').textContent = role.length;
+    const bwCntSchool = document.getElementById('bwCntSchool');
+    if (bwCntSchool) bwCntSchool.textContent = school.length;
     document.querySelector('[data-count-for="induction"]').textContent = induction.length;
     document.querySelector('[data-count-for="role"]').textContent = role.length;
+    const schoolCountBadge = document.querySelector('[data-count-for="school"]');
+    if (schoolCountBadge) schoolCountBadge.textContent = school.length;
     document.querySelectorAll('.hb-browser-facet').forEach(b => {
       const cat = b.dataset.cat;
       if (cat === 'all') return;
-      const n = parseInt(document.getElementById('bwCnt' + cat.charAt(0).toUpperCase() + cat.slice(1))?.textContent || '0', 10);
+      // Special-case 'school' → 'bwCntSchool' (not 'bwCntSchool' suffix style).
+      const idSuffix = cat === 'school' ? 'School' : (cat.charAt(0).toUpperCase() + cat.slice(1));
+      const n = parseInt(document.getElementById('bwCnt' + idSuffix)?.textContent || '0', 10);
       b.classList.toggle('is-empty', n === 0);
     });
 
@@ -1260,12 +1390,24 @@
     grid.innerHTML = handbooks.map(hb => {
       const audience = [
         hb.audience?.platform,
-        hb.audience?.subRole || (Array.isArray(hb.audience?.subRoleValues) ? hb.audience.subRoleValues.join(',') : null),
+        hb.audience?.subRole
+          || (Array.isArray(hb.audience?.subRoleValues) ? hb.audience.subRoleValues.join(',') : null)
+          || hb.audience?.primaryReader,
       ].filter(Boolean).join(' · ');
       const stages = Array.isArray(hb.stages) ? hb.stages.length : 0;
-      const isRoleOps = hb.handbookKind === 'role-operational';
-      const icon = isRoleOps ? '🛡' : '📕';
-      const cardCls = isRoleOps ? 'hb-browser-card is-role' : 'hb-browser-card';
+      const sections = Array.isArray(hb.sections) ? hb.sections.length : 0;
+      const kind = hb.handbookKind || 'induction';
+      const isRoleOps = kind === 'role-operational';
+      const isSchoolFacing = kind === 'school-facing';
+      // Card icon: 📕 induction, 🛡 role-operational, 🧭 school-facing.
+      const icon = isSchoolFacing ? '🧭' : (isRoleOps ? '🛡' : '📕');
+      const cardCls = isSchoolFacing
+        ? 'hb-browser-card is-school'
+        : (isRoleOps ? 'hb-browser-card is-role' : 'hb-browser-card');
+      // Counts pill: stages for induction + role-operational; sections for school-facing.
+      const countsPill = isSchoolFacing
+        ? (sections ? `<span class="pill">${sections} sections</span>` : '')
+        : (stages ? `<span class="pill">${stages} stages</span>` : '');
       return `
         <a class="${cardCls}" href="?id=${encodeURIComponent(hb.id)}">
           <div class="hb-browser-card-head">
@@ -1278,7 +1420,7 @@
           <div class="hb-browser-card-meta">
             ${audience ? `<span class="pill">${escapeHtml(audience)}</span>` : ''}
             ${hb.version ? `<span class="pill">v${escapeHtml(hb.version)}</span>` : ''}
-            ${stages ? `<span class="pill">${stages} stages</span>` : ''}
+            ${countsPill}
             <span class="pill firestore">induction_programs</span>
           </div>
         </a>
@@ -1346,17 +1488,34 @@
       document.getElementById('hbContent').innerHTML = '<div class="hb-loading">Pick a handbook from the dropdown.</div>';
       return;
     }
-    const stages = Array.isArray(hb.stages) ? hb.stages : [];
-    const stageBlocks = stages.map((s, i) => renderStage(s, i)).join('');
+    // School-facing handbooks use sections[] (topic chapters); induction +
+    // role-operational use stages[] (time-windowed phases). Reader treats
+    // both as an ordered list of content blocks — renderStage and
+    // renderSection produce compatible HTML hooks (hb-sec-stage-{index}).
+    const handbookKind = hb.handbookKind || 'induction';
+    const isSchoolFacing = handbookKind === 'school-facing';
+    const stagesArr = isSchoolFacing
+      ? (Array.isArray(hb.sections) ? hb.sections : [])
+      : (Array.isArray(hb.stages) ? hb.stages : []);
+    const stageLabelPlural = isSchoolFacing ? 'Sections' : 'Stages';
+    const stageBlocks = stagesArr.map((s, i) =>
+      isSchoolFacing ? renderSection(s, i) : renderStage(s, i)
+    ).join('');
 
     const audienceLine = [
       hb.audience?.platform,
-      hb.audience?.subRole || (Array.isArray(hb.audience?.subRoleValues) ? hb.audience.subRoleValues.join(',') : null),
+      hb.audience?.subRole
+        || (Array.isArray(hb.audience?.subRoleValues) ? hb.audience.subRoleValues.join(',') : null)
+        || hb.audience?.primaryReader,
     ].filter(Boolean).join(' · ');
 
     const hasDesign = !!hb.designPhilosophy;
     const hasRoles = !!hb.rolesAndResponsibilities;
     const hasOpen = !!(hb.openItems?.length);
+
+    const eyebrowLabel = isSchoolFacing
+      ? 'Eduversal School-Facing Handbook'
+      : (handbookKind === 'role-operational' ? 'Eduversal Operational Handbook' : 'Eduversal Induction Handbook');
 
     // Hero band — full-width mor gradient above the sticky toolbar.
     document.getElementById('hbHeroMount').innerHTML = `
@@ -1364,14 +1523,26 @@
         <a class="hb-hero-back" href="handbook" title="Back to all handbooks">Back to all handbooks</a>
         <div class="hb-hero-inner">
           <div class="hb-hero-title-col">
-            <div class="hb-eyebrow">Eduversal Induction Handbook · v${escapeHtml(hb.version || '?')}</div>
+            <div class="hb-eyebrow">${escapeHtml(eyebrowLabel)} · v${escapeHtml(hb.version || '?')}</div>
             <h1 class="hb-title">${escapeHtml(hb.title || hb.id)}</h1>
             <p class="hb-subtitle">${escapeHtml(hb.subtitle || '')}</p>
           </div>
-          ${renderHeroKpis(hb, stages, audienceLine)}
+          ${renderHeroKpis(hb, stagesArr, audienceLine, stageLabelPlural)}
         </div>
       </header>
     `;
+
+    const charterBox = isSchoolFacing
+      ? `<div class="hb-charter-box hb-charter-school" id="hb-sec-charter">
+          <strong>Network handbook for partner schools.</strong>
+          ${hb.customizationModel === 'hybrid'
+            ? `This handbook is the network-uniform core. Your school adds school-specific information in the clearly-marked slots. Eduversal sets the framing; your school sets the local detail.`
+            : `Edits go through <code>docs/handbooks/school-facing/*.json</code> + <code>scripts/induction/seed-induction-programs.js</code> — never Firestore directly.`}
+        </div>`
+      : `<div class="hb-charter-box" id="hb-sec-charter">
+          <strong>This handbook sits under the Eduversal Induction Charter.</strong>
+          Year-1 induction data does not feed network appraisal scoring. Mentor + mentee + school leader all read the same source. Edits go through <code>docs/induction/handbook-*.json</code> + <code>scripts/induction/seed-induction-programs.js</code> — not Firestore directly.
+        </div>`;
 
     document.getElementById('hbContent').innerHTML = `
       <div class="hb-layout">
@@ -1381,12 +1552,12 @@
             <li><a href="#hb-sec-charter" data-toc="hb-sec-charter">Charter</a></li>
             ${hasDesign ? '<li><a href="#hb-sec-design" data-toc="hb-sec-design">Design philosophy</a></li>' : ''}
             ${hasRoles ? '<li><a href="#hb-sec-roles" data-toc="hb-sec-roles">Roles &amp; responsibilities</a></li>' : ''}
-            <li><a href="#hb-sec-stages" data-toc="hb-sec-stages">Stages</a></li>
-            ${stages.map((s, i) => `
+            <li><a href="#hb-sec-stages" data-toc="hb-sec-stages">${stageLabelPlural}</a></li>
+            ${stagesArr.map((s, i) => `
               <li class="toc-sub">
                 <a href="#hb-sec-stage-${i}" data-toc="hb-sec-stage-${i}" class="toc-sub">
                   <span class="hb-toc-num">${i + 1}</span>
-                  <span>${escapeHtml(s.label || s.stageId || `Stage ${i + 1}`)}</span>
+                  <span>${escapeHtml(s.label || s.title || s.stageId || s.sectionId || `${stageLabelPlural.slice(0,-1)} ${i + 1}`)}</span>
                 </a>
               </li>
             `).join('')}
@@ -1395,17 +1566,14 @@
         </aside>
 
         <div class="hb-content">
-          <div class="hb-charter-box" id="hb-sec-charter">
-            <strong>This handbook sits under the Eduversal Induction Charter.</strong>
-            Year-1 induction data does not feed network appraisal scoring. Mentor + mentee + school leader all read the same source. Edits go through <code>docs/induction/handbook-*.json</code> + <code>scripts/induction/seed-induction-programs.js</code> — not Firestore directly.
-          </div>
+          ${charterBox}
 
           ${hasDesign ? renderDesignPhilosophy(hb.designPhilosophy) : ''}
           ${hasRoles ? renderRoles(hb.rolesAndResponsibilities) : ''}
 
           <div class="hb-section" id="hb-sec-stages">
-            <h2 class="hb-section-h">Stages ${stages.length ? `<span class="count">${stages.length}</span>` : ''}</h2>
-            ${stageBlocks || '<div class="hb-task-desc">No stages defined.</div>'}
+            <h2 class="hb-section-h">${stageLabelPlural} ${stagesArr.length ? `<span class="count">${stagesArr.length}</span>` : ''}</h2>
+            ${stageBlocks || `<div class="hb-task-desc">No ${stageLabelPlural.toLowerCase()} defined.</div>`}
           </div>
 
           ${hasOpen ? `
@@ -1422,7 +1590,7 @@
 
     wireTocScrollSpy();
     applyFilter();   // re-apply any active search term to the freshly rendered DOM
-    initProgress(hb, stages);
+    initProgress(hb, stagesArr);
   }
 
   /* ── Reading-progress bar + per-task checkbox persistence (CH parity) ─
@@ -1646,9 +1814,10 @@
   //   4. Optional "Paired with" — anchor to the matching weekly-checklist
   //      surface on the audience's hub. Only renders when the handbook
   //      JSON declares weeklyChecklistLink.
-  function renderHeroKpis(hb, stages, audienceLine) {
+  function renderHeroKpis(hb, stages, audienceLine, stageLabelPlural) {
     const dur = hb.duration?.totalDays;
     const stageCount = Array.isArray(stages) ? stages.length : 0;
+    const stageLbl = stageLabelPlural || 'Stages';
     const audPrimary = hb.audience?.platform || 'Network';
     const audSecondary = audienceLine && audienceLine !== audPrimary
       ? audienceLine.replace(`${audPrimary} · `, '')
@@ -1686,7 +1855,7 @@
         </div>
         <div class="hb-hero-kpi">
           <div class="hb-hero-kpi-num">${stageCount}</div>
-          <div class="hb-hero-kpi-lbl">Stages</div>
+          <div class="hb-hero-kpi-lbl">${escapeHtml(stageLbl)}</div>
           <div class="hb-hero-kpi-sub">${hb.publishedOn ? escapeHtml(hb.publishedOn) : ''}</div>
         </div>
         <div class="hb-hero-kpi">
@@ -1983,6 +2152,138 @@
         `).join('')}
       </div>
     `;
+  }
+
+  /* renderSection — school-facing handbook section renderer. Sections
+     are topic chapters (not time-windowed phases like stages). Each
+     section has: title, summary, body (multi-paragraph markdown-lite),
+     callouts[] (school_slot_inline / side_reference / quick_ref_card /
+     if_violated), schoolSlot flag, schoolSlotGuidance text.
+
+     Reuses the .hb-stage / hb-sec-stage-{index} DOM hooks so the
+     existing TOC + scroll-spy + reading-progress infrastructure works
+     unchanged. The visual styling shifts (no day range, no task list)
+     to a reading-doc layout via the .hb-sec-school class. */
+  function renderSection(section, index) {
+    const sectionTitle = section.title || section.sectionId || `Section ${index + 1}`;
+    const sectionNum   = String(section.order || (index + 1)).padStart(2, '0');
+    const stageId = `hb-sec-stage-${index}`;
+    const isSchoolSlot = section.schoolSlot === true;
+    const slotBadge = isSchoolSlot
+      ? `<span class="hb-stage-tasks-pill" style="background:#fef3c7;color:#92400e;">school adds</span>`
+      : '';
+
+    const calloutsHtml = Array.isArray(section.callouts)
+      ? section.callouts.map(renderCallout).join('')
+      : '';
+
+    // Guidance box visible when the section is a school slot — tells
+    // partner-school editors what to fill in.
+    const guidanceBox = (isSchoolSlot && section.schoolSlotGuidance)
+      ? `<div class="hb-section-slot-guide">
+          <strong>Your school fills this in.</strong> ${escapeHtml(section.schoolSlotGuidance)}
+        </div>`
+      : '';
+
+    return `
+      <div class="hb-stage hb-sec-school" id="${stageId}" data-task-count="0">
+        <div class="hb-stage-head">
+          <div class="hb-stage-num">${sectionNum}</div>
+          <div class="hb-stage-name">
+            <span class="hb-stage-glyph" aria-hidden="true">🧭</span>${escapeHtml(sectionTitle)}
+            ${slotBadge}
+          </div>
+          ${section.summary ? `<div class="hb-stage-narrative">${escapeHtml(section.summary)}</div>` : ''}
+        </div>
+        ${guidanceBox}
+        ${section.body ? `<div class="hb-section-body">${renderBodyMarkdown(section.body)}</div>` : ''}
+        ${calloutsHtml}
+      </div>
+    `;
+  }
+
+  /* Lightweight markdown renderer for section bodies. Supports:
+     - ## Heading 2 / ### Heading 3
+     - **bold** + *italic*
+     - - bullet lists
+     - 1. numbered lists
+     - > blockquote
+     - --- horizontal rule
+     - blank-line paragraph separator
+     Output is HTML-escape-safe — we escape everything first, then
+     apply the markup transforms. No HTML passthrough allowed. */
+  function renderBodyMarkdown(text) {
+    if (!text) return '';
+    let s = escapeHtml(String(text));
+    const paragraphs = s.split(/\n\s*\n/);
+    return paragraphs.map(p => {
+      const trimmed = p.trim();
+      if (!trimmed) return '';
+      if (/^###\s+/.test(trimmed)) {
+        return `<h4 class="hb-body-h4">${inlineMd(trimmed.replace(/^###\s+/, ''))}</h4>`;
+      }
+      if (/^##\s+/.test(trimmed)) {
+        return `<h3 class="hb-body-h3">${inlineMd(trimmed.replace(/^##\s+/, ''))}</h3>`;
+      }
+      if (/^---+$/.test(trimmed)) {
+        return `<hr class="hb-body-hr">`;
+      }
+      if (/^&gt;\s+/.test(trimmed)) {
+        const quoted = trimmed.split('\n').map(l => l.replace(/^&gt;\s?/, '')).join(' ');
+        return `<blockquote class="hb-body-quote">${inlineMd(quoted)}</blockquote>`;
+      }
+      if (/^[-•*]\s+/m.test(trimmed) && trimmed.split('\n').every(l => /^[-•*]\s+/.test(l) || l.trim() === '')) {
+        const items = trimmed.split('\n').filter(Boolean).map(l => `<li>${inlineMd(l.replace(/^[-•*]\s+/, ''))}</li>`).join('');
+        return `<ul class="hb-body-ul">${items}</ul>`;
+      }
+      if (/^\d+\.\s+/.test(trimmed) && trimmed.split('\n').every(l => /^\d+\.\s+/.test(l) || l.trim() === '')) {
+        const items = trimmed.split('\n').filter(Boolean).map(l => `<li>${inlineMd(l.replace(/^\d+\.\s+/, ''))}</li>`).join('');
+        return `<ol class="hb-body-ol">${items}</ol>`;
+      }
+      return `<p class="hb-body-p">${inlineMd(trimmed.replace(/\n/g, '<br>'))}</p>`;
+    }).join('');
+  }
+  function inlineMd(s) {
+    return s
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, '$1<em>$2</em>');
+  }
+
+  /* renderCallout — sidebar boxes inside a section body. Four types:
+     school_slot_inline (yellow), side_reference (cyan),
+     quick_ref_card (mor card), if_violated (red). */
+  function renderCallout(c) {
+    if (!c || !c.type) return '';
+    const items = Array.isArray(c.items) ? c.items : [];
+    const itemsHtml = items.map(x => `<li>${escapeHtml(x)}</li>`).join('');
+    const label = escapeHtml(c.label || '');
+    switch (c.type) {
+      case 'school_slot_inline':
+        return `<div class="hb-callout hb-callout-slot">
+          <div class="hb-callout-label">📋 ${label}</div>
+          <ul>${itemsHtml}</ul>
+        </div>`;
+      case 'side_reference':
+        return `<div class="hb-callout hb-callout-ref">
+          <div class="hb-callout-label">📖 ${label}</div>
+          <ul>${itemsHtml}</ul>
+        </div>`;
+      case 'quick_ref_card':
+        return `<div class="hb-callout hb-callout-quickref">
+          <div class="hb-callout-label">⚡ ${label}</div>
+          <ol>${itemsHtml}</ol>
+        </div>`;
+      case 'if_violated':
+        return `<div class="hb-callout hb-callout-violated">
+          <div class="hb-callout-label">🚨 ${label}</div>
+          <ul>${itemsHtml}</ul>
+        </div>`;
+      default:
+        return `<div class="hb-callout">
+          ${label ? `<div class="hb-callout-label">${label}</div>` : ''}
+          <ul>${itemsHtml}</ul>
+        </div>`;
+    }
   }
 
   function renderTask(t) {
