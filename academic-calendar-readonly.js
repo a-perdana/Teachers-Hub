@@ -60,6 +60,7 @@
   let stripAnchor = monthKey(new Date());
   let monthAnchor = monthKey(new Date());
   let activeFilters = new Set(ALL_FILTER_KEYS); // start fully on
+  let popoverDay = null; // { year, month, day, events } when a tile is clicked
 
   try {
     const saved = localStorage.getItem(STORAGE_VIEW);
@@ -127,8 +128,56 @@
       mount.innerHTML = `<div class="ec-loading">Loading academic calendar…</div>`;
       return;
     }
-    mount.innerHTML = hero() + viewBody();
+    mount.innerHTML = hero() + viewBody() + popoverHtml();
     wireChrome();
+  }
+
+  // ── Popover (event detail) ───────────────────────────────────────────────
+  function popoverHtml() {
+    if (!popoverDay) return '';
+    const { year, month, day, events: dayEvents, singleEvent } = popoverDay;
+    const headDate = `${day} ${MONTHS_LONG[month]} ${year}`;
+    const rows = dayEvents.map(ev => {
+      const st = getEventStyle(ev);
+      const ds = parseIso(ev.date_start);
+      const de = parseIso(ev.date_end || ev.date_start) || ds;
+      let span;
+      if (isoDate(ds) === isoDate(de)) {
+        span = `${ds.getDate()} ${MONTHS_SHORT[ds.getMonth()]} ${ds.getFullYear()}`;
+      } else if (ds.getMonth() === de.getMonth() && ds.getFullYear() === de.getFullYear()) {
+        span = `${ds.getDate()}–${de.getDate()} ${MONTHS_SHORT[ds.getMonth()]} ${ds.getFullYear()}`;
+      } else {
+        span = `${ds.getDate()} ${MONTHS_SHORT[ds.getMonth()]} – ${de.getDate()} ${MONTHS_SHORT[de.getMonth()]} ${de.getFullYear()}`;
+      }
+      const desc = ev.description ? `<div class="ec-pop-desc">${escapeHtml(ev.description)}</div>` : '';
+      return `
+        <div class="ec-pop-row" style="--c:${st.color};--bg:${st.bg};--br:${st.border}">
+          <div class="ec-pop-row-head">
+            <div class="ec-pop-title">${escapeHtml(ev.title || '(untitled event)')}</div>
+            <div class="ec-pop-tags">
+              <span class="ec-tag" style="background:${st.bg};color:${st.color};border-color:${st.border}">${escapeHtml(ev.department || '—')}</span>
+              <span class="ec-tag ec-tag-cat">${escapeHtml(ev.category || '—')}</span>
+            </div>
+          </div>
+          <div class="ec-pop-span">${span}</div>
+          ${desc}
+        </div>
+      `;
+    }).join('');
+    const headLabel = singleEvent
+      ? `Event detail`
+      : `${dayEvents.length} event${dayEvents.length > 1 ? 's' : ''} · ${headDate}`;
+    return `
+      <div class="ec-pop-overlay" data-pop-close="1">
+        <div class="ec-pop-card" role="dialog" aria-modal="true" aria-label="Event details">
+          <div class="ec-pop-head">
+            <div class="ec-pop-head-label">${headLabel}</div>
+            <button class="ec-pop-close" data-pop-close="1" aria-label="Close">×</button>
+          </div>
+          <div class="ec-pop-body">${rows}</div>
+        </div>
+      </div>
+    `;
   }
 
   function hero() {
@@ -240,7 +289,7 @@
         const cls = ['ec-cell', 'ec-has', isContOnly ? 'ec-cont' : 'ec-start', isToday ? 'ec-today' : ''].filter(Boolean).join(' ');
         const title = allEvts.map(e => e.title).join(' · ');
         const dot = allEvts.length > 1 ? `<span class="ec-multi-dot"></span>` : '';
-        cells += `<div class="${cls}" style="--c:${st.color};--bg:${st.bg};--br:${st.border}" title="${escapeHtml(title)}">${d}${dot}</div>`;
+        cells += `<div class="${cls}" style="--c:${st.color};--bg:${st.bg};--br:${st.border}" title="${escapeHtml(title)}" data-day-key="${year}-${month}-${d}" role="button" tabindex="0">${d}${dot}</div>`;
       }
 
       if (startEvts.length) startEvts.forEach(ev => dayList.push({ day: d, ev }));
@@ -324,7 +373,7 @@
         else dateLabel = `${ds.getDate()} ${MONTHS_SHORT[ds.getMonth()]} – ${de.getDate()} ${MONTHS_SHORT[de.getMonth()]}`;
         const past = String(e.date_end || e.date_start) < todayIso;
         return `
-          <div class="ec-list-row${past ? ' ec-past' : ''}" style="--c:${st.color};--bg:${st.bg};--br:${st.border}">
+          <div class="ec-list-row${past ? ' ec-past' : ''}" style="--c:${st.color};--bg:${st.bg};--br:${st.border}" data-event-id="${escapeHtml(e.id || '')}" role="button" tabindex="0">
             <div class="ec-list-date">${dateLabel}</div>
             <div class="ec-list-title">${escapeHtml(e.title)}</div>
             <div class="ec-list-meta">
@@ -381,6 +430,65 @@
         render();
       });
     });
+
+    // Day-tile click → popover with that day's events (strip + 1-month views)
+    root.querySelectorAll('[data-day-key]').forEach(cell => {
+      const open = () => {
+        const [yStr, mStr, dStr] = cell.getAttribute('data-day-key').split('-');
+        const y = parseInt(yStr, 10), m = parseInt(mStr, 10), d = parseInt(dStr, 10);
+        const dayEvents = events.filter(eventMatchesFilters).filter(ev => {
+          const start = parseIso(ev.date_start);
+          const end   = parseIso(ev.date_end || ev.date_start) || start;
+          if (!start) return false;
+          const target = new Date(y, m, d).getTime();
+          return start.getTime() <= target && target <= end.getTime();
+        });
+        if (dayEvents.length === 0) return;
+        popoverDay = { year: y, month: m, day: d, events: dayEvents, singleEvent: false };
+        render();
+      };
+      cell.addEventListener('click', open);
+      cell.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    });
+
+    // List-row click → popover with that single event
+    root.querySelectorAll('[data-event-id]').forEach(row => {
+      const open = () => {
+        const id = row.getAttribute('data-event-id');
+        const ev = events.find(e => e.id === id);
+        if (!ev) return;
+        const start = parseIso(ev.date_start);
+        if (!start) return;
+        popoverDay = {
+          year: start.getFullYear(), month: start.getMonth(), day: start.getDate(),
+          events: [ev], singleEvent: true,
+        };
+        render();
+      };
+      row.addEventListener('click', open);
+      row.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    });
+
+    // Popover dismiss (overlay click, × button, Escape)
+    root.querySelectorAll('[data-pop-close]').forEach(el => {
+      el.addEventListener('click', e => {
+        if (e.target !== el) return; // click inside the card shouldn't close
+        popoverDay = null;
+        render();
+      });
+    });
+    if (popoverDay) {
+      if (window.__ecPopKeyHandler) document.removeEventListener('keydown', window.__ecPopKeyHandler);
+      window.__ecPopKeyHandler = e => {
+        if (e.key === 'Escape') {
+          popoverDay = null;
+          document.removeEventListener('keydown', window.__ecPopKeyHandler);
+          window.__ecPopKeyHandler = null;
+          render();
+        }
+      };
+      document.addEventListener('keydown', window.__ecPopKeyHandler);
+    }
   }
 
   // ── Boot ─────────────────────────────────────────────────────────────────
@@ -546,6 +654,54 @@
 
     /* ── 1-Month wrapper ── */
     .ec-month-wrap { max-width: 900px; margin: 0 auto; padding: 20px 24px 32px; }
+
+    /* Tile click affordance — only event cells get a pointer */
+    .ec-cell[data-day-key] { cursor: pointer; transition: transform 0.08s, box-shadow 0.12s; }
+    .ec-cell[data-day-key]:hover { transform: scale(1.04); box-shadow: 0 4px 10px rgba(15,23,42,0.18); z-index: 2; }
+    .ec-cell[data-day-key]:focus-visible { outline: 2px solid #2563EB; outline-offset: 2px; z-index: 3; }
+    .ec-list-row[data-event-id] { cursor: pointer; }
+    .ec-list-row[data-event-id]:hover { background: #F8FAFC; }
+    .ec-list-row[data-event-id]:focus-visible { outline: 2px solid #2563EB; outline-offset: -2px; }
+
+    /* ── Popover (event detail) ── */
+    .ec-pop-overlay {
+      position: fixed; inset: 0; background: rgba(15,23,42,0.55);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px; z-index: 1000;
+      animation: ecPopFade 0.12s ease-out;
+    }
+    @keyframes ecPopFade { from { opacity: 0; } to { opacity: 1; } }
+    .ec-pop-card {
+      background: #fff; border-radius: 14px; max-width: 520px; width: 100%;
+      max-height: calc(100vh - 48px); overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+      display: flex; flex-direction: column;
+      animation: ecPopIn 0.15s ease-out;
+    }
+    @keyframes ecPopIn { from { transform: translateY(8px) scale(0.98); opacity: 0; } to { transform: none; opacity: 1; } }
+    .ec-pop-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 14px 18px; border-bottom: 1px solid #E2E8F0;
+      background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%); color: #fff;
+    }
+    .ec-pop-head-label { font-size: 13px; font-weight: 700; letter-spacing: 0.02em; }
+    .ec-pop-close {
+      background: rgba(255,255,255,0.12); color: #fff; border: none;
+      width: 30px; height: 30px; border-radius: 8px; cursor: pointer;
+      font-size: 20px; line-height: 1; font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ec-pop-close:hover { background: rgba(255,255,255,0.22); }
+    .ec-pop-body { padding: 16px 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+    .ec-pop-row {
+      padding: 12px 14px; border-radius: 10px;
+      background: var(--bg); border: 1px solid var(--br); border-left: 4px solid var(--c);
+    }
+    .ec-pop-row-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .ec-pop-title { font-size: 15px; font-weight: 700; color: #0F172A; flex: 1; min-width: 200px; }
+    .ec-pop-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .ec-pop-span { font-size: 12px; font-weight: 600; color: var(--c); margin-top: 6px; }
+    .ec-pop-desc { font-size: 13px; color: #334155; margin-top: 8px; line-height: 1.5; white-space: pre-wrap; }
 
     /* ── List view ── */
     .ec-list-wrap { max-width: 900px; margin: 0 auto; padding: 20px 24px 32px; display: flex; flex-direction: column; gap: 16px; }
