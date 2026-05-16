@@ -47,6 +47,7 @@ const ROUTES = {
   'teacher-appraisal-results.html': 'teacher-appraisal-results',
   'teacher-self-appraisal.html': 'teacher-self-appraisal',
   'cambridge-calendar.html': 'cambridge-calendar',
+  'academic-calendar.html': 'academic-calendar',
   'school-events.html': 'school-events',
   'cambridge-standards.html': 'cambridge-standards',
   'competency-framework.html': 'competency-framework',
@@ -969,6 +970,24 @@ if (navEditSrc) {
   console.log(`Copied: ${path.relative(__dirname, navEditSrc)} -> dist/nav-edit-simple.js`);
 } else {
   console.warn('WARNING: nav-edit-simple.js not found locally or in shared-design/');
+}
+
+// Read-only Academic Calendar viewer — single source of truth lives in
+// monorepo /shared-design/. Same local-then-shared fallback pattern as
+// nav-edit-simple. Loaded by academic-calendar.html. Run
+// `node scripts/design/sync-tokens.js --apply` from monorepo root when
+// the master changes.
+{
+  const localAcadCal  = path.join(__dirname, 'academic-calendar-readonly.js');
+  const sharedAcadCal = path.join(__dirname, '..', 'shared-design', 'academic-calendar-readonly.js');
+  const src = fs.existsSync(localAcadCal) ? localAcadCal
+            : (fs.existsSync(sharedAcadCal) ? sharedAcadCal : null);
+  if (src) {
+    fs.copyFileSync(src, path.join(distDir, 'academic-calendar-readonly.js'));
+    console.log(`Copied: ${path.relative(__dirname, src)} -> dist/academic-calendar-readonly.js`);
+  } else {
+    console.warn('WARNING: academic-calendar-readonly.js not found locally or in shared-design/');
+  }
 }
 
 // references-viewer schema-aware modal renderer — same local-then-shared

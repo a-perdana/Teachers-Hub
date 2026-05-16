@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academic Calendar — Teachers Hub</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
+  <link rel="stylesheet" href="base.css">
+  <script src="firebase-config.js"></script>
+  <script>if (!window.ENV) window.ENV = { FIREBASE_API_KEY: "__FIREBASE_API_KEY__", FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__", FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__", FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__", FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__", FIREBASE_APP_ID: "__FIREBASE_APP_ID__" };</script>
+  <style>
+    :root {
+      --accent: #6c5ce7; --accent-dk: #4e3db8; --accent-2: #ddd6fe;
+      --cyan: #0891b2; --cyan-dk: #0e7490;
+      --ink: #1f2937; --ink-2: #4b5563; --ink-3: #6b7280;
+      --border: #e5e7eb; --paper: #fafafa; --white: #ffffff;
+    }
+    body { background: var(--paper); }
+
+    .ac-hero {
+      max-width: 1280px; margin: 24px auto 0; padding: 28px 28px 24px;
+      background: linear-gradient(135deg, #1a1530 0%, #2d2354 55%, #0a0815 100%);
+      color: #fff; border-radius: 16px; position: relative; overflow: hidden;
+      box-shadow: 0 12px 28px -18px rgba(15,23,42,0.5);
+    }
+    .ac-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 88% 18%, rgba(108,92,231,0.32) 0%, transparent 55%),
+        radial-gradient(circle at 12% 92%, rgba(8,145,178,0.18) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .ac-hero > * { position: relative; z-index: 1; }
+    .ac-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.62);
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px;
+    }
+    .ac-eyebrow::before { content: ''; width: 22px; height: 2px; background: var(--accent); border-radius: 2px; }
+    .ac-title { font-family: 'Lora', serif; font-size: 1.9rem; font-weight: 600; line-height: 1.2; margin: 0 0 6px; }
+    .ac-subtitle { font-size: 13px; color: rgba(255,255,255,0.78); max-width: 760px; line-height: 1.55; }
+    .ac-source-note { margin-top: 16px; padding: 10px 14px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); border-radius: 8px; font-size: 12px; color: rgba(255,255,255,0.78); }
+    .ac-source-note strong { color: #fff; }
+    .ac-source-note a { color: #fff; text-decoration: underline; }
+  </style>
+</head>
+
+<body style="display:none">
+  <div id="navbar-container"></div>
+
+  <section class="ac-hero">
+    <div class="ac-eyebrow">Teachers Hub</div>
+    <h1 class="ac-title">Academic Calendar</h1>
+    <p class="ac-subtitle">Network-wide events maintained by Eduversal HQ. Read-only here — for edits, contact your Eduversal Central Hub admin.</p>
+    <div class="ac-source-note">
+      Source: <strong>Firestore <code>calendar_events</code></strong> (HQ-curated). Local school events live separately at <a href="/school-events">School Events</a>.
+    </div>
+  </section>
+
+  <div id="academic-calendar-mount"></div>
+
+  <script src="partials/navbar.js"></script>
+  <script type="module" src="auth-guard.js"></script>
+  <script src="academic-calendar-readonly.js" defer></script>
+  <script>
+    fetch('/partials/navbar.html').then(r => r.text()).then(html => {
+      document.getElementById('navbar-container').innerHTML = html;
+      if (typeof initNavbar === 'function') initNavbar();
+      if (typeof window._pendingNavbarUpdate === 'function')  { window._pendingNavbarUpdate();  window._pendingNavbarUpdate  = null; }
+      if (typeof window._pendingBadgeSetup    === 'function') { window._pendingBadgeSetup();    window._pendingBadgeSetup    = null; }
+      if (typeof window._pendingFeedbackSetup === 'function') { window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
+    });
+    document.addEventListener('authReady', () => {
+      document.body.style.display = '';
+    });
+  </script>
+</body>
+</html>
