@@ -5,8 +5,8 @@
  *
  * Visual contract: mirrors CH /academic-calendar so the three hubs feel
  * like the same page minus admin tooling. Renders the CH hero banner
- * (navy gradient with title + "Live — Firestore" pill + view switch) +
- * filter chip row + StripView (2-Month with current-month highlight,
+ * (navy gradient with eyebrow + Lora title + view switch) + filter
+ * chip row + StripView (2-Month with current-month highlight,
  * continuation-cell dashed borders, multi-event dots, per-month foot
  * panel) + MonthView + ListView. NO admin buttons (sync / settings /
  * add) — those live exclusively at CH.
@@ -108,15 +108,6 @@
   function persistView() {
     try { localStorage.setItem(STORAGE_VIEW, view); } catch (_) {}
   }
-  function countsByYear() {
-    const out = {};
-    events.forEach(e => {
-      const y = e.academicYear || '(unstamped)';
-      out[y] = (out[y] || 0) + 1;
-    });
-    return out;
-  }
-
   // ── Data load ────────────────────────────────────────────────────────────
   async function loadEvents() {
     const db = window.db;
@@ -141,8 +132,6 @@
   }
 
   function hero() {
-    const counts = countsByYear();
-    const yearLabel = formatYearLabel(counts);
     const viewBtns = [
       ['strip', '2-Month'],
       ['month', '1-Month'],
@@ -162,11 +151,7 @@
         <div class="ec-hero-top">
           <div class="ec-hero-left">
             <div class="ec-hero-eyebrow">Eduversal Indonesia</div>
-            <h1 class="ec-hero-title">Academic Calendar ${escapeHtml(yearLabel)}</h1>
-            <div class="ec-hero-source">
-              <span class="ec-hero-dot"></span>
-              <span>Live — Firestore</span>
-            </div>
+            <h1 class="ec-hero-title">Academic Calendar 2025–2026</h1>
           </div>
           <div class="ec-hero-right">
             <div class="ec-view-switch">${viewBtns}</div>
@@ -178,16 +163,6 @@
         </div>
       </div>
     `;
-  }
-
-  function formatYearLabel(counts) {
-    // Earliest start year → latest end year across all academicYear stamps.
-    // Single year: "2025–2026". Multi-year: span "2025–2027". No "+N more".
-    const keys = Object.keys(counts).filter(k => /^\d{2}_\d{2}$/.test(k)).sort();
-    if (keys.length === 0) return '';
-    const startYear = '20' + keys[0].split('_')[0];
-    const endYear   = '20' + keys[keys.length - 1].split('_')[1];
-    return `${startYear}–${endYear}`;
   }
 
   function viewBody() {
@@ -451,13 +426,6 @@
       font-size: 26px; font-weight: 800; letter-spacing: -0.5px;
       margin: 0; color: #fff;
     }
-    .ec-hero-source {
-      display: inline-flex; align-items: center; gap: 6px;
-      margin-top: 8px; padding: 4px 12px;
-      background: rgba(255,255,255,0.1); border-radius: 20px;
-      font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.75);
-    }
-    .ec-hero-dot { width: 7px; height: 7px; border-radius: 50%; background: #2563EB; }
     .ec-hero-right { flex-shrink: 0; }
     .ec-view-switch {
       display: flex; gap: 6px;
