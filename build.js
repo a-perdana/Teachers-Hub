@@ -43,6 +43,7 @@ const ROUTES = {
   'weekly-checklist.html': 'weekly-checklist',
   'waiting.html': 'waiting',
   'teacher-self-assessment.html': 'teacher-self-assessment',
+  'ai-self-assessment.html': 'ai-self-assessment',
   'teacher-kpi-results.html': 'teacher-kpi-results',
   'teacher-appraisal-results.html': 'teacher-appraisal-results',
   'teacher-self-appraisal.html': 'teacher-self-appraisal',

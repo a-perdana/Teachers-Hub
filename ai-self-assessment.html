@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My AI Self-Assessment — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/></svg>">
+<link rel="stylesheet" href="base.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent:   #e67e22;
+  --accent-dk:#d35400;
+  --accent-2: #fef3e2;
+  --accent-3: #fdf6ee;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.hero {
+  background: linear-gradient(135deg, #2b1e10 0%, #d35400 50%, #f39c12 100%);
+  color: #fff; padding: 36px 36px 44px; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 86% 20%, rgba(255,255,255,0.12) 0%, transparent 48%);
+}
+.hero-inner { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; }
+.hero-eyebrow { font-size: 11.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
+.hero-title { font-family: 'Lora', serif; font-size: 30px; font-weight: 600; margin-bottom: 6px; }
+.hero-sub { font-size: 14px; color: rgba(255,255,255,0.78); max-width: 740px; line-height: 1.55; }
+
+.page-wrap { max-width: 1100px; margin: 0 auto; padding: 24px 36px 80px; }
+
+.status-banner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px; border-radius: 10px; margin-bottom: 22px;
+  background: #fff; border: 1px solid #e2e8f0;
+}
+.status-banner.draft     { background: #fef9c3; border-color: #fde68a; }
+.status-banner.submitted { background: #dbeafe; border-color: #93c5fd; }
+.status-banner.validated { background: #dcfce7; border-color: #86efac; }
+.status-banner-left { font-size: 13.5px; font-weight: 600; color: #334155; }
+.status-banner-right { font-size: 12.5px; color: #64748b; }
+
+.intro-card {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
+  padding: 22px 26px; margin-bottom: 24px;
+}
+.intro-card h2 { font-family: 'Lora', serif; font-size: 18px; margin-bottom: 8px; color: #1e293b; }
+.intro-card p  { font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 8px; }
+.intro-card .small-note { font-size: 12.5px; color: #64748b; font-style: italic; margin-top: 8px; }
+
+/* Matrix */
+.matrix-section { margin-bottom: 28px; }
+.section-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-dk); margin-bottom: 6px; }
+.section-title { font-family: 'Lora', serif; font-size: 22px; font-weight: 600; color: #1e293b; margin-bottom: 14px; }
+
+.rating-matrix {
+  display: grid; grid-template-columns: 180px repeat(3, 1fr);
+  gap: 1px; background: #e2e8f0;
+  border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;
+}
+.matrix-h {
+  background: #fdf6ee; padding: 14px 12px; font-size: 13.5px; font-weight: 600;
+  color: #1e293b; text-align: center;
+}
+.matrix-row-label {
+  background: #fdf6ee; padding: 14px 14px; font-size: 13px; font-weight: 600;
+  color: #1e293b; display: flex; flex-direction: column; justify-content: center;
+}
+.matrix-row-label small { font-weight: 400; color: #64748b; font-size: 11.5px; margin-top: 2px; }
+.matrix-cell {
+  background: #fff; padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.matrix-cell .ref-id {
+  font-size: 10.5px; color: var(--accent-dk); font-family: 'DM Mono', monospace;
+}
+.rating-group { display: flex; gap: 6px; flex-wrap: wrap; }
+.rating-btn {
+  flex: 1; min-width: 0; padding: 6px 8px; border-radius: 6px;
+  border: 1px solid #cbd5e1; background: #fff;
+  font-size: 11px; font-weight: 600; color: #475569;
+  cursor: pointer; transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.rating-btn:hover { border-color: var(--accent); color: var(--accent-dk); }
+.rating-btn.active.not_yet    { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
+.rating-btn.active.developing { background: #fef3c7; border-color: #fcd34d; color: #92400e; }
+.rating-btn.active.achieved   { background: #dcfce7; border-color: #86efac; color: #166534; }
+.rating-btn[disabled] { opacity: 0.55; cursor: not-allowed; }
+
+.matrix-cell .view-descriptor {
+  font-size: 11px; color: var(--accent-dk); cursor: pointer;
+  text-decoration: underline; text-underline-offset: 2px;
+}
+
+/* Self-declared level */
+.level-summary {
+  background: var(--accent-2); border: 1px solid var(--accent);
+  border-radius: 10px; padding: 16px 20px; margin: 22px 0;
+}
+.level-summary-label { font-size: 11.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-dk); margin-bottom: 4px; }
+.level-summary-value { font-family: 'Lora', serif; font-size: 26px; font-weight: 600; color: #1e293b; }
+.level-summary-explain { font-size: 12.5px; color: #475569; margin-top: 4px; }
+
+/* Reflection fields */
+.reflection-section { margin-bottom: 22px; }
+.reflection-block {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 10px;
+  padding: 18px 20px; margin-bottom: 14px;
+}
+.reflection-block label {
+  display: block; font-size: 13.5px; font-weight: 600; color: #1e293b; margin-bottom: 8px;
+}
+.reflection-block .hint { font-size: 11.5px; color: #64748b; margin-bottom: 8px; }
+.reflection-list { display: flex; flex-direction: column; gap: 6px; }
+.reflection-input {
+  width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px;
+  font-size: 13px; font-family: 'DM Sans', sans-serif;
+  background: #fff;
+}
+.reflection-input:focus { outline: none; border-color: var(--accent); }
+.btn-add-row {
+  align-self: flex-start; padding: 6px 12px; border-radius: 6px;
+  border: 1px dashed #cbd5e1; background: #fff;
+  font-size: 11.5px; font-weight: 600; color: #475569; cursor: pointer;
+}
+.btn-add-row:hover { border-color: var(--accent); color: var(--accent-dk); }
+.btn-remove-row {
+  background: none; border: none; cursor: pointer; color: #94a3b8;
+  font-size: 14px; padding: 0 4px;
+}
+.btn-remove-row:hover { color: #ef4444; }
+.row-flex { display: flex; gap: 6px; align-items: center; }
+
+/* Action bar */
+.actions-bar {
+  display: flex; justify-content: space-between; gap: 12px; align-items: center;
+  margin-top: 24px; padding: 16px 0; border-top: 1px solid #e2e8f0;
+}
+.btn-save-draft {
+  padding: 10px 22px; border-radius: 8px; border: 1px solid #cbd5e1;
+  background: #fff; color: #1e293b; font-size: 13.5px; font-weight: 600;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+}
+.btn-save-draft:hover { background: #f8fafc; }
+.btn-submit {
+  padding: 10px 28px; border-radius: 8px; border: none;
+  background: var(--accent); color: #fff; font-size: 13.5px; font-weight: 600;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+}
+.btn-submit:hover { background: var(--accent-dk); }
+.btn-submit[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+.locked-msg {
+  background: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px;
+  padding: 12px 16px; font-size: 13px; color: #92400e; margin-top: 16px;
+}
+
+.validation-block {
+  background: #dcfce7; border: 1px solid #86efac; border-radius: 10px;
+  padding: 18px 22px; margin-top: 22px;
+}
+.validation-block h3 { font-family: 'Lora', serif; font-size: 17px; color: #166534; margin-bottom: 8px; }
+.validation-block p { font-size: 13.5px; color: #1e293b; line-height: 1.55; margin-bottom: 6px; }
+
+.loading-overlay {
+  position: fixed; inset: 0; background: rgba(248,250,252,0.85);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100; font-size: 14px; color: #475569;
+}
+.loading-overlay.hidden { display: none; }
+
+@media (max-width: 800px) {
+  .rating-matrix { grid-template-columns: 1fr; }
+  .matrix-h { display: none; }
+  .matrix-row-label { padding: 10px 14px; }
+  .matrix-cell { border-top: 3px solid var(--accent); padding: 14px; }
+}
+</style>
+</head>
+<body>
+<!-- SHARED_NAVBAR -->
+<script type="module" src="auth-guard.js"></script>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">AI Competency Framework v1.0</div>
+    <h1 class="hero-title">My AI Self-Assessment</h1>
+    <p class="hero-sub">
+      Annual self-assessment of your AI competency across 5 domains and 3 levels.
+      Rate honestly. Your line manager will discuss your submission with you and may
+      adjust your agreed level. Inflation hurts you twice — be honest.
+    </p>
+  </div>
+</header>
+
+<main class="page-wrap">
+  <div id="loadingOverlay" class="loading-overlay">Loading your assessment…</div>
+
+  <div id="statusBanner" class="status-banner draft" style="display:none;">
+    <div class="status-banner-left" id="statusLeft">Status: Draft</div>
+    <div class="status-banner-right" id="statusRight">Academic year 2026-2027</div>
+  </div>
+
+  <div class="intro-card">
+    <h2>How this works</h2>
+    <p>
+      For each of the 15 cells below (5 domains × 3 levels), pick one rating:
+      <strong>Not Yet</strong>, <strong>Developing</strong>, or <strong>Achieved</strong>.
+      Foundation-level cells are required. Practitioner + Leader cells are optional —
+      leave them empty if you're not at that level yet.
+    </p>
+    <p>
+      The framework expects all teaching staff at <strong>Foundation</strong> within the
+      first year, and most staff at <strong>Practitioner</strong> within two years. Leader
+      is a specialist contribution, not the default expectation.
+    </p>
+    <p class="small-note">
+      Click "see descriptor" on any cell to read the verbatim canonical text from the
+      Eduversal AI Competency Framework v1.0.
+    </p>
+  </div>
+
+  <section class="matrix-section">
+    <div class="section-eyebrow">Step 1 — Rate yourself</div>
+    <h2 class="section-title">5 Domains × 3 Levels</h2>
+
+    <div class="rating-matrix" id="ratingMatrix">
+      <div class="matrix-h"></div>
+      <div class="matrix-h">Foundation</div>
+      <div class="matrix-h">Practitioner</div>
+      <div class="matrix-h">Leader</div>
+      <!-- Domain rows injected by JS -->
+    </div>
+  </section>
+
+  <section class="level-summary" id="levelSummary">
+    <div class="level-summary-label">Self-declared level</div>
+    <div class="level-summary-value" id="levelSummaryValue">Not yet enough ratings</div>
+    <div class="level-summary-explain" id="levelSummaryExplain">Rate at least the 5 Foundation-level cells to see your self-declared level.</div>
+  </section>
+
+  <section class="reflection-section">
+    <div class="section-eyebrow">Step 2 — Reflect</div>
+    <h2 class="section-title">Strengths, growth areas, goals</h2>
+
+    <div class="reflection-block">
+      <label>Strengths</label>
+      <div class="hint">2-3 AI workflows that are working well in your practice. Max 5 entries, 280 chars each.</div>
+      <div class="reflection-list" id="strengthsList"></div>
+      <button class="btn-add-row" onclick="addRow('strengths')" type="button">+ Add a strength</button>
+    </div>
+
+    <div class="reflection-block">
+      <label>Growth areas</label>
+      <div class="hint">Honest about what you're not yet doing well. Max 5 entries, 280 chars each.</div>
+      <div class="reflection-list" id="growthList"></div>
+      <button class="btn-add-row" onclick="addRow('growth')" type="button">+ Add a growth area</button>
+    </div>
+
+    <div class="reflection-block">
+      <label>Professional learning goals for the coming year</label>
+      <div class="hint">Specific, time-bound. Max 5 entries, 280 chars each.</div>
+      <div class="reflection-list" id="goalsList"></div>
+      <button class="btn-add-row" onclick="addRow('goals')" type="button">+ Add a goal</button>
+    </div>
+  </section>
+
+  <div id="validationBlock" class="validation-block" style="display:none;">
+    <h3>✓ Validated by your line manager</h3>
+    <p id="validationContent">—</p>
+  </div>
+
+  <div class="actions-bar" id="actionsBar">
+    <button class="btn-save-draft" id="btnSaveDraft" type="button" onclick="saveDraft()">Save draft</button>
+    <button class="btn-submit" id="btnSubmit" type="button" onclick="submitAssessment()">Submit for review</button>
+  </div>
+
+  <div id="lockedMsg" class="locked-msg" style="display:none;">
+    Your assessment is submitted and locked. Your line manager will review and discuss with you.
+    Once validated, this page becomes read-only for the rest of the academic year.
+  </div>
+</main>
+
+<script type="module">
+import {
+  doc, getDoc, setDoc, serverTimestamp, updateDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// ── Framework structure ─────────────────────────────────────
+const DOMAINS = [
+  { id: 'domainA', title: 'Knowledge & Understanding' },
+  { id: 'domainB', title: 'Practical Application' },
+  { id: 'domainC', title: 'Pedagogical Integration' },
+  { id: 'domainD', title: 'Critical Evaluation' },
+  { id: 'domainE', title: 'Professional Contribution' },
+];
+const LEVELS = ['foundation', 'practitioner', 'leader'];
+const RATINGS = ['not_yet', 'developing', 'achieved'];
+const RATING_LABELS = { not_yet: 'Not Yet', developing: 'Developing', achieved: 'Achieved' };
+
+// ── State ────────────────────────────────────────────────────
+let state = {
+  userId: null,
+  userProfile: null,
+  academicYear: '2026-2027',  // TODO: read from calendar_settings/current
+  docId: null,
+  doc: null,
+  ratings: {},  // ratings[level][domain] = 'achieved' | 'developing' | 'not_yet'
+  strengths: [],
+  growthAreas: [],
+  goals: [],
+  status: 'draft',
+};
+
+// ── Init ─────────────────────────────────────────────────────
+// TH dispatches authReady on document, NOT window (see Common Mistake #13)
+document.addEventListener('authReady', async () => {
+  state.userId = window.currentUser?.uid;
+  state.userProfile = window.userProfile;
+  if (!state.userId) {
+    document.getElementById('loadingOverlay').textContent = 'Not signed in.';
+    return;
+  }
+  state.docId = `${state.userId}_${state.academicYear}`;
+  await loadOrInitDoc();
+  buildMatrix();
+  rebuildReflection();
+  updateLevelSummary();
+  applyStatusUI();
+  document.getElementById('loadingOverlay').classList.add('hidden');
+});
+
+async function loadOrInitDoc() {
+  const ref = doc(window.db, 'ai_competency_self_assessments', state.docId);
+  try {
+    const snap = await getDoc(ref);
+    if (snap.exists()) {
+      state.doc = snap.data();
+      state.ratings = state.doc.ratings?.teacher || { foundation: {}, practitioner: {}, leader: {} };
+      state.strengths = state.doc.strengths || [];
+      state.growthAreas = state.doc.growthAreas || [];
+      state.goals = state.doc.professionalLearningGoals || [];
+      state.status = state.doc.status || 'draft';
+    } else {
+      state.ratings = { foundation: {}, practitioner: {}, leader: {} };
+    }
+  } catch (err) {
+    console.warn('[ai-self-assessment] load failed', err);
+    state.ratings = { foundation: {}, practitioner: {}, leader: {} };
+  }
+}
+
+// ── Build matrix UI ─────────────────────────────────────────
+function buildMatrix() {
+  const matrix = document.getElementById('ratingMatrix');
+  // Clear existing rows (keep 4 header cells)
+  while (matrix.children.length > 4) matrix.removeChild(matrix.lastChild);
+
+  DOMAINS.forEach(domain => {
+    const labelCell = document.createElement('div');
+    labelCell.className = 'matrix-row-label';
+    labelCell.innerHTML = `<div>${domain.title}</div><small>Domain ${domain.id.replace('domain','')}</small>`;
+    matrix.appendChild(labelCell);
+
+    LEVELS.forEach(level => {
+      const refId = `teacher.${level}.${domain.id}`;
+      const cell = document.createElement('div');
+      cell.className = 'matrix-cell';
+
+      const ratingGroup = document.createElement('div');
+      ratingGroup.className = 'rating-group';
+
+      RATINGS.forEach(rating => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'rating-btn';
+        btn.dataset.level = level;
+        btn.dataset.domain = domain.id;
+        btn.dataset.rating = rating;
+        btn.textContent = RATING_LABELS[rating];
+        if (state.ratings[level][domain.id] === rating) {
+          btn.classList.add('active', rating);
+        }
+        btn.onclick = () => setRating(level, domain.id, rating);
+        if (state.status !== 'draft') btn.disabled = true;
+        ratingGroup.appendChild(btn);
+      });
+
+      const refLink = document.createElement('span');
+      refLink.className = 'view-descriptor';
+      refLink.textContent = 'see descriptor →';
+      refLink.dataset.aicfRef = refId;
+      refLink.onclick = () => {
+        if (window.openAicfCrossref) window.openAicfCrossref(refId, refLink);
+      };
+
+      const refIdLabel = document.createElement('div');
+      refIdLabel.className = 'ref-id';
+      refIdLabel.textContent = refId;
+
+      cell.appendChild(ratingGroup);
+      cell.appendChild(refLink);
+      cell.appendChild(refIdLabel);
+      matrix.appendChild(cell);
+    });
+  });
+}
+
+function setRating(level, domainId, rating) {
+  state.ratings[level][domainId] = rating;
+  // Update visual state for this row's buttons
+  document.querySelectorAll(`.rating-btn[data-level="${level}"][data-domain="${domainId}"]`).forEach(b => {
+    b.classList.remove('active', 'not_yet', 'developing', 'achieved');
+    if (b.dataset.rating === rating) {
+      b.classList.add('active', rating);
+    }
+  });
+  updateLevelSummary();
+}
+
+// ── Self-declared level computation ─────────────────────────
+function computeSelfDeclaredLevel() {
+  // Foundation requires all 5 domains rated. Higher levels require majority 'achieved'.
+  const foundationFilled = DOMAINS.every(d => RATINGS.includes(state.ratings.foundation[d.id]));
+  if (!foundationFilled) return null;
+
+  const isLevelAchieved = (level) => {
+    let achievedCount = 0;
+    DOMAINS.forEach(d => {
+      if (state.ratings[level][d.id] === 'achieved') achievedCount++;
+    });
+    return achievedCount >= 3; // majority of 5
+  };
+
+  if (isLevelAchieved('leader'))       return 'leader';
+  if (isLevelAchieved('practitioner')) return 'practitioner';
+  if (isLevelAchieved('foundation'))   return 'foundation';
+  // Foundation cells filled but not majority achieved — still Foundation in progress
+  return 'foundation_in_progress';
+}
+
+function updateLevelSummary() {
+  const level = computeSelfDeclaredLevel();
+  const valueEl = document.getElementById('levelSummaryValue');
+  const explainEl = document.getElementById('levelSummaryExplain');
+
+  if (!level) {
+    valueEl.textContent = 'Not yet enough ratings';
+    explainEl.textContent = 'Rate at least the 5 Foundation-level cells to see your self-declared level.';
+  } else if (level === 'foundation_in_progress') {
+    valueEl.textContent = 'Foundation (in progress)';
+    explainEl.textContent = 'You\'ve rated Foundation but not yet "Achieved" on the majority. Keep building.';
+  } else {
+    const labels = { foundation: 'Foundation', practitioner: 'Practitioner', leader: 'Leader' };
+    valueEl.textContent = labels[level];
+    explainEl.textContent = level === 'leader'
+      ? 'Leader = specialist contribution. Not all teachers reach this — and that\'s expected.'
+      : (level === 'practitioner'
+        ? 'Practitioner = proficient AI integration across most workflows.'
+        : 'Foundation = essential AI competencies for all teaching staff.');
+  }
+}
+
+// ── Reflection (strengths / growth / goals) ─────────────────
+function rebuildReflection() {
+  renderList('strengthsList', state.strengths, 'strengths');
+  renderList('growthList',     state.growthAreas, 'growth');
+  renderList('goalsList',      state.goals, 'goals');
+}
+
+function renderList(elId, items, kind) {
+  const container = document.getElementById(elId);
+  container.innerHTML = '';
+  items.forEach((text, idx) => {
+    const row = document.createElement('div');
+    row.className = 'row-flex';
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'reflection-input';
+    input.maxLength = 280;
+    input.value = text;
+    input.disabled = state.status !== 'draft';
+    input.oninput = (e) => { items[idx] = e.target.value; };
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'btn-remove-row';
+    removeBtn.textContent = '✕';
+    removeBtn.disabled = state.status !== 'draft';
+    removeBtn.onclick = () => { items.splice(idx, 1); rebuildReflection(); };
+    row.appendChild(input);
+    row.appendChild(removeBtn);
+    container.appendChild(row);
+  });
+}
+
+window.addRow = function(kind) {
+  if (state.status !== 'draft') return;
+  const target = kind === 'strengths' ? state.strengths
+               : kind === 'growth'    ? state.growthAreas
+               : state.goals;
+  if (target.length >= 5) {
+    alert('Maximum 5 entries per section.');
+    return;
+  }
+  target.push('');
+  rebuildReflection();
+};
+
+// ── Status UI ───────────────────────────────────────────────
+function applyStatusUI() {
+  const banner = document.getElementById('statusBanner');
+  const left = document.getElementById('statusLeft');
+  const right = document.getElementById('statusRight');
+  banner.style.display = 'flex';
+  banner.className = `status-banner ${state.status}`;
+  const statusLabels = { draft: 'Draft — work in progress', submitted: 'Submitted — awaiting line-manager review', validated: 'Validated by your line manager' };
+  left.textContent = `Status: ${statusLabels[state.status] || state.status}`;
+  right.textContent = `Academic year ${state.academicYear}`;
+
+  const lockedMsg = document.getElementById('lockedMsg');
+  const actionsBar = document.getElementById('actionsBar');
+  if (state.status === 'submitted') {
+    lockedMsg.style.display = 'block';
+    actionsBar.style.display = 'none';
+  } else if (state.status === 'validated') {
+    actionsBar.style.display = 'none';
+    const v = state.doc?.validation;
+    if (v) {
+      const block = document.getElementById('validationBlock');
+      block.style.display = 'block';
+      document.getElementById('validationContent').innerHTML =
+        `Agreed level: <strong>${v.agreedLevel || '—'}</strong><br>` +
+        (v.managerNotes ? `Notes: ${escapeHtml(v.managerNotes)}` : 'No notes left by your line manager.');
+    }
+  }
+}
+
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+// ── Save / submit ───────────────────────────────────────────
+window.saveDraft = async function() {
+  if (state.status !== 'draft') return;
+  const payload = buildPayload('draft');
+  try {
+    const ref = doc(window.db, 'ai_competency_self_assessments', state.docId);
+    await setDoc(ref, payload, { merge: true });
+    flashStatus('Draft saved.');
+  } catch (err) {
+    console.error('[ai-self-assessment] save failed', err);
+    alert('Save failed: ' + err.message);
+  }
+};
+
+window.submitAssessment = async function() {
+  if (state.status !== 'draft') return;
+  // Validate: Foundation cells all rated
+  const foundationFilled = DOMAINS.every(d => RATINGS.includes(state.ratings.foundation[d.id]));
+  if (!foundationFilled) {
+    alert('Please rate all 5 Foundation-level cells before submitting.');
+    return;
+  }
+  if (!confirm('Submit your self-assessment for line-manager review? Once submitted, you cannot edit the ratings or reflections.')) return;
+
+  const payload = buildPayload('submitted');
+  try {
+    const ref = doc(window.db, 'ai_competency_self_assessments', state.docId);
+    const snap = await getDoc(ref);
+    if (snap.exists()) {
+      await updateDoc(ref, payload);
+    } else {
+      await setDoc(ref, payload);
+    }
+    state.status = 'submitted';
+    state.doc = { ...(state.doc || {}), ...payload };
+    rebuildReflection();
+    buildMatrix();  // re-renders disabled
+    applyStatusUI();
+    flashStatus('Submitted.');
+  } catch (err) {
+    console.error('[ai-self-assessment] submit failed', err);
+    alert('Submit failed: ' + err.message);
+  }
+};
+
+function buildPayload(status) {
+  const selfDeclaredLevel = computeSelfDeclaredLevel();
+  const cleanLevel = (selfDeclaredLevel === 'foundation_in_progress' || !selfDeclaredLevel) ? 'foundation' : selfDeclaredLevel;
+  const payload = {
+    userId: state.userId,
+    userEmail: state.userProfile?.email || window.currentUser?.email || '',
+    displayName: state.userProfile?.displayName || '',
+    platform: 'teachers',
+    schoolId: state.userProfile?.schoolId || null,
+    academicYear: state.academicYear,
+    status: status,
+    ratings: { teacher: state.ratings },
+    selfDeclaredLevel: cleanLevel,
+    strengths: state.strengths.filter(s => s && s.trim()),
+    growthAreas: state.growthAreas.filter(s => s && s.trim()),
+    professionalLearningGoals: state.goals.filter(s => s && s.trim()),
+    updatedAt: serverTimestamp(),
+  };
+  if (!state.doc) {
+    payload.cycleStartedAt = serverTimestamp();
+  }
+  if (status === 'submitted') {
+    payload.submittedAt = serverTimestamp();
+  }
+  return payload;
+}
+
+function flashStatus(msg) {
+  const right = document.getElementById('statusRight');
+  const orig = right.textContent;
+  right.textContent = msg;
+  right.style.color = '#166534';
+  setTimeout(() => {
+    right.textContent = orig;
+    right.style.color = '';
+  }, 2200);
+}
+</script>
+</body>
+</html>
