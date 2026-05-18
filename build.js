@@ -785,6 +785,13 @@ function processFile(filename) {
   html = html.replace(/href="references-viewer\.css"/g, 'href="/references-viewer.css"');
   html = html.replace(/src="references-viewer\.js"/g, 'src="/references-viewer.js"');
 
+  // handbook-reader.{js,css} — shared reader runtime + styles used by
+  // /handbook (browser catalogue + reader mode). Same absolute-path
+  // treatment so the clean-URL route at dist/handbook/index.html
+  // resolves them from dist/ root.
+  html = html.replace(/href="handbook-reader\.css"/g, 'href="/handbook-reader.css"');
+  html = html.replace(/src="handbook-reader\.js"/g, 'src="/handbook-reader.js"');
+
   // Use absolute paths for partials so subdirectory pages resolve them correctly
   html = html.replace(/src="partials\/navbar\.js"/g, 'src="/partials/navbar.js"');
   html = html.replace(/src="partials\/mailer\.js"/g, 'src="/partials/mailer.js"');
@@ -994,6 +1001,25 @@ if (navEditSrc) {
 // references-viewer schema-aware modal renderer — same local-then-shared
 // fallback pattern as nav-edit-simple. Loaded by references.html.
 ['references-viewer.js', 'references-viewer.css'].forEach(name => {
+  const local  = path.join(__dirname, name);
+  const shared = path.join(__dirname, '..', 'shared-design', name);
+  const src    = fs.existsSync(local) ? local : (fs.existsSync(shared) ? shared : null);
+  if (src) {
+    fs.copyFileSync(src, path.join(distDir, name));
+    console.log(`Copied: ${path.relative(__dirname, src)} -> dist/${name}`);
+  } else {
+    console.warn(`WARNING: ${name} not found locally or in shared-design/`);
+  }
+});
+
+// handbook-reader.{js,css} — shared handbook reader runtime + styles.
+// Same local-then-shared fallback pattern as nav-edit-simple /
+// references-viewer. Loaded by handbook.html. Master lives in
+// monorepo-root /shared-design/; sync via `npm run sync:handbook` (or
+// the equivalent in scripts/design/). The TH copy of handbook-reader.css
+// pulls in the same tokens used by handbook-reader.js — keep both files
+// in sync when bumping versions.
+['handbook-reader.js', 'handbook-reader.css'].forEach(name => {
   const local  = path.join(__dirname, name);
   const shared = path.join(__dirname, '..', 'shared-design', name);
   const src    = fs.existsSync(local) ? local : (fs.existsSync(shared) ? shared : null);
