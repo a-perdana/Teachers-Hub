@@ -387,6 +387,15 @@
     .hb-browser-card.is-policy-topic .hb-browser-card-icon {
       background: #fef3c7; color: #92400e;
     }
+    /* AICF Companion variant — electric blue (AI/circuit vibe). 5th handbookKind. */
+    .hb-browser-card.is-aicf { box-shadow: inset 4px 0 0 #1d4ed8; }
+    .hb-browser-card.is-aicf:hover {
+      background: #eff6ff; border-color: #bfdbfe;
+      box-shadow: inset 4px 0 0 #1d4ed8, 0 6px 18px -10px rgba(29,78,216,0.32);
+    }
+    .hb-browser-card.is-aicf .hb-browser-card-icon {
+      background: #dbeafe; color: #1e40af;
+    }
 
     /* ── SCHOOL-FACING SECTION RENDERER (reader mode) ──
        Distinct styling layer that piggybacks on .hb-stage but tunes the
@@ -1273,15 +1282,15 @@
     try {
       const snap = await getDocs(query(collection(db, 'induction_programs'), limit(50)));
       const all = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      // TH viewer surfaces teachers-platform handbook(s) PLUS school-facing
-      // and policy-topic handbooks (both target partner-school audiences with
-      // teacher applicability). Principal and HQ Specialist hub-targeted
-      // handbooks live in their own hubs; CH /references is the cross-hub
-      // superset.
+      // TH viewer surfaces teachers-platform handbook(s) PLUS school-facing,
+      // policy-topic, and aicf-companion handbooks (all teacher-relevant).
+      // Principal and HQ Specialist hub-targeted handbooks live in their own
+      // hubs; CH /references is the cross-hub superset.
       allHandbooks = all.filter(hb =>
         hb.audience?.platform === 'teachershub'
         || hb.handbookKind === 'school-facing'
         || hb.handbookKind === 'policy-topic'
+        || hb.handbookKind === 'aicf-companion'
       );
 
       // Dual-mode dispatcher (CH parity): ?id=X → reader; otherwise
@@ -1350,8 +1359,11 @@
       return k === kind;
     });
     const induction = partition('induction');
-    const role = partition('role-operational');
-    // school bucket includes policy-topic since both target partner-school audiences.
+    // 'role' bucket includes aicf-companion (both are operational layers).
+    const role = allHandbooks.filter(hb => {
+      const k = hb.handbookKind || 'induction';
+      return k === 'role-operational' || k === 'aicf-companion';
+    });
     const school = allHandbooks.filter(hb => {
       const k = hb.handbookKind || 'induction';
       return k === 'school-facing' || k === 'policy-topic';
@@ -1434,15 +1446,17 @@
       const isRoleOps = kind === 'role-operational';
       const isSchoolFacing = kind === 'school-facing';
       const isPolicyTopic = kind === 'policy-topic';
-      const hasSections = isSchoolFacing || isPolicyTopic;
-      // Card icon: 📕 induction, 🛡 role-operational, 🧭 school-facing, 📜 policy-topic.
-      const icon = isPolicyTopic ? '📜' : (isSchoolFacing ? '🧭' : (isRoleOps ? '🛡' : '📕'));
-      const cardCls = isPolicyTopic
-        ? 'hb-browser-card is-policy-topic'
-        : (isSchoolFacing
-          ? 'hb-browser-card is-school'
-          : (isRoleOps ? 'hb-browser-card is-role' : 'hb-browser-card'));
-      // Counts pill: stages for induction + role-operational; sections for school-facing + policy-topic.
+      const isAicfCompanion = kind === 'aicf-companion';
+      const hasSections = isSchoolFacing || isPolicyTopic || isAicfCompanion;
+      // Icon: 📕 induction, 🛡 role-operational, 🧭 school-facing, 📜 policy-topic, 🤖 aicf-companion.
+      const icon = isAicfCompanion ? '🤖'
+        : (isPolicyTopic ? '📜'
+          : (isSchoolFacing ? '🧭'
+            : (isRoleOps ? '🛡' : '📕')));
+      const cardCls = isAicfCompanion ? 'hb-browser-card is-aicf'
+        : (isPolicyTopic ? 'hb-browser-card is-policy-topic'
+          : (isSchoolFacing ? 'hb-browser-card is-school'
+            : (isRoleOps ? 'hb-browser-card is-role' : 'hb-browser-card')));
       const countsPill = hasSections
         ? (sections ? `<span class="pill">${sections} sections</span>` : '')
         : (stages ? `<span class="pill">${stages} stages</span>` : '');
@@ -1531,8 +1545,8 @@
     // both as an ordered list of content blocks — renderStage and
     // renderSection produce compatible HTML hooks (hb-sec-stage-{index}).
     const handbookKind = hb.handbookKind || 'induction';
-    // School-facing + policy-topic both use sections[]; induction + role-operational use stages[].
-    const isSchoolFacing = handbookKind === 'school-facing' || handbookKind === 'policy-topic';
+    // School-facing + policy-topic + aicf-companion use sections[]; induction + role-operational use stages[].
+    const isSchoolFacing = handbookKind === 'school-facing' || handbookKind === 'policy-topic' || handbookKind === 'aicf-companion';
     const stagesArr = isSchoolFacing
       ? (Array.isArray(hb.sections) ? hb.sections : [])
       : (Array.isArray(hb.stages) ? hb.stages : []);
@@ -1552,11 +1566,13 @@
     const hasRoles = !!hb.rolesAndResponsibilities;
     const hasOpen = !!(hb.openItems?.length);
 
-    const eyebrowLabel = handbookKind === 'policy-topic'
-      ? 'Eduversal Policy Handbook'
-      : (handbookKind === 'school-facing'
-        ? 'Eduversal School-Facing Handbook'
-        : (handbookKind === 'role-operational' ? 'Eduversal Operational Handbook' : 'Eduversal Induction Handbook'));
+    const eyebrowLabel = handbookKind === 'aicf-companion'
+      ? 'Eduversal AI Companion Handbook'
+      : (handbookKind === 'policy-topic'
+        ? 'Eduversal Policy Handbook'
+        : (handbookKind === 'school-facing'
+          ? 'Eduversal School-Facing Handbook'
+          : (handbookKind === 'role-operational' ? 'Eduversal Operational Handbook' : 'Eduversal Induction Handbook')));
 
     // Hero band — full-width mor gradient above the sticky toolbar.
     document.getElementById('hbHeroMount').innerHTML = `
