@@ -10,6 +10,16 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500;700&family=Lora:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="base.css">
   <link rel="stylesheet" href="handbook-reader.css">
+  <style>
+    /* Pin TH navbar to viewport top so it stays put on scroll. TH's
+       partials/navbar.html ships `position: sticky` which loses its
+       sticky parent in this page's top-level shell layout, so it
+       scrolls away. Override to `fixed` and reserve 60px on body so
+       the hero doesn't sit behind it. Matches how the rest of TH's
+       protected pages look in practice. */
+    #navbar-container .nav { position: fixed !important; top: 0; left: 0; right: 0; }
+    body { padding-top: 60px; }
+  </style>
 </head>
 <body>
   <div id="navbar-container"></div>
