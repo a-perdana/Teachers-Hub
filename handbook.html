@@ -376,6 +376,17 @@
     .hb-browser-card.is-school .hb-browser-card-icon {
       background: #e0f2fe; color: #075985;
     }
+    /* Policy-topic handbook variant — amber accent (parchment/policy vibe).
+       4th handbookKind; distinct from induction (mor), role-operational (pink),
+       school-facing (cyan). */
+    .hb-browser-card.is-policy-topic { box-shadow: inset 4px 0 0 #b45309; }
+    .hb-browser-card.is-policy-topic:hover {
+      background: #fffbeb; border-color: #fde68a;
+      box-shadow: inset 4px 0 0 #b45309, 0 6px 18px -10px rgba(180,83,9,0.32);
+    }
+    .hb-browser-card.is-policy-topic .hb-browser-card-icon {
+      background: #fef3c7; color: #92400e;
+    }
 
     /* ── SCHOOL-FACING SECTION RENDERER (reader mode) ──
        Distinct styling layer that piggybacks on .hb-stage but tunes the
@@ -1262,13 +1273,15 @@
     try {
       const snap = await getDocs(query(collection(db, 'induction_programs'), limit(50)));
       const all = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      // TH viewer surfaces teachers-platform handbook(s) AND school-facing
-      // handbooks (audience.platform = 'partner-school'). Principal and HQ
-      // Specialist hub-targeted handbooks live in their own hubs; CH
-      // /references is the cross-hub superset.
+      // TH viewer surfaces teachers-platform handbook(s) PLUS school-facing
+      // and policy-topic handbooks (both target partner-school audiences with
+      // teacher applicability). Principal and HQ Specialist hub-targeted
+      // handbooks live in their own hubs; CH /references is the cross-hub
+      // superset.
       allHandbooks = all.filter(hb =>
         hb.audience?.platform === 'teachershub'
         || hb.handbookKind === 'school-facing'
+        || hb.handbookKind === 'policy-topic'
       );
 
       // Dual-mode dispatcher (CH parity): ?id=X → reader; otherwise
@@ -1338,7 +1351,11 @@
     });
     const induction = partition('induction');
     const role = partition('role-operational');
-    const school = partition('school-facing');
+    // school bucket includes policy-topic since both target partner-school audiences.
+    const school = allHandbooks.filter(hb => {
+      const k = hb.handbookKind || 'induction';
+      return k === 'school-facing' || k === 'policy-topic';
+    });
 
     document.getElementById('bwKpiTotal').textContent = allHandbooks.length;
     document.getElementById('bwKpiInduction').textContent = induction.length;
@@ -1416,13 +1433,17 @@
       const kind = hb.handbookKind || 'induction';
       const isRoleOps = kind === 'role-operational';
       const isSchoolFacing = kind === 'school-facing';
-      // Card icon: 📕 induction, 🛡 role-operational, 🧭 school-facing.
-      const icon = isSchoolFacing ? '🧭' : (isRoleOps ? '🛡' : '📕');
-      const cardCls = isSchoolFacing
-        ? 'hb-browser-card is-school'
-        : (isRoleOps ? 'hb-browser-card is-role' : 'hb-browser-card');
-      // Counts pill: stages for induction + role-operational; sections for school-facing.
-      const countsPill = isSchoolFacing
+      const isPolicyTopic = kind === 'policy-topic';
+      const hasSections = isSchoolFacing || isPolicyTopic;
+      // Card icon: 📕 induction, 🛡 role-operational, 🧭 school-facing, 📜 policy-topic.
+      const icon = isPolicyTopic ? '📜' : (isSchoolFacing ? '🧭' : (isRoleOps ? '🛡' : '📕'));
+      const cardCls = isPolicyTopic
+        ? 'hb-browser-card is-policy-topic'
+        : (isSchoolFacing
+          ? 'hb-browser-card is-school'
+          : (isRoleOps ? 'hb-browser-card is-role' : 'hb-browser-card'));
+      // Counts pill: stages for induction + role-operational; sections for school-facing + policy-topic.
+      const countsPill = hasSections
         ? (sections ? `<span class="pill">${sections} sections</span>` : '')
         : (stages ? `<span class="pill">${stages} stages</span>` : '');
       return `
@@ -1510,7 +1531,8 @@
     // both as an ordered list of content blocks — renderStage and
     // renderSection produce compatible HTML hooks (hb-sec-stage-{index}).
     const handbookKind = hb.handbookKind || 'induction';
-    const isSchoolFacing = handbookKind === 'school-facing';
+    // School-facing + policy-topic both use sections[]; induction + role-operational use stages[].
+    const isSchoolFacing = handbookKind === 'school-facing' || handbookKind === 'policy-topic';
     const stagesArr = isSchoolFacing
       ? (Array.isArray(hb.sections) ? hb.sections : [])
       : (Array.isArray(hb.stages) ? hb.stages : []);
@@ -1530,9 +1552,11 @@
     const hasRoles = !!hb.rolesAndResponsibilities;
     const hasOpen = !!(hb.openItems?.length);
 
-    const eyebrowLabel = isSchoolFacing
-      ? 'Eduversal School-Facing Handbook'
-      : (handbookKind === 'role-operational' ? 'Eduversal Operational Handbook' : 'Eduversal Induction Handbook');
+    const eyebrowLabel = handbookKind === 'policy-topic'
+      ? 'Eduversal Policy Handbook'
+      : (handbookKind === 'school-facing'
+        ? 'Eduversal School-Facing Handbook'
+        : (handbookKind === 'role-operational' ? 'Eduversal Operational Handbook' : 'Eduversal Induction Handbook'));
 
     // Hero band — full-width mor gradient above the sticky toolbar.
     document.getElementById('hbHeroMount').innerHTML = `
