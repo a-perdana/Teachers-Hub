@@ -633,6 +633,23 @@
       font-variant-numeric: tabular-nums;
     }
     .hb-stage-tasks-pill.is-narrowed { color: var(--accent-dk); background: var(--accent-2); font-weight: 700; }
+    /* Week-mapped reading cycle badge (Teacher Handbook v0.4+ + Staff CoC v0.4+).
+       Renders next to section title when section.weekNumber is set.
+       Cyan family matches the school-facing handbookKind colour. */
+    .hb-week-pill {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #cffafe;
+      color: #0e7490;
+      border: 1px solid #a5f3fc;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
 
     /* ── Page wrap + 2-col layout (TOC + content) ───────────────── */
     .handbook-page {
@@ -2185,12 +2202,19 @@
         </div>`
       : '';
 
+    // Week-mapped reading cycle badge (Teacher Handbook v0.4+ / Staff CoC v0.4+).
+    // Student + Parent are reference docs and ship without weekNumber on sections.
+    const weekBadge = (typeof section.weekNumber === 'number')
+      ? `<span class="hb-week-pill" title="Read in Week ${section.weekNumber} of Semester 1">Week ${section.weekNumber}</span>`
+      : '';
+
     return `
       <div class="hb-stage hb-sec-school" id="${stageId}" data-task-count="0">
         <div class="hb-stage-head">
           <div class="hb-stage-num">${sectionNum}</div>
           <div class="hb-stage-name">
             <span class="hb-stage-glyph" aria-hidden="true">🧭</span>${escapeHtml(sectionTitle)}
+            ${weekBadge}
             ${slotBadge}
           </div>
           ${section.summary ? `<div class="hb-stage-narrative">${escapeHtml(section.summary)}</div>` : ''}
