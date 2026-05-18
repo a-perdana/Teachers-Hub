@@ -181,23 +181,24 @@
   </script>
   <script src="handbook-reader.js"></script>
   <script>
+    // TH navbar paint pattern — fetch partial, mount, run _pending* callbacks.
+    // Mirrors my-induction.html (and every other protected TH page).
+    // Wired directly off the authReady event for parity with AH; the _pending*
+    // hooks handle the race between fetch + authReady so navbar badges /
+    // feedback modal / nav-edit wiring fire in either order.
+    document.addEventListener('authReady', () => {
+      fetch('partials/navbar.html').then(r => r.text()).then(html => {
+        const c = document.getElementById('navbar-container');
+        if (c) c.innerHTML = html;
+        if (typeof window.initNavbar === 'function') window.initNavbar();
+        if (typeof window._pendingNavbarUpdate === 'function')   { window._pendingNavbarUpdate();  window._pendingNavbarUpdate  = null; }
+        if (typeof window._pendingBadgeSetup    === 'function')  { window._pendingBadgeSetup();    window._pendingBadgeSetup    = null; }
+        if (typeof window._pendingFeedbackSetup === 'function')  { window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
+      });
+    });
     window.HandbookReader.init({
       hub: 'th',
       charterUrl: 'https://centralhub.eduversal.org/references-data/schemas/INDUCTION_CHARTER.json',
-      onAuthReady: () => {
-        // TH navbar paint pattern — fetch partial, mount, run _pending* callbacks.
-        // Mirrors my-induction.html (and every other protected TH page).
-        // The _pending* hooks handle the race between fetch + authReady so
-        // navbar badges / feedback modal / nav-edit wiring fire in either order.
-        fetch('partials/navbar.html').then(r => r.text()).then(html => {
-          const c = document.getElementById('navbar-container');
-          if (c) c.innerHTML = html;
-          if (typeof window.initNavbar === 'function') window.initNavbar();
-          if (typeof window._pendingNavbarUpdate === 'function')   { window._pendingNavbarUpdate();  window._pendingNavbarUpdate  = null; }
-          if (typeof window._pendingBadgeSetup    === 'function')  { window._pendingBadgeSetup();    window._pendingBadgeSetup    = null; }
-          if (typeof window._pendingFeedbackSetup === 'function')  { window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
-        });
-      },
     });
   </script>
 </body>
