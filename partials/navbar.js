@@ -72,6 +72,8 @@ function initNavbar() {
                  'competency-framework','learning-path','my-portfolio','my-certificates',
                  'my-induction','my-mentees','observation-entry','mentor-certification',
                  'handbook',
+                 'handbook-subject-teacher-induction','handbook-sl-90d','handbook-aicf-teacher','handbook-aicf-activities',
+                 'handbook-safeguarding','handbook-behaviour','handbook-anti-bullying','handbook-ai-use',
                  'school-handbook-teacher','school-handbook-staff-coc','school-handbook-student','school-handbook-parent'],
       hub:    ['welcome','references','announcements','messageboard','library','academic-calendar','cambridge-calendar','school-events','cambridge-standards','surveys','orientation'],
       careers: ['careers-admin','interview-scorecard','careers-compare'],
