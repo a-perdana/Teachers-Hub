@@ -764,14 +764,14 @@
       </div>
     </div>
 
-    <!-- My Work dropdown -->
-    <div class="th-dd-wrap" id="thDdWrap-mywork">
-      <button class="th-dd-trigger" data-dd="mywork" aria-haspopup="true" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
-        My Work
+    <!-- Teaching dropdown (daily work + Students Hub assessment flow) -->
+    <div class="th-dd-wrap" id="thDdWrap-teaching">
+      <button class="th-dd-trigger" data-dd="teaching" aria-haspopup="true" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        Teaching
         <svg class="th-dd-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
-      <div class="th-dd-panel th-dd-panel--wide th-dd-panel--xwide" id="thDdPanel-mywork">
+      <div class="th-dd-panel th-dd-panel--wide" id="thDdPanel-teaching">
         <div class="th-dd-col-group">
           <div class="th-dd-col">
             <div class="th-dd-col-header">Daily</div>
@@ -780,6 +780,38 @@
             </a>
           </div>
           <div class="th-dd-col-divider"></div>
+          <div class="th-dd-col">
+            <div class="th-dd-col-header">Students Hub Assessment</div>
+            <a href="student-approvals.html" class="th-dd-item" data-nav-key="student-approvals">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>Student Approvals
+            </a>
+            <a href="test-session-launcher.html" class="th-dd-item" data-nav-key="test-session-launcher">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>Schedule Chapter Test
+            </a>
+            <a href="test-monitor.html" class="th-dd-item" data-nav-key="test-monitor">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/></svg>Live Test Monitor
+            </a>
+            <a href="class-assessment.html" class="th-dd-item" data-nav-key="class-assessment">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Class Assessment
+            </a>
+            <a href="essay-grader.html" class="th-dd-item" data-nav-key="essay-grader">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4z"/></svg>Essay Grader
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Professional Development dropdown (KPI · Appraisal · Competency · Induction & Handbooks) -->
+    <div class="th-dd-wrap" id="thDdWrap-pd">
+      <button class="th-dd-trigger" data-dd="pd" aria-haspopup="true" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        Professional Development
+        <svg class="th-dd-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="th-dd-panel th-dd-panel--wide th-dd-panel--xwide" id="thDdPanel-pd">
+        <div class="th-dd-col-group">
+          <!-- Column 1 — KPI & Appraisal -->
           <div class="th-dd-col">
             <div class="th-dd-col-header">KPI</div>
             <a href="teacher-self-assessment.html" class="th-dd-item" data-nav-key="teacher-self-assessment">
@@ -791,10 +823,8 @@
             <a href="ai-self-assessment.html" class="th-dd-item" data-nav-key="ai-self-assessment">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>AI Self-Assessment
             </a>
-          </div>
-          <div class="th-dd-col-divider"></div>
-          <div class="th-dd-col">
-            <div class="th-dd-col-header">Appraisal</div>
+            <div class="th-dd-divider"></div>
+            <div class="th-dd-col-header" style="padding-top:4px;">Appraisal</div>
             <a href="teacher-self-appraisal.html" class="th-dd-item" data-nav-key="teacher-self-appraisal">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Self Appraisal
             </a>
@@ -803,6 +833,8 @@
             </a>
           </div>
           <div class="th-dd-col-divider"></div>
+
+          <!-- Column 2 — Competency Framework -->
           <div class="th-dd-col">
             <div class="th-dd-col-header">Competency</div>
             <a href="competency-framework.html" class="th-dd-item" data-nav-key="competency-framework">
@@ -819,6 +851,8 @@
             </a>
           </div>
           <div class="th-dd-col-divider"></div>
+
+          <!-- Column 3 — Induction -->
           <div class="th-dd-col">
             <div class="th-dd-col-header">Induction</div>
             <a href="my-induction.html" class="th-dd-item" data-nav-key="my-induction">
@@ -827,9 +861,20 @@
             <a href="my-mentees.html" class="th-dd-item" data-nav-key="my-mentees">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>My Mentees
             </a>
-            <a href="handbook.html" class="th-dd-item" data-nav-key="handbook">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Induction Handbook
+            <a href="mentor-certification.html" class="th-dd-item" data-nav-key="mentor-certification">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>Mentor Certification
             </a>
+          </div>
+          <div class="th-dd-col-divider"></div>
+
+          <!-- Column 4 — Handbooks -->
+          <div class="th-dd-col">
+            <div class="th-dd-col-header">Handbooks</div>
+            <a href="handbook.html" class="th-dd-item" data-nav-key="handbook">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Handbooks Browser
+            </a>
+            <div class="th-dd-divider"></div>
+            <div class="th-dd-col-header" style="padding-top:4px;">School-facing handbooks</div>
             <a href="handbook.html?id=eduversal_teacher_handbook_v1" class="th-dd-item" data-nav-key="school-handbook-teacher">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Teacher Handbook
             </a>
@@ -841,27 +886,6 @@
             </a>
             <a href="handbook.html?id=eduversal_parent_handbook_v1" class="th-dd-item" data-nav-key="school-handbook-parent">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Parent Handbook
-            </a>
-            <a href="mentor-certification.html" class="th-dd-item" data-nav-key="mentor-certification">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>Mentor Certification
-            </a>
-          </div>
-          <div class="th-dd-col">
-            <div class="th-dd-col-header">Students Hub</div>
-            <a href="student-approvals.html" class="th-dd-item" data-nav-key="student-approvals">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>Student Approvals
-            </a>
-            <a href="test-session-launcher.html" class="th-dd-item" data-nav-key="test-session-launcher">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>Schedule Chapter Test
-            </a>
-            <a href="test-monitor.html" class="th-dd-item" data-nav-key="test-monitor">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/></svg>Live Test Monitor
-            </a>
-            <a href="class-assessment.html" class="th-dd-item" data-nav-key="class-assessment">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Class Assessment
-            </a>
-            <a href="essay-grader.html" class="th-dd-item" data-nav-key="essay-grader">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4z"/></svg>Essay Grader
             </a>
           </div>
         </div>
