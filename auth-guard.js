@@ -217,7 +217,16 @@ async function getAllPageAccessConfigs(database) {
     const snap = await getDocs(collection(database, 'page_access_config'));
     snap.forEach(d => {
       const data = d.data() || {};
-      if (data.platform && data.platform !== 'teachershub') return;
+      // Shared slugs (handbook, my-induction, observation-entry, references)
+      // carry platforms:[…] with this platform listed; per-hub `platform`
+      // singular may point at another hub but the slug still applies here
+      // via the platforms[] union. Honour both.
+      const platforms = Array.isArray(data.platforms) ? data.platforms : [];
+      if (platforms.length) {
+        if (!platforms.includes('teachershub')) return;
+      } else if (data.platform && data.platform !== 'teachershub') {
+        return;
+      }
       map.set(d.id, data);
     });
     sessionStorage.setItem('pac:__all__:teachershub', JSON.stringify({
@@ -293,6 +302,27 @@ function applyPageAccessGating(configs, userSubRoles) {
     else            col.removeAttribute('data-pa-hidden');
   });
 
+  // 4a. Empty INLINE desktop section headers — multi-section .th-dd-col
+  //     panels carry secondary .th-dd-col-header divs as siblings of the
+  //     anchors they group (PD "Induction" column with the "Handbooks"
+  //     sub-section is the canonical example). Walk forward from each
+  //     header until the next header; if every interactive sibling is
+  //     hidden, hide the header itself.
+  document.querySelectorAll('.th-dd-col-header').forEach(header => {
+    let allHidden = true;
+    let any = false;
+    let n = header.nextElementSibling;
+    while (n && !n.classList.contains('th-dd-col-header')) {
+      if (n.matches?.('[data-nav-key]')) {
+        any = true;
+        if (n.getAttribute('data-pa-hidden') !== '1') { allHidden = false; break; }
+      }
+      n = n.nextElementSibling;
+    }
+    if (any && allHidden) header.setAttribute('data-pa-hidden', '1');
+    else                  header.removeAttribute('data-pa-hidden');
+  });
+
   // 4b. Flag column groups that have at least one hidden column so the
   //     panel CSS can drop its sticky min-width and shrink to content.
   //     Avoids the "wide empty middle" look when only Daily + Induction
@@ -361,6 +391,21 @@ function applyPilotSystemGating(enabled) {
     const allHidden = [...items].every(it => it.getAttribute('data-pa-hidden') === '1');
     if (allHidden) col.setAttribute('data-pa-hidden', '1');
     else            col.removeAttribute('data-pa-hidden');
+  });
+  // Re-collapse inline section headers now that pilot may have hidden more.
+  document.querySelectorAll('.th-dd-col-header').forEach(header => {
+    let allHidden = true;
+    let any = false;
+    let n = header.nextElementSibling;
+    while (n && !n.classList.contains('th-dd-col-header')) {
+      if (n.matches?.('[data-nav-key]')) {
+        any = true;
+        if (n.getAttribute('data-pa-hidden') !== '1') { allHidden = false; break; }
+      }
+      n = n.nextElementSibling;
+    }
+    if (any && allHidden) header.setAttribute('data-pa-hidden', '1');
+    else                  header.removeAttribute('data-pa-hidden');
   });
   // Mirror the has-hidden flag refresh from page-access gating so the
   // panel CSS shrinks even when only pilot rules hid columns.
