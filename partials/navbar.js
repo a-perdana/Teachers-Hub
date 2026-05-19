@@ -73,7 +73,7 @@ function initNavbar() {
                  'my-induction','my-mentees','observation-entry','mentor-certification',
                  'handbook',
                  'school-handbook-teacher','school-handbook-staff-coc','school-handbook-student','school-handbook-parent'],
-      hub:    ['announcements','messageboard','library','academic-calendar','cambridge-calendar','school-events','cambridge-standards','surveys'],
+      hub:    ['welcome','references','announcements','messageboard','library','academic-calendar','cambridge-calendar','school-events','cambridge-standards','surveys','orientation'],
       careers: ['careers-admin','interview-scorecard','careers-compare'],
     };
 

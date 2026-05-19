@@ -57,6 +57,7 @@ const ROUTES = {
   'my-certificates.html': 'my-certificates',
   'certificate-verify.html': 'certificate-verify',
   'orientation.html': 'orientation',
+  'welcome.html': 'welcome',
   'my-induction.html': 'my-induction',
   'my-mentees.html': 'my-mentees',
   'observation-entry.html': 'observation-entry',
