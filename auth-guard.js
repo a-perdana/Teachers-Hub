@@ -1035,7 +1035,17 @@ onAuthStateChanged(auth, async (user) => {
 
   // 5c. Approval check (teachers_admin bypasses — they are always approved)
   const approvalStatus = profile[APPROVAL_KEY];
-  const isAdminRole    = profile[PLATFORM_KEY] === 'teachers_admin';
+  const isTrueAdmin    = profile[PLATFORM_KEY] === 'teachers_admin';
+  // "Preview as user" mode — admins can toggle this from the navbar to
+  // see exactly what a non-admin user at their own school sees (sub-role
+  // page-access + pilot-system + subject/level pacing gating all kick in
+  // as if the admin were a plain teachers_user). Stored in sessionStorage
+  // so the flag follows the tab but not new tabs.
+  const previewAsUser  = sessionStorage.getItem('thPreviewAsUser') === '1';
+  const isAdminRole    = isTrueAdmin && !previewAsUser;
+  // Expose for the navbar UI toggle and for debugging from DevTools.
+  window.__thIsTrueAdmin   = isTrueAdmin;
+  window.__thPreviewAsUser = previewAsUser;
   if (!isAdminRole && approvalStatus !== 'approved') {
     const pathname  = window.location.pathname;
     const isWaiting = pathname === '/waiting' || pathname.endsWith('/waiting.html');

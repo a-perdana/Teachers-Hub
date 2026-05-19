@@ -322,6 +322,48 @@ function initNavbar() {
   }
   if (window.__authReadyDetail) bootNavEditor();
   else document.addEventListener('authReady', bootNavEditor, { once: true });
+
+  // ── Admin "Preview as user" toggle ────────────────────────────────
+  // Lets a teachers_admin see exactly what a non-admin user at their
+  // own school would see — sub-role page-access + pilot-system + subject
+  // pacing gating all kick in. Stored as a sessionStorage flag read by
+  // auth-guard.js on next page load; toggling the button reloads the
+  // page so the flag takes effect immediately.
+  function bootPreviewToggle() {
+    if (!window.__thIsTrueAdmin) return;
+    const navLinks = document.querySelector('.nav-links');
+    if (!navLinks) return;
+    if (document.getElementById('btnPreviewAsUser')) return;
+
+    const previewOn = window.__thPreviewAsUser === true;
+    const btn = document.createElement('button');
+    btn.id = 'btnPreviewAsUser';
+    btn.type = 'button';
+    btn.className = 'nav-feedback-btn';
+    btn.title = previewOn ? 'Stop previewing — return to admin view' : 'Preview the navbar as a non-admin user at your school';
+    btn.innerHTML = previewOn
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg><span>Exit preview</span>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg><span>Preview as user</span>';
+    if (previewOn) {
+      btn.style.background = 'rgba(245, 158, 11, 0.18)';
+      btn.style.borderColor = 'rgba(245, 158, 11, 0.55)';
+      btn.style.color = '#fbbf24';
+    }
+    btn.addEventListener('click', () => {
+      if (previewOn) sessionStorage.removeItem('thPreviewAsUser');
+      else           sessionStorage.setItem('thPreviewAsUser', '1');
+      // Drop the page-access bulk cache so the next pass re-reads with
+      // the new effective admin status.
+      sessionStorage.removeItem('pac:__all__:teachershub');
+      window.location.reload();
+    });
+    // Insert before the Feedback button (or just append if not found).
+    const feedbackBtn = document.getElementById('feedbackBtn');
+    if (feedbackBtn) navLinks.insertBefore(btn, feedbackBtn);
+    else             navLinks.appendChild(btn);
+  }
+  if (window.__authReadyDetail) bootPreviewToggle();
+  else document.addEventListener('authReady', bootPreviewToggle, { once: true });
 }
 
 // ── Mobile drawer ──────────────────────────────────────────────────
