@@ -348,9 +348,6 @@
       /* ─── RESPONSIVE ───────────────────────────────── */
       @media (max-width: 600px) {
         .mb-page { padding: 20px 14px 100px; }
-        .page-header { gap: 12px; }
-        .page-header-icon { width: 44px; height: 44px; border-radius: 12px; }
-        .page-header-title { font-size: 19px; }
         .post-header { flex-direction: column; gap: 10px; }
         .post-title { font-size: 17px; }
         .post-actions { align-self: flex-start; }
@@ -410,23 +407,27 @@
 
     <div id="navbar-container"></div>
 
+    <!-- Page hero — Communication family (cyan). Shared across list + detail views. -->
+    <header class="page-hero" data-accent="cyan">
+      <div class="page-hero__inner">
+        <div class="page-hero__icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <div class="page-hero__text">
+          <div class="page-hero__eyebrow">Communications</div>
+          <h1 class="page-hero__title">Message Board</h1>
+          <p class="page-hero__desc">Discuss, share resources, and collaborate with your colleagues.</p>
+        </div>
+      </div>
+    </header>
+
     <!-- Forum -->
     <main class="mb-main">
-      <div class="mb-page" style="padding-top: 20px;">
+      <div class="mb-page">
         <!-- Topic List View -->
         <div id="topicListView">
-          <div class="page-header">
-            <div class="page-header-icon" style="background:linear-gradient(135deg,var(--accent),#b45309);box-shadow:0 4px 14px rgba(217,119,6,.30);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              </svg>
-            </div>
-            <div>
-              <h1 class="page-header-title">Message Board</h1>
-              <p class="page-header-sub">Discuss, share resources, and collaborate with your colleagues</p>
-            </div>
-          </div>
-
           <div class="cat-filter" id="catFilter">
             <button class="cat-chip active" data-cat="all" onclick="window.__mb_setCategory('all')">All</button>
             <button class="cat-chip" data-cat="general"   onclick="window.__mb_setCategory('general')">&#x1F4AC; General</button>

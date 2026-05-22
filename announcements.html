@@ -374,23 +374,29 @@
     New Announcement
   </button>
 
-  <!-- Page content -->
-  <main class="page-wrap" style="padding-top: 20px;">
-    <div class="page-header">
-      <div class="page-header-icon" style="background:linear-gradient(135deg,var(--accent),#b45309);box-shadow:0 4px 14px rgba(217,119,6,.30);">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Page hero — Communication family (cyan) -->
+  <header class="page-hero" data-accent="cyan">
+    <div class="page-hero__inner">
+      <div class="page-hero__icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 3L9.218 10.083M11.698 20.334C12.573 21.209 14 20.561 14 19.307V4.693C14 3.439 12.573 2.791 11.698 3.666L7 8H4C2.895 8 2 8.895 2 10v4c0 1.105.895 2 2 2h3l4.698 4.334z"/>
         </svg>
       </div>
-      <div>
-        <h1 class="page-header-title">Announcements</h1>
-        <p class="page-header-sub" id="annPageSub">Loading…</p>
+      <div class="page-hero__text">
+        <div class="page-hero__eyebrow">Communications</div>
+        <h1 class="page-hero__title">Announcements</h1>
+        <p class="page-hero__desc" id="annPageSub">Loading…</p>
       </div>
     </div>
+  </header>
+
+  <!-- Page content -->
+  <main class="page-wrap">
     <div class="ann-list" id="annList">
-      <div class="empty-state" id="annEmpty" style="display:none;">
-        <div class="empty-state-icon">📭</div>
-        <p>No announcements yet. Check back soon!</p>
+      <div class="page-empty" id="annEmpty" style="display:none;">
+        <div class="page-empty__icon">📭</div>
+        <div class="page-empty__title">No announcements yet</div>
+        <div class="page-empty__desc">Check back soon — your hub admin will post here when there's something to share.</div>
       </div>
     </div>
   </main>

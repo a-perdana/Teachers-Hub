@@ -433,19 +433,23 @@
 <body>
   <div id="navbar-container"></div>
 
-  <main class="page-wrap" style="padding-top: 20px;">
-    <div class="page-header">
-      <div class="page-header-icon" style="background:linear-gradient(135deg,var(--accent),#b45309);box-shadow:0 4px 14px rgba(217,119,6,.30);">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Page hero — Communication family (cyan) -->
+  <header class="page-hero" data-accent="cyan">
+    <div class="page-hero__inner">
+      <div class="page-hero__icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
         </svg>
       </div>
-      <div>
-        <h1 class="page-header-title">Surveys</h1>
-        <p class="page-header-sub">Surveys shared to Teachers Hub from CentralHub</p>
+      <div class="page-hero__text">
+        <div class="page-hero__eyebrow">Communications</div>
+        <h1 class="page-hero__title">Surveys</h1>
+        <p class="page-hero__desc">Surveys shared to Teachers Hub from Central Hub. Complete open surveys before they close.</p>
       </div>
     </div>
+  </header>
 
+  <main class="page-wrap">
     <section class="controls" aria-label="Survey filters">
       <input id="searchInput" class="input" type="text" placeholder="Search surveys, descriptions, or questions...">
       <select id="statusFilter" class="select">
