@@ -242,13 +242,20 @@ fetch('partials/navbar.html')
 
 The `_pending*` callbacks handle the race between navbar fetch completing and `authReady`.
 
-**Navbar dropdown semantic structure** (4 dropdowns):
-- **Pacing** (4 columns): IGCSE × 4 / AS-A × 4 / Checkpoint × 3 / Trackers × 11
-- **My Work** (5 columns, `th-dd-panel--xwide` 980px min-width): Daily / KPI / Appraisal / Competency / Induction
-- **Hub** (2 columns): Communications (announcements, messageboard, surveys) / Reference (library, cambridge-calendar, cambridge-standards, orientation)
-- **Careers** (visible to `hiring_manager` / admins): Hiring Funnel · Public careers ↗ (Interview Scorecard + Compare Candidates removed from navbar 2026-05-06 — reachable from inside the funnel; interviewers arrive via emailed `?app=<id>` links)
+**Navbar dropdown semantic structure** (6 dropdowns, semantic left/right split since 2026-05-22 — mirrors CH/AH):
+- **LEFT (theme dropdowns):**
+  - **Communications** (single panel): Messaging (announcements + msgboard + surveys) / Library
+  - **Curriculum** (5 columns, `th-dd-panel--xwide` 980px min-width): IGCSE × 4 / AS-A × 4 / Checkpoint × 3 / Trackers × 11 / Reference (references + cambridge-standards + cambridge-calendar + academic-calendar + school-events)
+  - **Professional Development** (3 columns, `th-dd-panel--wide` 820px min-width): KPI + Appraisal / Competency Framework / Handbooks (browser + featured for teachers + policy & AI + school-facing). Per-uid pages (learning-path, my-portfolio, my-certificates, my-induction, my-mentees, mentor-certification) moved to My Hub.
+  - **Admin** (single panel): Careers (Hiring Funnel + Compare Candidates + Interview Scorecard + public careers ↗) / HQ shortcuts (User Console ↗ + Page Access ↗ — both cross-app deeplinks to centralhub.eduversal.org)
+- **SPACER:** `<div class="th-nav-spacer" aria-hidden="true">` with `flex: 1 1 auto` (CSS pattern lifted from AH `ah-nav-spacer`).
+- **RIGHT (audience dropdowns — mirror CH/AH semantic):**
+  - **Teachers** (2 columns, `th-dd-panel--wide`): Daily (weekly-checklist) / Students Hub Assessment (student-approvals + test-session-launcher + test-monitor + class-assessment + essay-grader). Audience workspace for subject teachers + subject leaders.
+  - **My Hub** (single panel): My CPD (learning-path + my-portfolio + my-certificates) / Induction (my-induction + my-mentees + mentor-certification) / Orientation (welcome + new-teacher orientation). Per-uid surfaces only — same scoping as CH/AH "My Hub" right-side dropdown.
 
-`groupKeys` map in `partials/navbar.js` lists all slugs per dropdown so the trigger highlights when user is on a child page.
+`groupKeys` map in `partials/navbar.js` lists all slugs per dropdown so the trigger highlights when user is on a child page. Keys are `communications`, `curriculum`, `pd`, `admin`, `teachers`, `myhub`.
+
+**Why the semantic split:** before 2026-05-22 the TH navbar was a flat left-anchored row with mixed theme + audience dropdowns (Pacing / Teaching / PD / Hub / Careers). CH and AH had already adopted "theme dropdowns left, audience workspace right, spacer between" via the `ah-nav-spacer` pattern. This refactor brings TH into parity: theme/library lookups on the left, per-uid/per-audience pages on the right. Careers Interview Scorecard + Compare Candidates were re-added to navbar (Admin dropdown) — they had been pulled 2026-05-06; interviewers still arrive primarily via emailed `?app=<id>` links.
 
 ---
 

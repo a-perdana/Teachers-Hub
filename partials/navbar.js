@@ -58,25 +58,35 @@ function initNavbar() {
   // Dropdown menus
   function initThDropdowns() {
     const activeKey = window.__thNavActiveKey || '';
+    // Navbar dropdown grouping (semantic split, 2026-05-22):
+    //   LEFT  — communications, curriculum, pd, admin
+    //   SPACER
+    //   RIGHT — teachers, myhub
+    // Mirrors CH (Communications/Curriculum/Operations/Admin → School Leaders/My Hub)
+    // and AH (Communications/Curriculum/PD/School Leaders → My Hub) audience-first
+    // grouping. See root CLAUDE.md "Navbar — semantic split" + memory file.
     const groupKeys = {
-      pacing: ['igcse-math','igcse-biology','igcse-chemistry','igcse-physics',
-                'as-alevel-math','as-alevel-biology','as-alevel-chemistry','as-alevel-physics',
-                'checkpoint-math','checkpoint-english','checkpoint-science',
-                'igcse-math-tracker','igcse-biology-tracker','igcse-chemistry-tracker','igcse-physics-tracker',
-                'checkpoint-math-tracker','checkpoint-english-tracker','checkpoint-science-tracker',
-                'as-alevel-math-tracker','as-alevel-biology-tracker','as-alevel-chemistry-tracker','as-alevel-physics-tracker'],
-      teaching: ['weekly-checklist',
-                 'student-approvals','test-session-launcher','test-monitor','class-assessment','essay-grader'],
-      pd:       ['teacher-self-assessment','teacher-kpi-results','ai-self-assessment',
-                 'teacher-self-appraisal','teacher-appraisal-results',
-                 'competency-framework','learning-path','my-portfolio','my-certificates',
-                 'my-induction','my-mentees','observation-entry','mentor-certification',
-                 'handbook',
-                 'handbook-subject-teacher-induction','handbook-sl-90d','handbook-aicf-teacher','handbook-aicf-activities',
-                 'handbook-safeguarding','handbook-behaviour','handbook-anti-bullying','handbook-ai-use',
-                 'school-handbook-teacher','school-handbook-staff-coc','school-handbook-student','school-handbook-parent'],
-      hub:    ['welcome','references','announcements','messageboard','library','academic-calendar','cambridge-calendar','school-events','cambridge-standards','surveys','orientation'],
-      careers: ['careers-admin','interview-scorecard','careers-compare'],
+      communications: ['announcements','messageboard','surveys','library'],
+      curriculum:     ['igcse-math','igcse-biology','igcse-chemistry','igcse-physics',
+                       'as-alevel-math','as-alevel-biology','as-alevel-chemistry','as-alevel-physics',
+                       'checkpoint-math','checkpoint-english','checkpoint-science',
+                       'igcse-math-tracker','igcse-biology-tracker','igcse-chemistry-tracker','igcse-physics-tracker',
+                       'checkpoint-math-tracker','checkpoint-english-tracker','checkpoint-science-tracker',
+                       'as-alevel-math-tracker','as-alevel-biology-tracker','as-alevel-chemistry-tracker','as-alevel-physics-tracker',
+                       'references','cambridge-standards','cambridge-calendar','academic-calendar','school-events'],
+      pd:             ['teacher-self-assessment','teacher-kpi-results','ai-self-assessment',
+                       'teacher-self-appraisal','teacher-appraisal-results',
+                       'competency-framework',
+                       'handbook',
+                       'handbook-subject-teacher-induction','handbook-sl-90d','handbook-aicf-teacher','handbook-aicf-activities',
+                       'handbook-safeguarding','handbook-behaviour','handbook-anti-bullying','handbook-ai-use',
+                       'school-handbook-teacher','school-handbook-staff-coc','school-handbook-student','school-handbook-parent'],
+      admin:          ['careers-admin','careers-compare','interview-scorecard'],
+      teachers:       ['weekly-checklist',
+                       'student-approvals','test-session-launcher','test-monitor','class-assessment','essay-grader'],
+      myhub:          ['learning-path','my-portfolio','my-certificates',
+                       'my-induction','my-mentees','observation-entry','mentor-certification',
+                       'welcome','orientation'],
     };
 
     document.querySelectorAll('.th-dd-wrap').forEach(function(wrap) {
