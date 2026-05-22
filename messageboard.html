@@ -19,6 +19,12 @@
         max-width: var(--container-max); margin: 0 auto;
         padding: 32px 40px 100px;
       }
+      /* Hero clamped to the same 1200px column as .mb-page so the gradient
+         doesn't bleed edge-to-edge — request from 2026-05-22. */
+      .page-hero {
+        max-width: var(--container-max);
+        margin: 0 auto;
+      }
       @media (max-width: 768px) {
         .mb-page { padding: 24px 20px 80px; }
       }
