@@ -39,13 +39,31 @@ body {
   color: var(--ink);
   min-height: 100vh;
   font-size: 14px;
-  /* `overflow-x: hidden` on body silently breaks `position: sticky` on every
-     descendant — the body becomes a scroll container and viewport-relative
-     sticky can't reach the viewport. Use `clip` instead: same no-horizontal-
-     scroll guarantee, but doesn't create a scroll container.
-     Chrome 90+ / Safari 16+ / Firefox 81+ all support `overflow: clip`. */
-  overflow-x: clip;
+  /* Intentionally NO overflow-x rule on body. `overflow-x: hidden` turns body
+     into a scroll container and silently breaks `position: sticky` on every
+     descendant (the navbar). `overflow-x: clip` is supposed to be safe but
+     practical testing on TH /competency-framework 2026-05-22 showed the
+     navbar still failed to stick on production Chrome — exact reason
+     unclear (possibly interaction with auth-guard's body.style.visibility
+     toggle, possibly UA-specific). Removing the rule entirely is the
+     surest fix; if horizontal scroll appears anywhere, fix the offending
+     wide child explicitly rather than clipping at body. */
   -webkit-font-smoothing: antialiased;
+}
+
+/* ── Navbar container — defensive sticky ───────────────────────── */
+/* The navbar partial is injected into <div id="navbar-container"> by
+   pages on `authReady`. .nav inside the partial declares its own
+   `position: sticky; top: 0`, but practical testing 2026-05-22 showed
+   it failed to stick on TH /competency-framework. Belt-and-braces:
+   pin sticky onto the wrapper container too. This survives partial-
+   injection timing quirks (the .nav rule lands AFTER body has been
+   visibility-toggled visible; the wrapper is already in the DOM and
+   sticky-eligible from first paint). */
+#navbar-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 /* ── Topbar (shared by content pages via navbar partial) ──────── */
