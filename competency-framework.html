@@ -410,16 +410,15 @@ body::before {
 .dp-bar { height: 5px; background: var(--border); border-radius: 4px; overflow: hidden; }
 .dp-fill { height: 100%; border-radius: 4px; transition: width .4s ease; }
 
-.domain-comps { padding: 6px 20px 14px; }
+.domain-comps { padding: 6px 20px 14px; display: flex; flex-direction: column; gap: 6px; }
 .comp-row {
   display: flex; flex-direction: column; gap: 6px;
-  padding: 12px 0; font-size: 13px; color: var(--ink);
-  border-bottom: 1px dashed var(--border);
+  padding: 10px 12px; font-size: 13px; color: var(--ink);
+  background: var(--paper); border: 1px solid var(--border); border-radius: 10px;
   cursor: pointer;
-  transition: background .15s ease;
+  transition: background .15s ease, border-color .15s ease;
 }
-.comp-row:last-child { border-bottom: none; }
-.comp-row:hover { background: var(--accent-2); border-radius: 6px; padding-left: 6px; padding-right: 6px; }
+.comp-row:hover { background: var(--accent-2); border-color: var(--accent); }
 .comp-row__head {
   display: flex; align-items: center; gap: 10px;
 }
