@@ -452,7 +452,14 @@ body {
 .page-hero {
   position: relative;
   overflow: hidden;
-  padding: 52px 40px;
+  /* Vertical padding only on the outer. Horizontal padding lives on
+     .page-hero__inner so it pads INSIDE the --container-max clamp, matching
+     how body wrappers (page-wrap / mb-page / similar) pad their content.
+     Otherwise hero text sits 40px right of body content on viewports > 1280px
+     — same asymmetric clamp-then-pad bug as root CLAUDE.md Common Mistake #52.
+     Past incident 2026-05-22 on TH announcements / messageboard / surveys;
+     rule lifted into canonical CSS so every TH page gets the alignment for free. */
+  padding: 52px 0;
   color: #fff;
   background: var(--hero-grad-cyan);
 }
@@ -473,6 +480,7 @@ body {
   z-index: 1;
   max-width: var(--container-max);
   margin: 0 auto;
+  padding: 0 40px;
   display: flex;
   align-items: flex-start;
   gap: var(--space-6);
@@ -560,9 +568,9 @@ body {
 }
 
 @media (max-width: 768px) {
-  .page-hero { padding: var(--space-8) var(--space-6); }
+  .page-hero { padding: var(--space-8) 0; }
+  .page-hero__inner { padding: 0 var(--space-6); flex-direction: column; gap: var(--space-4); }
   .page-hero__title { font-size: 1.7rem; }
-  .page-hero__inner { flex-direction: column; gap: var(--space-4); }
   .page-hero__kpis { margin-left: 0; }
   .page-hero__kpi-num { font-size: 1.8rem; }
   .page-hero__kpi--primary .page-hero__kpi-num { font-size: 2.2rem; }

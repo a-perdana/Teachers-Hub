@@ -20,20 +20,8 @@
   margin: 0 auto;
   padding: 32px 40px 100px;
 }
-/* Hero inner content must share the same 1200px column as .page-wrap content.
-   Canonical .page-hero has padding: 52px 40px which pushes .page-hero__inner
-   horizontally INSIDE its --container-max clamp → inner content sits 40px right
-   of .page-wrap content on viewports > 1280px. Strip the outer horizontal
-   padding and move it onto .page-hero__inner so both inner box AND .page-wrap
-   pad their content the same way. Vertical padding kept on the outer for the
-   background height. (See root CLAUDE.md Common Mistake #52 for the parallel
-   incident in CH legacy 3-wrapper pages.) */
-.page-hero { padding: 52px 0; }
-.page-hero__inner { padding: 0 40px; }
 @media (max-width: 768px) {
   .page-wrap { padding: 24px 20px 80px; }
-  .page-hero { padding: 32px 0; }
-  .page-hero__inner { padding: 0 20px; }
 }
 
 /* ─── ANNOUNCEMENTS LIST ─────────────────────── */
