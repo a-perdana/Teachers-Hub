@@ -19,8 +19,16 @@
         max-width: var(--container-max); margin: 0 auto;
         padding: 32px 40px 100px;
       }
+      /* Align hero inner content with .mb-page content — strip outer hero
+         horizontal padding, push it onto .page-hero__inner so the inner box
+         AND .mb-page pad their content the same way. Background stays
+         edge-to-edge. */
+      .page-hero { padding: 52px 0; }
+      .page-hero__inner { padding: 0 40px; }
       @media (max-width: 768px) {
         .mb-page { padding: 24px 20px 80px; }
+        .page-hero { padding: 32px 0; }
+        .page-hero__inner { padding: 0 20px; }
       }
 
       /* ─── TOPIC LIST VIEW ──────────────────────────── */
