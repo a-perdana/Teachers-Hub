@@ -399,15 +399,32 @@
         </svg>
       </div>
       <div class="page-hero__text">
-        <div class="page-hero__eyebrow">Communications</div>
+        <div class="page-hero__eyebrow">Communications · Hub-wide</div>
         <h1 class="page-hero__title">Announcements</h1>
-        <p class="page-hero__desc" id="annPageSub">Loading…</p>
+        <p class="page-hero__desc">Network-wide updates from Central Hub and your school leadership team. Pinned posts stay at the top; everything else is sorted newest first.</p>
         <!-- Admin-only CTA. JS toggles display:inline-flex; on isAdmin (line ~593). -->
         <div class="page-hero__actions">
           <button class="btn-hero btn-hero-primary" id="newAnnBtn" style="display:none;">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             New Announcement
           </button>
+        </div>
+      </div>
+      <div class="page-hero__kpis">
+        <div class="page-hero__kpi page-hero__kpi--primary">
+          <div class="page-hero__kpi-num" id="kpiAnnTotal">—</div>
+          <div class="page-hero__kpi-lbl">Total</div>
+          <div class="page-hero__kpi-sub" id="annPageSub">Loading…</div>
+        </div>
+        <div class="page-hero__kpi">
+          <div class="page-hero__kpi-num" id="kpiAnnPinned">—</div>
+          <div class="page-hero__kpi-lbl">Pinned</div>
+          <div class="page-hero__kpi-sub">stays on top</div>
+        </div>
+        <div class="page-hero__kpi">
+          <div class="page-hero__kpi-num" id="kpiAnnWeek">—</div>
+          <div class="page-hero__kpi-lbl">This week</div>
+          <div class="page-hero__kpi-sub">last 7 days</div>
         </div>
       </div>
     </div>
@@ -633,17 +650,35 @@
         return !plats || plats.includes('teachershub');
       });
 
-      const subEl = document.getElementById('annPageSub');
+      const subEl       = document.getElementById('annPageSub');
+      const kpiTotal    = document.getElementById('kpiAnnTotal');
+      const kpiPinned   = document.getElementById('kpiAnnPinned');
+      const kpiWeek     = document.getElementById('kpiAnnWeek');
+      const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+      const cutoff      = Date.now() - sevenDaysMs;
+
       if (!filteredDocs.length) {
         annEmpty.style.display = 'block';
         [...annList.children].forEach(c => { if (c !== annEmpty) c.remove(); });
-        if (subEl) subEl.textContent = 'No announcements yet';
+        if (subEl)     subEl.textContent     = 'No announcements yet';
+        if (kpiTotal)  kpiTotal.textContent  = '0';
+        if (kpiPinned) kpiPinned.textContent = '0';
+        if (kpiWeek)   kpiWeek.textContent   = '0';
         return;
       }
       annEmpty.style.display = 'none';
+
+      const pinned    = filteredDocs.filter(d => d.data().pinned).length;
+      const thisWeek  = filteredDocs.filter(d => {
+        const ts = d.data().createdAt?.toMillis?.() || 0;
+        return ts >= cutoff;
+      }).length;
+
+      if (kpiTotal)  kpiTotal.textContent  = filteredDocs.length;
+      if (kpiPinned) kpiPinned.textContent = pinned;
+      if (kpiWeek)   kpiWeek.textContent   = thisWeek;
       if (subEl) {
-        const pinned = filteredDocs.filter(d => d.data().pinned).length;
-        subEl.textContent = `${filteredDocs.length} announcement${filteredDocs.length !== 1 ? 's' : ''}${pinned ? ` · ${pinned} pinned` : ''}`;
+        subEl.textContent = `${filteredDocs.length} announcement${filteredDocs.length !== 1 ? 's' : ''}`;
       }
 
       // Sort client-side: pinned first, then by timestamp desc

@@ -416,9 +416,26 @@
           </svg>
         </div>
         <div class="page-hero__text">
-          <div class="page-hero__eyebrow">Communications</div>
+          <div class="page-hero__eyebrow">Communications · Forum</div>
           <h1 class="page-hero__title">Message Board</h1>
-          <p class="page-hero__desc">Discuss, share resources, and collaborate with your colleagues.</p>
+          <p class="page-hero__desc">Discuss, share resources, and collaborate with colleagues across every partner school. Filter by category below.</p>
+        </div>
+        <div class="page-hero__kpis">
+          <div class="page-hero__kpi page-hero__kpi--primary">
+            <div class="page-hero__kpi-num" id="kpiMbTopics">—</div>
+            <div class="page-hero__kpi-lbl">Topics</div>
+            <div class="page-hero__kpi-sub" id="kpiMbTopicsSub">across all categories</div>
+          </div>
+          <div class="page-hero__kpi">
+            <div class="page-hero__kpi-num" id="kpiMbReplies">—</div>
+            <div class="page-hero__kpi-lbl">Replies</div>
+            <div class="page-hero__kpi-sub">conversation depth</div>
+          </div>
+          <div class="page-hero__kpi">
+            <div class="page-hero__kpi-num" id="kpiMbWeek">—</div>
+            <div class="page-hero__kpi-lbl">This week</div>
+            <div class="page-hero__kpi-sub">new topics</div>
+          </div>
         </div>
       </div>
     </header>
@@ -662,7 +679,29 @@
       function renderTopicList(docs) {
         allTopicDocs = docs;
         const container = document.getElementById("topicList");
-        let filtered = docs.filter(d => { const s = d.data().source; return !s || s === 'teachers_hub'; });
+        // TH-source-only universe — same filter the page treats as "all topics".
+        const thUniverse = docs.filter(d => { const s = d.data().source; return !s || s === 'teachers_hub'; });
+
+        // ── Hero KPIs (computed off the unfiltered TH universe, not the category-filtered slice) ──
+        const kpiTopics    = document.getElementById('kpiMbTopics');
+        const kpiTopicsSub = document.getElementById('kpiMbTopicsSub');
+        const kpiReplies   = document.getElementById('kpiMbReplies');
+        const kpiWeek      = document.getElementById('kpiMbWeek');
+        const sevenDaysMs  = 7 * 24 * 60 * 60 * 1000;
+        const cutoff       = Date.now() - sevenDaysMs;
+        const totalReplies = thUniverse.reduce((sum, d) => sum + (d.data().replyCount || 0), 0);
+        const thisWeek     = thUniverse.filter(d => {
+          const ts = d.data().createdAt?.toMillis?.() || 0;
+          return ts >= cutoff;
+        }).length;
+        if (kpiTopics)    kpiTopics.textContent    = thUniverse.length;
+        if (kpiReplies)   kpiReplies.textContent   = totalReplies;
+        if (kpiWeek)      kpiWeek.textContent      = thisWeek;
+        if (kpiTopicsSub) kpiTopicsSub.textContent = currentCategory === 'all'
+          ? 'across all categories'
+          : `viewing ${currentCategory}`;
+
+        let filtered = thUniverse;
         if (currentCategory !== 'all') {
           filtered = filtered.filter(d => (d.data().category || 'general') === currentCategory);
         }

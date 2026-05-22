@@ -442,9 +442,26 @@
         </svg>
       </div>
       <div class="page-hero__text">
-        <div class="page-hero__eyebrow">Communications</div>
+        <div class="page-hero__eyebrow">Communications · Voice of the network</div>
         <h1 class="page-hero__title">Surveys</h1>
-        <p class="page-hero__desc">Surveys shared to Teachers Hub from Central Hub. Complete open surveys before they close.</p>
+        <p class="page-hero__desc">Network-wide surveys shared from Central Hub. Complete open ones before they close — your responses shape the next cycle of Eduversal training, policy, and pacing decisions.</p>
+      </div>
+      <div class="page-hero__kpis">
+        <div class="page-hero__kpi page-hero__kpi--primary">
+          <div class="page-hero__kpi-num" id="kpiSurvOpen">—</div>
+          <div class="page-hero__kpi-lbl">Open</div>
+          <div class="page-hero__kpi-sub">accepting responses</div>
+        </div>
+        <div class="page-hero__kpi">
+          <div class="page-hero__kpi-num" id="kpiSurvClosed">—</div>
+          <div class="page-hero__kpi-lbl">Closed</div>
+          <div class="page-hero__kpi-sub">read-only archive</div>
+        </div>
+        <div class="page-hero__kpi">
+          <div class="page-hero__kpi-num" id="kpiSurvTotal">—</div>
+          <div class="page-hero__kpi-lbl">Total</div>
+          <div class="page-hero__kpi-sub">shared with TH</div>
+        </div>
       </div>
     </div>
   </header>
@@ -698,6 +715,16 @@
 
     function renderSurveys() {
       const listEl = document.getElementById("surveyList");
+
+      // ── Hero KPIs (computed off the unfiltered universe `allSurveys`) ──
+      const kpiOpen   = document.getElementById('kpiSurvOpen');
+      const kpiClosed = document.getElementById('kpiSurvClosed');
+      const kpiTotal  = document.getElementById('kpiSurvTotal');
+      const openCount = allSurveys.filter(s => normalizeStatus(s.status) === 'published' && s.allowResponses !== false).length;
+      if (kpiTotal)  kpiTotal.textContent  = allSurveys.length;
+      if (kpiOpen)   kpiOpen.textContent   = openCount;
+      if (kpiClosed) kpiClosed.textContent = allSurveys.length - openCount;
+
       const filtered = allSurveys.filter((s) => {
         const status = normalizeStatus(s.status);
         const isOpen = status === "published" && s.allowResponses !== false;
