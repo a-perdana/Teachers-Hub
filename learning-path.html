@@ -14,6 +14,23 @@
   --accent-2: #ede9fe;
 }
 
+/* Artistic rose-burgundy atmosphere — paired with /competency-framework so
+   the two CPD pages share one visual context. Fixed, behind everything,
+   never intercepts pointer events (Root CLAUDE.md Common Mistake #22). */
+body {
+  background: #fbf6f8;
+  position: relative;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 55% at 8% 12%, rgba(225,29,72,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 92% 88%, rgba(217,119,6,0.07) 0%, transparent 62%),
+    radial-gradient(ellipse 80% 70% at 50% 50%, rgba(255,228,230,0.55) 0%, transparent 70%),
+    linear-gradient(180deg, #fbf6f8 0%, #faf3f5 100%);
+}
+
 .page-wrap {
   max-width: 1200px;
   margin: 0 auto;
