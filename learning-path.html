@@ -1038,10 +1038,16 @@ async function loadContent(compId, lvl) {
     if (snap.exists()) {
       const d = snap.data();
       _contentCache[key] = {
-        reading:        d.reading || '',
-        keyTakeaways:   Array.isArray(d.keyTakeaways) ? d.keyTakeaways : [],
-        selfAssessment: Array.isArray(d.selfAssessment) ? d.selfAssessment : [],
-        activity:       d.activity || null,
+        reading:           d.reading || '',
+        keyTakeaways:      Array.isArray(d.keyTakeaways) ? d.keyTakeaways : [],
+        selfAssessment:    Array.isArray(d.selfAssessment) ? d.selfAssessment : [],
+        activity:          d.activity || null,
+        // v3 enriched-schema blocks (added 2026-05-23):
+        caseStudy:         d.caseStudy || null,
+        commonPitfalls:    Array.isArray(d.commonPitfalls) ? d.commonPitfalls : [],
+        reflectionPrompts: Array.isArray(d.reflectionPrompts) ? d.reflectionPrompts : [],
+        glossary:          Array.isArray(d.glossary) ? d.glossary : [],
+        relatedComps:      Array.isArray(d.relatedComps) ? d.relatedComps : [],
       };
       return _contentCache[key];
     }
