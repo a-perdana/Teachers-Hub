@@ -12,7 +12,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(10, 10, 26, 0.85);
+    /* CH parity (2026-05-22): was rgba(10,10,26,0.85) — pulled to deeper black
+       + higher alpha so the family-tinted body bg doesn't bleed through. */
+    background: rgba(5, 5, 16, 0.95);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 1px 20px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(12px);
