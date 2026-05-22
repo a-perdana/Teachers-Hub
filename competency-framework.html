@@ -6,25 +6,17 @@
 <title>Competency Framework — Teachers Hub</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
 <link rel="stylesheet" href="base.css">
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Lora:ital,wght@0,500;0,600;0,700&display=swap" rel="stylesheet">
 <script src="firebase-config.js"></script>
 <script>if (!window.ENV) window.ENV = { FIREBASE_API_KEY: "__FIREBASE_API_KEY__", FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__", FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__", FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__", FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__", FIREBASE_APP_ID: "__FIREBASE_APP_ID__" };</script>
 <style>
 :root {
   --accent: #7c3aed;
+  --accent-dk: #6d28d9;
   --accent-2: #ede9fe;
 }
 
-.page-wrap {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 28px 40px 100px;
-}
-@media (max-width: 768px) {
-  .page-wrap { padding: 20px 20px 80px; }
-}
-
-/* ─── HERO (CH-canonical .page-hero ported as page-local CSS) ─── */
+/* ─── HERO (canonical .page-hero, mor accent) ─── */
 .page-hero {
   position: relative; overflow: hidden;
   padding: 52px 0;
@@ -102,124 +94,118 @@
   .page-hero__kpis { width: 100%; margin-left: 0; }
 }
 
-
-/* ─── LEVEL PILLS ───────────────────────────── */
-.levels-row {
-  display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px;
+.page-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 40px 100px;
 }
-.level-pill {
-  display: flex; align-items: center; gap: 8px;
-  padding: 8px 16px; border-radius: 50px;
-  border: 1.5px solid var(--border); background: var(--white);
-  font-size: 12px; font-weight: 600; color: var(--ink-2);
-  cursor: pointer; transition: all .16s ease;
-}
-.level-pill .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.level-pill:hover, .level-pill.active {
-  border-color: var(--accent); background: var(--accent-2); color: var(--accent);
-}
-.level-pill.active { box-shadow: 0 0 0 3px rgba(124,58,237,.12); }
-
-/* ─── DOMAIN GRID ───────────────────────────── */
-.domain-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 18px;
-  margin-bottom: 40px;
+@media (max-width: 768px) {
+  .page-wrap { padding: 20px 20px 80px; }
 }
 
-.domain-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: box-shadow .2s ease, transform .2s ease;
+/* ─── GROUNDED-IN BAND (provenance — hero-continuation) ─── */
+.grounded-band {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 55%, #1e1b4b 100%);
+  color: #fff;
+  margin: 0 0 28px; padding: 36px 40px 32px;
+  border-radius: 20px;
 }
-.domain-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
-
-.domain-card-header {
-  padding: 20px 20px 14px;
-  display: flex; align-items: flex-start; gap: 14px;
+.grounded-band::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 80%, rgba(124,58,237,0.22) 0%, transparent 48%),
+    radial-gradient(circle at 88% 20%, rgba(8,145,178,0.18) 0%, transparent 48%);
 }
-.domain-icon {
-  width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
+.grounded-inner { position: relative; z-index: 1; }
+.grounded-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap; margin-bottom: 18px;
 }
-.domain-info { flex: 1; }
-.domain-label {
-  font-size: 10px; font-weight: 700; letter-spacing: .1em;
-  text-transform: uppercase; margin-bottom: 3px;
-}
-.domain-name { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
-.domain-desc { font-size: 12.5px; color: var(--ink-3); line-height: 1.5; }
-
-.domain-card-body { padding: 0 20px 16px; }
-
-.competency-list { display: flex; flex-direction: column; gap: 6px; }
-
-.comp-item {
+.grounded-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: rgba(255,255,255,.55);
   display: flex; align-items: center; gap: 10px;
-  padding: 10px 12px; border-radius: 10px;
-  border: 1px solid var(--border); background: var(--paper);
-  cursor: pointer; transition: all .15s ease;
 }
-.comp-item:hover { border-color: var(--accent); background: var(--accent-2); }
-
-.comp-check {
-  width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
-  border: 1.5px solid var(--border); background: #fff;
-  display: flex; align-items: center; justify-content: center;
-  transition: all .15s ease;
+.grounded-eyebrow::before {
+  content: ''; display: inline-block; width: 28px; height: 1.5px;
+  background: rgba(255,255,255,.4);
 }
-.comp-check.earned {
-  background: #22c55e; border-color: #22c55e;
+.grounded-lede {
+  font-family: 'Lora', serif; font-size: 1.05rem; font-weight: 500;
+  color: rgba(255,255,255,.92); line-height: 1.5; max-width: 720px;
 }
-.comp-check.earned svg { display: block; }
-.comp-check svg { display: none; width: 10px; height: 10px; color: #fff; }
-
-.comp-body { flex: 1; min-width: 0; }
-.comp-name { font-size: 13px; font-weight: 600; color: var(--ink); }
-.comp-level-badge {
-  display: inline-flex; align-items: center;
-  padding: 2px 8px; border-radius: 50px;
-  font-size: 10px; font-weight: 700; margin-top: 2px;
+.grounded-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 14px; margin-bottom: 22px;
 }
-
-.comp-arrow { color: var(--ink-3); flex-shrink: 0; }
-.comp-arrow svg { width: 14px; height: 14px; }
-
-/* ─── LEVEL COLORS ──────────────────────────── */
-.lvl-awareness { background: #e0f2fe; color: #0369a1; }
-.lvl-practitioner { background: #fef3c7; color: #92400e; }
-.lvl-advanced { background: #ede9fe; color: #6d28d9; }
-.lvl-lead { background: #dcfce7; color: #15803d; }
-
-.dot-awareness { background: #0ea5e9; }
-.dot-practitioner { background: #f59e0b; }
-.dot-advanced { background: #7c3aed; }
-.dot-lead { background: #22c55e; }
-
-/* ─── DOMAIN COLORS ─────────────────────────── */
-.dom-purple .domain-icon { background: #ede9fe; color: #7c3aed; }
-.dom-purple .domain-label { color: #7c3aed; }
-.dom-blue .domain-icon { background: #dbeafe; color: #1d4ed8; }
-.dom-blue .domain-label { color: #1d4ed8; }
-.dom-amber .domain-icon { background: #fef3c7; color: #d97706; }
-.dom-amber .domain-label { color: #d97706; }
-.dom-green .domain-icon { background: #dcfce7; color: #15803d; }
-.dom-green .domain-label { color: #15803d; }
-.dom-rose .domain-icon { background: #ffe4e6; color: #be123c; }
-.dom-rose .domain-label { color: #be123c; }
-.dom-teal .domain-icon { background: #ccfbf1; color: #0f766e; }
-.dom-teal .domain-label { color: #0f766e; }
-
-/* ─── PROGRESS BAR ──────────────────────────── */
-.domain-progress { padding: 0 20px 18px; }
-.dp-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-3); margin-bottom: 5px; }
-.dp-bar { height: 5px; background: var(--border); border-radius: 4px; overflow: hidden; }
-.dp-fill { height: 100%; border-radius: 4px; transition: width .4s ease; }
+.grounded-tile {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 14px; padding: 18px 18px 16px;
+  display: flex; flex-direction: column; gap: 8px;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+  text-decoration: none;
+}
+.grounded-tile:hover {
+  background: rgba(255,255,255,0.11);
+  border-color: rgba(255,255,255,0.22);
+  transform: translateY(-1px);
+}
+.grounded-tile-head {
+  display: flex; align-items: center; gap: 10px;
+}
+.grounded-tile-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: .04em;
+  background: rgba(255,255,255,0.18); color: #fff;
+}
+.grounded-tile[data-sys="cts"]  .grounded-tile-badge { background: rgba(108,92,231,0.45); }
+.grounded-tile[data-sys="pmd"]  .grounded-tile-badge { background: rgba(220,38,38,0.45); }
+.grounded-tile[data-sys="es"]   .grounded-tile-badge { background: rgba(14,116,144,0.55); }
+.grounded-tile[data-sys="aicf"] .grounded-tile-badge { background: rgba(217,119,6,0.5); }
+.grounded-tile-name { font-size: 14px; font-weight: 600; color: #fff; line-height: 1.25; }
+.grounded-tile-ver { font-size: 11px; color: rgba(255,255,255,.55); margin-top: 2px; }
+.grounded-tile-desc { font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.5; }
+.grounded-tile-link {
+  margin-top: auto;
+  font-size: 11.5px; color: rgba(255,255,255,.85); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 5px; font-weight: 500;
+}
+.grounded-tile-link:hover { color: #fff; text-decoration: underline; }
+.grounded-secondary {
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  font-size: 12.5px; color: rgba(255,255,255,.7); line-height: 1.6;
+}
+.grounded-secondary-label {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(255,255,255,.5);
+  margin-bottom: 8px;
+}
+.grounded-anchor {
+  display: inline-block;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 99px; padding: 3px 11px;
+  font-size: 11.5px; color: rgba(255,255,255,.85);
+  margin: 0 4px 4px 0;
+}
+.grounded-meta {
+  margin-top: 12px; font-size: 11.5px; color: rgba(255,255,255,.55);
+}
+.grounded-meta code {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  background: rgba(255,255,255,0.08); padding: 1px 6px; border-radius: 4px;
+  color: rgba(255,255,255,.85);
+}
+@media (max-width: 960px) {
+  .grounded-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .grounded-band { margin: 0 0 22px; padding: 28px 18px 24px; border-radius: 14px; }
+  .grounded-grid { grid-template-columns: 1fr; }
+}
 
 /* ─── MY PROGRESS SECTION ──────────────────── */
 .section-title {
@@ -239,8 +225,14 @@
 .progress-stat-num { font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 4px; }
 .progress-stat-label { font-size: 12px; color: var(--ink-3); }
 .progress-stat-sub { font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+.progress-stat-sa {
+  font-size: 11px; color: var(--ink-3); margin-top: 4px;
+  display: flex; align-items: center; gap: 4px;
+}
+.sa-score-bar { flex: 1; height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.sa-score-fill { height: 100%; border-radius: 4px; background: var(--accent); transition: width .4s ease; }
 
-/* ─── FRAMEWORK LEVELS EXPLAINER ───────────── */
+/* ─── LEVELS EXPLAINER ─────────────────────── */
 .levels-explainer {
   background: var(--white); border: 1px solid var(--border); border-radius: 16px;
   padding: 24px; margin-bottom: 32px; box-shadow: var(--shadow-sm);
@@ -248,90 +240,196 @@
 .levels-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 14px; }
 @media (max-width: 900px) { .levels-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px) { .levels-grid { grid-template-columns: 1fr; } }
-.level-card {
-  padding: 14px 16px; border-radius: 12px; border: 1.5px solid transparent;
-}
-.level-card.awareness { background: #f0f9ff; border-color: #bae6fd; }
+.level-card { padding: 14px 16px; border-radius: 12px; border: 1.5px solid transparent; }
+.level-card.awareness    { background: #f0f9ff; border-color: #bae6fd; }
 .level-card.practitioner { background: #fffbeb; border-color: #fde68a; }
-.level-card.advanced { background: #f5f3ff; border-color: #ddd6fe; }
-.level-card.lead { background: #f0fdf4; border-color: #bbf7d0; }
+.level-card.advanced     { background: #f5f3ff; border-color: #ddd6fe; }
+.level-card.lead         { background: #f0fdf4; border-color: #bbf7d0; }
 .level-card-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
-.level-card.awareness .level-card-name { color: #0369a1; }
+.level-card.awareness    .level-card-name { color: #0369a1; }
 .level-card.practitioner .level-card-name { color: #92400e; }
-.level-card.advanced .level-card-name { color: #6d28d9; }
-.level-card.lead .level-card-name { color: #15803d; }
+.level-card.advanced     .level-card-name { color: #6d28d9; }
+.level-card.lead         .level-card-name { color: #15803d; }
 .level-card-desc { font-size: 12px; color: var(--ink-3); line-height: 1.5; }
 
-/* ─── FILTER BAR ────────────────────────────── */
-.filter-bar {
-  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
-  align-items: center;
+/* ─── FILTER TOOLBAR (CH-parallel) ─────────── */
+.sf-toolbar {
+  display: flex; flex-wrap: nowrap; gap: 12px; align-items: center;
+  background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+  padding: 10px 14px; margin-bottom: 20px; box-shadow: var(--shadow-sm);
+  position: sticky; top: 70px; z-index: 5;
 }
-.filter-label { font-size: 12px; font-weight: 600; color: var(--ink-3); }
+.sf-search {
+  flex: 0 0 240px; display: flex; align-items: center; gap: 8px;
+  border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px;
+  background: var(--paper);
+}
+.sf-search input {
+  border: none; outline: none; background: transparent; flex: 1; min-width: 0;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink);
+}
+.sf-chips {
+  display: flex; flex-wrap: nowrap; gap: 6px;
+  flex: 1 1 0; min-width: 0; overflow-x: auto;
+  scrollbar-width: thin;
+}
+.sf-chips::-webkit-scrollbar { height: 4px; }
+.sf-chips::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.sf-chip {
+  font-size: 12px; padding: 6px 11px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--white); color: var(--ink-2);
+  cursor: pointer; font-weight: 500; transition: all .15s ease;
+  font-family: 'DM Sans', sans-serif;
+  white-space: nowrap; flex-shrink: 0;
+}
+.sf-chip:hover { background: var(--accent-2); color: var(--accent-dk); border-color: var(--accent-2); }
+.sf-chip.is-active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.sf-chip[data-color="dom-purple"].is-active { background: #7c3aed; border-color: #7c3aed; }
+.sf-chip[data-color="dom-blue"].is-active   { background: #0891b2; border-color: #0891b2; }
+.sf-chip[data-color="dom-green"].is-active  { background: #059669; border-color: #059669; }
+.sf-chip[data-color="dom-amber"].is-active  { background: #d97706; border-color: #d97706; }
+.sf-chip[data-color="dom-rose"].is-active   { background: #e11d48; border-color: #e11d48; }
+.sf-chip[data-color="dom-teal"].is-active   { background: #0d9488; border-color: #0d9488; }
+.sf-count { font-size: 11px; color: var(--ink-3); margin-left: auto; flex-shrink: 0; }
 
-/* ─── DOMAIN TAKEAWAYS ──────────────────────── */
-.domain-takeaways {
-  padding: 0 20px 16px;
-  border-top: 1px solid var(--border);
-  margin-top: 4px;
+/* Hidden states driven by filter JS */
+.comp-row[hidden], .domain-card[hidden] { display: none !important; }
+.sf-empty {
+  display: none; padding: 40px 20px; text-align: center;
+  color: var(--ink-3); font-size: 13px;
+  background: var(--paper); border: 1px dashed var(--border); border-radius: 12px;
+  margin-bottom: 20px;
 }
-.domain-takeaways-toggle {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 0 0; cursor: pointer; user-select: none;
+.sf-empty.is-visible { display: block; }
+
+/* ─── DOMAIN GRID (CH-parallel) ─────────────── */
+.domain-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 18px;
+  margin-bottom: 40px;
 }
-.domain-takeaways-label {
-  font-size: 11px; font-weight: 700; letter-spacing: .06em;
-  text-transform: uppercase; color: var(--ink-3);
-  display: flex; align-items: center; gap: 6px;
+.domain-card {
+  --dc: #6c5ce7;
+  --dc-soft: #ede9fe;
+  --dc-text: #5b21b6;
+  background: var(--white); border: 1px solid var(--border); border-radius: 16px;
+  overflow: hidden; box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+  position: relative;
 }
-.domain-takeaways-chevron {
-  width: 16px; height: 16px; color: var(--ink-3);
-  transition: transform .2s ease; flex-shrink: 0;
+.domain-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: var(--dc);
 }
-.domain-card.tk-open .domain-takeaways-chevron { transform: rotate(180deg); }
-.domain-takeaways-list {
-  display: none; padding-top: 10px; display: flex; flex-direction: column; gap: 6px;
+.domain-card:hover {
+  box-shadow: var(--shadow); transform: translateY(-2px); border-color: var(--dc);
 }
-.domain-card:not(.tk-open) .domain-takeaways-list { display: none; }
-.domain-card.tk-open .domain-takeaways-list { display: flex; }
-.domain-tk-item {
+.domain-card-header {
+  padding: 20px 20px 14px; display: flex; align-items: flex-start; gap: 14px;
+  background: linear-gradient(180deg, var(--dc-soft) 0%, transparent 100%);
+}
+.domain-icon {
+  width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+  background: var(--white); color: var(--dc-text);
+  box-shadow: 0 0 0 1px var(--dc-soft), 0 2px 4px rgba(0,0,0,.05);
+}
+.domain-info { flex: 1; min-width: 0; }
+.domain-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--dc-text); margin-bottom: 3px;
+}
+.domain-name { font-size: 16px; font-weight: 700; color: var(--ink); line-height: 1.3; margin-bottom: 4px; }
+.domain-desc {
+  font-size: 12.5px; color: var(--ink-2); line-height: 1.5;
+  padding: 0 20px 14px; border-bottom: 1px solid var(--border);
+}
+
+/* 7 domain palettes */
+.domain-card[data-color="dom-purple"] { --dc: #7c3aed; --dc-soft: #ede9fe; --dc-text: #5b21b6; }
+.domain-card[data-color="dom-blue"]   { --dc: #0891b2; --dc-soft: #cffafe; --dc-text: #0e7490; }
+.domain-card[data-color="dom-green"]  { --dc: #059669; --dc-soft: #d1fae5; --dc-text: #047857; }
+.domain-card[data-color="dom-amber"]  { --dc: #d97706; --dc-soft: #fef3c7; --dc-text: #92400e; }
+.domain-card[data-color="dom-rose"]   { --dc: #e11d48; --dc-soft: #ffe4e6; --dc-text: #be123c; }
+.domain-card[data-color="dom-teal"]   { --dc: #0d9488; --dc-soft: #ccfbf1; --dc-text: #0f766e; }
+
+.domain-progress { padding: 8px 20px 4px; }
+.dp-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-3); margin-bottom: 5px; }
+.dp-bar { height: 5px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.dp-fill { height: 100%; border-radius: 4px; transition: width .4s ease; }
+
+.domain-comps { padding: 6px 20px 14px; }
+.comp-row {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 12px 0; font-size: 13px; color: var(--ink);
+  border-bottom: 1px dashed var(--border);
+  cursor: pointer;
+  transition: background .15s ease;
+}
+.comp-row:last-child { border-bottom: none; }
+.comp-row:hover { background: var(--accent-2); border-radius: 6px; padding-left: 6px; padding-right: 6px; }
+.comp-row__head {
+  display: flex; align-items: center; gap: 10px;
+}
+.comp-check {
+  width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
+  border: 1.5px solid var(--border); background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s ease;
+}
+.comp-check.earned { background: #22c55e; border-color: #22c55e; }
+.comp-check.earned svg { display: block; }
+.comp-check svg { display: none; width: 10px; height: 10px; color: #fff; }
+.comp-id {
+  font-family: 'DM Mono', monospace; font-size: 10.5px; color: var(--ink-3);
+  flex-shrink: 0; min-width: 48px;
+}
+.comp-name { flex: 1; font-weight: 600; color: var(--ink); line-height: 1.35; }
+.comp-levels {
+  font-size: 10px; color: var(--ink-3); flex-shrink: 0;
+  background: var(--paper); border: 1px solid var(--border);
+  padding: 2px 8px; border-radius: 999px; font-weight: 600;
+}
+.comp-intent {
   font-size: 12px; color: var(--ink-2); line-height: 1.5;
-  padding: 7px 10px; border-radius: 8px; background: var(--paper);
-  border-left: 3px solid var(--border);
-  display: flex; gap: 8px; align-items: flex-start;
+  padding-left: 76px;
 }
-.domain-tk-item::before { content: '→'; font-weight: 700; color: var(--ink-3); flex-shrink: 0; margin-top: 1px; }
-
-/* ─── SA SCORE STAT ─────────────────────────── */
-.progress-stat-sa {
-  font-size: 11px; color: var(--ink-3); margin-top: 4px;
-  display: flex; align-items: center; gap: 4px;
-}
-.sa-score-bar {
-  flex: 1; height: 4px; background: var(--border); border-radius: 4px; overflow: hidden;
-}
-.sa-score-fill {
-  height: 100%; border-radius: 4px; background: var(--accent); transition: width .4s ease;
+.comp-chips {
+  display: flex; flex-wrap: wrap; gap: 4px 5px;
+  padding-left: 76px;
 }
 
-/* ─── EMPTY ─────────────────────────────────── */
+/* 4 chip families (mirror CH) */
+.cts-pill  { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 6px; background: #ede9fe; color: #5b21b6; border-radius: 4px; font-weight: 600; white-space: nowrap; cursor: pointer; }
+.perm-pill { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 6px; background: #fef3c7; color: #92400e; border-radius: 4px; font-weight: 600; white-space: nowrap; }
+.es-pill   { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 6px; background: #cffafe; color: #0e7490; border-radius: 4px; font-weight: 600; white-space: nowrap; cursor: pointer; }
+.aicf-pill { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 6px; background: #ffedd5; color: #c2410c; border-radius: 4px; font-weight: 600; white-space: nowrap; cursor: pointer; }
+.ped-pill  {
+  font-size: 10px; padding: 2px 6px; background: #e2e8f0; color: #475569;
+  border-radius: 4px; font-weight: 500;
+  max-width: 18ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  cursor: help;
+}
+.ped-pill:hover { max-width: none; }
+
+.skel {
+  background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);
+  background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 .skel-card {
   background: var(--white); border: 1px solid var(--border);
   border-radius: 16px; overflow: hidden; height: 240px;
   box-shadow: var(--shadow-sm);
 }
-.skel { background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
-@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-/* ─── MOBILE ─────────────────────────────────── */
 @media (max-width: 720px) {
   .page-wrap { padding: 20px 14px 80px; }
-  .btn-hero-primary, .btn-hero-secondary { padding: 9px 16px; font-size: 12px; }
-  .levels-row { gap: 8px; margin-bottom: 22px; }
-  .level-pill { padding: 7px 12px; font-size: 11px; }
   .domain-grid { grid-template-columns: 1fr; gap: 14px; }
   .domain-card-header { padding: 16px 16px 12px; gap: 12px; }
-  .domain-icon { width: 38px; height: 38px; font-size: 16px; }
+  .sf-toolbar { position: static; top: auto; }
+  .comp-intent, .comp-chips { padding-left: 0; }
 }
 </style>
 <script type="module" src="auth-guard.js"></script>
@@ -345,7 +443,7 @@
     <div class="page-hero__text">
       <div class="page-hero__eyebrow">Eduversal · Teachers Hub</div>
       <h1 class="page-hero__title">Competency Framework</h1>
-      <p class="page-hero__desc">A structured pathway for professional growth. Explore the six domains, track your progress across all competency levels, and earn recognised certificates.</p>
+      <p class="page-hero__desc">A structured growth path for every Cambridge teacher in the Eduversal network. Seven domains span what we ask of you — subject mastery, learner-centred pedagogy, assessment, classroom innovation, professional identity, collaboration and AI literacy.</p>
       <div class="page-hero__actions">
         <a href="learning-path.html" class="btn-hero btn-hero-primary">
           <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm1 11H9v-2h2v2zm0-4H9V7h2v2z"/></svg>
@@ -357,25 +455,25 @@
         </a>
       </div>
     </div>
-    <div class="page-hero__kpis">
+    <div class="page-hero__kpis" id="heroKpis">
       <div class="page-hero__kpi page-hero__kpi--primary">
-        <div class="page-hero__kpi-num">6</div>
+        <div class="page-hero__kpi-num" id="kpiDomains">—</div>
         <div class="page-hero__kpi-lbl">Domains</div>
-        <div class="page-hero__kpi-sub">six pillars</div>
+        <div class="page-hero__kpi-sub">seven pillars</div>
       </div>
       <div class="page-hero__kpi">
-        <div class="page-hero__kpi-num">24</div>
+        <div class="page-hero__kpi-num" id="kpiComps">—</div>
         <div class="page-hero__kpi-lbl">Competencies</div>
-        <div class="page-hero__kpi-sub">across all domains</div>
+        <div class="page-hero__kpi-sub" id="kpiCompsSub">across all domains</div>
       </div>
       <div class="page-hero__kpi">
-        <div class="page-hero__kpi-num">20/27</div>
-        <div class="page-hero__kpi-lbl">CTS Coverage</div>
+        <div class="page-hero__kpi-num" id="kpiCts">—</div>
+        <div class="page-hero__kpi-lbl">CTS coverage</div>
         <div class="page-hero__kpi-sub">of 27 Cambridge standards</div>
       </div>
       <div class="page-hero__kpi">
         <div class="page-hero__kpi-num">4</div>
-        <div class="page-hero__kpi-lbl">Reference Systems</div>
+        <div class="page-hero__kpi-lbl">Reference systems</div>
         <div class="page-hero__kpi-sub">CTS · Permendiknas · ES · AICF</div>
       </div>
     </div>
@@ -383,6 +481,80 @@
 </header>
 
 <div class="page-wrap">
+
+  <!-- GROUNDED-IN BAND (provenance — hero-continuation, identical to CH) -->
+  <section class="grounded-band" id="basisCard" aria-labelledby="groundedHeading">
+    <div class="grounded-inner">
+      <div class="grounded-head">
+        <div>
+          <div class="grounded-eyebrow">Grounded in</div>
+          <p class="grounded-lede" id="groundedHeading">
+            Four standards bodies anchor every competency, level descriptor, and certificate this framework issues.
+          </p>
+        </div>
+      </div>
+      <div class="grounded-grid">
+        <a class="grounded-tile" data-sys="cts" href="https://www.cambridgeinternational.org/Images/466465-cambridge-teacher-standards.pdf" target="_blank" rel="noopener">
+          <div class="grounded-tile-head">
+            <span class="grounded-tile-badge">CTS</span>
+            <div>
+              <div class="grounded-tile-name">Cambridge Teacher Standards</div>
+              <div class="grounded-tile-ver">2023 edition · 27 standards</div>
+            </div>
+          </div>
+          <p class="grounded-tile-desc">International anchor for what a Cambridge teacher should know and do — planning, classroom, assessment, innovation, and community.</p>
+          <span class="grounded-tile-link">Official PDF →</span>
+        </a>
+        <a class="grounded-tile" data-sys="pmd" href="/references?doc=permendiknas-16-2007" target="_self">
+          <div class="grounded-tile-head">
+            <span class="grounded-tile-badge">PMD</span>
+            <div>
+              <div class="grounded-tile-name">Permendiknas No. 16</div>
+              <div class="grounded-tile-ver">Tahun 2007 · 4 kompetensi guru</div>
+            </div>
+          </div>
+          <p class="grounded-tile-desc">Indonesian national teacher-competency regulation — pedagogik, kepribadian, sosial, profesional. Every classroom routine maps back to one of these four pillars.</p>
+          <span class="grounded-tile-link">Read in references →</span>
+        </a>
+        <a class="grounded-tile" data-sys="es" href="/references?doc=eduversal-standards-manifest" target="_self">
+          <div class="grounded-tile-head">
+            <span class="grounded-tile-badge">ES</span>
+            <div>
+              <div class="grounded-tile-name">Eduversal Academic Standards</div>
+              <div class="grounded-tile-ver">manifest v1 · 23 sections · 393 madde</div>
+            </div>
+          </div>
+          <p class="grounded-tile-desc">Network-wide policy authority. §7 (Teaching Quality &amp; Practice — Teacher Appraisal System) is the surface that turns these competencies into your annual appraisal.</p>
+          <span class="grounded-tile-link">Browse manifest →</span>
+        </a>
+        <a class="grounded-tile" data-sys="aicf" href="/references?doc=aicf-manifest" target="_self">
+          <div class="grounded-tile-head">
+            <span class="grounded-tile-badge">AICF</span>
+            <div>
+              <div class="grounded-tile-name">AI Competency Framework</div>
+              <div class="grounded-tile-ver">Eduversal v1.0 · UNESCO AI-CFT 2024 aligned</div>
+            </div>
+          </div>
+          <p class="grounded-tile-desc">AI-literacy ladder for teachers. Defines red lines (UU PDP 27/2022), Cambridge GenAI coursework rules and the Foundation → Practitioner → Leader progression.</p>
+          <span class="grounded-tile-link">Open AICF →</span>
+        </a>
+      </div>
+      <div class="grounded-secondary">
+        <div class="grounded-secondary-label">Secondary research anchors per competency</div>
+        <span class="grounded-anchor">Rosenshine Principles</span>
+        <span class="grounded-anchor">EEF Effective PD 2024</span>
+        <span class="grounded-anchor">Kraft 2018 (coaching)</span>
+        <span class="grounded-anchor">Wiliam Embedded Formative Assessment</span>
+        <span class="grounded-anchor">UNESCO AI-CFT 2024</span>
+        <span class="grounded-anchor">Cambridge GenAI Coursework Policy</span>
+        <span class="grounded-anchor">Permendikdasmen 1/2026 &middot; 9/2026</span>
+        <span class="grounded-anchor">Kurikulum Merdeka CP/ATP/Fase</span>
+        <div class="grounded-meta" id="basisText">
+          Cited per competency in <code>pedagogyRefs[]</code>. Audience: <code>subject_teacher + subject_leader</code>, gated by <code>th_sub_roles[]</code>.
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- PROGRESS OVERVIEW -->
   <div class="section-title">
@@ -402,53 +574,40 @@
       <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.396 0 2.7.37 3.82 1.016A7.968 7.968 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.396 0-2.7.37-3.82 1.016A7.968 7.968 0 009 4.804z"/></svg>
       Competency Levels
     </div>
-    <div class="levels-grid">
+    <div class="levels-grid" id="levelsGrid">
       <div class="level-card awareness">
         <div class="level-card-name">Awareness</div>
-        <div class="level-card-desc">Demonstrates foundational understanding of the standard; follows guidance and is building confidence. (Cambridge Teacher Standard: beginning to engage)</div>
+        <div class="level-card-desc">Has read and discussed the practice; can describe what good looks like.</div>
       </div>
       <div class="level-card practitioner">
         <div class="level-card-name">Practitioner</div>
-        <div class="level-card-desc">Applies the competency consistently and independently; can evidence impact on student learning. (Cambridge Teacher Standard: developing)</div>
+        <div class="level-card-desc">Applies the practice consistently and independently in their own classroom.</div>
       </div>
       <div class="level-card advanced">
         <div class="level-card-name">Advanced</div>
-        <div class="level-card-desc">Adapts practice with critical reflection; uses evidence to innovate and improve outcomes for diverse learners. (Cambridge Teacher Standard: established)</div>
+        <div class="level-card-desc">Adapts the practice for different contexts; coaches peers informally.</div>
       </div>
       <div class="level-card lead">
         <div class="level-card-name">Lead / Mentor</div>
-        <div class="level-card-desc">Leads and mentors colleagues; contributes to school-wide improvement and the wider Cambridge professional community. (Cambridge Teacher Standard: exemplary)</div>
+        <div class="level-card-desc">Leads departmental or school-wide development of this practice.</div>
       </div>
     </div>
   </div>
 
-  <!-- FILTER -->
-  <div class="filter-bar">
-    <span class="filter-label">Filter by level:</span>
-    <button class="level-pill active" data-filter="all" onclick="setFilter('all',this)">
-      <span class="dot" style="background:#94a3b8;"></span> All Levels
-    </button>
-    <button class="level-pill" data-filter="awareness" onclick="setFilter('awareness',this)">
-      <span class="dot dot-awareness"></span> Awareness
-    </button>
-    <button class="level-pill" data-filter="practitioner" onclick="setFilter('practitioner',this)">
-      <span class="dot dot-practitioner"></span> Practitioner
-    </button>
-    <button class="level-pill" data-filter="advanced" onclick="setFilter('advanced',this)">
-      <span class="dot dot-advanced"></span> Advanced
-    </button>
-    <button class="level-pill" data-filter="lead" onclick="setFilter('lead',this)">
-      <span class="dot dot-lead"></span> Lead / Mentor
-    </button>
+  <!-- FILTER TOOLBAR (CH-parallel) -->
+  <div class="sf-toolbar" id="sfToolbar" hidden>
+    <div class="sf-search">
+      <span aria-hidden="true">🔎</span>
+      <input id="sfSearch" type="search" placeholder="Search competency name, id or intent…" autocomplete="off" />
+    </div>
+    <div class="sf-chips" id="sfChips"></div>
+    <div class="sf-count" id="sfCount"></div>
   </div>
 
-  <!-- FRAMEWORK TITLE -->
-  <div class="section-title">
-    <svg viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z"/></svg>
-    The Six Domains
-  </div>
+  <!-- EMPTY STATE -->
+  <div class="sf-empty" id="sfEmpty">No competencies match — try a different search or domain filter.</div>
 
-  <!-- DOMAIN GRID -->
+  <!-- DOMAINS -->
   <div class="domain-grid" id="domainGrid">
     <div class="skel-card"></div>
     <div class="skel-card"></div>
@@ -458,186 +617,36 @@
     <div class="skel-card"></div>
   </div>
 
-  <!-- REFERENCES -->
-  <div class="levels-explainer" style="margin-top:40px;">
-    <div class="section-title" style="margin-bottom:12px;">
-      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.396 0 2.7.37 3.82 1.016A7.968 7.968 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.396 0-2.7.37-3.82 1.016A7.968 7.968 0 009 4.804z"/></svg>
-      Framework Sources & References
-    </div>
-    <p style="font-size:13px;color:var(--ink-3);margin:0 0 14px;">This framework is grounded in the following internationally recognised standards and Indonesian national regulations:</p>
-    <div style="display:grid;gap:10px;">
-      <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;">
-        <span style="font-size:18px;flex-shrink:0;">📘</span>
-        <div>
-          <div style="font-size:13px;font-weight:700;color:var(--ink-1);margin-bottom:2px;">Cambridge Teacher Standards 2019</div>
-          <div style="font-size:12px;color:var(--ink-3);">University of Cambridge Local Examinations Syndicate (UCLES). Defines five attributes for Cambridge-qualified teachers: Confident, Responsible, Reflective, Innovative, and Engaged. Used to map all six domains and CPD level descriptors in this framework.</div>
-          <a href="https://www.cambridge.org/elt/blog/2019/10/cambridge-teacher-standards/" target="_blank" rel="noopener" style="font-size:12px;color:#6d28d9;font-weight:600;margin-top:4px;display:inline-block;">cambridge.org/elt → Cambridge Teacher Standards ↗</a>
-        </div>
-      </div>
-      <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;">
-        <span style="font-size:18px;flex-shrink:0;">🇮🇩</span>
-        <div>
-          <div style="font-size:13px;font-weight:700;color:var(--ink-1);margin-bottom:2px;">Permendiknas No. 16 Tahun 2007 — Standar Kualifikasi Akademik dan Kompetensi Guru</div>
-          <div style="font-size:12px;color:var(--ink-3);">Kementerian Pendidikan Nasional Republik Indonesia. Establishes the four core teacher competencies (Pedagogik, Kepribadian, Sosial, Profesional) that underpin teacher certification in Indonesia. Integrated into the Professional Identity & Ethics and Collaboration domains.</div>
-          <a href="https://peraturan.bpk.go.id/Details/83919/permendiknas-no-16-tahun-2007" target="_blank" rel="noopener" style="font-size:12px;color:#6d28d9;font-weight:600;margin-top:4px;display:inline-block;">peraturan.bpk.go.id → Permendiknas No. 16/2007 ↗</a>
-        </div>
-      </div>
-      <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;">
-        <span style="font-size:18px;flex-shrink:0;">🎓</span>
-        <div>
-          <div style="font-size:13px;font-weight:700;color:var(--ink-1);margin-bottom:2px;">Cambridge CPD Framework — Professional Development Levels</div>
-          <div style="font-size:12px;color:var(--ink-3);">Cambridge Assessment International Education. The four CPD levels (Awareness → Practitioner → Advanced → Lead/Mentor) map to the Cambridge CPD pathway and are used as the progression structure for all competency levels in this framework.</div>
-          <a href="https://www.cambridge-community.org.uk/professional-development" target="_blank" rel="noopener" style="font-size:12px;color:#6d28d9;font-weight:600;margin-top:4px;display:inline-block;">cambridge-community.org.uk → Professional Development ↗</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </div>
 
 <script src="partials/navbar.js"></script>
 
 <script type="module">
-import { getFirestore, doc, getDoc, setDoc, collection, getDocs, query, where, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-// ─── FRAMEWORK DATA ───────────────────────────────────────────────────────────
-// Competency framework is defined here and mirrored in Firestore
-// Collection: competency_frameworks/{platform}
-// Domains: competency_domains/{domainId}
-// User earned competencies: user_competencies/{uid} → { earned: { [compId]: { level, date } } }
-
-// Framework grounded in: Cambridge Teacher Standards 2019 (UCLES),
-// Permendiknas No. 16/2007 (4 Kompetensi Guru), and Cambridge CPD levels.
-const FRAMEWORK = [
-  {
-    id: 'smc',
-    name: 'Subject Mastery & Curriculum Design',
-    desc: 'Secure subject knowledge and coherent curriculum planning aligned to Cambridge syllabuses and Indonesian standards.',
-    icon: '📚', color: 'dom-purple',
-    keyTakeaways: [
-      'Map your teaching topics to Cambridge syllabus content statements and assessment objectives.',
-      'Design schemes of work that build knowledge progressively across a unit and key stage.',
-      'Review and improve curriculum resources based on student performance data.',
-    ],
-    // Cambridge Teacher Standard 2 + Kompetensi Profesional (Permendiknas 16/2007)
-    competencies: [
-      { id: 'smc-1', name: 'Cambridge Syllabus & Assessment Objectives', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'smc-2', name: 'Lesson Sequencing & Scheme of Work Design', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'smc-3', name: 'Vertical Curriculum Alignment (Key Stage)', levels: ['practitioner','advanced','lead'] },
-      { id: 'smc-4', name: 'Curriculum Review & Resource Development', levels: ['advanced','lead'] },
-    ]
-  },
-  {
-    id: 'lcp',
-    name: 'Learner-Centred Pedagogy',
-    desc: 'Responsive teaching strategies that address diverse learning profiles, including EAL learners and students with additional needs.',
-    icon: '💡', color: 'dom-blue',
-    keyTakeaways: [
-      'Adapt tasks, resources, and support to meet the different learning needs in your classroom.',
-      'Apply strategies that build student independence, metacognition, and higher-order thinking.',
-      'Create an inclusive environment that respects language diversity and additional learning needs.',
-    ],
-    // Cambridge Teacher Standard 1 + Kompetensi Pedagogik (karakteristik peserta didik, teori belajar)
-    competencies: [
-      { id: 'lcp-1', name: 'Differentiation & Inclusive Practice', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'lcp-2', name: 'EAL & Multilingual Learner Support', levels: ['awareness','practitioner','advanced'] },
-      { id: 'lcp-3', name: 'Metacognition & Self-Regulated Learning', levels: ['practitioner','advanced','lead'] },
-      { id: 'lcp-4', name: 'Higher-Order & Inquiry-Based Thinking', levels: ['practitioner','advanced','lead'] },
-    ]
-  },
-  {
-    id: 'afl',
-    name: 'Assessment for Learning',
-    desc: 'Using formative and summative assessment evidence — including Cambridge mark schemes — to improve student outcomes.',
-    icon: '📊', color: 'dom-green',
-    keyTakeaways: [
-      'Use regular formative assessment techniques to check understanding and adapt your teaching in real time.',
-      'Give targeted feedback aligned to Cambridge mark schemes so students know exactly how to improve.',
-      'Analyse assessment data to identify gaps and design focused interventions for individual learners.',
-    ],
-    // Cambridge Teacher Standard 5.7–5.9 + Pedagogik (penilaian evaluasi proses dan hasil belajar)
-    competencies: [
-      { id: 'afl-1', name: 'Formative Assessment Techniques', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'afl-2', name: 'Feedback Aligned to Cambridge Mark Schemes', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'afl-3', name: 'Data Analysis & Targeted Intervention', levels: ['practitioner','advanced','lead'] },
-      { id: 'afl-4', name: 'Moderation & Assessment Consistency', levels: ['advanced','lead'] },
-    ]
-  },
-  {
-    id: 'icp',
-    name: 'Innovative Classroom Practice',
-    desc: 'Applying evidence-based innovations and purposeful technology use to foster intellectual curiosity and 21st-century skills.',
-    icon: '🚀', color: 'dom-amber',
-    keyTakeaways: [
-      'Design active, collaborative learning structures that engage students as active participants.',
-      'Integrate digital tools and EdTech purposefully to deepen learning — not just for novelty.',
-      'Use inquiry-based approaches and Cambridge Global Perspectives to develop critical thinking.',
-    ],
-    // Cambridge Teacher Standard 6 + Pedagogik (TIK) + Profesional (kreatif, Permendiknas 16/2007)
-    competencies: [
-      { id: 'icp-1', name: 'Active Learning & Collaborative Structures', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'icp-2', name: 'Cambridge Global Perspectives & Thinking Skills', levels: ['practitioner','advanced','lead'] },
-      { id: 'icp-3', name: 'EdTech & Digital Tools for Learning', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'icp-4', name: 'Action Research & Evidence-Based Innovation', levels: ['advanced','lead'] },
-    ]
-  },
-  {
-    id: 'pie',
-    name: 'Professional Identity & Ethics',
-    desc: 'Upholding Cambridge teacher attributes and Indonesian professional standards with integrity, reflective practice and commitment to growth.',
-    icon: '🌱', color: 'dom-rose',
-    keyTakeaways: [
-      'Engage in regular reflective practice and structured CPD aligned to Cambridge and Indonesian standards.',
-      'Uphold the professional code of conduct, model ethical behaviour, and safeguard student wellbeing.',
-      'Contribute to school improvement by mentoring colleagues and sharing professional expertise.',
-    ],
-    // Cambridge Teacher Standard 3 + Kompetensi Kepribadian + kode etik profesi (UU Guru No. 14/2005)
-    competencies: [
-      { id: 'pie-1', name: 'Reflective Practice & CPD Engagement', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'pie-2', name: 'Professional Conduct & Teacher Ethics', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'pie-3', name: 'Safeguarding & Child Protection', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'pie-4', name: 'Mentoring & Contributing to School Development', levels: ['advanced','lead'] },
-    ]
-  },
-  {
-    id: 'cce',
-    name: 'Collaboration & Community Engagement',
-    desc: 'Building professional partnerships with colleagues, families and the wider Cambridge school community.',
-    icon: '🤝', color: 'dom-teal',
-    keyTakeaways: [
-      'Plan and teach collaboratively with colleagues to improve curriculum consistency and shared practice.',
-      'Communicate proactively with parents and report student progress clearly and constructively.',
-      'Engage with the wider Cambridge professional community to bring external expertise into your school.',
-    ],
-    // Cambridge Teacher Standard 4 + Standard 8 + Kompetensi Sosial (Permendiknas 16/2007)
-    competencies: [
-      { id: 'cce-1', name: 'Collaborative Curriculum & Lesson Planning', levels: ['awareness','practitioner','advanced','lead'] },
-      { id: 'cce-2', name: 'Parent Communication & Reporting', levels: ['awareness','practitioner','advanced'] },
-      { id: 'cce-3', name: 'Cross-departmental & Cross-school Collaboration', levels: ['practitioner','advanced','lead'] },
-      { id: 'cce-4', name: 'Cambridge Network & Professional Community', levels: ['advanced','lead'] },
-    ]
-  }
-];
-
-const LEVEL_ORDER = ['awareness','practitioner','advanced','lead'];
-const LEVEL_LABEL = { awareness:'Awareness', practitioner:'Practitioner', advanced:'Advanced', lead:'Lead / Mentor' };
-
-let earned = {}; // { [compId]: highestLevel }
-let saScores = {}; // { "compId/lvl/idx": 1-4 }
-let currentFilter = 'all';
-
+// ─── Navbar mount ─────────────────────────────────────────────────
 fetch('partials/navbar.html')
   .then(r => r.text())
   .then(html => {
     document.getElementById('navbar-container').innerHTML = html;
     initNavbar();
     if (typeof window._pendingNavbarUpdate === 'function') { window._pendingNavbarUpdate(); window._pendingNavbarUpdate = null; }
-    if (typeof window._pendingBadgeSetup === 'function') { window._pendingBadgeSetup(); window._pendingBadgeSetup = null; }
+    if (typeof window._pendingBadgeSetup    === 'function') { window._pendingBadgeSetup();    window._pendingBadgeSetup    = null; }
     if (typeof window._pendingFeedbackSetup === 'function') { window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
   });
 
+// ─── State ────────────────────────────────────────────────────────
+let FRAMEWORK = null;           // Firestore-loaded competency_framework/teachers
+let earned    = {};             // user_competencies/{uid}.earned
+let saScores  = {};             // user_competencies/{uid}.saScores
+let activeDomain = 'all';
+let searchTerm   = '';
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+// ─── authReady (TH dispatches on `document`) ──────────────────────
 document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
-  const db = window.db;
+  // Navbar identity
   const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
   const updateNavbarElements = () => {
     const el = document.getElementById('profileNameShort');
@@ -647,79 +656,130 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
     if (av && typeof buildAvatarEl === 'function') buildAvatarEl(av, user);
     if (pw) pw.style.display = 'flex';
   };
-  if (document.getElementById('profileNameShort')) { updateNavbarElements(); } else { window._pendingNavbarUpdate = updateNavbarElements; }
-  const doBadgeSetup = () => setupNavBadges(db, { onSnapshot, collection });
-  if (document.getElementById('msgBoardBadge')) { doBadgeSetup(); } else { window._pendingBadgeSetup = doBadgeSetup; }
-  await loadUserCompetencies(user.uid);
+  if (document.getElementById('profileNameShort')) { updateNavbarElements(); }
+  else { window._pendingNavbarUpdate = updateNavbarElements; }
+  const doBadgeSetup = () => setupNavBadges(window.db, { onSnapshot: null, collection: null });
+  if (document.getElementById('msgBoardBadge')) { doBadgeSetup(); }
+  else { window._pendingBadgeSetup = doBadgeSetup; }
+
+  // Load the framework + the user's earned/sa state in parallel
+  const [fwSnap, userSnap] = await Promise.all([
+    getDoc(doc(window.db, 'competency_framework', 'teachers')),
+    getDoc(doc(window.db, 'user_competencies',     user.uid)),
+  ]);
+
+  if (!fwSnap.exists()) {
+    document.getElementById('domainGrid').innerHTML =
+      '<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--ink-3);font-size:13px;">' +
+      'Teachers competency framework has not been seeded yet. Run <code>node scripts/competency/seed-th-competency-framework.js</code> from monorepo root.</div>';
+    return;
+  }
+
+  FRAMEWORK = fwSnap.data();
+
+  if (userSnap.exists()) {
+    const u = userSnap.data();
+    earned   = u.earned   || {};
+    saScores = u.saScores || {};
+  }
+
+  renderBasis(FRAMEWORK);
+  renderKpis(FRAMEWORK);
   renderProgressOverview();
-  renderDomains();
+  renderLevels(FRAMEWORK);
+  renderDomains(FRAMEWORK);
+  renderFilters(FRAMEWORK);
 });
 
-async function loadUserCompetencies(uid) {
-  const ref = doc(window.db, 'user_competencies', uid);
-  const snap = await getDoc(ref);
-  if (snap.exists()) {
-    const data = snap.data();
-    earned = data.earned || {};
-    saScores = data.saScores || {};
-  }
-}
-
-// Returns avg self-assessment score (1-4) for a competency across all its levels, or null if none answered
+// ─── Self-assessment helpers ──────────────────────────────────────
 function avgSaScore(compId) {
   const vals = Object.entries(saScores)
     .filter(([k]) => k.startsWith(compId + '/'))
-    .map(([, v]) => v);
+    .map(([, v]) => Number(v) || 0);
   if (!vals.length) return null;
   return vals.reduce((a, b) => a + b, 0) / vals.length;
 }
-
-// Returns avg SA score across all comps in a domain, or null
-function domainAvgSa(domain) {
-  const scores = domain.competencies.map(c => avgSaScore(c.id)).filter(s => s !== null);
+function domainAvgSa(domainId) {
+  if (!FRAMEWORK) return null;
+  const comps = FRAMEWORK.competencies.filter(c => c.domainId === domainId);
+  const scores = comps.map(c => avgSaScore(c.id)).filter(s => s !== null);
   if (!scores.length) return null;
   return scores.reduce((a, b) => a + b, 0) / scores.length;
 }
-
-// Returns overall avg SA score across all comps, or null
 function overallAvgSa() {
-  const allComps = FRAMEWORK.flatMap(d => d.competencies);
-  const scores = allComps.map(c => avgSaScore(c.id)).filter(s => s !== null);
+  if (!FRAMEWORK) return null;
+  const scores = FRAMEWORK.competencies.map(c => avgSaScore(c.id)).filter(s => s !== null);
   if (!scores.length) return null;
   return scores.reduce((a, b) => a + b, 0) / scores.length;
 }
-
 function highestEarned(compId) {
-  if (!earned[compId]) return null;
-  return earned[compId].level || null;
+  return earned[compId]?.level || null;
+}
+
+// ─── Renderers ────────────────────────────────────────────────────
+function renderBasis(fw) {
+  const audience = fw.audience || 'subject_teacher + subject_leader';
+  const meta = document.getElementById('basisText');
+  if (meta) {
+    meta.innerHTML = `Cited per competency in <code>pedagogyRefs[]</code>. Audience: <code>${esc(audience)}</code>, gated by <code>th_sub_roles[]</code>.`;
+  }
+  if (fw.sources?.cambridgeTeacherStandards) {
+    const ctsTile = document.querySelector('.grounded-tile[data-sys="cts"]');
+    if (ctsTile) ctsTile.href = fw.sources.cambridgeTeacherStandards;
+  }
+}
+
+function renderKpis(fw) {
+  const domains = Array.isArray(fw.domains) ? fw.domains : [];
+  const comps = Array.isArray(fw.competencies) ? fw.competencies : [];
+  const ctsSet = new Set();
+  for (const c of comps) for (const r of (c.cambridgeStandardRefs || [])) ctsSet.add(String(r));
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set('kpiDomains', domains.length || '—');
+  set('kpiComps',   comps.length   || '—');
+  set('kpiCts',     `${ctsSet.size}/27`);
+}
+
+function renderLevels(fw) {
+  // Levels explainer card text comes from levelDescriptors{} if present so the
+  // wording stays in lockstep with the seed. Falls back to inline defaults.
+  const d = fw.levelDescriptors || {};
+  const grid = document.getElementById('levelsGrid');
+  if (!grid) return;
+  const cards = grid.querySelectorAll('.level-card');
+  cards.forEach(card => {
+    const lvl = card.classList.contains('awareness')    ? 'awareness'
+              : card.classList.contains('practitioner') ? 'practitioner'
+              : card.classList.contains('advanced')     ? 'advanced'
+              : card.classList.contains('lead')         ? 'lead' : null;
+    if (lvl && d[lvl]) {
+      const descEl = card.querySelector('.level-card-desc');
+      if (descEl) descEl.textContent = d[lvl];
+    }
+  });
 }
 
 function renderProgressOverview() {
-  let totalComps = 0, earnedCount = 0, certCount = 0;
-  const domainProgress = {};
+  if (!FRAMEWORK) return;
+  const allComps = FRAMEWORK.competencies || [];
+  const totalComps = allComps.length;
+  let earnedCount = 0;
+  for (const c of allComps) if (highestEarned(c.id)) earnedCount++;
 
-  FRAMEWORK.forEach(domain => {
-    let domTotal = 0, domEarned = 0;
-    domain.competencies.forEach(comp => {
-      totalComps++;
-      domTotal++;
-      if (highestEarned(comp.id)) { earnedCount++; domEarned++; }
-    });
-    domainProgress[domain.id] = { total: domTotal, earned: domEarned };
-  });
-
-  // Count certificates: a cert is issued when all competencies in a domain are at 'lead'
-  FRAMEWORK.forEach(domain => {
-    const allLead = domain.competencies.every(c => highestEarned(c.id) === 'lead');
-    if (allLead) certCount++;
-  });
+  // A "certificate" is earned when every competency in a domain is at 'lead'
+  let certCount = 0;
+  const byDomain = {};
+  for (const c of allComps) (byDomain[c.domainId] ||= []).push(c);
+  for (const list of Object.values(byDomain)) {
+    if (list.length && list.every(c => highestEarned(c.id) === 'lead')) certCount++;
+  }
 
   const pct = totalComps > 0 ? Math.round((earnedCount / totalComps) * 100) : 0;
   const avgSa = overallAvgSa();
   const saHtml = avgSa !== null
     ? `<div class="progress-stat-sa">
-        <span style="white-space:nowrap;">${avgSa.toFixed(1)}/4</span>
-        <div class="sa-score-bar"><div class="sa-score-fill" style="width:${Math.round((avgSa/4)*100)}%"></div></div>
+         <span style="white-space:nowrap;">${avgSa.toFixed(1)}/4</span>
+         <div class="sa-score-bar"><div class="sa-score-fill" style="width:${Math.round((avgSa/4)*100)}%"></div></div>
        </div>`
     : `<div class="progress-stat-sub" style="margin-top:4px;">No self-assessments yet</div>`;
 
@@ -751,107 +811,135 @@ function renderProgressOverview() {
   `;
 }
 
-function renderDomains() {
-  const grid = document.getElementById('domainGrid');
-  grid.innerHTML = '';
-
-  FRAMEWORK.forEach(domain => {
-    const filtered = currentFilter === 'all'
-      ? domain.competencies
-      : domain.competencies.filter(c => c.levels.includes(currentFilter));
-
-    if (filtered.length === 0) return;
-
-    const earnedInDomain = domain.competencies.filter(c => highestEarned(c.id)).length;
-    const pct = Math.round((earnedInDomain / domain.competencies.length) * 100);
-
-    let fillColor = '#7c3aed';
-    if (domain.color === 'dom-blue') fillColor = '#2563eb';
-    else if (domain.color === 'dom-amber') fillColor = '#d97706';
-    else if (domain.color === 'dom-green') fillColor = '#16a34a';
-    else if (domain.color === 'dom-rose') fillColor = '#e11d48';
-    else if (domain.color === 'dom-teal') fillColor = '#0d9488';
-
-    const compsHtml = filtered.map(comp => {
-      const lvl = highestEarned(comp.id);
-      const isEarned = !!lvl;
-      const displayLevel = lvl ? LEVEL_LABEL[lvl] : (comp.levels[0] ? LEVEL_LABEL[comp.levels[0]] : '');
-      const levelClass = lvl ? `lvl-${lvl}` : `lvl-${comp.levels[0]}`;
-      return `
-        <div class="comp-item" onclick="goToPath('${comp.id}')">
-          <div class="comp-check ${isEarned ? 'earned' : ''}">
-            <svg viewBox="0 0 12 12" fill="currentColor"><path d="M10 3L5 9 2 6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="comp-body">
-            <div class="comp-name">${comp.name}</div>
-            <span class="comp-level-badge ${levelClass}">${isEarned ? '✓ ' : ''}${displayLevel}</span>
-          </div>
-          <div class="comp-arrow">
-            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
-          </div>
-        </div>
-      `;
-    }).join('');
-
-    const domSa = domainAvgSa(domain);
-    const domSaHtml = domSa !== null
-      ? `<span style="font-size:10px;font-weight:700;color:var(--ink-3);margin-left:auto;flex-shrink:0;">SA ${domSa.toFixed(1)}/4</span>`
-      : '';
-
-    const tkHtml = (domain.keyTakeaways || []).map(t =>
-      `<div class="domain-tk-item">${t}</div>`
-    ).join('');
-
-    grid.innerHTML += `
-      <div class="domain-card ${domain.color}">
-        <div class="domain-card-header">
-          <div class="domain-icon">${domain.icon}</div>
-          <div class="domain-info">
-            <div class="domain-label">Domain ${FRAMEWORK.indexOf(domain) + 1}</div>
-            <div class="domain-name">${domain.name}</div>
-            <div class="domain-desc">${domain.desc}</div>
-          </div>
-        </div>
-        <div class="domain-progress">
-          <div class="dp-label"><span>${earnedInDomain}/${domain.competencies.length} earned</span><span style="display:flex;align-items:center;gap:6px;">${domSaHtml}<span>${pct}%</span></span></div>
-          <div class="dp-bar"><div class="dp-fill" style="width:${pct}%;background:${fillColor};"></div></div>
-        </div>
-        <div class="domain-card-body">
-          <div class="competency-list">${compsHtml}</div>
-        </div>
-        ${tkHtml ? `<div class="domain-takeaways">
-          <div class="domain-takeaways-toggle" onclick="toggleTakeaways(this)">
-            <span class="domain-takeaways-label">
-              <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm.75 10.5h-1.5v-5h1.5v5zm0-6.5h-1.5V3.5h1.5V5z"/></svg>
-              What you will learn
-            </span>
-            <svg class="domain-takeaways-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-          </div>
-          <div class="domain-takeaways-list">${tkHtml}</div>
-        </div>` : ''}
-      </div>
-    `;
+function renderFilters(fw) {
+  const chipsEl = document.getElementById('sfChips');
+  const toolbar = document.getElementById('sfToolbar');
+  if (!chipsEl || !toolbar) return;
+  const domains = Array.isArray(fw.domains) ? fw.domains : [];
+  chipsEl.innerHTML =
+    `<button type="button" class="sf-chip is-active" data-domain="all">All</button>` +
+    domains.map(d => `<button type="button" class="sf-chip" data-domain="${esc(d.id)}" data-color="${esc(d.color || '')}">${esc(d.icon || '')} ${esc(d.name)}</button>`).join('');
+  chipsEl.addEventListener('click', e => {
+    const btn = e.target.closest('.sf-chip');
+    if (!btn) return;
+    activeDomain = btn.dataset.domain;
+    chipsEl.querySelectorAll('.sf-chip').forEach(c => c.classList.toggle('is-active', c === btn));
+    applyFilter();
   });
-
-  if (grid.innerHTML === '') {
-    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--ink-3);font-size:14px;">No competencies found for this level filter.</div>';
+  const search = document.getElementById('sfSearch');
+  if (search) {
+    search.addEventListener('input', () => {
+      searchTerm = search.value.trim().toLowerCase();
+      applyFilter();
+    });
   }
+  toolbar.hidden = false;
+  applyFilter();
 }
 
-window.setFilter = function(filter, btn) {
-  currentFilter = filter;
-  document.querySelectorAll('.level-pill').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  renderDomains();
-};
+function applyFilter() {
+  const rows = document.querySelectorAll('.comp-row');
+  let visible = 0;
+  rows.forEach(row => {
+    const matchesDomain = activeDomain === 'all' || row.dataset.domainId === activeDomain;
+    const matchesSearch = !searchTerm || (row.dataset.search || '').includes(searchTerm);
+    const show = matchesDomain && matchesSearch;
+    row.hidden = !show;
+    if (show) visible++;
+  });
+  document.querySelectorAll('.domain-card').forEach(card => {
+    card.hidden = !card.querySelector('.comp-row:not([hidden])');
+  });
+  const countEl = document.getElementById('sfCount');
+  if (countEl) countEl.textContent = `${visible} competenc${visible === 1 ? 'y' : 'ies'} shown`;
+  const empty = document.getElementById('sfEmpty');
+  if (empty) empty.classList.toggle('is-visible', visible === 0);
+}
+
+function renderDomains(fw) {
+  const grid = document.getElementById('domainGrid');
+  const compsByDomain = {};
+  for (const c of fw.competencies || []) (compsByDomain[c.domainId] ||= []).push(c);
+
+  grid.innerHTML = (fw.domains || []).map(d => {
+    const comps = compsByDomain[d.id] || [];
+    const color = d.color || 'dom-purple';
+
+    // Domain progress bar (Firestore + user earned state)
+    const earnedInDomain = comps.filter(c => highestEarned(c.id)).length;
+    const pct = comps.length ? Math.round((earnedInDomain / comps.length) * 100) : 0;
+    let fillColor = '#7c3aed';
+    if (color === 'dom-blue')   fillColor = '#0891b2';
+    else if (color === 'dom-amber') fillColor = '#d97706';
+    else if (color === 'dom-green') fillColor = '#16a34a';
+    else if (color === 'dom-rose')  fillColor = '#e11d48';
+    else if (color === 'dom-teal')  fillColor = '#0d9488';
+
+    const domSa = domainAvgSa(d.id);
+    const domSaHtml = domSa !== null
+      ? `<span style="font-size:10px;font-weight:700;color:var(--ink-3);margin-right:8px;">SA ${domSa.toFixed(1)}/4</span>`
+      : '';
+
+    return `
+      <div class="domain-card" data-color="${color}" data-domain-id="${esc(d.id)}">
+        <div class="domain-card-header">
+          <div class="domain-icon">${esc(d.icon || '•')}</div>
+          <div class="domain-info">
+            <div class="domain-label">${esc(d.id.toUpperCase())}</div>
+            <div class="domain-name">${esc(d.name)}</div>
+          </div>
+        </div>
+        ${d.desc ? `<div class="domain-desc">${esc(d.desc)}</div>` : ''}
+        <div class="domain-progress">
+          <div class="dp-label">
+            <span>${earnedInDomain}/${comps.length} earned</span>
+            <span>${domSaHtml}${pct}%</span>
+          </div>
+          <div class="dp-bar"><div class="dp-fill" style="width:${pct}%;background:${fillColor};"></div></div>
+        </div>
+        <div class="domain-comps">
+          ${comps.map(c => renderCompRow(c)).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderCompRow(c) {
+  const isEarned = !!highestEarned(c.id);
+  const lvls = Array.isArray(c.levels) ? c.levels.length : 0;
+  const refs    = Array.isArray(c.cambridgeStandardRefs) ? c.cambridgeStandardRefs : [];
+  const perms   = Array.isArray(c.permendiknasRefs)      ? c.permendiknasRefs      : [];
+  const esRefs  = Array.isArray(c.eduversalStandardRefs) ? c.eduversalStandardRefs : [];
+  const aicfRefs = Array.isArray(c.aicfRefs)             ? c.aicfRefs              : [];
+  const pedRefs  = Array.isArray(c.pedagogyRefs)         ? c.pedagogyRefs          : [];
+
+  const intent = c.intent ? `<div class="comp-intent">${esc(c.intent)}</div>` : '';
+  const chips =
+    refs.map(r => `<span class="cts-pill" data-cts-ref="${esc(r)}" title="Cambridge Teacher Standards 2023 — ${esc(r)}">CTS ${esc(r)}</span>`).join('') +
+    perms.map(p => `<span class="perm-pill" title="Permendiknas No.16/2007 pillar — ${esc(p)}">${esc(p)}</span>`).join('') +
+    esRefs.map(e => `<span class="es-pill" data-es-ref="${esc(e)}" title="Eduversal Academic Standards madde ${esc(e)}">ES ${esc(e)}</span>`).join('') +
+    aicfRefs.map(a => `<span class="aicf-pill" data-aicf-ref="${esc(a)}" title="AICF block ${esc(a)}">AICF ${esc(a)}</span>`).join('') +
+    pedRefs.map(p => `<span class="ped-pill" title="${esc(p)}">📖 ${esc(p)}</span>`).join('');
+
+  const checkSvg = `<svg viewBox="0 0 12 12" fill="currentColor"><path d="M10 3L5 9 2 6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+  return `
+    <div class="comp-row" data-comp-id="${esc(c.id)}" data-domain-id="${esc(c.domainId)}" data-search="${esc((c.id + ' ' + (c.name||'') + ' ' + (c.intent||'')).toLowerCase())}" onclick="goToPath('${esc(c.id)}')">
+      <div class="comp-row__head">
+        <div class="comp-check ${isEarned ? 'earned' : ''}">${checkSvg}</div>
+        <span class="comp-id">${esc(c.id)}</span>
+        <span class="comp-name">${esc(c.name)}</span>
+        <span class="comp-levels">${lvls} lvl</span>
+      </div>
+      ${intent}
+      ${chips ? `<div class="comp-chips">${chips}</div>` : ''}
+    </div>
+  `;
+}
 
 window.goToPath = function(compId) {
-  window.location.href = `/learning-path?comp=${compId}`;
-};
-
-window.toggleTakeaways = function(toggleEl) {
-  const card = toggleEl.closest('.domain-card');
-  card.classList.toggle('tk-open');
+  window.location.href = `/learning-path?comp=${encodeURIComponent(compId)}`;
 };
 </script>
 </body>
