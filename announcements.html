@@ -362,17 +362,33 @@
 .confirm-btns { display: flex; gap: 10px; justify-content: center; }
 .confirm-cancel { padding: 8px 20px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--ink-2); font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 500; }
 .confirm-delete { padding: 8px 20px; border-radius: 8px; border: none; background: #dc2626; color: white; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 600; }
+
+/* ─── Hero CTA (admin-only "New Announcement" button) ───────────
+   Page-local pattern; mirrors CH /specialist-framework's .btn-hero
+   chrome (white-on-glass for cyan hero). */
+.page-hero__actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; position: relative; z-index: 1; }
+.btn-hero {
+  padding: 9px 18px; border-radius: 9px; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid rgba(255,255,255,0.25);
+  transition: background .15s, border-color .15s, transform .12s;
+}
+.btn-hero-primary {
+  background: rgba(255,255,255,0.16);
+  color: #fff;
+}
+.btn-hero-primary:hover {
+  background: rgba(255,255,255,0.24);
+  border-color: rgba(255,255,255,0.4);
+}
+.btn-hero-primary:active { transform: translateY(1px); }
+.btn-hero svg { width: 15px; height: 15px; flex-shrink: 0; }
 </style>
 </head>
 <body>
 
 <div id="navbar-container"></div>
-
-  <!-- Add New Announcement Button (moved from navbar) -->
-  <button class="new-btn" id="newAnnBtn" style="display:none; position: fixed; top: 80px; right: 20px; z-index: 100;">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-    New Announcement
-  </button>
 
   <!-- Page hero — Communication family (cyan) -->
   <header class="page-hero" data-accent="cyan">
@@ -386,6 +402,13 @@
         <div class="page-hero__eyebrow">Communications</div>
         <h1 class="page-hero__title">Announcements</h1>
         <p class="page-hero__desc" id="annPageSub">Loading…</p>
+        <!-- Admin-only CTA. JS toggles display:inline-flex; on isAdmin (line ~593). -->
+        <div class="page-hero__actions">
+          <button class="btn-hero btn-hero-primary" id="newAnnBtn" style="display:none;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Announcement
+          </button>
+        </div>
       </div>
     </div>
   </header>
@@ -590,7 +613,7 @@
       window._pendingFeedbackSetup = doFeedbackSetup;
     }
 
-    if (isAdmin) document.getElementById('newAnnBtn').style.display = 'flex';
+    if (isAdmin) document.getElementById('newAnnBtn').style.display = 'inline-flex';
 
     initAnnouncements();
   });
