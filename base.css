@@ -39,7 +39,12 @@ body {
   color: var(--ink);
   min-height: 100vh;
   font-size: 14px;
-  overflow-x: hidden;
+  /* `overflow-x: hidden` on body silently breaks `position: sticky` on every
+     descendant — the body becomes a scroll container and viewport-relative
+     sticky can't reach the viewport. Use `clip` instead: same no-horizontal-
+     scroll guarantee, but doesn't create a scroll container.
+     Chrome 90+ / Safari 16+ / Firefox 81+ all support `overflow: clip`. */
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
 }
 
