@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Teaching Competency Framework — Teachers Hub</title>
+<title>Competency Framework — Teachers Hub</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230a0a1a'/><polygon points='10,45 50,65 50,70 10,50' fill='%234e3db8'/><polygon points='90,45 50,65 50,70 90,50' fill='%235a4bd1'/><polygon points='50,25 90,45 50,65 10,45' fill='%236c5ce7'/><line x1='85' y1='46' x2='85' y2='68' stroke='%23ffd93d' stroke-width='4' stroke-linecap='round'/><circle cx='85' cy='72' r='3.5' fill='%23ffd93d'/></svg>">
 <link rel="stylesheet" href="base.css">
 <script src="firebase-config.js"></script>
@@ -15,54 +15,93 @@
 }
 
 .page-wrap {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 32px 20px 100px;
+  padding: 32px 40px 100px;
+}
+@media (max-width: 768px) {
+  .page-wrap { padding: 24px 20px 80px; }
 }
 
-/* ─── HERO ─────────────────────────────────── */
-.cf-hero {
+/* ─── HERO (CH-canonical .page-hero ported as page-local CSS) ─── */
+.page-hero {
+  position: relative; overflow: hidden;
+  padding: 52px 0;
+  color: #fff;
   background: linear-gradient(135deg, #0f0f1e 0%, #1e1248 55%, #0c1028 100%);
-  border-radius: 20px;
-  padding: 40px 40px 36px;
   margin-bottom: 32px;
-  position: relative;
-  overflow: hidden;
 }
-.cf-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
+.page-hero::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
   background:
     radial-gradient(circle at 12% 80%, rgba(124,58,237,0.22) 0%, transparent 48%),
     radial-gradient(circle at 86% 20%, rgba(99,102,241,0.14) 0%, transparent 48%);
 }
-.cf-hero-inner { position: relative; z-index: 1; }
-.cf-eyebrow {
+.page-hero__inner {
+  position: relative; z-index: 1;
+  max-width: 1200px; margin: 0 auto; padding: 0 40px;
+  display: flex; align-items: flex-start; gap: 32px; flex-wrap: wrap;
+}
+.page-hero__text { flex: 1 1 0; min-width: 320px; }
+.page-hero__eyebrow {
   font-size: 11px; font-weight: 600; letter-spacing: .12em;
-  text-transform: uppercase; color: rgba(255,255,255,.38);
-  margin-bottom: 10px;
+  text-transform: uppercase; color: rgba(255,255,255,.45);
+  margin-bottom: 12px;
 }
-.cf-hero-title {
-  font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 8px; line-height: 1.25;
+.page-hero__title {
+  font-family: 'Lora', serif; font-size: 2.1rem; font-weight: 600;
+  color: #fff; line-height: 1.2; margin-bottom: 12px;
 }
-.cf-hero-sub { font-size: 14px; color: rgba(255,255,255,.5); max-width: 560px; line-height: 1.6; }
-.cf-hero-actions { margin-top: 22px; display: flex; gap: 10px; flex-wrap: wrap; }
-.btn-hero-primary {
-  padding: 10px 22px; border-radius: 10px; border: none;
-  background: var(--accent); color: #fff; font-size: 13px; font-weight: 600;
-  cursor: pointer; transition: all .18s ease; font-family: 'DM Sans', sans-serif;
+.page-hero__desc {
+  font-size: 14px; color: rgba(255,255,255,.7); line-height: 1.6;
+  max-width: none;
+}
+.page-hero__actions {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px;
+  position: relative; z-index: 1;
+}
+.page-hero__kpis {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px; flex: 0 0 auto; width: 360px; margin-left: auto;
+}
+.page-hero__kpi {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 14px; padding: 16px 20px; min-width: 0;
+}
+.page-hero__kpi--primary {
+  background: rgba(124,58,237,0.18); border-color: rgba(124,58,237,0.35);
+}
+.page-hero__kpi-num {
+  font-family: 'Lora', serif; font-size: 2.2rem; line-height: 1;
+  font-weight: 600; color: #fff;
+}
+.page-hero__kpi--primary .page-hero__kpi-num { font-size: 2.5rem; }
+.page-hero__kpi-lbl {
+  font-size: 11px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(255,255,255,.6);
+  margin-top: 8px;
+}
+.page-hero__kpi-sub {
+  font-size: 11px; color: rgba(255,255,255,.45); margin-top: 4px;
+}
+
+.btn-hero {
+  padding: 10px 22px; border-radius: 10px; font-size: 13px; font-weight: 600;
   text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
+  font-family: 'DM Sans', sans-serif; transition: all .18s ease;
 }
-.btn-hero-primary:hover { background: #6d28d9; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(124,58,237,.4); }
-.btn-hero-secondary {
-  padding: 10px 22px; border-radius: 10px;
-  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.16);
-  color: rgba(255,255,255,.82); font-size: 13px; font-weight: 600;
-  cursor: pointer; transition: all .18s ease; font-family: 'DM Sans', sans-serif;
-  text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
+.btn-hero-primary { background: rgba(255,255,255,.95); color: #1e1248; border: none; }
+.btn-hero-primary:hover { background: #fff; transform: translateY(-1px); }
+.btn-hero-secondary { background: rgba(255,255,255,.1); color: rgba(255,255,255,.92); border: 1px solid rgba(255,255,255,.22); }
+.btn-hero-secondary:hover { background: rgba(255,255,255,.18); }
+
+@media (max-width: 768px) {
+  .page-hero { padding: 36px 0; }
+  .page-hero__inner { padding: 0 20px; flex-direction: column; gap: 20px; }
+  .page-hero__title { font-size: 1.7rem; }
+  .page-hero__kpis { width: 100%; margin-left: 0; }
 }
-.btn-hero-secondary:hover { background: rgba(255,255,255,.16); }
+
 
 /* ─── LEVEL PILLS ───────────────────────────── */
 .levels-row {
@@ -285,10 +324,6 @@
 /* ─── MOBILE ─────────────────────────────────── */
 @media (max-width: 720px) {
   .page-wrap { padding: 20px 14px 80px; }
-  .cf-hero { padding: 28px 22px 24px; border-radius: 16px; margin-bottom: 22px; }
-  .cf-hero-title { font-size: 22px; }
-  .cf-hero-sub { font-size: 13px; }
-  .cf-hero-actions { margin-top: 18px; }
   .btn-hero-primary, .btn-hero-secondary { padding: 9px 16px; font-size: 12px; }
   .levels-row { gap: 8px; margin-bottom: 22px; }
   .level-pill { padding: 7px 12px; font-size: 11px; }
@@ -303,26 +338,49 @@
 
 <div id="navbar-container"></div>
 
-<div class="page-wrap">
-
-  <!-- HERO -->
-  <div class="cf-hero">
-    <div class="cf-hero-inner">
-      <div class="cf-eyebrow">Eduversal · Teachers Hub</div>
-      <h1 class="cf-hero-title">Teaching Competency Framework</h1>
-      <p class="cf-hero-sub">A structured pathway for professional growth. Explore the six domains, track your progress across all competency levels, and earn recognised certificates.</p>
-      <div class="cf-hero-actions">
-        <a href="learning-path.html" class="btn-hero-primary">
+<header class="page-hero" data-accent="mor">
+  <div class="page-hero__inner">
+    <div class="page-hero__text">
+      <div class="page-hero__eyebrow">Eduversal · Teachers Hub</div>
+      <h1 class="page-hero__title">Competency Framework</h1>
+      <p class="page-hero__desc">A structured pathway for professional growth. Explore the six domains, track your progress across all competency levels, and earn recognised certificates.</p>
+      <div class="page-hero__actions">
+        <a href="learning-path.html" class="btn-hero btn-hero-primary">
           <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm1 11H9v-2h2v2zm0-4H9V7h2v2z"/></svg>
           My Learning Path
         </a>
-        <a href="my-certificates.html" class="btn-hero-secondary">
+        <a href="my-certificates.html" class="btn-hero btn-hero-secondary">
           <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path d="M9 2a7 7 0 100 14A7 7 0 009 2zm2 10H7v-1.5l3-1.5V7h2v3.5l-1 .5V12z"/></svg>
           My Certificates
         </a>
       </div>
     </div>
+    <div class="page-hero__kpis">
+      <div class="page-hero__kpi page-hero__kpi--primary">
+        <div class="page-hero__kpi-num">6</div>
+        <div class="page-hero__kpi-lbl">Domains</div>
+        <div class="page-hero__kpi-sub">six pillars</div>
+      </div>
+      <div class="page-hero__kpi">
+        <div class="page-hero__kpi-num">24</div>
+        <div class="page-hero__kpi-lbl">Competencies</div>
+        <div class="page-hero__kpi-sub">across all domains</div>
+      </div>
+      <div class="page-hero__kpi">
+        <div class="page-hero__kpi-num">20/27</div>
+        <div class="page-hero__kpi-lbl">CTS Coverage</div>
+        <div class="page-hero__kpi-sub">of 27 Cambridge standards</div>
+      </div>
+      <div class="page-hero__kpi">
+        <div class="page-hero__kpi-num">4</div>
+        <div class="page-hero__kpi-lbl">Reference Systems</div>
+        <div class="page-hero__kpi-sub">CTS · Permendiknas · ES · AICF</div>
+      </div>
+    </div>
   </div>
+</header>
+
+<div class="page-wrap">
 
   <!-- PROGRESS OVERVIEW -->
   <div class="section-title">
