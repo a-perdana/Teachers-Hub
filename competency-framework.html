@@ -16,18 +16,36 @@
   --accent-2: #ede9fe;
 }
 
-/* ─── HERO (canonical .page-hero, mor accent) ─── */
+/* Artistic rose-burgundy atmosphere — echoes the hero accent under the page
+   without competing with card surfaces. Fixed so it follows the viewport,
+   behind everything, never intercepts pointer events (Root CLAUDE.md Common
+   Mistake #22). */
+body {
+  background: #fbf6f8;
+  position: relative;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 55% at 8% 12%, rgba(225,29,72,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 92% 88%, rgba(217,119,6,0.07) 0%, transparent 62%),
+    radial-gradient(ellipse 80% 70% at 50% 50%, rgba(255,228,230,0.55) 0%, transparent 70%),
+    linear-gradient(180deg, #fbf6f8 0%, #faf3f5 100%);
+}
+
+/* ─── HERO (canonical .page-hero, rose-burgundy accent — distinct from CH mor) ─── */
 .page-hero {
   position: relative; overflow: hidden;
   padding: 52px 0;
   color: #fff;
-  background: linear-gradient(135deg, #0f0f1e 0%, #1e1248 55%, #0c1028 100%);
+  background: linear-gradient(135deg, #1a0a18 0%, #4c1d3d 55%, #1a0a18 100%);
 }
 .page-hero::before {
   content: ''; position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(circle at 12% 80%, rgba(124,58,237,0.22) 0%, transparent 48%),
-    radial-gradient(circle at 86% 20%, rgba(99,102,241,0.14) 0%, transparent 48%);
+    radial-gradient(circle at 12% 80%, rgba(225,29,72,0.22) 0%, transparent 48%),
+    radial-gradient(circle at 86% 20%, rgba(217,119,6,0.14) 0%, transparent 48%);
 }
 .page-hero__inner {
   position: relative; z-index: 1;
@@ -61,7 +79,7 @@
   border-radius: 14px; padding: 16px 20px; min-width: 0;
 }
 .page-hero__kpi--primary {
-  background: rgba(124,58,237,0.18); border-color: rgba(124,58,237,0.35);
+  background: rgba(225,29,72,0.18); border-color: rgba(225,29,72,0.35);
 }
 .page-hero__kpi-num {
   font-family: 'Lora', serif; font-size: 2.2rem; line-height: 1;
@@ -82,7 +100,7 @@
   text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
   font-family: 'DM Sans', sans-serif; transition: all .18s ease;
 }
-.btn-hero-primary { background: rgba(255,255,255,.95); color: #1e1248; border: none; }
+.btn-hero-primary { background: rgba(255,255,255,.95); color: #4c1d3d; border: none; }
 .btn-hero-primary:hover { background: #fff; transform: translateY(-1px); }
 .btn-hero-secondary { background: rgba(255,255,255,.1); color: rgba(255,255,255,.92); border: 1px solid rgba(255,255,255,.22); }
 .btn-hero-secondary:hover { background: rgba(255,255,255,.18); }
@@ -103,10 +121,10 @@
   .page-wrap { padding: 20px 20px 80px; }
 }
 
-/* ─── GROUNDED-IN BAND (provenance — hero-continuation) ─── */
+/* ─── GROUNDED-IN BAND (provenance — hero-continuation, rose-burgundy) ─── */
 .grounded-band {
   position: relative; overflow: hidden;
-  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 55%, #1e1b4b 100%);
+  background: linear-gradient(135deg, #1a0a18 0%, #4c1d3d 55%, #2a1224 100%);
   color: #fff;
   margin: 0 0 28px; padding: 36px 40px 32px;
   border-radius: 20px;
@@ -114,8 +132,8 @@
 .grounded-band::before {
   content: ''; position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(circle at 12% 80%, rgba(124,58,237,0.22) 0%, transparent 48%),
-    radial-gradient(circle at 88% 20%, rgba(8,145,178,0.18) 0%, transparent 48%);
+    radial-gradient(circle at 12% 80%, rgba(225,29,72,0.22) 0%, transparent 48%),
+    radial-gradient(circle at 88% 20%, rgba(217,119,6,0.18) 0%, transparent 48%);
 }
 .grounded-inner { position: relative; z-index: 1; }
 .grounded-head {
@@ -161,7 +179,7 @@
   font-size: 11px; font-weight: 700; letter-spacing: .04em;
   background: rgba(255,255,255,0.18); color: #fff;
 }
-.grounded-tile[data-sys="cts"]  .grounded-tile-badge { background: rgba(108,92,231,0.45); }
+.grounded-tile[data-sys="cts"]  .grounded-tile-badge { background: rgba(225,29,72,0.45); }
 .grounded-tile[data-sys="pmd"]  .grounded-tile-badge { background: rgba(220,38,38,0.45); }
 .grounded-tile[data-sys="es"]   .grounded-tile-badge { background: rgba(14,116,144,0.55); }
 .grounded-tile[data-sys="aicf"] .grounded-tile-badge { background: rgba(217,119,6,0.5); }
