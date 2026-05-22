@@ -59,31 +59,36 @@ body { overflow-x: clip; }
 .btn-hero-primary:active { transform: translateY(1px); }
 .btn-hero svg { width: 15px; height: 15px; flex-shrink: 0; }
 
-/* ─── Pill filter rows (replaces the sidebar 2026-05-22; compact single-line
-   toolbar 2026-05-22: Type pills · search (center, flex:1) · Subject pills) */
+/* ─── Pill filter rows (replaces the sidebar 2026-05-22; single-line toolbar:
+   Type pills · search (flex:1) · Subject pills). One row at >=900px, stacks
+   only below the mobile breakpoint. */
 .lib-toolbar {
   display: flex; align-items: center;
-  gap: 14px; margin-bottom: 18px;
-  flex-wrap: wrap;
+  gap: 10px; margin-bottom: 18px;
+  flex-wrap: nowrap;
+  min-width: 0;
 }
 .lib-pill-row {
-  display: flex; align-items: center; flex-wrap: wrap;
-  gap: 6px;
+  display: flex; align-items: center;
+  gap: 4px;
   flex-shrink: 0;
+  flex-wrap: nowrap;
 }
 .lib-pill-row__label {
-  font-size: 10px; font-weight: 700; letter-spacing: .09em;
+  font-size: 10px; font-weight: 700; letter-spacing: .08em;
   text-transform: uppercase; color: var(--ink-3);
   margin-right: 2px;
+  white-space: nowrap;
 }
 .lib-pill {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 11px; border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 999px;
   background: var(--white); border: 1px solid var(--border);
   color: var(--ink-2); font-family: 'DM Sans', sans-serif;
-  font-size: 12.5px; font-weight: 500; cursor: pointer;
+  font-size: 12px; font-weight: 500; cursor: pointer;
   transition: background .15s, border-color .15s, color .15s;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 .lib-pill:hover { background: var(--paper-2); border-color: var(--ink-3); color: var(--ink); }
 .lib-pill.active {
@@ -95,22 +100,21 @@ body { overflow-x: clip; }
 .lib-pill__dot {
   width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
 }
-/* Search slot inside the toolbar — takes the remaining space between the two pill groups */
+/* Search slot — fills the remaining space between the two pill groups */
 .lib-toolbar .search-wrap {
-  flex: 1 1 280px;
-  min-width: 220px;
+  flex: 1 1 0;
+  min-width: 140px;
   margin-bottom: 0;
 }
-/* Slimmer + pill-shaped to match the surrounding lib-pill row height */
 .lib-toolbar .search-input {
-  padding: 6px 12px 6px 34px;
+  padding: 5px 12px 5px 32px;
   border-radius: 999px;
   font-size: 12.5px;
 }
 .lib-toolbar .search-icon { left: 11px; }
 .lib-toolbar .search-icon svg { width: 14px; height: 14px; }
 @media (max-width: 900px) {
-  .lib-toolbar { gap: 10px; }
+  .lib-toolbar { flex-wrap: wrap; gap: 8px; }
   .lib-toolbar .search-wrap { flex-basis: 100%; order: 99; }
 }
 
