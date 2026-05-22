@@ -66,6 +66,10 @@ function initNavbar() {
     // and AH (Communications/Curriculum/PD/School Leaders → My Hub) audience-first
     // grouping. See root CLAUDE.md "Navbar — semantic split" + memory file.
     const groupKeys = {
+      // Dashboards dropdown is all cross-hub external links to academichub.eduversal.org;
+      // no TH-local activeKey will ever live here. Kept as an empty array so a future
+      // local dashboard slug just has to be appended (no trigger-highlight refactor).
+      dashboards:     [],
       communications: ['announcements','messageboard','surveys','library'],
       curriculum:     ['igcse-math','igcse-biology','igcse-chemistry','igcse-physics',
                        'as-alevel-math','as-alevel-biology','as-alevel-chemistry','as-alevel-physics',

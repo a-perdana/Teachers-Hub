@@ -674,6 +674,96 @@
 
   <div class="nav-links">
 
+    <!-- Dashboards dropdown (cross-hub link to Academic Hub network panels — 2026-05-22)
+         All items deeplink to https://academichub.eduversal.org/<slug> in a new tab.
+         data-nav-key prefix "ah-dash-" is mobile-walker tag only (no TH page_access_config doc). -->
+    <div class="th-dd-wrap" id="thDdWrap-dashboards">
+      <button class="th-dd-trigger" data-dd="dashboards" aria-haspopup="true" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboards
+        <svg class="th-dd-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="th-dd-panel th-dd-panel--wide" id="thDdPanel-dashboards">
+        <div class="th-dd-col-group">
+          <div class="th-dd-col">
+            <div class="th-dd-col-header">EASE</div>
+            <a href="https://academichub.eduversal.org/ease-1" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-ease-1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>EASE I Results ↗
+            </a>
+            <a href="https://academichub.eduversal.org/ease-2" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-ease-2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>EASE II Results ↗
+            </a>
+            <a href="https://academichub.eduversal.org/ease-3" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-ease-3">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>EASE III Results ↗
+            </a>
+            <a href="https://academichub.eduversal.org/a-ease-1" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-a-ease-1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>A-EASE I Results ↗
+            </a>
+            <a href="https://academichub.eduversal.org/ease-analytics" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-ease-analytics">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>EASE Analytics ↗
+            </a>
+            <a href="https://academichub.eduversal.org/ease-archive" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-ease-archive">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>EASE Archive ↗
+            </a>
+            <div class="th-dd-divider"></div>
+            <div class="th-dd-col-header" style="padding-top:4px;">Cambridge</div>
+            <a href="https://academichub.eduversal.org/cambridge-exams" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-cambridge-exams">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Cambridge Exams ↗
+            </a>
+            <a href="https://academichub.eduversal.org/cambridge-pathway" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-cambridge-pathway">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Cambridge Pathway ↗
+            </a>
+            <a href="https://academichub.eduversal.org/cambridge-school-quality" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-cambridge-school-quality">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Cambridge School Quality ↗
+            </a>
+          </div>
+          <div class="th-dd-col-divider"></div>
+          <div class="th-dd-col">
+            <div class="th-dd-col-header">School Quality</div>
+            <a href="https://academichub.eduversal.org/school-appraisals" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-school-appraisals">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>School Appraisals ↗
+            </a>
+            <a href="https://academichub.eduversal.org/school-self-appraisal" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-school-self-appraisal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>School Self-Appraisal ↗
+            </a>
+            <a href="https://academichub.eduversal.org/school-performance-kpi" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-school-performance-kpi">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>School KPI ↗
+            </a>
+            <a href="https://academichub.eduversal.org/accreditation-dashboard" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-accreditation">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Accreditation ↗
+            </a>
+            <a href="https://academichub.eduversal.org/network-audit" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-network-audit">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6l11 13L23 6"/></svg>Network Audit ↗
+            </a>
+            <a href="https://academichub.eduversal.org/partner-schools" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-partner-schools">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Partner Schools ↗
+            </a>
+            <a href="https://academichub.eduversal.org/islamic-schools" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-islamic-schools">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Islamic Schools ↗
+            </a>
+            <div class="th-dd-divider"></div>
+            <div class="th-dd-col-header" style="padding-top:4px;">Surveys</div>
+            <a href="https://academichub.eduversal.org/student-survey" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-student-survey">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Student Survey ↗
+            </a>
+            <a href="https://academichub.eduversal.org/staff-survey" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-staff-survey">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Staff Survey ↗
+            </a>
+            <a href="https://academichub.eduversal.org/parent-survey" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-parent-survey">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Parent Survey ↗
+            </a>
+            <div class="th-dd-divider"></div>
+            <a href="https://academichub.eduversal.org/rapor-pendidikan-2025" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-rapor-pendidikan">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Rapor Pendidikan 2025 ↗
+            </a>
+            <a href="https://academichub.eduversal.org/ai-prompts" target="_blank" rel="noopener" class="th-dd-item" data-nav-key="ah-dash-ai-prompts">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>AI Prompts ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Communications dropdown (network-wide announcements, message board, surveys, library) -->
     <div class="th-dd-wrap" id="thDdWrap-communications">
       <button class="th-dd-trigger" data-dd="communications" aria-haspopup="true" aria-expanded="false">
