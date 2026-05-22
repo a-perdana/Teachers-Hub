@@ -16,9 +16,12 @@
 /* ─── MAIN CONTENT ────────────────────────────── */
 
 .page-wrap {
-  max-width: 980px;
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 32px 20px 100px;
+  padding: 32px 40px 100px;
+}
+@media (max-width: 768px) {
+  .page-wrap { padding: 24px 20px 80px; }
 }
 
 /* ─── ANNOUNCEMENTS LIST ─────────────────────── */
@@ -393,11 +396,6 @@
   <!-- Page hero — Communication family (cyan) -->
   <header class="page-hero" data-accent="cyan">
     <div class="page-hero__inner">
-      <div class="page-hero__icon">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 3L9.218 10.083M11.698 20.334C12.573 21.209 14 20.561 14 19.307V4.693C14 3.439 12.573 2.791 11.698 3.666L7 8H4C2.895 8 2 8.895 2 10v4c0 1.105.895 2 2 2h3l4.698 4.334z"/>
-        </svg>
-      </div>
       <div class="page-hero__text">
         <div class="page-hero__eyebrow">Communications · Hub-wide</div>
         <h1 class="page-hero__title">Announcements</h1>

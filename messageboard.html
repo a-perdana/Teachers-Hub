@@ -16,8 +16,11 @@
       .mb-main { min-height: 100vh; }
 
       .mb-page {
-        max-width: 980px; margin: 0 auto;
-        padding: 32px 20px 100px;
+        max-width: var(--container-max); margin: 0 auto;
+        padding: 32px 40px 100px;
+      }
+      @media (max-width: 768px) {
+        .mb-page { padding: 24px 20px 80px; }
       }
 
       /* ─── TOPIC LIST VIEW ──────────────────────────── */
@@ -347,7 +350,6 @@
 
       /* ─── RESPONSIVE ───────────────────────────────── */
       @media (max-width: 600px) {
-        .mb-page { padding: 20px 14px 100px; }
         .post-header { flex-direction: column; gap: 10px; }
         .post-title { font-size: 17px; }
         .post-actions { align-self: flex-start; }
@@ -410,11 +412,6 @@
     <!-- Page hero — Communication family (cyan). Shared across list + detail views. -->
     <header class="page-hero" data-accent="cyan">
       <div class="page-hero__inner">
-        <div class="page-hero__icon">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
-        </div>
         <div class="page-hero__text">
           <div class="page-hero__eyebrow">Communications · Forum</div>
           <h1 class="page-hero__title">Message Board</h1>

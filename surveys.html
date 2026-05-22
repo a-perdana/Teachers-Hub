@@ -17,9 +17,12 @@
     /* ─── LAYOUT ─────────────────────────────────────── */
     body { min-height: 100vh; }
     .page-wrap {
-      max-width: 980px;
+      max-width: var(--container-max);
       margin: 0 auto;
-      padding: 26px 16px 48px;
+      padding: 26px 40px 48px;
+    }
+    @media (max-width: 768px) {
+      .page-wrap { padding: 20px 20px 40px; }
     }
 
     /* ─── CONTROLS BAR ───────────────────────────────── */
@@ -436,11 +439,6 @@
   <!-- Page hero — Communication family (cyan) -->
   <header class="page-hero" data-accent="cyan">
     <div class="page-hero__inner">
-      <div class="page-hero__icon">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-        </svg>
-      </div>
       <div class="page-hero__text">
         <div class="page-hero__eyebrow">Communications · Voice of the network</div>
         <h1 class="page-hero__title">Surveys</h1>
