@@ -483,6 +483,19 @@ body::before {
 }
 .ped-pill:hover { background: #f1f5f9; color: #334155; border-color: #94a3b8; }
 
+/* New-user intro banner (dismissable; 3-hub parity with AH + CH) */
+.page-intro { display:none; background:linear-gradient(135deg,#ccfbf1 0%,#cffafe 100%); border:1px solid #5eead4; border-radius:14px; padding:16px 20px 16px 18px; margin:18px 0; position:relative; }
+.page-intro.show { display:flex; gap:14px; align-items:flex-start; }
+.page-intro-icon { font-size:22px; flex-shrink:0; padding-top:1px; }
+.page-intro-body { flex:1; min-width:0; padding-right:26px; }
+.page-intro-title { font-size:13.5px; font-weight:700; color:#0f766e; margin-bottom:4px; }
+.page-intro-text { font-size:12.5px; color:#44445a; line-height:1.55; }
+.page-intro-text strong { color:#0f766e; }
+.page-intro-link { display:inline-block; margin-top:8px; font-size:12px; font-weight:600; color:#0d9488; text-decoration:none; }
+.page-intro-link:hover { text-decoration:underline; }
+.page-intro-dismiss { position:absolute; top:10px; right:10px; background:rgba(255,255,255,.7); border:1px solid #5eead4; border-radius:6px; width:24px; height:24px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#0d9488; font-size:14px; line-height:1; transition:all .15s; }
+.page-intro-dismiss:hover { background:#fff; }
+
 .skel {
   background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);
   background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px;
@@ -506,6 +519,26 @@ body::before {
 </head>
 <body>
 
+<!-- Intro banner show/dismiss (runs early, no Firebase dep) — 3-hub parity with AH + CH -->
+<script>
+(function() {
+  const KEY_PREFIX = 'th_intro_dismissed_';
+  window.__dismissIntro = function(slug) {
+    try { localStorage.setItem(KEY_PREFIX + slug, '1'); } catch (_) {}
+    const el = document.querySelector(`.page-intro[data-intro-key="${slug}"]`);
+    if (el) el.classList.remove('show');
+  };
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.page-intro[data-intro-key]').forEach(el => {
+      const slug = el.getAttribute('data-intro-key');
+      let dismissed = false;
+      try { dismissed = localStorage.getItem(KEY_PREFIX + slug) === '1'; } catch (_) {}
+      if (!dismissed) el.classList.add('show');
+    });
+  });
+})();
+</script>
+
 <div id="navbar-container"></div>
 
 <header class="page-hero" data-accent="mor">
@@ -515,11 +548,11 @@ body::before {
       <h1 class="page-hero__title">Competency Framework</h1>
       <p class="page-hero__desc">A structured growth path for every Cambridge teacher in the Eduversal network. Seven domains span what we ask of you — subject mastery, learner-centred pedagogy, assessment, classroom innovation, professional identity, collaboration and AI literacy.</p>
       <div class="page-hero__actions">
-        <a href="learning-path.html" class="btn-hero btn-hero-primary">
+        <a href="/learning-path" class="btn-hero btn-hero-primary">
           <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm1 11H9v-2h2v2zm0-4H9V7h2v2z"/></svg>
           My Learning Path
         </a>
-        <a href="my-certificates.html" class="btn-hero btn-hero-secondary">
+        <a href="/my-certificates" class="btn-hero btn-hero-secondary">
           <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path d="M9 2a7 7 0 100 14A7 7 0 009 2zm2 10H7v-1.5l3-1.5V7h2v3.5l-1 .5V12z"/></svg>
           My Certificates
         </a>
@@ -626,6 +659,19 @@ body::before {
     </div>
   </section>
 
+  <!-- PAGE INTRO BANNER (dismissable; 3-hub parity with AH + CH) -->
+  <div class="page-intro" data-intro-key="th-competency-framework">
+    <div class="page-intro-icon">🗺️</div>
+    <div class="page-intro-body">
+      <div class="page-intro-title">First time on Competency Framework?</div>
+      <div class="page-intro-text">
+        This page is the <strong>map of teaching skills</strong> we want every Cambridge teacher in the Eduversal network to grow, organised in <strong>7 domains</strong>. It is the "what does good look like?" page — read-only structure. The clickable lessons live on the <strong>Learning Path</strong> page (use the button above). Every competency is anchored to four reference systems: Cambridge Teacher Standards 2023, Eduversal Academic Standards, Permendiknas + Permendikdasmen 2026, and the AI Competency Framework v1.0.
+      </div>
+      <a class="page-intro-link" href="/welcome#page-framework">📖 Read the full guide →</a>
+    </div>
+    <button class="page-intro-dismiss" type="button" aria-label="Dismiss intro" onclick="window.__dismissIntro('th-competency-framework')">✕</button>
+  </div>
+
   <!-- PROGRESS OVERVIEW -->
   <div class="section-title">
     <svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 10a8 8 0 1116 0A8 8 0 012 10zm9-3a1 1 0 10-2 0v3a1 1 0 00.293.707l2 2a1 1 0 001.414-1.414L11 9.586V7z"/></svg>
@@ -680,6 +726,11 @@ body::before {
     <span class="sf-divider" aria-hidden="true"></span>
     <div class="sf-chips" id="sfChips"></div>
     <div class="sf-count" id="sfCount"></div>
+  </div>
+
+  <div class="section-title">
+    <svg viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z"/></svg>
+    <span id="domainsTitle">Competency Domains</span>
   </div>
 
   <!-- EMPTY STATE -->
@@ -954,7 +1005,19 @@ function renderDomains(fw) {
   const compsByDomain = {};
   for (const c of fw.competencies || []) (compsByDomain[c.domainId] ||= []).push(c);
 
-  grid.innerHTML = (fw.domains || []).map(d => {
+  // Dynamic section title — domain count drives "The Six/Seven Domains"
+  // (3-hub parity with AH + CH). Falls back to "Competency Domains" if
+  // count is unknown / non-standard.
+  const dList = fw.domains || [];
+  const titleEl = document.getElementById('domainsTitle');
+  if (titleEl) {
+    const wordMap = { 6: 'Six', 7: 'Seven', 8: 'Eight', 9: 'Nine', 10: 'Ten' };
+    titleEl.textContent = wordMap[dList.length]
+      ? `The ${wordMap[dList.length]} Domains`
+      : 'Competency Domains';
+  }
+
+  grid.innerHTML = dList.map((d, idx) => {
     const comps = compsByDomain[d.id] || [];
     const color = d.color || 'dom-purple';
 
@@ -984,7 +1047,7 @@ function renderDomains(fw) {
         <div class="domain-card-header">
           <div class="domain-icon">${esc(d.icon || '•')}</div>
           <div class="domain-info">
-            <div class="domain-label">${esc(d.id.toUpperCase())}</div>
+            <div class="domain-label">Domain ${idx + 1} · ${esc(d.id.toUpperCase())}</div>
             <div class="domain-name">${esc(d.name)}</div>
           </div>
         </div>
