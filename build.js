@@ -871,17 +871,28 @@ if (fs.existsSync(path.join(__dirname, 'cambridge-crossref.js'))) {
 // (PIGP + SKL chips) and by mentor-certification.html (Mentoring Guide +
 // ICTL syllabus). Source lives in monorepo-root docs/research/.
 {
-  const pigpSklSrc  = path.join(__dirname, '..', 'docs', 'research', 'permendiknas');
+  // Local-first / monorepo-fallback (Vercel only checks out the TH repo so
+  // monorepo docs/research is unreachable from there — local mirror under
+  // resources/research/permendiknas/ has to exist for production builds).
+  const pigpSklSrcLocal    = path.join(__dirname, 'resources', 'research', 'permendiknas');
+  const pigpSklSrcMonorepo = path.join(__dirname, '..', 'docs', 'research', 'permendiknas');
+  const pigpSklSrc  = fs.existsSync(pigpSklSrcLocal) ? pigpSklSrcLocal : pigpSklSrcMonorepo;
   const pigpSklDest = path.join(distDir, 'research', 'permendiknas');
   if (fs.existsSync(pigpSklSrc)) {
     fs.mkdirSync(pigpSklDest, { recursive: true });
-    ['no-27-2010-pigp.json', 'no-10-2025-skl.json'].forEach(name => {
-      const src = path.join(pigpSklSrc, name);
-      if (fs.existsSync(src)) {
+    ['no-27-2010-pigp.json', 'no-10-2025-skl.json', 'no-16-2007.json'].forEach(name => {
+      // Try the chosen src first, then the other path as a per-file fallback
+      // (some files might only exist in monorepo if local mirror hasn't been
+      // synced yet — try both before giving up).
+      const tryPaths = [path.join(pigpSklSrc, name)];
+      if (pigpSklSrc !== pigpSklSrcMonorepo) tryPaths.push(path.join(pigpSklSrcMonorepo, name));
+      if (pigpSklSrc !== pigpSklSrcLocal)    tryPaths.push(path.join(pigpSklSrcLocal, name));
+      const src = tryPaths.find(p => fs.existsSync(p));
+      if (src) {
         fs.copyFileSync(src, path.join(pigpSklDest, name));
         console.log(`Copied: dist/research/permendiknas/${name}`);
       } else {
-        console.warn(`WARNING: ${name} not found in docs/research/permendiknas/`);
+        console.warn(`WARNING: ${name} not found in docs/research/permendiknas/ or local mirror`);
       }
     });
   }
@@ -928,7 +939,7 @@ if (fs.existsSync(path.join(__dirname, 'cambridge-crossref.js'))) {
   const cambridgeDest = path.join(distDir, 'research', 'cambridge');
   if (fs.existsSync(cambridgeSrc)) {
     fs.mkdirSync(cambridgeDest, { recursive: true });
-    ['mentoring-guide-2020.json', 'ictl-5881-syllabus.json'].forEach(name => {
+    ['mentoring-guide-2020.json', 'ictl-5881-syllabus.json', 'school-leader-standards-2023.json'].forEach(name => {
       const src = path.join(cambridgeSrc, name);
       if (fs.existsSync(src)) {
         fs.copyFileSync(src, path.join(cambridgeDest, name));
