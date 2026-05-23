@@ -425,6 +425,7 @@ function applyPilotSystemGating(enabled) {
 //   Set([…])  → explicit list (possibly empty)
 async function getEnabledSystemsForSchool(database, schoolId) {
   if (!schoolId) return null;
+  if (schoolId === 'eduversal_hq') return null;
   try {
     const snap = await getDoc(doc(database, 'partner_schools', schoolId));
     if (!snap.exists()) return null;
