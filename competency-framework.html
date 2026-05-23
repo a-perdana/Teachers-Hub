@@ -419,6 +419,7 @@ body::before {
   transition: background .15s ease, border-color .15s ease;
 }
 .comp-row:hover { background: var(--accent-2); border-color: var(--accent); }
+.comp-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .comp-row__head {
   display: flex; align-items: center; gap: 10px;
 }
@@ -998,7 +999,7 @@ function renderCompRow(c) {
   const checkSvg = `<svg viewBox="0 0 12 12" fill="currentColor"><path d="M10 3L5 9 2 6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
   return `
-    <div class="comp-row" data-comp-id="${esc(c.id)}" data-domain-id="${esc(c.domainId)}" data-levels="${esc((c.levels || []).join(','))}" data-search="${esc((c.id + ' ' + (c.name||'') + ' ' + (c.intent||'')).toLowerCase())}" onclick="goToPath('${esc(c.id)}')">
+    <div class="comp-row" data-comp-id="${esc(c.id)}" data-domain-id="${esc(c.domainId)}" data-levels="${esc((c.levels || []).join(','))}" data-search="${esc((c.id + ' ' + (c.name||'') + ' ' + (c.intent||'')).toLowerCase())}" onclick="goToPath('${esc(c.id)}')" role="link" tabindex="0" title="Open in Learning Path">
       <div class="comp-row__head">
         <div class="comp-check ${isEarned ? 'earned' : ''}">${checkSvg}</div>
         <span class="comp-id">${esc(c.id)}</span>
@@ -1014,6 +1015,18 @@ function renderCompRow(c) {
 window.goToPath = function(compId) {
   window.location.href = `/learning-path?comp=${encodeURIComponent(compId)}`;
 };
+
+// Keyboard accessibility for comp-row — Tab to focus + Enter/Space to open
+// the Learning Path reader. Ports the CH commit de25898 a11y pattern so all
+// 3 hubs are WCAG 2.1 Level A keyboard-operable on the framework grid.
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const row = e.target.closest?.('.comp-row');
+  if (!row) return;
+  e.preventDefault();
+  const id = row.dataset.compId;
+  if (id) window.goToPath(id);
+});
 </script>
 </body>
 </html>
