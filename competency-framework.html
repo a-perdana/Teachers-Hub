@@ -411,6 +411,17 @@ body::before {
 .dp-fill { height: 100%; border-radius: 4px; transition: width .4s ease; }
 
 .domain-comps { padding: 6px 20px 14px; display: flex; flex-direction: column; gap: 6px; }
+
+/* ─── DOMAIN TAKEAWAYS ACCORDION (3-hub parity port 2026-05-23) ─── */
+.domain-takeaways { padding: 0 20px 16px; border-top: 1px solid var(--border); margin-top: 4px; }
+.domain-takeaways-toggle { display: flex; align-items: center; justify-content: space-between; padding: 10px 0 0; cursor: pointer; user-select: none; }
+.domain-takeaways-label { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); display: flex; align-items: center; gap: 6px; }
+.domain-takeaways-chevron { width: 16px; height: 16px; color: var(--ink-3); transition: transform .2s; flex-shrink: 0; }
+.domain-card.tk-open .domain-takeaways-chevron { transform: rotate(180deg); }
+.domain-takeaways-list { display: none; padding-top: 10px; flex-direction: column; gap: 6px; }
+.domain-card.tk-open .domain-takeaways-list { display: flex; }
+.domain-tk-item { font-size: 12px; color: var(--ink-2); line-height: 1.5; padding: 7px 10px; border-radius: 8px; background: var(--paper); border-left: 3px solid var(--border); display: flex; gap: 8px; align-items: flex-start; }
+.domain-tk-item::before { content: '→'; font-weight: 700; color: var(--ink-3); flex-shrink: 0; margin-top: 1px; }
 .comp-row {
   display: flex; flex-direction: column; gap: 6px;
   padding: 10px 12px; font-size: 13px; color: var(--ink);
@@ -962,6 +973,12 @@ function renderDomains(fw) {
       ? `<span style="font-size:10px;font-weight:700;color:var(--ink-3);margin-right:8px;">SA ${domSa.toFixed(1)}/4</span>`
       : '';
 
+    // Per-domain key takeaways — Firestore-driven 2026-05-23 for 3-hub
+    // parity with CH + AH. Read from competency_framework/teachers.domainTakeaways.
+    const takeaways = (fw.domainTakeaways && fw.domainTakeaways[d.id]) || [];
+    const tkHtml = takeaways.map(t => `<div class="domain-tk-item">${esc(t)}</div>`).join('');
+    const chevronSvg = `<svg class="domain-takeaways-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>`;
+
     return `
       <div class="domain-card" data-color="${color}" data-domain-id="${esc(d.id)}">
         <div class="domain-card-header">
@@ -982,6 +999,14 @@ function renderDomains(fw) {
         <div class="domain-comps">
           ${comps.map(c => renderCompRow(c)).join('')}
         </div>
+        ${takeaways.length ? `
+          <div class="domain-takeaways">
+            <div class="domain-takeaways-toggle" onclick="toggleTakeaways(this)">
+              <span class="domain-takeaways-label">💡 Key Takeaways (${takeaways.length})</span>
+              ${chevronSvg}
+            </div>
+            <div class="domain-takeaways-list">${tkHtml}</div>
+          </div>` : ''}
       </div>
     `;
   }).join('');
@@ -1041,6 +1066,11 @@ function renderCompRow(c) {
 
 window.goToPath = function(compId) {
   window.location.href = `/learning-path?comp=${encodeURIComponent(compId)}`;
+};
+
+// Domain-card takeaways accordion toggle (3-hub parity port 2026-05-23).
+window.toggleTakeaways = (toggleEl) => {
+  toggleEl.closest('.domain-card').classList.toggle('tk-open');
 };
 
 // Keyboard accessibility for comp-row — Tab to focus + Enter/Space to open
