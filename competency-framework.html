@@ -453,6 +453,15 @@ body::before {
   background: var(--paper); border: 1px solid var(--border);
   padding: 2px 8px; border-radius: 999px; font-weight: 600;
 }
+.comp-recommend-pill {
+  display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0;
+  padding: 2px 8px; border-radius: 50px; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.02em; white-space: nowrap;
+}
+.comp-recommend-pill.start { background: #ede9fe; color: #5b21b6; border: 1px solid #ddd6fe; }
+.comp-recommend-pill.next  { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+.comp-row.is-recommended { box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.18); border-color: #c4b5fd; }
+.comp-row.is-recommended:hover { box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.32); }
 .comp-intent {
   font-size: 12px; color: var(--ink-2); line-height: 1.5;
   padding-left: 76px;
@@ -774,6 +783,28 @@ let searchTerm   = '';
 
 const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
+// Level taxonomy (matches AH + CH; TH adds 'aid' domain but same 4 stages).
+const LEVEL_ORDER = ['awareness', 'practitioner', 'advanced', 'lead'];
+const LEVEL_LABEL = { awareness: 'Awareness', practitioner: 'Practitioner', advanced: 'Advanced', lead: 'Lead / Mentor' };
+
+// Recommended-next: soft progression hint (Duolingo-tree style, NOT Coursera-style lock).
+// Returns the level the user is most ready to attempt next:
+//   - No earned level → first level in this comp's `levels[]` → render as "Start Here"
+//   - Some earned     → next entry in LEVEL_ORDER that is still in this comp's `levels[]`
+//   - Earned == top   → null (already at Lead; no recommendation)
+// Hard-lock would alienate experienced teachers; this is purely a visual nudge.
+function nextRecommendedLevel(c) {
+  const compLevels = Array.isArray(c.levels) ? c.levels : [];
+  const earnedLvl = earned[c.id]?.level || null;
+  if (!earnedLvl) return { level: compLevels[0] || null, kind: 'start' };
+  const earnedIdx = LEVEL_ORDER.indexOf(earnedLvl);
+  if (earnedIdx === -1) return null;
+  for (let i = earnedIdx + 1; i < LEVEL_ORDER.length; i++) {
+    if (compLevels.includes(LEVEL_ORDER[i])) return { level: LEVEL_ORDER[i], kind: 'next' };
+  }
+  return null;
+}
+
 // ─── authReady (TH dispatches on `document`) ──────────────────────
 document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
   // Navbar identity
@@ -1077,6 +1108,12 @@ function renderDomains(fw) {
 
 function renderCompRow(c) {
   const isEarned = !!highestEarned(c.id);
+  const rec = nextRecommendedLevel(c);
+  const recPill = rec && rec.level
+    ? (rec.kind === 'start'
+        ? `<span class="comp-recommend-pill start" title="Suggested entry point — open the Learning Path to begin">✨ Start Here</span>`
+        : `<span class="comp-recommend-pill next" title="Recommended next level based on your earned progress">→ Next: ${esc(LEVEL_LABEL[rec.level] || rec.level)}</span>`)
+    : '';
   const lvls = Array.isArray(c.levels) ? c.levels.length : 0;
   const refs    = Array.isArray(c.cambridgeStandardRefs) ? c.cambridgeStandardRefs : [];
   const perms   = Array.isArray(c.permendiknasRefs)      ? c.permendiknasRefs      : [];
@@ -1137,11 +1174,12 @@ function renderCompRow(c) {
   const checkSvg = `<svg viewBox="0 0 12 12" fill="currentColor"><path d="M10 3L5 9 2 6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
   return `
-    <div class="comp-row" data-comp-id="${esc(c.id)}" data-domain-id="${esc(c.domainId)}" data-levels="${esc((c.levels || []).join(','))}" data-search="${esc((c.id + ' ' + (c.name||'') + ' ' + (c.intent||'')).toLowerCase())}" onclick="goToPath('${esc(c.id)}')" role="link" tabindex="0" title="Open in Learning Path">
+    <div class="comp-row${rec ? ' is-recommended' : ''}" data-comp-id="${esc(c.id)}" data-domain-id="${esc(c.domainId)}" data-levels="${esc((c.levels || []).join(','))}" data-search="${esc((c.id + ' ' + (c.name||'') + ' ' + (c.intent||'')).toLowerCase())}" onclick="goToPath('${esc(c.id)}')" role="link" tabindex="0" title="Open in Learning Path">
       <div class="comp-row__head">
         <div class="comp-check ${isEarned ? 'earned' : ''}">${checkSvg}</div>
         <span class="comp-id">${esc(c.id)}</span>
         <span class="comp-name">${esc(c.name)}</span>
+        ${recPill}
         <span class="comp-levels">${lvls} lvl</span>
       </div>
       ${intent}
