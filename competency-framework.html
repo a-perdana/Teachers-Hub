@@ -847,7 +847,6 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
   renderBasis(FRAMEWORK);
   renderKpis(FRAMEWORK);
   renderProgressOverview();
-  renderLevels(FRAMEWORK);
   renderDomains(FRAMEWORK);
   renderFilters(FRAMEWORK);
 });
@@ -899,25 +898,6 @@ function renderKpis(fw) {
   set('kpiDomains', domains.length || '—');
   set('kpiComps',   comps.length   || '—');
   set('kpiCts',     `${ctsSet.size}/27`);
-}
-
-function renderLevels(fw) {
-  // Levels explainer card text comes from levelDescriptors{} if present so the
-  // wording stays in lockstep with the seed. Falls back to inline defaults.
-  const d = fw.levelDescriptors || {};
-  const grid = document.getElementById('levelsGrid');
-  if (!grid) return;
-  const cards = grid.querySelectorAll('.level-card');
-  cards.forEach(card => {
-    const lvl = card.classList.contains('awareness')    ? 'awareness'
-              : card.classList.contains('practitioner') ? 'practitioner'
-              : card.classList.contains('advanced')     ? 'advanced'
-              : card.classList.contains('lead')         ? 'lead' : null;
-    if (lvl && d[lvl]) {
-      const descEl = card.querySelector('.level-card-desc');
-      if (descEl) descEl.textContent = d[lvl];
-    }
-  });
 }
 
 function renderProgressOverview() {
