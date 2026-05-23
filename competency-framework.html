@@ -416,39 +416,36 @@ body::before {
 /* ─── DOMAIN TAKEAWAYS ACCORDION (3-hub parity port 2026-05-23) ─── */
 /* .domain-takeaways accordion + .cf-legend popover — shared CSS partial in
    competency-framework.css (source: /shared-design/competency-framework.css) */
+/* Comp card layout — 3-hub AH parity (2026-05-23). Horizontal flex with
+   checkbox + body (name+intent+meta+chips) + arrow. Mirrors AH .comp-item
+   to give all 3 hubs the same vertical-stack card with clean grouping. */
 .comp-row {
-  display: flex; flex-direction: column; gap: 6px;
-  padding: 10px 12px; font-size: 13px; color: var(--ink);
-  background: var(--paper); border: 1px solid var(--border); border-radius: 10px;
-  cursor: pointer;
-  transition: background .15s ease, border-color .15s ease;
+  display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-radius: 10px;
+  border: 1px solid var(--border); background: var(--paper);
+  cursor: pointer; transition: all .15s;
+  font-size: 13px; color: var(--ink);
 }
 .comp-row:hover { background: var(--accent-2); border-color: var(--accent); }
 .comp-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.comp-row__head {
-  display: flex; align-items: center; gap: 10px;
-}
 .comp-check {
   width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
   border: 1.5px solid var(--border); background: #fff;
   display: flex; align-items: center; justify-content: center;
+  margin-top: 2px;
   transition: all .15s ease;
 }
 .comp-check.earned { background: #22c55e; border-color: #22c55e; }
 .comp-check.earned svg { display: block; }
 .comp-check svg { display: none; width: 10px; height: 10px; color: #fff; }
-.comp-id {
-  font-family: 'DM Mono', monospace; font-size: 10.5px; color: var(--ink-3);
-  flex-shrink: 0; min-width: 48px;
-}
-.comp-name { flex: 1; font-weight: 600; color: var(--ink); line-height: 1.35; }
-.comp-levels {
-  font-size: 10px; color: var(--ink-3); flex-shrink: 0;
-  background: var(--paper); border: 1px solid var(--border);
-  padding: 2px 8px; border-radius: 999px; font-weight: 600;
-}
+.comp-body { flex: 1; min-width: 0; }
+.comp-name { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.35; }
+.comp-intent { font-size: 11.5px; color: var(--ink-2); line-height: 1.5; margin-top: 2px; }
+.comp-meta-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; margin-bottom: 2px; flex-wrap: wrap; }
+.comp-level-badge { display: inline-flex; padding: 2px 8px; border-radius: 50px; font-size: 10px; font-weight: 700; }
+.comp-arrow { color: var(--ink-3); flex-shrink: 0; padding-top: 4px; }
+.comp-arrow svg { width: 14px; height: 14px; }
 .comp-recommend-pill {
-  display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0;
+  display: inline-flex; align-items: center; gap: 4px;
   padding: 2px 8px; border-radius: 50px; font-size: 10px; font-weight: 700;
   letter-spacing: 0.02em; white-space: nowrap;
 }
@@ -456,14 +453,11 @@ body::before {
 .comp-recommend-pill.next  { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
 .comp-row.is-recommended { box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.18); border-color: #c4b5fd; }
 .comp-row.is-recommended:hover { box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.32); }
-.comp-intent {
-  font-size: 12px; color: var(--ink-2); line-height: 1.5;
-  padding-left: 76px;
-}
-.comp-chips {
-  display: flex; flex-wrap: wrap; gap: 6px 0;
-  padding-left: 76px;
-}
+.lvl-awareness   { background: #e0f2fe; color: #0369a1; }
+.lvl-practitioner { background: #fef3c7; color: #92400e; }
+.lvl-advanced    { background: #ccfbf1; color: #0f766e; }
+.lvl-lead        { background: #dcfce7; color: #15803d; }
+.comp-chips { display: flex; flex-wrap: wrap; gap: 6px 0; margin-top: 5px; }
 /* 3-group chip organisation (2026-05-23 AH parity port) */
 .chip-group { display: inline-flex; flex-wrap: wrap; gap: 4px 5px; align-items: center; }
 .chip-group-divider {
@@ -1106,21 +1100,21 @@ function renderDomains(fw) {
 }
 
 function renderCompRow(c) {
-  const isEarned = !!highestEarned(c.id);
+  const lvl = earned[c.id]?.level;
+  const isEarned = !!lvl;
+  const displayLevel = lvl ? LEVEL_LABEL[lvl] : LEVEL_LABEL[(c.levels || [])[0] || 'awareness'];
+  const levelClass = lvl ? `lvl-${lvl}` : `lvl-${(c.levels || [])[0] || 'awareness'}`;
   const rec = nextRecommendedLevel(c);
   const recPill = rec && rec.level
     ? (rec.kind === 'start'
         ? `<span class="comp-recommend-pill start" title="Suggested entry point — open the Learning Path to begin">✨ Start Here</span>`
         : `<span class="comp-recommend-pill next" title="Recommended next level based on your earned progress">→ Next: ${esc(LEVEL_LABEL[rec.level] || rec.level)}</span>`)
     : '';
-  const lvls = Array.isArray(c.levels) ? c.levels.length : 0;
   const refs    = Array.isArray(c.cambridgeStandardRefs) ? c.cambridgeStandardRefs : [];
   const perms   = Array.isArray(c.permendiknasRefs)      ? c.permendiknasRefs      : [];
   const esRefs  = Array.isArray(c.eduversalStandardRefs) ? c.eduversalStandardRefs : [];
   const aicfRefs = Array.isArray(c.aicfRefs)             ? c.aicfRefs              : [];
   const pedRefs  = Array.isArray(c.pedagogyRefs)         ? c.pedagogyRefs          : [];
-
-  const intent = c.intent ? `<div class="comp-intent">${esc(c.intent)}</div>` : '';
 
   // Pedagogy chip short-form: smart truncation.
   //   "Robinson 2008 — Student-Centred Leadership"     → "Robinson 2008"
@@ -1171,18 +1165,22 @@ function renderCompRow(c) {
     .join('');
 
   const checkSvg = `<svg viewBox="0 0 12 12" fill="currentColor"><path d="M10 3L5 9 2 6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const arrowSvg = `<svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>`;
+  const intentHtml = c.intent ? `<div class="comp-intent">${esc(c.intent)}</div>` : '';
 
   return `
     <div class="comp-row${rec ? ' is-recommended' : ''}" data-comp-id="${esc(c.id)}" data-domain-id="${esc(c.domainId)}" data-levels="${esc((c.levels || []).join(','))}" data-search="${esc((c.id + ' ' + (c.name||'') + ' ' + (c.intent||'')).toLowerCase())}" onclick="goToPath('${esc(c.id)}')" role="link" tabindex="0" title="Open in Learning Path">
-      <div class="comp-row__head">
-        <div class="comp-check ${isEarned ? 'earned' : ''}">${checkSvg}</div>
-        <span class="comp-id">${esc(c.id)}</span>
-        <span class="comp-name">${esc(c.name)}</span>
-        ${recPill}
-        <span class="comp-levels">${lvls} lvl</span>
+      <div class="comp-check ${isEarned ? 'earned' : ''}">${checkSvg}</div>
+      <div class="comp-body">
+        <div class="comp-name">${esc(c.name)}</div>
+        ${intentHtml}
+        <div class="comp-meta-row">
+          <span class="comp-level-badge ${levelClass}">${isEarned ? '✓ ' : ''}${displayLevel}</span>
+          ${recPill}
+        </div>
+        ${chips ? `<div class="comp-chips">${chips}</div>` : ''}
       </div>
-      ${intent}
-      ${chips ? `<div class="comp-chips">${chips}</div>` : ''}
+      <div class="comp-arrow">${arrowSvg}</div>
     </div>
   `;
 }
