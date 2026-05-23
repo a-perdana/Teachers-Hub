@@ -1043,6 +1043,24 @@ if (navEditSrc) {
   }
 });
 
+// competency-framework.css — 3-hub byte-identical CSS partial (cf-legend
+// popover + domain-takeaways accordion). Source-of-truth lives in
+// monorepo-root /shared-design/competency-framework.css. Same local-then-
+// shared fallback as handbook-reader / references-viewer. Linked from
+// competency-framework.html at dist root.
+{
+  const name   = 'competency-framework.css';
+  const local  = path.join(__dirname, name);
+  const shared = path.join(__dirname, '..', 'shared-design', name);
+  const src    = fs.existsSync(local) ? local : (fs.existsSync(shared) ? shared : null);
+  if (src) {
+    fs.copyFileSync(src, path.join(distDir, name));
+    console.log(`Copied: ${path.relative(__dirname, src)} -> dist/${name}`);
+  } else {
+    console.warn(`WARNING: ${name} not found locally or in shared-design/`);
+  }
+}
+
 // Copy partials folder to dist root
 const partialsSrcDir = path.join(__dirname, 'partials');
 const partialsDistDir = path.join(distDir, 'partials');
