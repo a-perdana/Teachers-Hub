@@ -1089,6 +1089,19 @@ if (fs.existsSync(resourcesSrcDir)) {
     });
   };
   copyResourcesRecursive(resourcesSrcDir, resourcesDistDir);
+  // Strip dead subfolder duplicates (since 2026-05-25 — architecture pass
+  // step 7). research/ and references-data/ live under resources/ as the
+  // sync-research mirror's *write target*, but at runtime everything is
+  // fetched from /research/* and /references-data/* (root) — the
+  // dedicated copy blocks above mirror them into dist/research/ and
+  // dist/references-data/. The /resources/research and /resources/
+  // references-data dist copies are pure dead weight.
+  for (const stale of [path.join(resourcesDistDir, 'research'), path.join(resourcesDistDir, 'references-data')]) {
+    if (fs.existsSync(stale)) {
+      fs.rmSync(stale, { recursive: true, force: true });
+      console.log(`Removed: dist/resources/${path.basename(stale)}/ (dead duplicate of dist/${path.basename(stale)})`);
+    }
+  }
 }
 
 // Copy interactive/ folder to dist (standalone HTML tools, no auth)
