@@ -392,7 +392,13 @@
     }
 
     function renderCard(panel, item) {
-      const catCls = ({ frameworks: 'cat-framework', cambridge: 'cat-cambridge', permen: 'cat-permen' })[panel] || '';
+      const catCls = ({
+        frameworks:         'cat-framework',
+        cambridge:          'cat-cambridge',
+        permen:             'cat-permen',
+        eduversalStandards: 'cat-eduversal-standards',
+        aicf:               'cat-aicf',
+      })[panel] || '';
       const icon = item.kind === 'md' ? '📄' : '{ }';
       const meta = (item.meta || []).map(m => {
         const cls = m === 'JSON' ? 'json' : m === 'MD' ? 'md' : m === 'live' ? 'live' : '';
