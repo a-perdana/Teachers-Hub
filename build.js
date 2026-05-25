@@ -781,10 +781,17 @@ function processFile(filename) {
   // Use absolute path for base.css so subdirectory pages resolve it correctly
   html = html.replace(/href="base\.css"/g, 'href="/base.css"');
 
-  // references-viewer.{js,css} — same absolute-path treatment so the
-  // /references clean-URL route can resolve them from dist/ root.
+  // references-viewer.{js,css} + references-shell.{js,css} — same
+  // absolute-path treatment so the /references clean-URL route can
+  // resolve them from dist/ root.
   html = html.replace(/href="references-viewer\.css"/g, 'href="/references-viewer.css"');
   html = html.replace(/src="references-viewer\.js"/g, 'src="/references-viewer.js"');
+  html = html.replace(/href="references-shell\.css"/g, 'href="/references-shell.css"');
+  // references-shell.js is loaded as an ES module via
+  // `import { initReferencesPage } from './references-shell.js'`.
+  // Rewriting './references-shell.js' (with the leading ./) to the
+  // absolute path keeps the import resolvable from the clean-URL route.
+  html = html.replace(/from '\.\/references-shell\.js'/g, "from '/references-shell.js'");
 
   // handbook-reader.{js,css} — shared reader runtime + styles used by
   // /handbook (browser catalogue + reader mode). Same absolute-path
@@ -988,9 +995,19 @@ if (navEditSrc) {
   }
 }
 
-// references-viewer schema-aware modal renderer — same local-then-shared
-// fallback pattern as nav-edit-simple. Loaded by references.html.
-['references-viewer.js', 'references-viewer.css'].forEach(name => {
+// references-viewer schema-aware modal renderer + references-shell
+// runtime (shared CSS + ES module) — same local-then-shared fallback
+// pattern as nav-edit-simple. Loaded by references.html. Local hub
+// copies are auto-synced from shared-design/ via `npm run sync:tokens
+// --apply`. NB: per memory/feedback_shared_assets_vercel_fallback, the
+// `..` shared fallback fails silently on Vercel (standalone subrepo
+// deploy) — the local copy is what ships.
+[
+  'references-viewer.js',
+  'references-viewer.css',
+  'references-shell.js',
+  'references-shell.css',
+].forEach(name => {
   const local  = path.join(__dirname, name);
   const shared = path.join(__dirname, '..', 'shared-design', name);
   const src    = fs.existsSync(local) ? local : (fs.existsSync(shared) ? shared : null);
