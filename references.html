@@ -34,11 +34,21 @@
        gap ABOVE the navbar that becomes visible when scrolling up.
        (CH uses position:fixed → needs padding-top; TH does not.) */
 
-    /* THREE RAILS = 1200px content — literal value to eliminate any
-       token-resolution discrepancy. Hero text, body content, footer
-       text — all three measure exactly 1200px wide. !important to
-       beat base.css + shell cascade. See memory
-       feedback_references_three_rails_1200 — load-bearing rule. */
+    /* THREE RAILS = 1200px — every visual edge of the page (hero
+       gradient + body content + footer gradient if any) clamps to
+       1200px on viewports ≥ 1280px. Hero gradient was edge-to-edge;
+       now clamped + centred so it lines up with the body content
+       rail. See memory feedback_references_three_rails_1200. */
+
+    /* Outer wrappers — clamp gradient/bg to 1200 */
+    .page-hero,
+    .page-footer {
+      max-width: 1200px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    /* Inner content wrappers — also 1200, zero horizontal padding */
     .page-hero__inner,
     .page-footer__inner,
     .page-footer__meta,
@@ -52,10 +62,14 @@
       margin-left: auto !important;
       margin-right: auto !important;
     }
-    /* Match CH plain --paper body bg (mor tint was too sticky-looking
-       per user feedback). data-page-accent="mor" stays on body so any
-       JS that depends on the family attribute keeps working; we just
-       neutralise the bg color. */
+
+    /* Toolbar sticky bg also clamps */
+    .ref-toolbar {
+      max-width: 1200px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
     body[data-page-accent="mor"] { background: var(--paper) !important; }
   </style>
 </head>
