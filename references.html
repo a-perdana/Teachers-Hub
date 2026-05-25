@@ -89,6 +89,10 @@
     .ref-card.cat-framework .ref-card-icon { background: #cffafe; color: #0e7490; }
     .ref-card.cat-cambridge .ref-card-icon { background: #fce7f3; color: #9d174d; }
     .ref-card.cat-permen    .ref-card-icon { background: #d1fae5; color: #065f46; }
+    /* ES = Eduversal Academic Standards (cyan-deep — 4th chip family) */
+    .ref-card.cat-eduversal-standards .ref-card-icon { background: #cffafe; color: #0e7490; }
+    /* AICF = AI Competency Framework (orange — 5th chip family) */
+    .ref-card.cat-aicf .ref-card-icon { background: #ffedd5; color: #c2410c; }
 
     .ref-sub-list { margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap; }
     .ref-sub-chip {
@@ -180,6 +184,8 @@
     <button class="ref-tab active" data-tab="frameworks">Frameworks <span class="count" id="cntFrameworks">7</span></button>
     <button class="ref-tab" data-tab="cambridge">Cambridge Standards <span class="count" id="cntCambridge">5</span></button>
     <button class="ref-tab" data-tab="permen">Permendiknas <span class="count" id="cntPermen">3</span></button>
+    <button class="ref-tab" data-tab="eduversalStandards">Eduversal Standards <span class="count" id="cntEduversalStandards">25</span></button>
+    <button class="ref-tab" data-tab="aicf">AI Framework <span class="count" id="cntAicf">15</span></button>
   </nav>
 
   <main>
@@ -202,6 +208,20 @@
         Verbatim Indonesian Ministry of Education regulations cited across the framework. Loaded by the cross-reference popovers (<code>cambridge-crossref.js</code>) when SKL / PIGP chips are clicked.
       </p>
       <div class="ref-grid" id="gridPermen"></div>
+    </section>
+
+    <section class="ref-panel" data-panel="eduversalStandards">
+      <p class="ref-intro">
+        The Eduversal Academic Standards manual — 23 sections, 393 madde anchors. Network-wide policy authority for governance, curriculum, assessment, safeguarding, QA and operations across partner schools. Cite as <code>ES X.Y</code> (or <code>X.Y.Z</code> for deeper nesting). Teachers cite ES anchors when contributing to subject scheme of work, assessment design, parent communication, or safeguarding workflows.
+      </p>
+      <div class="ref-grid" id="gridEduversalStandards"></div>
+    </section>
+
+    <section class="ref-panel" data-panel="aicf">
+      <p class="ref-intro">
+        AI Competency Framework v1.0 — the network-wide AI policy + practice baseline. Subject teachers + subject leaders read <strong>Part 1 (Teacher 5×5 matrix)</strong> for the progression path and the <strong>Teacher Playbook + Prompt Library + Weekly Tips</strong> for day-to-day practice. Red lines and decision trees are required reading before any AI use on student data, grading, or institutional content.
+      </p>
+      <div class="ref-grid" id="gridAicf"></div>
     </section>
   </main>
 
@@ -251,6 +271,66 @@
         { id: 'permen-pigp',   title: 'Permendiknas No.27/2010 — PIGP',    desc: 'Program Induksi Guru Pemula. The Indonesian regulatory frame for the induction module.',     kind: 'json', path: 'permendiknas/no-27-2010-pigp.json', meta: ['JSON', 'verbatim'] },
         { id: 'permen-16',     title: 'Permendiknas No.16/2007',           desc: 'Teacher academic qualification & competency standard.',                                     kind: 'json', path: 'permendiknas/no-16-2007.json', meta: ['JSON', 'verbatim'] },
       ],
+      // ── Eduversal Academic Standards (23 sections + manifest + blurbs) ──
+      // Network-wide policy authority for governance / curriculum /
+      // assessment / safeguarding / QA / operations. Authored by Eduversal
+      // HQ; mirrored from Academic Hub/Sections/ into docs/research/
+      // eduversal/academic-standards/. Teachers cite ES anchors when
+      // contributing to subject scheme of work, assessment design, parent
+      // communication, or safeguarding workflows.
+      eduversalStandards: [
+        { id: 'eduversal-standards-manifest', title: 'ES Manifest · Flat Madde Index', desc: 'Flat machine-readable index of every tag-able madde id across the 23 sections (393 entries total). Powers the ES chip family in cambridge-crossref.js.', kind: 'json', path: 'eduversal-standards/manifest.json', meta: ['JSON', '393 madde'] },
+        { id: 'eduversal-standards-blurbs',   title: 'ES Search Blurbs',                desc: 'Per-section short blurbs used by the references-search-index for keyword matching.', kind: 'json', path: 'eduversal-standards/search-blurbs.json', meta: ['JSON'] },
+        { id: 'eduversal-standards-section-01', title: 'ES 1 · Front Matter and Governance Charter',                                 desc: 'Section 1 (10 madde). Cite as ES 1.X.',  kind: 'json', path: 'eduversal-standards/section-01.json', meta: ['JSON', '10 madde'] },
+        { id: 'eduversal-standards-section-02', title: 'ES 2 · Legal and Regulatory Compliance',                                     desc: 'Section 2 (22 madde). Cite as ES 2.X.',  kind: 'json', path: 'eduversal-standards/section-02.json', meta: ['JSON', '22 madde'] },
+        { id: 'eduversal-standards-section-03', title: 'ES 3 · Cambridge Centre Compliance',                                          desc: 'Section 3 (20 madde). Cite as ES 3.X.',  kind: 'json', path: 'eduversal-standards/section-03.json', meta: ['JSON', '20 madde'] },
+        { id: 'eduversal-standards-section-04', title: 'ES 4 · Strategic Planning and School Improvement',                            desc: 'Section 4 (11 madde). Cite as ES 4.X.',  kind: 'json', path: 'eduversal-standards/section-04.json', meta: ['JSON', '11 madde'] },
+        { id: 'eduversal-standards-section-05', title: 'ES 5 · Curriculum Architecture',                                              desc: 'Section 5 (17 madde). Cite as ES 5.X.',  kind: 'json', path: 'eduversal-standards/section-05.json', meta: ['JSON', '17 madde'] },
+        { id: 'eduversal-standards-section-06', title: 'ES 6 · Assessment and Reporting',                                             desc: 'Section 6 (19 madde). Cite as ES 6.X.',  kind: 'json', path: 'eduversal-standards/section-06.json', meta: ['JSON', '19 madde'] },
+        { id: 'eduversal-standards-section-07', title: 'ES 7 · Teaching Quality and Practice',                                        desc: 'Section 7 (27 madde). Cite as ES 7.X. Anchors the Eduversal teacher appraisal system.',  kind: 'json', path: 'eduversal-standards/section-07.json', meta: ['JSON', '27 madde'] },
+        { id: 'eduversal-standards-section-08', title: 'ES 8 · Inclusion, EAL, and Learning Support',                                 desc: 'Section 8 (18 madde). Cite as ES 8.X.',  kind: 'json', path: 'eduversal-standards/section-08.json', meta: ['JSON', '18 madde'] },
+        { id: 'eduversal-standards-section-09', title: 'ES 9 · Safeguarding, Child Protection, and Wellbeing',                        desc: 'Section 9 (22 madde). Cite as ES 9.X.',  kind: 'json', path: 'eduversal-standards/section-09.json', meta: ['JSON', '22 madde'] },
+        { id: 'eduversal-standards-section-10', title: 'ES 10 · Cambridge Examinations Management',                                   desc: 'Section 10 (18 madde). Cite as ES 10.X.', kind: 'json', path: 'eduversal-standards/section-10.json', meta: ['JSON', '18 madde'] },
+        { id: 'eduversal-standards-section-11', title: 'ES 11 · Admissions, Enrollment, and Marketing Ethics',                        desc: 'Section 11 (12 madde). Cite as ES 11.X.', kind: 'json', path: 'eduversal-standards/section-11.json', meta: ['JSON', '12 madde'] },
+        { id: 'eduversal-standards-section-12', title: 'ES 12 · Staff Lifecycle (Recruitment, Induction, Appraisal, PD, Wellbeing)', desc: 'Section 12 (14 madde). Cite as ES 12.X.', kind: 'json', path: 'eduversal-standards/section-12.json', meta: ['JSON', '14 madde'] },
+        { id: 'eduversal-standards-section-13', title: 'ES 13 · Operations, Finance, and Resources',                                  desc: 'Section 13 (12 madde). Cite as ES 13.X.', kind: 'json', path: 'eduversal-standards/section-13.json', meta: ['JSON', '12 madde'] },
+        { id: 'eduversal-standards-section-14', title: 'ES 14 · Data Protection, Records, and Information Systems',                   desc: 'Section 14 (11 madde). Cite as ES 14.X.', kind: 'json', path: 'eduversal-standards/section-14.json', meta: ['JSON', '11 madde'] },
+        { id: 'eduversal-standards-section-15', title: 'ES 15 · Risk Management, Emergency Preparedness, Business Continuity',        desc: 'Section 15 (50 madde). Cite as ES 15.X.', kind: 'json', path: 'eduversal-standards/section-15.json', meta: ['JSON', '50 madde'] },
+        { id: 'eduversal-standards-section-16', title: 'ES 16 · Parent, Student, and Community Engagement',                           desc: 'Section 16 (12 madde). Cite as ES 16.X.', kind: 'json', path: 'eduversal-standards/section-16.json', meta: ['JSON', '12 madde'] },
+        { id: 'eduversal-standards-section-17', title: 'ES 17 · Quality Assurance and Internal Review',                               desc: 'Section 17 (18 madde). Cite as ES 17.X.', kind: 'json', path: 'eduversal-standards/section-17.json', meta: ['JSON', '18 madde'] },
+        { id: 'eduversal-standards-section-18', title: 'ES 18 · Accreditation Toolkit (CIS:WASC)',                                    desc: 'Section 18 (11 madde). Cite as ES 18.X.', kind: 'json', path: 'eduversal-standards/section-18.json', meta: ['JSON', '11 madde'] },
+        { id: 'eduversal-standards-section-19', title: 'ES 19 · Templates and Operational Tools (Appendices)',                        desc: 'Section 19 (12 madde). Cite as ES 19.X.', kind: 'json', path: 'eduversal-standards/section-19.json', meta: ['JSON', '12 madde'] },
+        { id: 'eduversal-standards-section-20', title: 'ES 20 · References and Compliance Library',                                   desc: 'Section 20 (11 madde). Cite as ES 20.X.', kind: 'json', path: 'eduversal-standards/section-20.json', meta: ['JSON', '11 madde'] },
+        { id: 'eduversal-standards-section-21', title: 'ES 21 · Digital Learning and Technology Infrastructure',                      desc: 'Section 21 (18 madde). Cite as ES 21.X.', kind: 'json', path: 'eduversal-standards/section-21.json', meta: ['JSON', '18 madde'] },
+        { id: 'eduversal-standards-section-22', title: 'ES 22 · Student Conduct, Discipline, and Restorative Practices',              desc: 'Section 22 (16 madde). Cite as ES 22.X.', kind: 'json', path: 'eduversal-standards/section-22.json', meta: ['JSON', '16 madde'] },
+        { id: 'eduversal-standards-section-23', title: 'ES 23 · External Partnerships and Student Pathways',                          desc: 'Section 23 (12 madde). Cite as ES 23.X.', kind: 'json', path: 'eduversal-standards/section-23.json', meta: ['JSON', '12 madde'] },
+      ],
+      // ── AI Competency Framework v1.0 (AICF) ──────────────────────
+      // Eduversal-authored AI framework. Subject teachers + subject
+      // leaders read Part 1 (Teacher 5×5 matrix), Teacher Playbook,
+      // Prompt Library, Weekly Tips. Red lines + decision trees are
+      // required reading before any AI use on student data, grading,
+      // or institutional content. 5th chip family (orange).
+      aicf: [
+        // Spine
+        { id: 'aicf-manifest', title: 'AICF Manifest · Spine', desc: 'Canonical AICF v1.0 spine. Tool categories, Firestore schema, external anchors (Cambridge / Permendikdasmen 13/2025 / UU PDP / UNESCO / OECD).', kind: 'json', path: 'aicf/manifest.json', meta: ['JSON', 'spine'] },
+        // Reference (verbatim PDF text)
+        { id: 'aicf-part1-teacher',       title: 'AICF Part 1 · Teacher AI Competency',       desc: 'Teacher matrix: 5 levels × 5 domains (A-E). Verbatim. Canonical reader: /ai-framework-teacher. Subject teachers + subject leaders read this for the progression path.',                                kind: 'json', path: 'aicf/eduversal-v1-part1-teacher.json',       meta: ['JSON', 'verbatim'] },
+        { id: 'aicf-part2-student',       title: 'AICF Part 2 · Student AI Competency',       desc: 'Student matrix: 3 age bands × 4 strands. Verbatim. Plan classroom delivery against this — pairs with the AICF Classroom Activities bundle.',                                                              kind: 'json', path: 'aicf/eduversal-v1-part2-student.json',       meta: ['JSON', 'verbatim'] },
+        { id: 'aicf-part3-institutional', title: 'AICF Part 3 · Institutional Maturity',      desc: 'Institutional matrix: 5 maturity levels × 6 areas. School-leadership-owned but teachers read it to understand school AI maturity context.',                                                                kind: 'json', path: 'aicf/eduversal-v1-part3-institutional.json', meta: ['JSON', 'verbatim'] },
+        { id: 'aicf-appendices',          title: 'AICF Appendices',                            desc: 'Self-assessment templates, glossary, governance and review cycle.',                                                                                                                                       kind: 'json', path: 'aicf/eduversal-v1-appendices.json',          meta: ['JSON', 'verbatim'] },
+        { id: 'aicf-unesco',              title: 'UNESCO AI CFT 2024 · Selected Blocks',       desc: 'Subset of UNESCO AI Competency Framework for Teachers (2024). CC-BY-SA 3.0 IGO. International alignment frame.',                                                                                          kind: 'json', path: 'aicf/unesco-ai-cft-2024.json',                meta: ['JSON', 'verbatim', 'UNESCO'] },
+        { id: 'aicf-sources',             title: 'AICF External Sources Index',                desc: '24 external sources cited in AICF v1.0 + practical layer. Provenance reference for tagged claims.',                                                                                                       kind: 'json', path: 'aicf/external-sources-index.json',           meta: ['JSON'] },
+        // Practical
+        { id: 'aicf-teacher-playbook',    title: 'AICF Teacher Playbook',                      desc: 'Practical playbook for subject teachers + subject leaders. 5 quick wins, 4 core workflows, 7 red flags, decision aids, progression path. Day-to-day reference.',                                          kind: 'json', path: 'aicf/teacher-playbook.json',    meta: ['JSON', 'practical'] },
+        { id: 'aicf-leader-playbook',     title: 'AICF Leader Playbook',                       desc: 'Practical playbook for school principals + foundation reps + academic / Cambridge coordinators. Read alongside the Teacher Playbook to understand the school-wide policy context behind your AI use.',  kind: 'json', path: 'aicf/leader-playbook.json',     meta: ['JSON', 'practical'] },
+        { id: 'aicf-specialist-playbook', title: 'AICF Specialist Playbook',                   desc: 'Practical playbook for HQ Subject Specialists. The assessment boundary — what AI may and may not author for the formal pipeline.',                                                                       kind: 'json', path: 'aicf/specialist-playbook.json', meta: ['JSON', 'practical'] },
+        { id: 'aicf-prompt-library',      title: 'AICF Prompt Library',                        desc: '13 tested prompts in 8 categories — lesson planning, differentiation, rubric+feedback, parent communication, admin+summarisation, specialist work, policy+strategy, student-facing activity. Copy-paste ready.', kind: 'json', path: 'aicf/prompt-library.json',      meta: ['JSON', '13 prompts'] },
+        { id: 'aicf-red-lines',           title: 'AICF Red Lines · 10 Network-Wide Rules',     desc: 'The 10 unconditional "never do this" rules + 5-question quick check + procedures for crossing or witnessing a crossed line. UU PDP / Cambridge / Eduversal academic integrity grounded. Required reading.', kind: 'json', path: 'aicf/redFlagsAndRedlines.json',  meta: ['JSON', 'binding'] },
+        { id: 'aicf-decision-trees',      title: 'AICF Decision Trees',                        desc: '9 step-by-step decision trees for ambiguous situations: should-I-use-AI, which-tool, suspected student AI submission, parent asks about AI, etc. EAL false-positive warning on AI detection is explicit.',  kind: 'json', path: 'aicf/decision-trees.json',      meta: ['JSON', '9 trees'] },
+        { id: 'aicf-weekly-tips',         title: 'AICF Weekly Tips · 34 effective weeks',      desc: 'One small AI move per week, calibrated to the Eduversal Indonesian Cambridge 34-week academic year. Monday-morning read + Friday concrete action. Cross-linked to existing weekly-checklist task IDs.', kind: 'json', path: 'aicf/weekly-tips.json',         meta: ['JSON', '34 weeks'] },
+        { id: 'aicf-classroom-activities',title: 'AICF Classroom Activities · 11 lesson outlines', desc: '11 ready-to-run lesson outlines for student AI literacy across 3 age bands. Each carries learning objective + lesson flow + materials + assessment idea + red-line guardrails. Plan one AICF lesson per term per class.', kind: 'json', path: 'aicf/classroom-activities.json', meta: ['JSON', '11 activities'] },
+      ],
     };
 
     fetch('/partials/navbar.html').then(r => r.text()).then(html => {
@@ -287,11 +367,14 @@
       });
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDoc(); });
 
-      renderGrid('frameworks', MANIFEST.frameworks);
-      renderGrid('cambridge',  MANIFEST.cambridge);
-      renderGrid('permen',     MANIFEST.permen);
+      renderGrid('frameworks',         MANIFEST.frameworks);
+      renderGrid('cambridge',          MANIFEST.cambridge);
+      renderGrid('permen',             MANIFEST.permen);
+      renderGrid('eduversalStandards', MANIFEST.eduversalStandards);
+      renderGrid('aicf',               MANIFEST.aicf);
 
-      const total = MANIFEST.frameworks.length + MANIFEST.cambridge.length + MANIFEST.permen.length;
+      const total = MANIFEST.frameworks.length + MANIFEST.cambridge.length + MANIFEST.permen.length
+                  + MANIFEST.eduversalStandards.length + MANIFEST.aicf.length;
       document.getElementById('metaTotalDocs').innerHTML = `<strong>Indexed</strong> ${total} documents`;
     }
 
