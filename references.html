@@ -34,9 +34,7 @@
        gap ABOVE the navbar that becomes visible when scrolling up.
        (CH uses position:fixed → needs padding-top; TH does not.) */
 
-    /* THREE RAILS = 1200px CONTENT (text + cards). Hero/footer/
-       toolbar OUTER wrappers (gradient/bg) MUST stay edge-to-edge —
-       only their INNER content wrappers clamp to 1200. */
+    /* THREE RAILS = 1200px CONTENT. */
     .page-hero__inner,
     .page-footer__inner,
     .page-footer__meta,
@@ -44,11 +42,29 @@
     .ref-shelf,
     .ref-quick,
     .ref-results {
+      width: 100% !important;
       max-width: 1200px !important;
       padding-left: 0 !important;
       padding-right: 0 !important;
       margin-left: auto !important;
       margin-right: auto !important;
+    }
+
+    /* CRITICAL: base.css ships `body:has(> .page-footer) { display:
+       flex; flex-direction: column }` for sticky-footer behaviour.
+       That turns body into a flex container — flex children
+       shrink-to-fit by default, so <main class="ref-results">
+       collapsed to ~945px (intrinsic content width) instead of
+       the intended 1200. align-self stretch + width 100% forces
+       the flex item to fill body's full width; max-width: 1200
+       then actually takes effect. */
+    body:has(> .page-footer) > .ref-results,
+    body:has(> .page-footer) > .ref-toolbar,
+    body:has(> .page-footer) > .ref-shelf,
+    body:has(> .page-footer) > .ref-quick,
+    body:has(> .page-footer) > .page-hero {
+      width: 100% !important;
+      align-self: stretch !important;
     }
 
     body[data-page-accent="mor"] { background: var(--paper) !important; }
