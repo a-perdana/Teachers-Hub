@@ -34,24 +34,23 @@
        gap ABOVE the navbar that becomes visible when scrolling up.
        (CH uses position:fixed → needs padding-top; TH does not.) */
 
-    /* THREE RAILS = 1200px content. Hero text, body content, footer
-       text — all three measure exactly 1200px wide. Achieved via:
-       (1) Outer wrapper `max-width: var(--container-max)` (=1200).
-       (2) Horizontal padding ZERO on outer wrapper. Adding 40px
-           padding (was the previous attempt) shrinks content to 1120
-           because clamp-then-pad. Don't reintroduce horizontal
-           padding here.
-       Shell CSS handles .ref-toolbar-inner / .ref-shelf / .ref-quick
-       / .ref-results with the same pattern. These overrides apply the
-       same rule to hero + footer wrappers (base.css gives them 1200
-       outer + 40px padding → 1120 content; override removes the
-       padding). See memory feedback_references_three_rails_1200. */
+    /* THREE RAILS = 1200px content — literal value to eliminate any
+       token-resolution discrepancy. Hero text, body content, footer
+       text — all three measure exactly 1200px wide. !important to
+       beat base.css + shell cascade. See memory
+       feedback_references_three_rails_1200 — load-bearing rule. */
     .page-hero__inner,
     .page-footer__inner,
-    .page-footer__meta {
-      max-width: var(--container-max);
-      padding-left: 0;
-      padding-right: 0;
+    .page-footer__meta,
+    .ref-toolbar-inner,
+    .ref-shelf,
+    .ref-quick,
+    .ref-results {
+      max-width: 1200px !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
     }
   </style>
 </head>
