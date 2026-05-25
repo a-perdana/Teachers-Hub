@@ -28,13 +28,19 @@
     };
   </script>
   <style>
-    /* Navbar clearance (base.css doesn't set padding-top globally —
-       every page using .page-hero must add it). */
-    body { padding-top: 62px; }
-    /* Hero + footer content widen to match shell's toolbar/section
-       content width (1200px). Base rules clamp __inner at 1200 + 40px
-       padding → content at 1120; these overrides widen to 1280 outer
-       so the inner 40px padding lands at content 1200. */
+    /* TH navbar is position:sticky (stays in layout flow + sticks at
+       top:0 on scroll). No body padding-top needed — sticky elements
+       reserve their own space. Adding padding-top here creates a 62px
+       gap ABOVE the navbar that becomes visible when scrolling up.
+       (CH uses position:fixed → needs padding-top; TH does not.) */
+
+    /* Three rails — hero text + body content + footer text all land
+       at exactly 1200px content width. Shell CSS handles the body
+       wrappers (.ref-toolbar-inner / .ref-shelf / .ref-quick /
+       .ref-results); these page-local overrides widen hero + footer
+       __inner from base's 1200 outer (1120 content) to 1280 outer so
+       40px padding lands at content 1200. See memory
+       feedback_references_three_rails_1200 — load-bearing rule. */
     .page-hero__inner,
     .page-footer__inner,
     .page-footer__meta { max-width: calc(var(--container-max) + 80px); }
