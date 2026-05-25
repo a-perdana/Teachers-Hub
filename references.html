@@ -52,9 +52,14 @@
       margin-left: auto !important;
       margin-right: auto !important;
     }
+    /* Match CH plain --paper body bg (mor tint was too sticky-looking
+       per user feedback). data-page-accent="mor" stays on body so any
+       JS that depends on the family attribute keeps working; we just
+       neutralise the bg color. */
+    body[data-page-accent="mor"] { background: var(--paper) !important; }
   </style>
 </head>
-<body>
+<body data-page-accent="mor">
   <div id="navbar-container"></div>
 
   <header class="page-hero" data-accent="mor">
