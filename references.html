@@ -344,10 +344,12 @@
       `;
     }
 
-    /* references-data lives in CH (single source of truth, CORS-open).
-       TH and AH fetch cross-origin so we don't have to mirror 17+ JSON
-       files into every hub's repo. */
-    const REF_DATA_BASE = 'https://centralhub.eduversal.org/references-data';
+    /* references-data ships locally under dist/references-data/ since
+       2026-05-25 (step 4 of system-architecture pass). The hub's own
+       mirror is auto-synced from monorepo SoT by `npm run sync:research`
+       + pre-commit drift gate. Previously fetched cross-origin from
+       centralhub.eduversal.org which made CH a SPOF for this surface. */
+    const REF_DATA_BASE = 'references-data';
 
     async function openDoc({ path, kind, title }) {
       const overlay = document.getElementById('docModalOverlay');
