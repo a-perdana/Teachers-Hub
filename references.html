@@ -31,11 +31,13 @@
     /* Navbar clearance (base.css doesn't set padding-top globally —
        every page using .page-hero must add it). */
     body { padding-top: 62px; }
-    /* Hero content widens to match shell's toolbar/section content
-       width (1200px) — base.css clamps __inner at 1200 + 40px padding
-       → text at 1120, this override widens. See AH references.html
-       for the same pattern + rationale. */
-    .page-hero__inner { max-width: calc(var(--container-max) + 80px); }
+    /* Hero + footer content widen to match shell's toolbar/section
+       content width (1200px). Base rules clamp __inner at 1200 + 40px
+       padding → content at 1120; these overrides widen to 1280 outer
+       so the inner 40px padding lands at content 1200. */
+    .page-hero__inner,
+    .page-footer__inner,
+    .page-footer__meta { max-width: calc(var(--container-max) + 80px); }
   </style>
 </head>
 <body data-page-accent="mor">
