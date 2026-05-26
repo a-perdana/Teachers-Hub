@@ -260,6 +260,13 @@
   font-size:12px; color:var(--ink-2);
 }
 .page-intro__foot strong { color:#5b21b6; font-weight:700; }
+
+/* ─── PAGE FOOTER (canonical — mor CTA accent matches portfolio theme) ─── */
+.page-footer__cta-btn {
+  background: linear-gradient(135deg, #7c3aed 0%, #5a4bd1 100%);
+  box-shadow: 0 4px 14px rgba(108,92,231,0.35);
+}
+.page-footer__cta-btn:hover { box-shadow: 0 6px 18px rgba(108,92,231,0.48); }
 </style>
 <script type="module" src="auth-guard.js"></script>
 </head>
@@ -666,5 +673,36 @@ async function loadSubmissions() {
   }).join('');
 }
 </script>
+
+<footer class="page-footer" role="contentinfo">
+  <div class="page-footer__inner">
+    <div class="page-footer__cta">
+      <span class="page-footer__cta-eyebrow">Teachers · Evidence</span>
+      <h2 class="page-footer__cta-title">Have you done the work?</h2>
+      <p class="page-footer__cta-desc">Pick the competency, pick the level, write 80+ characters about what you actually did in class, attach a file if it helps. HQ reads each submission before granting the level on your Learning Path.</p>
+      <a href="learning-path" class="page-footer__cta-btn">Open Learning Path <span aria-hidden="true">→</span></a>
+    </div>
+    <nav class="page-footer__nav" aria-label="My Portfolio footer navigation">
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">My Hub</span>
+        <a href="learning-path" class="page-footer__nav-link">Learning Path</a>
+        <a href="competency-framework" class="page-footer__nav-link">Competency Framework</a>
+        <a href="my-certificates" class="page-footer__nav-link">My Certificates</a>
+        <a href="my-induction" class="page-footer__nav-link">My Induction</a>
+      </div>
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">References</span>
+        <a href="references" class="page-footer__nav-link">References &amp; Standards</a>
+        <a href="handbook" class="page-footer__nav-link">Handbooks</a>
+        <a href="cambridge-standards" class="page-footer__nav-link">Cambridge Standards</a>
+      </div>
+    </nav>
+  </div>
+  <div class="page-footer__meta">
+    <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
+    <span class="page-footer__meta-right">PDF / Word / image · max 25 MB · central admin review</span>
+  </div>
+</footer>
+
 </body>
 </html>
