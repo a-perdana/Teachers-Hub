@@ -35,6 +35,36 @@ body::before {
     linear-gradient(180deg, #fbf6f8 0%, #faf3f5 100%);
 }
 
+/* ─── INFO STRIP (hero-altı bilgilendirme — kullanıcının ne yaptığını + bu sayfanın ne anlam ifade ettiğini ESL düzeyinde açıklar) ─── */
+.info-strip {
+  background: linear-gradient(135deg, #fff7ed 0%, #fef2f2 100%);
+  border: 1px solid #fed7aa;
+  border-left: 4px solid #e11d48;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin: 0 0 24px;
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.info-strip__icon {
+  font-size: 22px; line-height: 1; flex-shrink: 0; margin-top: 1px;
+}
+.info-strip__body { flex: 1; min-width: 0; }
+.info-strip__title {
+  font-size: 14px; font-weight: 700; color: #881337; margin-bottom: 4px;
+}
+.info-strip__text {
+  font-size: 13px; color: #4a1d2c; line-height: 1.55;
+}
+.info-strip__text strong { color: #881337; font-weight: 700; }
+.info-strip__links {
+  display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px;
+  font-size: 12px; font-weight: 600;
+}
+.info-strip__links a {
+  color: #be123c; text-decoration: none; border-bottom: 1px dashed #e11d48;
+}
+.info-strip__links a:hover { color: #881337; border-bottom-style: solid; }
+
 /* ─── HERO (canonical .page-hero, rose-burgundy accent — distinct from CH mor) ─── */
 .page-hero {
   position: relative; overflow: hidden;
@@ -582,6 +612,22 @@ body::before {
 
 <div class="page-wrap">
 
+  <!-- INFO STRIP — what this page is for, what self-assessment means, where evidence goes -->
+  <aside class="info-strip" role="note" aria-label="How this page works">
+    <div class="info-strip__icon" aria-hidden="true">🧭</div>
+    <div class="info-strip__body">
+      <div class="info-strip__title">How this page works</div>
+      <div class="info-strip__text">
+        This is your <strong>browse + self-assessment</strong> page for the 7 teacher competency domains. Tap any competency to open it and rate yourself on the 1–4 statements at each level — your scores stay private and feed the "Avg Self-Assessment" tile above. <strong>Self-assessment alone is not a certificate.</strong> To earn a level officially, submit evidence in your <a href="my-portfolio">Portfolio</a>; HQ reviews it and writes the approved level to your <a href="learning-path">Learning Path</a>.
+      </div>
+      <div class="info-strip__links">
+        <a href="learning-path">→ Open Learning Path (level checklists)</a>
+        <a href="my-portfolio">→ Submit evidence in Portfolio</a>
+        <a href="my-certificates">→ See my certificates</a>
+      </div>
+    </div>
+  </aside>
+
   <!-- GROUNDED-IN BAND (provenance — hero-continuation, identical to CH) -->
   <section class="grounded-band" id="basisCard" aria-labelledby="groundedHeading">
     <div class="grounded-inner">
@@ -764,7 +810,7 @@ fetch('partials/navbar.html')
 // ─── State ────────────────────────────────────────────────────────
 let FRAMEWORK = null;           // Firestore-loaded competency_framework/teachers
 let earned    = {};             // user_competencies/{uid}.earned
-let saScores  = {};             // user_competencies/{uid}.saScores
+let saScores  = {};             // user_competencies/{uid}.saScores_teacher (renamed 2026-05-26 — symmetric with AH saScores_academic + CH saScores_central)
 let activeDomain = 'all';
 let activeLevel  = 'all';   // AH-parallel level filter (awareness/practitioner/advanced/lead/all)
 let searchTerm   = '';
@@ -854,7 +900,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
   if (userSnap.exists()) {
     const u = userSnap.data();
     earned   = u.earned   || {};
-    saScores = u.saScores || {};
+    saScores = u.saScores_teacher || {};
   }
 
   renderBasis(FRAMEWORK);

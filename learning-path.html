@@ -1985,7 +1985,7 @@ const MAT_TYPE_ICON = { reading: '📖', video: '▶️', activity: '✏️', re
 let uid = '', isAdmin = false;
 let earned = {};
 let matDone = {}; // { [matId]: true }
-let saScores = {}; window.saScores = saScores; // { "compId/lvl/idx": 1-4 }
+let saScores = {}; window.saScores = saScores; // user_competencies/{uid}.saScores_teacher — { "compId/lvl/idx": 1-4 } (renamed 2026-05-26 for symmetry with AH/CH)
 let expanded = {}; // { [compId]: true }
 
 fetch('partials/navbar.html')
@@ -2025,7 +2025,7 @@ async function loadProgress() {
     const data = snap.data();
     earned = data.earned || {};
     matDone = data.matDone || {};
-    saScores = data.saScores || {};
+    saScores = data.saScores_teacher || {};
     window.saScores = saScores;
   }
 }
@@ -2041,7 +2041,7 @@ window.showSaToast = function(msg) {
 };
 
 window.saveProgress = async function saveProgress() {
-  await setDoc(doc(window.db, 'user_competencies', uid), { earned, matDone, saScores }, { merge: true });
+  await setDoc(doc(window.db, 'user_competencies', uid), { earned, matDone, saScores_teacher: saScores }, { merge: true });
   window.showSaToast('✓ Answer saved');
 }
 
