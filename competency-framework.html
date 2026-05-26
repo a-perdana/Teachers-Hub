@@ -35,35 +35,84 @@ body::before {
     linear-gradient(180deg, #fbf6f8 0%, #faf3f5 100%);
 }
 
-/* ─── INFO STRIP (hero-altı bilgilendirme — kullanıcının ne yaptığını + bu sayfanın ne anlam ifade ettiğini ESL düzeyinde açıklar) ─── */
+/* ─── INFO STRIP (hero-altı bilgilendirme — pattern parity with CH competency-admin) ─── */
 .info-strip {
   background: linear-gradient(135deg, #fff7ed 0%, #fef2f2 100%);
   border: 1px solid #fed7aa;
   border-left: 4px solid #e11d48;
   border-radius: 12px;
-  padding: 14px 18px;
+  padding: 16px 20px;
   margin: 0 0 24px;
   display: flex; gap: 14px; align-items: flex-start;
 }
-.info-strip__icon {
-  font-size: 22px; line-height: 1; flex-shrink: 0; margin-top: 1px;
-}
+.info-strip__icon { font-size: 22px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
 .info-strip__body { flex: 1; min-width: 0; }
 .info-strip__title {
-  font-size: 14px; font-weight: 700; color: #881337; margin-bottom: 4px;
+  font-size: 15px; font-weight: 700; color: #881337;
+  margin: 0 0 4px; letter-spacing: -0.01em;
 }
-.info-strip__text {
+.info-strip__lede {
   font-size: 13px; color: #4a1d2c; line-height: 1.55;
+  margin: 0 0 12px;
 }
-.info-strip__text strong { color: #881337; font-weight: 700; }
-.info-strip__links {
-  display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px;
-  font-size: 12px; font-weight: 600;
+.info-strip__lede strong { color: #881337; font-weight: 700; }
+
+.info-strip__flow {
+  display: grid; gap: 8px;
+  margin: 0 0 12px; padding: 0; list-style: none;
+  counter-reset: flow-step;
 }
+.info-strip__flow > li {
+  position: relative;
+  padding: 8px 12px 8px 38px;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(225,29,72,0.18);
+  border-radius: 8px;
+  font-size: 12.5px; color: #4a1d2c; line-height: 1.5;
+  counter-increment: flow-step;
+}
+.info-strip__flow > li::before {
+  content: counter(flow-step);
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #e11d48; color: #fff;
+  font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.info-strip__flow strong { color: #881337; font-weight: 700; }
+
+.info-strip__callout {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 10px 12px;
+  margin: 0 0 12px;
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(225,29,72,0.2);
+  border-left: 3px solid #f43f5e;
+  border-radius: 6px;
+  font-size: 12.5px; color: #4a1d2c; line-height: 1.5;
+}
+.info-strip__callout strong { color: #881337; font-weight: 700; }
+.info-strip__callout-icon { font-size: 16px; flex-shrink: 0; line-height: 1.3; }
+
+.info-strip__foot {
+  display: flex; flex-wrap: wrap; gap: 8px 16px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(225,29,72,0.25);
+  font-size: 12px; color: #4a1d2c;
+}
+.info-strip__foot strong { color: #881337; font-weight: 700; }
+
+.info-strip__links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px; font-size: 12px; font-weight: 600; }
 .info-strip__links a {
-  color: #be123c; text-decoration: none; border-bottom: 1px dashed #e11d48;
+  color: #be123c; text-decoration: none;
+  padding: 5px 10px; border-radius: 6px;
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(225,29,72,0.22);
+  transition: all 0.15s;
 }
-.info-strip__links a:hover { color: #881337; border-bottom-style: solid; }
+.info-strip__links a:hover {
+  background: #e11d48; color: #fff; border-color: #e11d48;
+}
 
 /* ─── HERO (canonical .page-hero, rose-burgundy accent — distinct from CH mor) ─── */
 .page-hero {
@@ -616,14 +665,31 @@ body::before {
   <aside class="info-strip" role="note" aria-label="How this page works">
     <div class="info-strip__icon" aria-hidden="true">🧭</div>
     <div class="info-strip__body">
-      <div class="info-strip__title">How this page works</div>
-      <div class="info-strip__text">
-        This is your <strong>browse + self-assessment</strong> page for the 7 teacher competency domains. Tap any competency to open it and rate yourself on the 1–4 statements at each level — your scores stay private and feed the "Avg Self-Assessment" tile above. <strong>Self-assessment alone is not a certificate.</strong> To earn a level officially, submit evidence in your <a href="my-portfolio">Portfolio</a>; HQ reviews it and writes the approved level to your <a href="learning-path">Learning Path</a>.
+      <h2 class="info-strip__title">Teachers Track — browse + self-assess</h2>
+      <p class="info-strip__lede">
+        Seven domains covering subject mastery, pedagogy, assessment, classroom practice, ethics, community, and AI &amp; digital literacy. Tap any competency to open it and rate yourself on each level's statements.
+      </p>
+
+      <ol class="info-strip__flow">
+        <li><strong>Self-assess</strong> here — rate yourself 1–4 on each statement. Scores stay private, feed the "Avg Self-Assessment" tile above</li>
+        <li><strong>Submit evidence</strong> in <a href="my-portfolio">My Portfolio</a> when you're ready to claim a level officially (lesson plans, student work, observation feedback)</li>
+        <li><strong>HQ reviews</strong> your submission → approved level lands on your <a href="learning-path">Learning Path</a> + <a href="my-certificates">Certificates</a></li>
+      </ol>
+
+      <div class="info-strip__callout">
+        <span class="info-strip__callout-icon" aria-hidden="true">⚠️</span>
+        <span><strong>Self-assessment alone is not a certificate.</strong> It's an honest snapshot for your own reflection — earning a level requires evidence + HQ approval.</span>
       </div>
+
+      <div class="info-strip__foot">
+        <span><strong>Privacy:</strong> your SA scores are yours alone; HQ never sees them</span>
+        <span><strong>Tip:</strong> rate yourself honestly — over-rating yourself today means harder evidence to submit later</span>
+      </div>
+
       <div class="info-strip__links">
-        <a href="learning-path">→ Open Learning Path (level checklists)</a>
-        <a href="my-portfolio">→ Submit evidence in Portfolio</a>
-        <a href="my-certificates">→ See my certificates</a>
+        <a href="learning-path">Learning Path</a>
+        <a href="my-portfolio">My Portfolio</a>
+        <a href="my-certificates">My Certificates</a>
       </div>
     </div>
   </aside>
