@@ -16,13 +16,44 @@
 
     /* ─── LAYOUT ─────────────────────────────────────── */
     body { min-height: 100vh; }
+
+    /* THREE RAILS = TRUE 1200px CONTENT.
+       Hero inner + body + footer all clamp to var(--container-max) with ZERO
+       horizontal padding (vertical kept). The canonical .page-hero__inner /
+       .page-footer__inner / .page-footer__meta ship a default 40px horizontal
+       pad — strip it here so the content column measures exactly 1200px on
+       viewports ≥ 1280px (40px-padding pattern only gives ~1120). */
+    .page-hero__inner,
+    .page-footer__inner,
+    .page-footer__meta,
     .page-wrap {
+      width: 100%;
       max-width: var(--container-max);
-      margin: 0 auto;
-      padding: 26px 40px 48px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
     }
+    .page-wrap { padding-top: 26px; padding-bottom: 48px; }
+
+    /* base.css ships `body:has(> .page-footer) { display:flex; flex-direction:column }`
+       for the sticky footer — that turns body into a flex container, so its
+       direct children shrink-to-fit (<1200) unless forced to stretch. */
+    body:has(> .page-footer) > .page-hero,
+    body:has(> .page-footer) > .page-wrap {
+      width: 100% !important;
+      align-self: stretch !important;
+    }
+
     @media (max-width: 768px) {
-      .page-wrap { padding: 20px 20px 40px; }
+      .page-wrap,
+      .page-hero__inner,
+      .page-footer__inner,
+      .page-footer__meta {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+      }
+      .page-wrap { padding-top: 20px; padding-bottom: 40px; }
     }
 
     /* ─── CONTROLS BAR ───────────────────────────────── */
