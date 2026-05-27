@@ -78,17 +78,18 @@ function initNavbar() {
                        'checkpoint-math-tracker','checkpoint-english-tracker','checkpoint-science-tracker',
                        'as-alevel-math-tracker','as-alevel-biology-tracker','as-alevel-chemistry-tracker','as-alevel-physics-tracker',
                        'references','cambridge-standards','cambridge-calendar','academic-calendar','school-events'],
-      pd:             ['teacher-self-assessment','teacher-kpi-results','ai-self-assessment',
-                       'teacher-self-appraisal','teacher-appraisal-results',
-                       'competency-framework',
-                       'handbook',
+      pd:             ['handbook',
                        'handbook-subject-teacher-induction','handbook-sl-90d',
                        'handbook-safeguarding','handbook-behaviour','handbook-anti-bullying','handbook-ai-use',
                        'handbook-assessment','handbook-attendance',
                        'handbook-aicf-teacher','handbook-aicf-activities',
                        'handbook-aicf-prompt','handbook-aicf-decision','handbook-aicf-weekly','handbook-aicf-red',
                        'school-handbook-teacher','school-handbook-staff-coc','school-handbook-student','school-handbook-parent'],
-      admin:          ['careers-admin','careers-compare','interview-scorecard'],
+      // KPI/Appraisal/Competency moved here from the P.D. dropdown 2026-05-27.
+      admin:          ['careers-admin','careers-compare','interview-scorecard',
+                       'teacher-self-assessment','teacher-kpi-results','ai-self-assessment',
+                       'teacher-self-appraisal','teacher-appraisal-results',
+                       'competency-framework'],
       teachers:       ['weekly-checklist',
                        'student-approvals','test-session-launcher','test-monitor','class-assessment','essay-grader'],
       myhub:          ['learning-path','my-portfolio','my-certificates',
@@ -388,7 +389,10 @@ function initNavbar() {
       sessionStorage.removeItem('pac:__all__:teachershub');
       window.location.reload();
     });
-    adminPanel.appendChild(item);
+    // Append inside the same column as the "Admin tools" header/divider so the
+    // button stays within the column layout (panel is a 2-col group since
+    // 2026-05-27 — appending to the panel root would drop it outside any column).
+    (header?.parentElement || adminPanel).appendChild(item);
   }
   if (window.__authReadyDetail) bootPreviewToggle();
   else document.addEventListener('authReady', bootPreviewToggle, { once: true });
