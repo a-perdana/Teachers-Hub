@@ -14,41 +14,38 @@
   --accent-2: #ede9fe;
 }
 
+/* TH navbar is position:sticky (occupies natural flow + sticks at top:0).
+   No body padding-top — adding it creates a 62px scroll-gap above the navbar.
+   (CH is sticky too; AH would be the one needing padding-top if fixed.) */
+
+/* ── My Work family — 1200px content rail ─────────────────────────
+   Hero + body + footer all clamp to var(--container-max) with ZERO
+   horizontal padding (vertical kept). Canonical wrappers carry a
+   default 40px horizontal pad — strip it here so all three rails align. */
+.page-hero__inner,
+.page-footer__inner,
+.page-footer__meta,
 .page-wrap {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 32px 20px 100px;
+  width: 100%;
+  max-width: var(--container-max);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+.page-wrap { padding: 32px 0 100px; }
+
+/* base.css ships `body:has(> .page-footer) { display:flex; flex-direction:column }`
+   for the sticky footer. That turns body into a flex container, so its direct
+   children shrink-to-fit (<1200) unless forced to stretch. */
+body:has(> .page-footer) > .page-hero,
+body:has(> .page-footer) > .page-wrap {
+  width: 100% !important;
+  align-self: stretch !important;
 }
 
-/* ─── PAGE TOPBAR ───────────────────────────── */
-.page-topbar {
-  background: #1a1a2e; border-bottom: 2px solid var(--accent);
-  position: sticky; top: 60px; z-index: 90; height: 56px;
-  display: flex; align-items: center; padding: 0 24px; gap: 16px;
-}
-.topbar-title { font-size: 14px; font-weight: 700; color: #fff; }
-.topbar-back {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 12px; color: rgba(255,255,255,.55); text-decoration: none;
-  transition: color .15s ease;
-}
-.topbar-back:hover { color: #fff; }
-.topbar-back svg { width: 14px; height: 14px; }
-.topbar-sep { color: rgba(255,255,255,.25); font-size: 12px; }
-
-/* ─── STATS ROW ─────────────────────────────── */
-.stats-row {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px;
-  margin-bottom: 28px;
-}
-.stat-card {
-  background: var(--white); border: 1px solid var(--border);
-  border-radius: 14px; padding: 18px; box-shadow: var(--shadow-sm);
-  transition: box-shadow .2s, transform .2s;
-}
-.stat-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
-.stat-num { font-size: 28px; font-weight: 800; color: var(--ink); line-height: 1; margin-bottom: 4px; }
-.stat-label { font-size: 12px; color: var(--ink-3); }
+/* My Work footer CTA — mor accent (matches dark hero family) */
+.page-footer__cta-btn { background: linear-gradient(135deg, #7c3aed 0%, #5a4bd1 100%); }
 
 /* ─── CERTIFICATE CARD ──────────────────────── */
 .cert-grid {
@@ -205,14 +202,7 @@
 
 /* ─── MOBILE ─────────────────────────────────── */
 @media (max-width: 720px) {
-  .page-wrap { padding: 20px 14px 80px; }
-  .page-topbar { padding: 0 16px; height: 50px; gap: 10px; }
-  .topbar-title { font-size: 13px; }
-  .topbar-back { font-size: 11px; }
-  .stats-row { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 22px; }
-  .stat-card { padding: 14px 12px; border-radius: 12px; }
-  .stat-num { font-size: 22px; }
-  .stat-label { font-size: 11px; }
+  .page-wrap { padding: 20px 16px 80px; }
   .cert-grid { grid-template-columns: 1fr; gap: 14px; }
   .cert-card-banner { height: 70px; }
 }
@@ -232,7 +222,7 @@
 </style>
 <script type="module" src="auth-guard.js"></script>
 </head>
-<body>
+<body data-page-accent="dark">
 
 <!-- Intro banner show/dismiss (runs early, no Firebase dep) -->
 <script>
@@ -256,14 +246,32 @@
 
 <div id="navbar-container"></div>
 
-<div class="page-topbar">
-  <a href="competency-framework.html" class="topbar-back">
-    <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-    Framework
-  </a>
-  <span class="topbar-sep">/</span>
-  <span class="topbar-title">My Certificates</span>
-</div>
+<header class="page-hero" data-accent="dark">
+  <div class="page-hero__inner">
+    <div class="page-hero__text">
+      <div class="page-hero__eyebrow">My Hub · Teaching competency</div>
+      <h1 class="page-hero__title">My Certificates</h1>
+      <p class="page-hero__desc">Your earned competency certificates and how close each of the 6 teaching domains is to certification. A certificate is issued when every skill in a domain reaches the top stage (Lead).</p>
+    </div>
+    <aside class="page-hero__kpis">
+      <div class="page-hero__kpi page-hero__kpi--primary">
+        <div class="page-hero__kpi-num" id="kpiCerts">—</div>
+        <div class="page-hero__kpi-lbl">Certificates</div>
+        <div class="page-hero__kpi-sub">issued to you</div>
+      </div>
+      <div class="page-hero__kpi">
+        <div class="page-hero__kpi-num" id="kpiEarned">—</div>
+        <div class="page-hero__kpi-lbl">Competencies</div>
+        <div class="page-hero__kpi-sub" id="kpiEarnedSub">earned so far</div>
+      </div>
+      <div class="page-hero__kpi">
+        <div class="page-hero__kpi-num" id="kpiDomains">—</div>
+        <div class="page-hero__kpi-lbl">Domains</div>
+        <div class="page-hero__kpi-sub">mastered of 6</div>
+      </div>
+    </aside>
+  </div>
+</header>
 
 <div class="page-wrap">
 
@@ -277,13 +285,6 @@
       <a class="page-intro-link" href="/welcome#page-certificates">📖 Read the full guide →</a>
     </div>
     <button class="page-intro-dismiss" type="button" aria-label="Dismiss intro" onclick="window.__dismissIntro('my-certificates')">✕</button>
-  </div>
-
-  <!-- STATS -->
-  <div class="stats-row" id="statsRow">
-    <div class="stat-card"><div class="skel" style="height:40px;"></div></div>
-    <div class="stat-card"><div class="skel" style="height:40px;"></div></div>
-    <div class="stat-card"><div class="skel" style="height:40px;"></div></div>
   </div>
 
   <!-- CERTIFICATES -->
@@ -308,6 +309,36 @@
   </div>
 
 </div>
+
+<!-- CANONICAL FOOTER — My Work family -->
+<footer class="page-footer" role="contentinfo">
+  <div class="page-footer__inner">
+    <div class="page-footer__cta">
+      <span class="page-footer__cta-eyebrow">My Hub · Teaching competency</span>
+      <h2 class="page-footer__cta-title">Keep climbing the framework.</h2>
+      <p class="page-footer__cta-desc">Certificates land when a whole domain reaches Lead. Open your Learning Path to see the next stage for each skill and the evidence you need.</p>
+      <a href="learning-path.html" class="page-footer__cta-btn">Open my Learning Path <span aria-hidden="true">→</span></a>
+    </div>
+    <nav class="page-footer__nav" aria-label="My Certificates footer navigation">
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">My Hub</span>
+        <a href="learning-path.html" class="page-footer__nav-link">Learning Path</a>
+        <a href="my-portfolio.html" class="page-footer__nav-link">My Portfolio</a>
+        <a href="competency-framework.html" class="page-footer__nav-link">Competency Framework</a>
+      </div>
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">Reference</span>
+        <a href="references.html" class="page-footer__nav-link">References &amp; Standards</a>
+        <a href="cambridge-standards.html" class="page-footer__nav-link">Cambridge Standards</a>
+        <a href="certificate-verify.html" class="page-footer__nav-link">Verify a Certificate</a>
+      </div>
+    </nav>
+  </div>
+  <div class="page-footer__meta">
+    <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
+    <span class="page-footer__meta-right">Earned through evidence, issued at Lead.</span>
+  </div>
+</footer>
 
 <!-- CERTIFICATE MODAL -->
 <div class="cert-modal-overlay" id="certModal">
@@ -429,24 +460,10 @@ function renderStats() {
     });
   });
   const domainsComplete = FRAMEWORK.filter(d => isLeadOnAll(d.comps)).length;
-  document.getElementById('statsRow').innerHTML = `
-    <div class="stat-card">
-      <div class="stat-num">${totalCerts}</div>
-      <div class="stat-label">Certificates Issued</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">${earnedCount}</div>
-      <div class="stat-label">Competencies Earned</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">${domainsComplete}</div>
-      <div class="stat-label">Domains Mastered</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">${totalComps - earnedCount}</div>
-      <div class="stat-label">Still to Earn</div>
-    </div>
-  `;
+  document.getElementById('kpiCerts').textContent = totalCerts;
+  document.getElementById('kpiEarned').textContent = earnedCount;
+  document.getElementById('kpiEarnedSub').textContent = `of ${totalComps} · ${totalComps - earnedCount} to earn`;
+  document.getElementById('kpiDomains').textContent = domainsComplete;
 }
 
 function renderCerts() {

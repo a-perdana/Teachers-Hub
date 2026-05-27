@@ -14,37 +14,33 @@
   --accent-2: #ede9fe;
 }
 
-.page-wrap {
-  max-width: 940px;
-  margin: 0 auto;
-  padding: 32px 20px 100px;
-}
+/* TH navbar is position:sticky — no body padding-top (would create a scroll-gap). */
 
-/* ─── PAGE TOPBAR ───────────────────────────── */
-/* Sits flush under the 60px sticky navbar (z-index 1000). Topbar must
-   stay BELOW the navbar in stacking context, so we keep z-index <1000.
-   Backdrop-filter mirrors the navbar so the seam reads as one unified
-   bar rather than two stacked black slabs. */
-.page-topbar {
-  background: rgba(10, 10, 26, 0.78);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  position: sticky; top: 60px; z-index: 90; height: 48px;
-  display: flex; align-items: center; padding: 0 24px; gap: 14px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 1px 0 rgba(108,92,231,0.18) inset, 0 4px 12px rgba(0,0,0,0.18);
+/* ── My Work family — 1200px content rail ─────────────────────────
+   Hero + body + footer all clamp to var(--container-max), ZERO horizontal
+   padding. Canonical wrappers carry a default 40px pad — strip it so all
+   three rails align at exactly 1200px on viewports ≥ 1280px. */
+.page-hero__inner,
+.page-footer__inner,
+.page-footer__meta,
+.page-wrap {
+  width: 100%;
+  max-width: var(--container-max);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: auto;
+  margin-right: auto;
 }
-.topbar-title { font-size: 13px; font-weight: 600; color: #fff; letter-spacing: 0.01em; }
-.topbar-back {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 10px; border-radius: 8px;
-  font-size: 12px; font-weight: 500;
-  color: rgba(255,255,255,.6); text-decoration: none;
-  transition: color .15s ease, background .15s ease;
+.page-wrap { padding: 32px 0 100px; }
+
+/* base.css `body:has(> .page-footer) { display:flex; flex-direction:column }`
+   turns body into a flex container — force direct children to stretch so
+   their max-width:1200 takes effect instead of shrinking to content. */
+body:has(> .page-footer) > .page-hero,
+body:has(> .page-footer) > .page-wrap {
+  width: 100% !important;
+  align-self: stretch !important;
 }
-.topbar-back:hover { color: #fff; background: rgba(255,255,255,0.06); }
-.topbar-back svg { width: 14px; height: 14px; }
-.topbar-sep { color: rgba(255,255,255,.22); font-size: 12px; }
 
 /* ─── SUBMIT FORM ───────────────────────────── */
 .submit-card {
@@ -192,10 +188,7 @@
 
 /* ─── MOBILE ─────────────────────────────────── */
 @media (max-width: 720px) {
-  .page-wrap { padding: 20px 14px 80px; }
-  .page-topbar { padding: 0 16px; height: 50px; gap: 10px; }
-  .topbar-title { font-size: 13px; }
-  .topbar-back { font-size: 11px; }
+  .page-wrap { padding: 20px 16px 80px; }
   .submit-card { padding: 20px 18px; border-radius: 14px; margin-bottom: 22px; }
   .submit-card-title { font-size: 15px; }
   .form-row { margin-bottom: 14px; }
@@ -270,7 +263,7 @@
 </style>
 <script type="module" src="auth-guard.js"></script>
 </head>
-<body>
+<body data-page-accent="dark">
 
 <!-- Intro banner show/dismiss (runs early, no Firebase dep) -->
 <script>
@@ -294,14 +287,32 @@
 
 <div id="navbar-container"></div>
 
-<div class="page-topbar">
-  <a href="learning-path.html" class="topbar-back">
-    <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-    Learning Path
-  </a>
-  <span class="topbar-sep">/</span>
-  <span class="topbar-title">My Portfolio</span>
-</div>
+<header class="page-hero" data-accent="dark">
+  <div class="page-hero__inner">
+    <div class="page-hero__text">
+      <div class="page-hero__eyebrow">My Hub · CPD evidence</div>
+      <h1 class="page-hero__title">My Portfolio</h1>
+      <p class="page-hero__desc">Submit proof of a teaching competency at a level — a short story of what you did in class plus an optional file. HQ reviews every submission before granting the level on your Learning Path.</p>
+    </div>
+    <aside class="page-hero__kpis">
+      <div class="page-hero__kpi page-hero__kpi--primary">
+        <div class="page-hero__kpi-num" id="kpiTotal">—</div>
+        <div class="page-hero__kpi-lbl">Submissions</div>
+        <div class="page-hero__kpi-sub">in your portfolio</div>
+      </div>
+      <div class="page-hero__kpi">
+        <div class="page-hero__kpi-num" id="kpiApproved">—</div>
+        <div class="page-hero__kpi-lbl">Approved</div>
+        <div class="page-hero__kpi-sub">granted by HQ</div>
+      </div>
+      <div class="page-hero__kpi">
+        <div class="page-hero__kpi-num" id="kpiPending">—</div>
+        <div class="page-hero__kpi-lbl">In review</div>
+        <div class="page-hero__kpi-sub">pending decision</div>
+      </div>
+    </aside>
+  </div>
+</header>
 
 <div class="page-wrap">
 
@@ -619,6 +630,19 @@ window.submitEvidence = async function() {
   }
 };
 
+function setPortfolioKpis(docs) {
+  const total = docs.length;
+  let approved = 0, inReview = 0;
+  docs.forEach(d => {
+    const s = d.data().status;
+    if (s === 'approved') approved++;
+    else if (s === 'pending' || s === 'under-review') inReview++;
+  });
+  document.getElementById('kpiTotal').textContent = total;
+  document.getElementById('kpiApproved').textContent = approved;
+  document.getElementById('kpiPending').textContent = inReview;
+}
+
 async function loadSubmissions() {
   const list = document.getElementById('evidenceList');
   list.innerHTML = '<div class="skel" style="height:80px;border-radius:14px;"></div>';
@@ -630,6 +654,7 @@ async function loadSubmissions() {
     orderBy('createdAt', 'desc')
   );
   const snap = await getDocs(q);
+  setPortfolioKpis(snap.docs);
 
   if (snap.empty) {
     list.innerHTML = `
@@ -677,7 +702,7 @@ async function loadSubmissions() {
 <footer class="page-footer" role="contentinfo">
   <div class="page-footer__inner">
     <div class="page-footer__cta">
-      <span class="page-footer__cta-eyebrow">Teachers · Evidence</span>
+      <span class="page-footer__cta-eyebrow">My Hub · CPD evidence</span>
       <h2 class="page-footer__cta-title">Have you done the work?</h2>
       <p class="page-footer__cta-desc">Pick the competency, pick the level, write 80+ characters about what you actually did in class, attach a file if it helps. HQ reads each submission before granting the level on your Learning Path.</p>
       <a href="learning-path" class="page-footer__cta-btn">Open Learning Path <span aria-hidden="true">→</span></a>

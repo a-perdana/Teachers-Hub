@@ -10,28 +10,35 @@
 <script>if (!window.ENV) window.ENV = { FIREBASE_API_KEY: "__FIREBASE_API_KEY__", FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__", FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__", FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__", FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__", FIREBASE_APP_ID: "__FIREBASE_APP_ID__" };</script>
 <style>
 :root { --accent: #6c5ce7; --accent-2: #ede9fe; --accent-dark: #4e3db8; }
-.page-wrap { max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; }
 
-.welcome-hero {
-  background: linear-gradient(135deg, #1a1530 0%, #2d2354 55%, #0a0815 100%);
-  color: #fff; padding: 30px 28px; border-radius: 16px;
-  margin-bottom: 24px; position: relative; overflow: hidden;
-  display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+/* TH navbar is position:sticky — no body padding-top (would create a scroll-gap). */
+
+/* ── My Work family — 1200px content rail ─────────────────────────
+   Hero + body + footer all clamp to var(--container-max), ZERO horizontal
+   padding so all three rails align at exactly 1200px on viewports ≥ 1280px. */
+.page-hero__inner,
+.page-footer__inner,
+.page-footer__meta,
+.page-wrap {
+  width: 100%;
+  max-width: var(--container-max);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: auto;
+  margin-right: auto;
 }
-.welcome-hero::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(circle at 80% 20%, rgba(108,92,231,0.22) 0%, transparent 55%);
+.page-wrap { padding: 24px 0 80px; }
+
+/* base.css `body:has(> .page-footer)` makes body a flex column — force direct
+   children to stretch so their max-width:1200 takes effect. */
+body:has(> .page-footer) > .page-hero,
+body:has(> .page-footer) > .page-wrap {
+  width: 100% !important;
+  align-self: stretch !important;
 }
-.welcome-hero > * { position: relative; z-index: 1; }
-.welcome-eyebrow { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
-.welcome-title { font-family: 'Lora', serif; font-size: 1.75rem; font-weight: 600; margin-bottom: 4px; }
-.welcome-meta { font-size: 13px; color: rgba(255,255,255,0.65); }
-.welcome-stage-pill {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(255,255,255,0.12); padding: 8px 14px; border-radius: 999px;
-  font-size: 13px; font-weight: 500;
-}
-.welcome-stage-pill .day-num { font-weight: 700; color: #fff; }
+
+/* My Work footer CTA — mor accent (matches dark hero family) */
+.page-footer__cta-btn { background: linear-gradient(135deg, #7c3aed 0%, #5a4bd1 100%); }
 
 .layout {
   display: grid; grid-template-columns: 1fr 320px; gap: 24px;
@@ -180,7 +187,7 @@
 .page-intro-dismiss:hover { background:#fff; }
 </style>
 </head>
-<body style="display:none">
+<body style="display:none" data-page-accent="dark">
 <!-- Intro banner show/dismiss (runs early, no Firebase dep) -->
 <script>
 (function() {
@@ -202,6 +209,33 @@
 </script>
 <div id="navbar-container"></div>
 
+<header class="page-hero" data-accent="dark">
+  <div class="page-hero__inner">
+    <div class="page-hero__text">
+      <div class="page-hero__eyebrow">My Hub · Year-1 induction</div>
+      <h1 class="page-hero__title" id="heroTitle">My Induction</h1>
+      <p class="page-hero__desc" id="heroDesc">Your first-year journey through 4 phases — Survival → Foundation → Mastery-Building → Integration — with a mentor alongside you. Your journal stays private to you and your mentor.</p>
+    </div>
+    <aside class="page-hero__kpis" id="heroKpis" style="display:none;">
+      <div class="page-hero__kpi page-hero__kpi--primary">
+        <div class="page-hero__kpi-num" id="kpiDay">—</div>
+        <div class="page-hero__kpi-lbl">Day</div>
+        <div class="page-hero__kpi-sub" id="kpiDaySub">of induction</div>
+      </div>
+      <div class="page-hero__kpi">
+        <div class="page-hero__kpi-num" id="kpiTasks">—</div>
+        <div class="page-hero__kpi-lbl">Tasks done</div>
+        <div class="page-hero__kpi-sub" id="kpiTasksSub">completed</div>
+      </div>
+      <div class="page-hero__kpi">
+        <div class="page-hero__kpi-num" id="kpiStage" style="font-size:1.4rem;">—</div>
+        <div class="page-hero__kpi-lbl">Phase</div>
+        <div class="page-hero__kpi-sub">current stage</div>
+      </div>
+    </aside>
+  </div>
+</header>
+
 <div class="page-wrap" id="pageWrap">
   <div class="page-intro" data-intro-key="my-induction">
     <div class="page-intro-icon">🌱</div>
@@ -218,6 +252,36 @@
   <div id="loadingState" style="padding:40px;text-align:center;color:var(--ink-3);">Loading your induction…</div>
   <div id="mainContent" style="display:none;"></div>
 </div>
+
+<!-- CANONICAL FOOTER — My Work family -->
+<footer class="page-footer" role="contentinfo">
+  <div class="page-footer__inner">
+    <div class="page-footer__cta">
+      <span class="page-footer__cta-eyebrow">My Hub · Year-1 induction</span>
+      <h2 class="page-footer__cta-title">Grow at your own pace.</h2>
+      <p class="page-footer__cta-desc">Your induction runs alongside the competency ladder. When you're ready, claim a teaching skill on your Learning Path — induction never feeds appraisal scoring (Charter NN1).</p>
+      <a href="learning-path.html" class="page-footer__cta-btn">Open my Learning Path <span aria-hidden="true">→</span></a>
+    </div>
+    <nav class="page-footer__nav" aria-label="My Induction footer navigation">
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">My Hub</span>
+        <a href="learning-path.html" class="page-footer__nav-link">Learning Path</a>
+        <a href="my-portfolio.html" class="page-footer__nav-link">My Portfolio</a>
+        <a href="handbook.html" class="page-footer__nav-link">Handbooks</a>
+      </div>
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">Orientation</span>
+        <a href="welcome.html" class="page-footer__nav-link">Welcome &amp; Orientation</a>
+        <a href="orientation.html" class="page-footer__nav-link">New-Teacher Orientation</a>
+        <a href="references.html" class="page-footer__nav-link">References &amp; Standards</a>
+      </div>
+    </nav>
+  </div>
+  <div class="page-footer__meta">
+    <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
+    <span class="page-footer__meta-right">For support, not surveillance — your journal stays private.</span>
+  </div>
+</footer>
 
 <script type="module" src="auth-guard.js"></script>
 <script src="partials/navbar.js"></script>
@@ -356,6 +420,8 @@ function showNoInduction() {
 function showCompletedOrWithdrawn() {
   document.getElementById('loadingState').style.display = 'none';
   document.getElementById('mainContent').style.display = '';
+  const heroDesc = document.getElementById('heroDesc');
+  if (heroDesc) heroDesc.textContent = `Your induction is ${assignment.status}. Year-2 development continues through the competency framework, KPI cycle, and appraisal system.`;
   document.getElementById('mainContent').innerHTML = `
     <div class="no-induction">
       <h2>Your induction is ${escapeHtml(assignment.status)}</h2>
@@ -373,22 +439,24 @@ function render() {
   const totalTasks = allTasks.length;
   const stageLabel = currentStage?.label || 'Pre-arrival';
 
+  // ── Populate canonical hero (static markup above .page-wrap) ──
+  const heroTitle = document.getElementById('heroTitle');
+  if (heroTitle) {
+    heroTitle.textContent = `Welcome, ${window.userProfile?.displayName || 'colleague'}`;
+    const handbookId = program?.id || assignment.programId;
+    document.getElementById('heroDesc').innerHTML =
+      `${escapeHtml(program?.title || 'Your induction journey')} — your first-year path through 4 phases with a mentor alongside you.`
+      + (handbookId ? ` <a href="handbook.html?id=${encodeURIComponent(handbookId)}" style="color:#fff;text-decoration:underline;">View full handbook →</a>` : '');
+    document.getElementById('heroKpis').style.display = '';
+    document.getElementById('kpiDay').textContent = dayOfInduction;
+    document.getElementById('kpiDaySub').textContent = `of ${totalDays} days`;
+    document.getElementById('kpiTasks').textContent = completedTasks;
+    document.getElementById('kpiTasksSub').textContent = `of ${totalTasks} tasks`;
+    document.getElementById('kpiStage').textContent = stageLabel;
+  }
+
   const container = document.getElementById('mainContent');
   container.innerHTML = `
-    <div class="welcome-hero">
-      <div>
-        <p class="welcome-eyebrow">${escapeHtml(program?.audience?.platform || 'Induction')} · Year 1</p>
-        <h1 class="welcome-title">Welcome, ${escapeHtml(window.userProfile?.displayName || 'colleague')}</h1>
-        <div class="welcome-meta">
-          ${escapeHtml(program?.title || 'Your induction journey')} · ${completedTasks} / ${totalTasks} tasks completed
-          ${program?.id || assignment.programId ? ` · <a href="handbook.html?id=${encodeURIComponent(program?.id || assignment.programId)}" style="color:rgba(255,255,255,0.85);text-decoration:underline;">View full handbook</a>` : ''}
-        </div>
-      </div>
-      <div class="welcome-stage-pill">
-        <span class="day-num">Day ${dayOfInduction}</span> of ${totalDays} · ${escapeHtml(stageLabel)}
-      </div>
-    </div>
-
     <div class="charter-banner">
       <strong>Your data is for support, not surveillance.</strong> Charter Non-Negotiable 1: nothing in this dashboard feeds your network appraisal scoring. Your journal is private to you and your mentor unless you decide otherwise.
     </div>

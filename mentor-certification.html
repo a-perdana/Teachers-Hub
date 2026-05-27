@@ -10,9 +10,33 @@
 <script>if (!window.ENV) window.ENV = { FIREBASE_API_KEY: "__FIREBASE_API_KEY__", FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__", FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__", FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__", FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__", FIREBASE_APP_ID: "__FIREBASE_APP_ID__" };</script>
 <style>
 :root { --accent: #6c5ce7; --accent-2: #ede9fe; --accent-dark: #4e3db8; --cyan: #0891b2; }
-body { background: var(--paper); }
 
-.page-wrap { max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; }
+/* TH navbar is position:sticky — no body padding-top (would create a scroll-gap). */
+
+/* ── My Work family — 1200px content rail ───────────────────────── */
+.page-hero__inner,
+.page-footer__inner,
+.page-footer__meta,
+.page-wrap {
+  width: 100%;
+  max-width: var(--container-max);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+.page-wrap { padding: 24px 0 80px; }
+
+/* base.css `body:has(> .page-footer)` makes body a flex column — force direct
+   children to stretch so their max-width:1200 takes effect. */
+body:has(> .page-footer) > .page-hero,
+body:has(> .page-footer) > .page-wrap {
+  width: 100% !important;
+  align-self: stretch !important;
+}
+
+/* My Work footer CTA — mor accent (matches dark hero family) */
+.page-footer__cta-btn { background: linear-gradient(135deg, #7c3aed 0%, #5a4bd1 100%); }
 
 .page-header {
   background: linear-gradient(135deg, #1a1530 0%, #2d2354 55%, #0a0815 100%);
@@ -197,15 +221,37 @@ a.tag:hover { filter: brightness(0.96); text-decoration: none; }
 }
 </style>
 </head>
-<body style="display:none">
+<body style="display:none" data-page-accent="dark">
 <div id="navbar-container"></div>
 
-<div class="page-wrap">
-  <div class="page-header">
-    <div class="eyebrow">Eduversal Mentor Certification · v1.0</div>
-    <h1>Mentor Certification — 8-module curriculum</h1>
-    <p>A 2-hour internal training that every prospective induction mentor must complete before being assigned a mentee. Anchored in the Cambridge Mentoring Guide 2020 (relational craft) and Cambridge ICTL 5881 (classroom-observation craft), with PIGP 27/2010 as the statutory backdrop. Charter Non-Negotiable 3 requires it; Firestore rules enforce it.</p>
+<header class="page-hero" data-accent="dark">
+  <div class="page-hero__inner">
+    <div class="page-hero__text">
+      <div class="page-hero__eyebrow">My Hub · Mentor certification</div>
+      <h1 class="page-hero__title">Mentor Certification</h1>
+      <p class="page-hero__desc">The 2-hour internal training every induction mentor must complete before being assigned a mentee. Anchored in the Cambridge Mentoring Guide 2020 + ICTL 5881, with PIGP 27/2010 as the statutory backdrop. Charter NN3 requires it; Firestore rules enforce it.</p>
+    </div>
+    <aside class="page-hero__kpis">
+      <div class="page-hero__kpi page-hero__kpi--primary">
+        <div class="page-hero__kpi-num" id="kpiCert" style="font-size:1.7rem;">—</div>
+        <div class="page-hero__kpi-lbl">Your status</div>
+        <div class="page-hero__kpi-sub" id="kpiCertSub">checking…</div>
+      </div>
+      <div class="page-hero__kpi">
+        <div class="page-hero__kpi-num">8</div>
+        <div class="page-hero__kpi-lbl">Modules</div>
+        <div class="page-hero__kpi-sub">observation-based</div>
+      </div>
+      <div class="page-hero__kpi">
+        <div class="page-hero__kpi-num">2h</div>
+        <div class="page-hero__kpi-lbl">Session</div>
+        <div class="page-hero__kpi-sub">24-month cycle</div>
+      </div>
+    </aside>
   </div>
+</header>
+
+<div class="page-wrap">
 
   <div id="certStatus"></div>
 
@@ -227,6 +273,36 @@ a.tag:hover { filter: brightness(0.96); text-decoration: none; }
     <div class="loading">Loading curriculum…</div>
   </div>
 </div>
+
+<!-- CANONICAL FOOTER — My Work family -->
+<footer class="page-footer" role="contentinfo">
+  <div class="page-footer__inner">
+    <div class="page-footer__cta">
+      <span class="page-footer__cta-eyebrow">My Hub · Mentor certification</span>
+      <h2 class="page-footer__cta-title">Certified mentors only.</h2>
+      <p class="page-footer__cta-desc">Active certification is the gate to taking on mentees (Charter NN3). Once certified, your assigned first-year teachers appear on My Mentees with their monthly observation cycle.</p>
+      <a href="my-mentees.html" class="page-footer__cta-btn">Open My Mentees <span aria-hidden="true">→</span></a>
+    </div>
+    <nav class="page-footer__nav" aria-label="Mentor Certification footer navigation">
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">My Hub</span>
+        <a href="my-mentees.html" class="page-footer__nav-link">My Mentees</a>
+        <a href="observation-entry.html" class="page-footer__nav-link">Observation Entry</a>
+        <a href="my-induction.html" class="page-footer__nav-link">My Induction</a>
+      </div>
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">Reference</span>
+        <a href="handbook.html" class="page-footer__nav-link">Handbooks</a>
+        <a href="references.html" class="page-footer__nav-link">References &amp; Standards</a>
+        <a href="cambridge-standards.html" class="page-footer__nav-link">Cambridge Standards</a>
+      </div>
+    </nav>
+  </div>
+  <div class="page-footer__meta">
+    <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
+    <span class="page-footer__meta-right">Mentoring Guide 2020 · ICTL 5881 · PIGP 27/2010.</span>
+  </div>
+</footer>
 
 <script src="partials/navbar.js"></script>
 <script type="module" src="auth-guard.js"></script>
@@ -301,9 +377,15 @@ a.tag:hover { filter: brightness(0.96); text-decoration: none; }
 
   async function renderCertStatus() {
     const host = document.getElementById('certStatus');
+    const setCertKpi = (label, sub) => {
+      const k = document.getElementById('kpiCert');
+      if (!k) return;
+      k.textContent = label;
+      document.getElementById('kpiCertSub').textContent = sub;
+    };
     try {
       const uid = window.currentUser?.uid;
-      if (!uid) return;
+      if (!uid) { setCertKpi('—', 'sign in to check'); return; }
       const ref = doc(window.db, 'mentor_certifications', uid + '_mentor_base');
       const snap = await getDoc(ref);
       if (!snap.exists()) {
@@ -316,6 +398,7 @@ a.tag:hover { filter: brightness(0.96); text-decoration: none; }
             </div>
           </div>
         `;
+        setCertKpi('None', 'not yet certified');
         return;
       }
       const d = snap.data();
@@ -332,6 +415,7 @@ a.tag:hover { filter: brightness(0.96); text-decoration: none; }
             <div></div>
           </div>
         `;
+        setCertKpi('Active', `until ${fmtDate(validUntilDate)}`);
       } else {
         host.innerHTML = `
           <div class="status-banner expired">
@@ -342,10 +426,12 @@ a.tag:hover { filter: brightness(0.96); text-decoration: none; }
             </div>
           </div>
         `;
+        setCertKpi('Expired', 'refresher needed');
       }
     } catch (err) {
       // Fail silent — the curriculum is the primary content.
       console.warn('[mentor-cert] cert status read failed', err);
+      setCertKpi('—', 'status unavailable');
     }
   }
 

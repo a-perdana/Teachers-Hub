@@ -17,8 +17,11 @@
 /* Artistic rose-burgundy atmosphere — paired with /competency-framework so
    the two CPD pages share one visual context. Fixed, behind everything,
    never intercepts pointer events (Root CLAUDE.md Common Mistake #22). */
-body {
-  background: #fbf6f8;
+body,
+body[data-page-accent="dark"] {
+  /* Keep this page's signature warm background instead of the family tint —
+     the canonical hero/footer adopt the dark family but the body stays bespoke. */
+  background: #fbf6f8 !important;
   position: relative;
 }
 body::before {
@@ -31,13 +34,36 @@ body::before {
     linear-gradient(180deg, #fbf6f8 0%, #faf3f5 100%);
 }
 
+/* TH navbar is position:sticky — no body padding-top (would create a scroll-gap). */
+
+/* ── My Work family — 1200px content rail ─────────────────────────
+   Hero + body + footer all clamp to var(--container-max), ZERO horizontal
+   padding. Canonical wrappers carry a default 40px pad — strip it so all
+   three rails align at exactly 1200px on viewports ≥ 1280px. */
+.page-hero__inner,
+.page-footer__inner,
+.page-footer__meta,
 .page-wrap {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 32px 20px 100px;
+  width: 100%;
+  max-width: var(--container-max);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+.page-wrap { padding: 32px 0 100px; }
+
+/* base.css `body:has(> .page-footer) { display:flex; flex-direction:column }`
+   turns body into a flex container — force direct children to stretch so
+   their max-width:1200 takes effect instead of shrinking to content. */
+body:has(> .page-footer) > .page-hero,
+body:has(> .page-footer) > .page-wrap {
+  width: 100% !important;
+  align-self: stretch !important;
 }
 
-/* ─── PAGE TOPBAR ───────────────────────────── */
+/* My Work footer CTA — mor accent (matches dark hero family) */
+.page-footer__cta-btn { background: linear-gradient(135deg, #7c3aed 0%, #5a4bd1 100%); }
 
 /* ─── LAYOUT ────────────────────────────────── */
 .lp-layout {
@@ -696,7 +722,7 @@ body::before {
 </style>
 <script type="module" src="auth-guard.js"></script>
 </head>
-<body>
+<body data-page-accent="dark">
 
 <!-- Intro banner show/dismiss (runs early, no Firebase dep) -->
 <script>
@@ -720,6 +746,32 @@ body::before {
 
 <div id="navbar-container"></div>
 
+<header class="page-hero" data-accent="dark">
+  <div class="page-hero__inner">
+    <div class="page-hero__text">
+      <div class="page-hero__eyebrow">My Hub · CPD ladder</div>
+      <h1 class="page-hero__title">My Learning Path</h1>
+      <p class="page-hero__desc">24 teaching skills across 6 domains, each growing through 4 stages — Awareness → Practitioner → Advanced → Lead. Open any skill to read its short lesson and practice activity, then claim the level with evidence in your Portfolio.</p>
+    </div>
+    <aside class="page-hero__kpis">
+      <div class="page-hero__kpi page-hero__kpi--primary">
+        <div class="page-hero__kpi-num" id="kpiPct">—</div>
+        <div class="page-hero__kpi-lbl">Path progress</div>
+        <div class="page-hero__kpi-sub" id="kpiPctSub">skills at a level</div>
+      </div>
+      <div class="page-hero__kpi">
+        <div class="page-hero__kpi-num" id="kpiEarned">—</div>
+        <div class="page-hero__kpi-lbl">Earned</div>
+        <div class="page-hero__kpi-sub" id="kpiEarnedSub">of 24 skills</div>
+      </div>
+      <div class="page-hero__kpi">
+        <div class="page-hero__kpi-num" id="kpiDomains">—</div>
+        <div class="page-hero__kpi-lbl">Domains</div>
+        <div class="page-hero__kpi-sub">teaching areas</div>
+      </div>
+    </aside>
+  </div>
+</header>
 
 <div class="page-wrap">
   <div class="page-intro" data-intro-key="learning-path">
@@ -904,6 +956,36 @@ body::before {
   </section>
 
 </div>
+
+<!-- CANONICAL FOOTER — My Work family -->
+<footer class="page-footer" role="contentinfo">
+  <div class="page-footer__inner">
+    <div class="page-footer__cta">
+      <span class="page-footer__cta-eyebrow">My Hub · CPD ladder</span>
+      <h2 class="page-footer__cta-title">Done the work? Claim the level.</h2>
+      <p class="page-footer__cta-desc">A stage moves from read to earned when you submit evidence in your Portfolio. HQ reviews each submission, then it lands here and on your Certificates.</p>
+      <a href="my-portfolio.html" class="page-footer__cta-btn">Open my Portfolio <span aria-hidden="true">→</span></a>
+    </div>
+    <nav class="page-footer__nav" aria-label="Learning Path footer navigation">
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">My Hub</span>
+        <a href="my-portfolio.html" class="page-footer__nav-link">My Portfolio</a>
+        <a href="my-certificates.html" class="page-footer__nav-link">My Certificates</a>
+        <a href="competency-framework.html" class="page-footer__nav-link">Competency Framework</a>
+      </div>
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">Reference</span>
+        <a href="references.html" class="page-footer__nav-link">References &amp; Standards</a>
+        <a href="cambridge-standards.html" class="page-footer__nav-link">Cambridge Standards</a>
+        <a href="handbook.html" class="page-footer__nav-link">Handbooks</a>
+      </div>
+    </nav>
+  </div>
+  <div class="page-footer__meta">
+    <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
+    <span class="page-footer__meta-right">Anchored to CTS · ES · AICF · 2026 regulatory wave.</span>
+  </div>
+</footer>
 
 <!-- MATERIAL MODAL -->
 <div id="saToast" class="sa-toast"></div>
@@ -2076,6 +2158,16 @@ function renderSidebar() {
   document.getElementById('overallBar').style.width = pct + '%';
   document.getElementById('overallEarned').textContent = `${earnedCount} earned`;
   document.getElementById('overallPct').textContent = `${pct}%`;
+
+  // Hero KPIs (canonical My Work hero)
+  const kPct = document.getElementById('kpiPct');
+  if (kPct) {
+    kPct.textContent = pct + '%';
+    document.getElementById('kpiPctSub').textContent = `${earnedCount} of ${totalComps} skills`;
+    document.getElementById('kpiEarned').textContent = earnedCount;
+    document.getElementById('kpiEarnedSub').textContent = `of ${totalComps} skills`;
+    document.getElementById('kpiDomains').textContent = FRAMEWORK.length;
+  }
 
   const nav = document.getElementById('domainNav');
   nav.innerHTML = FRAMEWORK.map(domain => {

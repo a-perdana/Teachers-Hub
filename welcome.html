@@ -23,19 +23,36 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; font-size: 15px; line-height: 1.6; }
 
-.hero {
-  background: linear-gradient(135deg, #0a0a1a 0%, #1a1438 55%, #0c1028 100%);
-  padding: 44px 40px 40px; position: relative; overflow: hidden;
-}
-.hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 12% 80%, rgba(108,92,231,0.22) 0%, transparent 48%); pointer-events: none; }
-.hero-inner { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; }
-.hero-eyebrow { font-size: 0.72rem; font-weight: 500; color: rgba(255,255,255,0.55); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
-.hero-title { font-family: 'Lora', serif; font-size: 1.95rem; font-weight: 600; color: #fff; margin-bottom: 8px; line-height: 1.25; }
-.hero-sub { font-size: 0.98rem; color: rgba(255,255,255,0.7); max-width: 720px; line-height: 1.55; }
-.hero-role-chip { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; padding: 6px 14px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-size: 12px; color: rgba(255,255,255,0.9); }
+/* TH navbar is position:sticky — no body padding-top (would create a scroll-gap). */
+
+/* Role chip lives inside the canonical .page-hero__text */
+.hero-role-chip { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; padding: 6px 14px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 999px; font-size: 12px; color: rgba(255,255,255,0.92); }
 .hero-role-chip .role-dot { width: 8px; height: 8px; border-radius: 50%; background: #34d399; }
 
-.page-wrap { max-width: 1100px; margin: 0 auto; padding: 28px 40px 80px; }
+/* ── My Work family — 1200px content rail ───────────────────────── */
+.page-hero__inner,
+.page-footer__inner,
+.page-footer__meta,
+.page-wrap {
+  width: 100%;
+  max-width: var(--container-max);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+.page-wrap { padding: 28px 0 80px; }
+
+/* base.css `body:has(> .page-footer)` makes body a flex column — force direct
+   children to stretch so their max-width:1200 takes effect. */
+body:has(> .page-footer) > .page-hero,
+body:has(> .page-footer) > .page-wrap {
+  width: 100% !important;
+  align-self: stretch !important;
+}
+
+/* My Work footer CTA — mor accent (matches dark hero family) */
+.page-footer__cta-btn { background: linear-gradient(135deg, #7c3aed 0%, #5a4bd1 100%); }
 .layout { display: grid; grid-template-columns: 1fr 240px; gap: 36px; align-items: start; }
 @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
 
@@ -142,9 +159,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(
 .help-btn:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.35); }
 
 @media (max-width: 720px) {
-  .hero { padding: 32px 22px 28px; }
-  .hero-title { font-size: 1.4rem; }
-  .page-wrap { padding: 22px 18px 60px; }
+  .page-wrap { padding: 22px 16px 60px; }
   .sec-title { font-size: 1.2rem; }
   .page-detail { padding: 18px; }
   .kv-grid { grid-template-columns: 1fr; gap: 4px 0; }
@@ -154,18 +169,20 @@ body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(
 </style>
 <script type="module" src="auth-guard.js"></script>
 </head>
-<body>
+<body data-page-accent="dark">
 
 <div id="navbar-container"></div>
 
-<div class="hero">
-  <div class="hero-inner">
-    <p class="hero-eyebrow">Eduversal · Teachers Hub · Welcome</p>
-    <h1 class="hero-title">Welcome to Teachers Hub</h1>
-    <p class="hero-sub">This page is for new teachers at our partner schools. It explains what each personal page in your <strong style="color:#fff;">My Work</strong> dropdown does, the order to use them in, and the words you will see along the way. Read it once. Come back any time you need a reminder.</p>
-    <div class="hero-role-chip" id="roleChip"><span class="role-dot"></span><span id="roleChipText">Loading your role…</span></div>
+<header class="page-hero" data-accent="dark">
+  <div class="page-hero__inner">
+    <div class="page-hero__text">
+      <div class="page-hero__eyebrow">My Hub · Welcome</div>
+      <h1 class="page-hero__title">Welcome to Teachers Hub</h1>
+      <p class="page-hero__desc">This guide is for new teachers at our partner schools. It explains what each personal page in your My Hub menu does, the order to use them in, and the words you will see along the way. Read it once — come back any time you need a reminder.</p>
+      <div class="hero-role-chip" id="roleChip"><span class="role-dot"></span><span id="roleChipText">Loading your role…</span></div>
+    </div>
   </div>
-</div>
+</header>
 
 <div class="page-wrap">
   <div class="layout">
@@ -625,6 +642,37 @@ body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(
     </aside>
   </div>
 </div>
+
+<!-- CANONICAL FOOTER — My Work family -->
+<footer class="page-footer" role="contentinfo">
+  <div class="page-footer__inner">
+    <div class="page-footer__cta">
+      <span class="page-footer__cta-eyebrow">My Hub · Welcome</span>
+      <h2 class="page-footer__cta-title">Start where it makes sense for you.</h2>
+      <p class="page-footer__cta-desc">There is no rush. Pick the page you need today — your Learning Path is a good first stop. The big-picture work takes months, not minutes.</p>
+      <a href="learning-path.html" class="page-footer__cta-btn">Open my Learning Path <span aria-hidden="true">→</span></a>
+    </div>
+    <nav class="page-footer__nav" aria-label="Welcome footer navigation">
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">My Hub</span>
+        <a href="learning-path.html" class="page-footer__nav-link">Learning Path</a>
+        <a href="my-portfolio.html" class="page-footer__nav-link">My Portfolio</a>
+        <a href="my-certificates.html" class="page-footer__nav-link">My Certificates</a>
+        <a href="my-induction.html" class="page-footer__nav-link">My Induction</a>
+      </div>
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">Orientation</span>
+        <a href="orientation.html" class="page-footer__nav-link">New-Teacher Orientation</a>
+        <a href="handbook.html" class="page-footer__nav-link">Handbooks</a>
+        <a href="references.html" class="page-footer__nav-link">References &amp; Standards</a>
+      </div>
+    </nav>
+  </div>
+  <div class="page-footer__meta">
+    <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
+    <span class="page-footer__meta-right">Read it once. Come back any time.</span>
+  </div>
+</footer>
 
 <script src="partials/navbar.js"></script>
 <script type="module">
