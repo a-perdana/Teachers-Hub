@@ -251,7 +251,7 @@ body:has(> .page-footer) > .page-wrap {
     <div class="page-hero__text">
       <div class="page-hero__eyebrow">My Hub · Teaching competency</div>
       <h1 class="page-hero__title">My Certificates</h1>
-      <p class="page-hero__desc">Your earned competency certificates and how close each of the 6 teaching domains is to certification. A certificate is issued when every skill in a domain reaches the top stage (Lead).</p>
+      <p class="page-hero__desc">Your earned competency certificates and how close each of the 7 teaching domains is to certification. A certificate is issued when every skill in a domain reaches the top stage (Lead).</p>
     </div>
     <aside class="page-hero__kpis">
       <div class="page-hero__kpi page-hero__kpi--primary">
@@ -280,7 +280,7 @@ body:has(> .page-footer) > .page-wrap {
     <div class="page-intro-body">
       <div class="page-intro-title">First time on My Certificates?</div>
       <div class="page-intro-text">
-        This page shows what you have <strong>earned so far</strong>: your certificates and a progress bar for each of the 6 teaching domains. A certificate is given when <strong>every skill in a domain reaches the top stage (Lead)</strong>. On day 1, everything is at 0 — that is normal.
+        This page shows what you have <strong>earned so far</strong>: your certificates and a progress bar for each of the 7 teaching domains. A certificate is given when <strong>every skill in a domain reaches the top stage (Lead)</strong>. On day 1, everything is at 0 — that is normal.
       </div>
       <a class="page-intro-link" href="/welcome#page-certificates">📖 Read the full guide →</a>
     </div>
@@ -366,9 +366,10 @@ body:has(> .page-footer) > .page-wrap {
 import { collection, doc, getDoc, getDocs, query, where, orderBy, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
 // Aligned with Cambridge Teacher Standards-grounded framework defined in
-// competency-framework.html — same 6 domain IDs (smc/lcp/afl/icp/pie/cce)
+// competency-framework.html — same 7 domain IDs (smc/lcp/afl/icp/pie/cce/aid)
 // and same competency IDs that user_competencies.earned and
-// competency_certificates.domainId actually use.
+// competency_certificates.domainId actually use. The 7th domain (aid — AI &
+// Digital Literacy) was added in the v3 refresh (2026-05-22) — 28 comps total.
 const FRAMEWORK = [
   { id: 'smc', name: 'Subject Mastery & Curriculum Design', icon: '📚', color: '#7c3aed', bannerFrom: '#1e0a3c', bannerTo: '#0c0820',
     comps: ['smc-1','smc-2','smc-3','smc-4'] },
@@ -382,6 +383,8 @@ const FRAMEWORK = [
     comps: ['pie-1','pie-2','pie-3','pie-4'] },
   { id: 'cce', name: 'Collaboration & Community Engagement', icon: '🤝', color: '#0d9488', bannerFrom: '#0a2e2c', bannerTo: '#061616',
     comps: ['cce-1','cce-2','cce-3','cce-4'] },
+  { id: 'aid', name: 'AI & Digital Literacy', icon: '🤖', color: '#0891b2', bannerFrom: '#082e3c', bannerTo: '#06161e',
+    comps: ['aid-1','aid-2','aid-3','aid-4'] },
 ];
 
 let uid = '';

@@ -410,7 +410,7 @@ a.tag:hover { filter: brightness(0.96); text-decoration: none; }
             <div class="status-banner-icon">✅</div>
             <div>
               <strong>Active Mentor Certification.</strong>
-              <div class="status-banner-meta">Issued ${fmtDate(d.issuedAt?.toDate?.())} · Valid until ${fmtDate(validUntilDate)} (24-month cycle). Refresher is a 1-hour video session with the HQ Induction Coordinator.</div>
+              <div class="status-banner-meta">Issued ${fmtDate(d.issuedAt?.toDate?.())} · Valid until ${fmtDate(validUntilDate)} (24-month cycle). Refresher is a 1-hour video session with the Eduversal Induction Coordinator.</div>
             </div>
             <div></div>
           </div>
@@ -764,7 +764,7 @@ a.tag:hover { filter: brightness(0.96); text-decoration: none; }
   function renderModule7() {
     const nonNegs = [
       { num: 1, title: 'Year-1 induction data never feeds network appraisal scoring.', body: 'If a school leader asks "what did you score the mentee in October?" — the answer is "induction observations don\'t feed appraisal." Direct them to the year-end formal evaluation, which does.' },
-      { num: 2, title: 'Mentee journal entries are private.', body: 'Default visibility is mentee_and_mentor. Do NOT discuss journal content with the school leader unless the mentee has opted into broader visibility. Never discuss it at HQ.' },
+      { num: 2, title: 'Mentee journal entries are private.', body: 'Default visibility is mentee_and_mentor. Do NOT discuss journal content with the school leader unless the mentee has opted into broader visibility. Never discuss it at Eduversal.' },
       { num: 3, title: 'No user without active Mentor Certification can be assigned as mentor.', body: 'This is your role gate. You earn it; you keep it active. The Firestore rule blocks induction_assignments creation for any mentor whose mentor_certifications/{uid}_mentor_base is missing or inactive.' },
       { num: 4, title: 'Three-party assignment.', body: 'A mentor who hasn\'t met the school leader at start-of-induction has not had a complete handover. Insist on the three-party meeting before the relationship begins.' },
       { num: 5, title: 'Induction Completion Certificate is binary.', body: 'No numeric score, no predicate. The mentee either completed or did not. PIGP\'s 5-category rating is signed off at the moment required by the local education office; we do not propagate it into a network record.' },
@@ -773,8 +773,8 @@ a.tag:hover { filter: brightness(0.96); text-decoration: none; }
     const escalation = [
       'Mentee raises concern with mentor (or vice versa).',
       'Either party raises with the school leader.',
-      'Any party raises with the HQ Induction Coordinator.',
-      'HQ Induction Coordinator escalates to Foundation Rep if the school leader is the source.',
+      'Any party raises with the Eduversal Induction Coordinator.',
+      'Eduversal Induction Coordinator escalates to Foundation Rep if the school leader is the source.',
     ];
 
     const body = `

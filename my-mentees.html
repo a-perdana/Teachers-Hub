@@ -207,7 +207,7 @@ body:has(> .page-footer) > .page-wrap {
     <div class="page-intro-body">
       <div class="page-intro-title">First time on My Mentees?</div>
       <div class="page-intro-text">
-        This page is for <strong>Subject Leaders who are also certified mentors</strong>. It shows your year-1 mentees + their pulse mood + your monthly observation cycle. <strong>You must hold an active Mentor Certification</strong> (Charter NN3) before HQ can assign mentees to you. If you do not see any mentees here, either none are assigned to you yet or your certification is missing — open <a href="/mentor-certification">Mentor Certification</a> to check.
+        This page is for <strong>Subject Leaders who are also certified mentors</strong>. It shows your year-1 mentees + their pulse mood + your monthly observation cycle. <strong>You must hold an active Mentor Certification</strong> (Charter NN3) before Eduversal can assign mentees to you. If you do not see any mentees here, either none are assigned to you yet or your certification is missing — open <a href="/mentor-certification">Mentor Certification</a> to check.
       </div>
       <a class="page-intro-link" href="/welcome#page-mentees">📖 Read the full guide →</a>
     </div>
@@ -227,7 +227,7 @@ body:has(> .page-footer) > .page-wrap {
     <div class="page-footer__cta">
       <span class="page-footer__cta-eyebrow">My Hub · Mentor view</span>
       <h2 class="page-footer__cta-title">Mentorship is a craft we train.</h2>
-      <p class="page-footer__cta-desc">Keep your certification current and run the monthly observation cycle for each mentee. Your certification is the gate — HQ cannot assign new mentees without it (Charter NN3).</p>
+      <p class="page-footer__cta-desc">Keep your certification current and run the monthly observation cycle for each mentee. Your certification is the gate — Eduversal cannot assign new mentees without it (Charter NN3).</p>
       <a href="mentor-certification.html" class="page-footer__cta-btn">Open Mentor Certification <span aria-hidden="true">→</span></a>
     </div>
     <nav class="page-footer__nav" aria-label="My Mentees footer navigation">
@@ -374,7 +374,7 @@ function renderCertBanner() {
   if (!myCertification) {
     banner.innerHTML = `
       <div class="cert-banner expired">
-        <strong>You have no Mentor Certification on file.</strong> If you are a current mentor, please contact the HQ Induction Coordinator. Per Charter Non-Negotiable 3, new assignments cannot be made to uncertified mentors.
+        <strong>You have no Mentor Certification on file.</strong> If you are a current mentor, please contact the Eduversal Induction Coordinator. Per Charter Non-Negotiable 3, new assignments cannot be made to uncertified mentors.
       </div>
     `;
     setCertKpi('None', 'no cert on file');
@@ -386,7 +386,7 @@ function renderCertBanner() {
     banner.innerHTML = `<div class="cert-banner expired"><strong>Your Mentor Certification is inactive.</strong> Existing inductions continue but no new assignments will be made until you refresh.</div>`;
     setCertKpi('Inactive', 'refresh needed');
   } else if (daysLeft !== null && daysLeft < 60) {
-    banner.innerHTML = `<div class="cert-banner"><strong>Your Mentor Certification expires in ${daysLeft} days</strong> (${validUntil.toLocaleDateString('en-GB')}). The 1-hour refresher takes 1 hour — reach out to HQ to schedule.</div>`;
+    banner.innerHTML = `<div class="cert-banner"><strong>Your Mentor Certification expires in ${daysLeft} days</strong> (${validUntil.toLocaleDateString('en-GB')}). The 1-hour refresher takes 1 hour — reach out to Eduversal to schedule.</div>`;
     setCertKpi('Expiring', `${daysLeft} days left`);
   } else {
     banner.innerHTML = `<div class="cert-banner"><strong>Mentor Certification active</strong> — valid until ${validUntil ? validUntil.toLocaleDateString('en-GB') : '—'}.</div>`;
@@ -408,7 +408,7 @@ function showNoMentees() {
   document.getElementById('content').innerHTML = `
     <div class="no-mentees">
       <h2>No active mentees</h2>
-      <p>You are not currently assigned as a mentor for any induction. The HQ Induction Coordinator at Central Hub assigns mentors and mentees together at the start of each cohort.</p>
+      <p>You are not currently assigned as a mentor for any induction. The Eduversal Induction Coordinator assigns mentors and mentees together at the start of each cohort.</p>
     </div>
   `;
 }
