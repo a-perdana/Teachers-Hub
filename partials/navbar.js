@@ -92,9 +92,9 @@ function initNavbar() {
                        'competency-framework'],
       teachers:       ['weekly-checklist',
                        'student-approvals','test-session-launcher','test-monitor','class-assessment','essay-grader'],
-      myhub:          ['learning-path','my-portfolio','my-certificates',
-                       'my-induction','my-mentees','observation-entry','mentor-certification',
-                       'welcome','orientation'],
+      myhub:          ['welcome',
+                       'learning-path','my-portfolio','my-certificates',
+                       'my-induction','my-mentees','observation-entry','mentor-certification'],
     };
 
     document.querySelectorAll('.th-dd-wrap').forEach(function(wrap) {
