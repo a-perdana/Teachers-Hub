@@ -87,9 +87,10 @@ function initNavbar() {
                        'school-handbook-teacher','school-handbook-staff-coc','school-handbook-student','school-handbook-parent'],
       // KPI/Appraisal/Competency moved here from the P.D. dropdown 2026-05-27.
       admin:          ['careers-admin','careers-compare','interview-scorecard',
-                       'teacher-self-assessment','teacher-kpi-results','ai-self-assessment',
-                       'teacher-self-appraisal','teacher-appraisal-results',
-                       'competency-framework'],
+                       'read-me-kpi','teacher-self-assessment','teacher-kpi-results',
+                       'read-me-ai','ai-self-assessment',
+                       'read-me-appraisal','teacher-self-appraisal','teacher-appraisal-results',
+                       'read-me-competency','competency-framework'],
       teachers:       ['weekly-checklist',
                        'student-approvals','test-session-launcher','test-monitor','class-assessment','essay-grader'],
       myhub:          ['welcome',
