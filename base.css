@@ -8,7 +8,12 @@
 @import url('tokens.css');
 
 /* ── Google Fonts ─────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
+/* DM Sans (body) + Lora (titles/hero — used by .page-hero__title and
+   modal headings). Lora must live here so EVERY page that loads base.css
+   renders hero titles in Lora, not the Georgia serif fallback — only ~18
+   of 47 page sources carried a per-page Lora <link>, so the rest were
+   silently falling back. Loading it once in base.css fixes all of them. */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
 
 /* ── Teachers Hub accent + brand overrides ─────────────────────── */
 :root {
