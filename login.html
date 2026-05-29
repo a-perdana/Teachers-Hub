@@ -299,6 +299,31 @@
       transition:transform 0.25s ease, color 0.25s ease;
     }
     .login-orientation a:hover { transform:translateX(3px); color:#c7d2fe; }
+
+    /* Careers callout — public job-openings page for prospective teachers
+       (moved out of the in-app Admin navbar 2026-05-29; it belongs pre-auth). */
+    .login-careers {
+      margin-top:12px; padding:13px 16px;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:14px;
+      text-align:center;
+      animation:loginFooterEntrance 0.6s cubic-bezier(0.16,1,0.3,1) both;
+      animation-delay:1.2s;
+    }
+    .login-careers-eyebrow {
+      display:block; font-size:11px;
+      color:rgba(255,255,255,0.45);
+      letter-spacing:0.08em; text-transform:uppercase;
+      margin-bottom:6px;
+    }
+    .login-careers a {
+      color:rgba(255,255,255,0.7); text-decoration:none;
+      font-weight:600; font-size:13.5px;
+      display:inline-flex; align-items:center; gap:6px;
+      transition:transform 0.25s ease, color 0.25s ease;
+    }
+    .login-careers a:hover { transform:translateX(3px); color:#fff; }
   </style>
 </head>
 <body>
@@ -359,6 +384,11 @@
     <div class="login-orientation">
       <span class="login-orientation-eyebrow">New to the network?</span>
       <a href="orientation.html">Start with the Teacher Orientation →</a>
+    </div>
+
+    <div class="login-careers">
+      <span class="login-careers-eyebrow">Want to join us?</span>
+      <a href="/careers" target="_blank" rel="noopener">View teaching vacancies →</a>
     </div>
   </div>
 
