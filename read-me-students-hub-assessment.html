@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Read Me First — Students Hub Assessment — Teachers Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2314b8a6'/%3E%3Cpath d='M9 16l4 4 10-10' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<script src="firebase-config.js"></script>
+<script>if (!window.ENV) window.ENV = { FIREBASE_API_KEY: "__FIREBASE_API_KEY__", FIREBASE_AUTH_DOMAIN: "__FIREBASE_AUTH_DOMAIN__", FIREBASE_PROJECT_ID: "__FIREBASE_PROJECT_ID__", FIREBASE_STORAGE_BUCKET: "__FIREBASE_STORAGE_BUCKET__", FIREBASE_MESSAGING_SENDER_ID: "__FIREBASE_MESSAGING_SENDER_ID__", FIREBASE_APP_ID: "__FIREBASE_APP_ID__" };</script>
+<style>
+:root {
+  --ink: #0f172a; --ink-2: #334155; --ink-3: #64748b;
+  --paper: #f8fafc; --border: #e2e8f0;
+  /* Students Hub Assessment Read-Me uses the teal accent — Curriculum family,
+     the chapter-test / assessment delivery flow. */
+  --accent: #14b8a6; --accent-dk: #0f766e; --accent-2: #ccfbf1;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 2px 6px rgba(15, 23, 42, 0.04);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8fafc; color: var(--ink); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+/* TH navbar is position:sticky — no body padding-top (would create a scroll-gap). */
+
+/* ─── HERO ─── */
+.hero { background: linear-gradient(135deg, #04130f 0%, #052d27 55%, #04130f 100%); padding: 56px 0 52px; position: relative; overflow: hidden; min-height: 380px; }
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 8% 75%, rgba(20,184,166,0.30) 0%, transparent 42%),
+    radial-gradient(circle at 88% 20%, rgba(45,212,191,0.22) 0%, transparent 45%),
+    radial-gradient(circle at 50% 100%, rgba(15,118,110,0.22) 0%, transparent 55%);
+  pointer-events: none;
+}
+.hero::after {
+  content: ''; position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse at 60% 50%, rgba(0,0,0,0.6) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 40px; display: grid; grid-template-columns: 1.35fr 1fr; gap: 40px; align-items: center; }
+@media (max-width: 860px) { .hero-inner { grid-template-columns: 1fr; gap: 28px; } }
+
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 0.7rem; font-weight: 600; color: rgba(255,255,255,0.65); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 14px; padding: 5px 11px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 999px; }
+.hero-eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #2dd4bf; box-shadow: 0 0 12px rgba(45,212,191,0.8); animation: pulseDot 2.4s ease-in-out infinite; }
+@keyframes pulseDot { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.4); } }
+
+.hero-title { font-family: 'Lora', serif; font-size: 2.6rem; font-weight: 600; color: #fff; margin-bottom: 14px; line-height: 1.15; letter-spacing: -0.01em; }
+.hero-title .hero-name { background: linear-gradient(120deg, #99f6e4 0%, #2dd4bf 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero-sub { font-size: 1rem; color: rgba(255,255,255,0.72); max-width: 560px; line-height: 1.6; }
+.hero-sub strong { color: #fff; }
+
+.hero-role-chip { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 7px 14px 7px 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; font-size: 12.5px; color: rgba(255,255,255,0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.hero-role-chip .role-dot { width: 8px; height: 8px; border-radius: 50%; background: #2dd4bf; box-shadow: 0 0 10px rgba(45,212,191,0.7); }
+
+.hero-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; max-width: 540px; }
+.hero-metric { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 14px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.hero-metric-val { font-family: 'Lora', serif; font-size: 1.5rem; font-weight: 600; color: #fff; line-height: 1; margin-bottom: 4px; }
+.hero-metric-val .metric-sep { color: rgba(255,255,255,0.4); font-weight: 400; }
+.hero-metric-lbl { font-size: 10.5px; font-weight: 600; color: rgba(255,255,255,0.55); letter-spacing: 0.06em; text-transform: uppercase; }
+
+.hero-resume { display: inline-flex; align-items: center; gap: 10px; margin-top: 18px; padding: 9px 16px 9px 12px; background: linear-gradient(120deg, rgba(15,118,110,0.30), rgba(20,184,166,0.20)); border: 1px solid rgba(153,246,228,0.35); border-radius: 10px; color: #fff; text-decoration: none; font-size: 12.5px; font-weight: 600; transition: all 0.2s; cursor: pointer; }
+.hero-resume:hover { background: linear-gradient(120deg, rgba(15,118,110,0.45), rgba(20,184,166,0.32)); border-color: rgba(153,246,228,0.6); transform: translateY(-1px); }
+.hero-resume-icon { font-size: 14px; }
+.hero-resume-text { color: rgba(255,255,255,0.92); font-weight: 500; }
+.hero-resume-text strong { color: #fff; font-weight: 700; }
+
+.hero-visual { position: relative; width: 100%; aspect-ratio: 1; max-width: 320px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+.hero-visual::before { content: ''; position: absolute; inset: 8%; border-radius: 50%; border: 1px dashed rgba(153,246,228,0.3); animation: orbitRot 32s linear infinite; }
+.hero-visual::after { content: ''; position: absolute; inset: 22%; border-radius: 50%; border: 1px dashed rgba(45,212,191,0.18); animation: orbitRot 22s linear infinite reverse; }
+@keyframes orbitRot { to { transform: rotate(360deg); } }
+.hero-cube { position: relative; width: 96px; height: 96px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #2dd4bf 0%, #0f766e 100%); border-radius: 20px; box-shadow: 0 20px 60px rgba(15,118,110,0.45), 0 0 0 1px rgba(255,255,255,0.1) inset, 0 2px 0 rgba(255,255,255,0.15) inset; z-index: 2; font-size: 44px; line-height: 1; }
+.hero-cube::before { content: ''; position: absolute; inset: -14px; border-radius: 28px; background: radial-gradient(circle, rgba(20,184,166,0.45), transparent 70%); z-index: -1; filter: blur(8px); }
+.hero-orbit-glyph { position: absolute; width: 52px; height: 52px; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(4,30,25,0.78); border: 1px solid rgba(255,255,255,0.14); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); font-size: 22px; line-height: 1; animation: floatY 4s ease-in-out infinite; }
+.hero-orbit-glyph .glyph-step { font-size: 8px; font-weight: 700; letter-spacing: 0.08em; color: rgba(153,246,228,0.95); margin-top: 2px; }
+.hero-orbit-glyph.g1 { top: 4%; left: 50%; transform: translateX(-50%); animation-delay: 0s; }
+.hero-orbit-glyph.g2 { top: 50%; right: 2%; transform: translateY(-50%); animation-delay: 1s; }
+.hero-orbit-glyph.g3 { bottom: 4%; left: 50%; transform: translateX(-50%); animation-delay: 2s; }
+.hero-orbit-glyph.g4 { top: 50%; left: 2%; transform: translateY(-50%); animation-delay: 3s; }
+@keyframes floatY { 0%,100% { margin-top: 0; } 50% { margin-top: -6px; } }
+@media (max-width: 860px) { .hero-visual { max-width: 240px; } }
+@media (max-width: 720px) { .hero-title { font-size: 1.9rem; } .hero-metrics { grid-template-columns: 1fr 1fr; } .hero-metric:nth-child(3) { grid-column: 1 / -1; } }
+
+/* ─── INFO STRIP ─── */
+.info-strip { max-width: 1200px; margin: 0 auto; padding: 22px 40px 0; }
+.info-strip-inner { background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%); border: 1px solid #5eead4; border-radius: 16px; padding: 18px 22px; }
+.info-strip-flow { font-size: 13.5px; color: var(--ink-2); line-height: 1.6; }
+.info-strip-flow strong { color: var(--accent-dk); }
+.info-strip-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.info-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; background: #fff; border: 1px solid #99f6e4; font-size: 11.5px; font-weight: 600; color: var(--accent-dk); }
+.info-pill .pill-dot { width: 6px; height: 6px; border-radius: 50%; background: #14b8a6; }
+.info-strip-callout { margin-top: 12px; padding: 10px 14px; background: rgba(255,255,255,0.65); border-left: 3px solid #14b8a6; border-radius: 8px; font-size: 12.5px; font-style: italic; color: #115e59; line-height: 1.55; }
+@media (max-width: 720px) { .info-strip { padding: 16px 18px 0; } }
+
+.page-wrap { max-width: 1200px; margin: 0 auto; padding: 28px 40px 80px; }
+
+/* TOC sticky sidebar */
+.layout { display: grid; grid-template-columns: 1fr 240px; gap: 36px; align-items: start; }
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+.toc { position: sticky; top: 80px; background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 16px 14px; box-shadow: var(--shadow-sm); }
+.toc-title { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; padding-left: 6px; }
+.toc-list { list-style: none; padding: 0; margin: 0; }
+.toc-list li { margin: 0; }
+.toc-list a { display: block; padding: 7px 10px; border-radius: 7px; font-size: 12.5px; color: var(--ink-2); text-decoration: none; border-left: 2px solid transparent; transition: all 0.15s; }
+.toc-list a:hover { background: var(--accent-2); color: var(--accent-dk); }
+.toc-list a.active { background: var(--accent-2); color: var(--accent-dk); border-left-color: var(--accent); font-weight: 600; }
+
+/* Section — collapsible accordion */
+.sec { margin-bottom: 18px; scroll-margin-top: 80px; background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 20px rgba(15,15,40,0.04); transition: box-shadow 0.25s ease, transform 0.25s ease; }
+.sec.open { box-shadow: 0 2px 4px rgba(0,0,0,0.05), 0 16px 36px rgba(20,184,166,0.1); }
+.sec-head { display: flex; align-items: center; gap: 16px; padding: 18px 22px; cursor: pointer; position: relative; background: linear-gradient(180deg, #fff 0%, #f0fdfa 100%); transition: background 0.2s ease; user-select: none; border: none; width: 100%; text-align: left; font: inherit; color: inherit; }
+.sec-head::before { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 4px; background: var(--sec-accent, var(--accent)); transition: width 0.2s ease; }
+.sec.open .sec-head::before { width: 6px; }
+.sec-head:hover { background: linear-gradient(180deg, #f0fdfa 0%, #ccfbf1 100%); }
+.sec-head:focus-visible { outline: 2px solid var(--sec-accent, var(--accent)); outline-offset: -2px; }
+.sec-head-num { flex-shrink: 0; width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--sec-accent-soft, var(--accent-2)); color: var(--sec-accent-dk, var(--accent-dk)); font-family: 'Lora', serif; font-size: 18px; font-weight: 700; border: 1px solid var(--sec-accent-border, transparent); }
+.sec-head-icon { font-size: 22px; line-height: 1; flex-shrink: 0; }
+.sec-head-text { flex: 1; min-width: 0; }
+.sec-eyebrow { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sec-accent-dk, var(--accent-dk)); margin-bottom: 2px; }
+.sec-title { font-family: 'Lora', serif; font-size: 1.25rem; font-weight: 600; color: var(--ink); margin: 0; line-height: 1.3; }
+.sec-head-chevron { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--sec-accent-soft, var(--accent-2)); color: var(--sec-accent-dk, var(--accent-dk)); font-size: 13px; font-weight: 700; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+.sec.open .sec-head-chevron { transform: rotate(180deg); }
+.sec-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
+.sec-body-inner { padding: 4px 22px 24px; border-top: 1px solid var(--border); margin-top: 0; }
+.sec.open .sec-body-inner { padding-top: 18px; }
+.sec-lead { font-size: 0.95rem; color: var(--ink-2); line-height: 1.65; margin-bottom: 18px; max-width: 720px; }
+.sec-lead a { color: var(--accent-dk); text-decoration: none; font-weight: 600; }
+
+/* Per-section accent tokens — teal family with cool accents for context */
+#sec-welcome   { --sec-accent: #14b8a6; --sec-accent-dk: #0f766e; --sec-accent-soft: #ccfbf1; --sec-accent-border: rgba(20,184,166,0.22); }
+#sec-flow      { --sec-accent: #06b6d4; --sec-accent-dk: #0e7490; --sec-accent-soft: #cffafe; --sec-accent-border: rgba(6,182,212,0.22); }
+#sec-pages     { --sec-accent: #8b5cf6; --sec-accent-dk: #6d28d9; --sec-accent-soft: #ede9fe; --sec-accent-border: rgba(139,92,246,0.2); }
+#sec-tips      { --sec-accent: #f59e0b; --sec-accent-dk: #b45309; --sec-accent-soft: #fef3c7; --sec-accent-border: rgba(245,158,11,0.22); }
+#sec-role      { --sec-accent: #ec4899; --sec-accent-dk: #be185d; --sec-accent-soft: #fce7f3; --sec-accent-border: rgba(236,72,153,0.22); }
+#sec-glossary  { --sec-accent: #3b82f6; --sec-accent-dk: #1d4ed8; --sec-accent-soft: #dbeafe; --sec-accent-border: rgba(59,130,246,0.22); }
+#sec-help      { --sec-accent: #14b8a6; --sec-accent-dk: #0f766e; --sec-accent-soft: #ccfbf1; --sec-accent-border: rgba(20,184,166,0.22); }
+#sec-help .sec-body-inner { padding-top: 0; border-top: none; }
+
+.welcome-banner { background: linear-gradient(135deg, #ccfbf1 0%, #f0fdfa 100%); border: 1px solid #5eead4; border-radius: 16px; padding: 22px 26px; margin-bottom: 28px; }
+.welcome-banner-title { font-family: 'Lora', serif; font-size: 1.15rem; font-weight: 600; color: var(--accent-dk); margin-bottom: 6px; }
+.welcome-banner-text { font-size: 13.5px; color: var(--ink-2); line-height: 1.6; }
+.welcome-banner-text strong { color: var(--accent-dk); }
+
+.intro-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 24px; }
+@media (max-width: 720px) { .intro-grid { grid-template-columns: 1fr; } }
+.intro-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow-sm); }
+.intro-card-icon { font-size: 22px; margin-bottom: 6px; }
+.intro-card-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.intro-card-title a { color: inherit; text-decoration: none; }
+.intro-card-title a:hover { color: var(--accent-dk); }
+.intro-card-text { font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
+.intro-card-text code { font-family: 'DM Mono', monospace; font-size: 11.5px; padding: 1px 5px; background: var(--paper); border-radius: 4px; color: var(--accent-dk); }
+
+/* Flow diagram */
+.flow { position: relative; background: linear-gradient(180deg, #fff 0%, #f0fdfa 100%); border: 1px solid var(--border); border-radius: 18px; padding: 36px 28px 28px; margin-bottom: 22px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(20,184,166,0.06); overflow: hidden; }
+.flow::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #99f6e4 0%, #2dd4bf 50%, #0f766e 100%); }
+.flow-track { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; }
+.flow-track::before { content: ''; position: absolute; top: 22px; left: 10%; right: 10%; height: 2px; background: linear-gradient(90deg, #99f6e4 0%, #2dd4bf 60%, #0f766e 100%); z-index: 0; }
+@media (max-width: 800px) { .flow-track { grid-template-columns: 1fr 1fr; row-gap: 32px; } .flow-track::before { display: none; } }
+@media (max-width: 480px) { .flow-track { grid-template-columns: 1fr; row-gap: 24px; } }
+.flow-step { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 8px; }
+.flow-step-bubble { width: 44px; height: 44px; border-radius: 50%; background: #fff; border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-family: 'Lora', serif; font-size: 18px; font-weight: 700; color: var(--accent-dk); box-shadow: 0 4px 12px rgba(20,184,166,0.18), 0 0 0 4px #fff; margin-bottom: 12px; transition: all 0.2s; }
+.flow-step:nth-child(1) .flow-step-bubble { border-color: #99f6e4; color: #0f766e; }
+.flow-step:nth-child(2) .flow-step-bubble { border-color: #5eead4; color: #0f766e; }
+.flow-step:nth-child(3) .flow-step-bubble { border-color: #2dd4bf; color: #115e59; }
+.flow-step:nth-child(4) .flow-step-bubble { border-color: #14b8a6; color: #115e59; }
+.flow-step:nth-child(5) .flow-step-bubble { border-color: #0f766e; color: #134e4a; }
+.flow-step-icon { font-size: 22px; margin-bottom: 8px; line-height: 1; }
+.flow-step-num { font-size: 9.5px; font-weight: 700; color: var(--ink-3); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 4px; }
+.flow-step-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.flow-step-text { font-size: 11.5px; color: var(--ink-2); line-height: 1.5; max-width: 200px; margin-bottom: 10px; }
+.flow-step-link { display: inline-flex; align-items: center; gap: 4px; padding: 5px 11px; border-radius: 999px; background: var(--accent-2); color: var(--accent-dk); font-size: 11px; font-weight: 600; text-decoration: none; transition: all 0.18s; }
+.flow-step-link:hover { background: var(--accent); color: #fff; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(20,184,166,0.3); }
+.flow-step:hover .flow-step-bubble { transform: translateY(-3px) scale(1.05); }
+
+/* Page-by-page detail card */
+.page-detail { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; margin-bottom: 18px; box-shadow: var(--shadow-sm); }
+.page-detail-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.page-detail-icon { width: 44px; height: 44px; border-radius: 11px; background: linear-gradient(135deg, var(--accent-2) 0%, #f0fdfa 100%); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.page-detail-head-text { flex: 1; min-width: 0; }
+.page-detail-name { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.page-detail-slug { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-3); }
+.page-detail-open { padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; background: var(--accent); color: #fff; text-decoration: none; flex-shrink: 0; }
+.page-detail-open:hover { background: var(--accent-dk); }
+.kv-grid { display: grid; grid-template-columns: 130px 1fr; gap: 12px 16px; }
+.kv-key { font-size: 11.5px; font-weight: 700; color: var(--ink-3); letter-spacing: 0.04em; text-transform: uppercase; padding-top: 1px; }
+.kv-val { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+.kv-val ul { margin: 4px 0 0 16px; padding: 0; }
+.kv-val li { margin-bottom: 3px; }
+.kv-val a { color: var(--accent-dk); text-decoration: none; font-weight: 600; }
+.kv-val code { font-family: 'DM Mono', monospace; font-size: 11.5px; padding: 1px 5px; background: var(--paper); border-radius: 4px; color: var(--accent-dk); }
+.kv-val strong { color: var(--ink); }
+
+/* Glossary */
+.glossary { background: #fff; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-sm); }
+.gloss-row { display: grid; grid-template-columns: 180px 1fr; gap: 16px; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+.gloss-row:last-child { border: none; }
+.gloss-term { font-size: 13px; font-weight: 700; color: var(--ink); }
+.gloss-term-sub { display: block; font-family: 'DM Mono', monospace; font-size: 10.5px; color: var(--ink-3); font-weight: 400; margin-top: 2px; }
+.gloss-def { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+.gloss-def code { font-family: 'DM Mono', monospace; font-size: 11.5px; padding: 1px 5px; background: var(--paper); border-radius: 4px; color: var(--accent-dk); }
+
+/* Tips checklist */
+.checklist { background: linear-gradient(180deg, #fff 0%, #f0fdfa 100%); border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; box-shadow: var(--shadow-sm); }
+.check-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px dashed var(--border); }
+.check-row:last-child { border: none; }
+.check-num { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--accent-2); color: var(--accent-dk); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+.check-body { flex: 1; min-width: 0; }
+.check-title { font-size: 13.5px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+.check-text { font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
+.check-text a { color: var(--accent-dk); text-decoration: none; font-weight: 600; }
+.check-text a:hover { text-decoration: underline; }
+
+/* Role blocks */
+.role-block { position: relative; background: #fff; border: 2px solid var(--accent-2); border-radius: 16px; padding: 28px 24px 22px; margin-bottom: 18px; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 20px rgba(20,184,166,0.08); overflow: hidden; }
+.role-block.is-admin   { border-color: #fde68a; background: linear-gradient(180deg, #fffbeb 0%, #fff 80%); }
+.role-block.is-teacher { border-color: #a5f3fc; background: linear-gradient(180deg, #ecfeff 0%, #fff 80%); }
+.role-block.is-leader  { border-color: #5eead4; background: linear-gradient(180deg, #f0fdfa 0%, #fff 80%); }
+.role-block.is-plain   { border-color: #e5e7eb; background: linear-gradient(180deg, #f9fafb 0%, #fff 80%); }
+.role-ribbon { position: absolute; top: 0; right: 0; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px 6px 12px; background: linear-gradient(120deg, var(--accent) 0%, var(--accent-dk) 100%); color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 0 14px 0 14px; box-shadow: 0 4px 12px rgba(20,184,166,0.3); }
+.role-block.is-admin   .role-ribbon { background: linear-gradient(120deg, #f59e0b 0%, #d97706 100%); }
+.role-block.is-teacher .role-ribbon { background: linear-gradient(120deg, #06b6d4 0%, #0e7490 100%); }
+.role-block.is-leader  .role-ribbon { background: linear-gradient(120deg, #14b8a6 0%, #0f766e 100%); }
+.role-block.is-plain   .role-ribbon { background: linear-gradient(120deg, #6b7280 0%, #374151 100%); }
+.role-ribbon-sparkle { font-size: 12px; line-height: 1; }
+.role-block-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-dk); margin-bottom: 6px; }
+.role-block.is-admin   .role-block-eyebrow { color: #92400e; }
+.role-block.is-teacher .role-block-eyebrow { color: #0e7490; }
+.role-block.is-leader  .role-block-eyebrow { color: #115e59; }
+.role-block.is-plain   .role-block-eyebrow { color: #4b5563; }
+.role-block-title { font-family: 'Lora', serif; font-size: 1.15rem; font-weight: 600; color: var(--ink); margin-bottom: 10px; line-height: 1.3; padding-right: 100px; }
+.role-block-text { font-size: 13px; color: var(--ink-2); line-height: 1.65; }
+.role-block-text ul { margin: 8px 0 0 18px; padding: 0; }
+.role-block-text li { margin-bottom: 5px; }
+.role-block-text a { color: var(--accent-dk); text-decoration: none; font-weight: 600; }
+.role-block-text code { font-family: 'DM Mono', monospace; font-size: 11.5px; padding: 1px 5px; background: rgba(255,255,255,0.7); border-radius: 4px; color: var(--accent-dk); }
+.role-block.reveal { animation: roleReveal 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes roleReveal { from { opacity: 0; transform: translateY(14px) scale(0.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 720px) { .role-block-title { padding-right: 0; padding-top: 18px; } .role-ribbon { font-size: 9.5px; padding: 5px 11px; } }
+
+.tip { background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 8px; padding: 12px 16px; margin: 14px 0; font-size: 12.5px; color: #78350f; line-height: 1.55; }
+.tip strong { color: #92400e; }
+.note { background: var(--accent-2); border-left: 4px solid var(--accent); border-radius: 8px; padding: 12px 16px; margin: 14px 0; font-size: 12.5px; color: var(--accent-dk); line-height: 1.55; }
+.note strong { color: #115e59; }
+
+.help-footer { background: linear-gradient(135deg, #052d27 0%, #04130f 100%); color: #fff; border-radius: 16px; padding: 28px 30px; margin-top: 0; }
+.help-footer-title { font-family: 'Lora', serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 6px; }
+.help-footer-text { font-size: 13.5px; color: rgba(255,255,255,0.75); line-height: 1.6; margin-bottom: 14px; }
+.help-footer-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.help-btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px; border-radius: 9px; background: rgba(255,255,255,0.12); color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); font-size: 12.5px; font-weight: 600; transition: all 0.15s; }
+.help-btn:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.35); }
+
+@media (max-width: 720px) {
+  .hero { padding: 32px 0 28px; }
+  .hero-inner { padding: 0 22px; }
+  .hero-title { font-size: 1.4rem; }
+  .page-wrap { padding: 22px 18px 60px; }
+  .sec-title { font-size: 1.2rem; }
+  .page-detail { padding: 18px; }
+  .kv-grid { grid-template-columns: 1fr; gap: 4px 0; }
+  .kv-key { padding-top: 8px; }
+  .gloss-row { grid-template-columns: 1fr; gap: 4px; }
+}
+</style>
+<script type="module" src="auth-guard.js"></script>
+</head>
+<body>
+
+<div id="navbar-container"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Eduversal · Teachers Hub · Read Me First — Students Hub Assessment</p>
+      <h1 class="hero-title">Welcome, <span class="hero-name" id="heroName">there</span></h1>
+      <p class="hero-sub">Your start page for the <strong>Students Hub Assessment</strong> section in the Teachers menu. Five pages work together to run a chapter test for your class — from approving students, to scheduling the test, to reading the results. Read this once. Come back any time.</p>
+      <div class="hero-role-chip" id="roleChip"><span class="role-dot"></span><span id="roleChipText">Loading your role…</span></div>
+
+      <div class="hero-metrics">
+        <div class="hero-metric">
+          <div class="hero-metric-val">5</div>
+          <div class="hero-metric-lbl">Pages in this section</div>
+        </div>
+        <div class="hero-metric">
+          <div class="hero-metric-val">1 → 5</div>
+          <div class="hero-metric-lbl">A simple flow</div>
+        </div>
+        <div class="hero-metric">
+          <div class="hero-metric-val">Y7–8</div>
+          <div class="hero-metric-lbl">Pilot grades</div>
+        </div>
+      </div>
+
+      <a class="hero-resume" id="heroResume" href="#sec-welcome" style="display:none;">
+        <span class="hero-resume-icon">↩</span>
+        <span class="hero-resume-text">Resume from <strong id="heroResumeSection">Welcome</strong></span>
+      </a>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-cube">📝</div>
+      <div class="hero-orbit-glyph g1">✅<span class="glyph-step">APPROVE</span></div>
+      <div class="hero-orbit-glyph g2">▶️<span class="glyph-step">LAUNCH</span></div>
+      <div class="hero-orbit-glyph g3">👁️<span class="glyph-step">MONITOR</span></div>
+      <div class="hero-orbit-glyph g4">📊<span class="glyph-step">RESULTS</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- INFO STRIP -->
+<div class="info-strip">
+  <div class="info-strip-inner">
+    <div class="info-strip-flow">This page explains the <strong>Students Hub Assessment</strong> section of your Teachers menu — what each page is for, and the order you use them in. <strong>Students Hub</strong> is the separate app where your students sit their tests. These five pages are the teacher's control room for that.</div>
+    <div class="info-strip-pills">
+      <span class="info-pill"><span class="pill-dot"></span>For: Subject Teachers &amp; Subject Leaders</span>
+      <span class="info-pill"><span class="pill-dot"></span>5 pages, one simple flow</span>
+      <span class="info-pill"><span class="pill-dot"></span>Tests written centrally by Eduversal</span>
+      <span class="info-pill"><span class="pill-dot"></span>Grade 7–8 pilot</span>
+    </div>
+    <div class="info-strip-callout">Chapter tests check mastery of one unit. They are <em>not</em> the same as EASE growth tests, and never the same as Practice / gamification. Each system stays separate by design.</div>
+  </div>
+</div>
+
+<div class="page-wrap">
+  <div class="layout">
+    <main>
+
+      <!-- 1. Welcome -->
+      <section class="sec open" id="sec-welcome">
+        <button class="sec-head" type="button" aria-expanded="true" aria-controls="sec-welcome-body">
+          <div class="sec-head-num">1</div>
+          <div class="sec-head-icon">👋</div>
+          <div class="sec-head-text">
+            <div class="sec-eyebrow">Section 1</div>
+            <h2 class="sec-title">What is Students Hub Assessment?</h2>
+          </div>
+          <div class="sec-head-chevron" aria-hidden="true">▾</div>
+        </button>
+        <div class="sec-body" id="sec-welcome-body">
+        <div class="sec-body-inner">
+        <p class="sec-lead"><strong>Students Hub</strong> is a separate website where your students log in and take tests on their own devices. You don't teach there — you set it up from <em>here</em>, in Teachers Hub. This section has <strong>5 pages</strong> that together let you run a <strong>chapter test</strong> (a short test that checks if students have mastered one unit). If a word looks new, <a href="#sec-glossary">Section 6 — Glossary</a> explains it.</p>
+
+        <div class="welcome-banner">
+          <div class="welcome-banner-title">A short promise</div>
+          <div class="welcome-banner-text">You do not need to learn all 5 pages today. They always run in the <strong>same order</strong>: approve your students → schedule a test → watch it live → read the results → grade any answers a computer couldn't. Once you know the order, each page explains itself. Come back here whenever you get stuck.</div>
+        </div>
+
+        <div class="intro-grid">
+          <div class="intro-card">
+            <div class="intro-card-icon">📝</div>
+            <div class="intro-card-title">What is a chapter test?</div>
+            <div class="intro-card-text">A short test on <strong>one unit</strong> of work. Eduversal Subject Specialists write them centrally so every school's test is the same. Most questions grade themselves automatically. You decide <strong>when</strong> your class sits each one.</div>
+          </div>
+          <div class="intro-card">
+            <div class="intro-card-icon">👥</div>
+            <div class="intro-card-title">Who uses this section?</div>
+            <div class="intro-card-text">Every <strong>Subject Teacher</strong> and <strong>Subject Leader</strong> running tests for a Year 7–8 class. The <strong>Essay Grader</strong> page is for <strong>Subject Leaders</strong> (and admins) only — the rest are for both.</div>
+          </div>
+        </div>
+
+        <div class="note">
+          <strong>One important separation.</strong> Chapter tests are the network's record of <strong>mastery</strong>. They do not feed the <strong>Practice / gamification</strong> games, and Practice never changes a real test score. They are deliberately kept apart so the real result stays trustworthy.
+        </div>
+        </div></div>
+      </section>
+
+      <!-- 2. The flow -->
+      <section class="sec" id="sec-flow">
+        <button class="sec-head" type="button" aria-expanded="false" aria-controls="sec-flow-body">
+          <div class="sec-head-num">2</div>
+          <div class="sec-head-icon">🔁</div>
+          <div class="sec-head-text">
+            <div class="sec-eyebrow">Section 2</div>
+            <h2 class="sec-title">The assessment flow — in five steps</h2>
+          </div>
+          <div class="sec-head-chevron" aria-hidden="true">▾</div>
+        </button>
+        <div class="sec-body" id="sec-flow-body">
+        <div class="sec-body-inner">
+        <p class="sec-lead">A chapter test moves through five steps, and the five pages line up with them one-for-one. Read this small map first, then read each page in detail below.</p>
+
+        <div class="flow">
+          <div class="flow-track">
+            <div class="flow-step">
+              <div class="flow-step-bubble">1</div>
+              <div class="flow-step-icon">✅</div>
+              <div class="flow-step-num">Step 1 · Approve</div>
+              <div class="flow-step-title">Student Approvals</div>
+              <div class="flow-step-text">Let in the students who picked your class. Nothing runs until they're approved.</div>
+              <a class="flow-step-link" href="/student-approvals">Open →</a>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step-bubble">2</div>
+              <div class="flow-step-icon">▶️</div>
+              <div class="flow-step-num">Step 2 · Schedule</div>
+              <div class="flow-step-title">Schedule Chapter Test</div>
+              <div class="flow-step-text">Pick a published test + your class + a date. Each student gets a draft attempt.</div>
+              <a class="flow-step-link" href="/test-session-launcher">Open →</a>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step-bubble">3</div>
+              <div class="flow-step-icon">👁️</div>
+              <div class="flow-step-num">Step 3 · Monitor</div>
+              <div class="flow-step-title">Live Test Monitor</div>
+              <div class="flow-step-text">During the test, watch who's started, who's stuck, and who's submitted — live.</div>
+              <a class="flow-step-link" href="/test-monitor">Open →</a>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step-bubble">4</div>
+              <div class="flow-step-icon">📊</div>
+              <div class="flow-step-num">Step 4 · Read</div>
+              <div class="flow-step-title">Class Assessment</div>
+              <div class="flow-step-text">A colour heatmap of who mastered each unit and who needs more help.</div>
+              <a class="flow-step-link" href="/class-assessment">Open →</a>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step-bubble">5</div>
+              <div class="flow-step-icon">✍️</div>
+              <div class="flow-step-num">Step 5 · Grade</div>
+              <div class="flow-step-title">Essay Grader</div>
+              <div class="flow-step-text">Award credit to short answers a computer couldn't match. Subject Leaders only.</div>
+              <a class="flow-step-link" href="/essay-grader">Open →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="note">
+          <strong>Where do I start?</strong> Always start at <strong>Student Approvals</strong>. If a later page looks empty, it usually just means an earlier step isn't done yet — for example, no test has been scheduled. That is normal, not a bug.
+        </div>
+        </div></div>
+      </section>
+
+      <!-- 3. Page-by-page -->
+      <section class="sec" id="sec-pages">
+        <button class="sec-head" type="button" aria-expanded="false" aria-controls="sec-pages-body">
+          <div class="sec-head-num">3</div>
+          <div class="sec-head-icon">📑</div>
+          <div class="sec-head-text">
+            <div class="sec-eyebrow">Section 3</div>
+            <h2 class="sec-title">Each page, explained simply</h2>
+          </div>
+          <div class="sec-head-chevron" aria-hidden="true">▾</div>
+        </button>
+        <div class="sec-body" id="sec-pages-body">
+        <div class="sec-body-inner">
+        <p class="sec-lead">Five pages. Here is exactly what each one is for, when to use it, and what you will see.</p>
+
+        <div class="page-detail">
+          <div class="page-detail-head">
+            <div class="page-detail-icon">✅</div>
+            <div class="page-detail-head-text">
+              <div class="page-detail-name">Student Approvals</div>
+              <div class="page-detail-slug">Teachers · Students Hub Assessment · /student-approvals</div>
+            </div>
+            <a class="page-detail-open" href="/student-approvals">Open</a>
+          </div>
+          <div class="kv-grid">
+            <div class="kv-key">What it is</div>
+            <div class="kv-val">The gate. New students who picked your class appear here as <strong>Pending</strong>. You <strong>Approve</strong> them (full access) or <strong>Reject</strong> them (back to the class picker).</div>
+            <div class="kv-key">When to use it</div>
+            <div class="kv-val">First, and any time a new student joins. Clear this list <strong>before</strong> a test day.</div>
+            <div class="kv-key">What you see</div>
+            <div class="kv-val"><ul><li>Three tabs: Pending · Active · Rejected.</li><li>Each student's name, email, and chosen class.</li><li>Approve / Reject buttons.</li></ul></div>
+            <div class="kv-key">Good to know</div>
+            <div class="kv-val">Rejecting does <strong>not</strong> delete a student — they just pick again. If a student is missing, they may have picked another teacher's class.</div>
+          </div>
+        </div>
+
+        <div class="page-detail">
+          <div class="page-detail-head">
+            <div class="page-detail-icon">▶️</div>
+            <div class="page-detail-head-text">
+              <div class="page-detail-name">Schedule Chapter Test</div>
+              <div class="page-detail-slug">Teachers · Students Hub Assessment · /test-session-launcher</div>
+            </div>
+            <a class="page-detail-open" href="/test-session-launcher">Open</a>
+          </div>
+          <div class="kv-grid">
+            <div class="kv-key">What it is</div>
+            <div class="kv-val">Where you set a test for your class. Choose a <strong>published chapter test</strong>, a class, and a date. Every active student in that class gets a draft attempt ready for the day.</div>
+            <div class="kv-key">When to use it</div>
+            <div class="kv-val">After your roster is approved, whenever you want a class to sit a unit test.</div>
+            <div class="kv-key">What you see</div>
+            <div class="kv-val"><ul><li>A list of your scheduled sessions.</li><li>A "Schedule a test" form: test, class, date, optional note.</li><li>A live count of active students in the class.</li></ul></div>
+            <div class="kv-key">Good to know</div>
+            <div class="kv-val">No active students = no attempts created. Approve first. You can only schedule tests Eduversal has marked <strong>published</strong>.</div>
+          </div>
+        </div>
+
+        <div class="page-detail">
+          <div class="page-detail-head">
+            <div class="page-detail-icon">👁️</div>
+            <div class="page-detail-head-text">
+              <div class="page-detail-name">Live Test Monitor</div>
+              <div class="page-detail-slug">Teachers · Students Hub Assessment · /test-monitor</div>
+            </div>
+            <a class="page-detail-open" href="/test-monitor">Open</a>
+          </div>
+          <div class="kv-grid">
+            <div class="kv-key">What it is</div>
+            <div class="kv-val">A live board for a session in progress. It refreshes itself as students work, so you can see at a glance who needs help.</div>
+            <div class="kv-key">When to use it</div>
+            <div class="kv-val">During the test, on your own screen.</div>
+            <div class="kv-key">What you see</div>
+            <div class="kv-val"><ul><li>Per-student status: not started · in progress · submitted · flagged.</li><li>Tab-switch warnings (if a student leaves the test screen).</li><li>Cards for total / started / submitted / average / pass rate.</li></ul></div>
+            <div class="kv-key">Good to know</div>
+            <div class="kv-val">This is a live view, not a grade book. The final, sorted results land on <strong>Class Assessment</strong> after submission.</div>
+          </div>
+        </div>
+
+        <div class="page-detail">
+          <div class="page-detail-head">
+            <div class="page-detail-icon">📊</div>
+            <div class="page-detail-head-text">
+              <div class="page-detail-name">Class Assessment</div>
+              <div class="page-detail-slug">Teachers · Students Hub Assessment · /class-assessment</div>
+            </div>
+            <a class="page-detail-open" href="/class-assessment">Open</a>
+          </div>
+          <div class="kv-grid">
+            <div class="kv-key">What it is</div>
+            <div class="kv-val">A colour grid: one row per student, one column per chapter test. Colours run from <strong>Emerging</strong> (red) to <strong>Exceeding</strong> (blue) so you read the whole class at a glance.</div>
+            <div class="kv-key">When to use it</div>
+            <div class="kv-val">After tests are submitted, to plan who needs more help.</div>
+            <div class="kv-key">What you see</div>
+            <div class="kv-val"><ul><li>Filters for class and subject.</li><li>The mastery heatmap with a 4-band legend.</li><li>Summary cards: active students, tests submitted, average, intervention count.</li></ul></div>
+            <div class="kv-key">Good to know</div>
+            <div class="kv-val">A red cell means "this <strong>unit</strong> needs another look", not "this student is weak". It is a teaching signal, used kindly.</div>
+          </div>
+        </div>
+
+        <div class="page-detail">
+          <div class="page-detail-head">
+            <div class="page-detail-icon">✍️</div>
+            <div class="page-detail-head-text">
+              <div class="page-detail-name">Essay Grader</div>
+              <div class="page-detail-slug">Teachers · Students Hub Assessment · /essay-grader · Subject Leaders only</div>
+            </div>
+            <a class="page-detail-open" href="/essay-grader">Open</a>
+          </div>
+          <div class="kv-grid">
+            <div class="kv-key">What it is</div>
+            <div class="kv-val">A review queue for short answers that the computer couldn't match exactly (a synonym, a paraphrase, a different spelling). You award <strong>full / partial / no credit</strong>.</div>
+            <div class="kv-key">When to use it</div>
+            <div class="kv-val">After a test, when some answers are <strong>flagged</strong> for a human. As a Subject Leader (or admin).</div>
+            <div class="kv-key">What you see</div>
+            <div class="kv-val"><ul><li>Each flagged answer next to the expected answer.</li><li>Buttons to award credit.</li><li>The attempt's score updates as soon as you decide.</li></ul></div>
+            <div class="kv-key">Good to know</div>
+            <div class="kv-val">An empty list is good news — every answer auto-matched and nothing needs your judgement.</div>
+          </div>
+        </div>
+        </div></div>
+      </section>
+
+      <!-- 4. Tips -->
+      <section class="sec" id="sec-tips">
+        <button class="sec-head" type="button" aria-expanded="false" aria-controls="sec-tips-body">
+          <div class="sec-head-num">4</div>
+          <div class="sec-head-icon">✅</div>
+          <div class="sec-head-text">
+            <div class="sec-eyebrow">Section 4</div>
+            <h2 class="sec-title">Tips for a smooth test day</h2>
+          </div>
+          <div class="sec-head-chevron" aria-hidden="true">▾</div>
+        </button>
+        <div class="sec-body" id="sec-tips-body">
+        <div class="sec-body-inner">
+        <p class="sec-lead">A soft list, not a test. These keep your test day stress-free.</p>
+
+        <div class="checklist">
+          <div class="check-row">
+            <div class="check-num">1</div>
+            <div class="check-body">
+              <div class="check-title">Approve your class the day before</div>
+              <div class="check-text">Open <a href="/student-approvals">Student Approvals</a> early. A pending student can't sit the test, so clear the list before the bell.</div>
+            </div>
+          </div>
+          <div class="check-row">
+            <div class="check-num">2</div>
+            <div class="check-body">
+              <div class="check-title">Schedule the right test for the right class</div>
+              <div class="check-text">In <a href="/test-session-launcher">Schedule Chapter Test</a>, double-check the test name and class before you launch. The student count tells you the attempts will be created.</div>
+            </div>
+          </div>
+          <div class="check-row">
+            <div class="check-num">3</div>
+            <div class="check-body">
+              <div class="check-title">Keep the monitor open during the test</div>
+              <div class="check-text">The <a href="/test-monitor">Live Test Monitor</a> shows who is stuck so you can walk over and help. Tab-switch warnings are gentle nudges, not accusations.</div>
+            </div>
+          </div>
+          <div class="check-row">
+            <div class="check-num">4</div>
+            <div class="check-body">
+              <div class="check-title">Read the heatmap as a class, not a ranking</div>
+              <div class="check-text">On <a href="/class-assessment">Class Assessment</a>, look for whole columns of red — that's a unit to reteach, not a list of weak children.</div>
+            </div>
+          </div>
+          <div class="check-row">
+            <div class="check-num">5</div>
+            <div class="check-body">
+              <div class="check-title">Clear the Essay Grader queue promptly</div>
+              <div class="check-text">If you're a Subject Leader, finish <a href="/essay-grader">Essay Grader</a> soon after the test so every student's final score is fair and complete.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip"><strong>Tip:</strong> Practice runs and daily challenges in Students Hub are for fun and motivation — they never touch these real chapter test results. Keep them separate in your head, just like the system does.</div>
+        </div></div>
+      </section>
+
+      <!-- 5. Role notes -->
+      <section class="sec" id="sec-role">
+        <button class="sec-head" type="button" aria-expanded="false" aria-controls="sec-role-body">
+          <div class="sec-head-num">5</div>
+          <div class="sec-head-icon">🎭</div>
+          <div class="sec-head-text">
+            <div class="sec-eyebrow">Section 5</div>
+            <h2 class="sec-title">Notes for your role</h2>
+          </div>
+          <div class="sec-head-chevron" aria-hidden="true">▾</div>
+        </button>
+        <div class="sec-body" id="sec-role-body">
+        <div class="sec-body-inner">
+        <p class="sec-lead">The boxes below show only the ones that apply to you today. They may change if a central admin updates your sub-role.</p>
+
+        <div class="role-block is-plain" id="role-plain" style="display:none;">
+          <div class="role-ribbon"><span class="role-ribbon-sparkle">✦</span><span>Personalized for you</span></div>
+          <div class="role-block-eyebrow">For: Teachers User (no sub-role yet)</div>
+          <div class="role-block-title">These pages need a teaching sub-role</div>
+          <div class="role-block-text">Right now you have the basic <code>teachers_user</code> role. The Students Hub Assessment pages need a <strong>Subject Teacher</strong> or <strong>Subject Leader</strong> sub-role. Check your profile (top right). If a page redirects you with <code>?denied=...</code>, that is the sub-role gate — not a bug. Ask a central admin to update your sub-roles.</div>
+        </div>
+
+        <div class="role-block is-teacher" id="role-teacher" style="display:none;">
+          <div class="role-ribbon"><span class="role-ribbon-sparkle">✦</span><span>Personalized for you</span></div>
+          <div class="role-block-eyebrow">For: Subject Teacher</div>
+          <div class="role-block-title">Four of the five pages are yours</div>
+          <div class="role-block-text">As a Subject Teacher you run the whole flow: <strong>Student Approvals</strong> → <strong>Schedule Chapter Test</strong> → <strong>Live Test Monitor</strong> → <strong>Class Assessment</strong>. The fifth page, <strong>Essay Grader</strong>, is reserved for Subject Leaders — if you don't see it, that's expected.</div>
+        </div>
+
+        <div class="role-block is-leader" id="role-leader" style="display:none;">
+          <div class="role-ribbon"><span class="role-ribbon-sparkle">✦</span><span>Personalized for you</span></div>
+          <div class="role-block-eyebrow">For: Subject Leader</div>
+          <div class="role-block-title">You see all five — including Essay Grader</div>
+          <div class="role-block-text">As a Subject Leader you can do everything a teacher does, plus the <strong>Essay Grader</strong>: you award credit to short answers the computer couldn't match. Doing this promptly keeps every student's final mastery result fair.</div>
+        </div>
+
+        <div class="role-block is-admin" id="role-admin" style="display:none;">
+          <div class="role-ribbon"><span class="role-ribbon-sparkle">✦</span><span>Personalized for you</span></div>
+          <div class="role-block-eyebrow">For: Teachers Admin</div>
+          <div class="role-block-title">You see every page</div>
+          <div class="role-block-text">You bypass the sub-role gates in Teachers Hub, so all five pages are open to you. The chapter tests themselves are written centrally by Eduversal Subject Specialists; you schedule and monitor them for your school's classes.</div>
+        </div>
+        </div></div>
+      </section>
+
+      <!-- 6. Glossary -->
+      <section class="sec" id="sec-glossary">
+        <button class="sec-head" type="button" aria-expanded="false" aria-controls="sec-glossary-body">
+          <div class="sec-head-num">6</div>
+          <div class="sec-head-icon">📖</div>
+          <div class="sec-head-text">
+            <div class="sec-eyebrow">Section 6</div>
+            <h2 class="sec-title">Glossary — words you will see</h2>
+          </div>
+          <div class="sec-head-chevron" aria-hidden="true">▾</div>
+        </button>
+        <div class="sec-body" id="sec-glossary-body">
+        <div class="sec-body-inner">
+        <p class="sec-lead">Short, plain meanings for the terms that show up in these pages.</p>
+
+        <div class="glossary">
+          <div class="gloss-row">
+            <div class="gloss-term">Students Hub<span class="gloss-term-sub">the student app</span></div>
+            <div class="gloss-def">A separate website where students log in and take their tests. You set tests up from Teachers Hub; students do them on Students Hub.</div>
+          </div>
+          <div class="gloss-row">
+            <div class="gloss-term">Chapter test<span class="gloss-term-sub">unit mastery check</span></div>
+            <div class="gloss-def">A short test on one unit of work, written centrally by Eduversal. It records how well a student has mastered that unit.</div>
+          </div>
+          <div class="gloss-row">
+            <div class="gloss-term">Approve<span class="gloss-term-sub">let a student in</span></div>
+            <div class="gloss-def">Accept a student who picked your class. Until approved, they cannot take any test.</div>
+          </div>
+          <div class="gloss-row">
+            <div class="gloss-term">Session<span class="gloss-term-sub">a scheduled test</span></div>
+            <div class="gloss-def">One chapter test set for one class on one date. Scheduling a session creates a draft attempt for each student.</div>
+          </div>
+          <div class="gloss-row">
+            <div class="gloss-term">Attempt<span class="gloss-term-sub">one student's go</span></div>
+            <div class="gloss-def">A single student's run at a test. It moves from draft → in progress → submitted → scored.</div>
+          </div>
+          <div class="gloss-row">
+            <div class="gloss-term">Flagged<span class="gloss-term-sub">needs a human</span></div>
+            <div class="gloss-def">A short answer the computer couldn't match automatically. It waits in the Essay Grader for a Subject Leader to award credit.</div>
+          </div>
+          <div class="gloss-row">
+            <div class="gloss-term">Mastery band<span class="gloss-term-sub">Emerging → Exceeding</span></div>
+            <div class="gloss-def">The colour level on Class Assessment: Emerging (&lt;40%), Developing (40–60%), Secure (60–80%), Exceeding (&gt;80%). It describes the unit result.</div>
+          </div>
+          <div class="gloss-row">
+            <div class="gloss-term">Published<span class="gloss-term-sub">ready to schedule</span></div>
+            <div class="gloss-def">A chapter test Eduversal has finished and released. Only published tests appear in the schedule list.</div>
+          </div>
+        </div>
+        </div></div>
+      </section>
+
+      <!-- 7. Help footer -->
+      <section class="sec" id="sec-help">
+        <button class="sec-head" type="button" aria-expanded="false" aria-controls="sec-help-body">
+          <div class="sec-head-num">7</div>
+          <div class="sec-head-icon">💬</div>
+          <div class="sec-head-text">
+            <div class="sec-eyebrow">Section 7</div>
+            <h2 class="sec-title">Stuck? That is okay.</h2>
+          </div>
+          <div class="sec-head-chevron" aria-hidden="true">▾</div>
+        </button>
+        <div class="sec-body" id="sec-help-body">
+        <div class="sec-body-inner">
+        <div class="help-footer">
+          <div class="help-footer-title">Stuck? That is okay.</div>
+          <div class="help-footer-text">If a page looks empty, an earlier step may not be done yet — for example, no students approved, or no test scheduled. If something feels broken or confusing — or if a page redirects you when you think you should have access — please tell us. We fix it for everyone.</div>
+          <div class="help-footer-actions">
+            <a class="help-btn" href="mailto:tech@eduversal.org">📧 Email tech@eduversal.org</a>
+            <a class="help-btn" href="/student-approvals">✅ Start: Student Approvals</a>
+            <a class="help-btn" href="/references">📚 Open References</a>
+          </div>
+        </div>
+        </div></div>
+      </section>
+
+    </main>
+
+    <!-- TOC sidebar -->
+    <aside class="toc" aria-label="Table of contents">
+      <div class="toc-title">On this page</div>
+      <ul class="toc-list" id="tocList">
+        <li><a href="#sec-welcome" data-toc>What is this section?</a></li>
+        <li><a href="#sec-flow" data-toc>The assessment flow</a></li>
+        <li><a href="#sec-pages" data-toc>Each page explained</a></li>
+        <li><a href="#sec-tips" data-toc>Tips</a></li>
+        <li><a href="#sec-role" data-toc>Notes for your role</a></li>
+        <li><a href="#sec-glossary" data-toc>Glossary</a></li>
+        <li><a href="#sec-help" data-toc>Stuck?</a></li>
+      </ul>
+    </aside>
+  </div>
+</div>
+
+<script src="partials/navbar.js"></script>
+<script type="module">
+fetch('partials/navbar.html')
+  .then(r => r.text())
+  .then(html => {
+    document.getElementById('navbar-container').innerHTML = html;
+    if (typeof initNavbar === 'function') initNavbar();
+    if (typeof window._pendingNavbarUpdate === 'function')  { window._pendingNavbarUpdate();  window._pendingNavbarUpdate  = null; }
+    if (typeof window._pendingBadgeSetup    === 'function') { window._pendingBadgeSetup();    window._pendingBadgeSetup    = null; }
+    if (typeof window._pendingFeedbackSetup === 'function') { window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
+  });
+
+document.addEventListener('authReady', ({ detail }) => {
+  const profile = detail?.profile || window.userProfile || {};
+  const user = detail?.user || window.currentUser || {};
+  const isAdmin = profile.role_teachershub === 'teachers_admin';
+  const subs = Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [];
+  const isTeacher = subs.includes('subject_teacher');
+  const isLeader = subs.includes('subject_leader');
+
+  const name = profile.displayName || (user.email || '').split('@')[0] || 'there';
+  const firstName = String(name).trim().split(/\s+/)[0] || 'there';
+  const heroName = document.getElementById('heroName');
+  if (heroName) heroName.textContent = firstName;
+
+  const chipText = document.getElementById('roleChipText');
+  if (chipText) {
+    const labels = [];
+    if (isAdmin) labels.push('Teachers Admin');
+    if (isTeacher) labels.push('Subject Teacher');
+    if (isLeader) labels.push('Subject Leader');
+    if (labels.length === 0) labels.push('Teachers User');
+    chipText.textContent = `Signed in as ${labels.join(' · ')}`;
+  }
+
+  const visibleIds = [];
+  if (isAdmin) visibleIds.push('role-admin');
+  if (isTeacher) visibleIds.push('role-teacher');
+  if (isLeader) visibleIds.push('role-leader');
+  if (!isAdmin && !isTeacher && !isLeader) visibleIds.push('role-plain');
+
+  visibleIds.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.style.display = '';
+    el.style.animationDelay = `${i * 110}ms`;
+    el.classList.add('reveal');
+  });
+});
+
+// Scroll-spy + resume + accordion
+const tocLinks = document.querySelectorAll('.toc-list a[data-toc]');
+const sections = [...tocLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const SECTION_LABELS = {};
+tocLinks.forEach(a => { SECTION_LABELS[a.getAttribute('href').slice(1)] = a.textContent.trim(); });
+const RESUME_KEY = 'th:read-me-students-hub-assessment:lastSection';
+let currentActiveId = null, resumePersistTimer = null;
+function onScroll() {
+  let active = sections[0];
+  for (const s of sections) { if (s.getBoundingClientRect().top - 100 <= 0) active = s; }
+  if (!active) return;
+  tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${active.id}`));
+  if (active.id !== currentActiveId) {
+    currentActiveId = active.id;
+    if (resumePersistTimer) clearTimeout(resumePersistTimer);
+    resumePersistTimer = setTimeout(() => { try { localStorage.setItem(RESUME_KEY, currentActiveId); } catch {} }, 600);
+  }
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+(function setupResumeBar() {
+  const bar = document.getElementById('heroResume'); const lbl = document.getElementById('heroResumeSection');
+  if (!bar || !lbl) return;
+  let last; try { last = localStorage.getItem(RESUME_KEY); } catch { last = null; }
+  if (!last || last === 'sec-welcome' || !SECTION_LABELS[last]) return;
+  lbl.textContent = SECTION_LABELS[last]; bar.setAttribute('href', `#${last}`); bar.style.display = '';
+})();
+
+(function setupAccordion() {
+  const allSecs = document.querySelectorAll('.sec');
+  function setHeight(sec, open) {
+    const body = sec.querySelector(':scope > .sec-body'); if (!body) return;
+    if (open) {
+      body.style.maxHeight = body.scrollHeight + 'px';
+      const onEnd = (e) => { if (e.target !== body || e.propertyName !== 'max-height') return; if (sec.classList.contains('open')) body.style.maxHeight = 'none'; body.removeEventListener('transitionend', onEnd); };
+      body.addEventListener('transitionend', onEnd);
+    } else { body.style.maxHeight = body.scrollHeight + 'px'; void body.offsetHeight; body.style.maxHeight = '0px'; }
+  }
+  function openSec(sec) { if (sec.classList.contains('open')) return; sec.classList.add('open'); const head = sec.querySelector(':scope > .sec-head'); if (head) head.setAttribute('aria-expanded', 'true'); setHeight(sec, true); }
+  function closeSec(sec) { if (!sec.classList.contains('open')) return; sec.classList.remove('open'); const head = sec.querySelector(':scope > .sec-head'); if (head) head.setAttribute('aria-expanded', 'false'); setHeight(sec, false); }
+  const initialHash = (location.hash || '').replace('#', '');
+  allSecs.forEach(sec => {
+    const shouldOpen = sec.classList.contains('open') || sec.id === initialHash;
+    const body = sec.querySelector(':scope > .sec-body'); const head = sec.querySelector(':scope > .sec-head');
+    if (shouldOpen) { sec.classList.add('open'); if (body) body.style.maxHeight = 'none'; if (head) head.setAttribute('aria-expanded', 'true'); }
+    else if (body) { body.style.maxHeight = '0px'; }
+  });
+  allSecs.forEach(sec => { const head = sec.querySelector(':scope > .sec-head'); if (!head) return; head.addEventListener('click', () => { if (sec.classList.contains('open')) closeSec(sec); else openSec(sec); }); });
+  document.querySelectorAll('.toc-list a[data-toc]').forEach(a => { a.addEventListener('click', () => { const id = a.getAttribute('href').slice(1); const target = document.getElementById(id); if (target && target.classList.contains('sec')) openSec(target); }); });
+  const resume = document.getElementById('heroResume');
+  if (resume) { resume.addEventListener('click', () => { const id = resume.getAttribute('href').slice(1); const target = document.getElementById(id); if (target && target.classList.contains('sec')) openSec(target); }); }
+  document.querySelectorAll('a[href^="#sec-"]').forEach(a => { if (a.hasAttribute('data-toc')) return; a.addEventListener('click', () => { const id = a.getAttribute('href').slice(1); const target = document.getElementById(id); if (target && target.classList.contains('sec')) openSec(target); }); });
+  window.addEventListener('hashchange', () => { const id = (location.hash || '').replace('#', ''); const target = id ? document.getElementById(id) : null; if (target && target.classList.contains('sec')) openSec(target); });
+})();
+</script>
+</body>
+</html>

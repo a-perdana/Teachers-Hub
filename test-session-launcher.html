@@ -8,14 +8,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="base.css">
 <style>
-:root { --accent: #6c5ce7; --accent-2: #ede9fe; }
-.hero {
-  background: linear-gradient(130deg, #0d0628 0%, #1e0a4e 40%, #3b1a8a 72%, #6c5ce7 100%);
-  padding: 36px 40px; color: #fff;
+/* Curriculum family (teal). Hero + footer chrome from base.css canonical
+   .page-hero / .page-footer; only info-strip content styled here. */
+:root { --accent: #0f9b8e; --accent-2: #ccfbf1; }
+
+/* ── Info strip (flow line + pills + callout) ── */
+.page-info-strip { max-width: 1080px; margin: 22px auto 0; padding: 0 32px; }
+.pis-inner {
+  background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+  border: 1px solid #5eead4; border-radius: 16px; padding: 18px 22px;
 }
-.hero-inner { max-width: 1080px; margin: 0 auto; }
-.hero h1 { font-family: 'Lora', serif; font-size: 1.7rem; margin-bottom: 6px; }
-.hero p { color: rgba(255,255,255,.7); font-size: .9rem; max-width: 580px; }
+.pis-flow { font-size: 13.5px; color: var(--ink-2); line-height: 1.6; }
+.pis-flow strong { color: #0f766e; }
+.pis-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.pis-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; background: #fff; border: 1px solid #99f6e4; font-size: 11.5px; font-weight: 600; color: #0f766e; }
+.pis-pill .pill-dot { width: 6px; height: 6px; border-radius: 50%; background: #14b8a6; }
+.pis-callout { margin-top: 12px; padding: 10px 14px; background: rgba(255,255,255,0.65); border-left: 3px solid #14b8a6; border-radius: 8px; font-size: 12.5px; font-style: italic; color: #115e59; line-height: 1.55; }
+@media (max-width: 720px) { .page-info-strip { padding: 0 18px; } }
+
+/* base.css turns body into a flex column when a .page-footer is a direct
+   child — force direct children to stretch so their max-width clamps apply
+   (see root CLAUDE.md Common Mistake #54). */
+body:has(> .page-footer) > .page-hero,
+body:has(> .page-footer) > .page-info-strip,
+body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
 
 .page-wrap { max-width: 1080px; margin: 0 auto; padding: 28px 32px 80px; }
 
@@ -113,20 +129,36 @@
 .preview-list-row:last-child { border: none; }
 </style>
 </head>
-<body>
+<body data-page-accent="teal">
   <!-- FIREBASE_ENV -->
   <script src="partials/navbar.js"></script>
   <script type="module" src="auth-guard.js"></script>
 
   <div id="navbar-container"></div>
 
-  <header class="hero">
-    <div class="hero-inner">
-      <div style="font-size:.7rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:8px;">Assessment Delivery</div>
-      <h1>Test Session Launcher</h1>
-      <p>Schedule a published chapter test for one of your classes. Each enrolled student gets a draft attempt; on session day, they sign in to Students Hub and the test appears on their dashboard.</p>
+  <header class="page-hero" data-accent="teal">
+    <div class="page-hero__inner">
+      <div class="page-hero__text">
+        <div class="page-hero__eyebrow">Teachers Hub · Students Hub Assessment</div>
+        <h1 class="page-hero__title">Schedule Chapter Test</h1>
+        <p class="page-hero__desc">Schedule a published chapter test for one of your classes. Each enrolled student gets a draft attempt; on session day, they sign in to Students Hub and the test appears on their dashboard.</p>
+      </div>
     </div>
   </header>
+
+  <!-- INFO STRIP -->
+  <section class="page-info-strip" aria-label="About this page">
+    <div class="pis-inner">
+      <p class="pis-flow">Pick a <strong>published chapter test</strong>, choose one of <strong>your classes</strong>, set a date, and launch. Eduversal Subject Specialists write the tests centrally; you decide <em>when</em> your class sits each one. On launch, every active student in that class gets a draft attempt ready for session day.</p>
+      <div class="pis-pills">
+        <span class="pis-pill"><span class="pill-dot"></span>For: Subject Teachers &amp; Subject Leaders</span>
+        <span class="pis-pill"><span class="pill-dot"></span>Tests authored centrally by Eduversal</span>
+        <span class="pis-pill"><span class="pill-dot"></span>One attempt pre-created per student</span>
+        <span class="pis-pill"><span class="pill-dot"></span>Step 2 of the assessment flow</span>
+      </div>
+      <div class="pis-callout">Students must be <em>approved</em> first (Student Approvals). A class with no active students will create no attempts — approve your roster before you schedule.</div>
+    </div>
+  </section>
 
   <main class="page-wrap">
     <div id="accessWarn" class="access-warn" hidden></div>
@@ -144,6 +176,37 @@
 
     <div id="sessionList"></div>
   </main>
+
+  <!-- CANONICAL FOOTER -->
+  <footer class="page-footer" data-accent="teal" role="contentinfo">
+    <div class="page-footer__inner">
+      <div class="page-footer__cta">
+        <span class="page-footer__cta-eyebrow">Students Hub Assessment</span>
+        <h2 class="page-footer__cta-title">Test scheduled — now watch it live.</h2>
+        <p class="page-footer__cta-desc">Once a session is live, open the Live Test Monitor to see who has started, who is stuck, and the score distribution in real time.</p>
+        <a href="/test-monitor" class="page-footer__cta-btn">Open Live Test Monitor <span aria-hidden="true">→</span></a>
+      </div>
+      <nav class="page-footer__nav" aria-label="Students Hub Assessment footer navigation">
+        <div class="page-footer__nav-group">
+          <span class="page-footer__nav-heading">Assessment flow</span>
+          <a href="/read-me-students-hub-assessment" class="page-footer__nav-link">Read Me First</a>
+          <a href="/student-approvals" class="page-footer__nav-link">Student Approvals</a>
+          <a href="/test-monitor" class="page-footer__nav-link">Live Test Monitor</a>
+          <a href="/class-assessment" class="page-footer__nav-link">Class Assessment</a>
+        </div>
+        <div class="page-footer__nav-group">
+          <span class="page-footer__nav-heading">Related</span>
+          <a href="/essay-grader" class="page-footer__nav-link">Essay Grader</a>
+          <a href="/weekly-checklist" class="page-footer__nav-link">Weekly Checklist</a>
+          <a href="/references" class="page-footer__nav-link">References</a>
+        </div>
+      </nav>
+    </div>
+    <div class="page-footer__meta">
+      <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
+      <span class="page-footer__meta-right">Students Hub Assessment · Phase 1</span>
+    </div>
+  </footer>
 
   <!-- Schedule modal -->
   <div id="schedModal" class="modal-overlay" role="dialog" aria-hidden="true">

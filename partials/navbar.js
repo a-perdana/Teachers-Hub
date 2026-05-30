@@ -92,6 +92,7 @@ function initNavbar() {
                        'read-me-appraisal','teacher-self-appraisal','teacher-appraisal-results',
                        'read-me-competency','competency-framework'],
       teachers:       ['weekly-checklist',
+                       'read-me-students-hub-assessment',
                        'student-approvals','test-session-launcher','test-monitor','class-assessment','essay-grader'],
       myhub:          ['welcome',
                        'learning-path','my-portfolio','my-certificates',
