@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="50" fill="#331e05"/>
+  <polygon points="10,45 50,65 50,70 10,50" fill="#a8650a"/>
+  <polygon points="90,45 50,65 50,70 90,50" fill="#c2780c"/>
+  <polygon points="50,25 90,45 50,65 10,45" fill="#d97706"/>
+  <circle cx="76" cy="76" r="20" fill="#d97706" stroke="#331e05" stroke-width="3"/>
+  <text x="76" y="84" font-family="Georgia,serif" font-size="26" font-weight="bold" text-anchor="middle" fill="white">T</text>
+</svg>
