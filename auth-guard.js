@@ -425,7 +425,10 @@ function applyPilotSystemGating(enabled) {
 //   Set([…])  → explicit list (possibly empty)
 async function getEnabledSystemsForSchool(database, schoolId) {
   if (!schoolId) return null;
-  if (schoolId === 'eduversal_hq') return null;
+  // NB: eduversal_hq is NOT special-cased here — Eduversal must behave
+  // exactly like any partner school so pilot gating is testable on an HQ
+  // account (2026-05-30). The doc's enabled_systems[] is authoritative;
+  // [] = all disabled, missing field = all enabled (back-compat path below).
   try {
     const snap = await getDoc(doc(database, 'partner_schools', schoolId));
     if (!snap.exists()) return null;

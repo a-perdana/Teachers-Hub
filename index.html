@@ -3211,8 +3211,10 @@
       async function filterPilotSystemCards(db, profile, isAdmin) {
         if (isAdmin) return;
         const schoolId = profile?.schoolId;
-        if (!schoolId) return; // HQ users (no schoolId) — leave cards visible
-        if (schoolId === 'eduversal_hq') return; // HQ users on eduversal_hq doc — leave cards visible
+        if (!schoolId) return; // no schoolId → all enabled (back-compat)
+        // NB: eduversal_hq is NOT special-cased — Eduversal reads its own
+        // enabled_systems[] like any partner school so pilot gating is
+        // testable on an HQ account (2026-05-30).
 
         let enabled = null; // null = field missing → all enabled (back-compat)
         try {
