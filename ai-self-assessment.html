@@ -21,24 +21,37 @@
 
 body {
   font-family: 'DM Sans', sans-serif;
-  background: #f1f5f9;
   color: #1e293b;
 }
 
-.hero {
-  background: linear-gradient(135deg, #2b1e10 0%, #d35400 50%, #f39c12 100%);
-  color: #fff; padding: 36px 36px 44px; position: relative; overflow: hidden;
-}
-.hero::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(circle at 86% 20%, rgba(255,255,255,0.12) 0%, transparent 48%);
-}
-.hero-inner { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; }
-.hero-eyebrow { font-size: 11.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
-.hero-title { font-family: 'Lora', serif; font-size: 30px; font-weight: 600; margin-bottom: 6px; }
-.hero-sub { font-size: 14px; color: rgba(255,255,255,0.78); max-width: 740px; line-height: 1.55; }
+/* TH navbar is position:sticky — no body padding-top (would create a scroll-gap). */
 
-.page-wrap { max-width: 1100px; margin: 0 auto; padding: 24px 36px 80px; }
+/* ── My Work family — 1200px content rail ─────────────────────────
+   Hero + body + footer all clamp to var(--container-max), ZERO horizontal
+   padding. Canonical wrappers carry a default 40px pad — strip it so all
+   three rails align at exactly 1200px on viewports ≥ 1280px. */
+.page-hero__inner,
+.page-footer__inner,
+.page-footer__meta,
+.page-wrap {
+  width: 100%;
+  max-width: var(--container-max);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+.page-wrap { padding: 32px 0 100px; }
+
+/* base.css `body:has(> .page-footer) { display:flex; flex-direction:column }`
+   turns body into a flex container — force direct children to stretch so
+   their max-width:1200 takes effect instead of shrinking to content. */
+body:has(> .page-footer) > .page-hero,
+body:has(> .page-footer) > .page-info-strip,
+body:has(> .page-footer) > .page-wrap {
+  width: 100% !important;
+  align-self: stretch !important;
+}
 
 .status-banner {
   display: flex; align-items: center; justify-content: space-between;
@@ -196,7 +209,7 @@ body {
 }
 </style>
 </head>
-<body>
+<body data-page-accent="dark">
 <div id="navbar-container"></div>
 <script src="partials/navbar.js"></script>
 <script>
@@ -213,15 +226,30 @@ body {
 </script>
 <script type="module" src="auth-guard.js"></script>
 
-<header class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">AI Competency Framework v1.0</div>
-    <h1 class="hero-title">My AI Self-Assessment</h1>
-    <p class="hero-sub">
-      Annual self-assessment of your AI competency across 5 domains and 3 levels.
-      Rate honestly. Your line manager will discuss your submission with you and may
-      adjust your agreed level. Inflation hurts you twice — be honest.
-    </p>
+<header class="page-hero" data-accent="dark">
+  <div class="page-hero__inner">
+    <div class="page-hero__text">
+      <div class="page-hero__eyebrow">My Hub · AI Competency v1.0</div>
+      <h1 class="page-hero__title">My AI Self-Assessment</h1>
+      <p class="page-hero__desc">Rate yourself once a year across 5 AI competency domains and 3 levels. Your line manager discusses your ratings with you and may adjust your agreed level — inflating hurts you twice, so be honest.</p>
+    </div>
+    <aside class="page-hero__kpis">
+      <div class="page-hero__kpi page-hero__kpi--primary">
+        <div class="page-hero__kpi-num" id="kpiFoundation">—</div>
+        <div class="page-hero__kpi-lbl">Foundation rated</div>
+        <div class="page-hero__kpi-sub">of 5 domains</div>
+      </div>
+      <div class="page-hero__kpi">
+        <div class="page-hero__kpi-num" id="kpiLevel">—</div>
+        <div class="page-hero__kpi-lbl">Self-declared level</div>
+        <div class="page-hero__kpi-sub">from your ratings</div>
+      </div>
+      <div class="page-hero__kpi">
+        <div class="page-hero__kpi-num" id="kpiStatus">—</div>
+        <div class="page-hero__kpi-lbl">Status</div>
+        <div class="page-hero__kpi-sub">this academic year</div>
+      </div>
+    </aside>
   </div>
 </header>
 
@@ -508,6 +536,25 @@ function updateLevelSummary() {
         ? 'Practitioner = proficient AI integration across most workflows.'
         : 'Foundation = essential AI competencies for all teaching staff.');
   }
+  updateHeroKpis(level);
+}
+
+// ── Hero KPI tiles ──────────────────────────────────────────
+function updateHeroKpis(level) {
+  if (level === undefined) level = computeSelfDeclaredLevel();
+  const foundationRated = DOMAINS.filter(d => RATINGS.includes(state.ratings.foundation[d.id])).length;
+  const fEl = document.getElementById('kpiFoundation');
+  const lEl = document.getElementById('kpiLevel');
+  const sEl = document.getElementById('kpiStatus');
+  if (fEl) fEl.textContent = `${foundationRated}/5`;
+  if (lEl) {
+    const labels = { foundation: 'Foundation', practitioner: 'Practitioner', leader: 'Leader', foundation_in_progress: 'Foundation' };
+    lEl.textContent = level ? (labels[level] || '—') : '—';
+  }
+  if (sEl) {
+    const statusLabels = { draft: 'Draft', submitted: 'Submitted', validated: 'Validated' };
+    sEl.textContent = statusLabels[state.status] || '—';
+  }
 }
 
 // ── Reflection (strengths / growth / goals) ─────────────────
@@ -565,6 +612,7 @@ function applyStatusUI() {
   const statusLabels = { draft: 'Draft — work in progress', submitted: 'Submitted — awaiting line-manager review', validated: 'Validated by your line manager' };
   left.textContent = `Status: ${statusLabels[state.status] || state.status}`;
   right.textContent = `Academic year ${state.academicYear}`;
+  updateHeroKpis();
 
   const lockedMsg = document.getElementById('lockedMsg');
   const actionsBar = document.getElementById('actionsBar');
