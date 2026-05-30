@@ -181,6 +181,13 @@ body {
 }
 .loading-overlay.hidden { display: none; }
 
+/* ─── PAGE FOOTER (canonical — amber CTA accent matches the hero) ─── */
+.page-footer__cta-btn {
+  background: linear-gradient(135deg, #d35400 0%, #b8460a 100%);
+  box-shadow: 0 4px 14px rgba(211,84,0,0.35);
+}
+.page-footer__cta-btn:hover { box-shadow: 0 6px 18px rgba(211,84,0,0.48); }
+
 @media (max-width: 800px) {
   .rating-matrix { grid-template-columns: 1fr; }
   .matrix-h { display: none; }
@@ -190,7 +197,8 @@ body {
 </style>
 </head>
 <body>
-<!-- SHARED_NAVBAR -->
+<div id="navbar-container"></div>
+<script src="partials/navbar.js"></script>
 <script type="module" src="auth-guard.js"></script>
 
 <header class="hero">
@@ -295,8 +303,19 @@ body {
 
 <script type="module">
 import {
-  doc, getDoc, setDoc, serverTimestamp, updateDoc
+  doc, getDoc, setDoc, serverTimestamp, updateDoc, collection, onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// ── Navbar mount ─────────────────────────────────────────────
+fetch('partials/navbar.html')
+  .then(r => r.text())
+  .then(html => {
+    document.getElementById('navbar-container').innerHTML = html;
+    initNavbar();
+    if (typeof window._pendingNavbarUpdate === 'function') { window._pendingNavbarUpdate(); window._pendingNavbarUpdate = null; }
+    if (typeof window._pendingBadgeSetup    === 'function') { window._pendingBadgeSetup();    window._pendingBadgeSetup    = null; }
+    if (typeof window._pendingFeedbackSetup === 'function') { window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
+  });
 
 // ── Framework structure ─────────────────────────────────────
 const DOMAINS = [
@@ -326,13 +345,30 @@ let state = {
 
 // ── Init ─────────────────────────────────────────────────────
 // TH dispatches authReady on document, NOT window (see Common Mistake #13)
-document.addEventListener('authReady', async () => {
+document.addEventListener('authReady', async (e) => {
+  const user = e.detail?.user || window.currentUser;
   state.userId = window.currentUser?.uid;
   state.userProfile = window.userProfile;
   if (!state.userId) {
     document.getElementById('loadingOverlay').textContent = 'Not signed in.';
     return;
   }
+
+  // Navbar identity + badges (race-safe — navbar.html may still be fetching)
+  const nameShort = (user.displayName || user.email.split('@')[0]).split(' ')[0];
+  const updateNavbarElements = () => {
+    const el = document.getElementById('profileNameShort');
+    const av = document.getElementById('profileAvatar');
+    const pw = document.getElementById('profileWrap');
+    if (el) el.textContent = nameShort;
+    if (av && typeof buildAvatarEl === 'function') buildAvatarEl(av, user);
+    if (pw) pw.style.display = 'flex';
+  };
+  if (document.getElementById('profileNameShort')) { updateNavbarElements(); }
+  else { window._pendingNavbarUpdate = updateNavbarElements; }
+  const doBadgeSetup = () => { if (typeof setupNavBadges === 'function') setupNavBadges(window.db, { onSnapshot, collection }); };
+  if (document.getElementById('msgBoardBadge')) { doBadgeSetup(); }
+  else { window._pendingBadgeSetup = doBadgeSetup; }
   state.docId = `${state.userId}_${state.academicYear}`;
   await loadOrInitDoc();
   buildMatrix();
@@ -634,5 +670,35 @@ function flashStatus(msg) {
   }, 2200);
 }
 </script>
+
+<footer class="page-footer" role="contentinfo">
+  <div class="page-footer__inner">
+    <div class="page-footer__cta">
+      <span class="page-footer__cta-eyebrow">Teachers · AI Competency</span>
+      <h2 class="page-footer__cta-title">Rate honestly, then close the gap.</h2>
+      <p class="page-footer__cta-desc">Your self-assessment is a reflection tool, not a scorecard. Once you know where you stand across the 5 domains, the Competency Framework and Learning Path show you how to grow toward the next level.</p>
+      <a href="competency-framework" class="page-footer__cta-btn">Open Competency Framework <span aria-hidden="true">→</span></a>
+    </div>
+    <nav class="page-footer__nav" aria-label="AI self-assessment footer navigation">
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">My Hub</span>
+        <a href="competency-framework" class="page-footer__nav-link">Competency Framework</a>
+        <a href="learning-path" class="page-footer__nav-link">Learning Path</a>
+        <a href="my-portfolio" class="page-footer__nav-link">My Portfolio</a>
+        <a href="my-certificates" class="page-footer__nav-link">My Certificates</a>
+      </div>
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">References</span>
+        <a href="references" class="page-footer__nav-link">References &amp; Standards</a>
+        <a href="handbook" class="page-footer__nav-link">Handbooks</a>
+        <a href="read-me-ai" class="page-footer__nav-link">Read Me First — AI</a>
+      </div>
+    </nav>
+  </div>
+  <div class="page-footer__meta">
+    <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
+    <span class="page-footer__meta-right">Self-assessment stays private to you</span>
+  </div>
+</footer>
 </body>
 </html>
