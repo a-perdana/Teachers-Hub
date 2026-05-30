@@ -3202,7 +3202,10 @@
         32: 'competency',   // My Evidence Portfolio
         33: 'competency',   // My Certificates
         // Induction track
-        204: 'induction',   // Induction Handbook
+        // NB: card 204 ("/handbook") is intentionally NOT pilot-gated — the
+        // handbook surface is the network-wide knowledge base and must stay
+        // reachable regardless of induction-pilot enrolment (parity with the
+        // PILOT_SLUG_MAP fix + AH, 2026-05-30).
         205: 'induction',   // My Induction
         206: 'induction',   // My Mentees
         211: 'induction',   // Mentor Certification
