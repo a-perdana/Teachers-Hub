@@ -120,6 +120,11 @@ body::before {
   padding: 52px 0;
   color: #fff;
   background: linear-gradient(135deg, #1a0a18 0%, #4c1d3d 55%, #1a0a18 100%);
+  /* This page paints a bespoke burgundy gradient + its own ::before mesh.
+     Point the liveliness chrome (top rule, icon glow, KPI bar, title glow
+     — inherited from base.css) at rose so it matches the burgundy instead
+     of the default mor-purple this page's data-accent="mor" would give. */
+  --hero-vivid: var(--hero-vivid-rose);
 }
 .page-hero::before {
   content: ''; position: absolute; inset: 0; pointer-events: none;
