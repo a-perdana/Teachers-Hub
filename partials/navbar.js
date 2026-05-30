@@ -207,7 +207,12 @@ function initNavbar() {
     }
 
     const subRoles = Array.isArray(profile.th_sub_roles) ? profile.th_sub_roles : [];
-    const TH_ROLE_LABELS = { subject_teacher: 'Subject Teacher', subject_leader: 'Subject Leader' };
+    const TH_ROLE_LABELS = {
+      subject_teacher: 'Subject Teacher',
+      subject_leader:  'Subject Leader',
+      interviewer:     'Interviewer',
+      hiring_manager:  'Hiring Manager',
+    };
     if (chipsEl && subRoles.length) {
       chipsEl.innerHTML = '';
       subRoles.forEach(key => {
