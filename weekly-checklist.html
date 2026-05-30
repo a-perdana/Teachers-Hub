@@ -116,6 +116,11 @@
 /* ─── PAGE WRAP ──────────────────────────────── */
 .page-wrap { max-width: 980px; margin: 0 auto; padding: 28px 40px 72px; }
 
+/* base.css turns body into a flex column when a .page-footer is a direct
+   child — force the hero + content to stretch full width (root CLAUDE.md #54). */
+body:has(> .page-footer) > .hero,
+body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
+
 
 /* ─── WEEK NAV ───────────────────────────────── */
 .week-nav {
@@ -760,6 +765,37 @@
   </div>
 
 </main><!-- /page-wrap -->
+
+<!-- ─── CANONICAL FOOTER ─────────────────────────────────────────── -->
+<footer class="page-footer" data-accent="mor" role="contentinfo">
+  <div class="page-footer__inner">
+    <div class="page-footer__cta">
+      <span class="page-footer__cta-eyebrow">Weekly Checklist</span>
+      <h2 class="page-footer__cta-title">This week is the "what". The handbook is the "why".</h2>
+      <p class="page-footer__cta-desc">Your checklist tells you what to do this week; the paired handbook explains why the role exists and how to ramp up. Open the handbook for your sub-role to see the bigger picture behind these tasks.</p>
+      <a href="https://centralhub.eduversal.org/handbook" target="_blank" rel="noopener" class="page-footer__cta-btn">Open Paired Handbook <span aria-hidden="true">↗</span></a>
+    </div>
+    <nav class="page-footer__nav" aria-label="Weekly Checklist footer navigation">
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">My Hub</span>
+        <a href="/learning-path" class="page-footer__nav-link">Learning Path</a>
+        <a href="/my-portfolio" class="page-footer__nav-link">My Portfolio</a>
+        <a href="/my-induction" class="page-footer__nav-link">My Induction</a>
+        <a href="/my-certificates" class="page-footer__nav-link">My Certificates</a>
+      </div>
+      <div class="page-footer__nav-group">
+        <span class="page-footer__nav-heading">Related</span>
+        <a href="/competency-framework" class="page-footer__nav-link">Competency Framework</a>
+        <a href="/handbook" class="page-footer__nav-link">All Handbooks</a>
+        <a href="/references" class="page-footer__nav-link">References</a>
+      </div>
+    </nav>
+  </div>
+  <div class="page-footer__meta">
+    <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
+    <span class="page-footer__meta-right">Weekly Checklist · 2025–2026</span>
+  </div>
+</footer>
 
 <!-- ─── TASK MODAL (admin) ────────────────────────────────────────── -->
 <div class="modal-bg" id="taskModal">

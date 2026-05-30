@@ -14,8 +14,21 @@
    info-strip content styling + its own components. */
 :root { --accent: #0f9b8e; --accent-2: #ccfbf1; }
 
+/* ── 1200px content-rail discipline ──────────────────────────────
+   Hero text, info strip, body content and footer text all align to a TRUE
+   1200px rail. Pattern: outer max-width:var(--container-max) + horizontal
+   padding ZERO (vertical padding stays). The calc(+80)+40px-padding trick
+   measures wrong — see root CLAUDE.md #53 + memory/feedback_references_three_rails_1200.
+   Canonical .page-hero__inner / .page-footer__inner pad 0 40px inside their
+   clamp (→1120px); override their horizontal padding to 0 to match. */
+.page-hero__inner,
+.page-footer__inner,
+.page-info-strip,
+.page-wrap { max-width: var(--container-max); margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0; }
+.page-info-strip { margin-top: 22px; }
+.page-wrap { padding-top: 28px; padding-bottom: 80px; }
+
 /* ── Info strip (flow line + pills + callout) ── */
-.page-info-strip { max-width: 1080px; margin: 22px auto 0; padding: 0 32px; }
 .pis-inner {
   background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
   border: 1px solid #5eead4; border-radius: 16px; padding: 18px 22px;
@@ -26,7 +39,20 @@
 .pis-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; background: #fff; border: 1px solid #99f6e4; font-size: 11.5px; font-weight: 600; color: #0f766e; }
 .pis-pill .pill-dot { width: 6px; height: 6px; border-radius: 50%; background: #14b8a6; }
 .pis-callout { margin-top: 12px; padding: 10px 14px; background: rgba(255,255,255,0.65); border-left: 3px solid #14b8a6; border-radius: 8px; font-size: 12.5px; font-style: italic; color: #115e59; line-height: 1.55; }
-@media (max-width: 720px) { .page-info-strip { padding: 0 18px; } }
+
+/* Below the 1200px rail, restore side gutters so content doesn't touch edges. */
+@media (max-width: 1280px) {
+  .page-hero__inner,
+  .page-footer__inner,
+  .page-info-strip,
+  .page-wrap { padding-left: 40px; padding-right: 40px; }
+}
+@media (max-width: 720px) {
+  .page-hero__inner,
+  .page-footer__inner,
+  .page-info-strip,
+  .page-wrap { padding-left: 18px; padding-right: 18px; }
+}
 
 /* base.css turns body into a flex column when a .page-footer is a direct
    child — force direct children to stretch so their max-width clamps apply
@@ -34,8 +60,6 @@
 body:has(> .page-footer) > .page-hero,
 body:has(> .page-footer) > .page-info-strip,
 body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
-
-.page-wrap { max-width: 1080px; margin: 0 auto; padding: 28px 32px 80px; }
 .toolbar {
   display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
   margin-bottom: 18px;

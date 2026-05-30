@@ -558,6 +558,12 @@
      when gating hides one or more columns. */
   .th-dd-panel--wide  .th-dd-col-group:not(.has-hidden)  { min-width: 820px; }
   .th-dd-panel--xwide .th-dd-col-group:not(.has-hidden)  { min-width: 980px; }
+  /* Tight 2-column panel (Performance + P.D.): no forced min-width floor so
+     the columns size to their content instead of stretching to 820px. Each
+     column sizes to content with a comfortable cap (2026-05-30 — "daralt"). */
+  .th-dd-panel--tight2 { left: 0; right: auto; max-width: 95vw; }
+  .th-dd-panel--tight2 .th-dd-col-group { min-width: 0; }
+  .th-dd-panel--tight2 .th-dd-col { flex: 0 1 auto; min-width: 210px; max-width: 260px; }
   .th-dd-col-group { display: flex; gap: 0; }
   .th-dd-col { flex: 1; min-width: 200px; }
   /* When some columns are hidden, surviving columns size to content. */
@@ -918,7 +924,7 @@
         P.D.
         <svg class="th-dd-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
-      <div class="th-dd-panel th-dd-panel--wide" id="thDdPanel-pd">
+      <div class="th-dd-panel th-dd-panel--tight2" id="thDdPanel-pd">
         <div class="th-dd-col-group">
           <!-- Column 1 — Handbooks + Policy & AI
                (KPI + Appraisal + Competency sections moved to the Admin dropdown 2026-05-27) -->
@@ -1015,7 +1021,7 @@
         Performance
         <svg class="th-dd-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
-      <div class="th-dd-panel th-dd-panel--wide" id="thDdPanel-admin">
+      <div class="th-dd-panel th-dd-panel--tight2" id="thDdPanel-admin">
         <div class="th-dd-col-group">
           <!-- Column 1 — Careers (TH-native only; cross-hub HQ/School deeplinks removed 2026-05-29) -->
           <div class="th-dd-col">
