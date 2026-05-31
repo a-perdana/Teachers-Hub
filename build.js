@@ -26,7 +26,7 @@ const A11Y_WRAPPER_PATTERNS = [
 ];
 function injectA11y(html, fileBase) {
   if (A11Y_SKIP_FILES.has(fileBase)) return html;
-  if (/class="skip-link"/.test(html) || /id="main-content"/.test(html)) return html;
+  if (/class="skip-link"/.test(html)) return html;
   const SKIP = '<a class="skip-link" href="#main-content">Skip to main content</a>\n';
   const LANDMARK = ' id="main-content" role="main" tabindex="-1"';
   let out = html.replace(/(<body\b[^>]*>)/, `$1\n${SKIP}`);
@@ -892,6 +892,17 @@ function processFile(filename) {
     }
   }
 
+  // A11Y (WCAG 2.1.1 Keyboard): inject keyboard-enabler.js on every page —
+  // global Enter/Space -> click for role="button" non-native elements. Defer.
+  if (!/<script\s[^>]*src=["']\/?keyboard-enabler\.js["']/.test(html)) {
+    const kClose = html.lastIndexOf('</body>');
+    if (kClose >= 0) {
+      html = html.slice(0, kClose)
+        + '<script src="/keyboard-enabler.js" defer></script>\n'
+        + html.slice(kClose);
+    }
+  }
+
   // Determine output path
   const slug = ROUTES[filename];
   let outPath;
@@ -1186,3 +1197,9 @@ if (fs.existsSync(interactiveSrcDir)) {
 }
 
 console.log('Build completed successfully!');
+
+// -- Copy keyboard-enabler.js (A11Y WCAG 2.1.1 — build-injected per page)
+if (fs.existsSync(path.join(__dirname, 'keyboard-enabler.js'))) {
+  fs.copyFileSync(path.join(__dirname, 'keyboard-enabler.js'), path.join(distDir, 'keyboard-enabler.js'));
+  console.log('Copied: keyboard-enabler.js');
+}
