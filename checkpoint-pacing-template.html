@@ -1383,14 +1383,14 @@ function toggleDone(ci, ti) {
   const next = cur==='pending'?'inprogress':cur==='inprogress'?'done':'pending';
   DATA[ci].topics[ti].status = next;
   saveState(); render();
-  showToast(statusToastMsg(DATA[ci].topics[ti].name, next), next === 'done' ? 'success' : '');
+  showToast(_topicStatusToast(DATA[ci].topics[ti].name, next), next === 'done' ? 'success' : '');
 }
 
 function setStatus(ci, ti, val) {
   if (currentClass === 'default') { showToast('Select a class first to save progress', 'warn'); return; }
   DATA[ci].topics[ti].status = val;
   saveState(); render();
-  showToast(statusToastMsg(DATA[ci].topics[ti].name, val), val === 'done' ? 'success' : '');
+  showToast(_topicStatusToast(DATA[ci].topics[ti].name, val), val === 'done' ? 'success' : '');
 }
 
 function setChapterStatus(ci, val) {
@@ -1398,7 +1398,21 @@ function setChapterStatus(ci, val) {
   const ch = DATA[ci]; if (!ch || !Array.isArray(ch.topics)) return;
   ch.topics.forEach(t => { t.status = val; });
   saveState(); render();
-  showToast(chapterStatusToastMsg(ch.topics.length, val), val === 'done' ? 'success' : '');
+  showToast(_chapterStatusToast(ch.topics.length, val), val === 'done' ? 'success' : '');
+}
+
+// Inline toast-message helpers — kept in-page (not pacing-shared.js) so a cached
+// copy of that shared file can never leave these calls referencing an undefined fn.
+function _statusLabel(s) {
+  return ({ pending: 'Pending', inprogress: 'In Progress', done: 'Done', revisit: 'Revisit' })[s] || s;
+}
+function _topicStatusToast(name, status) {
+  var label = (name || 'Topic').trim();
+  if (label.length > 42) label = label.slice(0, 40).trim() + '…';
+  return '“' + label + '” → ' + _statusLabel(status);
+}
+function _chapterStatusToast(count, status) {
+  return 'All ' + count + ' topic' + (count === 1 ? '' : 's') + ' marked ' + _statusLabel(status);
 }
 
 function saveEdit(el, ci, ti, field) {

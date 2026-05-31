@@ -1487,7 +1487,7 @@ function toggleDone(ci, ti) {
     document.querySelectorAll('[data-status]').forEach(c => c.classList.toggle('on', c.dataset.status === 'all'));
   }
   saveState(); render();
-  showToast(statusToastMsg(DATA[ci].topics[ti].name, next), next === 'done' ? 'success' : '');
+  showToast(_topicStatusToast(DATA[ci].topics[ti].name, next), next === 'done' ? 'success' : '');
 }
 
 function bulkMarkDone(ci) {
@@ -1517,7 +1517,7 @@ function setStatus(ci, ti, val) {
     document.querySelectorAll('[data-status]').forEach(c => c.classList.toggle('on', c.dataset.status === 'all'));
   }
   saveState(); render();
-  showToast(statusToastMsg(DATA[ci].topics[ti].name, val), val === 'done' ? 'success' : '');
+  showToast(_topicStatusToast(DATA[ci].topics[ti].name, val), val === 'done' ? 'success' : '');
 }
 
 function setChapterStatus(ci, val) {
@@ -1532,7 +1532,21 @@ function setChapterStatus(ci, val) {
     document.querySelectorAll('[data-status]').forEach(c => c.classList.toggle('on', c.dataset.status === 'all'));
   }
   saveState(); render();
-  showToast(chapterStatusToastMsg(ch.topics.length, val), val === 'done' ? 'success' : '');
+  showToast(_chapterStatusToast(ch.topics.length, val), val === 'done' ? 'success' : '');
+}
+
+// Inline toast-message helpers — kept in-page (not pacing-shared.js) so a cached
+// copy of that shared file can never leave these calls referencing an undefined fn.
+function _statusLabel(s) {
+  return ({ pending: 'Pending', inprogress: 'In Progress', done: 'Done', revisit: 'Revisit' })[s] || s;
+}
+function _topicStatusToast(name, status) {
+  var label = (name || 'Topic').trim();
+  if (label.length > 42) label = label.slice(0, 40).trim() + '…';
+  return '“' + label + '” → ' + _statusLabel(status);
+}
+function _chapterStatusToast(count, status) {
+  return 'All ' + count + ' topic' + (count === 1 ? '' : 's') + ' marked ' + _statusLabel(status);
 }
 
 
