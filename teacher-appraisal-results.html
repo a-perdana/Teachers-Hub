@@ -640,13 +640,18 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
 
   const db = window.db;
 
-  // Populate year selector
-  const currentYear = new Date().getFullYear();
+  // Populate year selector. teacher_appraisals / teacher_walkthroughs use the
+  // slash format `2025/2026`. Current year comes from calendar_settings/current
+  // (single source of truth via auth-guard); older years stay selectable.
+  const curLabel = (window.getCurrentAcademicYear && window.getCurrentAcademicYear())
+    || (() => { const n = new Date(), yy = n.getFullYear(); return n.getMonth() >= 6 ? `${yy}-${yy+1}` : `${yy-1}-${yy}`; })();
+  const startY = Number(curLabel.slice(0, 4));
   const yearSelect = document.getElementById('yearSelect');
-  for (let y = currentYear; y >= currentYear - 4; y--) {
+  for (let y = startY; y >= startY - 4; y--) {
     const opt = document.createElement('option');
     opt.value = `${y}/${y+1}`;
     opt.textContent = `${y}/${y+1}`;
+    if (y === startY) opt.selected = true;
     yearSelect.appendChild(opt);
   }
 

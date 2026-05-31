@@ -258,7 +258,7 @@ body:has(> .page-footer) > .page-wrap {
 
   <div id="statusBanner" class="status-banner draft" style="display:none;">
     <div class="status-banner-left" id="statusLeft">Status: Draft</div>
-    <div class="status-banner-right" id="statusRight">Academic year 2026-2027</div>
+    <div class="status-banner-right" id="statusRight">Academic year</div>
   </div>
 
   <div class="intro-card">
@@ -362,7 +362,7 @@ const RATING_LABELS = { not_yet: 'Not Yet', developing: 'Developing', achieved: 
 let state = {
   userId: null,
   userProfile: null,
-  academicYear: '2026-2027',  // TODO: read from calendar_settings/current
+  academicYear: '',  // set from calendar_settings/current in authReady (single source of truth)
   docId: null,
   doc: null,
   ratings: {},  // ratings[level][domain] = 'achieved' | 'developing' | 'not_yet'
@@ -398,6 +398,10 @@ document.addEventListener('authReady', async (e) => {
   const doBadgeSetup = () => { if (typeof setupNavBadges === 'function') setupNavBadges(window.db, { onSnapshot, collection }); };
   if (document.getElementById('msgBoardBadge')) { doBadgeSetup(); }
   else { window._pendingBadgeSetup = doBadgeSetup; }
+  // Academic year from the single source of truth (calendar_settings/current),
+  // with a date heuristic as a last-resort fallback so the doc ID never collapses.
+  state.academicYear = (window.getCurrentAcademicYear && window.getCurrentAcademicYear())
+    || (() => { const n = new Date(), y = n.getFullYear(); return n.getMonth() >= 6 ? `${y}-${y+1}` : `${y-1}-${y}`; })();
   state.docId = `${state.userId}_${state.academicYear}`;
   await loadOrInitDoc();
   buildMatrix();

@@ -128,6 +128,32 @@ window.storage     = storage;
 // Expose Firestore helpers for navbar.js initTeachingProfile (set early; navbar.js picks them up after authReady)
 window.__firestoreHelpers = { db, setDoc, doc };
 
+// ── Academic year — single source of truth ────────────────────────
+// Derives the "YYYY-YYYY" label from `calendar_settings/current.academicYearStart`
+// (an ISO date; Jul–Jun fiscal year). NEVER hardcode or date-guess the academic
+// year in a page — call window.getCurrentAcademicYear() (sync, cached) or await
+// window.academicYearReady (resolves to the label once the doc has loaded).
+// The label is also attached to the authReady event detail as `academicYear`.
+function _academicYearLabelFromIso(iso) {
+  if (!iso || !/^\d{4}-\d{2}-\d{2}/.test(iso)) return '';
+  const y = Number(iso.slice(0, 4));
+  const m = Number(iso.slice(5, 7));
+  // Start in second half (Jul–Dec) → Y/Y+1; first half (Jan–Jun) → Y-1/Y.
+  return m >= 7 ? `${y}-${y + 1}` : `${y - 1}-${y}`;
+}
+let _academicYearLabel = '';
+window.getCurrentAcademicYear = () => _academicYearLabel;
+window.academicYearReady = (async () => {
+  try {
+    const snap = await getDoc(doc(db, 'calendar_settings', 'current'));
+    const iso = (snap.exists() && snap.data().academicYearStart) || '';
+    _academicYearLabel = _academicYearLabelFromIso(iso);
+  } catch (e) {
+    console.warn('academicYearReady: calendar_settings/current load failed', e);
+  }
+  return _academicYearLabel;
+})();
+
 // ── Page-access helpers ──────────────────────────────────────────
 // Pages that never get gated (auth flow + dashboard itself).
 // settings is reachable from the profile dropdown only (not the main
@@ -1275,14 +1301,15 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   // 7. Show page and notify
+  await window.academicYearReady;
   document.body.style.visibility = 'visible';
   // Store detail so late listeners can read window.__authReadyDetail if the event already fired
-  window.__authReadyDetail = { user, profile };
+  window.__authReadyDetail = { user, profile, academicYear: _academicYearLabel };
   // setTimeout(0) ensures page module scripts have registered their authReady listeners
   // before dispatch (ES modules execute in declaration order but auth-guard is in <head>)
   setTimeout(() => {
     document.dispatchEvent(new CustomEvent('authReady', {
-      detail: { user, profile },
+      detail: { user, profile, academicYear: _academicYearLabel },
     }));
   }, 0);
 });

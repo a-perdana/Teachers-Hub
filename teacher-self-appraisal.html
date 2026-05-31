@@ -542,7 +542,12 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
 });
 
 // ── Helpers ──────────────────────────────────────────────
+// Single source of truth: calendar_settings/current (via auth-guard's
+// window.getCurrentAcademicYear()). Falls back to a date heuristic only if the
+// calendar doc failed to load, so doc IDs never collapse to `${uid}_`.
 function currentAcademicYear() {
+  const fromCalendar = window.getCurrentAcademicYear && window.getCurrentAcademicYear();
+  if (fromCalendar) return fromCalendar;
   const now = new Date();
   const y = now.getFullYear();
   return now.getMonth() >= 6 ? `${y}-${y+1}` : `${y-1}-${y}`;
