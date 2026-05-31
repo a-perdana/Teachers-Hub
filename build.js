@@ -7,6 +7,44 @@ if (!fs.existsSync(distDir)) {
   fs.mkdirSync(distDir, { recursive: true });
 }
 
+// -- A11Y injection helper (WCAG 2.2 AA, 2026-05-31) -----------------------
+//    Byte-identical across CH / AH / TH (keep in sync — same manual-sync
+//    discipline as the a11y.css block). Adds skip-link (2.4.1 Bypass Blocks)
+//    + #main-content landmark attributes (1.3.1). Attributes only — never a
+//    new <main> element (would break body:has(> .page-footer), Mistake #54).
+//    Idempotent. Skips auth-flow pages (login) with no main content.
+const A11Y_SKIP_FILES = new Set(["login.html"]);
+const A11Y_WRAPPER_PATTERNS = [
+  /<header class="page-hero"/,
+  /<main\b(?![^>]*\bid=)/,
+  /<section class="page-info-strip"/,
+  /<div class="page-wrap"/,
+  /<div class="main-content"/,
+  /<div class="page-layout"/,
+  /<div id="mainContent"/,
+  /<div id="navbar-container"><\/div>/
+];
+function injectA11y(html, fileBase) {
+  if (A11Y_SKIP_FILES.has(fileBase)) return html;
+  if (/class="skip-link"/.test(html) || /id="main-content"/.test(html)) return html;
+  const SKIP = '<a class="skip-link" href="#main-content">Skip to main content</a>\n';
+  const LANDMARK = ' id="main-content" role="main" tabindex="-1"';
+  let out = html.replace(/(<body\b[^>]*>)/, `$1\n${SKIP}`);
+  let landmarkPlaced = false;
+  for (const pat of A11Y_WRAPPER_PATTERNS) {
+    const m = out.match(pat);
+    if (!m) continue;
+    if (pat.source.includes("navbar-container")) break;
+    out = out.replace(m[0], m[0] + LANDMARK);
+    landmarkPlaced = true;
+    break;
+  }
+  if (!landmarkPlaced) {
+    out = out.replace(SKIP, SKIP + '<span id="main-content" tabindex="-1"></span>\n');
+  }
+  return out;
+}
+
 // Environment variables to replace
 const envVars = [
   'FIREBASE_API_KEY',
@@ -819,6 +857,9 @@ function processFile(filename) {
   html = html.replace(/href="partials\/pacing-tracker-core\.css"/g, 'href="/partials/pacing-tracker-core.css"');
   html = html.replace(/href="partials\/pacing-page\.css"/g, 'href="/partials/pacing-page.css"');
   html = html.replace(/fetch\('partials\/navbar\.html'\)/g, "fetch('/partials/navbar.html')");
+
+  // A11Y (WCAG 2.2 AA): skip-link + #main-content landmark (TH navbar mounts client-side; skip-link injected after <body>).
+  html = injectA11y(html, filename);
 
   // Rewrite internal .html links to clean URLs
   LINK_REWRITES.forEach(([pattern, replacement]) => {
