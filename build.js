@@ -1191,8 +1191,40 @@ if (fs.existsSync(interactiveSrcDir)) {
     fs.mkdirSync(interactiveDistDir, { recursive: true });
   }
   fs.readdirSync(interactiveSrcDir).forEach(file => {
-    fs.copyFileSync(path.join(interactiveSrcDir, file), path.join(interactiveDistDir, file));
-    console.log(`Copied: dist/interactive/${file}`);
+    const srcPath = path.join(interactiveSrcDir, file);
+    const dstPath = path.join(interactiveDistDir, file);
+    // A11Y (WCAG 2.1.1/2.4.1/2.4.7): standalone lab tools are copied raw (no
+    // navbar/base.css), so inject a self-contained a11y bundle — skip-link +
+    // #main-content landmark + minimal focus-visible/.skip-link style +
+    // keyboard-enabler. Only for .html; other assets copied verbatim.
+    if (file.toLowerCase().endsWith('.html')) {
+      let html = fs.readFileSync(srcPath, 'utf8');
+      html = injectA11y(html, file);
+      // inline a11y styles (these pages don't load base.css)
+      if (!html.includes('/* a11y-inline */')) {
+        const style = '<style>/* a11y-inline */\n'
+          + '*:focus-visible{outline:2px solid #6c5ce7 !important;outline-offset:2px;border-radius:2px}\n'
+          + ':focus:not(:focus-visible){outline:none}\n'
+          + '.skip-link{position:absolute;top:0;left:0;transform:translateY(-120%);z-index:100000;margin:8px;padding:10px 16px;background:#6c5ce7;color:#fff;font:600 0.95rem/1 system-ui,sans-serif;text-decoration:none;border-radius:8px}\n'
+          + '.skip-link:focus{transform:translateY(0)}\n'
+          + '#main-content:focus{outline:none !important}\n'
+          + '</style>\n';
+        if (html.includes('</head>')) html = html.replace('</head>', style + '</head>');
+        else html = style + html;
+      }
+      // keyboard-enabler (copied to dist/interactive/ below as a sibling)
+      if (!/<script\s[^>]*src=["'][^"']*keyboard-enabler\.js["']/.test(html)) {
+        const close = html.lastIndexOf('</body>');
+        const tag = '<script src="/keyboard-enabler.js" defer></script>\n';
+        if (close >= 0) html = html.slice(0, close) + tag + html.slice(close);
+        else html += tag;
+      }
+      fs.writeFileSync(dstPath, html);
+      console.log(`Copied (a11y): dist/interactive/${file}`);
+    } else {
+      fs.copyFileSync(srcPath, dstPath);
+      console.log(`Copied: dist/interactive/${file}`);
+    }
   });
 }
 
