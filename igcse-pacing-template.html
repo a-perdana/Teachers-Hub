@@ -184,7 +184,7 @@
 </div>
 
 <!-- -- OBJECTIVES MODAL -------------------------- -->
-<div class="modal-bg" id="objModal" onclick="closeObjModal(event)">
+<div role="button" tabindex="0" class="modal-bg" id="objModal" onclick="closeObjModal(event)">
   <div class="modal" style="max-width:820px;width:92vw">
     <div class="modal-head">
       <div class="modal-head-text">
@@ -208,7 +208,7 @@
 </div>
 
 <!-- -- SYLLABUS DETAIL MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
-<div class="modal-bg" id="syllabusDetailModal" onclick="if(event.target===this)closeSyllabusDetail()">
+<div role="button" tabindex="0" class="modal-bg" id="syllabusDetailModal" onclick="if(event.target===this)closeSyllabusDetail()">
   <div class="modal" style="max-width:860px;width:92vw">
     <div class="modal-head">
       <h3 style="font-size:.875rem;font-weight:600;color:var(--ink)">Syllabus Reference</h3>
@@ -645,7 +645,7 @@ function renderNav() {
   const groupHtml = (label, items, key) => {
     const collapsed = localStorage.getItem(`navg_${_pacingPrefix}_${key}`) === '1';
     return `<div class="ch-nav-group${collapsed ? ' collapsed' : ''}" data-navg="${key}">
-      <div class="ch-nav-group-label" onclick="toggleNavGroup('${key}')">
+      <div role="button" tabindex="0" class="ch-nav-group-label" onclick="toggleNavGroup('${key}')">
         <span class="ch-nav-caret" aria-hidden="true">â–¾</span>${label}
       </div>
       ${items}
@@ -769,7 +769,7 @@ function renderPacing() {
           <span class="ch-pct">${pct}%</span>
           <span class="ch-topic-count">${ch.topics.length} topics</span>
         </div>
-        <div class="ch-bulk-pill" onclick="event.stopPropagation()" title="Set status for all topics in this chapter">
+        <div role="button" tabindex="0" class="ch-bulk-pill" onclick="event.stopPropagation()" title="Set status for all topics in this chapter">
           <button class="sp-btn sp-pending"    onclick="setChapterStatus(${ci},'pending')">Pending</button>
           <button class="sp-btn sp-inprogress" onclick="setChapterStatus(${ci},'inprogress')">In Progress</button>
           <button class="sp-btn sp-done"       onclick="setChapterStatus(${ci},'done')">Done</button>
@@ -1422,7 +1422,7 @@ function renderDiagRollup() {
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:6px">
           ${topics.map(t => `
-            <span onclick="scrollToChapter(${ci})" style="cursor:pointer;font-size:.72rem;padding:3px 10px;border-radius:100px;background:${accentBg};border:1px solid ${accentColor};color:${accentColor};display:inline-flex;align-items:center;gap:4px" title="${escHtml(t.topic)}">
+            <span role="button" tabindex="0" onclick="scrollToChapter(${ci})" style="cursor:pointer;font-size:.72rem;padding:3px 10px;border-radius:100px;background:${accentBg};border:1px solid ${accentColor};color:${accentColor};display:inline-flex;align-items:center;gap:4px" title="${escHtml(t.topic)}">
               ${icon} ${escHtml(t.topic.substring(0, 40))}${t.topic.length > 40 ? 'â€¦' : ''}
             </span>
           `).join('')}
@@ -2051,7 +2051,7 @@ function showObj(ci, ti) {
 
       return `<div class="obj-syl-section">
         <div class="obj-syl-header">
-          <span class="srl-code" onclick="openSyllabusDetail('${escHtml(key)}')" title="View full detail">${escHtml(code)}</span>
+          <span role="button" tabindex="0" class="srl-code" onclick="openSyllabusDetail('${escHtml(key)}')" title="View full detail">${escHtml(code)}</span>
           ${tierBadgeHtml(entry?.tier)}
           ${topicText ? `<span class="srl-topic">${topicText}</span>` : ''}
           ${titleText ? `<span class="obj-syl-title">${titleText}</span>` : ''}

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Teacher Orientation — Eduversal Teachers Hub</title>
+  <title>Teacher Orientation â€” Eduversal Teachers Hub</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23331e05'/><polygon points='10,45 50,65 50,70 10,50' fill='%23a8650a'/><polygon points='90,45 50,65 50,70 90,50' fill='%23c2780c'/><polygon points='50,25 90,45 50,65 10,45' fill='%23d97706'/><circle cx='76' cy='76' r='20' fill='%23d97706' stroke='%23331e05' stroke-width='3'/><text x='76' y='84' font-family='Georgia,serif' font-size='26' font-weight='bold' text-anchor='middle' fill='white'>T</text></svg>">
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -45,7 +45,7 @@
       line-height: 1.6;
     }
 
-    /* ── CONTACT ── */
+    /* â”€â”€ CONTACT â”€â”€ */
     .contact-section {
       max-width: 780px;
       margin: 0 auto 48px;
@@ -105,7 +105,7 @@
       color: var(--brand);
     }
 
-    /* ── QUESTION NOTE ── */
+    /* â”€â”€ QUESTION NOTE â”€â”€ */
     .q-note-wrap { margin-top: 14px; }
     .q-note-toggle {
       background: none;
@@ -136,7 +136,7 @@
     .q-note-input.open { display: block; }
     .q-note-input:focus { outline: none; border-color: var(--brand); }
 
-    /* ── PHOTO UPLOAD ── */
+    /* â”€â”€ PHOTO UPLOAD â”€â”€ */
     .photo-upload-wrap {
       display: flex;
       gap: 18px;
@@ -181,10 +181,10 @@
     .photo-status-ok  { color: var(--green); }
     .photo-status-err { color: var(--red); }
 
-    /* Footer adopts the canonical .page-footer (My Work family) — see base.css */
+    /* Footer adopts the canonical .page-footer (My Work family) â€” see base.css */
 
-    /* ── CANONICAL CHROME (self-contained) ──────────────────────────
-       orientation.html is a standalone pre-login page — it does NOT load
+    /* â”€â”€ CANONICAL CHROME (self-contained) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+       orientation.html is a standalone pre-login page â€” it does NOT load
        base.css / tokens.css. So the canonical .page-hero + .page-footer
        (My Work dark family) are defined inline here, mirroring the shared
        definitions in Teachers Hub/base.css. Values match --hero-grad-dark. */
@@ -253,8 +253,8 @@
       .page-footer__nav { grid-template-columns: 1fr; }
     }
 
-    /* ── HERO ── */
-    /* orientation runs pre-login with NO navbar — the canonical .page-hero
+    /* â”€â”€ HERO â”€â”€ */
+    /* orientation runs pre-login with NO navbar â€” the canonical .page-hero
        shell adopts the My Work dark family; this page keeps a centred reading
        column (no KPI tiles) + its logo lockup + badge inside the hero text. */
     .page-hero__inner { text-align: center; justify-content: center; }
@@ -296,7 +296,7 @@
       letter-spacing: .8px;
       text-transform: uppercase;
     }
-    /* ── TABS ── */
+    /* â”€â”€ TABS â”€â”€ */
     .tabs-wrap {
       background: var(--white);
       border-bottom: 1px solid var(--border);
@@ -335,7 +335,7 @@
     }
     .tab-btn:hover:not(.on) { color: var(--ink-2); }
 
-    /* ── LAYOUT ── */
+    /* â”€â”€ LAYOUT â”€â”€ */
     /* Orientation keeps a centred 860px reading column (quiz/reading flow).
        Hero inner + footer inner clamp to the same column so all rails align. */
     .page-hero__inner,
@@ -353,7 +353,7 @@
     .section { display: none; }
     .section.on { display: block; }
 
-    /* base.css `body:has(> .page-footer)` makes body a flex column — force
+    /* base.css `body:has(> .page-footer)` makes body a flex column â€” force
        direct children to stretch so their clamp takes effect. */
     body:has(> .page-footer) > .page-hero,
     body:has(> .page-footer) > .tabs-wrap,
@@ -362,10 +362,10 @@
       align-self: stretch;
     }
 
-    /* My Work footer CTA — mor accent (matches dark hero family) */
+    /* My Work footer CTA â€” mor accent (matches dark hero family) */
     .page-footer__cta-btn { background: linear-gradient(135deg, #7c3aed 0%, #5a4bd1 100%); }
 
-    /* ── CARDS ── */
+    /* â”€â”€ CARDS â”€â”€ */
     .card {
       background: var(--white);
       border: 1px solid var(--border);
@@ -386,7 +386,7 @@
       margin-bottom: 16px;
     }
 
-    /* ── RESOURCE CARDS ── */
+    /* â”€â”€ RESOURCE CARDS â”€â”€ */
     .res-card {
       display: flex;
       align-items: flex-start;
@@ -451,7 +451,7 @@
       .res-thumb { width: 72px; height: 50px; }
     }
 
-    /* ── COMPETENCY QUIZ ── */
+    /* â”€â”€ COMPETENCY QUIZ â”€â”€ */
     .quiz-intro {
       background: var(--brand-2);
       border: 1px solid rgba(108,92,231,.2);
@@ -616,7 +616,7 @@
     .q-option input[type="radio"] { margin-top: 2px; accent-color: var(--brand); flex-shrink: 0; }
     .q-option.selected { border-color: var(--brand); background: var(--brand-2); }
 
-    /* ── FORM ── */
+    /* â”€â”€ FORM â”€â”€ */
     .form-card {
       background: var(--white);
       border: 1px solid var(--border);
@@ -672,7 +672,7 @@
     }
     .form-err.on { display: block; }
 
-    /* ── SUBMIT STATE ── */
+    /* â”€â”€ SUBMIT STATE â”€â”€ */
     .submit-state {
       text-align: center;
       padding: 48px 24px;
@@ -690,7 +690,7 @@
     .submit-state h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
     .submit-state p  { font-size: 15px; color: var(--ink-2); max-width: 400px; margin: 0 auto; }
 
-    /* ── BUTTONS ── */
+    /* â”€â”€ BUTTONS â”€â”€ */
     .btn {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 10px 20px;
@@ -708,7 +708,7 @@
     }
     .btn-ghost:hover { border-color: var(--ink-3); }
 
-    /* ── PROGRESS BAR ── */
+    /* â”€â”€ PROGRESS BAR â”€â”€ */
     .quiz-progress {
       background: var(--paper-2);
       border-radius: 20px;
@@ -727,7 +727,7 @@
       margin-bottom: 8px;
     }
 
-    /* ── EMPTY / LOADING ── */
+    /* â”€â”€ EMPTY / LOADING â”€â”€ */
     .empty-state {
       text-align: center;
       padding: 48px 24px;
@@ -747,7 +747,7 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── QUIZ ACTIONS ── */
+    /* â”€â”€ QUIZ ACTIONS â”€â”€ */
     .quiz-actions {
       display: flex;
       align-items: center;
@@ -765,7 +765,7 @@
 </head>
 <body data-page-accent="dark">
 
-<!-- HERO — canonical My Work family (page runs pre-login, no navbar) -->
+<!-- HERO â€” canonical My Work family (page runs pre-login, no navbar) -->
 <header class="page-hero" data-accent="dark">
   <div class="page-hero__inner">
     <div class="page-hero__text">
@@ -778,7 +778,7 @@
         <div class="hero-badge">New Teacher Orientation</div>
       </div>
       <h1 class="page-hero__title">Welcome to the Eduversal Network</h1>
-      <p class="page-hero__desc">Everything you need to get started as a partner school teacher — handbooks, resources, and a quick competency check.</p>
+      <p class="page-hero__desc">Everything you need to get started as a partner school teacher â€” handbooks, resources, and a quick competency check.</p>
     </div>
   </div>
 </header>
@@ -787,13 +787,13 @@
 <div class="tabs-wrap">
   <div class="tabs">
     <button class="tab-btn on" data-tab="resources" onclick="switchTab('resources')">
-      <span>📚</span> Resources
+      <span>ðŸ“š</span> Resources
     </button>
     <button class="tab-btn" data-tab="competency" onclick="switchTab('competency')">
-      <span>✅</span> Competency Check
+      <span>âœ…</span> Competency Check
     </button>
     <button class="tab-btn" data-tab="register" onclick="switchTab('register')">
-      <span>📋</span> Register
+      <span>ðŸ“‹</span> Register
     </button>
   </div>
 </div>
@@ -801,7 +801,7 @@
 <!-- CONTENT -->
 <div class="page-wrap">
 
-  <!-- ── RESOURCES TAB ── -->
+  <!-- â”€â”€ RESOURCES TAB â”€â”€ -->
   <div id="tab-resources" class="section on">
     <p class="section-title">Handbooks</p>
     <div id="handbooks-list">
@@ -819,26 +819,26 @@
     </div>
   </div>
 
-  <!-- ── COMPETENCY TAB ── -->
+  <!-- â”€â”€ COMPETENCY TAB â”€â”€ -->
   <div id="tab-competency" class="section">
     <div class="quiz-intro">
-      <div class="quiz-intro-icon">🎯</div>
+      <div class="quiz-intro-icon">ðŸŽ¯</div>
       <div class="quiz-intro-text">
         <h3>Basic Competency Check</h3>
-        <p>Answer all questions honestly — there are no right or wrong answers. This helps us understand where you are and how we can best support you.</p>
+        <p>Answer all questions honestly â€” there are no right or wrong answers. This helps us understand where you are and how we can best support you.</p>
       </div>
     </div>
 
     <div id="quiz-loading" class="spinner-wrap"><div class="spinner"></div></div>
     <div id="quiz-empty" class="empty-state" style="display:none;">
-      <div class="empty-state-icon">📝</div>
+      <div class="empty-state-icon">ðŸ“</div>
       <p>No questions have been added yet. Check back soon.</p>
     </div>
     <div id="quiz-content" style="display:none;">
       <!-- Cambridge framework banner: explains the anchor system, only
            visible when at least one question carries a CTS ref. -->
       <div class="cts-banner" id="cts-banner" style="display:none;">
-        <div class="cts-banner-icon">🎓</div>
+        <div class="cts-banner-icon">ðŸŽ“</div>
         <div class="cts-banner-text">
           <h4>Anchored to Cambridge Teacher Standards (2023)</h4>
           <p>Each tagged question maps to one of the 27 standards Cambridge expects of every teacher across its 5 domains. Click any <strong>CTS</strong> chip to see the standard's full text. After registration you'll be able to browse all 27 standards and see how they connect to KPI, Appraisal and Competency.</p>
@@ -854,17 +854,17 @@
       <div class="quiz-actions">
         <span class="quiz-unanswered" id="quiz-unanswered">Please answer all questions before continuing.</span>
         <div style="flex:1"></div>
-        <button class="btn btn-primary" onclick="goToRegister()">Continue to Register →</button>
+        <button class="btn btn-primary" onclick="goToRegister()">Continue to Register â†’</button>
       </div>
     </div>
   </div>
 
-  <!-- ── REGISTER TAB ── -->
+  <!-- â”€â”€ REGISTER TAB â”€â”€ -->
   <div id="tab-register" class="section">
 
     <!-- Success state -->
     <div class="submit-state" id="submit-success">
-      <div class="submit-icon">✅</div>
+      <div class="submit-icon">âœ…</div>
       <h2>Registration Submitted!</h2>
       <p>Thank you! We've received your registration. Our team will review your details and reach out to you via email within 2 business days. Welcome to the Eduversal network.</p>
     </div>
@@ -919,7 +919,7 @@
               Cambridge AS / A-Level
             </label>
           </div>
-          <input class="form-input" id="r-level-other" type="text" placeholder="Other (e.g. Olympiad courses, IB, National curriculum…)" />
+          <input class="form-input" id="r-level-other" type="text" placeholder="Other (e.g. Olympiad courses, IB, National curriculumâ€¦)" />
           <p class="form-hint">Tick all that apply, or describe your programme below.</p>
         </div>
       </div>
@@ -938,31 +938,31 @@
             </div>
             <div class="photo-upload-controls">
               <label class="btn btn-ghost photo-upload-btn" for="r-photo-file">
-                📷 Upload Photo
+                ðŸ“· Upload Photo
                 <input type="file" id="r-photo-file" accept="image/*" style="display:none" onchange="handlePhotoFile(this)" />
               </label>
               <div class="photo-url-row">
-                <input class="form-input" id="r-photo-url" type="url" placeholder="Paste photo URL (LinkedIn, Google Drive…)" oninput="handlePhotoUrl(this.value)" />
+                <input class="form-input" id="r-photo-url" type="url" placeholder="Paste photo URL (LinkedIn, Google Driveâ€¦)" oninput="handlePhotoUrl(this.value)" />
               </div>
               <div id="photo-upload-status" class="photo-status"></div>
             </div>
           </div>
-          <p class="form-hint">Optional — a clear headshot is preferred. Max 5 MB.</p>
+          <p class="form-hint">Optional â€” a clear headshot is preferred. Max 5 MB.</p>
         </div>
 
         <div class="form-row">
           <label class="form-label" for="r-cv">CV / Resume Link <span class="req">*</span></label>
-          <input class="form-input" id="r-cv" type="url" placeholder="https://drive.google.com/…" />
+          <input class="form-input" id="r-cv" type="url" placeholder="https://drive.google.com/â€¦" />
           <p class="form-hint">Share a public Google Drive link to your CV.</p>
         </div>
         <div class="form-row">
           <label class="form-label" for="r-linkedin">LinkedIn Profile</label>
           <input class="form-input" id="r-linkedin" type="url" placeholder="https://linkedin.com/in/your-name" />
-          <p class="form-hint">Optional — helps us learn more about your background.</p>
+          <p class="form-hint">Optional â€” helps us learn more about your background.</p>
         </div>
         <div class="form-row">
           <label class="form-label">Familiarity with Cambridge Teacher Standards (2023)</label>
-          <p class="form-hint" style="margin:-4px 0 6px;">Honest self-rating. We use this to tailor your onboarding — there's no wrong answer.</p>
+          <p class="form-hint" style="margin:-4px 0 6px;">Honest self-rating. We use this to tailor your onboarding â€” there's no wrong answer.</p>
           <div class="likert" id="cambridge-familiarity">
             <label class="likert-opt" data-val="1" onclick="setFamiliarity(1)">
               <span class="likert-opt-num">1</span>
@@ -988,7 +988,7 @@
         </div>
         <div class="form-row" style="margin-bottom:0">
           <label class="form-label" for="r-note">Anything else you'd like us to know</label>
-          <textarea class="form-textarea" id="r-note" placeholder="Optional — teaching background, certifications, questions, etc."></textarea>
+          <textarea class="form-textarea" id="r-note" placeholder="Optional â€” teaching background, certifications, questions, etc."></textarea>
         </div>
       </div>
 
@@ -1001,20 +1001,20 @@
       </div>
     </div>
 
-    <!-- CONTACT — only visible in register tab -->
+    <!-- CONTACT â€” only visible in register tab -->
     <div class="contact-section" style="margin-top:48px;">
       <h2 class="contact-title">Need Help?</h2>
       <p class="contact-sub">After submitting your registration, our team will reach out to you via email within 2 business days. If you have any questions in the meantime, feel free to contact the relevant department directly.</p>
       <div class="contact-cards">
         <a class="contact-card" href="mailto:primary.edu@eduversal.org">
-          <div class="contact-card-icon">✉️</div>
+          <div class="contact-card-icon">âœ‰ï¸</div>
           <div class="contact-card-body">
             <div class="contact-card-label">Primary Department</div>
             <div class="contact-card-email">primary.edu@eduversal.org</div>
           </div>
         </a>
         <a class="contact-card" href="mailto:secondary.edu@eduversal.org">
-          <div class="contact-card-icon">✉️</div>
+          <div class="contact-card-icon">âœ‰ï¸</div>
           <div class="contact-card-body">
             <div class="contact-card-label">Secondary Department</div>
             <div class="contact-card-email">secondary.edu@eduversal.org</div>
@@ -1026,14 +1026,14 @@
 
 </div><!-- /page-wrap -->
 
-<!-- CANONICAL FOOTER — My Work family -->
+<!-- CANONICAL FOOTER â€” My Work family -->
 <footer class="page-footer" role="contentinfo">
   <div class="page-footer__inner">
     <div class="page-footer__cta">
-      <span class="page-footer__cta-eyebrow">Teachers Hub · Orientation</span>
+      <span class="page-footer__cta-eyebrow">Teachers Hub Â· Orientation</span>
       <h2 class="page-footer__cta-title">Ready to join the network?</h2>
       <p class="page-footer__cta-desc">Read the handbooks, take the quick competency check, then submit your registration via the Register tab. Our team reviews applications and responds within 2 business days.</p>
-      <a href="#tab-register" class="page-footer__cta-btn" onclick="switchTab('register')">Go to Register <span aria-hidden="true">→</span></a>
+      <a href="#tab-register" class="page-footer__cta-btn" onclick="switchTab('register')">Go to Register <span aria-hidden="true">â†’</span></a>
     </div>
     <nav class="page-footer__nav" aria-label="Orientation footer navigation">
       <div class="page-footer__nav-group">
@@ -1049,7 +1049,7 @@
     </nav>
   </div>
   <div class="page-footer__meta">
-    <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
+    <span class="page-footer__meta-left">Â© Eduversal Â· Teachers Hub</span>
     <span class="page-footer__meta-right">Empowering educators across our network.</span>
   </div>
 </footer>
@@ -1088,13 +1088,13 @@
   const db      = getFirestore(app);
   const storage = getStorage(app);
 
-  // ── RESOURCES ──────────────────────────────────────────────────────────────
+  // â”€â”€ RESOURCES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   const TYPE_META = {
-    handbook: { icon: '📘', label: 'Handbook', iconClass: 'handbook' },
-    video:    { icon: '▶️',  label: 'Video',    iconClass: 'video'    },
-    book:     { icon: '📗',  label: 'Book',     iconClass: 'book'     },
-    link:     { icon: '🔗',  label: 'Link',     iconClass: 'link'     },
+    handbook: { icon: 'ðŸ“˜', label: 'Handbook', iconClass: 'handbook' },
+    video:    { icon: 'â–¶ï¸',  label: 'Video',    iconClass: 'video'    },
+    book:     { icon: 'ðŸ“—',  label: 'Book',     iconClass: 'book'     },
+    link:     { icon: 'ðŸ”—',  label: 'Link',     iconClass: 'link'     },
   };
 
   function renderResCard(res) {
@@ -1126,12 +1126,12 @@
           ${res.description ? `<div class="res-desc">${escHtml(res.description)}</div>` : ''}
           <span class="res-badge ${meta.iconClass}">${meta.label}</span>
         </div>
-        <div class="res-arrow">›</div>
+        <div class="res-arrow">â€º</div>
       </a>`;
   }
 
   function emptyCard() {
-    return `<div class="empty-state"><div class="empty-state-icon">🗂️</div><p>Nothing here yet.</p></div>`;
+    return `<div class="empty-state"><div class="empty-state-icon">ðŸ—‚ï¸</div><p>Nothing here yet.</p></div>`;
   }
 
   async function loadResources() {
@@ -1160,17 +1160,17 @@
     }
   }
 
-  // ── QUIZ ───────────────────────────────────────────────────────────────────
+  // â”€â”€ QUIZ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   let questions  = [];
   let answers    = {}; // questionId -> { idx, text }
   let notes      = {}; // questionId -> string
-  // Cambridge Teacher Standards lookup ({"3.6": "use a range of …", …}).
+  // Cambridge Teacher Standards lookup ({"3.6": "use a range of â€¦", â€¦}).
   // Loaded from competency_framework/teachers (rule is read-open, no auth).
   // Used to render verbatim text inline when a learner clicks a CTS chip.
   let ctsLookup  = {};
 
-  // Domain meta — verbatim from Cambridge International (2023). Mirrored
+  // Domain meta â€” verbatim from Cambridge International (2023). Mirrored
   // in cambridge-standards.html; kept here so this page remains self-
   // contained and works without any login.
   const TH_DOMAIN_META = {
@@ -1209,7 +1209,7 @@
     }
   }
 
-  // Pull domain id from a CTS ref like "3.6" → "3". Falls back to 5 if
+  // Pull domain id from a CTS ref like "3.6" â†’ "3". Falls back to 5 if
   // we can't parse (so unknown refs still render in some bucket).
   function domainOfRef(ref) {
     const d = String(ref || '').split('.')[0];
@@ -1227,7 +1227,7 @@
     list.innerHTML = questions.map((q, i) => {
       const refs = Array.isArray(q.cambridge_standard_refs) ? q.cambridge_standard_refs : [];
       const tags = refs.length
-        ? `<div class="q-tags">${refs.map(r => `<span class="q-tag-cts" data-cts-ref="${escHtml(r)}" data-q-id="${escHtml(q.id)}" onclick="toggleCtsDetail('${escHtml(q.id)}', '${escHtml(r)}', this)" title="Click to view the Cambridge standard">CTS ${escHtml(r)}</span>`).join('')}</div>`
+        ? `<div class="q-tags">${refs.map(r => `<span role="button" tabindex="0" class="q-tag-cts" data-cts-ref="${escHtml(r)}" data-q-id="${escHtml(q.id)}" onclick="toggleCtsDetail('${escHtml(q.id)}', '${escHtml(r)}', this)" title="Click to view the Cambridge standard">CTS ${escHtml(r)}</span>`).join('')}</div>`
         : '';
       return `
       <div class="q-card" id="qcard-${q.id}">
@@ -1247,9 +1247,9 @@
         </div>
         <div class="q-note-wrap">
           <button class="q-note-toggle" onclick="toggleNote('${q.id}', this)" type="button">
-            ✏️ Add a note
+            âœï¸ Add a note
           </button>
-          <textarea class="q-note-input" id="qnote-${q.id}" placeholder="Any additional context you'd like to share…"
+          <textarea class="q-note-input" id="qnote-${q.id}" placeholder="Any additional context you'd like to shareâ€¦"
             oninput="notes['${q.id}'] = this.value.trim()"></textarea>
         </div>
       </div>
@@ -1284,9 +1284,9 @@
     const dName = TH_DOMAIN_META[domainOfRef(ref)]?.name || '';
     detail.innerHTML = text
       ? `
-        <div class="q-cts-detail-id">Cambridge Teacher Standards · CTS ${escHtml(ref)}</div>
+        <div class="q-cts-detail-id">Cambridge Teacher Standards Â· CTS ${escHtml(ref)}</div>
         <div class="q-cts-detail-text">${escHtml(text)}</div>
-        ${dName ? `<div class="q-cts-detail-meta">Domain ${escHtml(domainOfRef(ref))} — ${escHtml(dName)}</div>` : ''}
+        ${dName ? `<div class="q-cts-detail-meta">Domain ${escHtml(domainOfRef(ref))} â€” ${escHtml(dName)}</div>` : ''}
       `
       : `<div class="q-cts-detail-text" style="color:var(--ink-3);font-style:italic">Could not load the standard text. Refresh and try again.</div>`;
     detail.classList.add('open');
@@ -1328,7 +1328,7 @@
   window.toggleNote = function(qId, btn) {
     const ta = document.getElementById(`qnote-${qId}`);
     const open = ta.classList.toggle('open');
-    btn.textContent = open ? '✏️ Hide note' : '✏️ Add a note';
+    btn.textContent = open ? 'âœï¸ Hide note' : 'âœï¸ Add a note';
     if (open) ta.focus();
   };
 
@@ -1354,7 +1354,7 @@
     document.getElementById('quiz-progress-label').textContent =
       `${answered} of ${total} answered`;
     // Re-render domain bars when answers change (only if Cambridge banner
-    // is showing — i.e. some questions have anchors).
+    // is showing â€” i.e. some questions have anchors).
     if (document.getElementById('dom-prog').style.display !== 'none') {
       renderDomainProgress();
     }
@@ -1372,7 +1372,7 @@
     switchTab('register');
   };
 
-  // ── CAMBRIDGE FAMILIARITY (LIKERT) ─────────────────────────────────────────
+  // â”€â”€ CAMBRIDGE FAMILIARITY (LIKERT) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   let cambridgeFamiliarity = null; // 1..5 or null
 
@@ -1383,14 +1383,14 @@
     });
   };
 
-  // ── PHOTO UPLOAD ───────────────────────────────────────────────────────────
+  // â”€â”€ PHOTO UPLOAD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   let resolvedPhotoUrl = null; // final URL used in submission
 
   function setPhotoPreview(url) {
     const el = document.getElementById('photo-preview');
     if (url) {
-      el.innerHTML = `<img src="${url}" alt="Preview" style="width:72px;height:72px;object-fit:cover;border-radius:50%" onerror="this.parentElement.innerHTML='<span style=font-size:2rem>🖼️</span>'" />`;
+      el.innerHTML = `<img src="${url}" alt="Preview" style="width:72px;height:72px;object-fit:cover;border-radius:50%" onerror="this.parentElement.innerHTML='<span style=font-size:2rem>ðŸ–¼ï¸</span>'" />`;
     } else {
       el.innerHTML = `<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>`;
     }
@@ -1420,10 +1420,10 @@
       input.value = '';
       return;
     }
-    // Clear URL input — file takes precedence
+    // Clear URL input â€” file takes precedence
     document.getElementById('r-photo-url').value = '';
     resolvedPhotoUrl = null;
-    setPhotoStatus('Uploading…', '');
+    setPhotoStatus('Uploadingâ€¦', '');
     setPhotoPreview(URL.createObjectURL(file));
 
     try {
@@ -1434,12 +1434,12 @@
 
       task.on('state_changed', snap => {
         const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
-        setPhotoStatus(`Uploading… ${pct}%`, '');
+        setPhotoStatus(`Uploadingâ€¦ ${pct}%`, '');
       });
 
       await task;
       resolvedPhotoUrl = await getDownloadURL(storageRef);
-      setPhotoStatus('Photo uploaded ✓', 'ok');
+      setPhotoStatus('Photo uploaded âœ“', 'ok');
     } catch (e) {
       console.error('Photo upload failed:', e);
       setPhotoStatus('Upload failed. You can paste a URL instead.', 'err');
@@ -1447,7 +1447,7 @@
     }
   };
 
-  // ── REGISTRATION ───────────────────────────────────────────────────────────
+  // â”€â”€ REGISTRATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   window.submitRegistration = async function() {
     const fname   = document.getElementById('r-fname').value.trim();
@@ -1476,7 +1476,7 @@
 
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
-    btn.textContent = 'Submitting…';
+    btn.textContent = 'Submittingâ€¦';
 
     try {
       // Build quiz answers payload
@@ -1523,7 +1523,7 @@
     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  // ── UTIL ───────────────────────────────────────────────────────────────────
+  // â”€â”€ UTIL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   function escHtml(str) {
     if (!str) return '';
@@ -1535,7 +1535,7 @@
       .replace(/'/g, '&#39;');
   }
 
-  // ── TAB SWITCH ─────────────────────────────────────────────────────────────
+  // â”€â”€ TAB SWITCH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   window.switchTab = function(tab) {
     document.querySelectorAll('.tab-btn').forEach(b =>
@@ -1547,7 +1547,7 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // ── INIT ───────────────────────────────────────────────────────────────────
+  // â”€â”€ INIT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   loadResources();
   loadQuestions();

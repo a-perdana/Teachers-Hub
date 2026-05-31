@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Portfolio — Teachers Hub</title>
+<title>My Portfolio â€” Teachers Hub</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23331e05'/><polygon points='10,45 50,65 50,70 10,50' fill='%23a8650a'/><polygon points='90,45 50,65 50,70 90,50' fill='%23c2780c'/><polygon points='50,25 90,45 50,65 10,45' fill='%23d97706'/><circle cx='76' cy='76' r='20' fill='%23d97706' stroke='%23331e05' stroke-width='3'/><text x='76' y='84' font-family='Georgia,serif' font-size='26' font-weight='bold' text-anchor='middle' fill='white'>T</text></svg>">
 <link rel="stylesheet" href="base.css">
 <script src="firebase-config.js"></script>
@@ -14,12 +14,12 @@
   --accent-2: #ede9fe;
 }
 
-/* TH navbar is position:sticky — no body padding-top (would create a scroll-gap). */
+/* TH navbar is position:sticky â€” no body padding-top (would create a scroll-gap). */
 
-/* ── My Work family — 1200px content rail ─────────────────────────
+/* â”€â”€ My Work family â€” 1200px content rail â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Hero + body + footer all clamp to var(--container-max), ZERO horizontal
-   padding. Canonical wrappers carry a default 40px pad — strip it so all
-   three rails align at exactly 1200px on viewports ≥ 1280px. */
+   padding. Canonical wrappers carry a default 40px pad â€” strip it so all
+   three rails align at exactly 1200px on viewports â‰¥ 1280px. */
 .page-hero__inner,
 .page-footer__inner,
 .page-footer__meta,
@@ -34,7 +34,7 @@
 .page-wrap { padding: 32px 0 100px; }
 
 /* base.css `body:has(> .page-footer) { display:flex; flex-direction:column }`
-   turns body into a flex container — force direct children to stretch so
+   turns body into a flex container â€” force direct children to stretch so
    their max-width:1200 takes effect instead of shrinking to content. */
 body:has(> .page-footer) > .page-hero,
 body:has(> .page-footer) > .page-wrap {
@@ -42,7 +42,7 @@ body:has(> .page-footer) > .page-wrap {
   align-self: stretch !important;
 }
 
-/* ─── SUBMIT FORM ───────────────────────────── */
+/* â”€â”€â”€ SUBMIT FORM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .submit-card {
   background: var(--white); border: 1px solid var(--border);
   border-radius: 18px; padding: 28px; box-shadow: var(--shadow-sm);
@@ -112,7 +112,7 @@ body:has(> .page-footer) > .page-wrap {
 }
 .form-success.visible { display: block; }
 
-/* ─── SUBMISSIONS LIST ──────────────────────── */
+/* â”€â”€â”€ SUBMISSIONS LIST â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .section-title {
   font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 16px;
   display: flex; align-items: center; gap: 8px;
@@ -173,7 +173,7 @@ body:has(> .page-footer) > .page-wrap {
 }
 .ev-file-link:hover { text-decoration: underline; }
 
-/* ─── EMPTY STATE ───────────────────────────── */
+/* â”€â”€â”€ EMPTY STATE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .empty-state {
   text-align: center; padding: 48px 20px;
   background: var(--white); border: 1px dashed var(--border); border-radius: 16px;
@@ -182,11 +182,11 @@ body:has(> .page-footer) > .page-wrap {
 .empty-state-title { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
 .empty-state-sub { font-size: 13px; color: var(--ink-3); }
 
-/* ─── SKEL ──────────────────────────────────── */
+/* â”€â”€â”€ SKEL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .skel { background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; }
 @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-/* ─── MOBILE ─────────────────────────────────── */
+/* â”€â”€â”€ MOBILE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 720px) {
   .page-wrap { padding: 20px 16px 80px; }
   .submit-card { padding: 20px 18px; border-radius: 14px; margin-bottom: 22px; }
@@ -199,7 +199,7 @@ body:has(> .page-footer) > .page-wrap {
   .empty-state { padding: 36px 16px; }
 }
 
-/* ── New-user intro banner (dismissable) ─────────────────────── */
+/* â”€â”€ New-user intro banner (dismissable) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .page-intro { display:none; background:linear-gradient(135deg,#ede9fe 0%,#e0f2fe 100%); border:1px solid #c4b5fd; border-radius:14px; padding:16px 20px 16px 18px; margin-bottom:18px; position:relative; }
 .page-intro.show { display:flex; gap:14px; align-items:flex-start; }
 .page-intro-icon { font-size:22px; flex-shrink:0; padding-top:1px; }
@@ -212,7 +212,7 @@ body:has(> .page-footer) > .page-wrap {
 .page-intro-dismiss { position:absolute; top:10px; right:10px; background:rgba(255,255,255,.7); border:1px solid #c4b5fd; border-radius:6px; width:24px; height:24px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#6d28d9; font-size:14px; line-height:1; transition:all .15s; }
 .page-intro-dismiss:hover { background:#fff; }
 
-/* Structured content helpers scoped to .page-intro — flow steps + status pills + callout + footnote */
+/* Structured content helpers scoped to .page-intro â€” flow steps + status pills + callout + footnote */
 .page-intro__flow { display:grid; gap:8px; margin:10px 0; padding:0; list-style:none; counter-reset:pi-step; }
 .page-intro__flow > li {
   position:relative; padding:8px 12px 8px 38px;
@@ -254,7 +254,7 @@ body:has(> .page-footer) > .page-wrap {
 }
 .page-intro__foot strong { color:#5b21b6; font-weight:700; }
 
-/* ─── PAGE FOOTER (canonical — mor CTA accent matches portfolio theme) ─── */
+/* â”€â”€â”€ PAGE FOOTER (canonical â€” mor CTA accent matches portfolio theme) â”€â”€â”€ */
 .page-footer__cta-btn {
   background: linear-gradient(135deg, #7c3aed 0%, #5a4bd1 100%);
   box-shadow: 0 4px 14px rgba(108,92,231,0.35);
@@ -290,23 +290,23 @@ body:has(> .page-footer) > .page-wrap {
 <header class="page-hero" data-accent="dark">
   <div class="page-hero__inner">
     <div class="page-hero__text">
-      <div class="page-hero__eyebrow">My Hub · CPD evidence</div>
+      <div class="page-hero__eyebrow">My Hub Â· CPD evidence</div>
       <h1 class="page-hero__title">My Portfolio</h1>
-      <p class="page-hero__desc">Submit proof of a teaching competency at a level — a short story of what you did in class plus an optional file. Eduversal reviews every submission before granting the level on your Learning Path.</p>
+      <p class="page-hero__desc">Submit proof of a teaching competency at a level â€” a short story of what you did in class plus an optional file. Eduversal reviews every submission before granting the level on your Learning Path.</p>
     </div>
     <aside class="page-hero__kpis">
       <div class="page-hero__kpi page-hero__kpi--primary">
-        <div class="page-hero__kpi-num" id="kpiTotal">—</div>
+        <div class="page-hero__kpi-num" id="kpiTotal">â€”</div>
         <div class="page-hero__kpi-lbl">Submissions</div>
         <div class="page-hero__kpi-sub">in your portfolio</div>
       </div>
       <div class="page-hero__kpi">
-        <div class="page-hero__kpi-num" id="kpiApproved">—</div>
+        <div class="page-hero__kpi-num" id="kpiApproved">â€”</div>
         <div class="page-hero__kpi-lbl">Approved</div>
         <div class="page-hero__kpi-sub">granted by Eduversal</div>
       </div>
       <div class="page-hero__kpi">
-        <div class="page-hero__kpi-num" id="kpiPending">—</div>
+        <div class="page-hero__kpi-num" id="kpiPending">â€”</div>
         <div class="page-hero__kpi-lbl">In review</div>
         <div class="page-hero__kpi-sub">pending decision</div>
       </div>
@@ -317,22 +317,22 @@ body:has(> .page-footer) > .page-wrap {
 <div class="page-wrap">
 
   <div class="page-intro" data-intro-key="my-portfolio">
-    <div class="page-intro-icon">📁</div>
+    <div class="page-intro-icon">ðŸ“</div>
     <div class="page-intro-body">
-      <div class="page-intro-title">Portfolio — your official CPD record</div>
+      <div class="page-intro-title">Portfolio â€” your official CPD record</div>
       <div class="page-intro-text">
         This is where you <strong>submit proof</strong> of a teaching competency at a level. Eduversal reviews every submission before granting the level.
       </div>
 
       <ol class="page-intro__flow">
         <li><strong>Pick</strong> the competency + level (Awareness / Practitioner / Advanced / Lead) you want to claim</li>
-        <li><strong>Write a short story</strong> (≥80 chars) about what you actually did in class + attach a file if it helps (lesson plan, student work, observation feedback, photos)</li>
-        <li><strong>Track the status</strong> next to your submission: <span class="page-intro__pill page-intro__pill--pending">Pending</span> waiting for review · <span class="page-intro__pill page-intro__pill--review">Under Review</span> Eduversal has opened it · <span class="page-intro__pill page-intro__pill--approved">Approved</span> lands on your Learning Path · <span class="page-intro__pill page-intro__pill--rejected">Revise &amp; Resubmit</span> Eduversal left a note</li>
+        <li><strong>Write a short story</strong> (â‰¥80 chars) about what you actually did in class + attach a file if it helps (lesson plan, student work, observation feedback, photos)</li>
+        <li><strong>Track the status</strong> next to your submission: <span class="page-intro__pill page-intro__pill--pending">Pending</span> waiting for review Â· <span class="page-intro__pill page-intro__pill--review">Under Review</span> Eduversal has opened it Â· <span class="page-intro__pill page-intro__pill--approved">Approved</span> lands on your Learning Path Â· <span class="page-intro__pill page-intro__pill--rejected">Revise &amp; Resubmit</span> Eduversal left a note</li>
       </ol>
 
       <div class="page-intro__callout">
-        <span class="page-intro__callout-icon" aria-hidden="true">⏳</span>
-        <span><strong>Don't submit on day 1.</strong> Do the real work first, then come back. Self-assessment ratings live on the <a href="competency-framework">Competency Framework</a> page and are private — this page is for the official record.</span>
+        <span class="page-intro__callout-icon" aria-hidden="true">â³</span>
+        <span><strong>Don't submit on day 1.</strong> Do the real work first, then come back. Self-assessment ratings live on the <a href="competency-framework">Competency Framework</a> page and are private â€” this page is for the official record.</span>
       </div>
 
       <div class="page-intro__foot">
@@ -340,9 +340,9 @@ body:has(> .page-footer) > .page-wrap {
         <span><strong>Reviewer:</strong> Eduversal (central_admin) reads everything before deciding</span>
       </div>
 
-      <a class="page-intro-link" href="/welcome#page-portfolio">📖 Read the full guide →</a>
+      <a class="page-intro-link" href="/welcome#page-portfolio">ðŸ“– Read the full guide â†’</a>
     </div>
-    <button class="page-intro-dismiss" type="button" aria-label="Dismiss intro" onclick="window.__dismissIntro('my-portfolio')">✕</button>
+    <button class="page-intro-dismiss" type="button" aria-label="Dismiss intro" onclick="window.__dismissIntro('my-portfolio')">âœ•</button>
   </div>
 
   <!-- SUBMIT FORM -->
@@ -358,7 +358,7 @@ body:has(> .page-footer) > .page-wrap {
     <div class="form-row">
       <label class="form-label">Level Claiming *</label>
       <select class="form-select" id="levelSelect">
-        <option value="">— select competency first —</option>
+        <option value="">â€” select competency first â€”</option>
       </select>
     </div>
 
@@ -370,17 +370,17 @@ body:has(> .page-footer) > .page-wrap {
 
     <div class="form-row">
       <label class="form-label">Attachment (optional)</label>
-      <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-        <div class="drop-zone-icon">📎</div>
+      <div role="button" tabindex="0" class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <div class="drop-zone-icon">ðŸ“Ž</div>
         <div class="drop-zone-text"><strong>Click to upload</strong> or drag and drop</div>
-        <div class="drop-zone-sub">PDF, Word, Images — max 10 MB</div>
+        <div class="drop-zone-sub">PDF, Word, Images â€” max 10 MB</div>
       </div>
       <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg">
       <div id="filePreview" style="display:none;" class="file-preview">
-        <span class="file-preview-icon">📄</span>
+        <span class="file-preview-icon">ðŸ“„</span>
         <span class="file-preview-name" id="fileName">file.pdf</span>
         <span class="file-preview-size" id="fileSize"></span>
-        <span class="file-preview-remove" onclick="clearFile()">✕</span>
+        <span role="button" tabindex="0" class="file-preview-remove" onclick="clearFile()">âœ•</span>
       </div>
     </div>
 
@@ -412,7 +412,7 @@ body:has(> .page-footer) > .page-wrap {
 import { collection, doc, addDoc, getDocs, query, where, orderBy, serverTimestamp, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 import { ref as storageRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
-// ─── FRAMEWORK METADATA ──────────────────────────────────────────────────────
+// â”€â”€â”€ FRAMEWORK METADATA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Grounded in: Cambridge Teacher Standards 2019, Permendiknas No.16/2007
 const COMP_META = {
   'smc-1': { name: 'Cambridge Syllabus & Assessment Objectives', domain: 'Subject Mastery & Curriculum Design', levels: ['awareness','practitioner','advanced','lead'] },
@@ -443,12 +443,12 @@ const COMP_META = {
 
 const LEVEL_LABEL = { awareness:'Awareness', practitioner:'Practitioner', advanced:'Advanced', lead:'Lead / Mentor' };
 const DOMAIN_ICON = {
-  'Subject Mastery & Curriculum Design': '📚',
-  'Learner-Centred Pedagogy': '💡',
-  'Assessment for Learning': '📊',
-  'Innovative Classroom Practice': '🚀',
-  'Professional Identity & Ethics': '🌱',
-  'Collaboration & Community Engagement': '🤝'
+  'Subject Mastery & Curriculum Design': 'ðŸ“š',
+  'Learner-Centred Pedagogy': 'ðŸ’¡',
+  'Assessment for Learning': 'ðŸ“Š',
+  'Innovative Classroom Practice': 'ðŸš€',
+  'Professional Identity & Ethics': 'ðŸŒ±',
+  'Collaboration & Community Engagement': 'ðŸ¤'
 };
 
 let uid = '';
@@ -486,7 +486,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
 
 function populateCompSelect() {
   const sel = document.getElementById('compSelect');
-  sel.innerHTML = '<option value="">— select a competency —</option>';
+  sel.innerHTML = '<option value="">â€” select a competency â€”</option>';
   const grouped = {};
   Object.entries(COMP_META).forEach(([id, meta]) => {
     if (!grouped[meta.domain]) grouped[meta.domain] = [];
@@ -507,8 +507,8 @@ function populateCompSelect() {
   sel.addEventListener('change', () => {
     const meta = COMP_META[sel.value];
     const lvlSel = document.getElementById('levelSelect');
-    if (!meta) { lvlSel.innerHTML = '<option value="">— select competency first —</option>'; return; }
-    lvlSel.innerHTML = '<option value="">— select level —</option>' +
+    if (!meta) { lvlSel.innerHTML = '<option value="">â€” select competency first â€”</option>'; return; }
+    lvlSel.innerHTML = '<option value="">â€” select level â€”</option>' +
       meta.levels.map(l => `<option value="${l}">${LEVEL_LABEL[l]}</option>`).join('');
   });
 }
@@ -583,7 +583,7 @@ window.submitEvidence = async function() {
   if (desc.length < 80) { showError(`Description too short (${desc.length}/80 characters). Please be more specific.`); return; }
 
   const btn = document.getElementById('submitBtn');
-  btn.disabled = true; btn.textContent = 'Submitting…';
+  btn.disabled = true; btn.textContent = 'Submittingâ€¦';
 
   try {
     let fileUrl = null;
@@ -617,7 +617,7 @@ window.submitEvidence = async function() {
 
     document.getElementById('formSuccess').classList.add('visible');
     document.getElementById('compSelect').value = '';
-    document.getElementById('levelSelect').innerHTML = '<option value="">— select competency first —</option>';
+    document.getElementById('levelSelect').innerHTML = '<option value="">â€” select competency first â€”</option>';
     document.getElementById('evidenceDesc').value = '';
     clearFile();
     await loadSubmissions();
@@ -659,7 +659,7 @@ async function loadSubmissions() {
   if (snap.empty) {
     list.innerHTML = `
       <div class="empty-state">
-        <div class="empty-state-icon">📂</div>
+        <div class="empty-state-icon">ðŸ“‚</div>
         <div class="empty-state-title">No submissions yet</div>
         <div class="empty-state-sub">Submit your first evidence above to start building your portfolio.</div>
       </div>
@@ -669,7 +669,7 @@ async function loadSubmissions() {
 
   list.innerHTML = snap.docs.map(d => {
     const ev = { id: d.id, ...d.data() };
-    const icon = DOMAIN_ICON[ev.domain] || '📋';
+    const icon = DOMAIN_ICON[ev.domain] || 'ðŸ“‹';
     const statusMap = { pending: 'Pending Review', approved: 'Approved', rejected: 'Revise & Resubmit', 'under-review': 'Under Review' };
     const date = ev.createdAt?.toDate?.()?.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) || '';
     const hasNote = ev.reviewerNote;
@@ -681,14 +681,14 @@ async function loadSubmissions() {
           <div class="ev-icon" style="background:var(--accent-2)">${icon}</div>
           <div class="ev-body">
             <div class="ev-comp">${ev.domain}</div>
-            <div class="ev-desc">${ev.compName} — ${ev.description.substring(0, 120)}${ev.description.length > 120 ? '…' : ''}</div>
+            <div class="ev-desc">${ev.compName} â€” ${ev.description.substring(0, 120)}${ev.description.length > 120 ? 'â€¦' : ''}</div>
             <div class="ev-meta">
               <span class="ev-status ${ev.status}">${statusMap[ev.status] || ev.status}</span>
               <span class="ev-level-badge lvl-${ev.level}">${LEVEL_LABEL[ev.level] || ev.level}</span>
               <span class="ev-date">${date}</span>
               ${ev.fileName ? (ev.fileUrl
-                ? `<a class="ev-file-link" href="${ev.fileUrl}" target="_blank" rel="noopener">📎 ${ev.fileName}</a>`
-                : `<span class="ev-file-link" title="Upload pending — file reference saved without URL">📎 ${ev.fileName}</span>`) : ''}
+                ? `<a class="ev-file-link" href="${ev.fileUrl}" target="_blank" rel="noopener">ðŸ“Ž ${ev.fileName}</a>`
+                : `<span class="ev-file-link" title="Upload pending â€” file reference saved without URL">ðŸ“Ž ${ev.fileName}</span>`) : ''}
             </div>
           </div>
         </div>
@@ -702,10 +702,10 @@ async function loadSubmissions() {
 <footer class="page-footer" role="contentinfo">
   <div class="page-footer__inner">
     <div class="page-footer__cta">
-      <span class="page-footer__cta-eyebrow">My Hub · CPD evidence</span>
+      <span class="page-footer__cta-eyebrow">My Hub Â· CPD evidence</span>
       <h2 class="page-footer__cta-title">Have you done the work?</h2>
       <p class="page-footer__cta-desc">Pick the competency, pick the level, write 80+ characters about what you actually did in class, attach a file if it helps. Eduversal reads each submission before granting the level on your Learning Path.</p>
-      <a href="learning-path" class="page-footer__cta-btn">Open Learning Path <span aria-hidden="true">→</span></a>
+      <a href="learning-path" class="page-footer__cta-btn">Open Learning Path <span aria-hidden="true">â†’</span></a>
     </div>
     <nav class="page-footer__nav" aria-label="My Portfolio footer navigation">
       <div class="page-footer__nav-group">
@@ -724,8 +724,8 @@ async function loadSubmissions() {
     </nav>
   </div>
   <div class="page-footer__meta">
-    <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
-    <span class="page-footer__meta-right">PDF / Word / image · max 25 MB · central admin review</span>
+    <span class="page-footer__meta-left">Â© Eduversal Â· Teachers Hub</span>
+    <span class="page-footer__meta-right">PDF / Word / image Â· max 25 MB Â· central admin review</span>
   </div>
 </footer>
 

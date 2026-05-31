@@ -194,7 +194,7 @@
 </div>
 
 <!-- â”€â”€ OBJECTIVES MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
-<div class="modal-bg" id="objModal" onclick="closeObjModal(event)">
+<div role="button" tabindex="0" class="modal-bg" id="objModal" onclick="closeObjModal(event)">
   <div class="modal modal-wide">
     <div class="modal-head">
       <div class="modal-head-text">
@@ -646,7 +646,7 @@ function renderNav() {
   const groupHtml = (label, items, key) => {
     const collapsed = localStorage.getItem(`navg_${_pacingPrefix}_${key}`) === '1';
     return `<div class="ch-nav-group${collapsed ? ' collapsed' : ''}" data-navg="${key}">
-      <div class="ch-nav-group-label" onclick="toggleNavGroup('${key}')">
+      <div role="button" tabindex="0" class="ch-nav-group-label" onclick="toggleNavGroup('${key}')">
         <span class="ch-nav-caret" aria-hidden="true">â–¾</span>${label}
       </div>
       ${items}
@@ -766,7 +766,7 @@ function renderPacing() {
           <span class="ch-pct">${pct}%</span>
           <span class="ch-topic-count">${ch.topics.length} topics</span>
         </div>
-        <div class="ch-bulk-pill" onclick="event.stopPropagation()" title="Set status for all topics in this chapter">
+        <div role="button" tabindex="0" class="ch-bulk-pill" onclick="event.stopPropagation()" title="Set status for all topics in this chapter">
           <button class="sp-btn sp-pending"    onclick="setChapterStatus(${ci},'pending')">Pending</button>
           <button class="sp-btn sp-inprogress" onclick="setChapterStatus(${ci},'inprogress')">In Progress</button>
           <button class="sp-btn sp-done"       onclick="setChapterStatus(${ci},'done')">Done</button>
