@@ -63,6 +63,23 @@ function showToast(msg, type) {
   el._t = setTimeout(function() { el.classList.remove('show'); }, 2400);
 }
 
+// Human-readable label for a pacing status value (pending/inprogress/done/revisit).
+function statusLabel(status) {
+  return ({ pending: 'Pending', inprogress: 'In Progress', done: 'Done', revisit: 'Revisit' })[status] || status;
+}
+
+// Toast message for a single-topic status change. Trims long topic names so the toast stays compact.
+function statusToastMsg(name, status) {
+  var label = (name || 'Topic').trim();
+  if (label.length > 42) label = label.slice(0, 40).trim() + '…';
+  return '“' + label + '” → ' + statusLabel(status);
+}
+
+// Toast message for a whole-chapter status change (all topics set at once).
+function chapterStatusToastMsg(count, status) {
+  return 'All ' + count + ' topic' + (count === 1 ? '' : 's') + ' marked ' + statusLabel(status);
+}
+
 // ── Exam Countdown ──────────────────────────────────────────
 function renderExamCountdown() {
   const bar = document.getElementById('examCountdownBar');

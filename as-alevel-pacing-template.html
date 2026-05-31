@@ -1372,14 +1372,17 @@ window.setCovPage = setCovPage;
 function toggleDone(ci, ti) {
   if (currentClass === 'default') { showToast('Select a class first to save progress', 'warn'); return; }
   const cur = DATA[ci].topics[ti].status;
-  DATA[ci].topics[ti].status = cur==='pending'?'inprogress':cur==='inprogress'?'done':'pending';
+  const next = cur==='pending'?'inprogress':cur==='inprogress'?'done':'pending';
+  DATA[ci].topics[ti].status = next;
   saveState(); render();
+  showToast(statusToastMsg(DATA[ci].topics[ti].name, next), next === 'done' ? 'success' : '');
 }
 
 function setStatus(ci, ti, val) {
   if (currentClass === 'default') { showToast('Select a class first to save progress', 'warn'); return; }
   DATA[ci].topics[ti].status = val;
   saveState(); render();
+  showToast(statusToastMsg(DATA[ci].topics[ti].name, val), val === 'done' ? 'success' : '');
 }
 
 function setChapterStatus(ci, val) {
@@ -1387,6 +1390,7 @@ function setChapterStatus(ci, val) {
   const ch = DATA[ci]; if (!ch || !Array.isArray(ch.topics)) return;
   ch.topics.forEach(t => { t.status = val; });
   saveState(); render();
+  showToast(chapterStatusToastMsg(ch.topics.length, val), val === 'done' ? 'success' : '');
 }
 
 function saveEdit(el, ci, ti, field) {

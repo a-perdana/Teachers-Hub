@@ -989,8 +989,9 @@ body[data-page-accent] .page-info-strip { border-top: 2px solid var(--family-sof
   transition: all .25s ease;
   z-index: 2000;
 }
-.toast.show      { transform: translateY(0); opacity: 1; }
-.toast.show.warn { background: var(--amber); color: #fff3cd; }
+.toast.show         { transform: translateY(0); opacity: 1; }
+.toast.show.toast-warn    { background: var(--amber);   color: #fff3cd; }
+.toast.show.toast-success { background: var(--success, #16a34a); color: #fff; }
 
 /* ── Utility ──────────────────────────────────────────────────── */
 .sr-only {
