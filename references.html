@@ -121,6 +121,7 @@
         <button class="ref-facet" data-cat="permen" role="tab" aria-selected="false"><span>Permendiknas / Permendikbud</span><span class="count" id="cntPermen">0</span></button>
         <button class="ref-facet" data-cat="eduversalStandards" role="tab" aria-selected="false"><span>Eduversal Standards</span><span class="count" id="cntEduversalStandards">0</span></button>
         <button class="ref-facet" data-cat="aicf" role="tab" aria-selected="false"><span>AI Framework</span><span class="count" id="cntAicf">0</span></button>
+        <button class="ref-facet" data-cat="pd" role="tab" aria-selected="false"><span>PD &amp; Facilitation</span><span class="count" id="cntPd">0</span></button>
       </div>
     </div>
   </div>
@@ -192,6 +193,16 @@
         <p class="ref-section-blurb">Eduversal AI Competency Framework v1.0 — Subject teachers + subject leaders read <strong>Part 1 (Teacher 5×5 matrix)</strong> for the progression path and the <strong>Teacher Playbook + Prompt Library + Weekly Tips</strong> for day-to-day practice. Red lines and decision trees are required reading before any AI use on student data, grading, or institutional content.</p>
       </summary>
       <div class="ref-grid" id="gridAicf"></div>
+    </details>
+
+    <details class="ref-section" data-cat="pd">
+      <summary class="ref-section-head">
+        <span class="ref-section-caret" aria-hidden="true">▸</span>
+        <h2 class="ref-section-title">PD &amp; Facilitation</h2>
+        <span class="ref-section-count" data-count-for="pd">0</span>
+        <p class="ref-section-blurb">Facilitator-led professional-development delivery materials — session guides (timed run-of-show), participant one-pagers, slide-deck outlines, and a self-assessment workbook for teacher PD. ESL/EAL English (CEFR B1–B2). These package the live frameworks (Appraisal / KPI / Competency / AICF) into facilitated sessions; they never restate the frameworks themselves.</p>
+      </summary>
+      <div class="ref-grid" id="gridPd"></div>
     </details>
 
     <div class="ref-results-empty" id="refResultsEmpty">
@@ -322,6 +333,25 @@
         { id: 'aicf-decision-trees',      title: 'AICF Decision Trees',                        desc: '9 step-by-step decision trees for ambiguous situations: should-I-use-AI, which-tool, suspected student AI submission, parent asks about AI, etc. EAL false-positive warning on AI detection is explicit.',  kind: 'json', path: 'aicf/decision-trees.json',      meta: ['JSON', '9 trees'] },
         { id: 'aicf-weekly-tips',         title: 'AICF Weekly Tips · 34 effective weeks',      desc: 'One small AI move per week, calibrated to the Eduversal Indonesian Cambridge 34-week academic year. Monday-morning read + Friday concrete action. Cross-linked to existing weekly-checklist task IDs.', kind: 'json', path: 'aicf/weekly-tips.json',         meta: ['JSON', '34 weeks'] },
         { id: 'aicf-classroom-activities',title: 'AICF Classroom Activities · 11 lesson outlines', desc: '11 ready-to-run lesson outlines for student AI literacy across 3 age bands. Each carries learning objective + lesson flow + materials + assessment idea + red-line guardrails. Plan one AICF lesson per term per class.', kind: 'json', path: 'aicf/classroom-activities.json', meta: ['JSON', '11 activities'] },
+      ],
+      pd: [
+        // Shared scaffolding + cross-tier one-pager
+        { id: 'pd-readme',                  title: 'PD Corpus · README + Index',              desc: 'What the PD delivery corpus is + the index + authoring rules (ESL/EAL, citation discipline) + verified framework figures.',                                                                kind: 'md', path: 'pd/README.md',                           meta: ['MD', 'entry point'] },
+        { id: 'pd-facilitator-conventions', title: 'Facilitator Conventions · Shared Playbook', desc: 'The shared standard for every PD session — ESL/EAL English rule, the 5-block timing model, face-to-face vs online variants, opening frames, exit tickets, Glow/Grow/Go.',                  kind: 'md', path: 'pd/facilitator-conventions.md',          meta: ['MD', 'binding'] },
+        { id: 'pd-program-map',             title: 'July PD Program Map · The Whole Arc',      desc: 'The planning view: which session for which audience, in what order, a priority guide if time is short, F2F/online modes, the after-July follow-up loop.',                                kind: 'md', path: 'pd/july-pd-program-map.md',              meta: ['MD', 'planning'] },
+        { id: 'pd-three-systems',           title: 'Three Rating Systems · At a Glance',       desc: 'Participant one-pager — KPI vs Appraisal vs Competency: who owns each, the scale, does it score me, how they relate, the shared Cambridge backbone. Resolves the most common confusion.',  kind: 'md', path: 'pd/three-rating-systems-at-a-glance.md',  meta: ['MD', 'one-pager'] },
+        { id: 'pd-deck-three-systems',      title: 'Slide Deck · Three Rating Systems',        desc: 'Slide-shaped outline (11 slides) for the Three Rating Systems session — bullets + speaker notes + visual suggestions.',                                                                kind: 'md', path: 'pd/slides/deck-three-rating-systems.md',  meta: ['MD', 'slides'] },
+        // Teachers tier
+        { id: 'pd-onepager-appraisal',      title: 'How Appraisal Works · Teacher One-Pager',  desc: 'Plain-English printable: the 4 parts (F1–F4 + weights), F2 as the 50% observation, scores → A–F bands, the 4-step cycle, Glow/Grow/Go.',                                                kind: 'md', path: 'pd/teachers/onepager-how-appraisal-works.md', meta: ['MD', 'one-pager'] },
+        { id: 'pd-onepager-kpi',            title: 'How KPI Works · Teacher One-Pager',        desc: 'Plain-English printable: what a KPI is (aspect/indicator/target/weight), the 15 KPIs + weights, two checkpoints, the 3-step cycle. Reading weights as priorities.',                     kind: 'md', path: 'pd/teachers/onepager-how-kpi-works.md', meta: ['MD', 'one-pager'] },
+        { id: 'pd-session-appraisal',       title: 'Understanding Your Appraisal · Session',   desc: '90-min facilitator guide: removes appraisal fear by teaching teachers to read the F2 rubric (3 vs 4), understand the four parts, and use Glow/Grow/Go.',                                 kind: 'md', path: 'pd/teachers/session-appraisal-for-teachers.md', meta: ['MD', 'session'] },
+        { id: 'pd-session-kpi',             title: 'Understanding Your KPI · Session',         desc: '90-min facilitator guide: turns KPI from a number-chase into a year plan. Teachers read weights as priorities and turn one KPI into one concrete, dated, in-their-control action.',      kind: 'md', path: 'pd/teachers/session-kpi-for-teachers.md', meta: ['MD', 'session'] },
+        { id: 'pd-session-competency',      title: 'Competency Self-Assessment · Session',     desc: '90-min guided first-use of the Learning Path: pick an honest level with evidence, the 7-domain × 4-level ladder (incl. the AI & Digital Literacy domain), choose one competency to grow.', kind: 'md', path: 'pd/teachers/session-competency-self-assessment.md', meta: ['MD', 'session'] },
+        { id: 'pd-workbook-competency',     title: 'Competency Self-Assessment · Workbook',    desc: 'Participant workbook: the 4-level ladder, the 7 domains, self-assess-three with an evidence check, choose-one-to-grow, exit ticket.',                                                   kind: 'md', path: 'pd/teachers/workbook-competency-self-assessment.md', meta: ['MD', 'workbook'] },
+        { id: 'pd-session-ai',              title: 'AI in the Classroom · Session',            desc: '90-min facilitator guide on the AICF teacher playbook: the two questions (judgement vs pattern-shaped drafting; comfortable-if-seen), the red lines (never student data in public AI), one safe quick win.', kind: 'md', path: 'pd/teachers/session-ai-in-the-classroom.md', meta: ['MD', 'session'] },
+        { id: 'pd-deck-appraisal',          title: 'Slide Deck · Appraisal for Teachers',      desc: 'Slide-shaped outline (12 slides) for the teacher appraisal session — the four parts, reading the rubric (3 vs 4), Glow/Grow/Go.',                                                       kind: 'md', path: 'pd/slides/deck-appraisal-for-teachers.md', meta: ['MD', 'slides'] },
+        { id: 'pd-deck-kpi',                title: 'Slide Deck · KPI for Teachers',            desc: 'Slide-shaped outline (11 slides) for the teacher KPI session — what a KPI is, weights as priorities, turn-one-KPI-into-an-action.',                                                     kind: 'md', path: 'pd/slides/deck-kpi-for-teachers.md', meta: ['MD', 'slides'] },
+        { id: 'pd-deck-ai',                 title: 'Slide Deck · AI in the Classroom',         desc: 'Slide-shaped outline (11 slides) for the teacher AI session — the two lines that moved in 2026, the two questions, the red line on student data, one safe quick win.',                  kind: 'md', path: 'pd/slides/deck-ai-in-the-classroom.md', meta: ['MD', 'slides'] },
       ],
     };
 
