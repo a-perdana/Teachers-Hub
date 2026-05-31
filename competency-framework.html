@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Competency Framework — Teachers Hub</title>
+<title>Competency Framework â€” Teachers Hub</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23331e05'/><polygon points='10,45 50,65 50,70 10,50' fill='%23a8650a'/><polygon points='90,45 50,65 50,70 90,50' fill='%23c2780c'/><polygon points='50,25 90,45 50,65 10,45' fill='%23d97706'/><circle cx='76' cy='76' r='20' fill='%23d97706' stroke='%23331e05' stroke-width='3'/><text x='76' y='84' font-family='Georgia,serif' font-size='26' font-weight='bold' text-anchor='middle' fill='white'>T</text></svg>">
 <link rel="stylesheet" href="base.css">
 <link rel="stylesheet" href="competency-framework.css">
@@ -17,7 +17,7 @@
   --accent-2: #ede9fe;
 }
 
-/* Artistic rose-burgundy atmosphere — echoes the hero accent under the page
+/* Artistic rose-burgundy atmosphere â€” echoes the hero accent under the page
    without competing with card surfaces. Fixed so it follows the viewport,
    behind everything, never intercepts pointer events (Root CLAUDE.md Common
    Mistake #22). */
@@ -35,7 +35,7 @@ body::before {
     linear-gradient(180deg, #fbf6f8 0%, #faf3f5 100%);
 }
 
-/* ─── INFO STRIP (hero-altı bilgilendirme — pattern parity with CH competency-admin) ─── */
+/* â”€â”€â”€ INFO STRIP (hero-altÄ± bilgilendirme â€” pattern parity with CH competency-admin) â”€â”€â”€ */
 .info-strip {
   background: linear-gradient(135deg, #fff7ed 0%, #fef2f2 100%);
   border: 1px solid #fed7aa;
@@ -114,7 +114,7 @@ body::before {
   background: #e11d48; color: #fff; border-color: #e11d48;
 }
 
-/* ─── HERO (canonical .page-hero, rose-burgundy accent — distinct from CH mor) ─── */
+/* â”€â”€â”€ HERO (canonical .page-hero, rose-burgundy accent â€” distinct from CH mor) â”€â”€â”€ */
 .page-hero {
   position: relative; overflow: hidden;
   padding: 52px 0;
@@ -122,7 +122,7 @@ body::before {
   background: linear-gradient(135deg, #1a0a18 0%, #4c1d3d 55%, #1a0a18 100%);
   /* This page paints a bespoke burgundy gradient + its own ::before mesh.
      Point the liveliness chrome (top rule, icon glow, KPI bar, title glow
-     — inherited from base.css) at rose so it matches the burgundy instead
+     â€” inherited from base.css) at rose so it matches the burgundy instead
      of the default mor-purple this page's data-accent="mor" would give. */
   --hero-vivid: var(--hero-vivid-rose);
 }
@@ -190,7 +190,7 @@ body::before {
 .btn-hero-secondary { background: rgba(255,255,255,.1); color: rgba(255,255,255,.92); border: 1px solid rgba(255,255,255,.22); }
 .btn-hero-secondary:hover { background: rgba(255,255,255,.18); }
 
-/* ─── PAGE FOOTER (canonical — rose-burgundy CTA accent matches hero) ─── */
+/* â”€â”€â”€ PAGE FOOTER (canonical â€” rose-burgundy CTA accent matches hero) â”€â”€â”€ */
 .page-footer__cta-btn {
   background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
   box-shadow: 0 4px 14px rgba(225,29,72,0.35);
@@ -213,7 +213,7 @@ body::before {
   .page-wrap { padding: 20px 20px 80px; }
 }
 
-/* ─── GROUNDED-IN BAND (provenance — hero-continuation, rose-burgundy) ─── */
+/* â”€â”€â”€ GROUNDED-IN BAND (provenance â€” hero-continuation, rose-burgundy) â”€â”€â”€ */
 .grounded-band {
   position: relative; overflow: hidden;
   background: linear-gradient(135deg, #1a0a18 0%, #4c1d3d 55%, #2a1224 100%);
@@ -317,7 +317,7 @@ body::before {
   .grounded-grid { grid-template-columns: 1fr; }
 }
 
-/* ─── MY PROGRESS SECTION ──────────────────── */
+/* â”€â”€â”€ MY PROGRESS SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .section-title {
   font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 16px;
   display: flex; align-items: center; gap: 8px;
@@ -342,7 +342,7 @@ body::before {
 .sa-score-bar { flex: 1; height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
 .sa-score-fill { height: 100%; border-radius: 4px; background: var(--accent); transition: width .4s ease; }
 
-/* ─── LEVELS EXPLAINER ─────────────────────── */
+/* â”€â”€â”€ LEVELS EXPLAINER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .levels-explainer {
   background: var(--white); border: 1px solid var(--border); border-radius: 16px;
   padding: 24px; margin-bottom: 32px; box-shadow: var(--shadow-sm);
@@ -362,7 +362,7 @@ body::before {
 .level-card.lead         .level-card-name { color: #15803d; }
 .level-card-desc { font-size: 12px; color: var(--ink-3); line-height: 1.5; }
 
-/* ─── FILTER TOOLBAR (CH-parallel) ─────────── */
+/* â”€â”€â”€ FILTER TOOLBAR (CH-parallel) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .sf-toolbar {
   display: flex; flex-wrap: nowrap; gap: 12px; align-items: center;
   background: var(--white); border: 1px solid var(--border); border-radius: 12px;
@@ -391,9 +391,9 @@ body::before {
   font-family: 'DM Sans', sans-serif;
   white-space: nowrap; flex-shrink: 0;
 }
-/* Domain chips are icon-only — the emoji is the affordance, full name lives
+/* Domain chips are icon-only â€” the emoji is the affordance, full name lives
    in the title tooltip + the domain card header. Keeps the toolbar on one
-   line up to viewport ≈ 720 px without horizontal scroll. */
+   line up to viewport â‰ˆ 720 px without horizontal scroll. */
 .sf-chip[data-domain]:not([data-domain="all"]) {
   width: 32px; height: 32px; padding: 0;
   display: inline-flex; align-items: center; justify-content: center;
@@ -412,7 +412,7 @@ body::before {
 .sf-chip[data-color="dom-teal"].is-active   { background: #0d9488; border-color: #0d9488; }
 .sf-count { font-size: 11px; color: var(--ink-3); margin-left: auto; flex-shrink: 0; }
 
-/* ─── LEVEL FILTER (mirror AH — icon-only pills, toolbar-embedded) ─── */
+/* â”€â”€â”€ LEVEL FILTER (mirror AH â€” icon-only pills, toolbar-embedded) â”€â”€â”€ */
 .sf-level-chips {
   display: flex; gap: 6px; flex-shrink: 0; align-items: center;
 }
@@ -445,7 +445,7 @@ body::before {
 }
 .sf-empty.is-visible { display: block; }
 
-/* ─── DOMAIN GRID (CH-parallel) ─────────────── */
+/* â”€â”€â”€ DOMAIN GRID (CH-parallel) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .domain-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -504,10 +504,10 @@ body::before {
 
 .domain-comps { padding: 6px 20px 14px; display: flex; flex-direction: column; gap: 6px; }
 
-/* ─── DOMAIN TAKEAWAYS ACCORDION (3-hub parity port 2026-05-23) ─── */
-/* .domain-takeaways accordion + .cf-legend popover — shared CSS partial in
+/* â”€â”€â”€ DOMAIN TAKEAWAYS ACCORDION (3-hub parity port 2026-05-23) â”€â”€â”€ */
+/* .domain-takeaways accordion + .cf-legend popover â€” shared CSS partial in
    competency-framework.css (source: /shared-design/competency-framework.css) */
-/* Comp card layout — 3-hub AH parity (2026-05-23). Horizontal flex with
+/* Comp card layout â€” 3-hub AH parity (2026-05-23). Horizontal flex with
    checkbox + body (name+intent+meta+chips) + arrow. Mirrors AH .comp-item
    to give all 3 hubs the same vertical-stack card with clean grouping. */
 .comp-row {
@@ -556,13 +556,13 @@ body::before {
   border-right: 1px dashed #e2e8f0;
 }
 
-/* Group A — Cambridge anchor (primary, bold, solid) */
+/* Group A â€” Cambridge anchor (primary, bold, solid) */
 .cts-pill  { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 7px; background: #ede9fe; color: #5b21b6; border-radius: 4px; font-weight: 700; white-space: nowrap; cursor: pointer; }
-/* Group B — Indonesian + Eduversal + AI (secondary, normal weight) */
+/* Group B â€” Indonesian + Eduversal + AI (secondary, normal weight) */
 .perm-pill { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 6px; background: #fef3c7; color: #92400e; border-radius: 4px; font-weight: 600; white-space: nowrap; }
 .es-pill   { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 6px; background: #cffafe; color: #0e7490; border-radius: 4px; font-weight: 600; white-space: nowrap; cursor: pointer; }
 .aicf-pill { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 6px; background: #ffedd5; color: #c2410c; border-radius: 4px; font-weight: 600; white-space: nowrap; cursor: pointer; }
-/* Group C — Research bibliography (tertiary, outlined/ghost; short-form rendered) */
+/* Group C â€” Research bibliography (tertiary, outlined/ghost; short-form rendered) */
 .ped-pill  {
   font-size: 10px; padding: 2px 6px; background: transparent; color: #64748b;
   border: 1px solid #cbd5e1;
@@ -607,7 +607,7 @@ body::before {
 </head>
 <body>
 
-<!-- Intro banner show/dismiss (runs early, no Firebase dep) — 3-hub parity with AH + CH -->
+<!-- Intro banner show/dismiss (runs early, no Firebase dep) â€” 3-hub parity with AH + CH -->
 <script>
 (function() {
   const KEY_PREFIX = 'th_intro_dismissed_';
@@ -632,9 +632,9 @@ body::before {
 <header class="page-hero" data-accent="mor">
   <div class="page-hero__inner">
     <div class="page-hero__text">
-      <div class="page-hero__eyebrow">Eduversal · Teachers Hub</div>
+      <div class="page-hero__eyebrow">Eduversal Â· Teachers Hub</div>
       <h1 class="page-hero__title">Competency Framework</h1>
-      <p class="page-hero__desc">A structured growth path for every Cambridge teacher in the Eduversal network. Seven domains span what we ask of you — subject mastery, learner-centred pedagogy, assessment, classroom innovation, professional identity, collaboration and AI literacy.</p>
+      <p class="page-hero__desc">A structured growth path for every Cambridge teacher in the Eduversal network. Seven domains span what we ask of you â€” subject mastery, learner-centred pedagogy, assessment, classroom innovation, professional identity, collaboration and AI literacy.</p>
       <div class="page-hero__actions">
         <a href="/learning-path" class="btn-hero btn-hero-primary">
           <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm1 11H9v-2h2v2zm0-4H9V7h2v2z"/></svg>
@@ -648,24 +648,24 @@ body::before {
     </div>
     <div class="page-hero__kpis" id="heroKpis">
       <div class="page-hero__kpi page-hero__kpi--primary">
-        <div class="page-hero__kpi-num" id="kpiDomains">—</div>
+        <div class="page-hero__kpi-num" id="kpiDomains">â€”</div>
         <div class="page-hero__kpi-lbl">Domains</div>
         <div class="page-hero__kpi-sub">seven pillars</div>
       </div>
       <div class="page-hero__kpi">
-        <div class="page-hero__kpi-num" id="kpiComps">—</div>
+        <div class="page-hero__kpi-num" id="kpiComps">â€”</div>
         <div class="page-hero__kpi-lbl">Competencies</div>
         <div class="page-hero__kpi-sub" id="kpiCompsSub">across all domains</div>
       </div>
       <div class="page-hero__kpi">
-        <div class="page-hero__kpi-num" id="kpiCts">—</div>
+        <div class="page-hero__kpi-num" id="kpiCts">â€”</div>
         <div class="page-hero__kpi-lbl">CTS coverage</div>
         <div class="page-hero__kpi-sub">of 27 Cambridge standards</div>
       </div>
       <div class="page-hero__kpi">
         <div class="page-hero__kpi-num">4</div>
         <div class="page-hero__kpi-lbl">Reference systems</div>
-        <div class="page-hero__kpi-sub">CTS · Permendiknas · ES · AICF</div>
+        <div class="page-hero__kpi-sub">CTS Â· Permendiknas Â· ES Â· AICF</div>
       </div>
     </div>
   </div>
@@ -673,29 +673,29 @@ body::before {
 
 <div class="page-wrap">
 
-  <!-- INFO STRIP — what this page is for, what self-assessment means, where evidence goes -->
+  <!-- INFO STRIP â€” what this page is for, what self-assessment means, where evidence goes -->
   <aside class="info-strip" role="note" aria-label="How this page works">
-    <div class="info-strip__icon" aria-hidden="true">🧭</div>
+    <div class="info-strip__icon" aria-hidden="true">ðŸ§­</div>
     <div class="info-strip__body">
-      <h2 class="info-strip__title">Teachers Track — browse + self-assess</h2>
+      <h2 class="info-strip__title">Teachers Track â€” browse + self-assess</h2>
       <p class="info-strip__lede">
         Seven domains covering subject mastery, pedagogy, assessment, classroom practice, ethics, community, and AI &amp; digital literacy. Tap any competency to open it and rate yourself on each level's statements.
       </p>
 
       <ol class="info-strip__flow">
-        <li><strong>Self-assess</strong> here — rate yourself 1–4 on each statement. Scores stay private, feed the "Avg Self-Assessment" tile above</li>
+        <li><strong>Self-assess</strong> here â€” rate yourself 1â€“4 on each statement. Scores stay private, feed the "Avg Self-Assessment" tile above</li>
         <li><strong>Submit evidence</strong> in <a href="my-portfolio">My Portfolio</a> when you're ready to claim a level officially (lesson plans, student work, observation feedback)</li>
-        <li><strong>HQ reviews</strong> your submission → approved level lands on your <a href="learning-path">Learning Path</a> + <a href="my-certificates">Certificates</a></li>
+        <li><strong>HQ reviews</strong> your submission â†’ approved level lands on your <a href="learning-path">Learning Path</a> + <a href="my-certificates">Certificates</a></li>
       </ol>
 
       <div class="info-strip__callout">
-        <span class="info-strip__callout-icon" aria-hidden="true">⚠️</span>
-        <span><strong>Self-assessment alone is not a certificate.</strong> It's an honest snapshot for your own reflection — earning a level requires evidence + HQ approval.</span>
+        <span class="info-strip__callout-icon" aria-hidden="true">âš ï¸</span>
+        <span><strong>Self-assessment alone is not a certificate.</strong> It's an honest snapshot for your own reflection â€” earning a level requires evidence + HQ approval.</span>
       </div>
 
       <div class="info-strip__foot">
         <span><strong>Privacy:</strong> your SA scores are yours alone; HQ never sees them</span>
-        <span><strong>Tip:</strong> rate yourself honestly — over-rating yourself today means harder evidence to submit later</span>
+        <span><strong>Tip:</strong> rate yourself honestly â€” over-rating yourself today means harder evidence to submit later</span>
       </div>
 
       <div class="info-strip__links">
@@ -706,7 +706,7 @@ body::before {
     </div>
   </aside>
 
-  <!-- GROUNDED-IN BAND (provenance — hero-continuation, identical to CH) -->
+  <!-- GROUNDED-IN BAND (provenance â€” hero-continuation, identical to CH) -->
   <section class="grounded-band" id="basisCard" aria-labelledby="groundedHeading">
     <div class="grounded-inner">
       <div class="grounded-head">
@@ -723,44 +723,44 @@ body::before {
             <span class="grounded-tile-badge">CTS</span>
             <div>
               <div class="grounded-tile-name">Cambridge Teacher Standards</div>
-              <div class="grounded-tile-ver">2023 edition · 27 standards</div>
+              <div class="grounded-tile-ver">2023 edition Â· 27 standards</div>
             </div>
           </div>
-          <p class="grounded-tile-desc">International anchor for what a Cambridge teacher should know and do — planning, classroom, assessment, innovation, and community.</p>
-          <span class="grounded-tile-link">Official PDF →</span>
+          <p class="grounded-tile-desc">International anchor for what a Cambridge teacher should know and do â€” planning, classroom, assessment, innovation, and community.</p>
+          <span class="grounded-tile-link">Official PDF â†’</span>
         </a>
         <a class="grounded-tile" data-sys="pmd" href="/references?doc=permendiknas-16-2007" target="_self">
           <div class="grounded-tile-head">
             <span class="grounded-tile-badge">PMD</span>
             <div>
               <div class="grounded-tile-name">Permendiknas No. 16</div>
-              <div class="grounded-tile-ver">Tahun 2007 · 4 kompetensi guru</div>
+              <div class="grounded-tile-ver">Tahun 2007 Â· 4 kompetensi guru</div>
             </div>
           </div>
-          <p class="grounded-tile-desc">Indonesian national teacher-competency regulation — pedagogik, kepribadian, sosial, profesional. Every classroom routine maps back to one of these four pillars.</p>
-          <span class="grounded-tile-link">Read in references →</span>
+          <p class="grounded-tile-desc">Indonesian national teacher-competency regulation â€” pedagogik, kepribadian, sosial, profesional. Every classroom routine maps back to one of these four pillars.</p>
+          <span class="grounded-tile-link">Read in references â†’</span>
         </a>
         <a class="grounded-tile" data-sys="es" href="/references?doc=eduversal-standards-manifest" target="_self">
           <div class="grounded-tile-head">
             <span class="grounded-tile-badge">ES</span>
             <div>
               <div class="grounded-tile-name">Eduversal Academic Standards</div>
-              <div class="grounded-tile-ver">manifest v1 · 23 sections · 393 madde</div>
+              <div class="grounded-tile-ver">manifest v1 Â· 23 sections Â· 393 madde</div>
             </div>
           </div>
-          <p class="grounded-tile-desc">Network-wide policy authority. §7 (Teaching Quality &amp; Practice — Teacher Appraisal System) is the surface that turns these competencies into your annual appraisal.</p>
-          <span class="grounded-tile-link">Browse manifest →</span>
+          <p class="grounded-tile-desc">Network-wide policy authority. Â§7 (Teaching Quality &amp; Practice â€” Teacher Appraisal System) is the surface that turns these competencies into your annual appraisal.</p>
+          <span class="grounded-tile-link">Browse manifest â†’</span>
         </a>
         <a class="grounded-tile" data-sys="aicf" href="/references?doc=aicf-manifest" target="_self">
           <div class="grounded-tile-head">
             <span class="grounded-tile-badge">AICF</span>
             <div>
               <div class="grounded-tile-name">AI Competency Framework</div>
-              <div class="grounded-tile-ver">Eduversal v1.0 · UNESCO AI-CFT 2024 aligned</div>
+              <div class="grounded-tile-ver">Eduversal v1.0 Â· UNESCO AI-CFT 2024 aligned</div>
             </div>
           </div>
-          <p class="grounded-tile-desc">AI-literacy ladder for teachers. Defines red lines (UU PDP 27/2022), Cambridge GenAI coursework rules and the Foundation → Practitioner → Leader progression.</p>
-          <span class="grounded-tile-link">Open AICF →</span>
+          <p class="grounded-tile-desc">AI-literacy ladder for teachers. Defines red lines (UU PDP 27/2022), Cambridge GenAI coursework rules and the Foundation â†’ Practitioner â†’ Leader progression.</p>
+          <span class="grounded-tile-link">Open AICF â†’</span>
         </a>
       </div>
       <div class="grounded-secondary">
@@ -782,15 +782,15 @@ body::before {
 
   <!-- PAGE INTRO BANNER (dismissable; 3-hub parity with AH + CH) -->
   <div class="page-intro" data-intro-key="th-competency-framework">
-    <div class="page-intro-icon">🗺️</div>
+    <div class="page-intro-icon">ðŸ—ºï¸</div>
     <div class="page-intro-body">
       <div class="page-intro-title">First time on Competency Framework?</div>
       <div class="page-intro-text">
-        This page is the <strong>map of teaching skills</strong> we want every Cambridge teacher in the Eduversal network to grow, organised in <strong>7 domains</strong>. It is the "what does good look like?" page — read-only structure. The clickable lessons live on the <strong>Learning Path</strong> page (use the button above). Every competency is anchored to four reference systems: Cambridge Teacher Standards 2023, Eduversal Academic Standards, Permendiknas + Permendikdasmen 2026, and the AI Competency Framework v1.0.
+        This page is the <strong>map of teaching skills</strong> we want every Cambridge teacher in the Eduversal network to grow, organised in <strong>7 domains</strong>. It is the "what does good look like?" page â€” read-only structure. The clickable lessons live on the <strong>Learning Path</strong> page (use the button above). Every competency is anchored to four reference systems: Cambridge Teacher Standards 2023, Eduversal Academic Standards, Permendiknas + Permendikdasmen 2026, and the AI Competency Framework v1.0.
       </div>
-      <a class="page-intro-link" href="/welcome#page-framework">📖 Read the full guide →</a>
+      <a class="page-intro-link" href="/welcome#page-framework">ðŸ“– Read the full guide â†’</a>
     </div>
-    <button class="page-intro-dismiss" type="button" aria-label="Dismiss intro" onclick="window.__dismissIntro('th-competency-framework')">✕</button>
+    <button class="page-intro-dismiss" type="button" aria-label="Dismiss intro" onclick="window.__dismissIntro('th-competency-framework')">âœ•</button>
   </div>
 
   <!-- PROGRESS OVERVIEW -->
@@ -831,11 +831,11 @@ body::before {
     </div>
   </div>
 
-  <!-- FILTER TOOLBAR (single-line: search · level pills · divider · domain icons · count — AH-parallel) -->
+  <!-- FILTER TOOLBAR (single-line: search Â· level pills Â· divider Â· domain icons Â· count â€” AH-parallel) -->
   <div class="sf-toolbar" id="sfToolbar" hidden>
     <div class="sf-search">
-      <span aria-hidden="true">🔎</span>
-      <input id="sfSearch" type="search" placeholder="Search competency name, id or intent…" autocomplete="off" />
+      <span aria-hidden="true">ðŸ”Ž</span>
+      <input aria-label="Search competency name, id or intentâ€¦" id="sfSearch" type="search" placeholder="Search competency name, id or intentâ€¦" autocomplete="off" />
     </div>
     <div class="sf-level-chips" role="group" aria-label="Filter by level">
       <button class="level-pill active" data-filter="all" onclick="setLevelFilter('all',this)" title="All levels" aria-label="All levels"><span class="dot" style="background:#94a3b8;"></span>All</button>
@@ -855,7 +855,7 @@ body::before {
   </div>
 
   <!-- EMPTY STATE -->
-  <div class="sf-empty" id="sfEmpty">No competencies match — try a different search or domain filter.</div>
+  <div class="sf-empty" id="sfEmpty">No competencies match â€” try a different search or domain filter.</div>
 
   <!-- DOMAINS -->
   <div class="domain-grid" id="domainGrid">
@@ -874,7 +874,7 @@ body::before {
 <script type="module">
 import { doc, getDoc, collection, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-// ─── Navbar mount ─────────────────────────────────────────────────
+// â”€â”€â”€ Navbar mount â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 fetch('partials/navbar.html')
   .then(r => r.text())
   .then(html => {
@@ -885,10 +885,10 @@ fetch('partials/navbar.html')
     if (typeof window._pendingFeedbackSetup === 'function') { window._pendingFeedbackSetup(); window._pendingFeedbackSetup = null; }
   });
 
-// ─── State ────────────────────────────────────────────────────────
+// â”€â”€â”€ State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let FRAMEWORK = null;           // Firestore-loaded competency_framework/teachers
 let earned    = {};             // user_competencies/{uid}.earned
-let saScores  = {};             // user_competencies/{uid}.saScores_teacher (renamed 2026-05-26 — symmetric with AH saScores_academic + CH saScores_central)
+let saScores  = {};             // user_competencies/{uid}.saScores_teacher (renamed 2026-05-26 â€” symmetric with AH saScores_academic + CH saScores_central)
 let activeDomain = 'all';
 let activeLevel  = 'all';   // AH-parallel level filter (awareness/practitioner/advanced/lead/all)
 let searchTerm   = '';
@@ -901,9 +901,9 @@ const LEVEL_LABEL = { awareness: 'Awareness', practitioner: 'Practitioner', adva
 
 // Recommended-next: soft progression hint (Duolingo-tree style, NOT Coursera-style lock).
 // Returns the level the user is most ready to attempt next:
-//   - No earned level → first level in this comp's `levels[]` → render as "Start Here"
-//   - Some earned     → next entry in LEVEL_ORDER that is still in this comp's `levels[]`
-//   - Earned == top   → null (already at Lead; no recommendation)
+//   - No earned level â†’ first level in this comp's `levels[]` â†’ render as "Start Here"
+//   - Some earned     â†’ next entry in LEVEL_ORDER that is still in this comp's `levels[]`
+//   - Earned == top   â†’ null (already at Lead; no recommendation)
 // Hard-lock would alienate experienced teachers; this is purely a visual nudge.
 function nextRecommendedLevel(c) {
   const compLevels = Array.isArray(c.levels) ? c.levels : [];
@@ -917,7 +917,7 @@ function nextRecommendedLevel(c) {
   return null;
 }
 
-// ─── authReady (TH dispatches on `document`) ──────────────────────
+// â”€â”€â”€ authReady (TH dispatches on `document`) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Minimal load-error toast. Triggered when Firestore reads fail
 // (network drop, rule reject). Auto-dismisses after 5s. Silent failure
 // would let the user think their data is empty when it's just unreachable.
@@ -962,7 +962,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
     ]);
   } catch (err) {
     console.warn('[competency-framework] Firestore read failed:', err);
-    showCfLoadError("Couldn't load your progress — refresh to retry.");
+    showCfLoadError("Couldn't load your progress â€” refresh to retry.");
     return;
   }
 
@@ -988,7 +988,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
   renderFilters(FRAMEWORK);
 });
 
-// ─── Self-assessment helpers ──────────────────────────────────────
+// â”€â”€â”€ Self-assessment helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function avgSaScore(compId) {
   const vals = Object.entries(saScores)
     .filter(([k]) => k.startsWith(compId + '/'))
@@ -1013,7 +1013,7 @@ function highestEarned(compId) {
   return earned[compId]?.level || null;
 }
 
-// ─── Renderers ────────────────────────────────────────────────────
+// â”€â”€â”€ Renderers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function renderBasis(fw) {
   const audience = fw.audience || 'subject_teacher + subject_leader';
   const meta = document.getElementById('basisText');
@@ -1032,8 +1032,8 @@ function renderKpis(fw) {
   const ctsSet = new Set();
   for (const c of comps) for (const r of (c.cambridgeStandardRefs || [])) ctsSet.add(String(r));
   const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-  set('kpiDomains', domains.length || '—');
-  set('kpiComps',   comps.length   || '—');
+  set('kpiDomains', domains.length || 'â€”');
+  set('kpiComps',   comps.length   || 'â€”');
   set('kpiCts',     `${ctsSet.size}/27`);
 }
 
@@ -1059,7 +1059,7 @@ function renderProgressOverview() {
          <span style="white-space:nowrap;">${avgSa.toFixed(1)}/4</span>
          <div class="sa-score-bar"><div class="sa-score-fill" style="width:${Math.round((avgSa/4)*100)}%"></div></div>
        </div>`
-    : `<div class="progress-stat-sub" style="margin-top:4px;">No self-assessments yet · <a href="/learning-path" style="color:var(--accent);font-weight:600;text-decoration:none;">Start →</a></div>`;
+    : `<div class="progress-stat-sub" style="margin-top:4px;">No self-assessments yet Â· <a href="/learning-path" style="color:var(--accent);font-weight:600;text-decoration:none;">Start â†’</a></div>`;
 
   document.getElementById('progressOverview').innerHTML = `
     <div class="progress-stat">
@@ -1121,7 +1121,7 @@ function applyFilter() {
   rows.forEach(row => {
     const matchesDomain = activeDomain === 'all' || row.dataset.domainId === activeDomain;
     const matchesSearch = !searchTerm || (row.dataset.search || '').includes(searchTerm);
-    // Level filter — a comp matches if its declared levels[] includes the
+    // Level filter â€” a comp matches if its declared levels[] includes the
     // active level. `data-levels` is the comma-joined levels array set by
     // renderCompRow(); 'all' means show every comp regardless.
     const rowLevels = (row.dataset.levels || '').split(',').filter(Boolean);
@@ -1139,7 +1139,7 @@ function applyFilter() {
   if (empty) empty.classList.toggle('is-visible', visible === 0);
 }
 
-// Level pill click handler — toggles activeLevel + re-applies filter.
+// Level pill click handler â€” toggles activeLevel + re-applies filter.
 // Exposed on window because the buttons use inline `onclick=`.
 window.setLevelFilter = function(filter, btn) {
   activeLevel = filter;
@@ -1153,7 +1153,7 @@ function renderDomains(fw) {
   const compsByDomain = {};
   for (const c of fw.competencies || []) (compsByDomain[c.domainId] ||= []).push(c);
 
-  // Dynamic section title — domain count drives "The Six/Seven Domains"
+  // Dynamic section title â€” domain count drives "The Six/Seven Domains"
   // (3-hub parity with AH + CH). Falls back to "Competency Domains" if
   // count is unknown / non-standard.
   const dList = fw.domains || [];
@@ -1184,7 +1184,7 @@ function renderDomains(fw) {
       ? `<span style="font-size:10px;font-weight:700;color:var(--ink-3);margin-right:8px;">SA ${domSa.toFixed(1)}/4</span>`
       : '';
 
-    // Per-domain key takeaways — Firestore-driven 2026-05-23 for 3-hub
+    // Per-domain key takeaways â€” Firestore-driven 2026-05-23 for 3-hub
     // parity with CH + AH. Read from competency_framework/teachers.domainTakeaways.
     const takeaways = (fw.domainTakeaways && fw.domainTakeaways[d.id]) || [];
     const tkHtml = takeaways.map(t => `<div class="domain-tk-item">${esc(t)}</div>`).join('');
@@ -1193,9 +1193,9 @@ function renderDomains(fw) {
     return `
       <div class="domain-card" data-color="${color}" data-domain-id="${esc(d.id)}">
         <div class="domain-card-header">
-          <div class="domain-icon">${esc(d.icon || '•')}</div>
+          <div class="domain-icon">${esc(d.icon || 'â€¢')}</div>
           <div class="domain-info">
-            <div class="domain-label">Domain ${idx + 1} · ${esc(d.id.toUpperCase())}</div>
+            <div class="domain-label">Domain ${idx + 1} Â· ${esc(d.id.toUpperCase())}</div>
             <div class="domain-name">${esc(d.name)}</div>
           </div>
         </div>
@@ -1213,7 +1213,7 @@ function renderDomains(fw) {
         ${takeaways.length ? `
           <div class="domain-takeaways">
             <div class="domain-takeaways-toggle" onclick="toggleTakeaways(this)">
-              <span class="domain-takeaways-label">💡 Key Takeaways (${takeaways.length})</span>
+              <span class="domain-takeaways-label">ðŸ’¡ Key Takeaways (${takeaways.length})</span>
               ${chevronSvg}
             </div>
             <div class="domain-takeaways-list">${tkHtml}</div>
@@ -1231,8 +1231,8 @@ function renderCompRow(c) {
   const rec = nextRecommendedLevel(c);
   const recPill = rec && rec.level
     ? (rec.kind === 'start'
-        ? `<span class="comp-recommend-pill start" title="Suggested entry point — open the Learning Path to begin">✨ Start Here</span>`
-        : `<span class="comp-recommend-pill next" title="Recommended next level based on your earned progress">→ Next: ${esc(LEVEL_LABEL[rec.level] || rec.level)}</span>`)
+        ? `<span class="comp-recommend-pill start" title="Suggested entry point â€” open the Learning Path to begin">âœ¨ Start Here</span>`
+        : `<span class="comp-recommend-pill next" title="Recommended next level based on your earned progress">â†’ Next: ${esc(LEVEL_LABEL[rec.level] || rec.level)}</span>`)
     : '';
   const refs    = Array.isArray(c.cambridgeStandardRefs) ? c.cambridgeStandardRefs : [];
   const perms   = Array.isArray(c.permendiknasRefs)      ? c.permendiknasRefs      : [];
@@ -1241,31 +1241,31 @@ function renderCompRow(c) {
   const pedRefs  = Array.isArray(c.pedagogyRefs)         ? c.pedagogyRefs          : [];
 
   // Pedagogy chip short-form: smart truncation.
-  //   "Robinson 2008 — Student-Centred Leadership"     → "Robinson 2008"
-  //   "EASE growth model (Rasch-lite scoring)"          → "EASE growth model"
-  //   "Cambridge candidate-tracker authentication 2024" → "Cambridge candidate-tracker…"
-  // Strip em/en-dash suffix, strip trailing parenthetical, then ellipsize ≥22 chars.
+  //   "Robinson 2008 â€” Student-Centred Leadership"     â†’ "Robinson 2008"
+  //   "EASE growth model (Rasch-lite scoring)"          â†’ "EASE growth model"
+  //   "Cambridge candidate-tracker authentication 2024" â†’ "Cambridge candidate-trackerâ€¦"
+  // Strip em/en-dash suffix, strip trailing parenthetical, then ellipsize â‰¥22 chars.
   const shortPed = (s) => {
-    let cleaned = String(s).split(/[—–]\s/)[0].trim();
+    let cleaned = String(s).split(/[â€”â€“]\s/)[0].trim();
     cleaned = cleaned.replace(/\s*\([^)]*\)\s*$/, '').trim();
-    return cleaned.length > 22 ? cleaned.slice(0, 20) + '…' : cleaned;
+    return cleaned.length > 22 ? cleaned.slice(0, 20) + 'â€¦' : cleaned;
   };
 
   // 3-group chip organisation (2026-05-23 AH parity port):
-  //   Group A — Cambridge anchor (CTS, primary, bold)
-  //   Group B — Indonesian + Eduversal + AI (PMD + ES + AICF, secondary)
-  //   Group C — Research bibliography (Pedagogy, tertiary, outlined)
+  //   Group A â€” Cambridge anchor (CTS, primary, bold)
+  //   Group B â€” Indonesian + Eduversal + AI (PMD + ES + AICF, secondary)
+  //   Group C â€” Research bibliography (Pedagogy, tertiary, outlined)
   const capPmd = (s) => String(s).charAt(0).toUpperCase() + String(s).slice(1);
-  // AICF compact display: refId "teacher.foundation.domainA" → "Domain A"
+  // AICF compact display: refId "teacher.foundation.domainA" â†’ "Domain A"
   //   (audience + level demoted to title attribute to keep chip width
-  //   manageable — full breakdown still surfaces on hover/popover).
+  //   manageable â€” full breakdown still surfaces on hover/popover).
   const prettyAicfFull = (s) => {
     const parts = String(s).split('.');
     return parts.map(part => {
       const m = part.match(/^domain([A-Z])$/i);
       if (m) return 'Domain ' + m[1].toUpperCase();
       return part.charAt(0).toUpperCase() + part.slice(1).replace(/_/g, ' ');
-    }).join(' · ');
+    }).join(' Â· ');
   };
   const compactAicf = (s) => {
     const parts = String(s).split('.');
@@ -1274,11 +1274,11 @@ function renderCompRow(c) {
     if (domainMatch) return 'Domain ' + domainMatch[1].toUpperCase();
     return last.charAt(0).toUpperCase() + last.slice(1).replace(/_/g, ' ');
   };
-  const ctsChips = refs.map(r => `<span class="cts-pill" data-cts-ref="${esc(r)}" title="Cambridge Teacher Standards 2023 — ${esc(r)}">CTS ${esc(r)}</span>`).join('');
-  const permChips = perms.map(p => `<span class="perm-pill" data-pmd-ref="${esc(p)}" title="Permendiknas No.16/2007 — Kompetensi ${esc(capPmd(p))}">${esc(capPmd(p))}</span>`).join('');
+  const ctsChips = refs.map(r => `<span class="cts-pill" data-cts-ref="${esc(r)}" title="Cambridge Teacher Standards 2023 â€” ${esc(r)}">CTS ${esc(r)}</span>`).join('');
+  const permChips = perms.map(p => `<span class="perm-pill" data-pmd-ref="${esc(p)}" title="Permendiknas No.16/2007 â€” Kompetensi ${esc(capPmd(p))}">${esc(capPmd(p))}</span>`).join('');
   const esChips = esRefs.map(e => `<span class="es-pill" data-es-ref="${esc(e)}" title="Eduversal Academic Standards madde ${esc(e)}">ES ${esc(e)}</span>`).join('');
-  const aicfChips = aicfRefs.map(a => `<span class="aicf-pill" data-aicf-ref="${esc(a)}" title="AICF · ${esc(prettyAicfFull(a))} (${esc(a)})">AICF · ${esc(compactAicf(a))}</span>`).join('');
-  const pedChips = pedRefs.map(p => `<span class="ped-pill" title="${esc(p)}">📖 ${esc(shortPed(p))}</span>`).join('');
+  const aicfChips = aicfRefs.map(a => `<span class="aicf-pill" data-aicf-ref="${esc(a)}" title="AICF Â· ${esc(prettyAicfFull(a))} (${esc(a)})">AICF Â· ${esc(compactAicf(a))}</span>`).join('');
+  const pedChips = pedRefs.map(p => `<span class="ped-pill" title="${esc(p)}">ðŸ“– ${esc(shortPed(p))}</span>`).join('');
 
   const groupA = ctsChips;
   const groupB = permChips + esChips + aicfChips;
@@ -1299,7 +1299,7 @@ function renderCompRow(c) {
         <div class="comp-name">${esc(c.name)}</div>
         ${intentHtml}
         <div class="comp-meta-row">
-          <span class="comp-level-badge ${levelClass}">${isEarned ? '✓ ' : ''}${displayLevel}</span>
+          <span class="comp-level-badge ${levelClass}">${isEarned ? 'âœ“ ' : ''}${displayLevel}</span>
           ${recPill}
         </div>
         ${chips ? `<div class="comp-chips">${chips}</div>` : ''}
@@ -1318,7 +1318,7 @@ window.toggleTakeaways = (toggleEl) => {
   toggleEl.closest('.domain-card').classList.toggle('tk-open');
 };
 
-// Keyboard accessibility for comp-row — Tab to focus + Enter/Space to open
+// Keyboard accessibility for comp-row â€” Tab to focus + Enter/Space to open
 // the Learning Path reader. Ports the CH commit de25898 a11y pattern so all
 // 3 hubs are WCAG 2.1 Level A keyboard-operable on the framework grid.
 document.addEventListener('keydown', (e) => {
@@ -1331,7 +1331,7 @@ document.addEventListener('keydown', (e) => {
 });
 </script>
 
-<!-- Chip legend (sticky bottom-right) — .cf-legend-* CSS lives in shared
+<!-- Chip legend (sticky bottom-right) â€” .cf-legend-* CSS lives in shared
      /shared-design/competency-framework.css (linked in <head>) -->
 
 <button type="button" class="cf-legend-btn" id="cfLegendBtn" aria-expanded="false" aria-controls="cfLegendPopover" aria-label="Open chip legend">
@@ -1350,7 +1350,7 @@ document.addEventListener('keydown', (e) => {
     <div class="cf-legend-row">
       <span class="cf-legend-row__sample"><span class="cts-pill">CTS 3.2</span></span>
       <div class="cf-legend-row__text">
-        <span class="cf-legend-row__label">CTS — Cambridge Teacher Standards 2023</span>
+        <span class="cf-legend-row__label">CTS â€” Cambridge Teacher Standards 2023</span>
         <span class="cf-legend-row__desc">The Cambridge professional standard this competency maps to.</span>
       </div>
     </div>
@@ -1358,7 +1358,7 @@ document.addEventListener('keydown', (e) => {
     <div class="cf-legend-row">
       <span class="cf-legend-row__sample"><span class="perm-pill">profesional</span></span>
       <div class="cf-legend-row__text">
-        <span class="cf-legend-row__label">PMD — Permendiknas No.16/2007</span>
+        <span class="cf-legend-row__label">PMD â€” Permendiknas No.16/2007</span>
         <span class="cf-legend-row__desc">Indonesian national teacher-competency pillar: <em>pedagogik</em>, <em>kepribadian</em>, <em>sosial</em>, or <em>profesional</em>.</span>
       </div>
     </div>
@@ -1366,7 +1366,7 @@ document.addEventListener('keydown', (e) => {
     <div class="cf-legend-row">
       <span class="cf-legend-row__sample"><span class="es-pill">ES 5.5</span></span>
       <div class="cf-legend-row__text">
-        <span class="cf-legend-row__label">ES — Eduversal Academic Standards</span>
+        <span class="cf-legend-row__label">ES â€” Eduversal Academic Standards</span>
         <span class="cf-legend-row__desc">Madde-level reference to the network-wide Eduversal Academic Standards manual.</span>
       </div>
     </div>
@@ -1374,20 +1374,20 @@ document.addEventListener('keydown', (e) => {
     <div class="cf-legend-row">
       <span class="cf-legend-row__sample"><span class="aicf-pill">AICF 1.2</span></span>
       <div class="cf-legend-row__text">
-        <span class="cf-legend-row__label">AICF — AI Competency Framework</span>
+        <span class="cf-legend-row__label">AICF â€” AI Competency Framework</span>
         <span class="cf-legend-row__desc">Eduversal's AI Competency Framework v1.0 block this competency anchors to. AID-domain competencies always carry one.</span>
       </div>
     </div>
 
     <div class="cf-legend-row">
-      <span class="cf-legend-row__sample"><span class="ped-pill">📖 Rosenshine</span></span>
+      <span class="cf-legend-row__sample"><span class="ped-pill">ðŸ“– Rosenshine</span></span>
       <div class="cf-legend-row__text">
         <span class="cf-legend-row__label">Research source</span>
         <span class="cf-legend-row__desc">The pedagogical research, framework, or author this competency draws on (e.g. Rosenshine Principles, Wiggins &amp; McTighe). Hover the chip to read the full citation.</span>
       </div>
     </div>
 
-    <p class="cf-legend-popover__footer">CTS, ES, and AICF chips are clickable — they open the source passage in a popover. PMD and Research chips show full context on hover.</p>
+    <p class="cf-legend-popover__footer">CTS, ES, and AICF chips are clickable â€” they open the source passage in a popover. PMD and Research chips show full context on hover.</p>
   </div>
 </div>
 
@@ -1416,10 +1416,10 @@ document.addEventListener('keydown', (e) => {
 <footer class="page-footer" role="contentinfo">
   <div class="page-footer__inner">
     <div class="page-footer__cta">
-      <span class="page-footer__cta-eyebrow">Teachers · CPD</span>
+      <span class="page-footer__cta-eyebrow">Teachers Â· CPD</span>
       <h2 class="page-footer__cta-title">Find the competency that matches your growth area.</h2>
       <p class="page-footer__cta-desc">Pick one, rate yourself honestly on the level statements, then go gather evidence for the level above. Self-assessment is for your reflection; earning a level happens in My Portfolio.</p>
-      <a href="learning-path" class="page-footer__cta-btn">Open Learning Path <span aria-hidden="true">→</span></a>
+      <a href="learning-path" class="page-footer__cta-btn">Open Learning Path <span aria-hidden="true">â†’</span></a>
     </div>
     <nav class="page-footer__nav" aria-label="Competency Framework footer navigation">
       <div class="page-footer__nav-group">
@@ -1438,7 +1438,7 @@ document.addEventListener('keydown', (e) => {
     </nav>
   </div>
   <div class="page-footer__meta">
-    <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
+    <span class="page-footer__meta-left">Â© Eduversal Â· Teachers Hub</span>
     <span class="page-footer__meta-right">Self-assessment stays private to you</span>
   </div>
 </footer>
