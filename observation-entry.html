@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Observation Entry — Teachers Hub</title>
+<title>Observation Entry â€” Teachers Hub</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23331e05'/><polygon points='10,45 50,65 50,70 10,50' fill='%23a8650a'/><polygon points='90,45 50,65 50,70 90,50' fill='%23c2780c'/><polygon points='50,25 90,45 50,65 10,45' fill='%23d97706'/><circle cx='76' cy='76' r='20' fill='%23d97706' stroke='%23331e05' stroke-width='3'/><text x='76' y='84' font-family='Georgia,serif' font-size='26' font-weight='bold' text-anchor='middle' fill='white'>T</text></svg>">
 <link rel="stylesheet" href="base.css">
 <script src="firebase-config.js"></script>
@@ -156,12 +156,12 @@ textarea:focus, input:focus { outline: none; border-color: var(--accent); }
 
 <div class="page-wrap">
   <div class="page-header">
-    <p class="eyebrow">Induction Module · Mentor / School Leader</p>
+    <p class="eyebrow">Induction Module Â· Mentor / School Leader</p>
     <h1>Observation Entry</h1>
     <p>Record a structured observation against the four-domain rubric (Planning, Management, Instruction, Assessment). Charter Non-Negotiable 1: this collection is induction-scope only and does NOT propagate to the network appraisal scoring engine.</p>
   </div>
 
-  <div id="loadingState" style="padding:40px;text-align:center;color:var(--ink-3);">Loading mentee context…</div>
+  <div id="loadingState" style="padding:40px;text-align:center;color:var(--ink-3);">Loading mentee contextâ€¦</div>
 
   <div id="formContainer" style="display:none;">
     <!-- CONTEXT -->
@@ -204,19 +204,19 @@ textarea:focus, input:focus { outline: none; border-color: var(--accent); }
     <!-- GLOW / GROW / GO -->
     <div class="section">
       <h2>Glow / Grow / Go feedback</h2>
-      <p class="help">Use the GROW conversation structure (Cambridge Mentoring Guide 2020) to frame the post-conference. Short narratives — the mentee will read these in their post-conference reflection.</p>
+      <p class="help">Use the GROW conversation structure (Cambridge Mentoring Guide 2020) to frame the post-conference. Short narratives â€” the mentee will read these in their post-conference reflection.</p>
       <div class="glow-grow-go">
         <div class="ggg-card glow">
-          <label>Glow — what worked</label>
-          <textarea id="glow" rows="6" placeholder="A specific moment where the lesson surfaced a real strength."></textarea>
+          <label>Glow â€” what worked</label>
+          <textarea aria-label="A specific moment where the lesson surfaced a real strength" id="glow" rows="6" placeholder="A specific moment where the lesson surfaced a real strength."></textarea>
         </div>
         <div class="ggg-card grow">
-          <label>Grow — what to develop</label>
-          <textarea id="grow" rows="6" placeholder="One specific area for growth, anchored in observed evidence."></textarea>
+          <label>Grow â€” what to develop</label>
+          <textarea aria-label="One specific area for growth, anchored in observed evidence" id="grow" rows="6" placeholder="One specific area for growth, anchored in observed evidence."></textarea>
         </div>
         <div class="ggg-card go">
-          <label>Go — agreed next action</label>
-          <textarea id="go" rows="6" placeholder="The single concrete action the mentee will take before the next observation."></textarea>
+          <label>Go â€” agreed next action</label>
+          <textarea aria-label="The single concrete action the mentee will take before the next observation" id="go" rows="6" placeholder="The single concrete action the mentee will take before the next observation."></textarea>
         </div>
       </div>
     </div>
@@ -224,8 +224,8 @@ textarea:focus, input:focus { outline: none; border-color: var(--accent); }
     <!-- ACTION PLAN -->
     <div class="section">
       <h2>Action plan</h2>
-      <p class="help">A SMART objective for the mentee to work on between this observation and the next. See Cambridge Mentoring Guide 2020 — SMART = Specific / Measurable / Attainable / Relevant / Time-based.</p>
-      <textarea id="actionPlan" rows="3" placeholder="By [date], I will [specific action], measured by [evidence]."></textarea>
+      <p class="help">A SMART objective for the mentee to work on between this observation and the next. See Cambridge Mentoring Guide 2020 â€” SMART = Specific / Measurable / Attainable / Relevant / Time-based.</p>
+      <textarea aria-label="By [date], I will [specific action], measured by [evidence]" id="actionPlan" rows="3" placeholder="By [date], I will [specific action], measured by [evidence]."></textarea>
     </div>
 
     <div class="actions">
@@ -248,10 +248,10 @@ fetch('partials/navbar.html').then(r => r.text()).then(html => {
 
 const db = window.db;
 
-// ──────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // URL parameters: ?menteeUid=...&type=mentor_observes_mentee&number=4&obsId=...
-// (obsId optional — if present, edits an existing draft)
-// ──────────────────────────────────────────────────────────
+// (obsId optional â€” if present, edits an existing draft)
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const params = new URLSearchParams(window.location.search);
 const MENTEE_UID = params.get('menteeUid');
 const OBSERVATION_TYPE = params.get('type') || 'mentor_observes_mentee';
@@ -273,26 +273,26 @@ const LEVELS = [
 ];
 
 const TYPE_DESCRIPTIONS = {
-  co_teach: { label: 'Co-teach observation', scored: false, note: 'Co-teach observations are unscored. Capture narrative reflections only — the rubric below is hidden.' },
+  co_teach: { label: 'Co-teach observation', scored: false, note: 'Co-teach observations are unscored. Capture narrative reflections only â€” the rubric below is hidden.' },
   mentor_observes_mentee: { label: 'Mentor observes mentee', scored: true, note: '' },
-  mentee_observes_mentor: { label: 'Mentee observes mentor', scored: false, note: 'In this observation type the mentee is the observer and the mentor is the observed. The mentee writes a structured reflection — the rubric below is hidden for this entry.' },
+  mentee_observes_mentor: { label: 'Mentee observes mentor', scored: false, note: 'In this observation type the mentee is the observer and the mentor is the observed. The mentee writes a structured reflection â€” the rubric below is hidden for this entry.' },
   mentee_observes_other_teacher: { label: 'Mentee observes another experienced teacher', scored: false, note: 'In this observation type the mentee is the observer. The rubric below is hidden.' },
   formal_evaluation: { label: 'Q4 formal evaluation', scored: true, note: 'This is the school leader-led formal evaluation. Per Charter Principle 3, this evaluation does NOT feed network appraisal scoring; it is the mentee\'s induction-completion observation.' },
   specialist_walkthrough: { label: 'Specialist walkthrough', scored: true, note: 'A walkthrough conducted by an HQ Subject Specialist (Stage 2 of the specialist induction).' },
 };
 
-// ──────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // STATE
-// ──────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let assignment = null;
 let menteeProfile = null;
 let programDoc = null;
 let domainScores = { planning: null, management: null, instruction: null, assessment: null };
 let existingObs = null;
 
-// ──────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // BOOT
-// ──────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
   if (!MENTEE_UID) {
     showLoadingError('Missing menteeUid in URL. This page must be opened from the mentor or school-leader dashboard.');
@@ -361,9 +361,9 @@ function escapeHtml(s) {
   return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-// ──────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // RENDER
-// ──────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function renderForm() {
   const td = TYPE_DESCRIPTIONS[OBSERVATION_TYPE] || { label: OBSERVATION_TYPE, scored: true, note: '' };
 
@@ -372,8 +372,8 @@ function renderForm() {
     <div class="ctx-row"><span class="ctx-label">Mentee</span><span class="ctx-value">${escapeHtml(menteeProfile?.displayName || MENTEE_UID)}</span></div>
     <div class="ctx-row"><span class="ctx-label">Program</span><span class="ctx-value">${escapeHtml(programDoc?.title || assignment.programId || '')}</span></div>
     <div class="ctx-row"><span class="ctx-label">Type</span><span class="ctx-value">${escapeHtml(td.label)}</span></div>
-    <div class="ctx-row"><span class="ctx-label">Number</span><span class="ctx-value">${OBSERVATION_NUMBER ? '#' + OBSERVATION_NUMBER : '—'}</span></div>
-    <div class="ctx-row"><span class="ctx-label">Hire date</span><span class="ctx-value">${assignment.hireDate?.toDate ? assignment.hireDate.toDate().toLocaleDateString('en-GB') : '—'}</span></div>
+    <div class="ctx-row"><span class="ctx-label">Number</span><span class="ctx-value">${OBSERVATION_NUMBER ? '#' + OBSERVATION_NUMBER : 'â€”'}</span></div>
+    <div class="ctx-row"><span class="ctx-label">Hire date</span><span class="ctx-value">${assignment.hireDate?.toDate ? assignment.hireDate.toDate().toLocaleDateString('en-GB') : 'â€”'}</span></div>
   `;
 
   if (td.note) {
@@ -437,9 +437,9 @@ function renderRubric() {
   });
 }
 
-// ──────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // SAVE / COMPLETE
-// ──────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function buildPayload(markComplete) {
   const td = TYPE_DESCRIPTIONS[OBSERVATION_TYPE] || { scored: true };
   const obsDateStr = document.getElementById('obsDate').value;
@@ -505,7 +505,7 @@ async function save(markComplete) {
   const btnComplete = document.getElementById('btnComplete');
   btnDraft.disabled = btnComplete.disabled = true;
   const origLabel = markComplete ? btnComplete.textContent : btnDraft.textContent;
-  if (markComplete) btnComplete.textContent = 'Saving…'; else btnDraft.textContent = 'Saving…';
+  if (markComplete) btnComplete.textContent = 'Savingâ€¦'; else btnDraft.textContent = 'Savingâ€¦';
 
   try {
     const payload = buildPayload(markComplete);
@@ -537,9 +537,9 @@ async function save(markComplete) {
 document.getElementById('btnSaveDraft').addEventListener('click', () => save(false));
 document.getElementById('btnComplete').addEventListener('click', () => save(true));
 
-// ──────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // TOAST
-// ──────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function showToast(msg, kind) {
   const el = document.createElement('div');
   el.className = `toast ${kind || 'success'}`;

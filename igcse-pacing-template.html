@@ -575,7 +575,7 @@ function _showCm(opts) {
       var opts2 = f.options.map(function(o){ return '<option value="'+o.v+'"'+(o.def?' selected':'')+'>'+o.l+'</option>'; }).join('');
       return '<div class="cm-field"><label>'+f.label+'</label><select class="cm-select" id="cm-'+f.id+'">'+opts2+'</select></div>';
     }
-    return '<div class="cm-field"><label>'+f.label+'</label><input class="cm-input" id="cm-'+f.id+'" type="'+(f.type||'text')+'" placeholder="'+(f.ph||'')+'" value="'+(f.val||'')+'"></div>';
+    return '<div class="cm-field"><label>'+f.label+'</label><input aria-label="'+(f.ph||'')+'" class="cm-input" id="cm-'+f.id+'" type="'+(f.type||'text')+'" placeholder="'+(f.ph||'')+'" value="'+(f.val||'')+'"></div>';
   }).join('');
   document.getElementById('cmModal').classList.add('open');
   setTimeout(function(){ var el=fieldsEl.querySelector('input,select'); if(el)el.focus(); },80);
@@ -854,7 +854,7 @@ function renderPacing() {
                 <tr class="note-row" id="note-row-${ci}-${ti}">
                   <td colspan="2" style="padding:0 !important; border-bottom: 1px solid var(--border) !important;">
                     <div class="note-panel${t.note ? ' open' : ''}" id="note-panel-${ci}-${ti}">
-                      <textarea class="note-textarea" id="note-ta-${ci}-${ti}" placeholder="Write your observation, differentiation note, or class feedback hereâ€¦">${escHtml(t.note||'')}</textarea>
+                      <textarea aria-label="Write your observation, differentiation note, or class feedback hereâ€¦" class="note-textarea" id="note-ta-${ci}-${ti}" placeholder="Write your observation, differentiation note, or class feedback hereâ€¦">${escHtml(t.note||'')}</textarea>
                       <div class="note-actions">
                         <button class="note-save-btn" onclick="saveNote(${ci},${ti})">Save Note</button>
                         <button class="note-discard-btn" onclick="discardNote(${ci},${ti})">Cancel</button>

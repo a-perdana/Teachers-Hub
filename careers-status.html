@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Application status — Eduversal Careers</title>
+<title>Application status â€” Eduversal Careers</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23331e05'/><polygon points='10,45 50,65 50,70 10,50' fill='%23a8650a'/><polygon points='90,45 50,65 50,70 90,50' fill='%23c2780c'/><polygon points='50,25 90,45 50,65 10,45' fill='%23d97706'/><circle cx='76' cy='76' r='20' fill='%23d97706' stroke='%23331e05' stroke-width='3'/><text x='76' y='84' font-family='Georgia,serif' font-size='26' font-weight='bold' text-anchor='middle' fill='white'>T</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Lora:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -114,7 +114,7 @@
 </header>
 
 <div class="page-wrap" id="root">
-  <div class="loading">Loading…</div>
+  <div class="loading">Loadingâ€¦</div>
 </div>
 
 <script type="module">
@@ -138,9 +138,9 @@
   const escHtml = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
   const safeUrl = u => /^https?:\/\//i.test(String(u || '')) ? u : '#';
   function fmtDate(ts) {
-    if (!ts) return '—';
+    if (!ts) return 'â€”';
     const d = ts.toDate ? ts.toDate() : new Date(ts);
-    if (isNaN(d.getTime())) return '—';
+    if (isNaN(d.getTime())) return 'â€”';
     return d.toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   }
 
@@ -150,15 +150,15 @@
     { key: 'shortlisted',         label: 'Shortlisted',            desc: 'You\'ve been shortlisted for an interview.' },
     { key: 'interview_scheduled', label: 'Interview scheduled',    desc: 'Check the interview details below.' },
     { key: 'interview_done',      label: 'Interview complete',     desc: 'We\'re collating panel feedback.' },
-    { key: 'offered',             label: 'Offer extended',         desc: 'Congratulations — see the offer note below.' },
+    { key: 'offered',             label: 'Offer extended',         desc: 'Congratulations â€” see the offer note below.' },
     { key: 'hired',               label: 'Hired',                  desc: 'Welcome to the network!' },
   ];
 
-  // ── boot ──────────────────────────────────────────────────────
+  // â”€â”€ boot â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   // Three flows:
-  //   1. URL contains email-link → complete sign-in, then load apps
-  //   2. Already signed-in (verified email) → load apps
-  //   3. Otherwise → show email entry to request a fresh magic-link
+  //   1. URL contains email-link â†’ complete sign-in, then load apps
+  //   2. Already signed-in (verified email) â†’ load apps
+  //   3. Otherwise â†’ show email entry to request a fresh magic-link
   (async function boot() {
     const root = document.getElementById('root');
     try {
@@ -174,14 +174,14 @@
       });
     } catch (err) {
       console.error('[status] boot failed', err);
-      root.innerHTML = `<div class="card"><div class="alert alert-error">Could not initialise — please refresh the page.</div></div>`;
+      root.innerHTML = `<div class="card"><div class="alert alert-error">Could not initialise â€” please refresh the page.</div></div>`;
     }
   })();
 
   async function completeEmailLinkSignIn() {
     let email = window.localStorage.getItem('eduversal_apply_email');
     if (!email) {
-      // Ask the user for their email — magic-link requires the original email for security.
+      // Ask the user for their email â€” magic-link requires the original email for security.
       email = window.prompt('Confirm your email address (for security):');
       if (!email) throw new Error('Email confirmation cancelled.');
     }
@@ -200,32 +200,32 @@
     document.getElementById('root').innerHTML = `
       <div class="card">
         <div class="signin">
-          <div class="signin-icon">✉️</div>
+          <div class="signin-icon">âœ‰ï¸</div>
           <h2 class="signin-h">Track your application</h2>
           <p class="signin-sub">Enter the email you used to apply. We'll send a magic-link to your inbox; click it to see your application status.</p>
           <form class="signin-form" id="signinForm">
-            <input id="signinEmail" type="email" placeholder="you@example.com" required />
+            <input aria-label="you@example.com" id="signinEmail" type="email" placeholder="you@example.com" required />
             <button id="signinBtn" type="submit">Send link</button>
           </form>
           ${extra}
           <p style="font-size:12.5px;color:var(--ink-3);margin-top:18px">First time here? Browse <a href="/careers" style="color:var(--brand)">open positions</a> and submit an application.</p>
         </div>
       </div>
-      <div class="footer">© Eduversal · <a href="/careers">Browse positions</a></div>
+      <div class="footer">Â© Eduversal Â· <a href="/careers">Browse positions</a></div>
     `;
     document.getElementById('signinForm').addEventListener('submit', async e => {
       e.preventDefault();
       const email = (document.getElementById('signinEmail').value || '').trim().toLowerCase();
       if (!email) return;
       const btn = document.getElementById('signinBtn');
-      btn.disabled = true; btn.textContent = 'Sending…';
+      btn.disabled = true; btn.textContent = 'Sendingâ€¦';
       try {
         await sendSignInLinkToEmail(auth, email, {
           url: window.location.origin + '/careers-status',
           handleCodeInApp: true,
         });
         window.localStorage.setItem('eduversal_apply_email', email);
-        renderSignIn(`<div class="alert alert-success">Magic-link sent to <strong>${escHtml(email)}</strong>. Open it from your email — it works on this device.</div>`);
+        renderSignIn(`<div class="alert alert-success">Magic-link sent to <strong>${escHtml(email)}</strong>. Open it from your email â€” it works on this device.</div>`);
       } catch (err) {
         console.error('[status] send link failed', err);
         renderSignIn(`<div class="alert alert-error">Could not send link. Double-check the email and try again. (${escHtml(err.code || err.message || '')})</div>`);
@@ -235,7 +235,7 @@
 
   async function renderApplications(user) {
     const root = document.getElementById('root');
-    root.innerHTML = `<div class="loading">Loading your applications…</div>`;
+    root.innerHTML = `<div class="loading">Loading your applicationsâ€¦</div>`;
     try {
       const qRef = query(
         collection(db, 'job_applications'),
@@ -252,10 +252,10 @@
             <div class="empty">
               <h3>No applications found</h3>
               <p>We couldn't find any applications under <strong>${escHtml(user.email)}</strong>.</p>
-              <p style="margin-top:14px"><a href="/careers" style="color:var(--brand)">Browse open positions →</a></p>
+              <p style="margin-top:14px"><a href="/careers" style="color:var(--brand)">Browse open positions â†’</a></p>
             </div>
           </div>
-          <div class="footer">Signed in as ${escHtml(user.email)} · <a href="#" id="signoutLink">sign out</a></div>
+          <div class="footer">Signed in as ${escHtml(user.email)} Â· <a href="#" id="signoutLink">sign out</a></div>
         `;
         wireSignOut();
         return;
@@ -265,7 +265,7 @@
       apps.forEach(a => {
         html += renderAppCard(a);
       });
-      html += `<div class="footer">Signed in as ${escHtml(user.email)} · <a href="#" id="signoutLink">sign out</a></div>`;
+      html += `<div class="footer">Signed in as ${escHtml(user.email)} Â· <a href="#" id="signoutLink">sign out</a></div>`;
       root.innerHTML = html;
       wireSignOut();
       wireWithdraw();
@@ -286,7 +286,7 @@
     const currentIdx = STATUSES.findIndex(s => s.key === a.status);
     let timelineHtml = '';
     if (a.status === 'rejected' || a.status === 'withdrew') {
-      // Final negative outcome — show submitted only + final state
+      // Final negative outcome â€” show submitted only + final state
       timelineHtml = `
         <div class="tl">
           <div class="tl-step done"><div class="lbl">Application received</div><div class="desc">${escHtml(fmtDate(a.createdAt))}</div></div>
@@ -304,11 +304,11 @@
     if (sch.scheduledAt && (a.status === 'interview_scheduled' || a.status === 'interview_done')) {
       ivHtml = `
         <div class="iv">
-          <div class="iv-title">📅 Interview details</div>
+          <div class="iv-title">ðŸ“… Interview details</div>
           <div class="iv-row"><strong>When:</strong> ${escHtml(fmtDate(sch.scheduledAt))}</div>
           <div class="iv-row"><strong>Mode:</strong> ${escHtml((sch.mode || '').replace(/_/g,' '))}</div>
-          ${sch.meetingUrl ? `<div class="iv-row"><strong>Meeting URL:</strong> <a href="${escHtml(safeUrl(sch.meetingUrl))}" target="_blank" rel="noopener" style="color:var(--brand)">${escHtml(sch.meetingUrl)} ↗</a></div>` : ''}
-          ${sch.meetingUrl ? `<a class="iv-link" href="${escHtml(safeUrl(sch.meetingUrl))}" target="_blank" rel="noopener">Join meeting ↗</a>` : ''}
+          ${sch.meetingUrl ? `<div class="iv-row"><strong>Meeting URL:</strong> <a href="${escHtml(safeUrl(sch.meetingUrl))}" target="_blank" rel="noopener" style="color:var(--brand)">${escHtml(sch.meetingUrl)} â†—</a></div>` : ''}
+          ${sch.meetingUrl ? `<a class="iv-link" href="${escHtml(safeUrl(sch.meetingUrl))}" target="_blank" rel="noopener">Join meeting â†—</a>` : ''}
         </div>`;
     }
 
@@ -317,7 +317,7 @@
     if (fd?.outcome === 'offered') {
       decHtml = `
         <div class="dec offered">
-          <h3>🎉 Offer extended</h3>
+          <h3>ðŸŽ‰ Offer extended</h3>
           <p>${escHtml(fd.note || 'Our team will be in touch shortly with the formal offer letter and next steps.')}</p>
         </div>`;
     } else if (fd?.outcome === 'rejected') {
@@ -333,7 +333,7 @@
         <div class="card-head">
           <div>
             <h2>${escHtml(a.positionTitle || 'Application')}</h2>
-            <div class="sub">${escHtml(a.schoolName || '')}${a.createdAt ? ' · submitted ' + escHtml(fmtDate(a.createdAt)) : ''}</div>
+            <div class="sub">${escHtml(a.schoolName || '')}${a.createdAt ? ' Â· submitted ' + escHtml(fmtDate(a.createdAt)) : ''}</div>
           </div>
           <span class="status-badge ${escHtml(a.status)}">${escHtml((a.status || '').replace(/_/g,' '))}</span>
         </div>
@@ -360,7 +360,7 @@
       btn.addEventListener('click', async () => {
         const appId = btn.dataset.withdraw;
         if (!confirm('Withdraw this application? This cannot be undone.')) return;
-        btn.disabled = true; btn.textContent = 'Withdrawing…';
+        btn.disabled = true; btn.textContent = 'Withdrawingâ€¦';
         try {
           await updateDoc(doc(db, 'job_applications', appId), {
             status:    'withdrew',
@@ -370,7 +370,7 @@
           if (auth.currentUser) await renderApplications(auth.currentUser);
         } catch (err) {
           console.error('[status] withdraw failed', err);
-          alert('Could not withdraw — please email careers@eduversal.org.');
+          alert('Could not withdraw â€” please email careers@eduversal.org.');
           btn.disabled = false; btn.textContent = 'Withdraw this application';
         }
       });

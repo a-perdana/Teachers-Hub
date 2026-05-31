@@ -919,7 +919,7 @@
               Cambridge AS / A-Level
             </label>
           </div>
-          <input class="form-input" id="r-level-other" type="text" placeholder="Other (e.g. Olympiad courses, IB, National curriculumâ€¦)" />
+          <input aria-label="Other (e.g. Olympiad courses, IB, National curriculumâ€¦)" class="form-input" id="r-level-other" type="text" placeholder="Other (e.g. Olympiad courses, IB, National curriculumâ€¦)" />
           <p class="form-hint">Tick all that apply, or describe your programme below.</p>
         </div>
       </div>
@@ -942,7 +942,7 @@
                 <input type="file" id="r-photo-file" accept="image/*" style="display:none" onchange="handlePhotoFile(this)" />
               </label>
               <div class="photo-url-row">
-                <input class="form-input" id="r-photo-url" type="url" placeholder="Paste photo URL (LinkedIn, Google Driveâ€¦)" oninput="handlePhotoUrl(this.value)" />
+                <input aria-label="Paste photo URL (LinkedIn, Google Driveâ€¦)" class="form-input" id="r-photo-url" type="url" placeholder="Paste photo URL (LinkedIn, Google Driveâ€¦)" oninput="handlePhotoUrl(this.value)" />
               </div>
               <div id="photo-upload-status" class="photo-status"></div>
             </div>
@@ -1249,7 +1249,7 @@
           <button class="q-note-toggle" onclick="toggleNote('${q.id}', this)" type="button">
             âœï¸ Add a note
           </button>
-          <textarea class="q-note-input" id="qnote-${q.id}" placeholder="Any additional context you'd like to shareâ€¦"
+          <textarea aria-label="Any additional context you'd like to shareâ€¦" class="q-note-input" id="qnote-${q.id}" placeholder="Any additional context you'd like to shareâ€¦"
             oninput="notes['${q.id}'] = this.value.trim()"></textarea>
         </div>
       </div>

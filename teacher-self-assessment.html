@@ -896,19 +896,19 @@ body {
         <div class="info-panel-body">
           <div class="info-field">
             <label>Full Name</label>
-            <input id="infoName" type="text" placeholder="Your full name" />
+            <input aria-label="Your full name" id="infoName" type="text" placeholder="Your full name" />
           </div>
           <div class="info-field">
             <label>Subject(s)</label>
-            <input id="infoSubject" type="text" placeholder="e.g. Mathematics, Physics" />
+            <input aria-label="e.g. Mathematics, Physics" id="infoSubject" type="text" placeholder="e.g. Mathematics, Physics" />
           </div>
           <div class="info-field">
             <label>Grade / Class</label>
-            <input id="infoGrade" type="text" placeholder="e.g. Year 10A, 10B" />
+            <input aria-label="e.g. Year 10A, 10B" id="infoGrade" type="text" placeholder="e.g. Year 10A, 10B" />
           </div>
           <div class="info-field">
             <label>Department</label>
-            <input id="infoDepartment" type="text" placeholder="e.g. Science Department" />
+            <input aria-label="e.g. Science Department" id="infoDepartment" type="text" placeholder="e.g. Science Department" />
           </div>
           <div class="info-field">
             <label>Evaluation Period</label>
@@ -1194,19 +1194,19 @@ function renderKPIs() {
           <div class="reflect-grid">
             <div class="form-group2">
               <label>Strengths &amp; Achievements</label>
-              <textarea id="fs-${kpi.id}" placeholder="What went well? Key successesâ€¦">${esc(a.strengths || '')}</textarea>
+              <textarea aria-label="What went well? Key successesâ€¦" id="fs-${kpi.id}" placeholder="What went well? Key successesâ€¦">${esc(a.strengths || '')}</textarea>
             </div>
             <div class="form-group2">
               <label>Challenges Faced</label>
-              <textarea id="fc-${kpi.id}" placeholder="What obstacles did you encounter?">${esc(a.challenges || '')}</textarea>
+              <textarea aria-label="What obstacles did you encounter?" id="fc-${kpi.id}" placeholder="What obstacles did you encounter?">${esc(a.challenges || '')}</textarea>
             </div>
             <div class="form-group2">
               <label>Actions for Improvement</label>
-              <textarea id="fa-${kpi.id}" placeholder="Specific steps for next periodâ€¦">${esc(a.actions || '')}</textarea>
+              <textarea aria-label="Specific steps for next periodâ€¦" id="fa-${kpi.id}" placeholder="Specific steps for next periodâ€¦">${esc(a.actions || '')}</textarea>
             </div>
             <div class="form-group2">
               <label>Support Needed</label>
-              <textarea id="fsp-${kpi.id}" placeholder="Resources or training that would helpâ€¦">${esc(a.support || '')}</textarea>
+              <textarea aria-label="Resources or training that would helpâ€¦" id="fsp-${kpi.id}" placeholder="Resources or training that would helpâ€¦">${esc(a.support || '')}</textarea>
             </div>
           </div>
 
@@ -1216,7 +1216,7 @@ function renderKPIs() {
 
           <div class="body-section-label" style="margin-top:16px;">Additional Comments</div>
           <div class="form-group2">
-            <textarea id="fco-${kpi.id}" rows="2" placeholder="Any other observationsâ€¦">${esc(a.comments || '')}</textarea>
+            <textarea aria-label="Any other observationsâ€¦" id="fco-${kpi.id}" rows="2" placeholder="Any other observationsâ€¦">${esc(a.comments || '')}</textarea>
           </div>
         </div>
       </div>

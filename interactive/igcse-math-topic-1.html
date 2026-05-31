@@ -906,7 +906,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 
         <div class="input-row" id="pf-input-row">
           <label class="bold">Prime factor:</label>
-          <input type="number" id="pf-f" class="inp-sm" min="2" placeholder="e.g. 2" onkeydown="if(event.key==='Enter')pfCheckFactor()" />
+          <input aria-label="e.g. 2" type="number" id="pf-f" class="inp-sm" min="2" placeholder="e.g. 2" onkeydown="if(event.key==='Enter')pfCheckFactor()" />
           <button class="btn btn-success" onclick="pfCheckFactor()">âœ“ Check</button>
           <button class="btn btn-hint" onclick="pfHint()">ðŸ’¡ Hint</button>
         </div>
@@ -938,7 +938,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
       <div class="card-desc">Use prime factorisation to find the HCF and LCM of your number and a second number.</div>
       <div class="input-row">
         <label class="bold">Second number:</label>
-        <input type="number" id="pf-n2" class="inp-sm" min="2" max="500" placeholder="e.g. 84" />
+        <input aria-label="e.g. 84" type="number" id="pf-n2" class="inp-sm" min="2" max="500" placeholder="e.g. 84" />
         <button class="btn btn-primary" onclick="pfHCFLCM()">Calculate HCF & LCM</button>
       </div>
       <div class="feedback" id="pf-hcf-fb"></div>
@@ -1014,7 +1014,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div style="margin-bottom:16px;">
       <label class="bold">Decimal value:</label>
       <div class="input-row">
-        <input type="text" id="fr-dec-in" class="inp-md" placeholder="e.g. 0.25" onkeydown="if(event.key==='Enter')frCheckDec()" />
+        <input aria-label="e.g. 0.25" type="text" id="fr-dec-in" class="inp-md" placeholder="e.g. 0.25" onkeydown="if(event.key==='Enter')frCheckDec()" />
         <button class="btn btn-success" onclick="frCheckDec()">âœ“ Check</button>
       </div>
       <div class="feedback" id="fr-dec-fb"></div>
@@ -1025,7 +1025,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div>
       <label class="bold">Percentage value (just the number, no % sign):</label>
       <div class="input-row">
-        <input type="text" id="fr-pct-in" class="inp-md" placeholder="e.g. 25" onkeydown="if(event.key==='Enter')frCheckPct()" />
+        <input aria-label="e.g. 25" type="text" id="fr-pct-in" class="inp-md" placeholder="e.g. 25" onkeydown="if(event.key==='Enter')frCheckPct()" />
         <span class="bold" style="font-size:1.2rem;">%</span>
         <button class="btn btn-success" onclick="frCheckPct()">âœ“ Check</button>
       </div>
@@ -1038,9 +1038,9 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="card-title">âœ‚ï¸ Simplification Challenge</div>
     <div class="card-desc">Simplify the current fraction to its lowest terms. Find the HCF of numerator and denominator.</div>
     <div class="input-row">
-      <input type="number" id="fr-sn" class="inp-sm" placeholder="top" style="text-align:center;" onkeydown="if(event.key==='Enter')frCheckSimp()" />
+      <input aria-label="top" type="number" id="fr-sn" class="inp-sm" placeholder="top" style="text-align:center;" onkeydown="if(event.key==='Enter')frCheckSimp()" />
       <span style="font-size:1.5rem; font-weight:900; color:var(--muted);">/</span>
-      <input type="number" id="fr-sd" class="inp-sm" placeholder="bottom" style="text-align:center;" onkeydown="if(event.key==='Enter')frCheckSimp()" />
+      <input aria-label="bottom" type="number" id="fr-sd" class="inp-sm" placeholder="bottom" style="text-align:center;" onkeydown="if(event.key==='Enter')frCheckSimp()" />
       <button class="btn btn-success" onclick="frCheckSimp()">âœ“ Check</button>
       <button class="btn btn-hint" onclick="frHint()">ðŸ’¡ Hint</button>
     </div>
@@ -1115,9 +1115,9 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="card-desc">Convert the number below into standard form. Remember: 1 â‰¤ A &lt; 10.</div>
     <div class="problem-display" id="sf-ch1-disp">456,000</div>
     <div class="input-row">
-      <input type="number" id="sf-a1" class="inp-sm" placeholder="A" step="0.001" onkeydown="if(event.key==='Enter')sfCheck1()" />
+      <input aria-label="A" type="number" id="sf-a1" class="inp-sm" placeholder="A" step="0.001" onkeydown="if(event.key==='Enter')sfCheck1()" />
       <span style="font-size:1.3rem; font-weight:700; font-family:var(--font-mono);">Ã— 10</span>
-      <input type="number" id="sf-n1" class="inp-sm" placeholder="n" onkeydown="if(event.key==='Enter')sfCheck1()" />
+      <input aria-label="n" type="number" id="sf-n1" class="inp-sm" placeholder="n" onkeydown="if(event.key==='Enter')sfCheck1()" />
       <button class="btn btn-success" onclick="sfCheck1()">âœ“ Check</button>
       <button class="btn btn-hint" onclick="sfHint1()">ðŸ’¡ Hint</button>
       <button class="btn btn-secondary" onclick="sfNewCh1()">â†º New</button>
@@ -1132,7 +1132,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="card-desc">Write the standard form number below as an ordinary number.</div>
     <div class="sf-big" id="sf-ch2-disp">2.7 Ã— 10Â³</div>
     <div class="input-row">
-      <input type="text" id="sf-a2" class="inp-lg" placeholder="Ordinary number" onkeydown="if(event.key==='Enter')sfCheck2()" />
+      <input aria-label="Ordinary number" type="text" id="sf-a2" class="inp-lg" placeholder="Ordinary number" onkeydown="if(event.key==='Enter')sfCheck2()" />
       <button class="btn btn-success" onclick="sfCheck2()">âœ“ Check</button>
       <button class="btn btn-secondary" onclick="sfNewCh2()">â†º New</button>
     </div>
@@ -1244,7 +1244,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div style="background:var(--slate); border-radius:10px; padding:16px;">
       <div class="bold" style="margin-bottom:10px;">Step 2 â€” Calculate with your rounded numbers:</div>
       <div class="input-row">
-        <input type="number" id="eg-est-in" class="inp-md" placeholder="Your estimate" onkeydown="if(event.key==='Enter')egCheck()" />
+        <input aria-label="Your estimate" type="number" id="eg-est-in" class="inp-md" placeholder="Your estimate" onkeydown="if(event.key==='Enter')egCheck()" />
         <button class="btn btn-success" onclick="egCheck()">âœ“ Submit</button>
         <button class="btn btn-hint" onclick="egHint()">ðŸ’¡ Hint</button>
         <button class="btn btn-secondary" onclick="egNew()">â†º New Problem</button>
@@ -1270,7 +1270,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="card-desc">Practise rounding to different degrees of accuracy â€” decimal places and significant figures.</div>
     <div class="problem-display" id="rnd-problem" style="font-size:1.1rem; padding:16px;">Loadingâ€¦</div>
     <div class="input-row">
-      <input type="number" id="rnd-in" class="inp-md" placeholder="Rounded answer" step="any" onkeydown="if(event.key==='Enter')rndCheck()" />
+      <input aria-label="Rounded answer" type="number" id="rnd-in" class="inp-md" placeholder="Rounded answer" step="any" onkeydown="if(event.key==='Enter')rndCheck()" />
       <button class="btn btn-success" onclick="rndCheck()">âœ“ Check</button>
       <button class="btn btn-secondary" onclick="rndNew()">â†º New</button>
     </div>
@@ -1307,7 +1307,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="scenario-box" id="tm-time-scenario">Loadingâ€¦</div>
     <div class="input-row mt-12">
       <label class="bold" id="tm-time-label">Answer:</label>
-      <input type="text" id="tm-time-in" class="inp-md" placeholder="e.g. 2 h 45 min or 14:30"
+      <input aria-label="e.g. 2 h 45 min or 14:30" type="text" id="tm-time-in" class="inp-md" placeholder="e.g. 2 h 45 min or 14:30"
              onkeydown="if(event.key==='Enter')tmTimeCheck()" />
       <button class="btn btn-success"   onclick="tmTimeCheck()">âœ“ Check</button>
       <button class="btn btn-hint"      onclick="tmTimeHint()">ðŸ’¡ Hint</button>
@@ -1323,7 +1323,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="card-desc">Convert between 12-hour and 24-hour clock formats.</div>
     <div class="problem-display" id="tm-clock-q" style="font-size:1.8rem;"></div>
     <div class="input-row mt-12">
-      <input type="text" id="tm-clock-in" class="inp-md" placeholder="e.g. 14:30 or 2:30 pm"
+      <input aria-label="e.g. 14:30 or 2:30 pm" type="text" id="tm-clock-in" class="inp-md" placeholder="e.g. 14:30 or 2:30 pm"
              onkeydown="if(event.key==='Enter')tmClockCheck()" />
       <button class="btn btn-success"   onclick="tmClockCheck()">âœ“ Check</button>
       <button class="btn btn-hint"      onclick="tmClockHint()">ðŸ’¡ Hint</button>
@@ -1340,7 +1340,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="scenario-box" id="tm-fx-scenario">Loadingâ€¦</div>
     <div class="input-row mt-12">
       <label class="bold" id="tm-fx-label">Answer:</label>
-      <input type="number" id="tm-fx-in" class="inp-md" placeholder="0.00" step="0.01"
+      <input aria-label="0.00" type="number" id="tm-fx-in" class="inp-md" placeholder="0.00" step="0.01"
              onkeydown="if(event.key==='Enter')tmFxCheck()" />
       <span id="tm-fx-unit" class="bold" style="color:var(--muted);"></span>
       <button class="btn btn-success"   onclick="tmFxCheck()">âœ“ Check</button>
@@ -1568,7 +1568,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
           <div id="rd-s2-text" style="font-family:var(--font-mono);font-size:0.95rem;margin-bottom:10px;"></div>
           <div class="input-row">
             <label class="bold">What do we multiply x by?</label>
-            <input type="number" id="rd-mult-input" class="inp-sm" placeholder="10 or 100â€¦" min="1" onkeydown="if(event.key==='Enter')rdCheckMult()"/>
+            <input aria-label="10 or 100â€¦" type="number" id="rd-mult-input" class="inp-sm" placeholder="10 or 100â€¦" min="1" onkeydown="if(event.key==='Enter')rdCheckMult()"/>
             <button class="btn btn-success" onclick="rdCheckMult()">âœ“ Check</button>
             <button class="btn btn-hint" onclick="rdMultHint()">ðŸ’¡ Hint</button>
           </div>
@@ -1584,9 +1584,9 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
           <div id="rd-s3-text" style="font-family:var(--font-mono);font-size:0.95rem;margin-bottom:10px;"></div>
           <div class="input-row">
             <label class="bold">After subtraction, the numerator is:</label>
-            <input type="number" id="rd-diff-input" class="inp-sm" placeholder="e.g. 3" onkeydown="if(event.key==='Enter')rdCheckDiff()"/>
+            <input aria-label="e.g. 3" type="number" id="rd-diff-input" class="inp-sm" placeholder="e.g. 3" onkeydown="if(event.key==='Enter')rdCheckDiff()"/>
             <label class="bold" style="margin-left:4px;">and denominator is:</label>
-            <input type="number" id="rd-denom-input" class="inp-sm" placeholder="e.g. 9" onkeydown="if(event.key==='Enter')rdCheckDiff()"/>
+            <input aria-label="e.g. 9" type="number" id="rd-denom-input" class="inp-sm" placeholder="e.g. 9" onkeydown="if(event.key==='Enter')rdCheckDiff()"/>
             <button class="btn btn-success" onclick="rdCheckDiff()">âœ“ Check</button>
             <button class="btn btn-hint" onclick="rdDiffHint()">ðŸ’¡ Hint</button>
           </div>
@@ -1602,7 +1602,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
           <div id="rd-s4-text" style="font-family:var(--font-mono);font-size:0.95rem;margin-bottom:10px;"></div>
           <div class="input-row">
             <label class="bold">Simplified fraction (e.g. 1/3):</label>
-            <input type="text" id="rd-simp-input" class="inp-sm" placeholder="p/q" onkeydown="if(event.key==='Enter')rdCheckSimp()"/>
+            <input aria-label="p/q" type="text" id="rd-simp-input" class="inp-sm" placeholder="p/q" onkeydown="if(event.key==='Enter')rdCheckSimp()"/>
             <button class="btn btn-success" onclick="rdCheckSimp()">âœ“ Check</button>
             <button class="btn btn-hint" onclick="rdSimpHint()">ðŸ’¡ Hint</button>
           </div>
@@ -1621,7 +1621,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     </div>
     <div id="rd-quiz-question" style="text-align:center;font-size:1.8rem;font-weight:700;color:var(--navy);margin-bottom:18px;">â€”</div>
     <div class="input-row" style="justify-content:center;">
-      <input type="text" id="rd-quiz-input" class="inp-sm" placeholder="e.g. 1/3" style="width:110px;" onkeydown="if(event.key==='Enter')rdQuizCheck()"/>
+      <input aria-label="e.g. 1/3" type="text" id="rd-quiz-input" class="inp-sm" placeholder="e.g. 1/3" style="width:110px;" onkeydown="if(event.key==='Enter')rdQuizCheck()"/>
       <button class="btn btn-success" onclick="rdQuizCheck()">âœ“ Check</button>
       <button class="btn btn-hint" onclick="rdQuizHint()">ðŸ’¡ Hint</button>
       <button class="btn btn-secondary" onclick="rdQuizNew()">â†º New</button>
@@ -1687,7 +1687,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 
     <div class="input-row" style="justify-content:center;flex-wrap:wrap;">
       <label class="bold">Simplified form:</label>
-      <input type="text" id="su-simp-input" class="inp-sm" placeholder="e.g. 2âˆš3 or 2r3" style="width:130px;" onkeydown="if(event.key==='Enter')suSimpCheck()"/>
+      <input aria-label="e.g. 2âˆš3 or 2r3" type="text" id="su-simp-input" class="inp-sm" placeholder="e.g. 2âˆš3 or 2r3" style="width:130px;" onkeydown="if(event.key==='Enter')suSimpCheck()"/>
       <button class="btn btn-success" onclick="suSimpCheck()">âœ“ Check</button>
       <button class="btn btn-hint" onclick="suSimpHint()">ðŸ’¡ Hint</button>
       <button class="btn btn-secondary" onclick="suSimpNew()">â†º New</button>
@@ -1709,7 +1709,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 
     <div class="input-row" style="justify-content:center;flex-wrap:wrap;">
       <label class="bold">Rationalised form:</label>
-      <input type="text" id="su-rat-input" class="inp-sm" placeholder="e.g. âˆš2/2" style="width:140px;" onkeydown="if(event.key==='Enter')suRatCheck()"/>
+      <input aria-label="e.g. âˆš2/2" type="text" id="su-rat-input" class="inp-sm" placeholder="e.g. âˆš2/2" style="width:140px;" onkeydown="if(event.key==='Enter')suRatCheck()"/>
       <button class="btn btn-success" onclick="suRatCheck()">âœ“ Check</button>
       <button class="btn btn-hint" onclick="suRatHint()">ðŸ’¡ Hint</button>
       <button class="btn btn-secondary" onclick="suRatNew()">â†º New</button>
@@ -1729,7 +1729,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     </div>
     <div class="input-row" style="justify-content:center;flex-wrap:wrap;">
       <label class="bold">Answer:</label>
-      <input type="text" id="su-comb-input" class="inp-sm" placeholder="e.g. 5âˆš2" style="width:130px;" onkeydown="if(event.key==='Enter')suCombCheck()"/>
+      <input aria-label="e.g. 5âˆš2" type="text" id="su-comb-input" class="inp-sm" placeholder="e.g. 5âˆš2" style="width:130px;" onkeydown="if(event.key==='Enter')suCombCheck()"/>
       <button class="btn btn-success" onclick="suCombCheck()">âœ“ Check</button>
       <button class="btn btn-hint" onclick="suCombHint()">ðŸ’¡ Hint</button>
       <button class="btn btn-secondary" onclick="suCombNew()">â†º New</button>
@@ -1750,7 +1750,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     </div>
     <div class="input-row" style="justify-content:center;flex-wrap:wrap;">
       <label class="bold">Answer:</label>
-      <input type="text" id="su-mul-input" class="inp-sm" placeholder="e.g. 4 or 2âˆš3" style="width:130px;"
+      <input aria-label="e.g. 4 or 2âˆš3" type="text" id="su-mul-input" class="inp-sm" placeholder="e.g. 4 or 2âˆš3" style="width:130px;"
              onkeydown="if(event.key==='Enter')suMulCheck()" />
       <button class="btn btn-success" onclick="suMulCheck()">âœ“ Check</button>
       <button class="btn btn-hint"   onclick="suMulHint()">ðŸ’¡ Hint</button>
@@ -1825,10 +1825,10 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="card-desc">Write the error interval in the form LB â‰¤ x &lt; UB for the measurement shown.</div>
     <div class="problem-display" id="lm-ei-q" style="font-size:1.4rem;"></div>
     <div class="input-row mt-12">
-      <input type="number" id="lm-ei-lb" class="inp-sm" placeholder="LB" step="any"
+      <input aria-label="LB" type="number" id="lm-ei-lb" class="inp-sm" placeholder="LB" step="any"
              onkeydown="if(event.key==='Enter')lmEiCheck()" />
       <span class="bold mono" style="font-size:1.1rem;">â‰¤ x &lt;</span>
-      <input type="number" id="lm-ei-ub" class="inp-sm" placeholder="UB" step="any"
+      <input aria-label="UB" type="number" id="lm-ei-ub" class="inp-sm" placeholder="UB" step="any"
              onkeydown="if(event.key==='Enter')lmEiCheck()" />
       <button class="btn btn-success"   onclick="lmEiCheck()">âœ“ Check</button>
       <button class="btn btn-secondary" onclick="lmEiNew()">â†º New</button>
@@ -1843,7 +1843,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="scenario-box" id="lm-comb-scenario">Loadingâ€¦</div>
     <div class="input-row mt-12">
       <label class="bold" id="lm-comb-label">Answer:</label>
-      <input type="number" id="lm-comb-in" class="inp-md" placeholder="0.000" step="any"
+      <input aria-label="0.000" type="number" id="lm-comb-in" class="inp-md" placeholder="0.000" step="any"
              onkeydown="if(event.key==='Enter')lmCombCheck()" />
       <button class="btn btn-success"   onclick="lmCombCheck()">âœ“ Check</button>
       <button class="btn btn-hint"      onclick="lmCombHint()">ðŸ’¡ Hint</button>
@@ -1872,7 +1872,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     </div>
     <div class="input-row">
       <label class="bold" id="lm-app-ask">Answer:</label>
-      <input type="number" id="lm-app-input" class="inp-sm" step="any" placeholder="to 4 s.f."
+      <input aria-label="to 4 s.f" type="number" id="lm-app-input" class="inp-sm" step="any" placeholder="to 4 s.f."
              onkeydown="if(event.key==='Enter')lmAppCheck()" />
       <button class="btn btn-success" onclick="lmAppCheck()">âœ“ Check</button>
       <button class="btn btn-hint"   onclick="lmAppHint()">ðŸ’¡ Hint</button>
@@ -1939,7 +1939,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="scenario-box" id="ra-sdt-scenario">Loadingâ€¦</div>
     <div class="input-row mt-12">
       <label class="bold" id="ra-sdt-label">Answer:</label>
-      <input type="number" id="ra-sdt-in" class="inp-md" placeholder="0.00" step="0.01"
+      <input aria-label="0.00" type="number" id="ra-sdt-in" class="inp-md" placeholder="0.00" step="0.01"
              onkeydown="if(event.key==='Enter')raSdtCheck()" />
       <span id="ra-sdt-unit" class="bold" style="color:var(--muted);"></span>
       <button class="btn btn-success"   onclick="raSdtCheck()">âœ“ Check</button>
@@ -1957,7 +1957,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="scenario-box" id="ra-den-scenario">Loadingâ€¦</div>
     <div class="input-row mt-12">
       <label class="bold" id="ra-den-label">Answer:</label>
-      <input type="number" id="ra-den-in" class="inp-md" placeholder="0.00" step="0.001"
+      <input aria-label="0.00" type="number" id="ra-den-in" class="inp-md" placeholder="0.00" step="0.001"
              onkeydown="if(event.key==='Enter')raDenCheck()" />
       <span id="ra-den-unit" class="bold" style="color:var(--muted);"></span>
       <button class="btn btn-success"   onclick="raDenCheck()">âœ“ Check</button>
@@ -2011,7 +2011,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="scenario-box" id="pc-of-scenario">Loadingâ€¦</div>
     <div class="input-row mt-12">
       <label class="bold">Answer (Â£ / units):</label>
-      <input type="number" id="pc-of-in" class="inp-md" placeholder="0.00" step="0.01"
+      <input aria-label="0.00" type="number" id="pc-of-in" class="inp-md" placeholder="0.00" step="0.01"
              onkeydown="if(event.key==='Enter')pcOfCheck()" />
       <button class="btn btn-success"   onclick="pcOfCheck()">âœ“ Check</button>
       <button class="btn btn-hint"      onclick="pcOfHint()">ðŸ’¡ Hint</button>
@@ -2028,7 +2028,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="scenario-box" id="pc-chg-scenario">Loadingâ€¦</div>
     <div class="input-row mt-12">
       <label class="bold">New value:</label>
-      <input type="number" id="pc-chg-in" class="inp-md" placeholder="0.00" step="0.01"
+      <input aria-label="0.00" type="number" id="pc-chg-in" class="inp-md" placeholder="0.00" step="0.01"
              onkeydown="if(event.key==='Enter')pcChgCheck()" />
       <button class="btn btn-success"   onclick="pcChgCheck()">âœ“ Check</button>
       <button class="btn btn-hint"      onclick="pcChgHint()">ðŸ’¡ Hint</button>
@@ -2045,7 +2045,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="scenario-box" id="pc-pl-scenario">Loadingâ€¦</div>
     <div class="input-row mt-12">
       <label class="bold">% profit or loss:</label>
-      <input type="number" id="pc-pl-in" class="inp-md" placeholder="0.00" step="0.01"
+      <input aria-label="0.00" type="number" id="pc-pl-in" class="inp-md" placeholder="0.00" step="0.01"
              onkeydown="if(event.key==='Enter')pcPlCheck()" />
       <span class="bold" style="font-size:1.1rem;">%</span>
       <button class="btn btn-success"   onclick="pcPlCheck()">âœ“ Check</button>
@@ -2067,12 +2067,12 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;">
       <div>
         <label class="bold" style="font-size:0.88rem;">Simple interest total (Â£):</label>
-        <input type="number" id="pc-si-in" class="inp-md" style="margin-top:6px;" placeholder="0.00" step="0.01"
+        <input aria-label="0.00" type="number" id="pc-si-in" class="inp-md" style="margin-top:6px;" placeholder="0.00" step="0.01"
                onkeydown="if(event.key==='Enter')pcIntCheck()" />
       </div>
       <div>
         <label class="bold" style="font-size:0.88rem;">Compound interest total (Â£):</label>
-        <input type="number" id="pc-ci-in" class="inp-md" style="margin-top:6px;" placeholder="0.00" step="0.01"
+        <input aria-label="0.00" type="number" id="pc-ci-in" class="inp-md" style="margin-top:6px;" placeholder="0.00" step="0.01"
                onkeydown="if(event.key==='Enter')pcIntCheck()" />
       </div>
     </div>
@@ -2095,7 +2095,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="problem-display" id="pc-rev-scenario" style="font-size:1rem;padding:12px 16px;">â€”</div>
     <div class="input-row">
       <label class="bold">Original value: Â£</label>
-      <input type="number" id="pc-rev-input" class="inp-sm" step="0.01" placeholder="e.g. 50.00"
+      <input aria-label="e.g. 50.00" type="number" id="pc-rev-input" class="inp-sm" step="0.01" placeholder="e.g. 50.00"
              onkeydown="if(event.key==='Enter')pcRevCheck()" />
       <button class="btn btn-success" onclick="pcRevCheck()">âœ“ Check</button>
       <button class="btn btn-hint"   onclick="pcRevHint()">ðŸ’¡ Hint</button>
@@ -2131,7 +2131,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 
     <div class="input-row">
       <label class="bold">Final amount: Â£</label>
-      <input type="number" id="pc-ci-input" class="inp-sm" step="0.01" placeholder="e.g. 1157.63"
+      <input aria-label="e.g. 1157.63" type="number" id="pc-ci-input" class="inp-sm" step="0.01" placeholder="e.g. 1157.63"
              onkeydown="if(event.key==='Enter')pcCiCheck()" />
       <button class="btn btn-success" onclick="pcCiCheck()">âœ“ Check</button>
       <button class="btn btn-hint"   onclick="pcCiHint()">ðŸ’¡ Hint</button>
@@ -2187,7 +2187,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div id="bo-step-area" style="margin-top:14px; display:none;">
       <div class="bold" style="margin-bottom:6px;" id="bo-step-prompt"></div>
       <div class="input-row">
-        <input type="number" id="bo-step-in" class="inp-md" placeholder="Result of this step" step="any"
+        <input aria-label="Result of this step" type="number" id="bo-step-in" class="inp-md" placeholder="Result of this step" step="any"
                onkeydown="if(event.key==='Enter')boStepCheck()" />
         <button class="btn btn-success"   onclick="boStepCheck()">âœ“ Check</button>
         <button class="btn btn-hint"      onclick="boHint()">ðŸ’¡ Hint</button>
@@ -2262,7 +2262,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="card-desc">Calculate the power shown. Type your answer and check.</div>
     <div class="problem-display" id="pr-pow-q" style="font-size:2rem;">â€”</div>
     <div class="input-row">
-      <input type="number" id="pr-pow-in" class="inp-md" placeholder="Answer" onkeydown="if(event.key==='Enter')prPowCheck()" />
+      <input aria-label="Answer" type="number" id="pr-pow-in" class="inp-md" placeholder="Answer" onkeydown="if(event.key==='Enter')prPowCheck()" />
       <button class="btn btn-success"   onclick="prPowCheck()">âœ“ Check</button>
       <button class="btn btn-hint"      onclick="prPowHint()">ðŸ’¡ Hint</button>
       <button class="btn btn-secondary" onclick="prPowNew()">â†º New</button>
@@ -2277,7 +2277,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="card-desc">Find the square root or cube root. Think: "What number raised to that power gives this?"</div>
     <div class="problem-display" id="pr-root-q" style="font-size:2rem;">â€”</div>
     <div class="input-row">
-      <input type="number" id="pr-root-in" class="inp-md" placeholder="Answer" onkeydown="if(event.key==='Enter')prRootCheck()" />
+      <input aria-label="Answer" type="number" id="pr-root-in" class="inp-md" placeholder="Answer" onkeydown="if(event.key==='Enter')prRootCheck()" />
       <button class="btn btn-success"   onclick="prRootCheck()">âœ“ Check</button>
       <button class="btn btn-hint"      onclick="prRootHint()">ðŸ’¡ Hint</button>
       <button class="btn btn-secondary" onclick="prRootNew()">â†º New</button>
@@ -2298,7 +2298,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
       </div>
     </div>
     <div class="input-row">
-      <input type="number" id="pr-qr-in" class="inp-md" placeholder="Answer" onkeydown="if(event.key==='Enter')prQrCheck()" />
+      <input aria-label="Answer" type="number" id="pr-qr-in" class="inp-md" placeholder="Answer" onkeydown="if(event.key==='Enter')prQrCheck()" />
       <button class="btn btn-success"   onclick="prQrCheck()">âœ“</button>
       <button class="btn btn-secondary" onclick="prQrNew()">â†º Skip</button>
     </div>
@@ -2349,9 +2349,9 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div id="il-panel-normal">
       <div class="card-desc" style="margin-top:12px;">Write your answer as a single power: base<sup>index</sup></div>
       <div class="input-row">
-        <input type="text"   id="il-base-in" class="inp-sm" placeholder="base"  style="text-align:center;" onkeydown="if(event.key==='Enter')ilCheck()" />
+        <input aria-label="base" type="text"   id="il-base-in" class="inp-sm" placeholder="base"  style="text-align:center;" onkeydown="if(event.key==='Enter')ilCheck()" />
         <span style="font-size:1.4rem;font-weight:700;font-family:var(--font-mono);">^</span>
-        <input type="number" id="il-exp-in"  class="inp-sm" placeholder="index" style="text-align:center;" onkeydown="if(event.key==='Enter')ilCheck()" />
+        <input aria-label="index" type="number" id="il-exp-in"  class="inp-sm" placeholder="index" style="text-align:center;" onkeydown="if(event.key==='Enter')ilCheck()" />
         <button class="btn btn-success"   onclick="ilCheck()">âœ“ Check</button>
         <button class="btn btn-hint"      onclick="ilHint()">ðŸ’¡ Hint</button>
         <button class="btn btn-secondary" onclick="ilNew()">â†º New</button>
@@ -2362,9 +2362,9 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div id="il-panel-neg" style="display:none;">
       <div class="card-desc" style="margin-top:12px;">Write your answer as a fraction: numerator / denominator</div>
       <div class="input-row">
-        <input type="number" id="il-frac-num" class="inp-sm" placeholder="top"    style="text-align:center;" onkeydown="if(event.key==='Enter')ilCheck()" />
+        <input aria-label="top" type="number" id="il-frac-num" class="inp-sm" placeholder="top"    style="text-align:center;" onkeydown="if(event.key==='Enter')ilCheck()" />
         <span style="font-size:1.5rem;font-weight:900;color:var(--muted);">/</span>
-        <input type="number" id="il-frac-den" class="inp-sm" placeholder="bottom" style="text-align:center;" onkeydown="if(event.key==='Enter')ilCheck()" />
+        <input aria-label="bottom" type="number" id="il-frac-den" class="inp-sm" placeholder="bottom" style="text-align:center;" onkeydown="if(event.key==='Enter')ilCheck()" />
         <button class="btn btn-success"   onclick="ilCheck()">âœ“ Check</button>
         <button class="btn btn-hint"      onclick="ilHint()">ðŸ’¡ Hint</button>
         <button class="btn btn-secondary" onclick="ilNew()">â†º New</button>
@@ -2435,7 +2435,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="card-desc">Enter any number and tick every category it belongs to. A number can belong to more than one category at once.</div>
     <div class="input-row">
       <label class="bold">Number:</label>
-      <input type="text" id="nt-input" class="inp-md" placeholder="e.g. âˆ’3, 0.5, âˆš2, 9" onkeydown="if(event.key==='Enter')ntAnalyse()" />
+      <input aria-label="e.g. âˆ’3, 0.5, âˆš2, 9" type="text" id="nt-input" class="inp-md" placeholder="e.g. âˆ’3, 0.5, âˆš2, 9" onkeydown="if(event.key==='Enter')ntAnalyse()" />
       <button class="btn btn-primary" onclick="ntAnalyse()">â–¶ Analyse</button>
       <button class="btn btn-secondary" onclick="ntRandom()">â†º Random</button>
     </div>
@@ -2532,7 +2532,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="card-desc">The absolute value |x| is the distance of x from zero â€” always non-negative. Enter any number and see its absolute value, then try the challenge questions.</div>
     <div class="input-row">
       <label class="bold">|x| where x =</label>
-      <input type="number" id="av-input" class="inp-sm" placeholder="e.g. âˆ’7" step="any" oninput="avLive()" onkeydown="if(event.key==='Enter')avCheck()" />
+      <input aria-label="e.g. âˆ’7" type="number" id="av-input" class="inp-sm" placeholder="e.g. âˆ’7" step="any" oninput="avLive()" onkeydown="if(event.key==='Enter')avCheck()" />
       <button class="btn btn-primary" onclick="avCheck()">âœ“ Check</button>
       <button class="btn btn-secondary" onclick="avNew()">â†º New</button>
     </div>
@@ -2544,7 +2544,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
       <div class="problem-display" id="av-q" style="font-size:1.5rem;">Press â†º New for a challenge question</div>
       <div class="input-row" style="margin-top:10px;">
         <label class="bold">Answer:</label>
-        <input type="number" id="av-ans" class="inp-sm" placeholder="e.g. 5" step="any" onkeydown="if(event.key==='Enter')avCheckAns()" />
+        <input aria-label="e.g. 5" type="number" id="av-ans" class="inp-sm" placeholder="e.g. 5" step="any" onkeydown="if(event.key==='Enter')avCheckAns()" />
         <button class="btn btn-success" onclick="avCheckAns()">âœ“ Submit</button>
       </div>
     </div>
@@ -3269,7 +3269,7 @@ function rtNew() {
         <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${rt.colors[i]};margin-right:6px;vertical-align:middle;"></span>
         ${p}:
       </div>
-      <input type="number" id="rt-ans-${i}" class="inp-sm" placeholder="0" onkeydown="if(event.key==='Enter')rtCheck()" />
+      <input aria-label="0" type="number" id="rt-ans-${i}" class="inp-sm" placeholder="0" onkeydown="if(event.key==='Enter')rtCheck()" />
       <span class="text-muted">${rt.unit}</span>
     </div>
   `).join('');
@@ -3392,7 +3392,7 @@ function egNew() {
     <div class="round-row">
       <span class="round-original">${n}</span>
       <span class="round-arrow">â†’ rounds to â†’</span>
-      <input type="number" id="eg-rnd-${i}" class="inp-sm" placeholder="1 sf" step="any" onkeydown="if(event.key==='Enter')egCheck()" />
+      <input aria-label="1 sf" type="number" id="eg-rnd-${i}" class="inp-sm" placeholder="1 sf" step="any" onkeydown="if(event.key==='Enter')egCheck()" />
       <span class="rounding-badge">1 sig. fig.</span>
     </div>
   `).join('');
@@ -6592,9 +6592,9 @@ document.addEventListener('DOMContentLoaded', init);
     <div class="problem-display" id="bn-q" style="font-size:1rem;padding:12px 16px;">â€”</div>
     <div class="input-row" style="flex-wrap:wrap;gap:10px;">
       <label class="bold">Lower bound:</label>
-      <input type="number" id="bn-lb" class="inp-sm" step="any" placeholder="LB" onkeydown="if(event.key==='Enter')bnCheck()" />
+      <input aria-label="LB" type="number" id="bn-lb" class="inp-sm" step="any" placeholder="LB" onkeydown="if(event.key==='Enter')bnCheck()" />
       <label class="bold">Upper bound:</label>
-      <input type="number" id="bn-ub" class="inp-sm" step="any" placeholder="UB" onkeydown="if(event.key==='Enter')bnCheck()" />
+      <input aria-label="UB" type="number" id="bn-ub" class="inp-sm" step="any" placeholder="UB" onkeydown="if(event.key==='Enter')bnCheck()" />
     </div>
     <div class="input-row" style="margin-top:8px;">
       <button class="btn btn-success" onclick="bnCheck()">âœ“ Check</button>
@@ -6665,9 +6665,9 @@ document.addEventListener('DOMContentLoaded', init);
     <div class="problem-display" id="sfo-md-q" style="font-size:1.1rem;padding:12px 16px;letter-spacing:0.03em;">â€”</div>
     <div class="input-row" style="flex-wrap:wrap;gap:8px;">
       <label class="bold">A =</label>
-      <input type="number" id="sfo-md-coeff" class="inp-sm" step="any" placeholder="e.g. 3.6" style="width:90px;" />
+      <input aria-label="e.g. 3.6" type="number" id="sfo-md-coeff" class="inp-sm" step="any" placeholder="e.g. 3.6" style="width:90px;" />
       <label class="bold">Ã— 10 ^</label>
-      <input type="number" id="sfo-md-pow" class="inp-sm" placeholder="e.g. 5" style="width:70px;" onkeydown="if(event.key==='Enter')sfoMdCheck()" />
+      <input aria-label="e.g. 5" type="number" id="sfo-md-pow" class="inp-sm" placeholder="e.g. 5" style="width:70px;" onkeydown="if(event.key==='Enter')sfoMdCheck()" />
     </div>
     <div class="input-row" style="margin-top:8px;">
       <button class="btn btn-success" onclick="sfoMdCheck()">âœ“ Check</button>
@@ -6685,9 +6685,9 @@ document.addEventListener('DOMContentLoaded', init);
     <div class="problem-display" id="sfo-as-q" style="font-size:1.1rem;padding:12px 16px;">â€”</div>
     <div class="input-row" style="flex-wrap:wrap;gap:8px;">
       <label class="bold">A =</label>
-      <input type="number" id="sfo-as-coeff" class="inp-sm" step="any" placeholder="1â€“9.9" style="width:90px;" />
+      <input aria-label="1â€“9.9" type="number" id="sfo-as-coeff" class="inp-sm" step="any" placeholder="1â€“9.9" style="width:90px;" />
       <label class="bold">Ã— 10 ^</label>
-      <input type="number" id="sfo-as-pow" class="inp-sm" placeholder="n" style="width:70px;" onkeydown="if(event.key==='Enter')sfoAsCheck()" />
+      <input aria-label="n" type="number" id="sfo-as-pow" class="inp-sm" placeholder="n" style="width:70px;" onkeydown="if(event.key==='Enter')sfoAsCheck()" />
     </div>
     <div class="input-row" style="margin-top:8px;">
       <button class="btn btn-success" onclick="sfoAsCheck()">âœ“ Check</button>
@@ -6748,7 +6748,7 @@ document.addEventListener('DOMContentLoaded', init);
     <div id="ix-law-hint" style="font-size:0.8rem;color:var(--muted);margin:6px 0 10px;"></div>
     <div class="input-row" style="flex-wrap:wrap;gap:8px;">
       <label class="bold" id="ix-answer-label">Answer:</label>
-      <input type="text" id="ix-answer" class="inp-sm" placeholder="e.g. 5 or 1/8 or 2" style="width:120px;" onkeydown="if(event.key==='Enter')ixCheck()" />
+      <input aria-label="e.g. 5 or 1/8 or 2" type="text" id="ix-answer" class="inp-sm" placeholder="e.g. 5 or 1/8 or 2" style="width:120px;" onkeydown="if(event.key==='Enter')ixCheck()" />
     </div>
     <div class="input-row" style="margin-top:8px;">
       <button class="btn btn-success" onclick="ixCheck()">âœ“ Check</button>
@@ -6766,7 +6766,7 @@ document.addEventListener('DOMContentLoaded', init);
     <div class="problem-display" id="ix-mix-q" style="font-size:1.3rem;padding:12px 16px;">â€”</div>
     <div class="input-row" style="flex-wrap:wrap;gap:8px;">
       <label class="bold">Value:</label>
-      <input type="text" id="ix-mix-answer" class="inp-sm" placeholder="e.g. 8 or 1/4" style="width:120px;" onkeydown="if(event.key==='Enter')ixMixCheck()" />
+      <input aria-label="e.g. 8 or 1/4" type="text" id="ix-mix-answer" class="inp-sm" placeholder="e.g. 8 or 1/4" style="width:120px;" onkeydown="if(event.key==='Enter')ixMixCheck()" />
     </div>
     <div class="input-row" style="margin-top:8px;">
       <button class="btn btn-success" onclick="ixMixCheck()">âœ“ Check</button>
@@ -6820,7 +6820,7 @@ document.addEventListener('DOMContentLoaded', init);
     </div>
     <div class="input-row" style="flex-wrap:wrap;gap:8px;">
       <label class="bold" id="pl-ask">% profit:</label>
-      <input type="number" id="pl-input" class="inp-sm" step="0.01" placeholder="e.g. 25.00" onkeydown="if(event.key==='Enter')plCheck()" />
+      <input aria-label="e.g. 25.00" type="number" id="pl-input" class="inp-sm" step="0.01" placeholder="e.g. 25.00" onkeydown="if(event.key==='Enter')plCheck()" />
       <button class="btn btn-success" onclick="plCheck()">âœ“ Check</button>
       <button class="btn btn-hint"    onclick="plHint()">ðŸ’¡ Hint</button>
       <button class="btn btn-secondary" onclick="plNew()">â†º New</button>
@@ -6902,9 +6902,9 @@ document.addEventListener('DOMContentLoaded', init);
     <div class="problem-display" id="pp-q" style="font-size:1rem;padding:12px 16px;">â€”</div>
     <div class="input-row" style="flex-wrap:wrap;gap:8px;">
       <label class="bold">k =</label>
-      <input type="number" id="pp-k-input" class="inp-sm" step="any" placeholder="constant" style="width:90px;" />
+      <input aria-label="constant" type="number" id="pp-k-input" class="inp-sm" step="any" placeholder="constant" style="width:90px;" />
       <label class="bold" id="pp-unknown-label">Answer:</label>
-      <input type="number" id="pp-ans-input" class="inp-sm" step="any" placeholder="value" style="width:90px;" onkeydown="if(event.key==='Enter')ppCheck()" />
+      <input aria-label="value" type="number" id="pp-ans-input" class="inp-sm" step="any" placeholder="value" style="width:90px;" onkeydown="if(event.key==='Enter')ppCheck()" />
     </div>
     <div class="input-row" style="margin-top:8px;">
       <button class="btn btn-success" onclick="ppCheck()">âœ“ Check</button>
@@ -6999,9 +6999,9 @@ document.addEventListener('DOMContentLoaded', init);
     <div style="background:#1e293b;color:#4ade80;font-family:var(--font-mono);font-size:2rem;padding:16px 24px;border-radius:10px;text-align:center;letter-spacing:0.1em;margin-bottom:16px;" id="ca-display">â€”</div>
     <div class="input-row" style="flex-wrap:wrap;gap:8px;">
       <label class="bold">A =</label>
-      <input type="number" id="ca-coeff" class="inp-sm" step="any" placeholder="e.g. 3.5" style="width:90px;" />
+      <input aria-label="e.g. 3.5" type="number" id="ca-coeff" class="inp-sm" step="any" placeholder="e.g. 3.5" style="width:90px;" />
       <label class="bold">Ã— 10 ^</label>
-      <input type="number" id="ca-pow" class="inp-sm" placeholder="n" style="width:70px;" onkeydown="if(event.key==='Enter')caCheck()" />
+      <input aria-label="n" type="number" id="ca-pow" class="inp-sm" placeholder="n" style="width:70px;" onkeydown="if(event.key==='Enter')caCheck()" />
     </div>
     <div class="input-row" style="margin-top:8px;">
       <button class="btn btn-success" onclick="caCheck()">âœ“ Check</button>
@@ -7963,7 +7963,7 @@ function ecBuildQuestion(q, i, container) {
     <div style="font-size:0.95rem;line-height:1.6;color:var(--text);margin-bottom:14px;">${q.q}</div>
     <div class="input-row" style="flex-wrap:wrap;gap:8px;">
       <label class="bold">Answer${q.unit ? ' (' + q.unit + ')' : ''}:</label>
-      <input type="number" id="ec-ans-${i}" class="inp-sm" step="any" placeholder="${q.placeholder}" style="width:160px;" onkeydown="if(event.key==='Enter')ecCheck(${i})" />
+      <input aria-label="${q.placeholder}" type="number" id="ec-ans-${i}" class="inp-sm" step="any" placeholder="${q.placeholder}" style="width:160px;" onkeydown="if(event.key==='Enter')ecCheck(${i})" />
       <button class="btn btn-success" onclick="ecCheck(${i})">âœ“ Submit</button>
       <button class="btn btn-hint" onclick="ecReveal(${i})">ðŸ” Show working</button>
     </div>
@@ -8179,7 +8179,7 @@ function ecInit() {
       <div style="font-weight:700;font-size:0.85rem;color:var(--navy);margin-bottom:6px;">Step 2 â€” What is the multiplier?</div>
       <div class="input-row">
         <label class="bold">Multiplier m =</label>
-        <input type="number" id="eg2-mult-input" class="inp-sm" step="0.01" placeholder="e.g. 0.80" style="width:110px;" onkeydown="if(event.key==='Enter')eg2StepTwo()" />
+        <input aria-label="e.g. 0.80" type="number" id="eg2-mult-input" class="inp-sm" step="0.01" placeholder="e.g. 0.80" style="width:110px;" onkeydown="if(event.key==='Enter')eg2StepTwo()" />
         <button class="btn btn-success" onclick="eg2StepTwo()">âœ“ Check</button>
         <button class="btn btn-hint" onclick="eg2Hint(2)">ðŸ’¡ Hint</button>
       </div>
@@ -8189,7 +8189,7 @@ function ecInit() {
       <div style="font-weight:700;font-size:0.85rem;color:var(--navy);margin-bottom:6px;">Step 3 â€” Calculate the final value:</div>
       <div class="input-row">
         <label class="bold" id="eg2-step3-label">Final value =</label>
-        <input type="number" id="eg2-ans-input" class="inp-sm" step="any" placeholder="to 2 d.p." style="width:130px;" onkeydown="if(event.key==='Enter')eg2StepThree()" />
+        <input aria-label="to 2 d.p" type="number" id="eg2-ans-input" class="inp-sm" step="any" placeholder="to 2 d.p." style="width:130px;" onkeydown="if(event.key==='Enter')eg2StepThree()" />
         <button class="btn btn-success" onclick="eg2StepThree()">âœ“ Check</button>
         <button class="btn btn-hint" onclick="eg2Hint(3)">ðŸ’¡ Hint</button>
       </div>
@@ -8207,7 +8207,7 @@ function ecInit() {
     <div class="problem-display" id="eg2-fn-q" style="font-size:0.95rem;padding:12px 16px;line-height:1.6;">â€”</div>
     <div class="input-row" style="margin-top:10px;">
       <label class="bold">n (whole periods) =</label>
-      <input type="number" id="eg2-fn-input" class="inp-sm" step="1" min="1" placeholder="integer" style="width:100px;" onkeydown="if(event.key==='Enter')eg2FnCheck()" />
+      <input aria-label="integer" type="number" id="eg2-fn-input" class="inp-sm" step="1" min="1" placeholder="integer" style="width:100px;" onkeydown="if(event.key==='Enter')eg2FnCheck()" />
       <button class="btn btn-success" onclick="eg2FnCheck()">âœ“ Check</button>
       <button class="btn btn-hint"    onclick="eg2FnHint()">ðŸ’¡ Hint</button>
       <button class="btn btn-secondary" onclick="eg2FnNew()">â†º New</button>
@@ -8317,7 +8317,7 @@ function ecInit() {
       <div style="font-weight:700;font-size:0.85rem;color:var(--navy);margin-bottom:6px;">Step 2 â€” Find k. Substitute the known pair.</div>
       <div class="input-row" style="flex-wrap:wrap;gap:8px;">
         <label class="bold">k =</label>
-        <input type="number" id="ap-k-input" class="inp-sm" step="any" placeholder="value of k" style="width:110px;" onkeydown="if(event.key==='Enter')apStep2Check()" />
+        <input aria-label="value of k" type="number" id="ap-k-input" class="inp-sm" step="any" placeholder="value of k" style="width:110px;" onkeydown="if(event.key==='Enter')apStep2Check()" />
         <button class="btn btn-success" onclick="apStep2Check()">âœ“ Check</button>
         <button class="btn btn-hint" onclick="apHint(2)">ðŸ’¡ Hint</button>
       </div>
@@ -8328,7 +8328,7 @@ function ecInit() {
       <div style="font-weight:700;font-size:0.85rem;color:var(--navy);margin-bottom:6px;" id="ap-step3-label">Step 3 â€” Find y when x = ?</div>
       <div class="input-row" style="flex-wrap:wrap;gap:8px;">
         <label class="bold">y =</label>
-        <input type="number" id="ap-ans-input" class="inp-sm" step="any" placeholder="answer" style="width:110px;" onkeydown="if(event.key==='Enter')apStep3Check()" />
+        <input aria-label="answer" type="number" id="ap-ans-input" class="inp-sm" step="any" placeholder="answer" style="width:110px;" onkeydown="if(event.key==='Enter')apStep3Check()" />
         <button class="btn btn-success" onclick="apStep3Check()">âœ“ Check</button>
         <button class="btn btn-hint" onclick="apHint(3)">ðŸ’¡ Hint</button>
       </div>

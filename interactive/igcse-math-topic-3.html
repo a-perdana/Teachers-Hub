@@ -471,7 +471,7 @@ canvas { max-width: 100%; }
         <div id="gr-question" class="expr-display">Loadingâ€¦</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
           <label style="font-size:0.88rem;color:var(--muted);">m =</label>
-          <input type="text" id="gr-input" class="inp-sm" placeholder="e.g. 2/3" onkeydown="if(event.key==='Enter')grCheck()">
+          <input aria-label="e.g. 2/3" type="text" id="gr-input" class="inp-sm" placeholder="e.g. 2/3" onkeydown="if(event.key==='Enter')grCheck()">
           <button class="btn btn-primary" onclick="grCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="grHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" id="gr-next-btn" onclick="grNew()">Next â†’</button>
@@ -489,7 +489,7 @@ canvas { max-width: 100%; }
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
           <label style="font-size:0.88rem;color:var(--muted);">m =</label>
-          <input type="text" id="gr-graph-input" class="inp-sm" placeholder="e.g. âˆ’2" onkeydown="if(event.key==='Enter')grGraphCheck()">
+          <input aria-label="e.g. âˆ’2" type="text" id="gr-graph-input" class="inp-sm" placeholder="e.g. âˆ’2" onkeydown="if(event.key==='Enter')grGraphCheck()">
           <button class="btn btn-primary" onclick="grGraphCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="grGraphHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="grGraphNew()">New Line â†’</button>
@@ -587,9 +587,9 @@ canvas { max-width: 100%; }
         <div id="md-mp-question" class="expr-display">Loadingâ€¦</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
           <label style="font-size:0.85rem;">M = (</label>
-          <input type="number" id="md-mx" class="inp-sm" step="0.5" placeholder="x" onkeydown="if(event.key==='Enter')mdMpCheck()">
+          <input aria-label="x" type="number" id="md-mx" class="inp-sm" step="0.5" placeholder="x" onkeydown="if(event.key==='Enter')mdMpCheck()">
           <label style="font-size:0.85rem;">,</label>
-          <input type="number" id="md-my" class="inp-sm" step="0.5" placeholder="y" onkeydown="if(event.key==='Enter')mdMpCheck()">
+          <input aria-label="y" type="number" id="md-my" class="inp-sm" step="0.5" placeholder="y" onkeydown="if(event.key==='Enter')mdMpCheck()">
           <label style="font-size:0.85rem;">)</label>
           <button class="btn btn-primary" onclick="mdMpCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="mdMpHint()">ðŸ’¡ Hint</button>
@@ -606,7 +606,7 @@ canvas { max-width: 100%; }
         <div id="md-dist-question" class="expr-display">Loadingâ€¦</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
           <label style="font-size:0.85rem;">d =</label>
-          <input type="text" id="md-dist-input" class="inp-md" placeholder="e.g. âˆš50 or 7.07" onkeydown="if(event.key==='Enter')mdDistCheck()">
+          <input aria-label="e.g. âˆš50 or 7.07" type="text" id="md-dist-input" class="inp-md" placeholder="e.g. âˆš50 or 7.07" onkeydown="if(event.key==='Enter')mdDistCheck()">
           <button class="btn btn-primary" onclick="mdDistCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="mdDistHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="mdDistNew()">Next â†’</button>
@@ -689,11 +689,11 @@ canvas { max-width: 100%; }
         <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:8px;">
           <div style="display:flex;align-items:center;gap:6px;">
             <label style="font-size:0.85rem;">m =</label>
-            <input type="text" id="el-m" class="inp-sm" placeholder="gradient" onkeydown="if(event.key==='Enter')elReadCheck()">
+            <input aria-label="gradient" type="text" id="el-m" class="inp-sm" placeholder="gradient" onkeydown="if(event.key==='Enter')elReadCheck()">
           </div>
           <div style="display:flex;align-items:center;gap:6px;">
             <label style="font-size:0.85rem;">c =</label>
-            <input type="text" id="el-c" class="inp-sm" placeholder="y-intercept" onkeydown="if(event.key==='Enter')elReadCheck()">
+            <input aria-label="y-intercept" type="text" id="el-c" class="inp-sm" placeholder="y-intercept" onkeydown="if(event.key==='Enter')elReadCheck()">
           </div>
           <button class="btn btn-primary" onclick="elReadCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="elReadHint()">ðŸ’¡ Hint</button>
@@ -715,7 +715,7 @@ canvas { max-width: 100%; }
         <div id="el-find-question" style="background:var(--slate);padding:14px;border-radius:8px;margin-bottom:14px;font-size:0.92rem;line-height:1.7;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
           <label style="font-size:0.85rem;">y =</label>
-          <input type="text" id="el-find-input" class="inp-md" placeholder="mx + c" onkeydown="if(event.key==='Enter')elFindCheck()">
+          <input aria-label="mx + c" type="text" id="el-find-input" class="inp-md" placeholder="mx + c" onkeydown="if(event.key==='Enter')elFindCheck()">
           <button class="btn btn-primary" onclick="elFindCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="elFindHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="elFindNew()">Next â†’</button>
@@ -852,7 +852,7 @@ canvas { max-width: 100%; }
         <div id="pp-find-question" style="background:var(--slate);padding:14px;border-radius:8px;margin-bottom:14px;font-size:0.92rem;line-height:1.7;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
           <label style="font-size:0.85rem;">y =</label>
-          <input type="text" id="pp-find-input" class="inp-md" placeholder="mx + c" onkeydown="if(event.key==='Enter')ppFindCheck()">
+          <input aria-label="mx + c" type="text" id="pp-find-input" class="inp-md" placeholder="mx + c" onkeydown="if(event.key==='Enter')ppFindCheck()">
           <button class="btn btn-primary" onclick="ppFindCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="ppFindHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="ppFindNew()">Next â†’</button>
@@ -1092,7 +1092,7 @@ canvas { max-width: 100%; }
         </div>
         <div id="ec-question" style="font-size:0.96rem;line-height:1.8;margin-bottom:16px;padding:16px;background:var(--slate);border-radius:8px;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-          <input type="text" id="ec-input" class="inp-lg" placeholder="Your answer" style="max-width:360px;" onkeydown="if(event.key==='Enter')ecCheck()">
+          <input aria-label="Your answer" type="text" id="ec-input" class="inp-lg" placeholder="Your answer" style="max-width:360px;" onkeydown="if(event.key==='Enter')ecCheck()">
           <button class="btn btn-primary" onclick="ecCheck()">Submit âœ“</button>
           <button class="btn btn-hint" onclick="ecHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="ecSkip()" id="ec-skip-btn">Skip â†’</button>

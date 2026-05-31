@@ -820,7 +820,7 @@ svg.nline { display: block; margin: 0 auto; }
 
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px;">
           <label style="font-size:0.88rem;color:var(--muted);">Your answer:</label>
-          <input type="number" id="eb-input" class="inp-sm" placeholder="?" step="any" onkeydown="if(event.key==='Enter')ebCheck()">
+          <input aria-label="?" type="number" id="eb-input" class="inp-sm" placeholder="?" step="any" onkeydown="if(event.key==='Enter')ebCheck()">
           <button class="btn btn-primary" onclick="ebCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="ebHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="ebNew()">Next â†’</button>
@@ -836,7 +836,7 @@ svg.nline { display: block; margin: 0 auto; }
         <div class="card-desc">Read the word problem and write the correct algebraic formula.</div>
         <div id="cf-question" style="background:var(--slate);padding:16px;border-radius:8px;margin-bottom:14px;font-size:0.92rem;line-height:1.7;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-          <input type="text" id="cf-input" class="inp-lg" placeholder="Type your formula, e.g.  C = 5n + 3" style="max-width:320px;" onkeydown="if(event.key==='Enter')cfCheck()">
+          <input aria-label="Type your formula, e.g.  C = 5n + 3" type="text" id="cf-input" class="inp-lg" placeholder="Type your formula, e.g.  C = 5n + 3" style="max-width:320px;" onkeydown="if(event.key==='Enter')cfCheck()">
           <button class="btn btn-primary" onclick="cfCheck()">Check âœ“</button>
           <button class="btn btn-secondary btn-sm" onclick="cfNew()">New â†’</button>
         </div>
@@ -905,7 +905,7 @@ svg.nline { display: block; margin: 0 auto; }
         <div class="card-desc">Simplify by collecting like terms. Write your answer in the form ax + by + c (omit zero terms).</div>
         <div id="lt-expr" class="expr-display">Loadingâ€¦</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
-          <input type="text" id="lt-input" class="inp-md" placeholder="e.g. 5x âˆ’ 2y" onkeydown="if(event.key==='Enter')ltCheck()">
+          <input aria-label="e.g. 5x âˆ’ 2y" type="text" id="lt-input" class="inp-md" placeholder="e.g. 5x âˆ’ 2y" onkeydown="if(event.key==='Enter')ltCheck()">
           <button class="btn btn-primary" onclick="ltCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="ltHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="ltNew()">Next â†’</button>
@@ -927,7 +927,7 @@ svg.nline { display: block; margin: 0 auto; }
 
         <div id="exp-expr" class="expr-display">Loadingâ€¦</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
-          <input type="text" id="exp-input" class="inp-md" placeholder="Expanded form" onkeydown="if(event.key==='Enter')expCheck()">
+          <input aria-label="Expanded form" type="text" id="exp-input" class="inp-md" placeholder="Expanded form" onkeydown="if(event.key==='Enter')expCheck()">
           <button class="btn btn-primary" onclick="expCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="expHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="expNew()">Next â†’</button>
@@ -1004,7 +1004,7 @@ svg.nline { display: block; margin: 0 auto; }
 
         <div id="fl-expr" class="expr-display">Loadingâ€¦</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
-          <input type="text" id="fl-input" class="inp-md" placeholder="Factorised form" onkeydown="if(event.key==='Enter')flCheck()">
+          <input aria-label="Factorised form" type="text" id="fl-input" class="inp-md" placeholder="Factorised form" onkeydown="if(event.key==='Enter')flCheck()">
           <button class="btn btn-primary" onclick="flCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="flHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="flNew()">Next â†’</button>
@@ -1020,9 +1020,9 @@ svg.nline { display: block; margin: 0 auto; }
         <div id="cts-expr" class="expr-display">Loadingâ€¦</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
           <label style="font-size:0.85rem;">p = </label>
-          <input type="number" id="cts-p" class="inp-sm" step="any" placeholder="p">
+          <input aria-label="p" type="number" id="cts-p" class="inp-sm" step="any" placeholder="p">
           <label style="font-size:0.85rem;">q = </label>
-          <input type="number" id="cts-q" class="inp-sm" step="any" placeholder="q">
+          <input aria-label="q" type="number" id="cts-q" class="inp-sm" step="any" placeholder="q">
           <button class="btn btn-primary" onclick="ctsCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="ctsHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="ctsNew()">Next â†’</button>
@@ -1132,7 +1132,7 @@ svg.nline { display: block; margin: 0 auto; }
 
         <div id="ix-expr" class="expr-display">Loadingâ€¦</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
-          <input type="text" id="ix-input" class="inp-md" placeholder="e.g. aâ· or 1/xÂ²" onkeydown="if(event.key==='Enter')ixCheck()">
+          <input aria-label="e.g. aâ· or 1/xÂ²" type="text" id="ix-input" class="inp-md" placeholder="e.g. aâ· or 1/xÂ²" onkeydown="if(event.key==='Enter')ixCheck()">
           <button class="btn btn-primary" onclick="ixCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="ixHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="ixNew()">Next â†’</button>
@@ -1317,7 +1317,7 @@ svg.nline { display: block; margin: 0 auto; }
         <div id="fr-question" style="background:var(--slate);padding:16px 20px;border-radius:8px;margin-bottom:14px;font-size:0.95rem;"></div>
         <div id="fr-expr" class="expr-display" style="font-size:1.2rem;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px;">
-          <input type="text" id="fr-input" class="inp-lg" placeholder="Type your rearranged formula" style="max-width:360px;" onkeydown="if(event.key==='Enter')frCheck()">
+          <input aria-label="Type your rearranged formula" type="text" id="fr-input" class="inp-lg" placeholder="Type your rearranged formula" style="max-width:360px;" onkeydown="if(event.key==='Enter')frCheck()">
           <button class="btn btn-primary" onclick="frCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="frHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="frNew()">Next â†’</button>
@@ -1399,7 +1399,7 @@ svg.nline { display: block; margin: 0 auto; }
         <div class="card-desc">Solve the inequality and write the solution. Use the notation x &gt; a, x â‰¤ b, etc.</div>
         <div id="iq-expr" class="expr-display">Loadingâ€¦</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
-          <input type="text" id="iq-input" class="inp-md" placeholder="e.g. x > 3" onkeydown="if(event.key==='Enter')iqCheck()">
+          <input aria-label="e.g. x > 3" type="text" id="iq-input" class="inp-md" placeholder="e.g. x > 3" onkeydown="if(event.key==='Enter')iqCheck()">
           <button class="btn btn-primary" onclick="iqCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="iqHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="iqNew()">Next â†’</button>
@@ -1416,7 +1416,7 @@ svg.nline { display: block; margin: 0 auto; }
         <div class="card-desc">Write all integer values of n that satisfy the inequality. Separate with commas.</div>
         <div id="is-expr" class="expr-display">Loadingâ€¦</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
-          <input type="text" id="is-input" class="inp-lg" placeholder="e.g. âˆ’2, âˆ’1, 0, 1" style="max-width:320px;" onkeydown="if(event.key==='Enter')isCheck()">
+          <input aria-label="e.g. âˆ’2, âˆ’1, 0, 1" type="text" id="is-input" class="inp-lg" placeholder="e.g. âˆ’2, âˆ’1, 0, 1" style="max-width:320px;" onkeydown="if(event.key==='Enter')isCheck()">
           <button class="btn btn-primary" onclick="isCheck()">Check âœ“</button>
           <button class="btn btn-secondary btn-sm" onclick="isNew()">Next â†’</button>
         </div>
@@ -1506,7 +1506,7 @@ svg.nline { display: block; margin: 0 auto; }
         <div id="sq-nth-seq" class="expr-display" style="font-size:1.2rem;">Loadingâ€¦</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
           <label style="font-size:0.85rem;">T(n) = </label>
-          <input type="text" id="sq-nth-input" class="inp-md" placeholder="e.g. 3n + 1" onkeydown="if(event.key==='Enter')sqNthCheck()">
+          <input aria-label="e.g. 3n + 1" type="text" id="sq-nth-input" class="inp-md" placeholder="e.g. 3n + 1" onkeydown="if(event.key==='Enter')sqNthCheck()">
           <button class="btn btn-primary" onclick="sqNthCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="sqNthHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="sqNthNew()">Next â†’</button>
@@ -1780,7 +1780,7 @@ svg.nline { display: block; margin: 0 auto; }
         <div class="card-desc">Given the equation, answer questions about key features of the curve.</div>
         <div id="kf-question" style="background:var(--slate);padding:16px;border-radius:8px;margin-bottom:12px;font-size:0.92rem;line-height:1.7;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-          <input type="text" id="kf-input" class="inp-md" placeholder="Your answer" onkeydown="if(event.key==='Enter')kfCheck()">
+          <input aria-label="Your answer" type="text" id="kf-input" class="inp-md" placeholder="Your answer" onkeydown="if(event.key==='Enter')kfCheck()">
           <button class="btn btn-primary" onclick="kfCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="kfHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="kfNew()">Next â†’</button>
@@ -1847,7 +1847,7 @@ svg.nline { display: block; margin: 0 auto; }
         </div>
         <div id="af-expr" class="expr-display" style="font-size:1.2rem;">Loadingâ€¦</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
-          <input type="text" id="af-input" class="inp-lg" placeholder="Simplified form" style="max-width:340px;" onkeydown="if(event.key==='Enter')afCheck()">
+          <input aria-label="Simplified form" type="text" id="af-input" class="inp-lg" placeholder="Simplified form" style="max-width:340px;" onkeydown="if(event.key==='Enter')afCheck()">
           <button class="btn btn-primary" onclick="afCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="afHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="afNew()">Next â†’</button>
@@ -2014,7 +2014,7 @@ svg.nline { display: block; margin: 0 auto; }
         <div id="diff-expr" class="expr-display">Loadingâ€¦</div>
         <div id="diff-stat-question" style="display:none;font-size:0.9rem;color:var(--muted);margin:8px 0;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
-          <input type="text" id="diff-input" class="inp-md" placeholder="dy/dx = â€¦" onkeydown="if(event.key==='Enter')diffCheck()">
+          <input aria-label="dy/dx = â€¦" type="text" id="diff-input" class="inp-md" placeholder="dy/dx = â€¦" onkeydown="if(event.key==='Enter')diffCheck()">
           <button class="btn btn-primary" onclick="diffCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="diffHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="diffNew()">Next â†’</button>
@@ -2081,7 +2081,7 @@ svg.nline { display: block; margin: 0 auto; }
         </div>
         <div id="fn-question" style="background:var(--slate);padding:16px;border-radius:8px;margin-bottom:12px;font-size:0.92rem;line-height:1.8;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-          <input type="text" id="fn-input" class="inp-md" placeholder="Your answer" onkeydown="if(event.key==='Enter')fnCheck()">
+          <input aria-label="Your answer" type="text" id="fn-input" class="inp-md" placeholder="Your answer" onkeydown="if(event.key==='Enter')fnCheck()">
           <button class="btn btn-primary" onclick="fnCheck()">Check âœ“</button>
           <button class="btn btn-hint" onclick="fnHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" onclick="fnNew()">Next â†’</button>
@@ -2119,7 +2119,7 @@ svg.nline { display: block; margin: 0 auto; }
         </div>
         <div id="ec-question" style="font-size:0.96rem;line-height:1.8;margin-bottom:16px;padding:16px;background:var(--slate);border-radius:8px;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-          <input type="text" id="ec-input" class="inp-lg" placeholder="Your answer" style="max-width:360px;" onkeydown="if(event.key==='Enter')ecCheck()">
+          <input aria-label="Your answer" type="text" id="ec-input" class="inp-lg" placeholder="Your answer" style="max-width:360px;" onkeydown="if(event.key==='Enter')ecCheck()">
           <button class="btn btn-primary" onclick="ecCheck()">Submit âœ“</button>
           <button class="btn btn-hint" onclick="ecHint()">ðŸ’¡ Hint</button>
           <button class="btn btn-secondary btn-sm" id="ec-skip-btn" onclick="ecSkip()">Skip â†’</button>
@@ -2901,7 +2901,7 @@ function dtNew() {
       <div style="background:var(--slate);padding:12px;border-radius:8px;font-size:0.88rem;">
         <strong>Q1.</strong> How fast was the person travelling in the first segment?<br>
         <div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
-          <input type="number" id="dt-q1" class="inp-sm" step="0.1" placeholder="km/h">
+          <input aria-label="km/h" type="number" id="dt-q1" class="inp-sm" step="0.1" placeholder="km/h">
           <button class="btn btn-sm btn-primary" onclick="dtCheckQ(1, ${speed1})">Check</button>
         </div>
         <div id="dt-q1-fb" class="feedback" style="margin-top:6px;font-size:0.8rem;"></div>
@@ -2909,7 +2909,7 @@ function dtNew() {
       <div style="background:var(--slate);padding:12px;border-radius:8px;font-size:0.88rem;">
         <strong>Q2.</strong> How long did the person stop? (minutes)<br>
         <div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
-          <input type="number" id="dt-q2" class="inp-sm" placeholder="min">
+          <input aria-label="min" type="number" id="dt-q2" class="inp-sm" placeholder="min">
           <button class="btn btn-sm btn-primary" onclick="dtCheckQ(2, ${s1.t1 - s1.t0})">Check</button>
         </div>
         <div id="dt-q2-fb" class="feedback" style="margin-top:6px;font-size:0.8rem;"></div>
@@ -2917,7 +2917,7 @@ function dtNew() {
       <div style="background:var(--slate);padding:12px;border-radius:8px;font-size:0.88rem;">
         <strong>Q3.</strong> At what speed did they return? (km/h)<br>
         <div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
-          <input type="number" id="dt-q3" class="inp-sm" step="0.1" placeholder="km/h">
+          <input aria-label="km/h" type="number" id="dt-q3" class="inp-sm" step="0.1" placeholder="km/h">
           <button class="btn btn-sm btn-primary" onclick="dtCheckQ(3, ${speed3})">Check</button>
         </div>
         <div id="dt-q3-fb" class="feedback" style="margin-top:6px;font-size:0.8rem;"></div>
@@ -2925,7 +2925,7 @@ function dtNew() {
       <div style="background:var(--slate);padding:12px;border-radius:8px;font-size:0.88rem;">
         <strong>Q4.</strong> What was the total distance travelled? (km)<br>
         <div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
-          <input type="number" id="dt-q4" class="inp-sm" placeholder="km">
+          <input aria-label="km" type="number" id="dt-q4" class="inp-sm" placeholder="km">
           <button class="btn btn-sm btn-primary" onclick="dtCheckQ(4, ${s0.d1 * 2})">Check</button>
         </div>
         <div id="dt-q4-fb" class="feedback" style="margin-top:6px;font-size:0.8rem;"></div>
