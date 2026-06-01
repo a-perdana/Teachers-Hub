@@ -24,6 +24,17 @@ const A11Y_WRAPPER_PATTERNS = [
   /<div id="mainContent"/,
   /<div id="navbar-container"><\/div>/
 ];
+// Minimal inline a11y style for pages that DON'T link base.css (index/waiting/
+// careers-*). Without it the .skip-link rule never loads and the link renders
+// as a plain visible link at the top of the page (incident 2026-06-02 on /).
+// Byte-identical to the standalone-lab-tool inline bundle below.
+const A11Y_INLINE_STYLE = '<style>/* a11y-inline */\n'
+  + '*:focus-visible{outline:2px solid #6c5ce7 !important;outline-offset:2px;border-radius:2px}\n'
+  + ':focus:not(:focus-visible){outline:none}\n'
+  + '.skip-link{position:absolute;top:0;left:0;transform:translateY(-120%);z-index:100000;margin:8px;padding:10px 16px;background:#6c5ce7;color:#fff;font:600 0.95rem/1 system-ui,sans-serif;text-decoration:none;border-radius:8px}\n'
+  + '.skip-link:focus{transform:translateY(0)}\n'
+  + '#main-content:focus{outline:none !important}\n'
+  + '</style>\n';
 function injectA11y(html, fileBase) {
   if (A11Y_SKIP_FILES.has(fileBase)) return html;
   if (/class="skip-link"/.test(html)) return html;
@@ -41,6 +52,11 @@ function injectA11y(html, fileBase) {
   }
   if (!landmarkPlaced) {
     out = out.replace(SKIP, SKIP + '<span id="main-content" tabindex="-1"></span>\n');
+  }
+  // Pages without base.css have no .skip-link CSS — inject the inline bundle so
+  // the skip-link stays hidden until focused (instead of showing at the top).
+  if (!/base\.css/.test(out) && out.includes('</head>')) {
+    out = out.replace('</head>', A11Y_INLINE_STYLE + '</head>');
   }
   return out;
 }
