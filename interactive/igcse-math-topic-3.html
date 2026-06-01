@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Topic 3 Â· IGCSE 0580 Mathematics</title>
+<title>Topic 3 · IGCSE 0580 Mathematics</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230f2044'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-size='40' font-family='serif' fill='%2306b6d4'>xy</text></svg>">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -84,7 +84,7 @@ body { font-family: var(--font-body); background: #e8edf5; color: var(--text); m
 .nav-icon { font-size: 1rem; flex-shrink: 0; width: 22px; text-align: center; display: inline-block; }
 .nav-text { font-size: 0.82rem; color: rgba(255,255,255,0.75); transition: opacity 0.2s; overflow: hidden; text-overflow: ellipsis; }
 .nav-item.active .nav-text { color: white; font-weight: 600; }
-.nav-done .nav-icon::after { content: ' âœ“'; font-size: 0.65rem; color: #34d399; vertical-align: super; }
+.nav-done .nav-icon::after { content: ' ✓'; font-size: 0.65rem; color: #34d399; vertical-align: super; }
 .sidebar.collapsed .nav-text { opacity: 0; }
 .nav-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 8px 14px; }
 .nav-back { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; color: rgba(255,255,255,0.45); font-size: 0.78rem; border-top: 1px solid rgba(255,255,255,0.08); margin-top: auto; white-space: nowrap; overflow: hidden; transition: color 0.2s; text-decoration: none; }
@@ -226,16 +226,16 @@ canvas { max-width: 100%; }
 
 <header class="app-header">
   <div class="brand">
-    <button id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">â˜°</button>
+    <button id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
     <a href="igcse-math-index.html" style="text-decoration:none;display:flex;align-items:center;gap:10px;">
       <span class="brand-badge">Topic 3</span>
       <span class="brand-title">Coordinate Geometry <span class="brand-sub">IGCSE 0580</span></span>
     </a>
   </div>
-  <button id="teacherToggle" onclick="toggleTeacherMode()">ðŸ‘©â€ðŸ« Teacher Mode</button>
-  <button onclick="if(confirm('Reset all progress? This cannot be undone.')){localStorage.removeItem('t3_done');localStorage.removeItem('t3_teacher_hint_seen');location.reload();}" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);font-size:0.72rem;padding:4px 10px;border-radius:6px;cursor:pointer;margin-left:8px;" title="Reset all saved progress">â†º Reset Progress</button>
+  <button id="teacherToggle" onclick="toggleTeacherMode()">👩‍🏫 Teacher Mode</button>
+  <button onclick="if(confirm('Reset all progress? This cannot be undone.')){localStorage.removeItem('t3_done');localStorage.removeItem('t3_teacher_hint_seen');location.reload();}" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);font-size:0.72rem;padding:4px 10px;border-radius:6px;cursor:pointer;margin-left:8px;" title="Reset all saved progress">↺ Reset Progress</button>
   <div id="teacher-hint" style="display:none;position:absolute;top:72px;right:24px;background:#fffbeb;border:1.5px solid #fcd34d;border-radius:8px;padding:10px 14px;font-size:0.8rem;color:#92400e;max-width:240px;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,0.12);">
-    ðŸ‘©â€ðŸ« <strong>Are you a teacher?</strong><br>Click "Teacher Mode" to see misconceptions, strategies, and walked examples for each module.
+    👩‍🏫 <strong>Are you a teacher?</strong><br>Click "Teacher Mode" to see misconceptions, strategies, and walked examples for each module.
     <button onclick="dismissTeacherHint()" style="display:block;margin-top:8px;font-size:0.78rem;background:none;border:none;color:#92400e;cursor:pointer;text-decoration:underline;">Got it</button>
   </div>
 </header>
@@ -248,18 +248,18 @@ canvas { max-width: 100%; }
     </div>
 
     <div class="nav-section-label">Core &amp; Extended</div>
-    <div role="button" tabindex="0" class="nav-item active" onclick="showModule(0)"><span class="nav-icon">ðŸ“</span><span class="nav-text">0 Â· Coordinates &amp; Plotting</span></div>
-    <div role="button" tabindex="0" class="nav-item" onclick="showModule(1)"><span class="nav-icon">ðŸ“</span><span class="nav-text">1 Â· Gradient</span></div>
-    <div role="button" tabindex="0" class="nav-item" onclick="showModule(2)"><span class="nav-icon">â†”ï¸</span><span class="nav-text">2 Â· Midpoint &amp; Distance</span></div>
-    <div role="button" tabindex="0" class="nav-item" onclick="showModule(3)"><span class="nav-icon">ðŸ“</span><span class="nav-text">3 Â· Equation of a Line</span></div>
-    <div role="button" tabindex="0" class="nav-item" onclick="showModule(4)"><span class="nav-icon">âŠ•</span><span class="nav-text">4 Â· Parallel &amp; Perpendicular</span></div>
+    <div role="button" tabindex="0" class="nav-item active" onclick="showModule(0)"><span class="nav-icon">📍</span><span class="nav-text">0 · Coordinates &amp; Plotting</span></div>
+    <div role="button" tabindex="0" class="nav-item" onclick="showModule(1)"><span class="nav-icon">📐</span><span class="nav-text">1 · Gradient</span></div>
+    <div role="button" tabindex="0" class="nav-item" onclick="showModule(2)"><span class="nav-icon">↔️</span><span class="nav-text">2 · Midpoint &amp; Distance</span></div>
+    <div role="button" tabindex="0" class="nav-item" onclick="showModule(3)"><span class="nav-icon">📏</span><span class="nav-text">3 · Equation of a Line</span></div>
+    <div role="button" tabindex="0" class="nav-item" onclick="showModule(4)"><span class="nav-icon">⊕</span><span class="nav-text">4 · Parallel &amp; Perpendicular</span></div>
 
     <div class="nav-section-label">Extended Only</div>
-    <div role="button" tabindex="0" class="nav-item" onclick="showModule(5)"><span class="nav-icon">âœ‚ï¸</span><span class="nav-text">5 Â· Intersections</span></div>
-    <div role="button" tabindex="0" class="nav-item" onclick="showModule(6)"><span class="nav-icon">â­•</span><span class="nav-text">6 Â· Loci &amp; Regions</span></div>
+    <div role="button" tabindex="0" class="nav-item" onclick="showModule(5)"><span class="nav-icon">✂️</span><span class="nav-text">5 · Intersections</span></div>
+    <div role="button" tabindex="0" class="nav-item" onclick="showModule(6)"><span class="nav-icon">⭕</span><span class="nav-text">6 · Loci &amp; Regions</span></div>
 
     <div class="nav-divider"></div>
-    <div role="button" tabindex="0" class="nav-item" onclick="showModule(7)"><span class="nav-icon">ðŸ†</span><span class="nav-text">7 Â· Exam Challenge</span></div>
+    <div role="button" tabindex="0" class="nav-item" onclick="showModule(7)"><span class="nav-icon">🏆</span><span class="nav-text">7 · Exam Challenge</span></div>
 
     <a class="nav-back" href="igcse-math-index.html">
       <span class="nav-icon">â—€</span><span>All Chapters</span>
@@ -269,17 +269,17 @@ canvas { max-width: 100%; }
   <main class="content-area" id="contentArea">
 
     <!-- ============================================================
-         MODULE 0 â€” COORDINATES & PLOTTING (C3.1)
+         MODULE 0 — COORDINATES & PLOTTING (C3.1)
          ============================================================ -->
     <section class="module active" id="mod-0">
       <div class="mod-header">
-        <div class="breadcrumb">Topic 3 Â· Coordinate Geometry â†’ <span>Module 0</span></div>
-        <h1>ðŸ“ Coordinates &amp; Plotting</h1>
+        <div class="breadcrumb">Topic 3 · Coordinate Geometry → <span>Module 0</span></div>
+        <h1>📍 Coordinates &amp; Plotting</h1>
       </div>
 
       <div class="progress-card">
-        <h2>C3.1 â€” Cartesian Coordinates</h2>
-        <div class="pc-meta">Cambridge IGCSE 0580 Â· Core &amp; Extended Â· 2025â€“2027 Syllabus</div>
+        <h2>C3.1 — Cartesian Coordinates</h2>
+        <div class="pc-meta">Cambridge IGCSE 0580 · Core &amp; Extended · 2025–2027 Syllabus</div>
         <div class="prog-track"><div class="prog-fill" id="cp-prog" style="width:0%"></div></div>
         <div class="prog-stats">
           <div><strong id="cp-correct">0</strong> correct</div>
@@ -296,11 +296,11 @@ canvas { max-width: 100%; }
       </div>
 
       <div class="teacher-panel" id="tp-0">
-        <div class="tp-header">ðŸ‘©â€ðŸ« Teacher Panel â€” Coordinates &amp; Plotting</div>
+        <div class="tp-header">👩‍🏫 Teacher Panel — Coordinates &amp; Plotting</div>
         <div class="tp-body">
           <div class="tp-grid">
             <div class="tp-item misconception">
-              <strong>âŒ Common Misconceptions</strong>
+              <strong>❌ Common Misconceptions</strong>
               <ul>
                 <li>Reversing x and y: plotting (3, 5) as 3 up, 5 right</li>
                 <li>Negative coordinates: moving right for negative x</li>
@@ -309,24 +309,24 @@ canvas { max-width: 100%; }
               </ul>
             </div>
             <div class="tp-item strategy">
-              <strong>âœ… Teaching Strategies</strong>
+              <strong>✅ Teaching Strategies</strong>
               <ul>
-                <li>"Along the corridor then up the stairs" â€” x first, then y</li>
+                <li>"Along the corridor then up the stairs" — x first, then y</li>
                 <li>Colour-code axes: red x, blue y</li>
-                <li>Quadrant mnemonics: All Students Take Calculus (signs +/+, âˆ’/+, âˆ’/âˆ’, +/âˆ’)</li>
+                <li>Quadrant mnemonics: All Students Take Calculus (signs +/+, −/+, −/−, +/−)</li>
                 <li>Always label axes and scale before plotting</li>
               </ul>
             </div>
           </div>
           <details style="margin-top:12px;">
-            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">ðŸ“ Worked Example</summary>
+            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary>
             <div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;">
-              <strong>Q: Plot the point (âˆ’3, 4) and state which quadrant it lies in.</strong><br>
+              <strong>Q: Plot the point (−3, 4) and state which quadrant it lies in.</strong><br>
               <ol style="margin:8px 0 0 16px;line-height:1.8;">
                 <li>Start at the origin (0, 0).</li>
-                <li>x = âˆ’3: move 3 units LEFT along the x-axis.</li>
+                <li>x = −3: move 3 units LEFT along the x-axis.</li>
                 <li>y = 4: move 4 units UP from there.</li>
-                <li>x is negative, y is positive â†’ <strong>Quadrant II</strong>.</li>
+                <li>x is negative, y is positive → <strong>Quadrant II</strong>.</li>
               </ol>
             </div>
           </details>
@@ -335,30 +335,30 @@ canvas { max-width: 100%; }
 
       <!-- Syllabus card -->
       <div class="card">
-        <div class="card-title">ðŸ“‹ Syllabus Coverage <span class="badge badge-core">Core C3.1</span> <span class="badge badge-ext">Extended E3.1</span></div>
+        <div class="card-title">📋 Syllabus Coverage <span class="badge badge-core">Core C3.1</span> <span class="badge badge-ext">Extended E3.1</span></div>
         <table class="tbl">
           <thead><tr><th>Skill</th><th>Core</th><th>Extended</th></tr></thead>
           <tbody>
-            <tr><td>Use and interpret Cartesian coordinates in 2D</td><td>âœ…</td><td>âœ…</td></tr>
-            <tr><td>Identify quadrants and read coordinates</td><td>âœ…</td><td>âœ…</td></tr>
-            <tr><td>Plot points from a table of values</td><td>âœ…</td><td>âœ…</td></tr>
-            <tr><td>Find coordinates satisfying given conditions</td><td>âœ…</td><td>âœ…</td></tr>
+            <tr><td>Use and interpret Cartesian coordinates in 2D</td><td>✅</td><td>✅</td></tr>
+            <tr><td>Identify quadrants and read coordinates</td><td>✅</td><td>✅</td></tr>
+            <tr><td>Plot points from a table of values</td><td>✅</td><td>✅</td></tr>
+            <tr><td>Find coordinates satisfying given conditions</td><td>✅</td><td>✅</td></tr>
           </tbody>
         </table>
       </div>
 
       <!-- Quadrant identifier -->
       <div class="card">
-        <div class="card-title">ðŸ—ºï¸ Quadrant Identifier</div>
+        <div class="card-title">🗺️ Quadrant Identifier</div>
         <div class="card-desc">Given the point, which quadrant (I, II, III, or IV) does it lie in?</div>
         <div class="score-bar">
           <div class="sc-item"><strong id="cp-sc-correct">0</strong><br>Correct</div>
           <div class="sc-sep"></div>
           <div class="sc-item"><strong id="cp-sc-attempts">0</strong><br>Attempts</div>
           <div class="sc-sep"></div>
-          <div class="sc-item"><strong id="cp-sc-streak">0</strong> ðŸ”¥<br>Streak</div>
+          <div class="sc-item"><strong id="cp-sc-streak">0</strong> 🔥<br>Streak</div>
         </div>
-        <div id="cp-point" class="expr-display">Loadingâ€¦</div>
+        <div id="cp-point" class="expr-display">Loading…</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;" id="cp-quad-btns">
           <button class="btn btn-secondary" onclick="cpCheck('I')">Quadrant I</button>
           <button class="btn btn-secondary" onclick="cpCheck('II')">Quadrant II</button>
@@ -367,34 +367,34 @@ canvas { max-width: 100%; }
           <button class="btn btn-secondary" onclick="cpCheck('axis')">On an axis</button>
         </div>
         <div id="cp-feedback" class="feedback"></div>
-        <button class="btn btn-secondary btn-sm" onclick="cpNew()" style="margin-top:10px;">Next â†’</button>
+        <button class="btn btn-secondary btn-sm" onclick="cpNew()" style="margin-top:10px;">Next →</button>
       </div>
 
       <!-- Interactive coordinate canvas -->
       <div class="card">
-        <div class="card-title">ðŸŽ¯ Plot the Point</div>
+        <div class="card-title">🎯 Plot the Point</div>
         <div class="card-desc">Click on the grid to plot the given point. Green = correct, red = too far.</div>
-        <div id="plot-target" class="expr-display" style="font-size:1.2rem;">Loadingâ€¦</div>
+        <div id="plot-target" class="expr-display" style="font-size:1.2rem;">Loading…</div>
         <div class="canvas-wrap">
           <canvas id="plot-canvas" width="400" height="400" style="cursor:crosshair;" onclick="plotClick(event)" ontouchstart="plotClick(event.changedTouches[0]);event.preventDefault();"></canvas>
         </div>
         <div id="plot-feedback" class="feedback"></div>
-        <button class="btn btn-secondary btn-sm" onclick="plotNew()">New Point â†’</button>
+        <button class="btn btn-secondary btn-sm" onclick="plotNew()">New Point →</button>
       </div>
     </section>
 
     <!-- ============================================================
-         MODULE 1 â€” GRADIENT (C3.2)
+         MODULE 1 — GRADIENT (C3.2)
          ============================================================ -->
     <section class="module" id="mod-1">
       <div class="mod-header">
-        <div class="breadcrumb">Topic 3 â†’ <span>Module 1</span></div>
-        <h1>ðŸ“ Gradient</h1>
+        <div class="breadcrumb">Topic 3 → <span>Module 1</span></div>
+        <h1>📐 Gradient</h1>
       </div>
 
       <div class="progress-card">
-        <h2>C3.2 â€” Gradient of a Line</h2>
-        <div class="pc-meta">Gradient = rise Ã· run = (yâ‚‚âˆ’yâ‚)/(xâ‚‚âˆ’xâ‚)</div>
+        <h2>C3.2 — Gradient of a Line</h2>
+        <div class="pc-meta">Gradient = rise ÷ run = (y₂−y₁)/(x₂−x₁)</div>
         <div class="prog-track"><div class="prog-fill" id="gr-prog" style="width:0%"></div></div>
         <div class="prog-stats">
           <div><strong id="gr-correct">0</strong> correct</div>
@@ -411,38 +411,38 @@ canvas { max-width: 100%; }
       </div>
 
       <div class="teacher-panel" id="tp-1">
-        <div class="tp-header">ðŸ‘©â€ðŸ« Teacher Panel â€” Gradient</div>
+        <div class="tp-header">👩‍🏫 Teacher Panel — Gradient</div>
         <div class="tp-body">
           <div class="tp-grid">
             <div class="tp-item misconception">
-              <strong>âŒ Common Misconceptions</strong>
+              <strong>❌ Common Misconceptions</strong>
               <ul>
-                <li>Swapping rise and run: computing Î”x/Î”y instead of Î”y/Î”x</li>
-                <li>Subtracting in opposite orders: (yâ‚‚âˆ’yâ‚)/(xâ‚âˆ’xâ‚‚)</li>
+                <li>Swapping rise and run: computing Δx/Δy instead of Δy/Δx</li>
+                <li>Subtracting in opposite orders: (y₂−y₁)/(x₁−x₂)</li>
                 <li>Thinking horizontal lines have undefined gradient (they have 0)</li>
                 <li>Thinking vertical lines have gradient 0 (they are undefined)</li>
                 <li>Assuming gradient must be positive</li>
               </ul>
             </div>
             <div class="tp-item strategy">
-              <strong>âœ… Teaching Strategies</strong>
+              <strong>✅ Teaching Strategies</strong>
               <ul>
                 <li>Always draw a right-angled triangle between the two points on the line</li>
-                <li>Label which point is (xâ‚,yâ‚) and which is (xâ‚‚,yâ‚‚) before substituting</li>
+                <li>Label which point is (x₁,y₁) and which is (x₂,y₂) before substituting</li>
                 <li>Check sign: line going up-right = positive; down-right = negative</li>
                 <li>Horizontal = flat = 0 gradient; Vertical = cliff = undefined</li>
               </ul>
             </div>
           </div>
           <details style="margin-top:12px;">
-            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">ðŸ“ Worked Example</summary>
+            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary>
             <div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;">
               <strong>Q: Find the gradient of the line through (1, 3) and (5, 11).</strong><br>
               <ol style="margin:8px 0 0 16px;line-height:1.8;">
-                <li>Label: (xâ‚, yâ‚) = (1, 3) and (xâ‚‚, yâ‚‚) = (5, 11).</li>
-                <li>m = (yâ‚‚ âˆ’ yâ‚) Ã· (xâ‚‚ âˆ’ xâ‚) = (11 âˆ’ 3) Ã· (5 âˆ’ 1).</li>
-                <li>m = 8 Ã· 4 = <strong>2</strong>.</li>
-                <li>Check: line goes up-right â†’ positive gradient âœ“.</li>
+                <li>Label: (x₁, y₁) = (1, 3) and (x₂, y₂) = (5, 11).</li>
+                <li>m = (y₂ − y₁) ÷ (x₂ − x₁) = (11 − 3) ÷ (5 − 1).</li>
+                <li>m = 8 ÷ 4 = <strong>2</strong>.</li>
+                <li>Check: line goes up-right → positive gradient ✓.</li>
               </ol>
             </div>
           </details>
@@ -451,15 +451,15 @@ canvas { max-width: 100%; }
 
       <!-- Formula reference -->
       <div class="card">
-        <div class="card-title">ðŸ“œ Gradient Formula</div>
-        <div class="expr-display" style="font-size:1.3rem;">m = (yâ‚‚ âˆ’ yâ‚) / (xâ‚‚ âˆ’ xâ‚)</div>
+        <div class="card-title">📜 Gradient Formula</div>
+        <div class="expr-display" style="font-size:1.3rem;">m = (y₂ − y₁) / (x₂ − x₁)</div>
         <table class="tbl" style="margin-top:14px;">
           <thead><tr><th>Type of line</th><th>Gradient</th><th>Example</th></tr></thead>
           <tbody>
-            <tr><td>Positive slope (â†—)</td><td>m &gt; 0</td><td>m = 2</td></tr>
-            <tr><td>Negative slope (â†˜)</td><td>m &lt; 0</td><td>m = âˆ’3</td></tr>
-            <tr><td>Horizontal (â†’)</td><td>m = 0</td><td>y = 5</td></tr>
-            <tr><td>Vertical (â†‘)</td><td>undefined</td><td>x = 4</td></tr>
+            <tr><td>Positive slope (↗)</td><td>m &gt; 0</td><td>m = 2</td></tr>
+            <tr><td>Negative slope (↘)</td><td>m &lt; 0</td><td>m = −3</td></tr>
+            <tr><td>Horizontal (→)</td><td>m = 0</td><td>y = 5</td></tr>
+            <tr><td>Vertical (↑)</td><td>undefined</td><td>x = 4</td></tr>
           </tbody>
         </table>
       </div>
@@ -468,13 +468,13 @@ canvas { max-width: 100%; }
       <div class="card">
         <div class="card-title">âš¡ Gradient from Two Points</div>
         <div class="card-desc">Calculate the gradient of the line passing through the two given points. Give exact answers.</div>
-        <div id="gr-question" class="expr-display">Loadingâ€¦</div>
+        <div id="gr-question" class="expr-display">Loading…</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
           <label style="font-size:0.88rem;color:var(--muted);">m =</label>
           <input aria-label="e.g. 2/3" type="text" id="gr-input" class="inp-sm" placeholder="e.g. 2/3" onkeydown="if(event.key==='Enter')grCheck()">
-          <button class="btn btn-primary" onclick="grCheck()">Check âœ“</button>
-          <button class="btn btn-hint" onclick="grHint()">ðŸ’¡ Hint</button>
-          <button class="btn btn-secondary btn-sm" id="gr-next-btn" onclick="grNew()">Next â†’</button>
+          <button class="btn btn-primary" onclick="grCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="grHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" id="gr-next-btn" onclick="grNew()">Next →</button>
         </div>
         <div id="gr-feedback" class="feedback"></div>
         <ul id="gr-hints" class="hint-list"></ul>
@@ -482,17 +482,17 @@ canvas { max-width: 100%; }
 
       <!-- Gradient from graph -->
       <div class="card">
-        <div class="card-title">ðŸ“Š Read the Gradient from a Graph</div>
+        <div class="card-title">📊 Read the Gradient from a Graph</div>
         <div class="card-desc">A line is drawn on the grid. Read two clear points and calculate the gradient.</div>
         <div class="canvas-wrap">
           <canvas id="gr-canvas" width="400" height="320"></canvas>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
           <label style="font-size:0.88rem;color:var(--muted);">m =</label>
-          <input aria-label="e.g. âˆ’2" type="text" id="gr-graph-input" class="inp-sm" placeholder="e.g. âˆ’2" onkeydown="if(event.key==='Enter')grGraphCheck()">
-          <button class="btn btn-primary" onclick="grGraphCheck()">Check âœ“</button>
-          <button class="btn btn-hint" onclick="grGraphHint()">ðŸ’¡ Hint</button>
-          <button class="btn btn-secondary btn-sm" onclick="grGraphNew()">New Line â†’</button>
+          <input aria-label="e.g. −2" type="text" id="gr-graph-input" class="inp-sm" placeholder="e.g. −2" onkeydown="if(event.key==='Enter')grGraphCheck()">
+          <button class="btn btn-primary" onclick="grGraphCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="grGraphHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="grGraphNew()">New Line →</button>
         </div>
         <div id="gr-graph-feedback" class="feedback"></div>
         <ul id="gr-graph-hints" class="hint-list"></ul>
@@ -500,17 +500,17 @@ canvas { max-width: 100%; }
     </section>
 
     <!-- ============================================================
-         MODULE 2 â€” MIDPOINT & DISTANCE (C3.3)
+         MODULE 2 — MIDPOINT & DISTANCE (C3.3)
          ============================================================ -->
     <section class="module" id="mod-2">
       <div class="mod-header">
-        <div class="breadcrumb">Topic 3 â†’ <span>Module 2</span></div>
-        <h1>â†”ï¸ Midpoint &amp; Distance</h1>
+        <div class="breadcrumb">Topic 3 → <span>Module 2</span></div>
+        <h1>↔️ Midpoint &amp; Distance</h1>
       </div>
 
       <div class="progress-card">
-        <h2>C3.3 â€” Midpoint &amp; Length of a Line</h2>
-        <div class="pc-meta">Midpoint = average of coordinates Â· Distance = Pythagoras</div>
+        <h2>C3.3 — Midpoint &amp; Length of a Line</h2>
+        <div class="pc-meta">Midpoint = average of coordinates · Distance = Pythagoras</div>
         <div class="prog-track"><div class="prog-fill" id="md-prog" style="width:0%"></div></div>
         <div class="prog-stats">
           <div><strong id="md-correct">0</strong> correct</div>
@@ -527,34 +527,34 @@ canvas { max-width: 100%; }
       </div>
 
       <div class="teacher-panel" id="tp-2">
-        <div class="tp-header">ðŸ‘©â€ðŸ« Teacher Panel â€” Midpoint &amp; Distance</div>
+        <div class="tp-header">👩‍🏫 Teacher Panel — Midpoint &amp; Distance</div>
         <div class="tp-body">
           <div class="tp-grid">
             <div class="tp-item misconception">
-              <strong>âŒ Common Misconceptions</strong>
+              <strong>❌ Common Misconceptions</strong>
               <ul>
                 <li>Distance formula: forgetting to square-root at the end</li>
-                <li>Subtracting coordinates in wrong order for distance (doesn't matter â€” but confuses students)</li>
+                <li>Subtracting coordinates in wrong order for distance (doesn't matter — but confuses students)</li>
                 <li>Midpoint: adding without dividing by 2</li>
-                <li>Squaring negative differences: (âˆ’3)Â² = 9 not âˆ’9</li>
+                <li>Squaring negative differences: (−3)² = 9 not −9</li>
               </ul>
             </div>
             <div class="tp-item strategy">
-              <strong>âœ… Teaching Strategies</strong>
+              <strong>✅ Teaching Strategies</strong>
               <ul>
-                <li>Midpoint = "meet in the middle" â€” average each coordinate separately</li>
+                <li>Midpoint = "meet in the middle" — average each coordinate separately</li>
                 <li>Distance: draw the right-angled triangle, then Pythagoras</li>
                 <li>Check: midpoint should lie exactly between both points on a sketch</li>
               </ul>
             </div>
           </div>
           <details style="margin-top:12px;">
-            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">ðŸ“ Worked Example</summary>
+            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary>
             <div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;">
-              <strong>Q: A = (2, âˆ’1), B = (8, 7). Find midpoint M and distance AB.</strong><br>
+              <strong>Q: A = (2, −1), B = (8, 7). Find midpoint M and distance AB.</strong><br>
               <ol style="margin:8px 0 0 16px;line-height:1.8;">
-                <li><strong>Midpoint:</strong> M = ((2+8)/2 , (âˆ’1+7)/2) = (5, 3).</li>
-                <li><strong>Distance:</strong> AB = âˆš((8âˆ’2)Â² + (7âˆ’(âˆ’1))Â²) = âˆš(36 + 64) = âˆš100 = <strong>10</strong>.</li>
+                <li><strong>Midpoint:</strong> M = ((2+8)/2 , (−1+7)/2) = (5, 3).</li>
+                <li><strong>Distance:</strong> AB = √((8−2)² + (7−(−1))²) = √(36 + 64) = √100 = <strong>10</strong>.</li>
               </ol>
             </div>
           </details>
@@ -563,18 +563,18 @@ canvas { max-width: 100%; }
 
       <!-- Formulae reference -->
       <div class="card">
-        <div class="card-title">ðŸ“œ Formulae Reference</div>
+        <div class="card-title">📜 Formulae Reference</div>
         <div class="two-col">
           <div>
             <div class="step-box">
-              <div class="step-label">Midpoint of (xâ‚,yâ‚) and (xâ‚‚,yâ‚‚)</div>
-              <div style="font-family:var(--font-mono);font-size:1.1rem;padding:8px 0;">M = ((xâ‚+xâ‚‚)/2 , (yâ‚+yâ‚‚)/2)</div>
+              <div class="step-label">Midpoint of (x₁,y₁) and (x₂,y₂)</div>
+              <div style="font-family:var(--font-mono);font-size:1.1rem;padding:8px 0;">M = ((x₁+x₂)/2 , (y₁+y₂)/2)</div>
             </div>
           </div>
           <div>
             <div class="step-box">
-              <div class="step-label">Distance between (xâ‚,yâ‚) and (xâ‚‚,yâ‚‚)</div>
-              <div style="font-family:var(--font-mono);font-size:1.1rem;padding:8px 0;">d = âˆš((xâ‚‚âˆ’xâ‚)Â² + (yâ‚‚âˆ’yâ‚)Â²)</div>
+              <div class="step-label">Distance between (x₁,y₁) and (x₂,y₂)</div>
+              <div style="font-family:var(--font-mono);font-size:1.1rem;padding:8px 0;">d = √((x₂−x₁)² + (y₂−y₁)²)</div>
             </div>
           </div>
         </div>
@@ -582,18 +582,18 @@ canvas { max-width: 100%; }
 
       <!-- Midpoint drill -->
       <div class="card">
-        <div class="card-title">ðŸŽ¯ Midpoint Drill</div>
+        <div class="card-title">🎯 Midpoint Drill</div>
         <div class="card-desc">Find the midpoint M of the two given points. Write as (x, y).</div>
-        <div id="md-mp-question" class="expr-display">Loadingâ€¦</div>
+        <div id="md-mp-question" class="expr-display">Loading…</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
           <label style="font-size:0.85rem;">M = (</label>
           <input aria-label="x" type="number" id="md-mx" class="inp-sm" step="0.5" placeholder="x" onkeydown="if(event.key==='Enter')mdMpCheck()">
           <label style="font-size:0.85rem;">,</label>
           <input aria-label="y" type="number" id="md-my" class="inp-sm" step="0.5" placeholder="y" onkeydown="if(event.key==='Enter')mdMpCheck()">
           <label style="font-size:0.85rem;">)</label>
-          <button class="btn btn-primary" onclick="mdMpCheck()">Check âœ“</button>
-          <button class="btn btn-hint" onclick="mdMpHint()">ðŸ’¡ Hint</button>
-          <button class="btn btn-secondary btn-sm" onclick="mdMpNew()">Next â†’</button>
+          <button class="btn btn-primary" onclick="mdMpCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="mdMpHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="mdMpNew()">Next →</button>
         </div>
         <div id="md-mp-feedback" class="feedback"></div>
         <ul id="md-mp-hints" class="hint-list"></ul>
@@ -601,15 +601,15 @@ canvas { max-width: 100%; }
 
       <!-- Distance drill -->
       <div class="card">
-        <div class="card-title">ðŸ“ Distance Drill</div>
+        <div class="card-title">📏 Distance Drill</div>
         <div class="card-desc">Calculate the exact length of the line segment. Give your answer in surd form where appropriate, or to 3 s.f.</div>
-        <div id="md-dist-question" class="expr-display">Loadingâ€¦</div>
+        <div id="md-dist-question" class="expr-display">Loading…</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;">
           <label style="font-size:0.85rem;">d =</label>
-          <input aria-label="e.g. âˆš50 or 7.07" type="text" id="md-dist-input" class="inp-md" placeholder="e.g. âˆš50 or 7.07" onkeydown="if(event.key==='Enter')mdDistCheck()">
-          <button class="btn btn-primary" onclick="mdDistCheck()">Check âœ“</button>
-          <button class="btn btn-hint" onclick="mdDistHint()">ðŸ’¡ Hint</button>
-          <button class="btn btn-secondary btn-sm" onclick="mdDistNew()">Next â†’</button>
+          <input aria-label="e.g. √50 or 7.07" type="text" id="md-dist-input" class="inp-md" placeholder="e.g. √50 or 7.07" onkeydown="if(event.key==='Enter')mdDistCheck()">
+          <button class="btn btn-primary" onclick="mdDistCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="mdDistHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="mdDistNew()">Next →</button>
         </div>
         <div id="md-dist-feedback" class="feedback"></div>
         <ul id="md-dist-hints" class="hint-list"></ul>
@@ -617,17 +617,17 @@ canvas { max-width: 100%; }
     </section>
 
     <!-- ============================================================
-         MODULE 3 â€” EQUATION OF A LINE (C3.4)
+         MODULE 3 — EQUATION OF A LINE (C3.4)
          ============================================================ -->
     <section class="module" id="mod-3">
       <div class="mod-header">
-        <div class="breadcrumb">Topic 3 â†’ <span>Module 3</span></div>
-        <h1>ðŸ“ Equation of a Line</h1>
+        <div class="breadcrumb">Topic 3 → <span>Module 3</span></div>
+        <h1>📏 Equation of a Line</h1>
       </div>
 
       <div class="progress-card">
-        <h2>C3.4 â€” Equation of a Straight Line</h2>
-        <div class="pc-meta">y = mx + c Â· gradient-intercept form Â· finding the equation</div>
+        <h2>C3.4 — Equation of a Straight Line</h2>
+        <div class="pc-meta">y = mx + c · gradient-intercept form · finding the equation</div>
         <div class="prog-track"><div class="prog-fill" id="el-prog" style="width:0%"></div></div>
         <div class="prog-stats">
           <div><strong id="el-correct">0</strong> correct</div>
@@ -644,11 +644,11 @@ canvas { max-width: 100%; }
       </div>
 
       <div class="teacher-panel" id="tp-3">
-        <div class="tp-header">ðŸ‘©â€ðŸ« Teacher Panel â€” Equation of a Line</div>
+        <div class="tp-header">👩‍🏫 Teacher Panel — Equation of a Line</div>
         <div class="tp-body">
           <div class="tp-grid">
             <div class="tp-item misconception">
-              <strong>âŒ Common Misconceptions</strong>
+              <strong>❌ Common Misconceptions</strong>
               <ul>
                 <li>Confusing m (gradient) and c (y-intercept) in y = mx + c</li>
                 <li>Finding c by substituting x instead of y = 0</li>
@@ -657,7 +657,7 @@ canvas { max-width: 100%; }
               </ul>
             </div>
             <div class="tp-item strategy">
-              <strong>âœ… Teaching Strategies</strong>
+              <strong>✅ Teaching Strategies</strong>
               <ul>
                 <li>Always find m first, then substitute one point to find c</li>
                 <li>Check: substitute both given points into the equation to verify</li>
@@ -667,14 +667,14 @@ canvas { max-width: 100%; }
             </div>
           </div>
           <details style="margin-top:12px;">
-            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">ðŸ“ Worked Example</summary>
+            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary>
             <div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;">
               <strong>Q: Find the equation of the line through (2, 5) and (4, 11).</strong><br>
               <ol style="margin:8px 0 0 16px;line-height:1.8;">
-                <li>Gradient: m = (11âˆ’5)/(4âˆ’2) = 6/2 = 3.</li>
-                <li>Use y = mx + c â†’ 5 = 3(2) + c â†’ c = 5 âˆ’ 6 = âˆ’1.</li>
-                <li>Equation: <strong>y = 3x âˆ’ 1</strong>.</li>
-                <li>Check: when x=4, y = 12âˆ’1 = 11 âœ“.</li>
+                <li>Gradient: m = (11−5)/(4−2) = 6/2 = 3.</li>
+                <li>Use y = mx + c → 5 = 3(2) + c → c = 5 − 6 = −1.</li>
+                <li>Equation: <strong>y = 3x − 1</strong>.</li>
+                <li>Check: when x=4, y = 12−1 = 11 ✓.</li>
               </ol>
             </div>
           </details>
@@ -683,9 +683,9 @@ canvas { max-width: 100%; }
 
       <!-- Read m and c from equation -->
       <div class="card">
-        <div class="card-title">ðŸ” Read m and c from Equation</div>
+        <div class="card-title">🔍 Read m and c from Equation</div>
         <div class="card-desc">Given the equation of a line, state the gradient m and y-intercept c.</div>
-        <div id="el-eq" class="expr-display">Loadingâ€¦</div>
+        <div id="el-eq" class="expr-display">Loading…</div>
         <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:8px;">
           <div style="display:flex;align-items:center;gap:6px;">
             <label style="font-size:0.85rem;">m =</label>
@@ -695,9 +695,9 @@ canvas { max-width: 100%; }
             <label style="font-size:0.85rem;">c =</label>
             <input aria-label="y-intercept" type="text" id="el-c" class="inp-sm" placeholder="y-intercept" onkeydown="if(event.key==='Enter')elReadCheck()">
           </div>
-          <button class="btn btn-primary" onclick="elReadCheck()">Check âœ“</button>
-          <button class="btn btn-hint" onclick="elReadHint()">ðŸ’¡ Hint</button>
-          <button class="btn btn-secondary btn-sm" onclick="elReadNew()">Next â†’</button>
+          <button class="btn btn-primary" onclick="elReadCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="elReadHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="elReadNew()">Next →</button>
         </div>
         <div id="el-read-feedback" class="feedback"></div>
         <ul id="el-read-hints" class="hint-list"></ul>
@@ -705,7 +705,7 @@ canvas { max-width: 100%; }
 
       <!-- Find equation from two points / gradient + point -->
       <div class="card">
-        <div class="card-title">âœï¸ Find the Equation of the Line</div>
+        <div class="card-title">✏️ Find the Equation of the Line</div>
         <div class="card-desc">Write the equation in the form y = mx + c.</div>
         <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
           <button class="btn btn-sm" id="el-mode-2pt" onclick="setElMode('2pt')" style="background:var(--blue);color:white;">Two points</button>
@@ -716,9 +716,9 @@ canvas { max-width: 100%; }
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
           <label style="font-size:0.85rem;">y =</label>
           <input aria-label="mx + c" type="text" id="el-find-input" class="inp-md" placeholder="mx + c" onkeydown="if(event.key==='Enter')elFindCheck()">
-          <button class="btn btn-primary" onclick="elFindCheck()">Check âœ“</button>
-          <button class="btn btn-hint" onclick="elFindHint()">ðŸ’¡ Hint</button>
-          <button class="btn btn-secondary btn-sm" onclick="elFindNew()">Next â†’</button>
+          <button class="btn btn-primary" onclick="elFindCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="elFindHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="elFindNew()">Next →</button>
         </div>
         <div id="el-find-feedback" class="feedback"></div>
         <ul id="el-find-hints" class="hint-list"></ul>
@@ -726,7 +726,7 @@ canvas { max-width: 100%; }
 
       <!-- Interactive grapher -->
       <div class="card">
-        <div class="card-title">ðŸ“Š Graph Plotter â€” y = mx + c</div>
+        <div class="card-title">📊 Graph Plotter — y = mx + c</div>
         <div class="card-desc">Adjust m and c to see the line update in real time.</div>
         <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
           <div style="display:flex;align-items:center;gap:10px;">
@@ -748,17 +748,17 @@ canvas { max-width: 100%; }
     </section>
 
     <!-- ============================================================
-         MODULE 4 â€” PARALLEL & PERPENDICULAR (C3.5 / E3.5)
+         MODULE 4 — PARALLEL & PERPENDICULAR (C3.5 / E3.5)
          ============================================================ -->
     <section class="module" id="mod-4">
       <div class="mod-header">
-        <div class="breadcrumb">Topic 3 â†’ <span>Module 4</span></div>
-        <h1>âŠ• Parallel &amp; Perpendicular Lines</h1>
+        <div class="breadcrumb">Topic 3 → <span>Module 4</span></div>
+        <h1>⊕ Parallel &amp; Perpendicular Lines</h1>
       </div>
 
       <div class="progress-card">
-        <h2>C3.5 / E3.5 â€” Parallel &amp; Perpendicular Lines</h2>
-        <div class="pc-meta">Parallel: same gradient Â· Perpendicular: gradients multiply to âˆ’1</div>
+        <h2>C3.5 / E3.5 — Parallel &amp; Perpendicular Lines</h2>
+        <div class="pc-meta">Parallel: same gradient · Perpendicular: gradients multiply to −1</div>
         <div class="prog-track"><div class="prog-fill" id="pp-prog" style="width:0%"></div></div>
         <div class="prog-stats">
           <div><strong id="pp-correct">0</strong> correct</div>
@@ -768,37 +768,37 @@ canvas { max-width: 100%; }
       </div>
 
       <div class="teacher-panel" id="tp-4">
-        <div class="tp-header">ðŸ‘©â€ðŸ« Teacher Panel â€” Parallel &amp; Perpendicular</div>
+        <div class="tp-header">👩‍🏫 Teacher Panel — Parallel &amp; Perpendicular</div>
         <div class="tp-body">
           <div class="tp-grid">
             <div class="tp-item misconception">
-              <strong>âŒ Common Misconceptions</strong>
+              <strong>❌ Common Misconceptions</strong>
               <ul>
-                <li>Perpendicular gradient: negating instead of taking negative reciprocal (âˆ’m vs âˆ’1/m)</li>
+                <li>Perpendicular gradient: negating instead of taking negative reciprocal (−m vs −1/m)</li>
                 <li>Thinking parallel lines must have the same y-intercept</li>
-                <li>Not checking: mâ‚ Ã— mâ‚‚ = âˆ’1 for perpendicular</li>
+                <li>Not checking: m₁ × m₂ = −1 for perpendicular</li>
                 <li>Horizontal and vertical lines: forgetting undefined/zero relationship</li>
               </ul>
             </div>
             <div class="tp-item strategy">
-              <strong>âœ… Teaching Strategies</strong>
+              <strong>✅ Teaching Strategies</strong>
               <ul>
-                <li>Parallel = "same slope, different intercept" â€” easy memory</li>
-                <li>Perpendicular: "flip and negate" â€” reciprocal and change sign</li>
-                <li>Verify with product: mâ‚ Ã— mâ‚‚ must equal âˆ’1</li>
-                <li>Draw both lines on a grid â€” do they look right-angled?</li>
+                <li>Parallel = "same slope, different intercept" — easy memory</li>
+                <li>Perpendicular: "flip and negate" — reciprocal and change sign</li>
+                <li>Verify with product: m₁ × m₂ must equal −1</li>
+                <li>Draw both lines on a grid — do they look right-angled?</li>
               </ul>
             </div>
           </div>
           <details style="margin-top:12px;">
-            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">ðŸ“ Worked Example</summary>
+            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary>
             <div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;">
-              <strong>Q: Find the equation of the line perpendicular to y = 4x âˆ’ 1 passing through (8, 3).</strong><br>
+              <strong>Q: Find the equation of the line perpendicular to y = 4x − 1 passing through (8, 3).</strong><br>
               <ol style="margin:8px 0 0 16px;line-height:1.8;">
                 <li>Original gradient: m = 4.</li>
-                <li>Perpendicular gradient: mâŠ¥ = âˆ’1/4.</li>
-                <li>Use y = âˆ’Â¼x + c â†’ 3 = âˆ’2 + c â†’ c = 5.</li>
-                <li>Equation: <strong>y = âˆ’Â¼x + 5</strong>.</li>
+                <li>Perpendicular gradient: m⊥ = −1/4.</li>
+                <li>Use y = −¼x + c → 3 = −2 + c → c = 5.</li>
+                <li>Equation: <strong>y = −¼x + 5</strong>.</li>
               </ol>
             </div>
           </details>
@@ -807,21 +807,21 @@ canvas { max-width: 100%; }
 
       <!-- Key rules -->
       <div class="card">
-        <div class="card-title">ðŸ“œ Key Rules</div>
+        <div class="card-title">📜 Key Rules</div>
         <div class="two-col">
           <div class="step-box">
             <div class="step-label">Parallel Lines</div>
             <div style="font-size:0.92rem;line-height:1.8;">
               Two lines are <strong>parallel</strong> if and only if they have the <strong>same gradient</strong>.<br>
-              e.g. y = 3x + 1 âˆ¥ y = 3x âˆ’ 4 (both m = 3)
+              e.g. y = 3x + 1 ∥ y = 3x − 4 (both m = 3)
             </div>
           </div>
           <div class="step-box">
             <div class="step-label">Perpendicular Lines</div>
             <div style="font-size:0.92rem;line-height:1.8;">
-              Two lines are <strong>perpendicular</strong> if mâ‚ Ã— mâ‚‚ = <strong>âˆ’1</strong>.<br>
-              Perpendicular gradient = <strong>âˆ’1/m</strong> (negative reciprocal).<br>
-              e.g. m = 2 â†’ perp. m = âˆ’Â½
+              Two lines are <strong>perpendicular</strong> if m₁ × m₂ = <strong>−1</strong>.<br>
+              Perpendicular gradient = <strong>−1/m</strong> (negative reciprocal).<br>
+              e.g. m = 2 → perp. m = −½
             </div>
           </div>
         </div>
@@ -829,21 +829,21 @@ canvas { max-width: 100%; }
 
       <!-- Classify relationship -->
       <div class="card">
-        <div class="card-title">ðŸ” Classify the Relationship</div>
+        <div class="card-title">🔍 Classify the Relationship</div>
         <div class="card-desc">Are the two lines parallel, perpendicular, or neither?</div>
-        <div id="pp-pair" class="expr-display" style="font-size:1.1rem;line-height:1.9;">Loadingâ€¦</div>
+        <div id="pp-pair" class="expr-display" style="font-size:1.1rem;line-height:1.9;">Loading…</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
-          <button class="btn btn-secondary" onclick="ppCheck('parallel')">âˆ¥ Parallel</button>
-          <button class="btn btn-secondary" onclick="ppCheck('perpendicular')">âŠ¥ Perpendicular</button>
+          <button class="btn btn-secondary" onclick="ppCheck('parallel')">∥ Parallel</button>
+          <button class="btn btn-secondary" onclick="ppCheck('perpendicular')">⊥ Perpendicular</button>
           <button class="btn btn-secondary" onclick="ppCheck('neither')">Neither</button>
         </div>
         <div id="pp-feedback" class="feedback"></div>
-        <button class="btn btn-secondary btn-sm" onclick="ppNew()" style="margin-top:10px;">Next â†’</button>
+        <button class="btn btn-secondary btn-sm" onclick="ppNew()" style="margin-top:10px;">Next →</button>
       </div>
 
       <!-- Find parallel / perpendicular equation -->
       <div class="card">
-        <div class="card-title">âœï¸ Find the Equation</div>
+        <div class="card-title">✏️ Find the Equation</div>
         <div class="card-desc">Find the equation of the line through the given point, parallel or perpendicular to the given line.</div>
         <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
           <button class="btn btn-sm" id="pp-mode-par" onclick="setPpMode('par')" style="background:var(--blue);color:white;">Parallel</button>
@@ -853,9 +853,9 @@ canvas { max-width: 100%; }
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
           <label style="font-size:0.85rem;">y =</label>
           <input aria-label="mx + c" type="text" id="pp-find-input" class="inp-md" placeholder="mx + c" onkeydown="if(event.key==='Enter')ppFindCheck()">
-          <button class="btn btn-primary" onclick="ppFindCheck()">Check âœ“</button>
-          <button class="btn btn-hint" onclick="ppFindHint()">ðŸ’¡ Hint</button>
-          <button class="btn btn-secondary btn-sm" onclick="ppFindNew()">Next â†’</button>
+          <button class="btn btn-primary" onclick="ppFindCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="ppFindHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="ppFindNew()">Next →</button>
         </div>
         <div id="pp-find-feedback" class="feedback"></div>
         <ul id="pp-find-hints" class="hint-list"></ul>
@@ -863,17 +863,17 @@ canvas { max-width: 100%; }
     </section>
 
     <!-- ============================================================
-         MODULE 5 â€” INTERSECTIONS (E3.6 â€” Extended)
+         MODULE 5 — INTERSECTIONS (E3.6 — Extended)
          ============================================================ -->
     <section class="module" id="mod-5">
       <div class="mod-header">
-        <div class="breadcrumb">Topic 3 â†’ <span>Module 5</span></div>
-        <h1>âœ‚ï¸ Intersections <span class="badge badge-ext" style="font-size:0.75rem;vertical-align:middle;">Extended</span></h1>
+        <div class="breadcrumb">Topic 3 → <span>Module 5</span></div>
+        <h1>✂️ Intersections <span class="badge badge-ext" style="font-size:0.75rem;vertical-align:middle;">Extended</span></h1>
       </div>
 
       <div class="progress-card">
-        <h2>E3.6 â€” Intersection of Lines &amp; Curves</h2>
-        <div class="pc-meta">Solve simultaneously Â· Interpret intersections graphically</div>
+        <h2>E3.6 — Intersection of Lines &amp; Curves</h2>
+        <div class="pc-meta">Solve simultaneously · Interpret intersections graphically</div>
         <div class="prog-track"><div class="prog-fill" id="ix-prog" style="width:0%"></div></div>
         <div class="prog-stats">
           <div><strong id="ix-correct">0</strong> correct</div>
@@ -883,11 +883,11 @@ canvas { max-width: 100%; }
       </div>
 
       <div class="teacher-panel" id="tp-5">
-        <div class="tp-header">ðŸ‘©â€ðŸ« Teacher Panel â€” Intersections</div>
+        <div class="tp-header">👩‍🏫 Teacher Panel — Intersections</div>
         <div class="tp-body">
           <div class="tp-grid">
             <div class="tp-item misconception">
-              <strong>âŒ Common Misconceptions</strong>
+              <strong>❌ Common Misconceptions</strong>
               <ul>
                 <li>Setting y = y but forgetting to solve the resulting equation</li>
                 <li>Parallel lines: students expect an intersection point (there isn't one)</li>
@@ -896,23 +896,23 @@ canvas { max-width: 100%; }
               </ul>
             </div>
             <div class="tp-item strategy">
-              <strong>âœ… Teaching Strategies</strong>
+              <strong>✅ Teaching Strategies</strong>
               <ul>
                 <li>Set equal: if y = f(x) and y = g(x), then f(x) = g(x) and solve</li>
-                <li>Draw both graphs first â€” number of intersections = number of solutions</li>
+                <li>Draw both graphs first — number of intersections = number of solutions</li>
                 <li>Check solution by substituting into both original equations</li>
               </ul>
             </div>
           </div>
           <details style="margin-top:12px;">
-            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">ðŸ“ Worked Example</summary>
+            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary>
             <div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;">
-              <strong>Q: Find the intersection of y = 2x + 1 and y = âˆ’x + 7.</strong><br>
+              <strong>Q: Find the intersection of y = 2x + 1 and y = −x + 7.</strong><br>
               <ol style="margin:8px 0 0 16px;line-height:1.8;">
-                <li>Set equal: 2x + 1 = âˆ’x + 7.</li>
-                <li>3x = 6 â†’ x = 2.</li>
+                <li>Set equal: 2x + 1 = −x + 7.</li>
+                <li>3x = 6 → x = 2.</li>
                 <li>y = 2(2) + 1 = 5.</li>
-                <li>Intersection: <strong>(2, 5)</strong>. Check in both equations âœ“.</li>
+                <li>Intersection: <strong>(2, 5)</strong>. Check in both equations ✓.</li>
               </ol>
             </div>
           </details>
@@ -920,7 +920,7 @@ canvas { max-width: 100%; }
       </div>
 
       <div class="card">
-        <div class="card-title">âœ‚ï¸ Find the Intersection Point</div>
+        <div class="card-title">✂️ Find the Intersection Point</div>
         <div class="card-desc">Find the coordinates of the point where the two lines intersect.</div>
         <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
           <button class="btn btn-sm" id="ix-mode-ll" onclick="setIxMode('ll')" style="background:var(--blue);color:white;">Line &amp; Line</button>
@@ -932,20 +932,20 @@ canvas { max-width: 100%; }
           <input type="number" id="ix-x" class="inp-sm" step="any">
           <label style="font-size:0.85rem;">, y =</label>
           <input type="number" id="ix-y" class="inp-sm" step="any">
-          <button class="btn btn-primary" onclick="ixCheck()">Check âœ“</button>
-          <button class="btn btn-hint" onclick="ixHint()">ðŸ’¡ Hint</button>
-          <button class="btn btn-secondary btn-sm" onclick="ixNew()">Next â†’</button>
+          <button class="btn btn-primary" onclick="ixCheck()">Check ✓</button>
+          <button class="btn btn-hint" onclick="ixHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="ixNew()">Next →</button>
         </div>
         <div id="ix-two-inputs" style="display:none;">
           <div style="font-size:0.83rem;color:var(--muted);margin-bottom:8px;">Enter both intersection points (smaller x first).</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-            <label style="font-size:0.83rem;">xâ‚=</label><input type="number" id="ix-x1" class="inp-sm" step="any">
-            <label style="font-size:0.83rem;">,yâ‚=</label><input type="number" id="ix-y1" class="inp-sm" step="any">
-            <label style="font-size:0.83rem;">xâ‚‚=</label><input type="number" id="ix-x2" class="inp-sm" step="any">
-            <label style="font-size:0.83rem;">,yâ‚‚=</label><input type="number" id="ix-y2" class="inp-sm" step="any">
-            <button class="btn btn-primary" onclick="ixCheck()">Check âœ“</button>
-            <button class="btn btn-hint" onclick="ixHint()">ðŸ’¡ Hint</button>
-            <button class="btn btn-secondary btn-sm" onclick="ixNew()">Next â†’</button>
+            <label style="font-size:0.83rem;">x₁=</label><input type="number" id="ix-x1" class="inp-sm" step="any">
+            <label style="font-size:0.83rem;">,y₁=</label><input type="number" id="ix-y1" class="inp-sm" step="any">
+            <label style="font-size:0.83rem;">xâ''=</label><input type="number" id="ix-x2" class="inp-sm" step="any">
+            <label style="font-size:0.83rem;">,yâ''=</label><input type="number" id="ix-y2" class="inp-sm" step="any">
+            <button class="btn btn-primary" onclick="ixCheck()">Check ✓</button>
+            <button class="btn btn-hint" onclick="ixHint()">💡 Hint</button>
+            <button class="btn btn-secondary btn-sm" onclick="ixNew()">Next →</button>
           </div>
         </div>
         <div id="ix-feedback" class="feedback"></div>
@@ -953,7 +953,7 @@ canvas { max-width: 100%; }
       </div>
 
       <div class="card">
-        <div class="card-title">ðŸ“Š Graphical Intersection Viewer</div>
+        <div class="card-title">📊 Graphical Intersection Viewer</div>
         <div class="card-desc">The graph shows two lines. Read off their intersection point.</div>
         <div class="canvas-wrap">
           <canvas id="ix-canvas" width="400" height="320"></canvas>
@@ -964,25 +964,25 @@ canvas { max-width: 100%; }
           <label style="font-size:0.85rem;">,</label>
           <input type="number" id="ix-gy" class="inp-sm" step="any">
           <label style="font-size:0.85rem;">)</label>
-          <button class="btn btn-primary" onclick="ixGraphCheck()">Check âœ“</button>
-          <button class="btn btn-secondary btn-sm" onclick="ixGraphNew()">New â†’</button>
+          <button class="btn btn-primary" onclick="ixGraphCheck()">Check ✓</button>
+          <button class="btn btn-secondary btn-sm" onclick="ixGraphNew()">New →</button>
         </div>
         <div id="ix-graph-feedback" class="feedback"></div>
       </div>
     </section>
 
     <!-- ============================================================
-         MODULE 6 â€” LOCI & REGIONS (E3.7)
+         MODULE 6 — LOCI & REGIONS (E3.7)
          ============================================================ -->
     <section class="module" id="mod-6">
       <div class="mod-header">
-        <div class="breadcrumb">Topic 3 â†’ <span>Module 6</span></div>
+        <div class="breadcrumb">Topic 3 → <span>Module 6</span></div>
         <h1>â­• Loci &amp; Regions <span class="badge badge-ext" style="font-size:0.75rem;vertical-align:middle;">Extended</span></h1>
       </div>
 
       <div class="progress-card">
-        <h2>E3.7 â€” Loci &amp; Regions in 2D</h2>
-        <div class="pc-meta">Describe loci Â· Identify regions satisfying inequalities</div>
+        <h2>E3.7 — Loci &amp; Regions in 2D</h2>
+        <div class="pc-meta">Describe loci · Identify regions satisfying inequalities</div>
         <div class="prog-track"><div class="prog-fill" id="lc-prog" style="width:0%"></div></div>
         <div class="prog-stats">
           <div><strong id="lc-correct">0</strong> correct</div>
@@ -992,34 +992,34 @@ canvas { max-width: 100%; }
       </div>
 
       <div class="teacher-panel" id="tp-6">
-        <div class="tp-header">ðŸ‘©â€ðŸ« Teacher Panel â€” Loci &amp; Regions</div>
+        <div class="tp-header">👩‍🏫 Teacher Panel — Loci &amp; Regions</div>
         <div class="tp-body">
           <div class="tp-grid">
             <div class="tp-item misconception">
-              <strong>âŒ Common Misconceptions</strong>
+              <strong>❌ Common Misconceptions</strong>
               <ul>
                 <li>Locus of points equidistant from two points: drawing a circle instead of a perpendicular bisector</li>
                 <li>Confusing "inside" and "outside" a circle region</li>
                 <li>Region shading: shading the wrong side of the boundary line</li>
-                <li>Forgetting dashed line for strict inequalities (&lt;, &gt;) vs solid for â‰¤, â‰¥</li>
+                <li>Forgetting dashed line for strict inequalities (&lt;, &gt;) vs solid for ≤, ≥</li>
               </ul>
             </div>
             <div class="tp-item strategy">
-              <strong>âœ… Teaching Strategies</strong>
+              <strong>✅ Teaching Strategies</strong>
               <ul>
-                <li>Loci: always start from the definition â€” "set of all points satisfying a condition"</li>
+                <li>Loci: always start from the definition — "set of all points satisfying a condition"</li>
                 <li>Test point (0,0): substitute into inequality to determine which side to shade</li>
                 <li>Draw boundary first (solid or dashed), then shade the correct region</li>
               </ul>
             </div>
           </div>
           <details style="margin-top:12px;">
-            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">ðŸ“ Worked Example</summary>
+            <summary style="cursor:pointer;font-size:0.82rem;font-weight:700;color:#92400e;">📝 Worked Example</summary>
             <div style="margin-top:8px;background:white;border-radius:8px;padding:12px 14px;border:1px solid #fde68a;font-size:0.83rem;">
-              <strong>Q: Shade the region where y &gt; 2x âˆ’ 3.</strong><br>
+              <strong>Q: Shade the region where y &gt; 2x − 3.</strong><br>
               <ol style="margin:8px 0 0 16px;line-height:1.8;">
-                <li>Draw the boundary line y = 2x âˆ’ 3 as a <em>dashed</em> line (strict inequality).</li>
-                <li>Test a point: (0, 0) â†’ 0 > âˆ’3 âœ“ â†’ the origin is in the region.</li>
+                <li>Draw the boundary line y = 2x − 3 as a <em>dashed</em> line (strict inequality).</li>
+                <li>Test a point: (0, 0) → 0 > −3 ✓ → the origin is in the region.</li>
                 <li>Shade the side of the line containing (0, 0): <strong>above the line</strong>.</li>
               </ol>
             </div>
@@ -1029,7 +1029,7 @@ canvas { max-width: 100%; }
 
       <!-- Locus description -->
       <div class="card">
-        <div class="card-title">ðŸ“– Loci Reference</div>
+        <div class="card-title">📖 Loci Reference</div>
         <table class="tbl">
           <thead><tr><th>Condition</th><th>Locus</th></tr></thead>
           <tbody>
@@ -1043,34 +1043,34 @@ canvas { max-width: 100%; }
 
       <!-- Locus quiz -->
       <div class="card">
-        <div class="card-title">ðŸŽ¯ Identify the Locus</div>
+        <div class="card-title">🎯 Identify the Locus</div>
         <div class="card-desc">Read the description and choose the correct locus.</div>
         <div id="lc-question" style="background:var(--slate);padding:14px 18px;border-radius:8px;margin-bottom:14px;font-size:0.92rem;line-height:1.7;"></div>
         <div id="lc-options" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
         <div id="lc-feedback" class="feedback" style="margin-top:10px;"></div>
-        <button class="btn btn-secondary btn-sm" onclick="lcNew()" style="margin-top:10px;">Next â†’</button>
+        <button class="btn btn-secondary btn-sm" onclick="lcNew()" style="margin-top:10px;">Next →</button>
       </div>
 
       <!-- Region shading quiz -->
       <div class="card">
-        <div class="card-title">ðŸ—ºï¸ Identify the Region</div>
+        <div class="card-title">🗺️ Identify the Region</div>
         <div class="card-desc">A region is shaded on the graph. Which inequality describes it?</div>
         <div class="canvas-wrap">
           <canvas id="lc-canvas" width="400" height="320"></canvas>
         </div>
         <div id="lc-reg-opts" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;"></div>
         <div id="lc-reg-feedback" class="feedback" style="margin-top:10px;"></div>
-        <button class="btn btn-secondary btn-sm" onclick="lcRegNew()" style="margin-top:10px;">New Region â†’</button>
+        <button class="btn btn-secondary btn-sm" onclick="lcRegNew()" style="margin-top:10px;">New Region →</button>
       </div>
     </section>
 
     <!-- ============================================================
-         MODULE 7 â€” EXAM CHALLENGE
+         MODULE 7 — EXAM CHALLENGE
          ============================================================ -->
     <section class="module" id="mod-7">
       <div class="mod-header">
-        <div class="breadcrumb">Topic 3 â†’ <span>Module 7</span></div>
-        <h1>ðŸ† Exam Challenge</h1>
+        <div class="breadcrumb">Topic 3 → <span>Module 7</span></div>
+        <h1>🏆 Exam Challenge</h1>
       </div>
 
       <div class="progress-card" style="background:linear-gradient(135deg,#0d9488,#1a56db);">
@@ -1084,7 +1084,7 @@ canvas { max-width: 100%; }
       </div>
 
       <div class="card">
-        <div class="card-title">ðŸŽ¯ Exam Question</div>
+        <div class="card-title">🎯 Exam Question</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
           <span id="ec-badge" class="badge badge-core">Core</span>
           <span id="ec-topic" style="font-size:0.8rem;color:var(--muted);align-self:center;"></span>
@@ -1093,18 +1093,18 @@ canvas { max-width: 100%; }
         <div id="ec-question" style="font-size:0.96rem;line-height:1.8;margin-bottom:16px;padding:16px;background:var(--slate);border-radius:8px;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
           <input aria-label="Your answer" type="text" id="ec-input" class="inp-lg" placeholder="Your answer" style="max-width:360px;" onkeydown="if(event.key==='Enter')ecCheck()">
-          <button class="btn btn-primary" onclick="ecCheck()">Submit âœ“</button>
-          <button class="btn btn-hint" onclick="ecHint()">ðŸ’¡ Hint</button>
-          <button class="btn btn-secondary btn-sm" onclick="ecSkip()" id="ec-skip-btn">Skip â†’</button>
+          <button class="btn btn-primary" onclick="ecCheck()">Submit ✓</button>
+          <button class="btn btn-hint" onclick="ecHint()">💡 Hint</button>
+          <button class="btn btn-secondary btn-sm" onclick="ecSkip()" id="ec-skip-btn">Skip →</button>
         </div>
         <div id="ec-feedback" class="feedback"></div>
         <ul id="ec-hints" class="hint-list"></ul>
       </div>
 
       <div class="card" id="ec-results" style="display:none;">
-        <div class="card-title">ðŸ“Š Session Results</div>
+        <div class="card-title">📊 Session Results</div>
         <div id="ec-results-body"></div>
-        <button class="btn btn-teal" onclick="ecRestart()" style="margin-top:14px;">ðŸ”„ New Challenge</button>
+        <button class="btn btn-teal" onclick="ecRestart()" style="margin-top:14px;">🔄 New Challenge</button>
       </div>
     </section>
 
@@ -1179,7 +1179,7 @@ function rnd(a,b) { return Math.floor(Math.random()*(b-a+1))+a; }
 function pick(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
 function gcd(a,b) { a=Math.abs(a); b=Math.abs(b); while(b){[a,b]=[b,a%b];} return a; }
 
-const diffMode = {}; // module â†’ 'core' | 'ext'
+const diffMode = {}; // module → 'core' | 'ext'
 function setDiffMode(mod, mode) {
   diffMode[mod] = mode;
   const isCore = mode === 'core';
@@ -1215,7 +1215,7 @@ function showFeedback(id, msg, type) {
   const el = document.getElementById(id);
   el.innerHTML = msg; el.className = 'feedback show fb-' + type;
 }
-const TRY_AGAIN_BTN3 = ' <button onclick="tryAgain3(this)" style="margin-left:10px;font-size:0.78rem;background:none;border:1px solid currentColor;border-radius:4px;padding:2px 8px;cursor:pointer;opacity:0.75;">â†º Try Again</button>';
+const TRY_AGAIN_BTN3 = ' <button onclick="tryAgain3(this)" style="margin-left:10px;font-size:0.78rem;background:none;border:1px solid currentColor;border-radius:4px;padding:2px 8px;cursor:pointer;opacity:0.75;">↺ Try Again</button>';
 function tryAgain3(btn) {
   const fbEl = btn.closest('.feedback');
   if (!fbEl) return;
@@ -1231,7 +1231,7 @@ function showFeedbackWrong3(id, msg, inputIds) {
 }
 function showHints(id, hints) {
   const el = document.getElementById(id);
-  el.innerHTML = '<strong style="font-size:0.8rem;color:var(--muted);">ðŸ’¡ Hints:</strong><br>' +
+  el.innerHTML = '<strong style="font-size:0.8rem;color:var(--muted);">💡 Hints:</strong><br>' +
     hints.map(h=>`<li>${h}</li>`).join('');
   el.className = 'hint-list show';
 }
@@ -1260,7 +1260,7 @@ function drawGrid(ctx, W, H, scale) {
 }
 
 /* ================================================================
-   MODULE 0 â€” COORDINATES & PLOTTING
+   MODULE 0 — COORDINATES & PLOTTING
    ================================================================ */
 let cpState = { correct:0, attempts:0, streak:0, q:null };
 let plotState = { target:null };
@@ -1284,13 +1284,13 @@ function cpCheck(ans) {
   if (ans === cpState.q.quad) {
     cpState.correct++; cpState.streak++;
     const quadDesc = { I:'x>0, y>0', II:'x<0, y>0', III:'x<0, y<0', IV:'x>0, y<0', axis:'one coordinate is 0' };
-    showFeedback('cp-feedback', `âœ… Correct! ${ans==='axis'?'Point lies on an axis':('Quadrant '+ans+': '+quadDesc[ans])}`, 'correct');
+    showFeedback('cp-feedback', `✅ Correct! ${ans==='axis'?'Point lies on an axis':('Quadrant '+ans+': '+quadDesc[ans])}`, 'correct');
     updateCpProgress();
     setTimeout(cpNew, 1400);
   } else {
     cpState.streak = 0;
-    const signs = { I:'(+,+)', II:'(âˆ’,+)', III:'(âˆ’,âˆ’)', IV:'(+,âˆ’)' };
-    showFeedbackWrong3('cp-feedback', `âŒ That's Quadrant ${cpState.q.quad}${cpState.q.quad==='axis'?' (on an axis)':' '+signs[cpState.q.quad]}`, []);
+    const signs = { I:'(+,+)', II:'(−,+)', III:'(−,−)', IV:'(+,−)' };
+    showFeedbackWrong3('cp-feedback', `❌ That's Quadrant ${cpState.q.quad}${cpState.q.quad==='axis'?' (on an axis)':' '+signs[cpState.q.quad]}`, []);
     updateCpProgress();
   }
 }
@@ -1344,15 +1344,15 @@ function plotClick(e) {
     ctx.strokeStyle='#16a34a'; ctx.lineWidth=2; ctx.stroke();
   }
   if (correct) {
-    showFeedback('plot-feedback', `âœ… Correct! You plotted (${x}, ${y}) accurately.`, 'correct');
+    showFeedback('plot-feedback', `✅ Correct! You plotted (${x}, ${y}) accurately.`, 'correct');
     setTimeout(plotNew, 1400);
   } else {
-    showFeedbackWrong3('plot-feedback', `âŒ You clicked (${gx}, ${gy}). Target was (${x}, ${y}). Green circle shows the correct position.`, []);
+    showFeedbackWrong3('plot-feedback', `❌ You clicked (${gx}, ${gy}). Target was (${x}, ${y}). Green circle shows the correct position.`, []);
   }
 }
 
 /* ================================================================
-   MODULE 1 â€” GRADIENT
+   MODULE 1 — GRADIENT
    ================================================================ */
 let grState = { correct:0, attempts:0, streak:0, q:null };
 let grGraphState = { m:null, hints:[] };
@@ -1369,8 +1369,8 @@ function grNew() {
     x1,y1,x2,y2,
     mNum:dy, mDen:dx, mVal:dy/dx, mStr,
     hints: [
-      `m = (yâ‚‚ âˆ’ yâ‚) / (xâ‚‚ âˆ’ xâ‚)`,
-      `= (${y2} âˆ’ ${y1}) / (${x2} âˆ’ ${x1})`,
+      `m = (y₂ − y₁) / (x₂ − x₁)`,
+      `= (${y2} − ${y1}) / (${x2} − ${x1})`,
       `= ${dy} / ${dx}`,
       `= ${mStr}`
     ]
@@ -1400,13 +1400,13 @@ function grCheck() {
   }
   if (correct) {
     grState.correct++; grState.streak++;
-    showFeedback('gr-feedback', `âœ… Correct! m = ${q.mStr}`, 'correct');
+    showFeedback('gr-feedback', `✅ Correct! m = ${q.mStr}`, 'correct');
     updateGrProgress();
     const btn2 = document.getElementById('gr-next-btn'); if(btn2) btn2.style.display='';
     setTimeout(grNew, 1400);
   } else {
     grState.streak = 0;
-    showFeedbackWrong3('gr-feedback', `âŒ m = ${q.mStr}. Remember: (yâ‚‚âˆ’yâ‚)/(xâ‚‚âˆ’xâ‚) Â· Format: integer or fraction like 3/2`, ['gr-input']);
+    showFeedbackWrong3('gr-feedback', `❌ m = ${q.mStr}. Remember: (y₂−y₁)/(x₂−x₁) · Format: integer or fraction like 3/2`, ['gr-input']);
     updateGrProgress();
     const btn2 = document.getElementById('gr-next-btn'); if(btn2) btn2.style.display='';
   }
@@ -1435,7 +1435,7 @@ function grGraphNew() {
   grGraphState.mStr = frac(dy,dx);
   grGraphState.hints = [
     `Choose two grid points, e.g. (${x1},${y1}) and (${x2},${y2})`,
-    `m = (${y2}âˆ’${y1})/(${x2}âˆ’${x1}) = ${dy}/${dx} = ${grGraphState.mStr}`
+    `m = (${y2}−${y1})/(${x2}−${x1}) = ${dy}/${dx} = ${grGraphState.mStr}`
   ];
   // Extend line across canvas
   const slope = dy/dx;
@@ -1466,19 +1466,19 @@ function grGraphCheck() {
   grState.attempts++;
   if (correct) {
     grState.correct++; grState.streak++;
-    showFeedback('gr-graph-feedback', `âœ… Correct! m = ${grGraphState.mStr}`, 'correct');
+    showFeedback('gr-graph-feedback', `✅ Correct! m = ${grGraphState.mStr}`, 'correct');
     updateGrProgress();
     setTimeout(grGraphNew, 1500);
   } else {
     grState.streak = 0;
-    showFeedbackWrong3('gr-graph-feedback', `âŒ m = ${grGraphState.mStr}. Pick two points, count the rise and run.`, ['gr-graph-input']);
+    showFeedbackWrong3('gr-graph-feedback', `❌ m = ${grGraphState.mStr}. Pick two points, count the rise and run.`, ['gr-graph-input']);
     updateGrProgress();
   }
 }
 function grGraphHint() { showHints('gr-graph-hints', grGraphState.hints); }
 
 /* ================================================================
-   MODULE 2 â€” MIDPOINT & DISTANCE
+   MODULE 2 — MIDPOINT & DISTANCE
    ================================================================ */
 let mdState = { correct:0, attempts:0, streak:0 };
 let mdMpQ = null, mdDistQ = null;
@@ -1500,11 +1500,11 @@ function mdMpCheck() {
   mdState.attempts++;
   if (!isNaN(mx)&&!isNaN(my)&&Math.abs(mx-mdMpQ.mx)<0.01&&Math.abs(my-mdMpQ.my)<0.01) {
     mdState.correct++; mdState.streak++;
-    showFeedback('md-mp-feedback',`âœ… Correct! M = (${mdMpQ.mx}, ${mdMpQ.my})`,'correct');
+    showFeedback('md-mp-feedback',`✅ Correct! M = (${mdMpQ.mx}, ${mdMpQ.my})`,'correct');
     updateMdProgress(); setTimeout(mdMpNew,1400);
   } else {
     mdState.streak=0;
-    showFeedbackWrong3('md-mp-feedback', `âŒ M = (${mdMpQ.mx}, ${mdMpQ.my}). Average each coordinate separately. Â· Format: enter x and y separately`, ['md-mx','md-my']);
+    showFeedbackWrong3('md-mp-feedback', `❌ M = (${mdMpQ.mx}, ${mdMpQ.my}). Average each coordinate separately. · Format: enter x and y separately`, ['md-mx','md-my']);
     updateMdProgress();
   }
 }
@@ -1519,13 +1519,13 @@ function mdDistNew() {
   // Surd form if perfect square
   let surdStr = null;
   const sq=Math.round(d); if(sq*sq===d2) surdStr=String(sq);
-  else surdStr=`âˆš${d2}`;
+  else surdStr=`√${d2}`;
   mdDistQ = { x1,y1,x2,y2, d2, d, dRound, surdStr,
     hints:[
-      `d = âˆš((xâ‚‚âˆ’xâ‚)Â²+(yâ‚‚âˆ’yâ‚)Â²)`,
-      `= âˆš((${x2}âˆ’${x1})Â²+(${y2}âˆ’${y1})Â²)`,
-      `= âˆš(${dx*dx}+${dy*dy})`,
-      `= âˆš${d2} â‰ˆ ${dRound}`
+      `d = √((x₂−x₁)²+(y₂−y₁)²)`,
+      `= √((${x2}−${x1})²+(${y2}−${y1})²)`,
+      `= √(${dx*dx}+${dy*dy})`,
+      `= √${d2} ≈ ${dRound}`
     ]};
   document.getElementById('md-dist-question').textContent=`A(${x1}, ${y1})  and  B(${x2}, ${y2})`;
   document.getElementById('md-dist-input').value='';
@@ -1537,23 +1537,23 @@ function mdDistCheck() {
   const raw=document.getElementById('md-dist-input').value.trim().replace(/\s/g,'');
   mdState.attempts++;
   const q=mdDistQ;
-  // Accept surd (âˆš50), decimal (7.07), or integer
+  // Accept surd (√50), decimal (7.07), or integer
   let correct=false;
-  if (raw===q.surdStr||raw==='âˆš'+q.d2) correct=true;
+  if (raw===q.surdStr||raw==='√'+q.d2) correct=true;
   else {
-    const v=parseFloat(raw.replace('âˆš',''));
+    const v=parseFloat(raw.replace('√',''));
     if (!isNaN(v)) {
-      if (raw.startsWith('âˆš')) correct=Math.abs(v*v-q.d2)<0.01;
+      if (raw.startsWith('√')) correct=Math.abs(v*v-q.d2)<0.01;
       else correct=Math.abs(v-q.dRound)<0.015||Math.abs(v-q.d)<0.015;
     }
   }
   if (correct) {
     mdState.correct++; mdState.streak++;
-    showFeedback('md-dist-feedback',`âœ… Correct! d = ${q.surdStr} â‰ˆ ${q.dRound}`,'correct');
+    showFeedback('md-dist-feedback',`✅ Correct! d = ${q.surdStr} ≈ ${q.dRound}`,'correct');
     updateMdProgress(); setTimeout(mdDistNew,1500);
   } else {
     mdState.streak=0;
-    showFeedbackWrong3('md-dist-feedback', `âŒ d = ${q.surdStr} â‰ˆ ${q.dRound} Â· Format: âˆš50 or 7.07 (3 s.f.)`, ['md-dist-input']);
+    showFeedbackWrong3('md-dist-feedback', `❌ d = ${q.surdStr} ≈ ${q.dRound} · Format: √50 or 7.07 (3 s.f.)`, ['md-dist-input']);
     updateMdProgress();
   }
 }
@@ -1569,7 +1569,7 @@ function updateMdProgress() {
 }
 
 /* ================================================================
-   MODULE 3 â€” EQUATION OF A LINE
+   MODULE 3 — EQUATION OF A LINE
    ================================================================ */
 let elState = { correct:0, attempts:0, streak:0, mode:'2pt', readQ:null, findQ:null };
 
@@ -1584,7 +1584,7 @@ function elReadNew() {
   if (form==='slope') {
     expr=`y = ${mStr}x ${c===0?'':cStr}`.trim();
   } else {
-    // ax - y = -c  â†’ y = ax + c
+    // ax - y = -c  → y = ax + c
     const a=m, b=-1, rhs=-c;
     expr=`${a}x - y = ${rhs}`;
   }
@@ -1605,11 +1605,11 @@ function elReadCheck() {
   elState.attempts++;
   if (Math.abs(mv-elState.readQ.m)<0.001&&Math.abs(cv-elState.readQ.c)<0.001) {
     elState.correct++; elState.streak++;
-    showFeedback('el-read-feedback',`âœ… Correct! m = ${elState.readQ.m}, c = ${elState.readQ.c}`,'correct');
+    showFeedback('el-read-feedback',`✅ Correct! m = ${elState.readQ.m}, c = ${elState.readQ.c}`,'correct');
     updateElProgress(); setTimeout(elReadNew,1400);
   } else {
     elState.streak=0;
-    showFeedbackWrong3('el-read-feedback', `âŒ m = ${elState.readQ.m}, c = ${elState.readQ.c}`, ['el-m','el-c']);
+    showFeedbackWrong3('el-read-feedback', `❌ m = ${elState.readQ.m}, c = ${elState.readQ.c}`, ['el-m','el-c']);
     updateElProgress();
   }
 }
@@ -1642,7 +1642,7 @@ function elFindNew() {
     q={
       question:`Find the equation of the line passing through <strong>(${x1}, ${y1})</strong> and <strong>(${x2}, ${y2})</strong>.`,
       m:mVal, c:cInt, ans:[ans],
-      hints:[`m = (${y2}âˆ’${y1})/(${x2}âˆ’${x1}) = ${mStr}`,`Substitute (${x1},${y1}): ${y1} = ${mStr}Ã—${x1} + c`,`c = ${cInt}`,`y = ${ans.replace('y=','')}`]
+      hints:[`m = (${y2}−${y1})/(${x2}−${x1}) = ${mStr}`,`Substitute (${x1},${y1}): ${y1} = ${mStr}×${x1} + c`,`c = ${cInt}`,`y = ${ans.replace('y=','')}`]
     };
   } else if (elState.mode==='mpt') {
     const m=rnd(-4,4), x0=rnd(-4,4), y0=rnd(-5,5);
@@ -1651,18 +1651,18 @@ function elFindNew() {
     q={
       question:`A line has gradient <strong>${m}</strong> and passes through <strong>(${x0}, ${y0})</strong>. Find its equation.`,
       m, c, ans:[ans],
-      hints:[`y = mx + c â†’ y = ${m}x + c`,`Substitute (${x0},${y0}): ${y0} = ${m}Ã—${x0} + c`,`c = ${y0} âˆ’ ${m*x0} = ${c}`,`y = ${ans.replace('y=','')}`]
+      hints:[`y = mx + c → y = ${m}x + c`,`Substitute (${x0},${y0}): ${y0} = ${m}×${x0} + c`,`c = ${y0} − ${m*x0} = ${c}`,`y = ${ans.replace('y=','')}`]
     };
   } else {
     const a=rnd(1,4), b=rnd(1,4), k=rnd(-8,8);
-    // ax + by = k â†’ y = (k-ax)/b = (k/b) - (a/b)x
+    // ax + by = k → y = (k-ax)/b = (k/b) - (a/b)x
     const mNum=-a, mDen=b, cNum=k, cDen=b;
     const mVal=mNum/mDen, cVal=cNum/cDen;
     const ans=buildLineEq(mNum,mDen,cVal);
     q={
       question:`Rearrange <strong>${a}x + ${b}y = ${k}</strong> into the form y = mx + c.`,
       m:mVal, c:cVal, ans:[ans],
-      hints:[`Subtract ${a}x: ${b}y = ${k} âˆ’ ${a}x`,`Divide by ${b}: y = ${frac(-a,b)}x + ${frac(k,b)}`]
+      hints:[`Subtract ${a}x: ${b}y = ${k} − ${a}x`,`Divide by ${b}: y = ${frac(-a,b)}x + ${frac(k,b)}`]
     };
   }
   elState.findQ=q;
@@ -1699,11 +1699,11 @@ function elFindCheck() {
   }
   if (match||numCheck) {
     elState.correct++; elState.streak++;
-    showFeedback('el-find-feedback',`âœ… Correct! ${q.ans[0]}`,'correct');
+    showFeedback('el-find-feedback',`✅ Correct! ${q.ans[0]}`,'correct');
     updateElProgress(); setTimeout(elFindNew,1500);
   } else {
     elState.streak=0;
-    showFeedbackWrong3('el-find-feedback', `âŒ Answer: ${q.ans[0]} Â· Format: y=2x+3 or y=âˆ’x`, ['el-find-input']);
+    showFeedbackWrong3('el-find-feedback', `❌ Answer: ${q.ans[0]} · Format: y=2x+3 or y=−x`, ['el-find-input']);
     updateElProgress();
   }
 }
@@ -1725,7 +1725,7 @@ function gpDraw() {
   document.getElementById('gp-m-val').textContent=m;
   document.getElementById('gp-c-val').textContent=c;
   const mStr=m===1?'':m===-1?'-':m;
-  const cStr=c===0?'':(c>0?` + ${c}`:` âˆ’ ${Math.abs(c)}`);
+  const cStr=c===0?'':(c>0?` + ${c}`:` − ${Math.abs(c)}`);
   document.getElementById('gp-eq').textContent=`y = ${mStr}x${cStr}`;
   const canvas=document.getElementById('gp-canvas');
   const ctx=canvas.getContext('2d');
@@ -1747,7 +1747,7 @@ function gpDraw() {
 }
 
 /* ================================================================
-   MODULE 4 â€” PARALLEL & PERPENDICULAR
+   MODULE 4 — PARALLEL & PERPENDICULAR
    ================================================================ */
 let ppState = { correct:0, attempts:0, streak:0, classQ:null, findQ:null, mode:'par' };
 
@@ -1769,8 +1769,8 @@ function ppNew() {
   const c1=rnd(-5,5), c2=rnd(-5,5);
   const m1str=frac(m1num,m1den);
   ppState.classQ={type, m1str, m2str,
-    line1:`y = ${m1str}x ${c1>=0?'+ '+c1:'âˆ’ '+Math.abs(c1)}`,
-    line2:`y = ${m2str}x ${c2>=0?'+ '+c2:'âˆ’ '+Math.abs(c2)}`
+    line1:`y = ${m1str}x ${c1>=0?'+ '+c1:'− '+Math.abs(c1)}`,
+    line2:`y = ${m2str}x ${c2>=0?'+ '+c2:'− '+Math.abs(c2)}`
   };
   document.getElementById('pp-pair').innerHTML =
     ppState.classQ.line1+'<br>'+ppState.classQ.line2;
@@ -1782,12 +1782,12 @@ function ppCheck(ans) {
   const correct=ans===ppState.classQ.type;
   if (correct) {
     ppState.correct++; ppState.streak++;
-    const exp={parallel:'Same gradient â†’ parallel',perpendicular:'Product of gradients = âˆ’1 â†’ perpendicular',neither:'Gradients are different and don\'t multiply to âˆ’1'};
-    showFeedback('pp-feedback',`âœ… Correct! ${exp[ppState.classQ.type]}`,'correct');
+    const exp={parallel:'Same gradient → parallel',perpendicular:'Product of gradients = −1 → perpendicular',neither:'Gradients are different and don\'t multiply to −1'};
+    showFeedback('pp-feedback',`✅ Correct! ${exp[ppState.classQ.type]}`,'correct');
     updatePpProgress(); setTimeout(ppNew,1500);
   } else {
     ppState.streak=0;
-    showFeedbackWrong3('pp-feedback', `âŒ These lines are ${ppState.classQ.type}. Check mâ‚ and mâ‚‚.`, []);
+    showFeedbackWrong3('pp-feedback', `❌ These lines are ${ppState.classQ.type}. Check m₁ and m₂.`, []);
     updatePpProgress();
   }
 }
@@ -1810,17 +1810,17 @@ function ppFindNew() {
     newM=m; newMStr=String(m);
     const newC=y0-m*x0;
     ans=buildLineEq(m,1,newC);
-    hints=[`Parallel lines have the same gradient: m = ${m}`,`y = ${m}x + c; substitute (${x0},${y0}): ${y0} = ${m}Ã—${x0} + c`,`c = ${newC}`,`y = ${ans.replace('y=','')}`];
+    hints=[`Parallel lines have the same gradient: m = ${m}`,`y = ${m}x + c; substitute (${x0},${y0}): ${y0} = ${m}×${x0} + c`,`c = ${newC}`,`y = ${ans.replace('y=','')}`];
   } else {
     const perpNum=-(1), perpDen=m||1;
     newM=-1/m; newMStr=frac(-1,m);
     const newC=y0-newM*x0;
     ans=buildLineEq(-1,m,newC);
-    hints=[`Perpendicular gradient = âˆ’1/m = ${newMStr}`,`y = ${newMStr}x + c; substitute (${x0},${y0})`,`c = ${+newC.toFixed(4)}`,`y = ${ans.replace('y=','')}`];
+    hints=[`Perpendicular gradient = −1/m = ${newMStr}`,`y = ${newMStr}x + c; substitute (${x0},${y0})`,`c = ${+newC.toFixed(4)}`,`y = ${ans.replace('y=','')}`];
   }
   ppState.findQ={ans:[ans], hints, newM, newC:y0-newM*x0};
   document.getElementById('pp-find-question').innerHTML=
-    `A line is ${ppState.mode==='par'?'<strong>parallel</strong>':'<strong>perpendicular</strong>'} to <strong>y = ${m}x ${c>=0?'+ '+c:'âˆ’ '+Math.abs(c)}</strong> and passes through <strong>(${x0}, ${y0})</strong>. Find its equation.`;
+    `A line is ${ppState.mode==='par'?'<strong>parallel</strong>':'<strong>perpendicular</strong>'} to <strong>y = ${m}x ${c>=0?'+ '+c:'− '+Math.abs(c)}</strong> and passes through <strong>(${x0}, ${y0})</strong>. Find its equation.`;
   document.getElementById('pp-find-input').value='';
   document.getElementById('pp-find-feedback').className='feedback';
   document.getElementById('pp-find-hints').className='hint-list';
@@ -1833,11 +1833,11 @@ function ppFindCheck() {
   const match=ppState.findQ.ans.map(a=>a.toLowerCase().replace(/\s/g,'')).includes(norm);
   if (match) {
     ppState.correct++; ppState.streak++;
-    showFeedback('pp-find-feedback',`âœ… Correct! ${ppState.findQ.ans[0]}`,'correct');
+    showFeedback('pp-find-feedback',`✅ Correct! ${ppState.findQ.ans[0]}`,'correct');
     updatePpProgress(); setTimeout(ppFindNew,1500);
   } else {
     ppState.streak=0;
-    showFeedbackWrong3('pp-find-feedback', `âŒ Answer: ${ppState.findQ.ans[0]} Â· Format: y=mx+c`, ['pp-find-input']);
+    showFeedbackWrong3('pp-find-feedback', `❌ Answer: ${ppState.findQ.ans[0]} · Format: y=mx+c`, ['pp-find-input']);
     updatePpProgress();
   }
 }
@@ -1853,7 +1853,7 @@ function updatePpProgress() {
 }
 
 /* ================================================================
-   MODULE 5 â€” INTERSECTIONS
+   MODULE 5 — INTERSECTIONS
    ================================================================ */
 let ixState = { correct:0, attempts:0, streak:0, mode:'ll', q:null };
 let ixGraphState = { x:null, y:null };
@@ -1882,15 +1882,15 @@ function ixNew() {
     q={
       question:`y = ${m1s}x ${c1s}<br>y = ${m2s}x ${c2s}`,
       ans:{x:x0, y:y0}, type:'ll',
-      hints:[`Set equal: ${m1}x ${c1s} = ${m2}x ${c2s}`,`${m1-m2}x = ${c2-c1}`,`x = ${x0}`,`y = ${m1}Ã—${x0} ${c1s} = ${y0}`]
+      hints:[`Set equal: ${m1}x ${c1s} = ${m2}x ${c2s}`,`${m1-m2}x = ${c2-c1}`,`x = ${x0}`,`y = ${m1}×${x0} ${c1s} = ${y0}`]
     };
   } else {
-    // Line meets quadratic y = xÂ² + bx + c  at two points
+    // Line meets quadratic y = x² + bx + c  at two points
     const r1=rnd(-3,2), r2=rnd(r1+1,4);
     const b=-(r1+r2), c=r1*r2;
     const m=rnd(-2,2), k=rnd(-3,3);
-    // y = mx + k intersects y = xÂ² + bx + c
-    // xÂ² + (b-m)x + (c-k) = 0
+    // y = mx + k intersects y = x² + bx + c
+    // x² + (b-m)x + (c-k) = 0
     const A=1, B=b-m, C=c-k;
     const disc=B*B-4*A*C;
     if (disc<0||disc!==Math.round(disc)) { ixNew(); return; }
@@ -1900,9 +1900,9 @@ function ixNew() {
     const y1=m*x1+k, y2=m*x2+k;
     if (!Number.isInteger(x1)||!Number.isInteger(x2)) { ixNew(); return; }
     q={
-      question:`y = xÂ² ${b>=0?'+ '+b:'âˆ’ '+Math.abs(b)}x ${c>=0?'+ '+c:'âˆ’ '+Math.abs(c)}<br>y = ${m===1?'':m===-1?'-':m}x ${k>=0?'+ '+k:k}`,
+      question:`y = x² ${b>=0?'+ '+b:'− '+Math.abs(b)}x ${c>=0?'+ '+c:'− '+Math.abs(c)}<br>y = ${m===1?'':m===-1?'-':m}x ${k>=0?'+ '+k:k}`,
       ans:{x1:Math.min(x1,x2),y1:m*Math.min(x1,x2)+k, x2:Math.max(x1,x2),y2:m*Math.max(x1,x2)+k}, type:'lc',
-      hints:[`Substitute: xÂ² + ${b}x + ${c} = ${m}x + ${k}`,`xÂ² + ${B}x + ${C} = 0`,`Solve: x = ${x1} or x = ${x2}`,`Substitute back to find y values`]
+      hints:[`Substitute: x² + ${b}x + ${c} = ${m}x + ${k}`,`x² + ${B}x + ${C} = 0`,`Solve: x = ${x1} or x = ${x2}`,`Substitute back to find y values`]
     };
   }
   ixState.q=q;
@@ -1920,8 +1920,8 @@ function ixCheck() {
     const xv=parseFloat(document.getElementById('ix-x').value);
     const yv=parseFloat(document.getElementById('ix-y').value);
     correct=Math.abs(xv-q.ans.x)<0.01&&Math.abs(yv-q.ans.y)<0.01;
-    if (correct) showFeedback('ix-feedback',`âœ… Correct! Intersection at (${q.ans.x}, ${q.ans.y})`,'correct');
-    else showFeedbackWrong3('ix-feedback', `âŒ Intersection is at (${q.ans.x}, ${q.ans.y})`, ['ix-x','ix-y']);
+    if (correct) showFeedback('ix-feedback',`✅ Correct! Intersection at (${q.ans.x}, ${q.ans.y})`,'correct');
+    else showFeedbackWrong3('ix-feedback', `❌ Intersection is at (${q.ans.x}, ${q.ans.y})`, ['ix-x','ix-y']);
   } else {
     const x1v=parseFloat(document.getElementById('ix-x1').value);
     const y1v=parseFloat(document.getElementById('ix-y1').value);
@@ -1929,8 +1929,8 @@ function ixCheck() {
     const y2v=parseFloat(document.getElementById('ix-y2').value);
     const a=q.ans;
     correct=(Math.abs(x1v-a.x1)<0.01&&Math.abs(y1v-a.y1)<0.01&&Math.abs(x2v-a.x2)<0.01&&Math.abs(y2v-a.y2)<0.01);
-    if (correct) showFeedback('ix-feedback',`âœ… Correct! Points (${a.x1}, ${a.y1}) and (${a.x2}, ${a.y2})`,'correct');
-    else showFeedbackWrong3('ix-feedback', `âŒ Points are (${a.x1}, ${a.y1}) and (${a.x2}, ${a.y2})`, ['ix-x1','ix-y1','ix-x2','ix-y2']);
+    if (correct) showFeedback('ix-feedback',`✅ Correct! Points (${a.x1}, ${a.y1}) and (${a.x2}, ${a.y2})`,'correct');
+    else showFeedbackWrong3('ix-feedback', `❌ Points are (${a.x1}, ${a.y1}) and (${a.x2}, ${a.y2})`, ['ix-x1','ix-y1','ix-x2','ix-y2']);
   }
   if (correct) { ixState.correct++; ixState.streak++; updateIxProgress(); setTimeout(ixNew,1600); }
   else { ixState.streak=0; updateIxProgress(); }
@@ -1978,17 +1978,17 @@ function ixGraphCheck() {
   ixState.attempts++;
   if(Math.abs(xv-ixGraphState.x)<0.01&&Math.abs(yv-ixGraphState.y)<0.01){
     ixState.correct++; ixState.streak++;
-    showFeedback('ix-graph-feedback',`âœ… Correct! Intersection at (${ixGraphState.x}, ${ixGraphState.y})`,'correct');
+    showFeedback('ix-graph-feedback',`✅ Correct! Intersection at (${ixGraphState.x}, ${ixGraphState.y})`,'correct');
     updateIxProgress(); setTimeout(ixGraphNew,1500);
   } else {
     ixState.streak=0;
-    showFeedbackWrong3('ix-graph-feedback', `âŒ The intersection is at (${ixGraphState.x}, ${ixGraphState.y})`, ['ix-gx','ix-gy']);
+    showFeedbackWrong3('ix-graph-feedback', `❌ The intersection is at (${ixGraphState.x}, ${ixGraphState.y})`, ['ix-gx','ix-gy']);
     updateIxProgress();
   }
 }
 
 /* ================================================================
-   MODULE 6 â€” LOCI & REGIONS
+   MODULE 6 — LOCI & REGIONS
    ================================================================ */
 let lcState = { correct:0, attempts:0, streak:0, q:null, regQ:null };
 
@@ -1998,7 +1998,7 @@ const LOCI_QS = [
   { q:'What is the locus of all points exactly 3 cm from a straight line L?', opts:['A single parallel line','Two lines parallel to L, 3 cm either side','A circle of radius 3 cm','An angle bisector'], ans:'Two lines parallel to L, 3 cm either side' },
   { q:'What is the locus of all points equidistant from two intersecting lines?', opts:['A circle at the intersection','Perpendicular bisector','Angle bisectors of the two lines','A line parallel to both'], ans:'Angle bisectors of the two lines' },
   { q:'The locus of points closer to A than to B is:', opts:['The perpendicular bisector of AB','The region on A\'s side of the perpendicular bisector of AB','A circle centred at A','The midpoint of AB'], ans:'The region on A\'s side of the perpendicular bisector of AB' },
-  { q:'Which describes the locus of points inside a circle of radius r centred at O?', opts:['Distance from O = r','Distance from O < r','Distance from O > r','Distance from O â‰¤ r'], ans:'Distance from O < r' }
+  { q:'Which describes the locus of points inside a circle of radius r centred at O?', opts:['Distance from O = r','Distance from O < r','Distance from O > r','Distance from O ≤ r'], ans:'Distance from O < r' }
 ];
 
 function lcNew() {
@@ -2015,11 +2015,11 @@ function lcCheck(ans) {
   lcState.attempts++;
   if (ans === lcState.q.ans) {
     lcState.correct++; lcState.streak++;
-    showFeedback('lc-feedback',`âœ… Correct! ${lcState.q.ans}`,'correct');
+    showFeedback('lc-feedback',`✅ Correct! ${lcState.q.ans}`,'correct');
     updateLcProgress(); setTimeout(lcNew,1600);
   } else {
     lcState.streak=0;
-    showFeedbackWrong3('lc-feedback', `âŒ Correct answer: ${lcState.q.ans}`, []);
+    showFeedbackWrong3('lc-feedback', `❌ Correct answer: ${lcState.q.ans}`, []);
     updateLcProgress();
   }
 }
@@ -2076,11 +2076,11 @@ function lcRegCheck(ans) {
   lcState.attempts++;
   if(decoded===lcState.regQ.ans){
     lcState.correct++; lcState.streak++;
-    showFeedback('lc-reg-feedback','âœ… Correct!','correct');
+    showFeedback('lc-reg-feedback','✅ Correct!','correct');
     updateLcProgress(); setTimeout(lcRegNew,1500);
   } else {
     lcState.streak=0;
-    showFeedbackWrong3('lc-reg-feedback', `âŒ Correct: ${lcState.regQ.ans}`, []);
+    showFeedbackWrong3('lc-reg-feedback', `❌ Correct: ${lcState.regQ.ans}`, []);
     updateLcProgress();
   }
 }
@@ -2095,24 +2095,24 @@ function updateLcProgress() {
 }
 
 /* ================================================================
-   MODULE 7 â€” EXAM CHALLENGE
+   MODULE 7 — EXAM CHALLENGE
    ================================================================ */
 let ecState = { correct:0, total:0, qIdx:0, results:[], questions:[] };
 let ecQ = null;
 
 const EC_QUESTIONS = [
-  { q:'Find the gradient of the line joining (2, 5) and (6, 13).', ans:['2'], marks:'[2]', level:'Core', topic:'Gradient', fmt:'integer or fraction like 2/3', hints:['m = (13âˆ’5)/(6âˆ’2) = 8/4'] },
-  { q:'Find the midpoint of the line segment joining (âˆ’3, 4) and (7, âˆ’2).', ans:['(2,1)','(2, 1)'], marks:'[2]', level:'Core', topic:'Midpoint', fmt:'(x,y) no spaces', hints:['x: (âˆ’3+7)/2=2, y: (4âˆ’2)/2=1'] },
-  { q:'Find the length of the line segment joining (1, 2) and (4, 6). Give exact answer.', ans:['5','âˆš25'], marks:'[2]', level:'Core', topic:'Distance', hints:['d = âˆš((4âˆ’1)Â²+(6âˆ’2)Â²) = âˆš(9+16) = 5'] },
-  { q:'Write down the gradient and y-intercept of y = âˆ’3x + 7.', ans:['m=âˆ’3,c=7','m=-3,c=7'], marks:'[2]', level:'Core', topic:'Equation of line', fmt:'y=mx+c', hints:['y = mx + c: m = âˆ’3, c = 7'] },
+  { q:'Find the gradient of the line joining (2, 5) and (6, 13).', ans:['2'], marks:'[2]', level:'Core', topic:'Gradient', fmt:'integer or fraction like 2/3', hints:['m = (13−5)/(6−2) = 8/4'] },
+  { q:'Find the midpoint of the line segment joining (−3, 4) and (7, −2).', ans:['(2,1)','(2, 1)'], marks:'[2]', level:'Core', topic:'Midpoint', fmt:'(x,y) no spaces', hints:['x: (−3+7)/2=2, y: (4−2)/2=1'] },
+  { q:'Find the length of the line segment joining (1, 2) and (4, 6). Give exact answer.', ans:['5','√25'], marks:'[2]', level:'Core', topic:'Distance', hints:['d = √((4−1)²+(6−2)²) = √(9+16) = 5'] },
+  { q:'Write down the gradient and y-intercept of y = −3x + 7.', ans:['m=−3,c=7','m=-3,c=7'], marks:'[2]', level:'Core', topic:'Equation of line', fmt:'y=mx+c', hints:['y = mx + c: m = −3, c = 7'] },
   { q:'Find the equation of the line through (0, 4) with gradient 2.', ans:['y=2x+4'], marks:'[2]', level:'Core', topic:'Equation of line', fmt:'y=mx+c', hints:['y = 2x + c; passes through (0,4) so c = 4'] },
-  { q:'Find the equation of the line through (1, 5) and (3, 9).', ans:['y=2x+3'], marks:'[3]', level:'Core', topic:'Equation of line', fmt:'y=mx+c', hints:['m=(9âˆ’5)/(3âˆ’1)=2; y=2x+c; 5=2+c; c=3'] },
-  { q:'Are the lines y = 3x + 1 and y = 3x âˆ’ 4 parallel, perpendicular, or neither?', ans:['parallel'], marks:'[1]', level:'Core', topic:'Parallel/Perpendicular', hints:['Same gradient (m=3) â†’ parallel'] },
-  { q:'Find the equation of the line perpendicular to y = 2x âˆ’ 1 passing through (4, 3).', ans:['y=âˆ’Â½x+5','y=-0.5x+5','y=-1/2x+5'], marks:'[3]', level:'Extended', topic:'Perpendicular', fmt:'y=âˆ’Â½x+5', hints:['Perp. m = âˆ’1/2; y = âˆ’Â½x + c; 3 = âˆ’2 + c; c = 5'] },
-  { q:'Find the intersection of y = x + 3 and y = âˆ’x + 7.', ans:['(2,5)','x=2,y=5'], marks:'[3]', level:'Extended', topic:'Intersections', fmt:'(x,y) no spaces', hints:['x+3=âˆ’x+7; 2x=4; x=2; y=5'] },
-  { q:'Describe the locus of all points 4 cm from a fixed point P.', ans:['circle','circle,centreP,radius4cm','circle centre p radius 4 cm'], marks:'[2]', level:'Core', topic:'Loci', hints:['Fixed distance from a point â†’ circle'] },
-  { q:'Find the gradient of the line perpendicular to y = (3/4)x + 2.', ans:['âˆ’4/3','-4/3'], marks:'[2]', level:'Extended', topic:'Perpendicular', fmt:'integer or fraction like 2/3', hints:['Perp. gradient = âˆ’1/m = âˆ’4/3'] },
-  { q:'Point A is (âˆ’1, 3) and B is (5, 3). What is the gradient of AB?', ans:['0'], marks:'[1]', level:'Core', topic:'Gradient', fmt:'integer or fraction like 2/3', hints:['Both y-values are equal â†’ horizontal line â†’ m = 0'] }
+  { q:'Find the equation of the line through (1, 5) and (3, 9).', ans:['y=2x+3'], marks:'[3]', level:'Core', topic:'Equation of line', fmt:'y=mx+c', hints:['m=(9−5)/(3−1)=2; y=2x+c; 5=2+c; c=3'] },
+  { q:'Are the lines y = 3x + 1 and y = 3x − 4 parallel, perpendicular, or neither?', ans:['parallel'], marks:'[1]', level:'Core', topic:'Parallel/Perpendicular', hints:['Same gradient (m=3) → parallel'] },
+  { q:'Find the equation of the line perpendicular to y = 2x − 1 passing through (4, 3).', ans:['y=−½x+5','y=-0.5x+5','y=-1/2x+5'], marks:'[3]', level:'Extended', topic:'Perpendicular', fmt:'y=−½x+5', hints:['Perp. m = −1/2; y = −½x + c; 3 = −2 + c; c = 5'] },
+  { q:'Find the intersection of y = x + 3 and y = −x + 7.', ans:['(2,5)','x=2,y=5'], marks:'[3]', level:'Extended', topic:'Intersections', fmt:'(x,y) no spaces', hints:['x+3=−x+7; 2x=4; x=2; y=5'] },
+  { q:'Describe the locus of all points 4 cm from a fixed point P.', ans:['circle','circle,centreP,radius4cm','circle centre p radius 4 cm'], marks:'[2]', level:'Core', topic:'Loci', hints:['Fixed distance from a point → circle'] },
+  { q:'Find the gradient of the line perpendicular to y = (3/4)x + 2.', ans:['−4/3','-4/3'], marks:'[2]', level:'Extended', topic:'Perpendicular', fmt:'integer or fraction like 2/3', hints:['Perp. gradient = −1/m = −4/3'] },
+  { q:'Point A is (−1, 3) and B is (5, 3). What is the gradient of AB?', ans:['0'], marks:'[1]', level:'Core', topic:'Gradient', fmt:'integer or fraction like 2/3', hints:['Both y-values are equal → horizontal line → m = 0'] }
 ];
 
 function ecStart() {
@@ -2132,7 +2132,7 @@ function ecLoadQ() {
   document.getElementById('ec-question').innerHTML=q.q;
   document.getElementById('ec-badge').textContent=q.level;
   document.getElementById('ec-badge').className=q.level==='Core'?'badge badge-core':'badge badge-ext';
-  document.getElementById('ec-topic').textContent='ðŸ“š '+q.topic;
+  document.getElementById('ec-topic').textContent='📚 '+q.topic;
   document.getElementById('ec-marks').textContent='Marks: '+q.marks;
   document.getElementById('ec-input').value='';
   document.getElementById('ec-feedback').className='feedback';
@@ -2144,8 +2144,8 @@ function ecCheck() {
   const norm=document.getElementById('ec-input').value.trim().replace(/\s+/g,'').toLowerCase();
   const correct=ecQ.ans.map(a=>a.toLowerCase().replace(/\s/g,'')).includes(norm);
   ecState.results.push({q:ecQ.q,correct,given:norm,expected:ecQ.ans[0],topic:ecQ.topic});
-  if(correct){ecState.correct++; showFeedback('ec-feedback',`âœ… Correct! ${ecQ.marks}`,'correct');}
-  else showFeedbackWrong3('ec-feedback', `âŒ Answer: ${ecQ.ans[0]}${ecQ.fmt ? ' Â· Format: '+ecQ.fmt : ''}`, ['ec-input']);
+  if(correct){ecState.correct++; showFeedback('ec-feedback',`✅ Correct! ${ecQ.marks}`,'correct');}
+  else showFeedbackWrong3('ec-feedback', `❌ Answer: ${ecQ.ans[0]}${ecQ.fmt ? ' · Format: '+ecQ.fmt : ''}`, ['ec-input']);
   document.getElementById('ec-skip-btn').style.display = '';
   const pct=Math.round(ecState.correct/(ecState.qIdx+1)*100);
   document.getElementById('ec-prog').style.width=Math.round((ecState.qIdx+1)/ecState.total*100)+'%';
@@ -2159,7 +2159,7 @@ function ecCheck() {
 
 function ecHint() { showHints('ec-hints', ecQ.hints); }
 function ecSkip() {
-  ecState.results.push({q:ecQ.q,correct:false,given:'â€”',expected:ecQ.ans[0],topic:ecQ.topic});
+  ecState.results.push({q:ecQ.q,correct:false,given:'—',expected:ecQ.ans[0],topic:ecQ.topic});
   ecState.qIdx++;
   if(ecState.qIdx>=ecState.total) ecShowResults(); else ecLoadQ();
 }
@@ -2168,7 +2168,7 @@ function ecShowResults() {
   document.getElementById('ec-results').style.display='block';
   const pct=Math.round(ecState.correct/ecState.total*100);
   if (pct >= 60) markModuleDone(7);
-  const grade=pct>=80?'ðŸ† Excellent':pct>=60?'ðŸ‘ Good':pct>=40?'ðŸ“š Needs practice':'âš ï¸ Review required';
+  const grade=pct>=80?'🏆 Excellent':pct>=60?'👍 Good':pct>=40?'📚 Needs practice':'⚠️ Review required';
   // topic breakdown
   const topicMap = {};
   ecState.results.forEach(r => {
@@ -2183,8 +2183,8 @@ function ecShowResults() {
       <span style="font-weight:600;color:${v.correct===v.total?'var(--green)':v.correct===0?'var(--red)':'var(--amber)'};">${v.correct}/${v.total}</span>
     </div>`).join('');
   // clipboard text
-  const clipText = `IGCSE Math T3 Exam Challenge\nScore: ${ecState.correct}/${ecState.total} (${pct}%) â€” ${grade}\n\n` +
-    ecState.results.map((r,i)=>`Q${i+1}: ${r.correct?'âœ“':'âœ—'} ${r.q}\n${!r.correct?'  Your: '+r.given+' | Correct: '+r.expected:''}`).join('\n');
+  const clipText = `IGCSE Math T3 Exam Challenge\nScore: ${ecState.correct}/${ecState.total} (${pct}%) — ${grade}\n\n` +
+    ecState.results.map((r,i)=>`Q${i+1}: ${r.correct?'✓':'✗'} ${r.q}\n${!r.correct?'  Your: '+r.given+' | Correct: '+r.expected:''}`).join('\n');
   document.getElementById('ec-results-body').innerHTML=`
     <div class="score-bar" style="margin-bottom:16px;">
       <div class="sc-item"><strong>${ecState.correct}/${ecState.total}</strong><br>Score</div>
@@ -2198,20 +2198,20 @@ function ecShowResults() {
       ${topicRows}
     </div>
     <details style="margin-bottom:12px;">
-      <summary style="cursor:pointer;font-size:0.85rem;font-weight:600;color:var(--navy);padding:4px 0;">ðŸ“‹ Question-by-question review</summary>
+      <summary style="cursor:pointer;font-size:0.85rem;font-weight:600;color:var(--navy);padding:4px 0;">📋 Question-by-question review</summary>
       <div style="margin-top:8px;">
         ${ecState.results.map((r,i)=>`<div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:0.83rem;display:flex;gap:8px;">
-          <span>${r.correct?'âœ…':'âŒ'}</span>
-          <div><span style="font-size:0.72rem;color:var(--muted);">Q${i+1} Â· ${r.topic||''}</span><br>${r.q}${!r.correct?`<div style="color:var(--muted);margin-top:2px;">Your: ${r.given} Â· Correct: ${r.expected}</div>`:''}</div>
+          <span>${r.correct?'✅':'❌'}</span>
+          <div><span style="font-size:0.72rem;color:var(--muted);">Q${i+1} · ${r.topic||''}</span><br>${r.q}${!r.correct?`<div style="color:var(--muted);margin-top:2px;">Your: ${r.given} · Correct: ${r.expected}</div>`:''}</div>
         </div>`).join('')}
       </div>
     </details>
-    <button class="btn btn-secondary btn-sm" id="copy-results-btn" style="margin-right:8px;">ðŸ“‹ Copy Results</button>`;
+    <button class="btn btn-secondary btn-sm" id="copy-results-btn" style="margin-right:8px;">📋 Copy Results</button>`;
   window._ecClip = clipText;
   document.getElementById('copy-results-btn').onclick = () => {
     navigator.clipboard.writeText(window._ecClip).then(() => {
-      document.getElementById('copy-results-btn').textContent = 'âœ… Copied!';
-      setTimeout(() => { document.getElementById('copy-results-btn').textContent = 'ðŸ“‹ Copy Results'; }, 2000);
+      document.getElementById('copy-results-btn').textContent = '✅ Copied!';
+      setTimeout(() => { document.getElementById('copy-results-btn').textContent = '📋 Copy Results'; }, 2000);
     }).catch(() => alert(window._ecClip));
   };
 }

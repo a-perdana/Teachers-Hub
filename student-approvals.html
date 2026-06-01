@@ -3,24 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Approvals â€” Teachers Hub</title>
+<title>Student Approvals — Teachers Hub</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23331e05'/><polygon points='10,45 50,65 50,70 10,50' fill='%23a8650a'/><polygon points='90,45 50,65 50,70 90,50' fill='%23c2780c'/><polygon points='50,25 90,45 50,65 10,45' fill='%23d97706'/><circle cx='76' cy='76' r='20' fill='%23d97706' stroke='%23331e05' stroke-width='3'/><text x='76' y='84' font-family='Georgia,serif' font-size='26' font-weight='bold' text-anchor='middle' fill='white'>T</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="base.css">
 <style>
-/* Curriculum family (teal) â€” Students Hub assessment is part of the
+/* Curriculum family (teal) — Students Hub assessment is part of the
    chapter-test / assessment delivery flow. Hero + footer chrome come from
    base.css canonical .page-hero / .page-footer; this page only ships the
    info-strip content styling + its own components. */
 :root { --accent: #0f9b8e; --accent-2: #ccfbf1; }
 
-/* â”€â”€ 1200px content-rail discipline â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ── 1200px content-rail discipline ──────────────────────────────
    Hero text, info strip, body content and footer text all align to a TRUE
    1200px rail. Pattern: outer max-width:var(--container-max) + horizontal
    padding ZERO (vertical padding stays). The calc(+80)+40px-padding trick
-   measures wrong â€” see root CLAUDE.md #53 + memory/feedback_references_three_rails_1200.
+   measures wrong — see root CLAUDE.md #53 + memory/feedback_references_three_rails_1200.
    Canonical .page-hero__inner / .page-footer__inner pad 0 40px inside their
-   clamp (â†’1120px); override their horizontal padding to 0 to match. */
+   clamp (→1120px); override their horizontal padding to 0 to match. */
 .page-hero__inner,
 .page-footer__inner,
 .page-info-strip,
@@ -28,7 +28,7 @@
 .page-info-strip { margin-top: 22px; }
 .page-wrap { padding-top: 28px; padding-bottom: 80px; }
 
-/* â”€â”€ Info strip (flow line + pills + callout) â”€â”€ */
+/* ── Info strip (flow line + pills + callout) ── */
 .pis-inner {
   background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
   border: 1px solid #5eead4; border-radius: 16px; padding: 18px 22px;
@@ -55,7 +55,7 @@
 }
 
 /* base.css turns body into a flex column when a .page-footer is a direct
-   child â€” force direct children to stretch so their max-width clamps apply
+   child — force direct children to stretch so their max-width clamps apply
    (see root CLAUDE.md Common Mistake #54). */
 body:has(> .page-footer) > .page-hero,
 body:has(> .page-footer) > .page-info-strip,
@@ -159,18 +159,18 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
   <header class="page-hero" data-accent="teal">
     <div class="page-hero__inner">
       <div class="page-hero__text">
-        <div class="page-hero__eyebrow">Teachers Hub Â· Students Hub Assessment</div>
+        <div class="page-hero__eyebrow">Teachers Hub · Students Hub Assessment</div>
         <h1 class="page-hero__title">Student Approvals</h1>
-        <p class="page-hero__desc">Approve students who picked your class so they can take chapter tests and EASE assessments. Reject anyone who picked the wrong class â€” they'll be sent back to the class picker.</p>
+        <p class="page-hero__desc">Approve students who picked your class so they can take chapter tests and EASE assessments. Reject anyone who picked the wrong class — they'll be sent back to the class picker.</p>
       </div>
       <aside class="page-hero__kpis">
         <div class="page-hero__kpi page-hero__kpi--primary">
-          <div class="page-hero__kpi-num" id="kpiPending">â€”</div>
+          <div class="page-hero__kpi-num" id="kpiPending">—</div>
           <div class="page-hero__kpi-lbl">Pending</div>
           <div class="page-hero__kpi-sub">waiting for you</div>
         </div>
         <div class="page-hero__kpi">
-          <div class="page-hero__kpi-num" id="kpiActive">â€”</div>
+          <div class="page-hero__kpi-num" id="kpiActive">—</div>
           <div class="page-hero__kpi-lbl">Active</div>
           <div class="page-hero__kpi-sub">approved students</div>
         </div>
@@ -181,14 +181,14 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
   <!-- INFO STRIP -->
   <section class="page-info-strip" aria-label="About this page">
     <div class="pis-inner">
-      <p class="pis-flow">When a new student signs in to <strong>Students Hub</strong> and picks one of your classes, they land here as <strong>Pending</strong>. You check the name, then <strong>Approve</strong> (they get full access) or <strong>Reject</strong> (they go back to pick again). Nothing else happens until you approve â€” so clearing this list is step one before any test can run.</p>
+      <p class="pis-flow">When a new student signs in to <strong>Students Hub</strong> and picks one of your classes, they land here as <strong>Pending</strong>. You check the name, then <strong>Approve</strong> (they get full access) or <strong>Reject</strong> (they go back to pick again). Nothing else happens until you approve — so clearing this list is step one before any test can run.</p>
       <div class="pis-pills">
         <span class="pis-pill"><span class="pill-dot"></span>For: Subject Teachers &amp; Subject Leaders</span>
-        <span class="pis-pill"><span class="pill-dot"></span>3 tabs: Pending Â· Active Â· Rejected</span>
+        <span class="pis-pill"><span class="pill-dot"></span>3 tabs: Pending · Active · Rejected</span>
         <span class="pis-pill"><span class="pill-dot"></span>Scoped to your school's classes</span>
         <span class="pis-pill"><span class="pill-dot"></span>First step of the assessment flow</span>
       </div>
-      <div class="pis-callout">A student you reject is <em>not</em> deleted â€” they simply return to the class picker and can choose the right class. If someone is missing, they may have picked a different teacher's class.</div>
+      <div class="pis-callout">A student you reject is <em>not</em> deleted — they simply return to the class picker and can choose the right class. If someone is missing, they may have picked a different teacher's class.</div>
     </div>
   </section>
 
@@ -205,7 +205,7 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
       <select id="classFilter">
         <option value="">All my classes</option>
       </select>
-      <input aria-label="Search by name or emailâ€¦" id="searchBox" placeholder="Search by name or emailâ€¦">
+      <input aria-label="Search by name or email…" id="searchBox" placeholder="Search by name or email…">
       <span class="count" id="resultCount">0 students</span>
     </div>
 
@@ -217,9 +217,9 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
     <div class="page-footer__inner">
       <div class="page-footer__cta">
         <span class="page-footer__cta-eyebrow">Students Hub Assessment</span>
-        <h2 class="page-footer__cta-title">Students approved â€” what's next?</h2>
+        <h2 class="page-footer__cta-title">Students approved — what's next?</h2>
         <p class="page-footer__cta-desc">Once your class roster is approved, schedule a published chapter test for them. New to this section? The Read Me First guide walks through every step in plain English.</p>
-        <a href="/test-session-launcher" class="page-footer__cta-btn">Schedule a Chapter Test <span aria-hidden="true">â†’</span></a>
+        <a href="/test-session-launcher" class="page-footer__cta-btn">Schedule a Chapter Test <span aria-hidden="true">→</span></a>
       </div>
       <nav class="page-footer__nav" aria-label="Students Hub Assessment footer navigation">
         <div class="page-footer__nav-group">
@@ -238,8 +238,8 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
       </nav>
     </div>
     <div class="page-footer__meta">
-      <span class="page-footer__meta-left">Â© Eduversal Â· Teachers Hub</span>
-      <span class="page-footer__meta-right">Students Hub Assessment Â· Phase 1</span>
+      <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
+      <span class="page-footer__meta-right">Students Hub Assessment · Phase 1</span>
     </div>
   </footer>
 
@@ -323,7 +323,7 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
       myClasses.forEach(c => {
         const o = document.createElement('option');
         o.value = c.classId;
-        o.textContent = `${c.className} Â· Grade ${c.gradeLevel}`;
+        o.textContent = `${c.className} · Grade ${c.gradeLevel}`;
         sel.appendChild(o);
       });
 
@@ -399,12 +399,12 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
             ${s.photoURL ? `<img src="${escAttr(s.photoURL)}" alt="">` : escHtml((s.displayName || s.email || '?').charAt(0).toUpperCase())}
           </div>
           <div class="student-info">
-            <div class="student-name">${escHtml(s.displayName || s.email || 'â€”')}</div>
+            <div class="student-name">${escHtml(s.displayName || s.email || '—')}</div>
             <div class="student-meta">
               <span>${escHtml(s.email || '')}</span>
-              <span>Â·</span>
-              <span>${escHtml(s.className || 'â€”')}${s.gradeLevel ? ' Â· Grade ' + s.gradeLevel : ''}</span>
-              <span>Â·</span>
+              <span>·</span>
+              <span>${escHtml(s.className || '—')}${s.gradeLevel ? ' · Grade ' + s.gradeLevel : ''}</span>
+              <span>·</span>
               <span>${escHtml(s.school || '')}</span>
             </div>
           </div>

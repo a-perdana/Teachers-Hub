@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Message Board â€” Teachers Hub</title>
+    <title>Message Board — Teachers Hub</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23331e05'/><polygon points='10,45 50,65 50,70 10,50' fill='%23a8650a'/><polygon points='90,45 50,65 50,70 90,50' fill='%23c2780c'/><polygon points='50,25 90,45 50,65 10,45' fill='%23d97706'/><circle cx='76' cy='76' r='20' fill='%23d97706' stroke='%23331e05' stroke-width='3'/><text x='76' y='84' font-family='Georgia,serif' font-size='26' font-weight='bold' text-anchor='middle' fill='white'>T</text></svg>">
     <link rel="stylesheet" href="base.css">
     <style>
@@ -12,7 +12,7 @@
         --accent-2: #fef3c7;
       }
 
-      /* â”€â”€â”€ MAIN WRAPPER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      /* ─── MAIN WRAPPER ─────────────────────────────── */
       .mb-main { min-height: 100vh; }
 
       .mb-page {
@@ -23,7 +23,7 @@
         .mb-page { padding: 24px 20px 80px; }
       }
 
-      /* â”€â”€â”€ TOPIC LIST VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      /* ─── TOPIC LIST VIEW ──────────────────────────── */
       .view-header {
         display: flex; justify-content: space-between; align-items: center;
         margin-bottom: 16px;
@@ -79,7 +79,7 @@
         color: var(--ink-3); font-size: 15px;
       }
 
-      /* â”€â”€â”€ CATEGORY BADGES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      /* ─── CATEGORY BADGES ──────────────────────────── */
       .cat-badge {
         display: inline-flex; align-items: center;
         font-size: 10.5px; font-weight: 700; padding: 2px 9px;
@@ -92,7 +92,7 @@
       .cat-events    { background: var(--accent-2); color: #92400e; border: 1px solid #fde68a; }
       .cat-technical { background: var(--paper-2); color: var(--ink-2); border: 1px solid var(--border); }
 
-      /* â”€â”€â”€ CATEGORY FILTER CHIPS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      /* ─── CATEGORY FILTER CHIPS ────────────────────── */
       .cat-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
       .cat-chip {
         padding: 5px 14px; border-radius: 20px;
@@ -103,14 +103,14 @@
       .cat-chip:hover { background: var(--paper-2); border-color: var(--ink-3); }
       .cat-chip.active { background: var(--accent-2); border-color: var(--accent); color: #92400e; font-weight: 600; }
 
-      /* â”€â”€â”€ MODAL SELECT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      /* ─── MODAL SELECT ─────────────────────────────── */
       select.modal-input {
         appearance: none; -webkit-appearance: none; cursor: pointer;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2344445a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
         background-repeat: no-repeat; background-position: right 14px center;
       }
 
-      /* â”€â”€â”€ TOPIC DETAIL VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      /* ─── TOPIC DETAIL VIEW ────────────────────────── */
       .back-btn {
         display: inline-flex; align-items: center; gap: 6px;
         background: none; border: none; color: var(--ink-3);
@@ -155,7 +155,7 @@
         color: var(--ink-3); font-style: italic;
       }
 
-      /* â”€â”€â”€ ACTION BUTTONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      /* ─── ACTION BUTTONS ───────────────────────────── */
       .action-btn {
         padding: 5px 12px; border-radius: 7px; border: 1px solid var(--border);
         font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
@@ -173,7 +173,7 @@
       }
       .action-btn.delete-btn.confirming:hover { background: #b91c1c; border-color: #b91c1c; color: #fff; }
 
-      /* â”€â”€â”€ INLINE EDIT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      /* ─── INLINE EDIT ──────────────────────────────── */
       .inline-edit-form { display: flex; flex-direction: column; gap: 10px; }
 
       .inline-input, .inline-textarea {
@@ -205,7 +205,7 @@
       }
       .cancel-btn:hover { background: var(--paper-2); }
 
-      /* â”€â”€â”€ REPLIES SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      /* ─── REPLIES SECTION ──────────────────────────── */
       .replies-section { margin-bottom: 14px; }
 
       .replies-header {
@@ -234,7 +234,7 @@
 
       .reply-actions { margin-left: auto; display: flex; gap: 5px; }
 
-      /* â”€â”€â”€ REPLY FORM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      /* ─── REPLY FORM ───────────────────────────────── */
       .reply-form-section {
         background: var(--white); border: 1px solid var(--border);
         border-radius: 14px; padding: 18px;
@@ -270,7 +270,7 @@
       .reply-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
       .reply-send-btn svg { width: 14px; height: 14px; }
 
-      /* â”€â”€â”€ NEW TOPIC MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      /* ─── NEW TOPIC MODAL ──────────────────────────── */
       .modal-overlay {
         position: fixed; inset: 0;
         background: rgba(0,0,0,.5); backdrop-filter: blur(4px);
@@ -323,14 +323,14 @@
       .modal-status { font-size: 12px; text-align: center; min-height: 18px; }
       .modal-status.error { color: #dc2626; }
 
-      /* â”€â”€â”€ SPINNER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      /* ─── SPINNER ──────────────────────────────────── */
       .btn-spinner {
         display: inline-block; width: 13px; height: 13px;
         border: 2px solid rgba(255,255,255,.35); border-top-color: #fff;
         border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle;
       }
 
-      /* â”€â”€â”€ CONFIRM DIALOG â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      /* ─── CONFIRM DIALOG ───────────────────────────── */
       .confirm-overlay {
         position: fixed; inset: 0;
         background: rgba(0,0,0,.45); backdrop-filter: blur(3px);
@@ -348,7 +348,7 @@
       .confirm-cancel { padding: 8px 20px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--ink-2); font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 500; }
       .confirm-delete { padding: 8px 20px; border-radius: 8px; border: none; background: #dc2626; color: white; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 600; }
 
-      /* â”€â”€â”€ RESPONSIVE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+      /* ─── RESPONSIVE ───────────────────────────────── */
       @media (max-width: 600px) {
         .post-header { flex-direction: column; gap: 10px; }
         .post-title { font-size: 17px; }
@@ -409,27 +409,27 @@
 
     <div id="navbar-container"></div>
 
-    <!-- Page hero â€” Communication family (cyan). Shared across list + detail views. -->
+    <!-- Page hero — Communication family (cyan). Shared across list + detail views. -->
     <header class="page-hero" data-accent="cyan">
       <div class="page-hero__inner">
         <div class="page-hero__text">
-          <div class="page-hero__eyebrow">Communications Â· Forum</div>
+          <div class="page-hero__eyebrow">Communications · Forum</div>
           <h1 class="page-hero__title">Message Board</h1>
           <p class="page-hero__desc">Discuss, share resources, and collaborate with colleagues across every partner school. Filter by category below.</p>
         </div>
         <div class="page-hero__kpis">
           <div class="page-hero__kpi page-hero__kpi--primary">
-            <div class="page-hero__kpi-num" id="kpiMbTopics">â€”</div>
+            <div class="page-hero__kpi-num" id="kpiMbTopics">—</div>
             <div class="page-hero__kpi-lbl">Topics</div>
             <div class="page-hero__kpi-sub" id="kpiMbTopicsSub">across all categories</div>
           </div>
           <div class="page-hero__kpi">
-            <div class="page-hero__kpi-num" id="kpiMbReplies">â€”</div>
+            <div class="page-hero__kpi-num" id="kpiMbReplies">—</div>
             <div class="page-hero__kpi-lbl">Replies</div>
             <div class="page-hero__kpi-sub">conversation depth</div>
           </div>
           <div class="page-hero__kpi">
-            <div class="page-hero__kpi-num" id="kpiMbWeek">â€”</div>
+            <div class="page-hero__kpi-num" id="kpiMbWeek">—</div>
             <div class="page-hero__kpi-lbl">This week</div>
             <div class="page-hero__kpi-sub">new topics</div>
           </div>
@@ -676,10 +676,10 @@
       function renderTopicList(docs) {
         allTopicDocs = docs;
         const container = document.getElementById("topicList");
-        // TH-source-only universe â€” same filter the page treats as "all topics".
+        // TH-source-only universe — same filter the page treats as "all topics".
         const thUniverse = docs.filter(d => { const s = d.data().source; return !s || s === 'teachers_hub'; });
 
-        // â”€â”€ Hero KPIs (computed off the unfiltered TH universe, not the category-filtered slice) â”€â”€
+        // ── Hero KPIs (computed off the unfiltered TH universe, not the category-filtered slice) ──
         const kpiTopics    = document.getElementById('kpiMbTopics');
         const kpiTopicsSub = document.getElementById('kpiMbTopicsSub');
         const kpiReplies   = document.getElementById('kpiMbReplies');
@@ -720,7 +720,7 @@
                 </div>
                 <div class="topic-card-meta">
                   <span>${escHtml(data.displayName)}</span>
-                  <span class="topic-sep">Â·</span>
+                  <span class="topic-sep">·</span>
                   <span>${formatDate(data.createdAt)}</span>
                   <span class="topic-replies-badge">${cnt} ${cnt === 1 ? "reply" : "replies"}</span>
                 </div>
@@ -815,7 +815,7 @@
               <div class="post-body">${escHtml(d.body)}</div>
               <div class="post-meta">
                 <span>${escHtml(d.displayName)}</span>
-                <span class="topic-sep">Â·</span>
+                <span class="topic-sep">·</span>
                 <span>${formatDate(d.createdAt)}</span>
                 ${editedBadge}
               </div>
@@ -886,7 +886,7 @@
                     </div>
                     <div class="reply-meta" style="margin-top: 8px;">
                       <span>${escHtml(data.displayName)}</span>
-                      <span class="topic-sep">Â·</span>
+                      <span class="topic-sep">·</span>
                       <span>${formatDate(data.createdAt)}</span>
                       ${editedBadge}
                     </div>
@@ -898,7 +898,7 @@
                   <div class="reply-body">${escHtml(data.body)}</div>
                   <div class="reply-meta">
                     <span>${escHtml(data.displayName)}</span>
-                    <span class="topic-sep">Â·</span>
+                    <span class="topic-sep">·</span>
                     <span>${formatDate(data.createdAt)}</span>
                     ${editedBadge}
                     ${canEdit
@@ -1059,13 +1059,13 @@
           if (ta) ta.value = body;
         } finally {
           _submittingReply = false;
-          // Re-fetch the button â€” renderReplies() may have replaced the node
+          // Re-fetch the button — renderReplies() may have replaced the node
           const btn = document.getElementById("replySendBtn");
           if (btn) {
             btn.disabled = false;
             btn.innerHTML = `${SEND_ICON} Send Reply`;
           }
-          // And the textarea â€” make sure it's empty after a successful send
+          // And the textarea — make sure it's empty after a successful send
           const ta = document.getElementById("replyTextarea");
           if (ta && !ta.value) ta.value = "";
         }
@@ -1167,10 +1167,10 @@
     <footer class="page-footer" role="contentinfo">
       <div class="page-footer__inner">
         <div class="page-footer__cta">
-          <span class="page-footer__cta-eyebrow">My Hub Â· Communications</span>
+          <span class="page-footer__cta-eyebrow">My Hub · Communications</span>
           <h2 class="page-footer__cta-title">Long-form conversations, kept findable.</h2>
-          <p class="page-footer__cta-desc">Threaded discussion across the partner-school network. Pin replies, mention colleagues, search the archive â€” the message board is where pedagogy and operations talk things through.</p>
-          <a href="announcements.html" class="page-footer__cta-btn">Open Announcements <span aria-hidden="true">â†’</span></a>
+          <p class="page-footer__cta-desc">Threaded discussion across the partner-school network. Pin replies, mention colleagues, search the archive — the message board is where pedagogy and operations talk things through.</p>
+          <a href="announcements.html" class="page-footer__cta-btn">Open Announcements <span aria-hidden="true">→</span></a>
         </div>
         <nav class="page-footer__nav" aria-label="Message Board footer navigation">
           <div class="page-footer__nav-group">
@@ -1190,7 +1190,7 @@
         </nav>
       </div>
       <div class="page-footer__meta">
-        <span class="page-footer__meta-left">Â© Eduversal Â· Teachers Hub</span>
+        <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
         <span class="page-footer__meta-right">Pin replies and mention colleagues to keep threads searchable.</span>
       </div>
     </footer>

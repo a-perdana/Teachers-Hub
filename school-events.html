@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>School Events â€” Teachers Hub</title>
+  <title>School Events — Teachers Hub</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23331e05'/><polygon points='10,45 50,65 50,70 10,50' fill='%23a8650a'/><polygon points='90,45 50,65 50,70 90,50' fill='%23c2780c'/><polygon points='50,25 90,45 50,65 10,45' fill='%23d97706'/><circle cx='76' cy='76' r='20' fill='%23d97706' stroke='%23331e05' stroke-width='3'/><text x='76' y='84' font-family='Georgia,serif' font-size='26' font-weight='bold' text-anchor='middle' fill='white'>T</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -208,7 +208,7 @@
     }
     .no-school-banner strong { font-weight: 700; }
 
-    /* â”€â”€ View toggle â”€â”€ */
+    /* ── View toggle ── */
     .view-toggle {
       display: inline-flex; background: var(--paper); border: 1px solid var(--border);
       border-radius: 8px; padding: 3px; gap: 2px;
@@ -223,7 +223,7 @@
     .view-toggle button:hover { color: var(--ink); }
     .view-toggle button.active { background: var(--white); color: var(--accent); box-shadow: var(--shadow-sm); }
 
-    /* â”€â”€ Calendar grid (2-month strip) â”€â”€ */
+    /* ── Calendar grid (2-month strip) ── */
     .cal-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
     @media (max-width: 900px) { .cal-strip { grid-template-columns: 1fr; gap: 18px; } }
 
@@ -379,7 +379,7 @@
       <div class="hero-text">
         <div class="eyebrow">My School</div>
         <h1>School Events</h1>
-        <p class="sub">Activities and events at your school. Read-only â€” your school's leadership team adds and updates these from Academic Hub.</p>
+        <p class="sub">Activities and events at your school. Read-only — your school's leadership team adds and updates these from Academic Hub.</p>
         <div class="school-pill" id="schoolPill" style="display:none"></div>
       </div>
       <div class="year-select-wrap" id="yearSelectWrap" style="display:none">
@@ -421,20 +421,20 @@
     <div class="filter-bar-ev">
       <input aria-label="Search events" class="search-ev" id="searchInput" type="text" placeholder="Search events...">
       <div class="view-toggle" id="viewToggle">
-        <button data-view="calendar" class="active" title="Calendar grid">ðŸ—“ Calendar</button>
-        <button data-view="list" title="List by month">ðŸ“‹ List</button>
+        <button data-view="calendar" class="active" title="Calendar grid">🗓 Calendar</button>
+        <button data-view="list" title="List by month">📋 List</button>
       </div>
       <span class="readonly-pill">Read-only</span>
     </div>
 
     <div class="stats-row" id="statsRow"></div>
 
-    <!-- Calendar view (default) â€” 2-month strip with prev/next nav -->
+    <!-- Calendar view (default) — 2-month strip with prev/next nav -->
     <div id="calendarViewWrap">
       <div class="cal-nav">
-        <button class="cal-nav-arrow" id="calPrev">â† Prev 2 months</button>
-        <span class="cal-nav-label" id="calRangeLabel">â€”</span>
-        <button class="cal-nav-arrow" id="calNext">Next 2 months â†’</button>
+        <button class="cal-nav-arrow" id="calPrev">← Prev 2 months</button>
+        <span class="cal-nav-label" id="calRangeLabel">—</span>
+        <button class="cal-nav-arrow" id="calNext">Next 2 months →</button>
       </div>
       <div class="cal-strip" id="calStrip"></div>
     </div>
@@ -449,12 +449,12 @@
 
 </div>
 
-<!-- â”€â”€ DAY DETAIL POPOVER (calendar view) â”€â”€ -->
+<!-- ── DAY DETAIL POPOVER (calendar view) ── -->
 <div class="cal-day-detail" id="dayDetail">
   <div class="box">
     <div class="box-head">
-      <h3 id="dayDetailTitle">â€”</h3>
-      <button class="box-close" id="dayDetailClose" aria-label="Close">Ã—</button>
+      <h3 id="dayDetailTitle">—</h3>
+      <button class="box-close" id="dayDetailClose" aria-label="Close">×</button>
     </div>
     <div class="box-body" id="dayDetailBody"></div>
   </div>
@@ -516,7 +516,7 @@ let allEvents   = [];
 let mySchoolId  = null;
 let mySchoolName = '';
 
-// View state â€” 'calendar' (default) or 'list'. Persisted in localStorage.
+// View state — 'calendar' (default) or 'list'. Persisted in localStorage.
 const VIEW_KEY = 'schoolEventsView';
 let currentView = 'calendar';
 try { currentView = localStorage.getItem(VIEW_KEY) || 'calendar'; } catch(_) {}
@@ -529,7 +529,7 @@ document.addEventListener('authReady', ({ detail: { user, profile } }) => {
   mySchoolId   = profile?.schoolId || null;
   mySchoolName = profile?.school || profile?.schoolName || '';
 
-  // Navbar avatar + name (TH pattern â€” guarded for navbar fetch race)
+  // Navbar avatar + name (TH pattern — guarded for navbar fetch race)
   const nameShort = (profile.displayName || user.displayName || user.email || '').split(' ')[0];
   const updateNavbarElements = () => {
     const profileNameShort = document.getElementById('profileNameShort');
@@ -761,7 +761,7 @@ function renderListView() {
   }
 }
 
-// â”€â”€ Calendar grid view (2-month strip, read-only) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Calendar grid view (2-month strip, read-only) ──────────────────────────
 const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
 function renderCalendarView() {
@@ -795,7 +795,7 @@ function renderCalendarView() {
 
   const labelA = `${MONTH_NAMES[monthA.m]} ${monthA.y}`;
   const labelB = `${MONTH_NAMES[monthB.m]} ${monthB.y}`;
-  document.getElementById('calRangeLabel').textContent = `${labelA} â€“ ${labelB}`;
+  document.getElementById('calRangeLabel').textContent = `${labelA} – ${labelB}`;
 
   const strip = document.getElementById('calStrip');
   strip.innerHTML = '';
@@ -855,7 +855,7 @@ function buildMonthCard(year, month, byDay, contByDay) {
       if (allEvts.length > 1) cell.dataset.multi = '1';
       cell.dataset.hasEvents = '1';
       cell.dataset.dateKey   = key;
-      cell.title = allEvts.map(e => e.title).join(' Â· ');
+      cell.title = allEvts.map(e => e.title).join(' · ');
       cell.addEventListener('click', () => openDayDetail(key, allEvts));
     }
 
@@ -894,7 +894,7 @@ function buildMonthCard(year, month, byDay, contByDay) {
   return card;
 }
 
-// â”€â”€ Day-detail popover (read-only â€” no edit/delete buttons) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Day-detail popover (read-only — no edit/delete buttons) ────────────────
 function openDayDetail(dateKey, events) {
   const [y, m, d] = dateKey.split('-').map(Number);
   const dt = new Date(y, m - 1, d);
@@ -925,7 +925,7 @@ function closeDayDetail() {
   document.getElementById('dayDetail').classList.remove('open');
 }
 
-// â”€â”€ Date helpers shared by calendar + list views â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Date helpers shared by calendar + list views ───────────────────────────
 function parseLocalDate(iso) {
   const [y, m, d] = iso.split('-').map(Number);
   return new Date(y, m - 1, d);
@@ -949,7 +949,7 @@ function formatDateRange(start, end) {
   if (!end || end === start) return startStr;
   const [, em, ed] = end.split('-').map(Number);
   const endStr = `${ed} ${MONTH_NAMES[em - 1].slice(0, 3)}`;
-  return `${startStr} â€“ ${endStr}`;
+  return `${startStr} – ${endStr}`;
 }
 
 function daysDiff(dateStr) {

@@ -3,26 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Surveys â€” Teachers Hub</title>
+  <title>Surveys — Teachers Hub</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23331e05'/><polygon points='10,45 50,65 50,70 10,50' fill='%23a8650a'/><polygon points='90,45 50,65 50,70 90,50' fill='%23c2780c'/><polygon points='50,25 90,45 50,65 10,45' fill='%23d97706'/><circle cx='76' cy='76' r='20' fill='%23d97706' stroke='%23331e05' stroke-width='3'/><text x='76' y='84' font-family='Georgia,serif' font-size='26' font-weight='bold' text-anchor='middle' fill='white'>T</text></svg>">
   <link rel="stylesheet" href="base.css">
   <style>
-    /* â”€â”€â”€ VARIABLES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── VARIABLES ─────────────────────────────────── */
     :root {
       --accent:   #d97706;
       --accent-2: #fff7ed;
       --accent-dark: #b45309;
     }
 
-    /* â”€â”€â”€ LAYOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── LAYOUT ─────────────────────────────────────── */
     body { min-height: 100vh; }
 
     /* THREE RAILS = TRUE 1200px CONTENT.
        Hero inner + body + footer all clamp to var(--container-max) with ZERO
        horizontal padding (vertical kept). The canonical .page-hero__inner /
        .page-footer__inner / .page-footer__meta ship a default 40px horizontal
-       pad â€” strip it here so the content column measures exactly 1200px on
-       viewports â‰¥ 1280px (40px-padding pattern only gives ~1120). */
+       pad — strip it here so the content column measures exactly 1200px on
+       viewports ≥ 1280px (40px-padding pattern only gives ~1120). */
     .page-hero__inner,
     .page-footer__inner,
     .page-footer__meta,
@@ -37,7 +37,7 @@
     .page-wrap { padding-top: 26px; padding-bottom: 48px; }
 
     /* base.css ships `body:has(> .page-footer) { display:flex; flex-direction:column }`
-       for the sticky footer â€” that turns body into a flex container, so its
+       for the sticky footer — that turns body into a flex container, so its
        direct children shrink-to-fit (<1200) unless forced to stretch. */
     body:has(> .page-footer) > .page-hero,
     body:has(> .page-footer) > .page-wrap {
@@ -56,7 +56,7 @@
       .page-wrap { padding-top: 20px; padding-bottom: 40px; }
     }
 
-    /* â”€â”€â”€ CONTROLS BAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── CONTROLS BAR ───────────────────────────────── */
     .controls {
       display: grid;
       grid-template-columns: 1fr 170px;
@@ -88,14 +88,14 @@
       background: #fff;
     }
 
-    /* â”€â”€â”€ SURVEY LIST â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── SURVEY LIST ────────────────────────────────── */
     .survey-list {
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
 
-    /* â”€â”€â”€ SURVEY CARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── SURVEY CARD ────────────────────────────────── */
     .survey-card {
       background: #fff;
       border: 1px solid #f0e8d8;
@@ -177,7 +177,7 @@
       color: #166534;
     }
     .badge-open::before {
-      content: "â—";
+      content: "●";
       margin-right: 4px;
       font-size: 0.6em;
       vertical-align: middle;
@@ -185,7 +185,7 @@
     .badge-closed { background: #fee2e2; color: #991b1b; }
     .badge-status { background: #ffedd5; color: #9a3412; }
 
-    /* â”€â”€â”€ CARD BODY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── CARD BODY ──────────────────────────────────── */
     .survey-body {
       color: var(--ink-2);
       font-size: 0.89rem;
@@ -195,7 +195,7 @@
       padding: 0 20px;
     }
 
-    /* â”€â”€â”€ QUESTIONS PREVIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── QUESTIONS PREVIEW ──────────────────────────── */
     .questions-wrap {
       background: #fffaf3;
       border-left: 3px solid var(--accent);
@@ -222,7 +222,7 @@
     }
     .questions-list li + li { margin-top: 4px; }
 
-    /* â”€â”€â”€ PLATFORM CHIPS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── PLATFORM CHIPS ─────────────────────────────── */
     .platforms {
       display: flex;
       gap: 6px;
@@ -241,7 +241,7 @@
     .chip-on-teachers { background: #dcfce7; color: #166534; border-color: #86efac; }
     .chip-off         { background: #f3f4f6; color: #9ca3af; border-color: #e5e7eb; }
 
-    /* â”€â”€â”€ CARD META FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── CARD META FOOTER ───────────────────────────── */
     .survey-meta {
       font-size: 0.79rem;
       color: var(--ink-3);
@@ -250,7 +250,7 @@
       padding: 10px 20px;
     }
 
-    /* â”€â”€â”€ RESPONSE SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── RESPONSE SECTION ───────────────────────────── */
     .response-wrap {
       background: linear-gradient(135deg, #fffaf3 0%, #fef3c7 100%);
       border: 1px solid #fde68a;
@@ -268,7 +268,7 @@
       font-weight: 800;
     }
     .response-title::before {
-      content: "â—";
+      content: "●";
       display: inline-block;
       margin-right: 6px;
       font-size: 0.7em;
@@ -342,7 +342,7 @@
     .response-note.ok  { color: #166534; }
     .response-note.err { color: #b91c1c; }
 
-    /* â”€â”€â”€ MULTI-CHOICE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── MULTI-CHOICE ───────────────────────────────── */
     .response-mc { display: flex; flex-direction: column; gap: 8px; }
     .response-mc label {
       display: flex;
@@ -368,7 +368,7 @@
     .response-mc input[type="radio"] { accent-color: var(--accent); flex-shrink: 0; }
     .response-mc label.disabled-label { cursor: not-allowed; opacity: 0.6; }
 
-    /* â”€â”€â”€ STAR RATING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── STAR RATING ────────────────────────────────── */
     .response-rating { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 3px; margin: 4px 0; }
     .response-rating input[type="radio"] { display: none; }
     .response-rating label { font-size: 2rem; cursor: pointer; color: #d1d5db; transition: color 0.1s; line-height: 1; }
@@ -378,7 +378,7 @@
     .response-rating input:checked + label ~ label { color: #f59e0b; }
     .rating-disabled label { cursor: not-allowed; pointer-events: none; opacity: 0.7; }
 
-    /* â”€â”€â”€ LIKERT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── LIKERT ─────────────────────────────────────── */
     .response-likert { display: flex; gap: 6px; flex-wrap: wrap; }
     .likert-opt { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 82px; }
     .likert-opt input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
@@ -408,7 +408,7 @@
     }
     .likert-disabled .likert-opt label { cursor: not-allowed; opacity: 0.65; pointer-events: none; }
 
-    /* â”€â”€â”€ SECTION HEADER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── SECTION HEADER ─────────────────────────────── */
     .response-section-header {
       font-size: 0.71rem;
       font-weight: 700;
@@ -420,13 +420,13 @@
       margin-top: 8px;
     }
 
-    /* â”€â”€â”€ QUESTION TYPE CHIPS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── QUESTION TYPE CHIPS ────────────────────────── */
     .q-type-chip { display: inline-flex; align-items: center; font-size: 0.63rem; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-left: 6px; vertical-align: middle; }
     .q-type-chip-mc     { background: #ede9fe; color: #5b21b6; }
     .q-type-chip-rating { background: #fef3c7; color: #92400e; }
     .q-type-chip-likert { background: #dcfce7; color: #166534; }
 
-    /* â”€â”€â”€ EMPTY STATE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── EMPTY STATE ────────────────────────────────── */
     .empty {
       background: #fff;
       border: 2px dashed #fcd492;
@@ -437,7 +437,7 @@
       font-size: 0.92rem;
     }
 
-    /* â”€â”€â”€ SHIMMER LOADER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── SHIMMER LOADER ─────────────────────────────── */
     .loading-line {
       height: 12px;
       border-radius: 8px;
@@ -454,7 +454,7 @@
       100% { background-position: -200% 0; }
     }
 
-    /* â”€â”€â”€ RESPONSIVE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ─── RESPONSIVE ─────────────────────────────────── */
     @media (max-width: 760px) {
       .controls { grid-template-columns: 1fr; }
       .nav-user-name, .btn-logout { display: none; }
@@ -467,27 +467,27 @@
 <body data-page-accent="cyan">
   <div id="navbar-container"></div>
 
-  <!-- Page hero â€” Communication family (cyan) -->
+  <!-- Page hero — Communication family (cyan) -->
   <header class="page-hero" data-accent="cyan">
     <div class="page-hero__inner">
       <div class="page-hero__text">
-        <div class="page-hero__eyebrow">Communications Â· Voice of the network</div>
+        <div class="page-hero__eyebrow">Communications · Voice of the network</div>
         <h1 class="page-hero__title">Surveys</h1>
-        <p class="page-hero__desc">Network-wide surveys shared from Central Hub. Complete open ones before they close â€” your responses shape the next cycle of Eduversal training, policy, and pacing decisions.</p>
+        <p class="page-hero__desc">Network-wide surveys shared from Central Hub. Complete open ones before they close — your responses shape the next cycle of Eduversal training, policy, and pacing decisions.</p>
       </div>
       <div class="page-hero__kpis">
         <div class="page-hero__kpi page-hero__kpi--primary">
-          <div class="page-hero__kpi-num" id="kpiSurvOpen">â€”</div>
+          <div class="page-hero__kpi-num" id="kpiSurvOpen">—</div>
           <div class="page-hero__kpi-lbl">Open</div>
           <div class="page-hero__kpi-sub">accepting responses</div>
         </div>
         <div class="page-hero__kpi">
-          <div class="page-hero__kpi-num" id="kpiSurvClosed">â€”</div>
+          <div class="page-hero__kpi-num" id="kpiSurvClosed">—</div>
           <div class="page-hero__kpi-lbl">Closed</div>
           <div class="page-hero__kpi-sub">read-only archive</div>
         </div>
         <div class="page-hero__kpi">
-          <div class="page-hero__kpi-num" id="kpiSurvTotal">â€”</div>
+          <div class="page-hero__kpi-num" id="kpiSurvTotal">—</div>
           <div class="page-hero__kpi-lbl">Total</div>
           <div class="page-hero__kpi-sub">shared with TH</div>
         </div>
@@ -745,7 +745,7 @@
     function renderSurveys() {
       const listEl = document.getElementById("surveyList");
 
-      // â”€â”€ Hero KPIs (computed off the unfiltered universe `allSurveys`) â”€â”€
+      // ── Hero KPIs (computed off the unfiltered universe `allSurveys`) ──
       const kpiOpen   = document.getElementById('kpiSurvOpen');
       const kpiClosed = document.getElementById('kpiSurvClosed');
       const kpiTotal  = document.getElementById('kpiSurvTotal');
@@ -1020,10 +1020,10 @@
   <footer class="page-footer" role="contentinfo">
     <div class="page-footer__inner">
       <div class="page-footer__cta">
-        <span class="page-footer__cta-eyebrow">My Hub Â· Communications</span>
+        <span class="page-footer__cta-eyebrow">My Hub · Communications</span>
         <h2 class="page-footer__cta-title">Your voice shapes the network.</h2>
-        <p class="page-footer__cta-desc">Surveys shared from Central Hub appear here. Complete the open ones before they close â€” your responses shape the next cycle of Eduversal training, policy, and pacing decisions.</p>
-        <a href="announcements.html" class="page-footer__cta-btn">Open Announcements <span aria-hidden="true">â†’</span></a>
+        <p class="page-footer__cta-desc">Surveys shared from Central Hub appear here. Complete the open ones before they close — your responses shape the next cycle of Eduversal training, policy, and pacing decisions.</p>
+        <a href="announcements.html" class="page-footer__cta-btn">Open Announcements <span aria-hidden="true">→</span></a>
       </div>
       <nav class="page-footer__nav" aria-label="Surveys footer navigation">
         <div class="page-footer__nav-group">
@@ -1043,7 +1043,7 @@
       </nav>
     </div>
     <div class="page-footer__meta">
-      <span class="page-footer__meta-left">Â© Eduversal Â· Teachers Hub</span>
+      <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
       <span class="page-footer__meta-right">Only surveys shared to Teachers Hub are listed.</span>
     </div>
   </footer>

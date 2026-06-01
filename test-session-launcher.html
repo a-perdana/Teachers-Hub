@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test Session Launcher â€” Teachers Hub</title>
+<title>Test Session Launcher — Teachers Hub</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23331e05'/><polygon points='10,45 50,65 50,70 10,50' fill='%23a8650a'/><polygon points='90,45 50,65 50,70 90,50' fill='%23c2780c'/><polygon points='50,25 90,45 50,65 10,45' fill='%23d97706'/><circle cx='76' cy='76' r='20' fill='%23d97706' stroke='%23331e05' stroke-width='3'/><text x='76' y='84' font-family='Georgia,serif' font-size='26' font-weight='bold' text-anchor='middle' fill='white'>T</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="base.css">
@@ -12,13 +12,13 @@
    .page-hero / .page-footer; only info-strip content styled here. */
 :root { --accent: #0f9b8e; --accent-2: #ccfbf1; }
 
-/* â”€â”€ 1200px content-rail discipline â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* ── 1200px content-rail discipline ──────────────────────────────
    Hero text, info strip, body content and footer text all align to a TRUE
    1200px rail. Pattern: outer max-width:var(--container-max) + horizontal
    padding ZERO (vertical padding stays). The calc(+80)+40px-padding trick
-   measures wrong â€” see root CLAUDE.md #53 + memory/feedback_references_three_rails_1200.
+   measures wrong — see root CLAUDE.md #53 + memory/feedback_references_three_rails_1200.
    Canonical .page-hero__inner / .page-footer__inner pad 0 40px inside their
-   clamp (â†’1120px); override their horizontal padding to 0 to match. */
+   clamp (→1120px); override their horizontal padding to 0 to match. */
 .page-hero__inner,
 .page-footer__inner,
 .page-info-strip,
@@ -26,7 +26,7 @@
 .page-info-strip { margin-top: 22px; }
 .page-wrap { padding-top: 28px; padding-bottom: 80px; }
 
-/* â”€â”€ Info strip (flow line + pills + callout) â”€â”€ */
+/* ── Info strip (flow line + pills + callout) ── */
 .pis-inner {
   background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
   border: 1px solid #5eead4; border-radius: 16px; padding: 18px 22px;
@@ -53,7 +53,7 @@
 }
 
 /* base.css turns body into a flex column when a .page-footer is a direct
-   child â€” force direct children to stretch so their max-width clamps apply
+   child — force direct children to stretch so their max-width clamps apply
    (see root CLAUDE.md Common Mistake #54). */
 body:has(> .page-footer) > .page-hero,
 body:has(> .page-footer) > .page-info-strip,
@@ -100,7 +100,7 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
 .empty { text-align: center; padding: 60px 20px; color: var(--ink-3); }
 .empty-title { font-weight: 600; color: var(--ink-2); margin-bottom: 6px; }
 
-/* .modal-overlay rules come from base.css (uses .open, fade-in) â€” don't redefine here.
+/* .modal-overlay rules come from base.css (uses .open, fade-in) — don't redefine here.
    We only style our nested .modal box (page-specific look). */
 .modal {
   background: #fff; border-radius: 14px;
@@ -163,7 +163,7 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
   <header class="page-hero" data-accent="teal">
     <div class="page-hero__inner">
       <div class="page-hero__text">
-        <div class="page-hero__eyebrow">Teachers Hub Â· Students Hub Assessment</div>
+        <div class="page-hero__eyebrow">Teachers Hub · Students Hub Assessment</div>
         <h1 class="page-hero__title">Schedule Chapter Test</h1>
         <p class="page-hero__desc">Schedule a published chapter test for one of your classes. Each enrolled student gets a draft attempt; on session day, they sign in to Students Hub and the test appears on their dashboard.</p>
       </div>
@@ -180,7 +180,7 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
         <span class="pis-pill"><span class="pill-dot"></span>One attempt pre-created per student</span>
         <span class="pis-pill"><span class="pill-dot"></span>Step 2 of the assessment flow</span>
       </div>
-      <div class="pis-callout">Students must be <em>approved</em> first (Student Approvals). A class with no active students will create no attempts â€” approve your roster before you schedule.</div>
+      <div class="pis-callout">Students must be <em>approved</em> first (Student Approvals). A class with no active students will create no attempts — approve your roster before you schedule.</div>
     </div>
   </section>
 
@@ -206,9 +206,9 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
     <div class="page-footer__inner">
       <div class="page-footer__cta">
         <span class="page-footer__cta-eyebrow">Students Hub Assessment</span>
-        <h2 class="page-footer__cta-title">Test scheduled â€” now watch it live.</h2>
+        <h2 class="page-footer__cta-title">Test scheduled — now watch it live.</h2>
         <p class="page-footer__cta-desc">Once a session is live, open the Live Test Monitor to see who has started, who is stuck, and the score distribution in real time.</p>
-        <a href="/test-monitor" class="page-footer__cta-btn">Open Live Test Monitor <span aria-hidden="true">â†’</span></a>
+        <a href="/test-monitor" class="page-footer__cta-btn">Open Live Test Monitor <span aria-hidden="true">→</span></a>
       </div>
       <nav class="page-footer__nav" aria-label="Students Hub Assessment footer navigation">
         <div class="page-footer__nav-group">
@@ -227,8 +227,8 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
       </nav>
     </div>
     <div class="page-footer__meta">
-      <span class="page-footer__meta-left">Â© Eduversal Â· Teachers Hub</span>
-      <span class="page-footer__meta-right">Students Hub Assessment Â· Phase 1</span>
+      <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
+      <span class="page-footer__meta-right">Students Hub Assessment · Phase 1</span>
     </div>
   </footer>
 
@@ -303,7 +303,7 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
     let publishedTests = [];
     let myClasses = [];
     let sessions = [];
-    let activeStudentsCache = {}; // classId â†’ student docs[]
+    let activeStudentsCache = {}; // classId → student docs[]
     let unsubSessions = null;
 
     document.addEventListener('authReady', async (ev) => {
@@ -374,7 +374,7 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
             <div class="session-info">
               <div class="session-title">${escHtml(s.testTitle || s.testId)}</div>
               <div class="session-meta">
-                ${escHtml(s.className)} Â· ${escHtml(formatRange(s.opensAt, s.closesAt))} Â· ${s.attemptCount || 0} students
+                ${escHtml(s.className)} · ${escHtml(formatRange(s.opensAt, s.closesAt))} · ${s.attemptCount || 0} students
               </div>
             </div>
             <span class="session-status ${status}">${status}</span>
@@ -402,7 +402,7 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
       if (!opens || !opens.toDate) return '';
       const o = opens.toDate(), c = closes && closes.toDate ? closes.toDate() : null;
       const fmt = d => d.toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
-      return c ? `${fmt(o)} â†’ ${fmt(c)}` : fmt(o);
+      return c ? `${fmt(o)} → ${fmt(c)}` : fmt(o);
     }
 
     async function sessionAction(act, id) {
@@ -420,19 +420,19 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
     }
 
     async function openModal() {
-      console.log('[launcher] openModal â€” publishedTests=', publishedTests.length, 'myClasses=', myClasses.length);
+      console.log('[launcher] openModal — publishedTests=', publishedTests.length, 'myClasses=', myClasses.length);
       try {
         const tSel = document.getElementById('fTest');
         tSel.innerHTML = publishedTests.length === 0
-          ? '<option value="">(no published tests yet â€” ask CH Specialists to publish)</option>'
+          ? '<option value="">(no published tests yet — ask CH Specialists to publish)</option>'
           : publishedTests.map(t =>
-              `<option value="${escAttr(t.id)}">${escHtml(t.unitTitle || t.id)} Â· ${escHtml(t.subjectId)} Â· Year ${escHtml(t.stage || '?')}</option>`
+              `<option value="${escAttr(t.id)}">${escHtml(t.unitTitle || t.id)} · ${escHtml(t.subjectId)} · Year ${escHtml(t.stage || '?')}</option>`
             ).join('');
         const cSel = document.getElementById('fClass');
         cSel.innerHTML = myClasses.length === 0
-          ? '<option value="">(no classes â€” set your *_classes[] in TH settings or ask admin)</option>'
+          ? '<option value="">(no classes — set your *_classes[] in TH settings or ask admin)</option>'
           : myClasses.map(c =>
-              `<option value="${escAttr(c.id)}|${escAttr(c.name)}|${c.grade}">${escHtml(c.name)} Â· Grade ${c.grade}</option>`
+              `<option value="${escAttr(c.id)}|${escAttr(c.name)}|${c.grade}">${escHtml(c.name)} · Grade ${c.grade}</option>`
             ).join('');
         // Default times: now + 1 hour, closes 1 hour later
         const now = new Date();
@@ -504,7 +504,7 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
 
       try {
         const btn = document.getElementById('schedSave');
-        btn.disabled = true; btn.textContent = 'Schedulingâ€¦';
+        btn.disabled = true; btn.textContent = 'Scheduling…';
 
         // 1. Create scheduled_sessions doc
         const sessRef = await addDoc(collection(window.db, 'scheduled_sessions'), {

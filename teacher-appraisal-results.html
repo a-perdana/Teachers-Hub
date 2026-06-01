@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Appraisal â€” Teachers Hub</title>
+<title>My Appraisal — Teachers Hub</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23331e05'/><polygon points='10,45 50,65 50,70 10,50' fill='%23a8650a'/><polygon points='90,45 50,65 50,70 90,50' fill='%23c2780c'/><polygon points='50,25 90,45 50,65 10,45' fill='%23d97706'/><circle cx='76' cy='76' r='20' fill='%23d97706' stroke='%23331e05' stroke-width='3'/><text x='76' y='84' font-family='Georgia,serif' font-size='26' font-weight='bold' text-anchor='middle' fill='white'>T</text></svg>">
 <link rel="stylesheet" href="base.css">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; }
 
-/* â”€â”€ HERO â”€â”€ */
+/* ── HERO ── */
 .hero {
   background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 50%, #7c3aed 100%);
   color: #fff; padding: 0; position: relative; overflow: hidden;
@@ -56,7 +56,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
 .hero-sub { font-size: .88rem; opacity: .82; margin-top: 4px; }
 .hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
 
-/* â”€â”€ YEAR SELECTOR â”€â”€ */
+/* ── YEAR SELECTOR ── */
 #yearSelect {
   background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3);
   color: #fff; border-radius: 8px; padding: 6px 12px; font-size: .82rem;
@@ -64,7 +64,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
 }
 #yearSelect option { background: #3b0764; color: #fff; }
 
-/* â”€â”€ SCORE STRIP â”€â”€ */
+/* ── SCORE STRIP ── */
 .score-strip {
   background: rgba(255,255,255,.12); border-top: 1px solid rgba(255,255,255,.15);
 }
@@ -88,11 +88,11 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
   letter-spacing: .03em;
 }
 
-/* â”€â”€ MAIN LAYOUT â”€â”€ */
+/* ── MAIN LAYOUT ── */
 .page-wrap { max-width: 1100px; margin: 0 auto; padding: 32px 32px 100px; }
 .results-grid { display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
 
-/* â”€â”€ TABS â”€â”€ */
+/* ── TABS ── */
 .tab-bar {
   display: flex; gap: 4px; border-bottom: 2px solid #e2e8f0; margin-bottom: 24px;
 }
@@ -106,7 +106,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
 
-/* â”€â”€ SECTION CARD â”€â”€ */
+/* ── SECTION CARD ── */
 .section-card {
   background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
   box-shadow: 0 1px 4px rgba(0,0,0,.05); overflow: hidden; margin-bottom: 20px;
@@ -128,7 +128,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
 .section-mean-num { font-size: 1.15rem; font-weight: 800; color: #1e293b; }
 .section-mean-denom { font-size: .75rem; color: #94a3b8; }
 
-/* â”€â”€ ITEM ROWS â”€â”€ */
+/* ── ITEM ROWS ── */
 .item-row {
   display: grid; grid-template-columns: 1fr 220px; gap: 16px; align-items: center;
   padding: 13px 24px; border-bottom: 1px solid #f8fafc; transition: background .15s;
@@ -152,7 +152,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
 .score-chip.s3 { background: #fef9c3; color: #713f12; }
 .score-chip.s4 { background: #dcfce7; color: #14532d; }
 
-/* â”€â”€ DOMAIN SEPARATOR â”€â”€ */
+/* ── DOMAIN SEPARATOR ── */
 .domain-header {
   padding: 10px 24px; background: #f8fafc; border-bottom: 1px solid #f1f5f9;
   display: flex; align-items: center; justify-content: space-between;
@@ -163,7 +163,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
   background: #f1f5f9; border-radius: 6px; padding: 2px 8px;
 }
 
-/* â”€â”€ WALKTHROUGH CARDS â”€â”€ */
+/* ── WALKTHROUGH CARDS ── */
 .walkthrough-card {
   background: #fff; border: 1px solid #e2e8f0; border-radius: 14px;
   box-shadow: 0 1px 4px rgba(0,0,0,.04); padding: 20px 24px; margin-bottom: 14px;
@@ -196,7 +196,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
 }
 .wt-narrative-text { font-size: .83rem; color: #374151; line-height: 1.6; }
 
-/* â”€â”€ SIDEBAR â”€â”€ */
+/* ── SIDEBAR ── */
 .sidebar { display: flex; flex-direction: column; gap: 16px; }
 .info-card {
   background: #fff; border: 1px solid #e2e8f0; border-radius: 14px;
@@ -212,7 +212,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
 .info-row-label { font-size: .65rem; text-transform: uppercase; letter-spacing: .06em; color: #94a3b8; font-weight: 700; }
 .info-row-value { font-size: .83rem; font-weight: 600; color: #1e293b; }
 
-/* â”€â”€ PREDICATE BANDS TABLE â”€â”€ */
+/* ── PREDICATE BANDS TABLE ── */
 .pred-table { width: 100%; border-collapse: collapse; font-size: .78rem; }
 .pred-table td { padding: 5px 8px; }
 .pred-table tr:not(:last-child) td { border-bottom: 1px solid #f1f5f9; }
@@ -228,7 +228,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
 .pred-range { font-size: .73rem; color: #64748b; }
 .pred-desc { font-size: .73rem; color: #374151; font-weight: 600; }
 
-/* â”€â”€ TEACHER RESPONSE â”€â”€ */
+/* ── TEACHER RESPONSE ── */
 .response-box {
   background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
   padding: 14px 18px;
@@ -245,7 +245,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
 .response-btn:hover { background: var(--accent-dk); }
 .response-btn:disabled { opacity: .5; cursor: default; }
 
-/* â”€â”€ PENDING STATE â”€â”€ */
+/* ── PENDING STATE ── */
 .state-box {
   background: #fff; border-radius: 16px; border: 1px solid #e2e8f0;
   padding: 48px 32px; text-align: center; margin-bottom: 20px;
@@ -254,7 +254,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
 .state-title { font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
 .state-sub { font-size: .88rem; color: #64748b; line-height: 1.6; }
 
-/* â”€â”€ ACKNOWLEDGEMENT STATUS â”€â”€ */
+/* ── ACKNOWLEDGEMENT STATUS ── */
 .status-pill {
   display: inline-flex; align-items: center; gap: 5px;
   border-radius: 99px; padding: 3px 12px; font-size: .7rem; font-weight: 700;
@@ -282,7 +282,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
     <div class="hero-left">
       <div class="hero-badge">&#x1F4CB; My Appraisal</div>
       <h1 id="heroName">My Formal Appraisal</h1>
-      <div class="hero-sub" id="heroSub">Loading your appraisal recordâ€¦</div>
+      <div class="hero-sub" id="heroSub">Loading your appraisal record…</div>
     </div>
     <div class="hero-right">
       <label style="color:rgba(255,255,255,.7);font-size:.75rem;font-weight:600;">Academic Year</label>
@@ -296,32 +296,32 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
     <div class="score-strip-inner">
       <div class="score-item">
         <div class="score-label">Final Score</div>
-        <div class="score-value" id="stripScore">â€”</div>
+        <div class="score-value" id="stripScore">—</div>
       </div>
       <div class="score-divider"></div>
       <div class="score-item">
         <div class="score-label">Predicate</div>
-        <div class="score-value" id="stripPred">â€”</div>
+        <div class="score-value" id="stripPred">—</div>
       </div>
       <div class="score-divider"></div>
       <div class="score-item">
         <div class="score-label">F1 Admin</div>
-        <div class="score-value" id="stripF1">â€”</div>
+        <div class="score-value" id="stripF1">—</div>
       </div>
       <div class="score-divider"></div>
       <div class="score-item">
         <div class="score-label">F2 Observation</div>
-        <div class="score-value" id="stripF2">â€”</div>
+        <div class="score-value" id="stripF2">—</div>
       </div>
       <div class="score-divider"></div>
       <div class="score-item">
         <div class="score-label">F3 Work</div>
-        <div class="score-value" id="stripF3">â€”</div>
+        <div class="score-value" id="stripF3">—</div>
       </div>
       <div class="score-divider"></div>
       <div class="score-item">
         <div class="score-label">Appraisal Level</div>
-        <div class="level-pill" id="stripLevel">â€”</div>
+        <div class="level-pill" id="stripLevel">—</div>
       </div>
     </div>
   </div>
@@ -331,7 +331,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
 <div class="page-wrap">
   <div id="loadingState" class="state-box">
     <div class="state-icon">&#x23F3;</div>
-    <div class="state-title">Loading your appraisalâ€¦</div>
+    <div class="state-title">Loading your appraisal…</div>
     <div class="state-sub">Please wait while we retrieve your record.</div>
   </div>
   <div id="noRecordState" class="state-box" style="display:none;">
@@ -361,11 +361,11 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
                 <h2>Your Response</h2>
                 <div class="section-head-sub">You may add a written response to this appraisal report. Once submitted, your response is attached to the final record.</div>
               </div>
-              <span class="status-pill" id="statusPill">â€”</span>
+              <span class="status-pill" id="statusPill">—</span>
             </div>
             <div style="padding:18px 24px;">
               <div class="response-box">
-                <textarea aria-label="Write your response hereâ€¦" id="teacherResponseText" placeholder="Write your response hereâ€¦"></textarea>
+                <textarea aria-label="Write your response here…" id="teacherResponseText" placeholder="Write your response here…"></textarea>
               </div>
               <button class="response-btn" id="saveResponseBtn">Save Response</button>
               <span id="responseMsg" style="font-size:.75rem;color:#64748b;margin-left:12px;"></span>
@@ -390,7 +390,7 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
             <div class="state-box">
               <div class="state-icon">&#x1F4CB;</div>
               <div class="state-title">Student Survey</div>
-              <div class="state-sub">The student survey is collected separately and is informative only â€” it does not affect your appraisal score.<br>Results will appear here once the survey has been processed.</div>
+              <div class="state-sub">The student survey is collected separately and is informative only — it does not affect your appraisal score.<br>Results will appear here once the survey has been processed.</div>
             </div>
           </div>
         </div>
@@ -414,10 +414,10 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
         <div class="info-card">
           <div class="info-card-head">&#x2696;&#xFE0F; Framework Weights</div>
           <div class="info-card-body" id="frameworkWeightsList">
-            <div class="info-row"><div class="info-row-label">F1 â€” Teacher Administration</div><div class="info-row-value" id="wt-F1">â€”</div></div>
-            <div class="info-row"><div class="info-row-label">F2 â€” Class Observation</div><div class="info-row-value" id="wt-F2">â€”</div></div>
-            <div class="info-row"><div class="info-row-label">F3 â€” Work Inspection</div><div class="info-row-value" id="wt-F3">â€”</div></div>
-            <div class="info-row"><div class="info-row-label">F4 â€” Student Survey</div><div class="info-row-value" id="wt-F4">â€”</div></div>
+            <div class="info-row"><div class="info-row-label">F1 — Teacher Administration</div><div class="info-row-value" id="wt-F1">—</div></div>
+            <div class="info-row"><div class="info-row-label">F2 — Class Observation</div><div class="info-row-value" id="wt-F2">—</div></div>
+            <div class="info-row"><div class="info-row-label">F3 — Work Inspection</div><div class="info-row-value" id="wt-F3">—</div></div>
+            <div class="info-row"><div class="info-row-label">F4 — Student Survey</div><div class="info-row-value" id="wt-F4">—</div></div>
           </div>
         </div>
 
@@ -426,11 +426,11 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
           <div class="info-card-head">&#x1F3C6; Predicate Bands</div>
           <div class="info-card-body">
             <table class="pred-table">
-              <tr><td><span class="pred-badge A">A</span></td><td class="pred-range">86â€“100</td><td class="pred-desc">Excellent</td></tr>
-              <tr><td><span class="pred-badge B">B</span></td><td class="pred-range">66â€“85</td><td class="pred-desc">Good</td></tr>
-              <tr><td><span class="pred-badge C">C</span></td><td class="pred-range">51â€“65</td><td class="pred-desc">Satisfactory</td></tr>
-              <tr><td><span class="pred-badge D">D</span></td><td class="pred-range">36â€“50</td><td class="pred-desc">Needs Improvement</td></tr>
-              <tr><td><span class="pred-badge F">F</span></td><td class="pred-range">0â€“35</td><td class="pred-desc">Unsatisfactory</td></tr>
+              <tr><td><span class="pred-badge A">A</span></td><td class="pred-range">86–100</td><td class="pred-desc">Excellent</td></tr>
+              <tr><td><span class="pred-badge B">B</span></td><td class="pred-range">66–85</td><td class="pred-desc">Good</td></tr>
+              <tr><td><span class="pred-badge C">C</span></td><td class="pred-range">51–65</td><td class="pred-desc">Satisfactory</td></tr>
+              <tr><td><span class="pred-badge D">D</span></td><td class="pred-range">36–50</td><td class="pred-desc">Needs Improvement</td></tr>
+              <tr><td><span class="pred-badge F">F</span></td><td class="pred-range">0–35</td><td class="pred-desc">Unsatisfactory</td></tr>
             </table>
           </div>
         </div>
@@ -443,13 +443,13 @@ body { font-family: 'DM Sans', sans-serif; background: #f1f5f9; color: #1e293b; 
 <script type="module">
 import { getFirestore, collection, query, where, orderBy, getDocs, doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-// â”€â”€ FRAMEWORK DATA (loaded from JSON) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── FRAMEWORK DATA (loaded from JSON) ────────────────────
 let FRAMEWORK = null;
 let LEVELS    = null;
 fetch('resources/appraisal-framework-v2.json').then(r => r.json()).then(d => {
   FRAMEWORK = d;
   const w = d.weights || {};
-  const fmtW = v => v != null ? Math.round(v * 100) + '%' : 'â€”';
+  const fmtW = v => v != null ? Math.round(v * 100) + '%' : '—';
   const el = id => document.getElementById(id);
   if (el('wt-F1')) el('wt-F1').textContent = fmtW(w.F1);
   if (el('wt-F2')) el('wt-F2').textContent = fmtW(w.F2);
@@ -458,18 +458,18 @@ fetch('resources/appraisal-framework-v2.json').then(r => r.json()).then(d => {
 });
 fetch('resources/appraisal-levels.json').then(r => r.json()).then(d => { LEVELS = d; });
 
-// â”€â”€ HELPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── HELPERS ──────────────────────────────────────────────
 function cambridgeChips(item) {
   const refs = Array.isArray(item?.cambridge_standard_refs) ? item.cambridge_standard_refs : [];
   if (!refs.length) return '';
-  return `<div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px;">${refs.map(r => `<span style="font-family:'DM Mono',monospace;font-size:.65rem;padding:2px 6px;background:#ede9fe;color:#5b21b6;border-radius:4px;font-weight:600;" title="Cambridge Teacher Standards 2023 â€” ${r}">CTS ${r}</span>`).join('')}</div>`;
+  return `<div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px;">${refs.map(r => `<span style="font-family:'DM Mono',monospace;font-size:.65rem;padding:2px 6px;background:#ede9fe;color:#5b21b6;border-radius:4px;font-weight:600;" title="Cambridge Teacher Standards 2023 — ${r}">CTS ${r}</span>`).join('')}</div>`;
 }
 
 function scoreChip(s) {
   const labels = {1:'Unsatisfactory',2:'Basic',3:'Proficient',4:'Distinguished'};
   return `<div style="display:flex;align-items:center;gap:8px;">
     <div class="score-stars">${[1,2,3,4].map(i=>`<span class="star ${i<=s?'on':'off'}">&#9733;</span>`).join('')}</div>
-    <span class="score-chip s${s}">${labels[s]||'â€”'}</span>
+    <span class="score-chip s${s}">${labels[s]||'—'}</span>
   </div>`;
 }
 
@@ -482,13 +482,13 @@ function levelLabel(l) {
 }
 
 function formatDate(ts) {
-  if (!ts) return 'â€”';
+  if (!ts) return '—';
   const d = ts.toDate ? ts.toDate() : new Date(ts);
   return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
 }
 
 function buildFormalContent(appraisal, framework) {
-  if (!framework) return '<div class="state-box"><div class="state-sub">Loading frameworkâ€¦</div></div>';
+  if (!framework) return '<div class="state-box"><div class="state-sub">Loading framework…</div></div>';
   const scores = appraisal.scores || {};
   const narratives = appraisal.narratives || {};
 
@@ -496,9 +496,9 @@ function buildFormalContent(appraisal, framework) {
 
   // F1
   const f1fw = framework.frameworks.find(f => f.id === 'F1');
-  const fmtW = v => v != null ? Math.round(v * 100) + '%' : 'â€”';
+  const fmtW = v => v != null ? Math.round(v * 100) + '%' : '—';
   const w = framework.weights || {};
-  html += buildFrameworkSection(f1fw, scores, narratives, 'F1 â€” Teacher Administration', fmtW(w.F1), appraisal.f1Score);
+  html += buildFrameworkSection(f1fw, scores, narratives, 'F1 — Teacher Administration', fmtW(w.F1), appraisal.f1Score);
 
   // F2 domains
   const f2fw = framework.frameworks.find(f => f.id === 'F2');
@@ -511,7 +511,7 @@ function buildFormalContent(appraisal, framework) {
     f2ItemCount += visibleItems.length;
     f2Sum += visibleItems.reduce((a,i)=> a + (scores[i.id]||0), 0);
     f2Html += `<div class="domain-header">
-      <span class="domain-header-title">${domain.id} â€” ${domain.title}</span>
+      <span class="domain-header-title">${domain.id} — ${domain.title}</span>
       <span class="domain-mean-badge">${domainMean.toFixed(2)} / 4.00</span>
     </div>`;
     for (const item of visibleItems) {
@@ -523,10 +523,10 @@ function buildFormalContent(appraisal, framework) {
       </div>`;
     }
   }
-  const f2Mean = f2ItemCount ? (f2Sum / f2ItemCount).toFixed(2) : 'â€”';
+  const f2Mean = f2ItemCount ? (f2Sum / f2ItemCount).toFixed(2) : '—';
   html += `<div class="section-card" style="margin-bottom:20px;">
     <div class="section-head">
-      <div class="section-head-left"><h2>F2 â€” Class Observation</h2><div class="section-head-sub">Includes D1 Planning, D2 Classroom Management, D3 Instruction, D4 Assessment</div></div>
+      <div class="section-head-left"><h2>F2 — Class Observation</h2><div class="section-head-sub">Includes D1 Planning, D2 Classroom Management, D3 Instruction, D4 Assessment</div></div>
       <div style="display:flex;align-items:center;gap:10px;">
         <div class="section-mean"><span class="section-mean-num">${f2Mean}</span><span class="section-mean-denom"> / 4.00</span></div>
         <span class="section-weight-badge">${fmtW(w.F2)}</span>
@@ -541,10 +541,10 @@ function buildFormalContent(appraisal, framework) {
   let f3Items = (f3fw?.items || []).filter(i => scores[i.id] !== undefined);
   let f3LItems = (f3Lfw?.items || []).filter(i => scores[i.id] !== undefined);
   const allF3 = [...f3Items, ...f3LItems];
-  const f3Mean = allF3.length ? (allF3.reduce((a,i)=>a+(scores[i.id]||0),0)/allF3.length).toFixed(2) : 'â€”';
+  const f3Mean = allF3.length ? (allF3.reduce((a,i)=>a+(scores[i.id]||0),0)/allF3.length).toFixed(2) : '—';
   html += `<div class="section-card" style="margin-bottom:20px;">
     <div class="section-head">
-      <div class="section-head-left"><h2>F3 â€” Work Inspection${f3LItems.length?' + Leadership':''}</h2><div class="section-head-sub">${f3Items.length} professional conduct items${f3LItems.length?` + ${f3LItems.length} leadership items`:''}</div></div>
+      <div class="section-head-left"><h2>F3 — Work Inspection${f3LItems.length?' + Leadership':''}</h2><div class="section-head-sub">${f3Items.length} professional conduct items${f3LItems.length?` + ${f3LItems.length} leadership items`:''}</div></div>
       <div style="display:flex;align-items:center;gap:10px;">
         <div class="section-mean"><span class="section-mean-num">${f3Mean}</span><span class="section-mean-denom"> / 4.00</span></div>
         <span class="section-weight-badge">${fmtW(w.F3)}</span>
@@ -612,8 +612,8 @@ function buildWalkthroughCards(walkthroughs) {
     return `<div class="walkthrough-card">
       <div class="wt-header">
         <div><div class="wt-date">${formatDate(wt.visitDate)}</div>
-          <div class="wt-meta">${wt.metadata?.subject||''} Â· ${wt.metadata?.yearGroup||''} Â· ${wt.metadata?.duration||''}min</div>
-          <div class="wt-observer">Observed by: ${wt.metadata?.observerName||'â€”'} (${wt.metadata?.observerRole||''})</div>
+          <div class="wt-meta">${wt.metadata?.subject||''} · ${wt.metadata?.yearGroup||''} · ${wt.metadata?.duration||''}min</div>
+          <div class="wt-observer">Observed by: ${wt.metadata?.observerName||'—'} (${wt.metadata?.observerRole||''})</div>
         </div>
       </div>
       <div class="wt-foci-grid">${fociHtml}</div>
@@ -625,7 +625,7 @@ function buildWalkthroughCards(walkthroughs) {
   }).join('');
 }
 
-// â”€â”€ AUTH READY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── AUTH READY ────────────────────────────────────────────
 document.addEventListener('authReady', async ({ detail: { user, profile } }) => {
   // Navbar
   fetch('partials/navbar.html').then(r=>r.text()).then(html => {
@@ -636,7 +636,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
     if (el) el.textContent = short;
   });
 
-  document.getElementById('heroName').textContent = `My Appraisal â€” ${profile.displayName || user.email}`;
+  document.getElementById('heroName').textContent = `My Appraisal — ${profile.displayName || user.email}`;
 
   const db = window.db;
 
@@ -670,7 +670,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
     const snap = await getDocs(appraisalQ);
     document.getElementById('loadingState').style.display = 'none';
 
-    // Walkthroughs (all years â€” load separately)
+    // Walkthroughs (all years — load separately)
     const wtQ = query(
       collection(db, 'teacher_walkthroughs'),
       where('teacherUid', '==', user.uid),
@@ -710,17 +710,17 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
     }
 
     // Score strip
-    const pred = appraisal.predicate || 'â€”';
-    document.getElementById('stripScore').textContent = appraisal.compositePercent != null ? appraisal.compositePercent.toFixed(1) + '%' : 'â€”';
+    const pred = appraisal.predicate || '—';
+    document.getElementById('stripScore').textContent = appraisal.compositePercent != null ? appraisal.compositePercent.toFixed(1) + '%' : '—';
     document.getElementById('stripPred').textContent = pred;
     document.getElementById('stripPred').className = `score-value ${predicateClass(pred)}`;
-    document.getElementById('stripF1').textContent = appraisal.f1Score != null ? appraisal.f1Score.toFixed(2) : 'â€”';
-    document.getElementById('stripF2').textContent = appraisal.f2Score != null ? appraisal.f2Score.toFixed(2) : 'â€”';
-    document.getElementById('stripF3').textContent = appraisal.f3Score != null ? appraisal.f3Score.toFixed(2) : 'â€”';
+    document.getElementById('stripF1').textContent = appraisal.f1Score != null ? appraisal.f1Score.toFixed(2) : '—';
+    document.getElementById('stripF2').textContent = appraisal.f2Score != null ? appraisal.f2Score.toFixed(2) : '—';
+    document.getElementById('stripF3').textContent = appraisal.f3Score != null ? appraisal.f3Score.toFixed(2) : '—';
     document.getElementById('stripLevel').textContent = levelLabel(appraisal.level);
     document.getElementById('scoreStrip').style.display = '';
 
-    document.getElementById('heroSub').textContent = `Academic Year ${academicYear} Â· Observation: ${formatDate(appraisal.observationDate)}`;
+    document.getElementById('heroSub').textContent = `Academic Year ${academicYear} · Observation: ${formatDate(appraisal.observationDate)}`;
 
     // Build main content
     document.getElementById('mainContent').style.display = '';
@@ -739,7 +739,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
       if (appraiserDoc.exists()) {
         const ap = appraiserDoc.data();
         document.getElementById('appraiserInfo').innerHTML = `
-          <div class="info-row"><div class="info-row-label">Name</div><div class="info-row-value">${ap.displayName||'â€”'}</div></div>
+          <div class="info-row"><div class="info-row-label">Name</div><div class="info-row-value">${ap.displayName||'—'}</div></div>
           <div class="info-row"><div class="info-row-label">Role</div><div class="info-row-value">${ap.th_sub_roles?.includes('subject_leader')?'Subject Leader':'Appraiser'}</div></div>
         `;
         document.getElementById('appraiserCard').style.display = '';
@@ -774,7 +774,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
       if (f4fw) {
         const surveyHtml = `<div class="section-card">
           <div class="section-head">
-            <div class="section-head-left"><h2>Student Survey Results</h2><div class="section-head-sub">Informative only â€” does not affect your appraisal score. Mean: ${appraisal.surveyMean?.toFixed(2)||'â€”'} / 4.00</div></div>
+            <div class="section-head-left"><h2>Student Survey Results</h2><div class="section-head-sub">Informative only — does not affect your appraisal score. Mean: ${appraisal.surveyMean?.toFixed(2)||'—'} / 4.00</div></div>
           </div>
           ${f4fw.items.filter(i=>appraisal.surveyData[i.id]).map(item => {
             const val = appraisal.surveyData[item.id];
@@ -794,7 +794,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
       const btn = document.getElementById('saveResponseBtn');
       const msg = document.getElementById('responseMsg');
       btn.disabled = true;
-      btn.textContent = 'Savingâ€¦';
+      btn.textContent = 'Saving…';
       try {
         await updateDoc(doc(db, 'teacher_appraisals', appraisal.id), {
           teacherResponse: textarea.value,
@@ -805,7 +805,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
         statusPill.textContent = 'acknowledged';
         statusPill.className = 'status-pill acknowledged';
       } catch(e) {
-        msg.textContent = 'Error saving â€” please try again.';
+        msg.textContent = 'Error saving — please try again.';
         console.error(e);
       }
       btn.disabled = false;
@@ -818,7 +818,7 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
   yearSelect.addEventListener('change', () => loadData(yearSelect.value));
 });
 
-// â”€â”€ TAB SWITCHING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── TAB SWITCHING ─────────────────────────────────────────
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

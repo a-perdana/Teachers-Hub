@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Hiring Funnel â€” Teachers Hub</title>
+<title>Hiring Funnel — Teachers Hub</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23331e05'/><polygon points='10,45 50,65 50,70 10,50' fill='%23a8650a'/><polygon points='90,45 50,65 50,70 90,50' fill='%23c2780c'/><polygon points='50,25 90,45 50,65 10,45' fill='%23d97706'/><circle cx='76' cy='76' r='20' fill='%23d97706' stroke='%23331e05' stroke-width='3'/><text x='76' y='84' font-family='Georgia,serif' font-size='26' font-weight='bold' text-anchor='middle' fill='white'>T</text></svg>">
 <link rel="stylesheet" href="base.css" />
 <!-- FIREBASE_ENV -->
@@ -192,10 +192,10 @@
   <div class="ca-header">
     <div>
       <h1>Hiring Funnel</h1>
-      <div class="ca-header-sub" id="hdrSub">Loadingâ€¦</div>
+      <div class="ca-header-sub" id="hdrSub">Loading…</div>
     </div>
     <div class="ca-header-actions">
-      <a class="ca-btn" href="/careers" target="_blank" rel="noopener">â†— View public page</a>
+      <a class="ca-btn" href="/careers" target="_blank" rel="noopener">↗ View public page</a>
       <button class="ca-btn" id="btnManagePositions">Manage positions</button>
       <button class="ca-btn" id="btnNewPosition">+ New position</button>
       <button class="ca-btn ca-btn-primary" id="btnCompare" disabled>Compare selected (<span id="cmpCount">0</span>)</button>
@@ -206,7 +206,7 @@
   <div class="ca-filters">
     <div class="ca-search">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
-      <input aria-label="Search applicant or positionâ€¦" id="searchInput" type="text" placeholder="Search applicant or positionâ€¦" />
+      <input aria-label="Search applicant or position…" id="searchInput" type="text" placeholder="Search applicant or position…" />
     </div>
     <select id="positionFilter" class="ca-select"><option value="">All positions</option></select>
     <select id="schoolFilter"   class="ca-select"><option value="">All schools</option></select>
@@ -216,11 +216,11 @@
       <option value="online">Online</option>
       <option value="hybrid">Hybrid</option>
     </select>
-    <span class="ca-meta" id="filterMeta">â€” applications</span>
+    <span class="ca-meta" id="filterMeta">— applications</span>
   </div>
 
   <!-- Loading state -->
-  <div id="loadingState" class="ca-loading">Loading applicationsâ€¦</div>
+  <div id="loadingState" class="ca-loading">Loading applications…</div>
 
   <!-- Kanban -->
   <div id="kanban" class="ca-kanban" style="display:none">
@@ -244,10 +244,10 @@
 <aside class="ca-drawer" id="drawer">
   <div class="ca-drawer-head">
     <div>
-      <h2 id="dHeadName">â€”</h2>
-      <div class="sub" id="dHeadSub">â€”</div>
+      <h2 id="dHeadName">—</h2>
+      <div class="sub" id="dHeadSub">—</div>
     </div>
-    <button class="ca-drawer-close" id="dClose" aria-label="Close">Ã—</button>
+    <button class="ca-drawer-close" id="dClose" aria-label="Close">×</button>
   </div>
   <div class="ca-drawer-tabs">
     <button class="ca-drawer-tab active" data-tab="profile">Profile</button>
@@ -268,11 +268,11 @@
   <div class="ca-modal">
     <div class="ca-modal-head">
       <h3>Assign interviewers</h3>
-      <button class="ca-drawer-close" data-modal-close>Ã—</button>
+      <button class="ca-drawer-close" data-modal-close>×</button>
     </div>
     <div class="ca-modal-body">
       <p style="color:var(--ink-3);font-size:13px;margin-bottom:14px">Select one or more interviewers (users with the <strong>interviewer</strong> sub-role). Each will be able to access this candidate's scorecard.</p>
-      <div id="assignList" class="ca-checkbox-list">Loadingâ€¦</div>
+      <div id="assignList" class="ca-checkbox-list">Loading…</div>
     </div>
     <div class="ca-modal-foot">
       <button class="ca-btn"           data-modal-close>Cancel</button>
@@ -286,7 +286,7 @@
   <div class="ca-modal">
     <div class="ca-modal-head">
       <h3>Schedule interview</h3>
-      <button class="ca-drawer-close" data-modal-close>Ã—</button>
+      <button class="ca-drawer-close" data-modal-close>×</button>
     </div>
     <div class="ca-modal-body">
       <div class="ca-form-group">
@@ -303,7 +303,7 @@
       </div>
       <div class="ca-form-group">
         <label class="ca-form-label">Meeting URL <span style="color:var(--ink-3);font-weight:500;text-transform:none;letter-spacing:0">(online / hybrid)</span></label>
-        <input aria-label="https://meet.google.com/â€¦" type="url" id="schUrl" class="ca-form-input" placeholder="https://meet.google.com/â€¦" />
+        <input aria-label="https://meet.google.com/…" type="url" id="schUrl" class="ca-form-input" placeholder="https://meet.google.com/…" />
       </div>
       <p style="color:var(--ink-3);font-size:12px;margin:0">Saving moves the application to <strong>Interview scheduled</strong>. Mail to applicant is enqueued via the mail collection.</p>
     </div>
@@ -319,7 +319,7 @@
   <div class="ca-modal">
     <div class="ca-modal-head">
       <h3>Move status</h3>
-      <button class="ca-drawer-close" data-modal-close>Ã—</button>
+      <button class="ca-drawer-close" data-modal-close>×</button>
     </div>
     <div class="ca-modal-body">
       <div class="ca-form-group">
@@ -353,7 +353,7 @@
   <div class="ca-modal">
     <div class="ca-modal-head">
       <h3>Final decision</h3>
-      <button class="ca-drawer-close" data-modal-close>Ã—</button>
+      <button class="ca-drawer-close" data-modal-close>×</button>
     </div>
     <div class="ca-modal-body">
       <div class="ca-form-group">
@@ -381,7 +381,7 @@
   <div class="ca-modal">
     <div class="ca-modal-head">
       <h3 id="posModalTitle">New position</h3>
-      <button class="ca-drawer-close" data-modal-close>Ã—</button>
+      <button class="ca-drawer-close" data-modal-close>×</button>
     </div>
     <div class="ca-modal-body">
       <div class="ca-form-group">
@@ -451,18 +451,18 @@
   <div class="ca-modal ca-modal-wide">
     <div class="ca-modal-head">
       <h3>Manage positions</h3>
-      <button class="ca-drawer-close" data-modal-close>Ã—</button>
+      <button class="ca-drawer-close" data-modal-close>×</button>
     </div>
     <div class="ca-modal-body">
       <div class="mp-toolbar">
-        <input aria-label="Search by title or schoolâ€¦" id="mpSearch" class="ca-form-input" placeholder="Search by title or schoolâ€¦" style="max-width:320px" />
+        <input aria-label="Search by title or school…" id="mpSearch" class="ca-form-input" placeholder="Search by title or school…" style="max-width:320px" />
         <select id="mpStatusFilter" class="ca-form-select" style="max-width:180px">
           <option value="">All statuses</option>
           <option value="open">Open</option>
           <option value="draft">Draft</option>
           <option value="closed">Closed</option>
         </select>
-        <span class="ca-meta" id="mpCount" style="margin-left:auto">â€” positions</span>
+        <span class="ca-meta" id="mpCount" style="margin-left:auto">— positions</span>
       </div>
       <div class="mp-table-wrap">
         <table class="mp-table">
@@ -477,7 +477,7 @@
             </tr>
           </thead>
           <tbody id="mpTbody">
-            <tr><td colspan="6" class="mp-empty">Loadingâ€¦</td></tr>
+            <tr><td colspan="6" class="mp-empty">Loading…</td></tr>
           </tbody>
         </table>
       </div>
@@ -493,10 +493,10 @@
   <div class="ca-modal" style="max-width:460px">
     <div class="ca-modal-head">
       <h3>Delete position?</h3>
-      <button class="ca-drawer-close" data-modal-close>Ã—</button>
+      <button class="ca-drawer-close" data-modal-close>×</button>
     </div>
     <div class="ca-modal-body">
-      <p style="margin:0 0 8px 0">You are about to permanently delete <strong id="delPosTitle">â€”</strong>.</p>
+      <p style="margin:0 0 8px 0">You are about to permanently delete <strong id="delPosTitle">—</strong>.</p>
       <p style="color:var(--ink-3);font-size:13px;margin:0">This cannot be undone. Deletion is only allowed when the position has <strong>no applications</strong>. Otherwise, close the position instead to preserve audit trail.</p>
     </div>
     <div class="ca-modal-foot">
@@ -516,7 +516,7 @@
   } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
   import { ref as storageRef, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-  // â”€â”€ helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── helpers ───────────────────────────────────────────────────
   function escHtml(s) {
     return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
   }
@@ -524,9 +524,9 @@
     return /^https?:\/\//i.test(String(u || '')) ? u : '#';
   }
   function fmtDate(ts) {
-    if (!ts) return 'â€”';
+    if (!ts) return '—';
     const d = ts.toDate ? ts.toDate() : new Date(ts);
-    if (isNaN(d.getTime())) return 'â€”';
+    if (isNaN(d.getTime())) return '—';
     return d.toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   }
   function showToast(msg, kind = '') {
@@ -538,7 +538,7 @@
 
   const STATUSES = ['submitted','under_review','shortlisted','interview_scheduled','interview_done','offered','hired','rejected','withdrew'];
 
-  // â”€â”€ boot â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── boot ──────────────────────────────────────────────────────
   let db, auth, currentUser, profile, isAdmin, isHiringMgr, mySchoolId;
   let allApplications = [];
   let allPositions    = [];
@@ -570,7 +570,7 @@
 
     document.getElementById('hdrSub').textContent = isAdmin
       ? 'You see all applications across the network.'
-      : `You see applications for your school${profile?.schoolName ? ` â€” ${profile.schoolName}` : ''}.`;
+      : `You see applications for your school${profile?.schoolName ? ` — ${profile.schoolName}` : ''}.`;
 
     await Promise.all([loadSchools(), loadPositions(), loadApplications()]);
     populateFilters();
@@ -578,12 +578,12 @@
   });
 
   async function loadSchools() {
-    // @lint-allow-unbounded â€” partner_schools is a fixed-size network directory (~16 docs); no growth risk.
+    // @lint-allow-unbounded — partner_schools is a fixed-size network directory (~16 docs); no growth risk.
     const snap = await getDocs(collection(db, 'partner_schools'));
     snap.docs.forEach(d => { schoolNameById[d.id] = d.data().name || d.id; });
     // Populate position-modal school dropdown
     const sel = document.getElementById('posSchool');
-    sel.innerHTML = '<option value="">â€” select school â€”</option>' +
+    sel.innerHTML = '<option value="">— select school —</option>' +
       snap.docs
         .filter(d => d.id !== 'eduversal_hq')
         .sort((a,b) => (a.data().name || '').localeCompare(b.data().name || ''))
@@ -695,7 +695,7 @@
       if (rows.length === 0) {
         const e = document.createElement('div');
         e.className = 'ca-empty-col';
-        e.textContent = 'â€”';
+        e.textContent = '—';
         col.appendChild(e);
       } else {
         rows.forEach(a => col.appendChild(buildCard(a)));
@@ -715,7 +715,7 @@
     card.dataset.id = a.id;
     const name = `${a.applicant?.firstName || ''} ${a.applicant?.lastName || ''}`.trim() || '(no name)';
     const yrs = a.applicant?.yearsExperience;
-    const yrLabel = ({'0':'New','1':'<1y','2':'1â€“3y','3':'4â€“7y','4':'8â€“15y','5':'15+y'})[yrs] || '';
+    const yrLabel = ({'0':'New','1':'<1y','2':'1–3y','3':'4–7y','4':'8–15y','5':'15+y'})[yrs] || '';
     const mode = (allPositions.find(p => p.id === a.positionId) || {}).mode || a.interviewSchedule?.mode;
     const modeLabel = mode === 'online' ? 'Online' : mode === 'hybrid' ? 'Hybrid' : mode === 'in_person' ? 'On-site' : '';
     const scoreCount = a.scorecard?.totalSubmittedScorecards || 0;
@@ -724,12 +724,12 @@
     card.innerHTML = `
       <input type="checkbox" class="ca-card-check" data-select-id="${escHtml(a.id)}" ${selectedIds.has(a.id) ? 'checked' : ''} />
       <div class="ca-card-name">${escHtml(name)}</div>
-      <div class="ca-card-pos">${escHtml(a.positionTitle || 'â€”')}</div>
-      <div class="ca-card-school">${escHtml(a.schoolName || schoolNameById[a.schoolId] || 'â€”')}</div>
+      <div class="ca-card-pos">${escHtml(a.positionTitle || '—')}</div>
+      <div class="ca-card-school">${escHtml(a.schoolName || schoolNameById[a.schoolId] || '—')}</div>
       <div class="ca-card-meta">
         ${yrLabel ? `<span class="ca-tag">${escHtml(yrLabel)}</span>` : ''}
         ${modeLabel ? `<span class="ca-tag">${escHtml(modeLabel)}</span>` : ''}
-        ${scoreCount > 0 ? `<span class="ca-tag score">â­ ${avg || 'â€”'} Â· ${scoreCount} scored</span>` : ''}
+        ${scoreCount > 0 ? `<span class="ca-tag score">⭐ ${avg || '—'} · ${scoreCount} scored</span>` : ''}
       </div>
     `;
     card.addEventListener('click', e => {
@@ -751,7 +751,7 @@
     document.getElementById('btnCompare').disabled = (n < 2 || n > 5);
   }
 
-  // â”€â”€ filter listeners â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── filter listeners ──────────────────────────────────────────
   ['searchInput','positionFilter','schoolFilter','modeFilter'].forEach(id => {
     document.getElementById(id).addEventListener('input',  render);
     document.getElementById(id).addEventListener('change', render);
@@ -761,13 +761,13 @@
     window.location.href = `/careers-compare?ids=${encodeURIComponent(ids)}`;
   });
 
-  // â”€â”€ drawer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── drawer ────────────────────────────────────────────────────
   const drawer        = document.getElementById('drawer');
   const drawerOverlay = document.getElementById('drawerOverlay');
   document.getElementById('dClose').addEventListener('click', closeDrawer);
   drawerOverlay.addEventListener('click', closeDrawer);
 
-  // CV link click â€” resolve cvPath â†’ download URL with admin's authed
+  // CV link click — resolve cvPath → download URL with admin's authed
   // session, then open in new tab. Used for new-style applications that
   // store cvPath instead of a long-lived cvUrl.
   drawer.addEventListener('click', async (e) => {
@@ -791,7 +791,7 @@
     const name = `${a.applicant?.firstName || ''} ${a.applicant?.lastName || ''}`.trim() || '(no name)';
     document.getElementById('dHeadName').textContent = name;
     document.getElementById('dHeadSub').innerHTML =
-      `<span class="ca-status-badge ${a.status}">${escHtml((a.status || '').replace(/_/g,' '))}</span> Â· ${escHtml(a.positionTitle || 'â€”')} Â· ${escHtml(a.schoolName || schoolNameById[a.schoolId] || 'â€”')}`;
+      `<span class="ca-status-badge ${a.status}">${escHtml((a.status || '').replace(/_/g,' '))}</span> · ${escHtml(a.positionTitle || '—')} · ${escHtml(a.schoolName || schoolNameById[a.schoolId] || '—')}`;
     drawer.classList.add('open');
     drawerOverlay.classList.add('open');
     activateTab('profile');
@@ -815,54 +815,54 @@
     if (!a) return;
     const body = document.getElementById('dBody');
     if (tab === 'profile')         body.innerHTML = renderProfileTab(a);
-    else if (tab === 'scorecards') { body.innerHTML = '<div class="ca-loading">Loading scorecardsâ€¦</div>'; renderScorecardsTab(a); }
-    else if (tab === 'audit')      { body.innerHTML = '<div class="ca-loading">Loading activityâ€¦</div>'; renderAuditTab(a); }
+    else if (tab === 'scorecards') { body.innerHTML = '<div class="ca-loading">Loading scorecards…</div>'; renderScorecardsTab(a); }
+    else if (tab === 'audit')      { body.innerHTML = '<div class="ca-loading">Loading activity…</div>'; renderAuditTab(a); }
   }
 
   function renderProfileTab(a) {
     const ap  = a.applicant || {};
     const sch = a.interviewSchedule || {};
     const fd  = a.finalDecision;
-    const langs = Array.isArray(ap.languages) ? ap.languages.join(', ') : (ap.languages || 'â€”');
+    const langs = Array.isArray(ap.languages) ? ap.languages.join(', ') : (ap.languages || '—');
     const refs  = Array.isArray(ap.references) && ap.references.length
                   ? '<ul style="margin:0 0 0 16px;padding:0">' + ap.references.map(r => `<li>${escHtml(r)}</li>`).join('') + '</ul>'
-                  : '<span style="color:var(--ink-3)">â€”</span>';
+                  : '<span style="color:var(--ink-3)">—</span>';
     // Resolve CV: legacy applications stored a long-lived cvUrl; new
     // applications store cvPath only (anonymous candidates can't call
-    // getDownloadURL â€” Storage read rule is gated to hiring power).
-    // We resolve cvPath â†’ URL on click using the admin's authed session.
+    // getDownloadURL — Storage read rule is gated to hiring power).
+    // We resolve cvPath → URL on click using the admin's authed session.
     const cvFilename = escHtml(ap.cvFilename || 'Open CV');
     const cvSizeStr  = ap.cvSize ? ` <span style="color:var(--ink-3);font-size:11.5px">(${Math.round(ap.cvSize/1024)} KB)</span>` : '';
     const cv = ap.cvUrl
-      ? `<a href="${escHtml(safeUrl(ap.cvUrl))}" target="_blank" rel="noopener">${cvFilename} â†—</a>${cvSizeStr}`
+      ? `<a href="${escHtml(safeUrl(ap.cvUrl))}" target="_blank" rel="noopener">${cvFilename} ↗</a>${cvSizeStr}`
       : (ap.cvPath
-          ? `<a href="#" data-cv-path="${escHtml(ap.cvPath)}" data-cv-filename="${cvFilename}">${cvFilename} â†—</a>${cvSizeStr}`
-          : '<span style="color:var(--ink-3)">â€”</span>');
+          ? `<a href="#" data-cv-path="${escHtml(ap.cvPath)}" data-cv-filename="${cvFilename}">${cvFilename} ↗</a>${cvSizeStr}`
+          : '<span style="color:var(--ink-3)">—</span>');
 
     const contactRows = `
-      <div class="ca-row"><div class="lbl">Name</div><div class="val">${escHtml(`${ap.firstName||''} ${ap.lastName||''}`.trim() || 'â€”')}</div></div>
-      <div class="ca-row"><div class="lbl">Email</div><div class="val"><a href="mailto:${escHtml(a.applicantEmail)}">${escHtml(a.applicantEmail || 'â€”')}</a></div></div>
-      <div class="ca-row"><div class="lbl">Phone</div><div class="val"><a href="tel:${escHtml(ap.phone || '')}">${escHtml(ap.phone || 'â€”')}</a></div></div>
-      <div class="ca-row"><div class="lbl">Citizenship</div><div class="val">${escHtml(ap.citizenship || 'â€”')}</div></div>
-      <div class="ca-row"><div class="lbl">Location</div><div class="val">${escHtml(ap.currentLocation || 'â€”')}</div></div>
-      <div class="ca-row"><div class="lbl">Relocate</div><div class="val">${escHtml((ap.willingToRelocate || 'â€”').replace(/_/g,' '))}</div></div>`;
+      <div class="ca-row"><div class="lbl">Name</div><div class="val">${escHtml(`${ap.firstName||''} ${ap.lastName||''}`.trim() || '—')}</div></div>
+      <div class="ca-row"><div class="lbl">Email</div><div class="val"><a href="mailto:${escHtml(a.applicantEmail)}">${escHtml(a.applicantEmail || '—')}</a></div></div>
+      <div class="ca-row"><div class="lbl">Phone</div><div class="val"><a href="tel:${escHtml(ap.phone || '')}">${escHtml(ap.phone || '—')}</a></div></div>
+      <div class="ca-row"><div class="lbl">Citizenship</div><div class="val">${escHtml(ap.citizenship || '—')}</div></div>
+      <div class="ca-row"><div class="lbl">Location</div><div class="val">${escHtml(ap.currentLocation || '—')}</div></div>
+      <div class="ca-row"><div class="lbl">Relocate</div><div class="val">${escHtml((ap.willingToRelocate || '—').replace(/_/g,' '))}</div></div>`;
 
     const bgRows = `
-      <div class="ca-row"><div class="lbl">Experience</div><div class="val">${escHtml(({'0':'No formal teaching','1':'Less than 1 year','2':'1â€“3 years','3':'4â€“7 years','4':'8â€“15 years','5':'15+ years'})[ap.yearsExperience] || ap.yearsExperience || 'â€”')}</div></div>
-      <div class="ca-row"><div class="lbl">Qualification</div><div class="val">${escHtml(({'diploma':'Diploma','bachelor':"Bachelor's","pgce":'PGCE','master':"Master's",'phd':'PhD'})[ap.highestQualification] || ap.highestQualification || 'â€”')}</div></div>
-      <div class="ca-row"><div class="lbl">Institution</div><div class="val">${escHtml(ap.institution || 'â€”')}</div></div>
+      <div class="ca-row"><div class="lbl">Experience</div><div class="val">${escHtml(({'0':'No formal teaching','1':'Less than 1 year','2':'1–3 years','3':'4–7 years','4':'8–15 years','5':'15+ years'})[ap.yearsExperience] || ap.yearsExperience || '—')}</div></div>
+      <div class="ca-row"><div class="lbl">Qualification</div><div class="val">${escHtml(({'diploma':'Diploma','bachelor':"Bachelor's","pgce":'PGCE','master':"Master's",'phd':'PhD'})[ap.highestQualification] || ap.highestQualification || '—')}</div></div>
+      <div class="ca-row"><div class="lbl">Institution</div><div class="val">${escHtml(ap.institution || '—')}</div></div>
       <div class="ca-row"><div class="lbl">Languages</div><div class="val">${escHtml(langs)}</div></div>
       <div class="ca-row"><div class="lbl">References</div><div class="val">${refs}</div></div>
       <div class="ca-row"><div class="lbl">CV</div><div class="val">${cv}</div></div>`;
 
     let interviewRows = '';
     if (sch?.scheduledAt || (sch?.interviewerUids || []).length) {
-      const interviewers = (sch.interviewerUids || []).map(uid => `<span class="ca-tag">${escHtml(uid.slice(0,6))}â€¦</span>`).join(' ');
+      const interviewers = (sch.interviewerUids || []).map(uid => `<span class="ca-tag">${escHtml(uid.slice(0,6))}…</span>`).join(' ');
       interviewRows = `
         <div class="ca-section-head">Interview</div>
         ${sch.scheduledAt ? `<div class="ca-row"><div class="lbl">Scheduled</div><div class="val">${escHtml(fmtDate(sch.scheduledAt))}</div></div>` : ''}
         ${sch.mode ? `<div class="ca-row"><div class="lbl">Mode</div><div class="val">${escHtml(sch.mode.replace(/_/g,' '))}</div></div>` : ''}
-        ${sch.meetingUrl ? `<div class="ca-row"><div class="lbl">Meeting URL</div><div class="val"><a href="${escHtml(safeUrl(sch.meetingUrl))}" target="_blank" rel="noopener">${escHtml(sch.meetingUrl)} â†—</a></div></div>` : ''}
+        ${sch.meetingUrl ? `<div class="ca-row"><div class="lbl">Meeting URL</div><div class="val"><a href="${escHtml(safeUrl(sch.meetingUrl))}" target="_blank" rel="noopener">${escHtml(sch.meetingUrl)} ↗</a></div></div>` : ''}
         ${interviewers ? `<div class="ca-row"><div class="lbl">Interviewers</div><div class="val" style="display:flex;gap:4px;flex-wrap:wrap">${interviewers}</div></div>` : ''}
       `;
     }
@@ -885,7 +885,7 @@
       ${interviewRows}
       ${decisionRows}
       <div class="ca-section-head">Motivation</div>
-      <div class="ca-motivation">${escHtml(ap.motivationLetter || 'â€”')}</div>
+      <div class="ca-motivation">${escHtml(ap.motivationLetter || '—')}</div>
       <div style="margin-top:18px;color:var(--ink-3);font-size:11.5px;text-align:right">Submitted ${escHtml(fmtDate(a.createdAt))}</div>
     `;
   }
@@ -904,7 +904,7 @@
         <div class="ca-section-head">Scorecards (${scorecards.length})</div>
         ${scorecards.map(s => `
           <div class="ca-score-row">
-            <div class="who">${escHtml(s.interviewerName || s.interviewerUid?.slice(0,8) || 'â€”')}<span class="meta">${escHtml(s.recommendation ? 'Â· ' + s.recommendation.replace(/_/g,' ') : '')}</span></div>
+            <div class="who">${escHtml(s.interviewerName || s.interviewerUid?.slice(0,8) || '—')}<span class="meta">${escHtml(s.recommendation ? '· ' + s.recommendation.replace(/_/g,' ') : '')}</span></div>
             <div class="score ${s.status === 'submitted' ? '' : 'draft'}">
               ${s.status === 'submitted'
                 ? `${(s.averageScore || 0).toFixed(1)} / 5`
@@ -916,7 +916,7 @@
           <strong>Average across submitted:</strong>
           ${(() => {
             const sub = scorecards.filter(s => s.status === 'submitted');
-            if (!sub.length) return ' â€”';
+            if (!sub.length) return ' —';
             const avg = sub.reduce((sum, s) => sum + (s.averageScore || 0), 0) / sub.length;
             return ` ${avg.toFixed(2)} / 5 across ${sub.length} interviewer${sub.length === 1 ? '' : 's'}`;
           })()}
@@ -942,7 +942,7 @@
         <div class="ca-section-head">Activity log</div>
         ${rows.map(r => `
           <div class="ca-audit-row">
-            <div class="when">${escHtml(fmtDate(r.at))} Â· ${escHtml(r.byEmail || r.byUid || 'â€”')}</div>
+            <div class="when">${escHtml(fmtDate(r.at))} · ${escHtml(r.byEmail || r.byUid || '—')}</div>
             <div class="what">${escHtml(formatAuditAction(r))}</div>
           </div>
         `).join('')}
@@ -954,19 +954,19 @@
   }
 
   function formatAuditAction(r) {
-    if (r.action === 'status_changed') return `Status: ${(r.before?.status || 'â€”').replace(/_/g,' ')} â†’ ${(r.after?.status || 'â€”').replace(/_/g,' ')}${r.after?.note ? ' (' + r.after.note + ')' : ''}`;
+    if (r.action === 'status_changed') return `Status: ${(r.before?.status || '—').replace(/_/g,' ')} → ${(r.after?.status || '—').replace(/_/g,' ')}${r.after?.note ? ' (' + r.after.note + ')' : ''}`;
     if (r.action === 'interviewer_assigned') return `Assigned ${(r.after?.interviewerUids || []).length} interviewer(s)`;
     if (r.action === 'interview_scheduled')  return `Interview scheduled for ${fmtDate(r.after?.scheduledAt)} (${(r.after?.mode || '').replace(/_/g,' ')})`;
-    if (r.action === 'decision_recorded')    return `Decision: ${r.after?.outcome}${r.after?.note ? ' â€” ' + r.after.note : ''}`;
-    return r.action || 'â€”';
+    if (r.action === 'decision_recorded')    return `Decision: ${r.after?.outcome}${r.after?.note ? ' — ' + r.after.note : ''}`;
+    return r.action || '—';
   }
 
-  // â”€â”€ action: assign interviewer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── action: assign interviewer ────────────────────────────────
   document.getElementById('dBtnAssign').addEventListener('click', async () => {
     if (!activeAppId) return;
     const overlay = document.getElementById('assignOverlay');
     const list = document.getElementById('assignList');
-    list.innerHTML = '<div style="padding:12px;color:var(--ink-3);font-size:13px">Loading interviewersâ€¦</div>';
+    list.innerHTML = '<div style="padding:12px;color:var(--ink-3);font-size:13px">Loading interviewers…</div>';
     overlay.classList.add('open');
 
     try {
@@ -1017,7 +1017,7 @@
     }
   });
 
-  // â”€â”€ action: schedule interview â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── action: schedule interview ────────────────────────────────
   document.getElementById('dBtnSchedule').addEventListener('click', () => {
     if (!activeAppId) return;
     const a = allApplications.find(x => x.id === activeAppId);
@@ -1053,7 +1053,7 @@
       await enqueueMail({
         to: a.applicantEmail,
         toName: [a.applicant?.firstName, a.applicant?.lastName].filter(Boolean).join(' '),
-        subject: `Interview scheduled â€” ${a.positionTitle}`,
+        subject: `Interview scheduled — ${a.positionTitle}`,
         templateName: 'interview',
         text: `Hello ${a.applicant?.firstName || ''},\n\nYour interview for "${a.positionTitle}" has been scheduled for ${scheduledAt.toLocaleString('en-GB')}.\nMode: ${mode.replace(/_/g,' ')}.${url ? '\nMeeting URL: ' + url : ''}\n\nWe'll be in touch with any final logistics. Reply to this email if you have questions about timing or logistics.\n\nWith regards,\nEduversal Hiring Team`,
       });
@@ -1069,7 +1069,7 @@
     }
   });
 
-  // â”€â”€ action: move status â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── action: move status ───────────────────────────────────────
   document.getElementById('dBtnStatus').addEventListener('click', () => {
     if (!activeAppId) return;
     const a = allApplications.find(x => x.id === activeAppId);
@@ -1101,7 +1101,7 @@
     }
   });
 
-  // â”€â”€ action: final decision â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── action: final decision ────────────────────────────────────
   document.getElementById('dBtnDecision').addEventListener('click', () => {
     if (!activeAppId) return;
     const a = allApplications.find(x => x.id === activeAppId);
@@ -1133,8 +1133,8 @@
         { status: a.status }, { status: newStatus, outcome, note });
       // Send branded decision email via Resend
       const subject = outcome === 'offered'
-        ? `Offer of employment â€” ${a.positionTitle}`
-        : `Update on your application â€” ${a.positionTitle}`;
+        ? `Offer of employment — ${a.positionTitle}`
+        : `Update on your application — ${a.positionTitle}`;
       const body = outcome === 'offered'
         ? `Hello ${a.applicant?.firstName || ''},\n\nWe are delighted to offer you the position of "${a.positionTitle}" at Eduversal Education.${note ? '\n\n' + note : ''}\n\nA member of our team will be in touch shortly with the formal offer letter, including details on compensation, start date, and onboarding logistics.\n\nIf you have any questions in the meantime, please reply to this email.\n\nWith regards,\nEduversal Hiring Team`
         : `Hello ${a.applicant?.firstName || ''},\n\nThank you for taking the time to apply for "${a.positionTitle}". After careful consideration, we have decided not to move forward with your application at this time.${note ? '\n\n' + note : ''}\n\nWe truly appreciate your interest in joining Eduversal Education. We will keep your application on file and may reach out about future opportunities that could be a stronger match.\n\nWe wish you every success in your career.\n\nWith regards,\nEduversal Hiring Team`;
@@ -1157,7 +1157,7 @@
     }
   });
 
-  // â”€â”€ action: new / edit position â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── action: new / edit position ──────────────────────────────
   let editingPositionId = null;
 
   function openPositionModal(pos) {
@@ -1232,7 +1232,7 @@
     }
   });
 
-  // â”€â”€ modal close handlers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── modal close handlers ──────────────────────────────────────
   document.querySelectorAll('[data-modal-close]').forEach(b => {
     b.addEventListener('click', () => {
       const ov = b.closest('.ca-modal-overlay');
@@ -1244,7 +1244,7 @@
   });
   function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-  // â”€â”€ manage positions (list / edit / close-reopen / delete) â”€â”€â”€
+  // ── manage positions (list / edit / close-reopen / delete) ───
   let pendingDeletePosId = null;
 
   function appCountForPosition(posId) {
@@ -1271,18 +1271,18 @@
       const status = p.status || 'open';
       const apps   = appCountForPosition(p.id);
       const canDelete = isAdmin && apps === 0;
-      const subjList = Array.isArray(p.subjects) && p.subjects.length ? p.subjects.join(', ') : 'â€”';
+      const subjList = Array.isArray(p.subjects) && p.subjects.length ? p.subjects.join(', ') : '—';
       const toggleLabel = status === 'open' ? 'Close' : (status === 'closed' ? 'Reopen' : 'Open');
       return `
         <tr data-pid="${escHtml(p.id)}">
           <td>
             <div class="mp-pos-title">${escHtml(p.title || '(untitled)')}</div>
-            <div class="mp-pos-meta">${escHtml(p.gradeLevel || '')} Â· ${escHtml(subjList)}</div>
+            <div class="mp-pos-meta">${escHtml(p.gradeLevel || '')} · ${escHtml(subjList)}</div>
           </td>
-          <td>${escHtml(p.schoolName || p.schoolId || 'â€”')}</td>
+          <td>${escHtml(p.schoolName || p.schoolId || '—')}</td>
           <td><span class="mp-status-badge ${status}">${status}</span></td>
           <td>${apps}</td>
-          <td>${p.applicationDeadline ? escHtml(p.applicationDeadline) : 'â€”'}</td>
+          <td>${p.applicationDeadline ? escHtml(p.applicationDeadline) : '—'}</td>
           <td>
             <div class="mp-actions">
               <button class="ca-btn" data-mp-edit="${escHtml(p.id)}">Edit</button>
@@ -1358,7 +1358,7 @@
     }
   });
 
-  // â”€â”€ audit + mail helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── audit + mail helpers ──────────────────────────────────────
   async function writeAudit(applicationId, action, before, after) {
     try {
       await addDoc(collection(db, 'job_application_audit'), {
@@ -1380,7 +1380,7 @@
    */
   async function enqueueMail({ to, toName, subject, text, bodyHtml, templateName }) {
     if (!window.eduversalMailer) {
-      console.warn('[ca] eduversalMailer not loaded â€” skipping mail send');
+      console.warn('[ca] eduversalMailer not loaded — skipping mail send');
       return { ok: false };
     }
     return window.eduversalMailer.sendTransactional({

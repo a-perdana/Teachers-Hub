@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resource Library â€” Teachers Hub</title>
+<title>Resource Library — Teachers Hub</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23331e05'/><polygon points='10,45 50,65 50,70 10,50' fill='%23a8650a'/><polygon points='90,45 50,65 50,70 90,50' fill='%23c2780c'/><polygon points='50,25 90,45 50,65 10,45' fill='%23d97706'/><circle cx='76' cy='76' r='20' fill='%23d97706' stroke='%23331e05' stroke-width='3'/><text x='76' y='84' font-family='Georgia,serif' font-size='26' font-weight='bold' text-anchor='middle' fill='white'>T</text></svg>">
 <link rel="stylesheet" href="base.css">
 <style>
-/* â”€â”€â”€ SUBJECT COLORS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── SUBJECT COLORS ─────────────────────────────── */
 :root {
   --subj-math:      #2563eb;
   --subj-physics:   #7c3aed;
@@ -25,7 +25,7 @@
   --type-other-2: #f3f4f6;
 }
 
-/* â”€â”€â”€ LAYOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── LAYOUT ─────────────────────────────────────── */
 /* base.css sets body{overflow-x:hidden} which breaks position:sticky on navbar */
 body { overflow-x: clip; }
 
@@ -38,7 +38,7 @@ body { overflow-x: clip; }
   .page-wrap { padding: 24px 20px 80px; }
 }
 
-/* â”€â”€â”€ Hero CTA (admin-only "+ Add resource") â€” mirrors CH /specialist-framework
+/* ─── Hero CTA (admin-only "+ Add resource") — mirrors CH /specialist-framework
    .btn-hero white-on-glass pattern. Page-local. */
 .page-hero__actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; position: relative; z-index: 1; }
 .btn-hero {
@@ -59,8 +59,8 @@ body { overflow-x: clip; }
 .btn-hero-primary:active { transform: translateY(1px); }
 .btn-hero svg { width: 15px; height: 15px; flex-shrink: 0; }
 
-/* â”€â”€â”€ Pill filter rows (replaces the sidebar 2026-05-22; single-line toolbar:
-   Type pills Â· search (flex:1) Â· Subject pills). One row at >=900px, stacks
+/* ─── Pill filter rows (replaces the sidebar 2026-05-22; single-line toolbar:
+   Type pills · search (flex:1) · Subject pills). One row at >=900px, stacks
    only below the mobile breakpoint. */
 .lib-toolbar {
   display: flex; align-items: center;
@@ -100,7 +100,7 @@ body { overflow-x: clip; }
 .lib-pill__dot {
   width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
 }
-/* Search slot â€” fills the remaining space between the two pill groups */
+/* Search slot — fills the remaining space between the two pill groups */
 .lib-toolbar .search-wrap {
   flex: 1 1 0;
   min-width: 140px;
@@ -119,7 +119,7 @@ body { overflow-x: clip; }
 }
 
 
-/* â”€â”€â”€ SEARCH BAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── SEARCH BAR ────────────────────────────────── */
 .search-wrap {
   position: relative; margin-bottom: 16px;
 }
@@ -139,13 +139,13 @@ body { overflow-x: clip; }
 .search-input:focus { border-color: var(--ink-2); }
 .search-input::placeholder { color: var(--ink-3); }
 
-/* â”€â”€â”€ RESOURCE COUNT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── RESOURCE COUNT ─────────────────────────────── */
 .resource-count {
   font-size: 12.5px; color: var(--ink-3); margin-bottom: 18px;
   font-weight: 500;
 }
 
-/* â”€â”€â”€ GRIDS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── GRIDS ──────────────────────────────────────── */
 .res-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
@@ -160,7 +160,7 @@ body { overflow-x: clip; }
   gap: 20px;
 }
 
-/* â”€â”€â”€ DELETE BUTTON (shared) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── DELETE BUTTON (shared) ─────────────────────── */
 .res-del-btn {
   position: absolute; top: 12px; right: 12px;
   width: 26px; height: 26px; border-radius: 7px;
@@ -172,7 +172,7 @@ body { overflow-x: clip; }
 }
 .res-del-btn:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
 
-/* â”€â”€â”€ SHARED FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── SHARED FOOTER ──────────────────────────────── */
 .res-meta { font-size: 11.5px; color: var(--ink-3); }
 .res-footer {
   display: flex; align-items: center; justify-content: space-between;
@@ -180,7 +180,7 @@ body { overflow-x: clip; }
   border-top: 1px solid var(--border);
 }
 
-/* â”€â”€â”€ VIDEO CARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── VIDEO CARD ─────────────────────────────────── */
 .card-video {
   background: var(--white);
   border: 1px solid var(--border);
@@ -267,7 +267,7 @@ body { overflow-x: clip; }
 .res-open-btn.btn-video { background: var(--type-video); }
 .res-open-btn.btn-video:hover { background: #6d28d9; }
 
-/* â”€â”€â”€ PDF CARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── PDF CARD ───────────────────────────────────── */
 .card-pdf {
   background: var(--white);
   border: 1px solid var(--border);
@@ -320,7 +320,7 @@ body { overflow-x: clip; }
 .res-open-btn.btn-pdf { background: var(--type-pdf); }
 .res-open-btn.btn-pdf:hover { background: #b91c1c; }
 
-/* â”€â”€â”€ WEBSITE CARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── WEBSITE CARD ───────────────────────────────── */
 .card-website {
   background: var(--white);
   border: 1px solid var(--border);
@@ -375,7 +375,7 @@ body { overflow-x: clip; }
 .res-open-btn.btn-website { background: var(--type-web); }
 .res-open-btn.btn-website:hover { background: #047857; }
 
-/* â”€â”€â”€ OTHER CARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── OTHER CARD ─────────────────────────────────── */
 .card-other {
   background: var(--white);
   border: 1px solid var(--border);
@@ -408,14 +408,14 @@ body { overflow-x: clip; }
 .res-open-btn.btn-other { background: var(--type-other); }
 .res-open-btn.btn-other:hover { background: #4b5563; }
 
-/* â”€â”€â”€ SUBJECT COLOR HELPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── SUBJECT COLOR HELPERS ──────────────────────── */
 .card-pdf[data-subject="Math"]      { border-left-color: var(--subj-math); }
 .card-pdf[data-subject="Physics"]   { border-left-color: var(--subj-physics); }
 .card-pdf[data-subject="Chemistry"] { border-left-color: var(--subj-chemistry); }
 .card-pdf[data-subject="Biology"]   { border-left-color: var(--subj-biology); }
 .card-pdf[data-subject="General"]   { border-left-color: var(--subj-general); }
 
-/* â”€â”€â”€ ADD RESOURCE MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── ADD RESOURCE MODAL ─────────────────────────── */
 .modal-overlay {
   position: fixed; inset: 0;
   background: rgba(0,0,0,.55); backdrop-filter: blur(4px);
@@ -457,7 +457,7 @@ body { overflow-x: clip; }
 }
 .modal-textarea { min-height: 80px; resize: vertical; line-height: 1.6; }
 
-/* type selector â€” icon cards */
+/* type selector — icon cards */
 .type-cards {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
 }
@@ -495,7 +495,7 @@ body { overflow-x: clip; }
 .modal-add:disabled { opacity: .5; cursor: default; }
 .modal-err { font-size: 12px; color: #dc2626; min-height: 16px; }
 
-/* â”€â”€â”€ CONFIRM DIALOG â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── CONFIRM DIALOG ─────────────────────────────── */
 .confirm-overlay {
   position: fixed; inset: 0;
   background: rgba(0,0,0,.5); backdrop-filter: blur(3px);
@@ -515,9 +515,9 @@ body { overflow-x: clip; }
 .confirm-delete { padding: 8px 20px; border-radius: 8px; border: none; background: #dc2626; color: white; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 600; transition: opacity .15s; }
 .confirm-delete:hover { opacity: .85; }
 
-/* (Floating home + add-fab CSS removed 2026-05-22 â€” replaced by hero CTA + navbar.) */
+/* (Floating home + add-fab CSS removed 2026-05-22 — replaced by hero CTA + navbar.) */
 
-/* â”€â”€â”€ EMPTY STATE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── EMPTY STATE ────────────────────────────────── */
 /* Canonical .page-empty used inside the grid; legacy .empty-state kept below
    in case any other library callsite still renders it. */
 .empty-state {
@@ -533,11 +533,11 @@ body { overflow-x: clip; }
 
 <div id="navbar-container"></div>
 
-<!-- Page hero â€” Knowledge family (mor) -->
+<!-- Page hero — Knowledge family (mor) -->
 <header class="page-hero" data-accent="mor">
   <div class="page-hero__inner">
     <div class="page-hero__text">
-      <div class="page-hero__eyebrow">Knowledge Â· Resource Library</div>
+      <div class="page-hero__eyebrow">Knowledge · Resource Library</div>
       <h1 class="page-hero__title">Resource Library</h1>
       <p class="page-hero__desc">Teaching resources, videos, and references shared by your colleagues across every partner school. Filter by type or subject below to narrow the catalogue.</p>
       <!-- Admin-only CTA. JS toggles display:inline-flex; (line ~838 area). -->
@@ -550,27 +550,27 @@ body { overflow-x: clip; }
     </div>
     <div class="page-hero__kpis">
       <div class="page-hero__kpi page-hero__kpi--primary">
-        <div class="page-hero__kpi-num" id="statTotal">â€”</div>
+        <div class="page-hero__kpi-num" id="statTotal">—</div>
         <div class="page-hero__kpi-lbl">Resources</div>
         <div class="page-hero__kpi-sub">in the library</div>
       </div>
       <div class="page-hero__kpi">
-        <div class="page-hero__kpi-num" id="statVideos">â€”</div>
+        <div class="page-hero__kpi-num" id="statVideos">—</div>
         <div class="page-hero__kpi-lbl">Videos</div>
-        <div class="page-hero__kpi-sub">ðŸŽ¬ streaming</div>
+        <div class="page-hero__kpi-sub">🎬 streaming</div>
       </div>
       <div class="page-hero__kpi">
-        <div class="page-hero__kpi-num" id="statPdfs">â€”</div>
+        <div class="page-hero__kpi-num" id="statPdfs">—</div>
         <div class="page-hero__kpi-lbl">PDFs</div>
-        <div class="page-hero__kpi-sub">ðŸ“„ downloadable</div>
+        <div class="page-hero__kpi-sub">📄 downloadable</div>
       </div>
     </div>
   </div>
 </header>
 
 <main class="page-wrap">
-  <!-- Compact single-line toolbar: Type pills Â· search (center, flex:1) Â· Subject pills.
-       Same data-type / data-subject attributes as the old sidebar â€” JS click
+  <!-- Compact single-line toolbar: Type pills · search (center, flex:1) · Subject pills.
+       Same data-type / data-subject attributes as the old sidebar — JS click
        listeners (selector .lib-pill) still wire correctly. -->
   <div class="lib-toolbar">
     <div class="lib-pill-row" id="typeFilters">
@@ -588,7 +588,7 @@ body { overflow-x: clip; }
           <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
       </span>
-      <input aria-label="Search by title or descriptionâ€¦" type="text" class="search-input" id="searchInput" placeholder="Search by title or descriptionâ€¦" autocomplete="off">
+      <input aria-label="Search by title or description…" type="text" class="search-input" id="searchInput" placeholder="Search by title or description…" autocomplete="off">
     </div>
 
     <div class="lib-pill-row" id="subjectFilters">
@@ -620,15 +620,15 @@ body { overflow-x: clip; }
   <div class="modal-box">
     <div class="modal-header">
       <h3>Add Resource</h3>
-      <button class="modal-close-btn" id="modalClose">âœ•</button>
+      <button class="modal-close-btn" id="modalClose">✕</button>
     </div>
     <div class="modal-field">
       <label class="modal-label" for="resTitle">Title</label>
-      <input type="text" class="modal-input" id="resTitle" placeholder="e.g. Khan Academy â€” Quadratic Equations" maxlength="120">
+      <input type="text" class="modal-input" id="resTitle" placeholder="e.g. Khan Academy — Quadratic Equations" maxlength="120">
     </div>
     <div class="modal-field">
       <label class="modal-label" for="resUrl">URL</label>
-      <input type="url" class="modal-input" id="resUrl" placeholder="https://â€¦">
+      <input type="url" class="modal-input" id="resUrl" placeholder="https://…">
     </div>
     <div class="modal-field">
       <label class="modal-label" for="resDesc">Short description</label>
@@ -639,22 +639,22 @@ body { overflow-x: clip; }
       <div class="type-cards">
         <label class="type-card" data-type="video">
           <input type="radio" name="resType" value="video" checked>
-          <span class="type-card-icon">ðŸŽ¬</span>
+          <span class="type-card-icon">🎬</span>
           <span>Video</span>
         </label>
         <label class="type-card" data-type="pdf">
           <input type="radio" name="resType" value="pdf">
-          <span class="type-card-icon">ðŸ“„</span>
+          <span class="type-card-icon">📄</span>
           <span>PDF</span>
         </label>
         <label class="type-card" data-type="website">
           <input type="radio" name="resType" value="website">
-          <span class="type-card-icon">ðŸŒ</span>
+          <span class="type-card-icon">🌐</span>
           <span>Website</span>
         </label>
         <label class="type-card" data-type="other">
           <input type="radio" name="resType" value="other">
-          <span class="type-card-icon">ðŸ“¦</span>
+          <span class="type-card-icon">📦</span>
           <span>Other</span>
         </label>
       </div>
@@ -691,7 +691,7 @@ body { overflow-x: clip; }
 
 <!-- Floating Home Button -->
 <!-- Add Resource CTA moved into the hero (.page-hero__actions slot, id="addFab" lives there).
-     Old floating .add-fab + .home-float removed 2026-05-22 â€” navbar dashboard link replaces "Back to Hub". -->
+     Old floating .add-fab + .home-float removed 2026-05-22 — navbar dashboard link replaces "Back to Hub". -->
 
 <script src="partials/navbar.js"></script>
 <!-- FIREBASE_ENV -->
@@ -751,7 +751,7 @@ body { overflow-x: clip; }
   let searchQuery = '';
   let unsubLib = null;
 
-  // â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Helpers ─────────────────────────────────────────────────
   const PALETTE = ['#6c5ce7','#00b894','#e17055','#0984e3','#a29bfe','#e84393','#00cec9','#f39c12'];
   function avatarColor(str) {
     let h = 0;
@@ -781,7 +781,7 @@ body { overflow-x: clip; }
     if (diff < 604800) return `${Math.floor(diff/86400)}d ago`;
     return d.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
   }
-  const TYPE_ICONS = { video: 'ðŸŽ¬', pdf: 'ðŸ“„', website: 'ðŸŒ', other: 'ðŸ“¦' };
+  const TYPE_ICONS = { video: '🎬', pdf: '📄', website: '🌐', other: '📦' };
   function escHtml(str) {
     return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
@@ -790,7 +790,7 @@ body { overflow-x: clip; }
     catch { return url; }
   }
 
-  // â”€â”€ Auth â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Auth ─────────────────────────────────────────────────────
   document.addEventListener('authReady', ({ detail: { user, profile } }) => {
     db = window.db;
     currentUser = user;
@@ -836,13 +836,13 @@ body { overflow-x: clip; }
       window._pendingFeedbackSetup = doFeedbackSetup;
     }
 
-    // Hero CTA â€” button-in-flow context wants inline-flex (was 'flex' for the old fixed FAB).
+    // Hero CTA — button-in-flow context wants inline-flex (was 'flex' for the old fixed FAB).
     document.getElementById('addFab').style.display = 'inline-flex';
 
     initLibrary();
   });
 
-  // â”€â”€ Library â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Library ──────────────────────────────────────────────────
   function initLibrary() {
     const q = query(collection(db, 'library'), orderBy('createdAt', 'desc'));
     unsubLib = onSnapshot(q, (snap) => {
@@ -886,19 +886,19 @@ body { overflow-x: clip; }
     else if (activeType === 'pdf') grid.classList.add('grid-pdf');
 
     if (filtered.length === 0) {
-      grid.innerHTML = `<div class="page-empty" style="grid-column:1/-1;"><div class="page-empty__icon">ðŸ“­</div><div class="page-empty__title">No resources found</div><div class="page-empty__desc">Try clearing a filter, or be the first to add one â€” admins can hit "+ Add Resource" up top.</div></div>`;
+      grid.innerHTML = `<div class="page-empty" style="grid-column:1/-1;"><div class="page-empty__icon">📭</div><div class="page-empty__title">No resources found</div><div class="page-empty__desc">Try clearing a filter, or be the first to add one — admins can hit "+ Add Resource" up top.</div></div>`;
       return;
     }
 
     grid.innerHTML = filtered.map(r => {
       const canDel      = isAdmin || (currentUser && r.authorId === currentUser.uid);
       const authorShort = (r.authorName || 'Unknown').split(' ')[0];
-      const delBtn      = canDel ? `<button class="res-del-btn" data-del="${r.id}" title="Remove">âœ•</button>` : '';
+      const delBtn      = canDel ? `<button class="res-del-btn" data-del="${r.id}" title="Remove">✕</button>` : '';
       const subject     = escHtml(r.subject || 'General');
       const title       = escHtml(r.title || '');
       const desc        = escHtml(r.description || '');
       const url         = escHtml(r.url || '');
-      const meta        = `by ${escHtml(authorShort)} Â· ${relativeTime(r.createdAt)}`;
+      const meta        = `by ${escHtml(authorShort)} · ${relativeTime(r.createdAt)}`;
 
       if (r.type === 'video') {
         return `
@@ -945,7 +945,7 @@ body { overflow-x: clip; }
               <p class="res-desc">${desc}</p>
               <div class="res-footer">
                 <span class="res-meta">${meta}</span>
-                <a href="${url}" target="_blank" rel="noopener noreferrer" class="res-open-btn btn-pdf">ðŸ“„ Open PDF</a>
+                <a href="${url}" target="_blank" rel="noopener noreferrer" class="res-open-btn btn-pdf">📄 Open PDF</a>
               </div>
             </div>
           </div>`;
@@ -970,14 +970,14 @@ body { overflow-x: clip; }
               <p class="res-desc">${desc}</p>
               <div class="res-footer">
                 <span class="res-meta">${meta}</span>
-                <a href="${url}" target="_blank" rel="noopener noreferrer" class="res-open-btn btn-website">ðŸŒ Visit</a>
+                <a href="${url}" target="_blank" rel="noopener noreferrer" class="res-open-btn btn-website">🌐 Visit</a>
               </div>
             </div>
           </div>`;
       }
 
       // Other / fallback
-      const icon = TYPE_ICONS[r.type] || 'ðŸ“¦';
+      const icon = TYPE_ICONS[r.type] || '📦';
       return `
         <div class="card-other" data-id="${r.id}">
           ${delBtn}
@@ -1007,7 +1007,7 @@ body { overflow-x: clip; }
     });
   }
 
-  // â”€â”€ Filters â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Filters ──────────────────────────────────────────────────
   // 2026-05-22 sidebar removed; pill rows in body. Selector .lib-pill replaces .sf-btn.
   document.getElementById('typeFilters').addEventListener('click', e => {
     const btn = e.target.closest('.lib-pill');
@@ -1030,7 +1030,7 @@ body { overflow-x: clip; }
     renderGrid();
   });
 
-  // â”€â”€ Add Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Add Modal ────────────────────────────────────────────────
   function openModal() {
     document.getElementById('resTitle').value = '';
     document.getElementById('resUrl').value = '';
@@ -1068,7 +1068,7 @@ body { overflow-x: clip; }
       errEl.textContent = 'URL must start with http:// or https://'; return;
     }
 
-    btn.disabled = true; btn.textContent = 'Addingâ€¦';
+    btn.disabled = true; btn.textContent = 'Adding…';
     try {
       await addDoc(collection(db, 'library'), {
         title, url, description: desc, type, subject,
@@ -1084,7 +1084,7 @@ body { overflow-x: clip; }
     btn.disabled = false; btn.textContent = 'Add Resource';
   });
 
-  // â”€â”€ Confirm â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Confirm ──────────────────────────────────────────────────
   let confirmCb = null;
   function showConfirm(title, msg, cb) {
     document.querySelector('#confirmOverlay .confirm-box h4').textContent = title;
@@ -1106,10 +1106,10 @@ body { overflow-x: clip; }
 <footer class="page-footer" role="contentinfo">
   <div class="page-footer__inner">
     <div class="page-footer__cta">
-      <span class="page-footer__cta-eyebrow">My Hub Â· Communications</span>
+      <span class="page-footer__cta-eyebrow">My Hub · Communications</span>
       <h2 class="page-footer__cta-title">Resources shared across the network.</h2>
       <p class="page-footer__cta-desc">Teaching resources, videos, exemplars, and references shared by colleagues across every partner school. Filter by category or subject; admins curate the catalogue from this page.</p>
-      <a href="references.html" class="page-footer__cta-btn">Open References <span aria-hidden="true">â†’</span></a>
+      <a href="references.html" class="page-footer__cta-btn">Open References <span aria-hidden="true">→</span></a>
     </div>
     <nav class="page-footer__nav" aria-label="Library footer navigation">
       <div class="page-footer__nav-group">
@@ -1129,8 +1129,8 @@ body { overflow-x: clip; }
     </nav>
   </div>
   <div class="page-footer__meta">
-    <span class="page-footer__meta-left">Â© Eduversal Â· Teachers Hub</span>
-    <span class="page-footer__meta-right">Filter by category and subject â€” admins manage the catalogue.</span>
+    <span class="page-footer__meta-left">© Eduversal · Teachers Hub</span>
+    <span class="page-footer__meta-right">Filter by category and subject — admins manage the catalogue.</span>
   </div>
 </footer>
 </body>
