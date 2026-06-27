@@ -415,18 +415,34 @@ function applyPilotSystemGating(enabled) {
     return enabled.has(sys);
   };
 
+  // Companion intro pages: a single "Read Me First" that introduces a GROUP
+  // of pilot systems rather than one. It must hide only when NONE of the
+  // group's systems is enabled — otherwise it dangles alone after every
+  // functional section under it is pilot-hidden. (welcome = My Hub intro,
+  // covering both Competency CPD + Induction. The per-system read-me pages
+  // in the Performance dropdown are 1:1 with a system and stay in
+  // PILOT_SLUG_MAP instead.)
+  const PILOT_COMPANION_SLUG_MAP = {
+    'welcome': ['competency', 'induction'],
+  };
+  const isCompanionAllowed = (slug) => {
+    const systems = PILOT_COMPANION_SLUG_MAP[slug];
+    if (!systems) return true;
+    return systems.some(sys => enabled.has(sys)); // at least one still on
+  };
+
   // 1. Navbar items (desktop + any data-mobile-nav-key clones).
   document.querySelectorAll('[data-nav-key], [data-mobile-nav-key]').forEach(el => {
     const key = (el.getAttribute('data-nav-key') || el.getAttribute('data-mobile-nav-key') || '').toLowerCase();
     if (!key || PAGE_ACCESS_BYPASS.has(key)) return;
-    if (!isPilotAllowed(key)) el.setAttribute('data-pa-hidden', '1');
+    if (!isPilotAllowed(key) || !isCompanionAllowed(key)) el.setAttribute('data-pa-hidden', '1');
   });
 
   // 2. Dashboard cards by href slug.
   document.querySelectorAll('a.card[href], a.resource-card[href]').forEach(el => {
     const key = slugFromHref(el.getAttribute('href'));
     if (!key || PAGE_ACCESS_BYPASS.has(key)) return;
-    if (!isPilotAllowed(key)) el.setAttribute('data-pa-hidden', '1');
+    if (!isPilotAllowed(key) || !isCompanionAllowed(key)) el.setAttribute('data-pa-hidden', '1');
   });
 
   // 3. Re-evaluate empty wrappers / columns now that pilot hides
