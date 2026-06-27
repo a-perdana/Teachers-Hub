@@ -3184,7 +3184,8 @@
 
       // ── Phase 3 ops: pilot-enrolment gating ───────────────────────
       // Each partner school can opt into a pilot subset of {kpi, appraisal,
-      // competency} via partner_schools/{schoolId}.enabled_systems[]. If the
+      // competency, induction, aicf, students_assessment} via
+      // partner_schools/{schoolId}.enabled_systems[]. If the
       // field is missing, the school is treated as "all enabled" (back-compat).
       // If the field is empty array [], every system is explicitly disabled.
       // Admins always see every card. Regular users see only cards whose
@@ -3209,6 +3210,15 @@
         205: 'induction',   // My Induction
         206: 'induction',   // My Mentees
         211: 'induction',   // Mentor Certification
+        // Students Hub Assessment track (own pilot system since 2026-06-27).
+        // The chapter-test delivery + monitoring flow. Card 306 (the external
+        // Students Hub ↗ link) is intentionally NOT gated — it's a portal
+        // launcher, not a pilot feature.
+        301: 'students_assessment', // Student Approvals
+        302: 'students_assessment', // Schedule Chapter Test
+        303: 'students_assessment', // Live Test Monitor
+        304: 'students_assessment', // Class Assessment
+        305: 'students_assessment', // Essay Grader
       };
 
       async function filterPilotSystemCards(db, profile, isAdmin) {

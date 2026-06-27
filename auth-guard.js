@@ -181,7 +181,7 @@ const PAGE_ACCESS_TTL_MS = 5 * 60 * 1000; // 5 min sessionStorage cache
 
 // ── Pilot-system gating (per-school enrolment) ─────────────────────
 // partner_schools/{schoolId}.enabled_systems[] ⊂ {kpi, appraisal,
-// competency, induction, aicf}. When the field is missing the school is
+// competency, induction, aicf, students_assessment}. When the field is missing the school is
 // treated as "all enabled" (back-compat); empty array means every
 // system is explicitly disabled. Admins and HQ users (no schoolId)
 // always bypass.
@@ -214,6 +214,17 @@ const PILOT_SLUG_MAP = {
   'my-mentees':            'induction',
   'mentor-certification':  'induction',
   'observation-entry':     'induction',
+  // Students Hub Assessment track (own pilot system since 2026-06-27). The
+  // whole "Students Hub Assessment" section of the Teachers dropdown — the
+  // chapter-test delivery + monitoring flow students depend on. read-me is
+  // tagged too so the section header collapses with it (parity with the
+  // Performance read-me pages).
+  'read-me-students-hub-assessment': 'students_assessment',
+  'student-approvals':               'students_assessment',
+  'test-session-launcher':           'students_assessment',
+  'test-monitor':                    'students_assessment',
+  'class-assessment':                'students_assessment',
+  'essay-grader':                    'students_assessment',
   // NB: 'handbook' is intentionally NOT pilot-gated (parity with AH, 2026-05-30).
   // The /handbook surface is the network-wide knowledge base (school-facing
   // handbooks, role-operational 90-day guides, policy docs, AICF playbooks) —
