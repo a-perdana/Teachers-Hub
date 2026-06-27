@@ -71,14 +71,16 @@ function initNavbar() {
       // local dashboard slug just has to be appended (no trigger-highlight refactor).
       dashboards:     [],
       communications: ['announcements','messageboard','surveys','library'],
+      // Reference column (cambridge-standards/cambridge-calendar/academic-calendar/
+      // school-events) moved from Curriculum → P.D. dropdown 2026-06-27.
       curriculum:     ['igcse-math','igcse-biology','igcse-chemistry','igcse-physics',
                        'as-alevel-math','as-alevel-biology','as-alevel-chemistry','as-alevel-physics',
                        'checkpoint-math','checkpoint-english','checkpoint-science',
                        'igcse-math-tracker','igcse-biology-tracker','igcse-chemistry-tracker','igcse-physics-tracker',
                        'checkpoint-math-tracker','checkpoint-english-tracker','checkpoint-science-tracker',
-                       'as-alevel-math-tracker','as-alevel-biology-tracker','as-alevel-chemistry-tracker','as-alevel-physics-tracker',
-                       'cambridge-standards','cambridge-calendar','academic-calendar','school-events'],
+                       'as-alevel-math-tracker','as-alevel-biology-tracker','as-alevel-chemistry-tracker','as-alevel-physics-tracker'],
       pd:             ['handbook','references',
+                       'cambridge-standards','cambridge-calendar','academic-calendar','school-events',
                        'handbook-subject-teacher-induction','handbook-sl-90d',
                        'handbook-safeguarding','handbook-behaviour','handbook-anti-bullying','handbook-ai-use',
                        'handbook-digital-citizenship','handbook-assessment','handbook-attendance',

@@ -3184,7 +3184,7 @@
 
       // ── Phase 3 ops: pilot-enrolment gating ───────────────────────
       // Each partner school can opt into a pilot subset of {kpi, appraisal,
-      // competency, induction, aicf, students_assessment} via
+      // competency, induction, aicf, students_assessment, curriculum} via
       // partner_schools/{schoolId}.enabled_systems[]. If the
       // field is missing, the school is treated as "all enabled" (back-compat).
       // If the field is empty array [], every system is explicitly disabled.
@@ -3257,6 +3257,20 @@
           // Mirror onto the source data so rebuilds re-apply the hide.
           window.__pilotHiddenCardIds ||= new Set();
           window.__pilotHiddenCardIds.add(`res_${cardId}`);
+        }
+
+        // Curriculum track (2026-06-27): the 11 pacing + 11 tracker cards are
+        // too many to enumerate by numeric id in PILOT_CARD_MAP. They all carry
+        // data-pacing-subject, so when 'curriculum' is off, hide every pacing/
+        // tracker card in one slug-agnostic pass. (The Reference column moved to
+        // the P.D. dropdown and is NOT part of this pilot system.)
+        if (!enabled.has('curriculum')) {
+          document.querySelectorAll('.resource-card[data-pacing-subject]').forEach(card => {
+            card.style.display = 'none';
+            card.dataset.pilotHidden = '1';
+            const cid = card.getAttribute('data-card-id');
+            if (cid) { window.__pilotHiddenCardIds ||= new Set(); window.__pilotHiddenCardIds.add(cid); }
+          });
         }
       }
 

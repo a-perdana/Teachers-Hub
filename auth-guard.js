@@ -181,7 +181,7 @@ const PAGE_ACCESS_TTL_MS = 5 * 60 * 1000; // 5 min sessionStorage cache
 
 // ── Pilot-system gating (per-school enrolment) ─────────────────────
 // partner_schools/{schoolId}.enabled_systems[] ⊂ {kpi, appraisal,
-// competency, induction, aicf, students_assessment}. When the field is missing the school is
+// competency, induction, aicf, students_assessment, curriculum}. When the field is missing the school is
 // treated as "all enabled" (back-compat); empty array means every
 // system is explicitly disabled. Admins and HQ users (no schoolId)
 // always bypass.
@@ -225,6 +225,32 @@ const PILOT_SLUG_MAP = {
   'test-monitor':                    'students_assessment',
   'class-assessment':                'students_assessment',
   'essay-grader':                    'students_assessment',
+  // Curriculum track (own pilot system since 2026-06-27). The 11 pacing pages
+  // + 11 cohort trackers — the Cambridge curriculum-planning surface. The
+  // Reference column (cambridge-standards / calendars / school-events) is NOT
+  // here — it moved to the P.D. dropdown and stays always-reachable.
+  'igcse-math':              'curriculum',
+  'igcse-biology':           'curriculum',
+  'igcse-chemistry':         'curriculum',
+  'igcse-physics':           'curriculum',
+  'as-alevel-math':          'curriculum',
+  'as-alevel-biology':       'curriculum',
+  'as-alevel-chemistry':     'curriculum',
+  'as-alevel-physics':       'curriculum',
+  'checkpoint-math':         'curriculum',
+  'checkpoint-english':      'curriculum',
+  'checkpoint-science':      'curriculum',
+  'igcse-math-tracker':          'curriculum',
+  'igcse-biology-tracker':       'curriculum',
+  'igcse-chemistry-tracker':     'curriculum',
+  'igcse-physics-tracker':       'curriculum',
+  'as-alevel-math-tracker':      'curriculum',
+  'as-alevel-biology-tracker':   'curriculum',
+  'as-alevel-chemistry-tracker': 'curriculum',
+  'as-alevel-physics-tracker':   'curriculum',
+  'checkpoint-math-tracker':     'curriculum',
+  'checkpoint-english-tracker':  'curriculum',
+  'checkpoint-science-tracker':  'curriculum',
   // NB: 'handbook' is intentionally NOT pilot-gated (parity with AH, 2026-05-30).
   // The /handbook surface is the network-wide knowledge base (school-facing
   // handbooks, role-operational 90-day guides, policy docs, AICF playbooks) —
