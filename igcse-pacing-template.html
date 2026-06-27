@@ -646,7 +646,7 @@ function renderNav() {
     const collapsed = localStorage.getItem(`navg_${_pacingPrefix}_${key}`) === '1';
     return `<div class="ch-nav-group${collapsed ? ' collapsed' : ''}" data-navg="${key}">
       <div role="button" tabindex="0" class="ch-nav-group-label" onclick="toggleNavGroup('${key}')">
-        <span class="ch-nav-caret" aria-hidden="true">â–¾</span>${label}
+        <span class="ch-nav-caret" aria-hidden="true">▾</span>${label}
       </div>
       ${items}
     </div>`;
@@ -774,7 +774,7 @@ function renderPacing() {
           <button class="sp-btn sp-inprogress" onclick="setChapterStatus(${ci},'inprogress')">In Progress</button>
           <button class="sp-btn sp-done"       onclick="setChapterStatus(${ci},'done')">Done</button>
         </div>
-        <span class="ch-caret">â–¾</span>
+        <span class="ch-caret">▾</span>
       </div>
       <div class="topics-wrap">
         <table class="topics-tbl">
@@ -1206,7 +1206,7 @@ function renderWeekly() {
     <div class="week-card" style="${isCurrent ? 'border-color:var(--accent);box-shadow:0 0 0 2px rgba(192,57,43,.12)' : ''}">
       <div class="week-load-bar"><div class="week-load-fill ${loadClass}" style="width:${loadPct}%"></div></div>
       <div class="week-card-head" style="${isCurrent ? 'background:var(--accent)' : ''}">
-        <div class="week-card-title">Week ${w.replace('Week ','')}${isCurrent ? ' â—€ Now' : ''}</div>
+        <div class="week-card-title">Week ${w.replace('Week ','')}${isCurrent ? ' ◀ Now' : ''}</div>
         <div class="week-hours-tag">${totalHours}h total</div>
       </div>
       <div class="week-topics-list">${sectionsHtml}</div>

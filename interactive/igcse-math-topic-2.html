@@ -669,7 +669,7 @@ svg.nline { display: block; margin: 0 auto; }
   <nav class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <span class="sidebar-label">Modules</span>
-      <button id="collapseBtn" onclick="toggleSidebar()" title="Collapse">â—€</button>
+      <button id="collapseBtn" onclick="toggleSidebar()" title="Collapse">◀</button>
     </div>
 
     <div class="nav-section-label">Core &amp; Extended</div>
@@ -727,7 +727,7 @@ svg.nline { display: block; margin: 0 auto; }
     </div>
 
     <a class="nav-back" href="igcse-math-index.html">
-      <span class="nav-icon">â—€</span><span>All Chapters</span>
+      <span class="nav-icon">◀</span><span>All Chapters</span>
     </a>
   </nav>
 
@@ -2198,7 +2198,7 @@ function dismissTeacherHint() {
 function toggleSidebar() {
   sidebarCollapsed = !sidebarCollapsed;
   document.getElementById('sidebar').classList.toggle('collapsed', sidebarCollapsed);
-  document.getElementById('collapseBtn').textContent = sidebarCollapsed ? 'â–¶' : 'â—€';
+  document.getElementById('collapseBtn').textContent = sidebarCollapsed ? '▶' : '◀';
 }
 
 function toggleMobileNav() {

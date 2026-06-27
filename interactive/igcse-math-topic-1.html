@@ -813,7 +813,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <span class="sidebar-title">Topic 1 — Number</span>
-    <button class="sidebar-toggle" onclick="sidebarToggle()" title="Collapse">â—€</button>
+    <button class="sidebar-toggle" onclick="sidebarToggle()" title="Collapse">◀</button>
   </div>
   <button class="nav-item active" onclick="showModule(0)"><span class="nav-icon">🌳</span><span class="nav-label">Prime Factor Lab</span></button>
   <button class="nav-item" onclick="showModule(1)"><span class="nav-icon">🍕</span><span class="nav-label">Fraction Builder</span></button>
@@ -845,7 +845,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
   <!-- Back to chapter index -->
   <div style="margin-top:auto;padding:14px;border-top:1px solid rgba(255,255,255,0.08);">
     <a href="igcse-math-index.html" style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.4);font-size:0.8rem;text-decoration:none;padding:8px 0;transition:color 0.15s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">
-      <span>â—€</span><span class="nav-label">All Chapters</span>
+      <span>◀</span><span class="nav-label">All Chapters</span>
     </a>
   </div>
 </nav>
@@ -889,7 +889,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="input-row">
       <label class="bold">Number (2–500):</label>
       <input type="number" id="pf-input" class="inp-sm" min="2" max="500" value="60" onkeydown="if(event.key==='Enter')pfStart()" />
-      <button class="btn btn-primary" onclick="pfStart()">â–¶ Start</button>
+      <button class="btn btn-primary" onclick="pfStart()">▶ Start</button>
       <button class="btn btn-secondary" onclick="pfReset()">↺ Reset</button>
     </div>
   </div>
@@ -1548,7 +1548,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
         <option value="0.166" data-mult="100" data-diff="15" data-denom="90" data-simp="1/6"  data-block="mixed">0.16̄ = 0.1666… (mixed)</option>
         <option value="0.416" data-mult="100" data-diff="37" data-denom="90" data-simp="5/12" data-block="mixed">0.41̄6̄ = 0.4166… (mixed)</option>
       </select>
-      <button class="btn btn-primary" onclick="rdLoad()">â–¶ Start</button>
+      <button class="btn btn-primary" onclick="rdLoad()">▶ Start</button>
     </div>
 
     <div id="rd-steps-container" style="display:none;">
@@ -1915,7 +1915,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
           <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--blue);color:white;border-radius:8px;padding:6px 14px;font-weight:700;">D</div>
           <div style="position:absolute;bottom:0;left:4px;background:#16a34a;color:white;border-radius:8px;padding:6px 12px;font-weight:700;">S</div>
           <div style="position:absolute;bottom:0;right:4px;background:#d97706;color:white;border-radius:8px;padding:6px 12px;font-weight:700;">T</div>
-          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.2rem;color:var(--muted);">â–³</div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.2rem;color:var(--muted);">△</div>
         </div>
         <div class="text-muted" style="font-size:0.8rem;margin-top:8px;">S = D÷T &nbsp;|&nbsp; D = S×T &nbsp;|&nbsp; T = D÷S</div>
       </div>
@@ -1925,7 +1925,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
           <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--blue);color:white;border-radius:8px;padding:6px 14px;font-weight:700;">M</div>
           <div style="position:absolute;bottom:0;left:4px;background:#7c3aed;color:white;border-radius:8px;padding:6px 12px;font-weight:700;">D</div>
           <div style="position:absolute;bottom:0;right:4px;background:#0891b2;color:white;border-radius:8px;padding:6px 12px;font-weight:700;">V</div>
-          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.2rem;color:var(--muted);">â–³</div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.2rem;color:var(--muted);">△</div>
         </div>
         <div class="text-muted" style="font-size:0.8rem;margin-top:8px;">D = M÷V &nbsp;|&nbsp; M = D×V &nbsp;|&nbsp; V = M÷D</div>
       </div>
@@ -2436,7 +2436,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
     <div class="input-row">
       <label class="bold">Number:</label>
       <input aria-label="e.g. −3, 0.5, √2, 9" type="text" id="nt-input" class="inp-md" placeholder="e.g. −3, 0.5, √2, 9" onkeydown="if(event.key==='Enter')ntAnalyse()" />
-      <button class="btn btn-primary" onclick="ntAnalyse()">â–¶ Analyse</button>
+      <button class="btn btn-primary" onclick="ntAnalyse()">▶ Analyse</button>
       <button class="btn btn-secondary" onclick="ntRandom()">↺ Random</button>
     </div>
     <div class="feedback" id="nt-analyse-fb"></div>
@@ -2704,7 +2704,7 @@ function sidebarToggle() {
   const sb = document.getElementById('sidebar');
   const btn = sb.querySelector('.sidebar-toggle');
   sb.classList.toggle('collapsed');
-  btn.textContent = sb.classList.contains('collapsed') ? 'â–¶' : 'â—€';
+  btn.textContent = sb.classList.contains('collapsed') ? '▶' : '◀';
 }
 
 function sidebarMobileToggle() {
@@ -8141,7 +8141,7 @@ function ecInit() {
         </div>
       </div>
     </div>
-    <button class="btn btn-primary" onclick="eg2Calc()">â–¶ Calculate</button>
+    <button class="btn btn-primary" onclick="eg2Calc()">▶ Calculate</button>
     <div id="eg2-calc-out" style="display:none;margin-top:14px;">
       <div id="eg2-calc-summary" style="background:var(--slate);border-radius:8px;padding:12px 16px;margin-bottom:10px;font-size:0.9rem;"></div>
       <div style="overflow-x:auto;">

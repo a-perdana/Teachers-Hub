@@ -740,7 +740,7 @@ body {
       <div class="guide-box" id="howtoBox">
         <div role="button" tabindex="0" class="guide-box-head purple" onclick="this.closest('.guide-box').classList.toggle('collapsed')">
           <span>📋 How to Complete This Assessment</span>
-          <span class="guide-box-chevron">â–¼</span>
+          <span class="guide-box-chevron">▼</span>
         </div>
         <div class="guide-box-body">
           <div class="howto-steps">
@@ -810,7 +810,7 @@ body {
       <div class="guide-box collapsed">
         <div role="button" tabindex="0" class="guide-box-head purple" onclick="this.closest('.guide-box').classList.toggle('collapsed')">
           <span>⭐ Rating Scale Guide</span>
-          <span class="guide-box-chevron">â–¼</span>
+          <span class="guide-box-chevron">▼</span>
         </div>
         <div class="guide-box-body">
           <div class="rating-scale">
@@ -928,7 +928,7 @@ body {
       <div class="guide-box collapsed">
         <div role="button" tabindex="0" class="guide-box-head amber" onclick="this.closest('.guide-box').classList.toggle('collapsed')">
           <span>💡 Tips for Effective Self-Assessment</span>
-          <span class="guide-box-chevron">â–¼</span>
+          <span class="guide-box-chevron">▼</span>
         </div>
         <div class="guide-box-body">
           <div class="tips-list">
@@ -1154,7 +1154,7 @@ function renderKPIs() {
             ${rating ? '★'.repeat(rating) + ' ' + rating + '/5' : '—'}
           </span>
           ${hasDone ? `<span class="kpi-done-check">✓</span>` : ''}
-          <span class="kpi-chevron">â–¼</span>
+          <span class="kpi-chevron">▼</span>
         </div>
       </button>
       <div class="kpi-body" id="kb-${kpi.id}">

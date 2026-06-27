@@ -244,7 +244,7 @@ canvas { max-width: 100%; }
   <nav class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <span class="sidebar-label">Modules</span>
-      <button id="collapseBtn" onclick="toggleSidebar()" title="Collapse">â—€</button>
+      <button id="collapseBtn" onclick="toggleSidebar()" title="Collapse">◀</button>
     </div>
 
     <div class="nav-section-label">Core &amp; Extended</div>
@@ -262,7 +262,7 @@ canvas { max-width: 100%; }
     <div role="button" tabindex="0" class="nav-item" onclick="showModule(7)"><span class="nav-icon">🏆</span><span class="nav-text">7 · Exam Challenge</span></div>
 
     <a class="nav-back" href="igcse-math-index.html">
-      <span class="nav-icon">â—€</span><span>All Chapters</span>
+      <span class="nav-icon">◀</span><span>All Chapters</span>
     </a>
   </nav>
 
@@ -977,7 +977,7 @@ canvas { max-width: 100%; }
     <section class="module" id="mod-6">
       <div class="mod-header">
         <div class="breadcrumb">Topic 3 → <span>Module 6</span></div>
-        <h1>â­• Loci &amp; Regions <span class="badge badge-ext" style="font-size:0.75rem;vertical-align:middle;">Extended</span></h1>
+        <h1>⭕ Loci &amp; Regions <span class="badge badge-ext" style="font-size:0.75rem;vertical-align:middle;">Extended</span></h1>
       </div>
 
       <div class="progress-card">
@@ -1160,7 +1160,7 @@ function dismissTeacherHint() {
 function toggleSidebar() {
   sidebarCollapsed = !sidebarCollapsed;
   document.getElementById('sidebar').classList.toggle('collapsed', sidebarCollapsed);
-  document.getElementById('collapseBtn').textContent = sidebarCollapsed ? 'â–¶' : 'â—€';
+  document.getElementById('collapseBtn').textContent = sidebarCollapsed ? '▶' : '◀';
 }
 function toggleMobileNav() {
   document.getElementById('sidebar').classList.toggle('mobile-open');
