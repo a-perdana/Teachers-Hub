@@ -195,6 +195,22 @@
       return `<button class="ec-filter-chip${active ? ' is-active' : ''}" data-filter="${escapeHtml(key)}" style="--c:${cfg.color}">${escapeHtml(label)}</button>`;
     }).join('');
 
+    // Host pages that already ship their own canonical .page-hero (e.g. AH)
+    // set window.ACADEMIC_CAL_NO_HERO so the widget skips its own dark banner
+    // and instead emits a single-line light toolbar (view switch + filter
+    // chips) that sits directly under the page hero. TH keeps the dark hero.
+    if (window.ACADEMIC_CAL_NO_HERO) {
+      return `
+        <div class="ec-toolbar">
+          <div class="ec-view-switch ec-view-switch-light">${viewBtns}</div>
+          <div class="ec-filter-row ec-filter-row-light">
+            <span class="ec-filter-row-label">Filter:</span>
+            ${filterChips}
+          </div>
+        </div>
+      `;
+    }
+
     return `
       <div class="ec-hero">
         <div class="ec-hero-top">
@@ -608,6 +624,38 @@
       background: var(--c); color: #fff; border-color: var(--c);
       opacity: 1;
       box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+
+    /* ── Light toolbar (host supplies its own page hero) ── */
+    /* Single line under the page hero: view switch on the left, filter
+       chips on the right. Used when window.ACADEMIC_CAL_NO_HERO is set. */
+    .ec-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      max-width: 1200px; margin: 0 auto; padding: 16px 24px 4px;
+    }
+    .ec-view-switch-light {
+      background: #EEF2F7; border: 1px solid #E2E8F0;
+    }
+    .ec-view-switch-light .ec-view-btn { color: #475569; }
+    .ec-view-switch-light .ec-view-btn.is-active {
+      background: #fff; color: #1E3A5F;
+      box-shadow: 0 1px 2px rgba(15,23,42,0.12);
+    }
+    .ec-view-switch-light .ec-view-btn:hover:not(.is-active) { color: #0F172A; }
+    .ec-filter-row-light .ec-filter-row-label { color: #64748B; }
+    .ec-filter-row-light .ec-filter-chip {
+      background: #fff; border: 1.5px solid #E2E8F0;
+      color: #64748B; opacity: 1;
+    }
+    .ec-filter-row-light .ec-filter-chip:hover {
+      border-color: var(--c); color: var(--c);
+    }
+    .ec-filter-row-light .ec-filter-chip.is-active {
+      background: var(--c); color: #fff; border-color: var(--c);
+    }
+    @media (max-width: 640px) {
+      .ec-toolbar { padding: 12px 12px 4px; }
     }
 
     /* ── Strip view ── */
