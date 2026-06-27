@@ -193,17 +193,21 @@ const PAGE_ACCESS_TTL_MS = 5 * 60 * 1000; // 5 min sessionStorage cache
 // trackers, hub, careers) are absent — they're always reachable.
 const PILOT_SLUG_MAP = {
   // KPI track
+  'read-me-kpi':             'kpi',
   'teacher-self-assessment': 'kpi',
   'teacher-kpi-results':     'kpi',
   // Appraisal track
+  'read-me-appraisal':         'appraisal',
   'teacher-self-appraisal':    'appraisal',
   'teacher-appraisal-results': 'appraisal',
   // Competency track
+  'read-me-competency':   'competency',
   'competency-framework': 'competency',
   'learning-path':        'competency',
   'my-portfolio':         'competency',
   'my-certificates':      'competency',
   // AICF track (AI Competency Framework — own pilot system since 2026-05-30)
+  'read-me-ai':           'aicf',
   'ai-self-assessment':   'aicf',
   // Induction track
   'my-induction':          'induction',
