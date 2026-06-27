@@ -420,6 +420,10 @@ function initThMobileMenu() {
   function build() {
     menu.innerHTML = '';
     document.querySelectorAll('.th-dd-wrap').forEach(wrap => {
+      // Skip dropdowns hidden at the source (e.g. Dashboards, deferred until the
+      // per-school dashboard matrix ships) so the mobile drawer doesn't emit a
+      // dangling section header + items for a desktop-hidden menu.
+      if (wrap.hidden) return;
       const triggerLabel = wrap.querySelector('.th-dd-trigger')?.childNodes;
       // Pick the trigger's text content (skip <svg>s) for the section header
       let label = '';

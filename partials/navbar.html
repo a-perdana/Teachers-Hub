@@ -500,6 +500,8 @@
 
   /* ── Dropdown menus ─────────────────────────────────────────── */
   .th-dd-wrap { position: relative; }
+  /* hidden attribute must win even if a future display rule lands on .th-dd-wrap (CM #42) */
+  .th-dd-wrap[hidden] { display: none !important; }
   .th-dd-trigger {
     display: flex; align-items: center; gap: 6px;
     padding: 7px 13px; border-radius: 8px;
@@ -684,8 +686,11 @@
 
     <!-- Dashboards dropdown (cross-hub link to Academic Hub network panels — 2026-05-22)
          All items deeplink to https://academichub.eduversal.org/<slug> in a new tab.
-         data-nav-key prefix "ah-dash-" is mobile-walker tag only (no TH page_access_config doc). -->
-    <div class="th-dd-wrap" id="thDdWrap-dashboards">
+         data-nav-key prefix "ah-dash-" is mobile-walker tag only (no TH page_access_config doc).
+         HIDDEN 2026-06-27: deferred until the per-school dashboard matrix ships (which
+         school sees which AH dashboard). Markup kept intact — remove `hidden` to restore.
+         Mobile drawer build() skips .th-dd-wrap[hidden] so this stays hidden there too. -->
+    <div class="th-dd-wrap" id="thDdWrap-dashboards" hidden>
       <button class="th-dd-trigger" data-dd="dashboards" aria-haspopup="true" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
         Dashboards
