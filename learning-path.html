@@ -2394,7 +2394,7 @@ window.openMat = async function(compId, matId, lvl) {
   if (Array.isArray(content?.commonPitfalls) && content.commonPitfalls.length) {
     cpEl.innerHTML = '<div class="mat-section-title" style="margin-top:22px;">Common Pitfalls — Don't Do This</div>' +
       '<div class="mat-pitfalls-box">' +
-      content.commonPitfalls.map(p => '<div class="mat-pitfall-item"><span class="mat-pitfall-icon">âš </span><div>' + escHtmlSafe(p) + '</div></div>').join('') +
+      content.commonPitfalls.map(p => '<div class="mat-pitfall-item"><span class="mat-pitfall-icon">⚠</span><div>' + escHtmlSafe(p) + '</div></div>').join('') +
       '</div>';
   } else { cpEl.innerHTML = ''; }
 

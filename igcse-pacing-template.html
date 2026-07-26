@@ -1275,7 +1275,7 @@ function renderCoverage() {
       <div class="cov-stat ok"><div class="cov-stat-num">${covered}</div><div class="cov-stat-label">Fully covered (${pct}%)</div></div>
       <div class="cov-stat"><div class="cov-stat-num" style="color:var(--amber,#d97706)">${partial}</div><div class="cov-stat-label">In progress</div></div>
       <div class="cov-stat danger"><div class="cov-stat-num">${uncov}</div><div class="cov-stat-label">Not started</div></div>
-      ${weakCodes > 0 ? `<div class="cov-stat danger"><div class="cov-stat-num">${weakCodes}</div><div class="cov-stat-label">âš  Has weak topic</div></div>` : ''}
+      ${weakCodes > 0 ? `<div class="cov-stat danger"><div class="cov-stat-num">${weakCodes}</div><div class="cov-stat-label">⚠ Has weak topic</div></div>` : ''}
     </div>
 
     <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;margin-bottom:16px;box-shadow:var(--shadow-sm)">
@@ -1293,7 +1293,7 @@ function renderCoverage() {
       <button class="cov-filter-chip${coverageFilter==='covered'?' on':''}" onclick="setCovFilter('covered')">Covered (${covered})</button>
       <button class="cov-filter-chip${coverageFilter==='partial'?' on':''}" onclick="setCovFilter('partial')">In Progress (${partial})</button>
       <button class="cov-filter-chip${coverageFilter==='uncovered'?' on':''}" onclick="setCovFilter('uncovered')">Not Started (${uncov})</button>
-      ${weakCodes > 0 ? `<button class="cov-filter-chip${coverageFilter==='weak'?' on':''}" onclick="setCovFilter('weak')" style="border-color:#fca5a5;color:#dc2626">âš  Weak (${weakCodes})</button>` : ''}
+      ${weakCodes > 0 ? `<button class="cov-filter-chip${coverageFilter==='weak'?' on':''}" onclick="setCovFilter('weak')" style="border-color:#fca5a5;color:#dc2626">⚠ Weak (${weakCodes})</button>` : ''}
     </div>
 
     ${visible.length === 0 ? '<p style="color:var(--ink-3);font-size:.8rem;padding:12px 0">No objectives match this filter.</p>' : ''}
@@ -1324,13 +1324,13 @@ function renderCoverage() {
               const badge    = allDone ? 'covered' : someDone ? 'partial' : 'uncovered';
               const badgeLabel = allDone ? 'Covered' : someDone ? 'In Progress' : 'Not Started';
               const diagBadge = hasWeak
-                ? `<span style="font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:100px;background:#fee2e2;color:#dc2626;border:1px solid #fca5a5;white-space:nowrap">âš  Weak</span>`
+                ? `<span style="font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:100px;background:#fee2e2;color:#dc2626;border:1px solid #fca5a5;white-space:nowrap">⚠ Weak</span>`
                 : hasReview
                 ? `<span style="font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:100px;background:#fef9c3;color:#92400e;border:1px solid #fde68a;white-space:nowrap">↻ Review</span>`
                 : '';
               const topicLinks = topics.map(t => {
                 const diagDot = t.diag === 'weak'
-                  ? `<span title="Weak" style="color:#dc2626;font-size:.7rem">âš </span>`
+                  ? `<span title="Weak" style="color:#dc2626;font-size:.7rem">⚠</span>`
                   : t.diag === 'review'
                   ? `<span title="Needs review" style="color:#d97706;font-size:.7rem">↻</span>`
                   : '';
@@ -1441,13 +1441,13 @@ function renderDiagRollup() {
       ${totalWeak > 0 ? `
       <div style="background:white;border:1px solid #fca5a5;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm)">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
-          <span style="font-size:1rem">âš </span>
+          <span style="font-size:1rem">⚠</span>
           <div>
             <div style="font-size:.78rem;font-weight:700;color:#dc2626">${totalWeak} Weak Topic${totalWeak !== 1 ? 's' : ''}</div>
             <div style="font-size:.68rem;color:var(--ink-3)">Flagged by coordinator — needs re-teaching</div>
           </div>
         </div>
-        ${renderChapterList(weakByChapter, '#dc2626', '#fee2e2', 'âš ', 'weak')}
+        ${renderChapterList(weakByChapter, '#dc2626', '#fee2e2', '⚠', 'weak')}
       </div>
       ` : ''}
 

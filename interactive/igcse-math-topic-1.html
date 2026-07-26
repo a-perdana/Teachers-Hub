@@ -821,7 +821,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
   <button class="nav-item" onclick="showModule(3)"><span class="nav-icon">⚖️</span><span class="nav-label">Ratio Challenge</span></button>
   <button class="nav-item" onclick="showModule(4)"><span class="nav-icon">🎯</span><span class="nav-label">Estimation Game</span></button>
   <button class="nav-item" onclick="showModule(5)"><span class="nav-icon">🔢</span><span class="nav-label">Number Types</span></button>
-  <button class="nav-item" onclick="showModule(6)"><span class="nav-icon">âš¡</span><span class="nav-label">Indices Lab</span></button>
+  <button class="nav-item" onclick="showModule(6)"><span class="nav-icon">⚡</span><span class="nav-label">Indices Lab</span></button>
   <button class="nav-item" onclick="showModule(7)"><span class="nav-icon">🟥</span><span class="nav-label">Powers & Roots</span></button>
   <button class="nav-item" onclick="showModule(8)"><span class="nav-icon">🧮</span><span class="nav-label">BODMAS Engine</span></button>
   <button class="nav-item" onclick="showModule(9)"><span class="nav-icon">💹</span><span class="nav-label">Percentages</span></button>
@@ -2288,7 +2288,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 
   <!-- Quick recall -->
   <div class="card">
-    <div class="card-title">âš¡ Quick Recall Challenge</div>
+    <div class="card-title">⚡ Quick Recall Challenge</div>
     <div class="card-desc">Answer as fast as you can — mixed squares, cubes, square roots, and cube roots. Hit Enter to move on.</div>
     <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:12px;">
       <div class="problem-display" id="pr-qr-q" style="font-size:2rem;flex:1;min-width:160px;margin:0;"></div>
@@ -2313,7 +2313,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 <section class="module" id="mod-6">
 
   <div class="progress-card">
-    <span class="prog-label">âš¡ Indices Lab</span>
+    <span class="prog-label">⚡ Indices Lab</span>
     <div class="prog-track"><div class="prog-fill" id="il-bar"></div></div>
     <span class="prog-count" id="il-score">0 pts</span>
   </div>
@@ -2330,7 +2330,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 
   <!-- Rule selector -->
   <div class="card">
-    <div class="card-title">âš¡ Indices Lab</div>
+    <div class="card-title">⚡ Indices Lab</div>
     <div class="card-desc">Select a rule to practise, then simplify the expression step by step.</div>
     <div class="gap-row">
       <button class="btn btn-primary"   onclick="ilLoad(0)">aᵐ × aⁿ</button>
@@ -2515,7 +2515,7 @@ input.inp-wrong   { border-color: var(--red)   !important; background: #fef2f2; 
 
   <!-- Quick-fire round -->
   <div class="card">
-    <div class="card-title">âš¡ Quick-Fire Round</div>
+    <div class="card-title">⚡ Quick-Fire Round</div>
     <div class="card-desc">A number is shown. Select the ONE best category it is most specifically known for, then hit Check.</div>
     <div class="problem-display" id="qf-problem" style="font-size:2rem;">—</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;" id="qf-options"></div>
@@ -4881,8 +4881,8 @@ function ilAddCheck() {
 const NT_SPECIALS = {
   'sqrt2': { display: '√2',  natural:false, integer:false, prime:false, square:false, cube:false, rational:false, irrational:true,  value: Math.SQRT2 },
   '√2':    { display: '√2',  natural:false, integer:false, prime:false, square:false, cube:false, rational:false, irrational:true,  value: Math.SQRT2 },
-  'pi':    { display: 'Ï€',   natural:false, integer:false, prime:false, square:false, cube:false, rational:false, irrational:true,  value: Math.PI },
-  'Ï€':     { display: 'Ï€',   natural:false, integer:false, prime:false, square:false, cube:false, rational:false, irrational:true,  value: Math.PI },
+  'pi':    { display: 'π',   natural:false, integer:false, prime:false, square:false, cube:false, rational:false, irrational:true,  value: Math.PI },
+  'π':     { display: 'π',   natural:false, integer:false, prime:false, square:false, cube:false, rational:false, irrational:true,  value: Math.PI },
   'e':     { display: 'e',   natural:false, integer:false, prime:false, square:false, cube:false, rational:false, irrational:true,  value: Math.E },
   'sqrt3': { display: '√3',  natural:false, integer:false, prime:false, square:false, cube:false, rational:false, irrational:true,  value: Math.sqrt(3) },
   '√3':    { display: '√3',  natural:false, integer:false, prime:false, square:false, cube:false, rational:false, irrational:true,  value: Math.sqrt(3) },
@@ -8276,13 +8276,13 @@ function ecInit() {
             <td style="padding:7px 14px;font-weight:700;">Inverse</td>
             <td style="padding:7px 14px;font-family:var(--font-mono);">y ∝ 1/x</td>
             <td style="padding:7px 14px;font-family:var(--font-mono);">y = k/x</td>
-            <td style="padding:7px 14px;">halves (×½)</td>
+            <td style="padding:7px 14px;">halves (׽)</td>
           </tr>
           <tr style="background:#fdf4ff;">
             <td style="padding:7px 14px;font-weight:700;">Inverse Squared</td>
             <td style="padding:7px 14px;font-family:var(--font-mono);">y ∝ 1/x²</td>
             <td style="padding:7px 14px;font-family:var(--font-mono);">y = k/x²</td>
-            <td style="padding:7px 14px;">quarters (×¼)</td>
+            <td style="padding:7px 14px;">quarters (׼)</td>
           </tr>
         </tbody>
       </table>
