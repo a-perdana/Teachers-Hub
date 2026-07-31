@@ -69,9 +69,10 @@ const envVars = [
   'FIREBASE_STORAGE_BUCKET',
   'FIREBASE_MESSAGING_SENDER_ID',
   'FIREBASE_APP_ID',
-  // Resend mail-service (used by careers-admin + careers-apply)
-  'MAIL_SERVICE_URL',
-  'MAIL_SERVICE_SECRET'
+  // Resend mail-service (used by careers-admin + careers-apply).
+  // MAIL_SERVICE_SECRET removed 2026-08-01 — sends route through the
+  // CH mailRelay Cloud Function; the bearer never ships to the browser.
+  'MAIL_SERVICE_URL'
 ];
 
 // Map: source filename -> clean URL path (relative to dist root)

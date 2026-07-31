@@ -17,5 +17,6 @@ window.ENV = {
   FIREBASE_APP_ID:              "YOUR_APP_ID",
   // Resend mail-service (used by careers-admin candidate emails + careers-apply confirmations)
   MAIL_SERVICE_URL:             "https://YOUR_RAILWAY_APP.railway.app",
-  MAIL_SERVICE_SECRET:          "YOUR_API_SECRET",
+  // MAIL_SERVICE_SECRET removed 2026-08-01 — never put the Resend bearer
+  // in window.ENV; sends route through the CH mailRelay Cloud Function.
 };

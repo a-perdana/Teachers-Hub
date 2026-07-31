@@ -28,11 +28,15 @@
 (function () {
   'use strict';
 
-  function getServiceUrl() {
-    return (window.ENV?.MAIL_SERVICE_URL || '').replace(/\/$/, '');
-  }
-  function getServiceSecret() {
-    return window.ENV?.MAIL_SERVICE_SECRET || '';
+  // 2026-08-01: sends now go through the CH mailRelay Cloud Function so
+  // the Resend bearer secret stays in Secret Manager instead of shipping
+  // to the browser via window.ENV. Signed-in callers (careers-admin) use
+  // their Firebase ID token; the public /careers-apply confirmation uses
+  // the unauthenticated 'applicationReceived' action (template pinned +
+  // rate-limited server-side).
+  function getRelayUrl() {
+    const pid = window.ENV?.FIREBASE_PROJECT_ID || 'centralhub-8727b';
+    return `https://asia-southeast1-${pid}.cloudfunctions.net/mailRelay`;
   }
 
   /**
@@ -52,12 +56,6 @@
     toEmail, toName, subject, bodyHtml, bodyText,
     templateName = 'default', replyTo, footerNote, tags,
   }) {
-    const url    = getServiceUrl();
-    const secret = getServiceSecret();
-    if (!url || !secret) {
-      console.warn('[mailer] MAIL_SERVICE_URL / MAIL_SERVICE_SECRET not configured — skipping send');
-      return { ok: false, error: 'mail-service not configured' };
-    }
     if (!toEmail || !subject) {
       console.warn('[mailer] missing required fields', { toEmail, subject });
       return { ok: false, error: 'missing toEmail or subject' };
@@ -76,25 +74,32 @@
     if (footerNote) payload.footerNote = footerNote;
     if (Array.isArray(tags) && tags.length) payload.tags = tags;
 
+    // Signed-in caller → 'transactional' with ID token. Public caller
+    // (careers-apply confirmation) → anonymous 'applicationReceived'.
+    let idToken = null;
+    try { idToken = await window.auth?.currentUser?.getIdToken?.(); } catch (_) {}
+    const data = idToken
+      ? { action: 'transactional', payload }
+      : { action: 'applicationReceived', payload };
+
     try {
       const ctrl  = new AbortController();
       const timer = setTimeout(() => ctrl.abort(), 20000);
-      const res = await fetch(url + '/send-transactional', {
+      const headers = { 'Content-Type': 'application/json' };
+      if (idToken) headers['Authorization'] = 'Bearer ' + idToken;
+      const res = await fetch(getRelayUrl(), {
         method: 'POST',
-        headers: {
-          'Content-Type':  'application/json',
-          'Authorization': 'Bearer ' + secret,
-        },
-        body: JSON.stringify(payload),
+        headers,
+        body: JSON.stringify({ data }),
         signal: ctrl.signal,
       });
       clearTimeout(timer);
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        console.warn('[mailer] send failed', res.status, data);
-        return { ok: false, error: data.error || ('HTTP ' + res.status) };
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok || j.error) {
+        console.warn('[mailer] send failed', res.status, j);
+        return { ok: false, error: j.error?.message || ('HTTP ' + res.status) };
       }
-      return { ok: true, id: data.id || null };
+      return { ok: true, id: j.result?.id || null };
     } catch (err) {
       console.warn('[mailer] network error', err);
       return { ok: false, error: err.message };
