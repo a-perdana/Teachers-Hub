@@ -128,6 +128,43 @@ window.storage     = storage;
 // Expose Firestore helpers for navbar.js initTeachingProfile (set early; navbar.js picks them up after authReady)
 window.__firestoreHelpers = { db, setDoc, doc };
 
+// ── Global error reporter (2026-08-01 pre-launch hardening) ──────
+// Mirrors the CH auth-guard reporter — keep all three hubs in sync.
+// Writes size-capped docs to `client_errors` (admin-read-only; rule caps
+// field sizes) so production breakage is visible to HQ without user
+// reports. Max 5 reports/session, per-message dedupe, signed-in only.
+const _errSeen = new Set();
+let _errCount = 0;
+function reportClientError(message, stack) {
+  try {
+    if (_errCount >= 5) return;
+    const msg = String(message || '').slice(0, 2000);
+    if (!msg) return;
+    const key = msg.slice(0, 120);
+    if (_errSeen.has(key)) return;
+    _errSeen.add(key);
+    const u = auth?.currentUser;
+    if (!u) return;
+    _errCount++;
+    addDoc(collection(db, 'client_errors'), {
+      userId: u.uid,
+      message: msg,
+      stack: String(stack || '').slice(0, 4000),
+      page: (location.pathname + location.search).slice(0, 300),
+      ua: (navigator.userAgent || '').slice(0, 400),
+      hub: 'teachershub',
+      createdAt: serverTimestamp(),
+    }).catch(() => { /* reporter must never cascade */ });
+  } catch (_) { /* reporter must never throw */ }
+}
+window.addEventListener('error', (e) => {
+  reportClientError(e?.message || 'window.onerror', e?.error?.stack);
+});
+window.addEventListener('unhandledrejection', (e) => {
+  const r = e?.reason;
+  reportClientError((r && (r.message || String(r))) || 'unhandledrejection', r?.stack);
+});
+
 // ── Academic year — single source of truth ────────────────────────
 // Derives the "YYYY-YYYY" label from `calendar_settings/current`. NEVER hardcode
 // or date-guess the academic year in a page — call window.getCurrentAcademicYear()
