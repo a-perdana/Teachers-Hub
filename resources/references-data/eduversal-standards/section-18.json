@@ -392,11 +392,6 @@
           "text": "Throughout the accreditation process, we demonstrate how curriculum, instruction, assessment, student support, and all school operations systematically advance these SLOs."
         },
         {
-          "type": "text",
-          "title": "Framework currency - read before using the crosswalk",
-          "text": "The CIS and WASC references in this section describe superseded editions. CIS replaced its domain structure in November 2024 with 18 standards organised in three dimensions (Guiding Principles, Learning, Well-being); the nine-domain scheme used in 18.2 to 18.4 is two editions old. ACS WASC International Focus on Learning (2017 edition) has four categories, A to D - \"Focus on Learning\" is the name of the whole self-study process, not a category within it, and there is no Category E. Section 24 (School Appraisal Framework: International Alignment) carries the current mapping and is the source of truth for CIS and WASC vocabulary across this manual. Until this section is rebuilt, use Section 24."
-        },
-        {
           "type": "list",
           "title": "Indonesian recognition of international accreditation bodies",
           "items": [
@@ -407,6 +402,70 @@
             "National accreditation through BAN-S/M is a separate obligation and is not replaced by international accreditation.",
             "Source: docs/research/permendiknas/no-73-2025-lembaga-akreditasi-internasional.json."
           ]
+        },
+        {
+          "type": "table",
+          "title": "CIS International Accreditation - the nine domains",
+          "headers": [
+            "Domain",
+            "Title"
+          ],
+          "rows": [
+            [
+              "Domain A",
+              "Purpose and direction"
+            ],
+            [
+              "Domain B",
+              "Governance, ownership and leadership"
+            ],
+            [
+              "Domain C",
+              "The curriculum"
+            ],
+            [
+              "Domain D",
+              "Teaching and assessing for learning"
+            ],
+            [
+              "Domain E",
+              "Well-being"
+            ],
+            [
+              "Domain F",
+              "Staffing"
+            ],
+            [
+              "Domain G",
+              "Premises, facilities, technology systems and auxiliary services"
+            ],
+            [
+              "Domain H",
+              "Community and home partnerships"
+            ],
+            [
+              "Domain I",
+              "Residential services - boarding and/or homestay"
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "title": "How the CIS framework is structured",
+          "items": [
+            "The CIS International Accreditation Evaluation Framework is organised in nine domains, lettered A to I. Domain I applies only to schools with boarding or homestay provision.",
+            "Verbatim from the Evaluation Framework: \"This evaluation framework includes 8 domains, with 45 standards of which 24 are core standards. All core standards must be met or exceeded for a school to be accredited. If the school has boarding and/or homestay, there is a further domain including 8 standards, of which 5 are core.\"",
+            "Standards are designated either core or non-core. Meeting every core standard is a condition of accreditation; non-core standards support development rather than gate the decision.",
+            "The framework is underpinned by four drivers - how effectively a school delivers its own stated purpose and direction, provides effective student learning, ensures and enhances student well-being, and develops global citizenship.",
+            "Separately, the Process Overview describes Three Dimensions - Learning, Well-being and Guiding Principles - each with six aspirational standards, engaged during the self-study alongside the Cornerstones. The Three Dimensions do not replace Domains A to I; they are a second layer used for development, while the domains are where the evaluation happens.",
+            "For each domain the framework provides essential questions for reflection on the big picture of that domain, alongside the standards themselves.",
+            "Sources: CIS International Accreditation Evaluation Framework (Revised); Quick Guide to Standards; Process Overview v1.0, October 2024."
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Correction note - what this section previously said",
+          "text": "An earlier revision of this manual carried a warning that CIS had replaced its lettered domains with \"18 standards across three dimensions\" and that the domain letters were retired. That warning was wrong. The official CIS documents confirm the lettered domains A to I are current, and the Three Dimensions are a separate layer used during the self-study rather than a replacement. Domain references elsewhere in this manual that use the letters A to I are therefore correct in form; check only that the domain names match the official titles above, since some earlier tables used shortened or altered names."
         }
       ]
     },

@@ -134,7 +134,7 @@
         },
         {
           "type": "table",
-          "title": "CIS framework documentation — LEGACY SCHEME, SEE SECTION 24",
+          "title": "CIS framework documentation",
           "headers": [
             "Document",
             "Purpose",
@@ -143,14 +143,26 @@
           ],
           "rows": [
             [
-              "CIS International Accreditation framework (current)",
-              "CIS restructured in November 2024 to 18 standards across 3 dimensions: Guiding Principles, Learning, and Well-being. Section 24 of this manual carries the current mapping and is the source of truth.",
+              "CIS International Accreditation Evaluation Framework (Revised)",
+              "The nine domains (A to I), 45 standards in the core 8 domains of which 24 are core standards, plus 8 further standards (5 core) in Domain I for boarding and homestay. Underpinned by four drivers.",
               "CIS Member Portal",
               "Sections 18, 24"
             ],
             [
-              "Legacy lettered domains A to H (retired)",
-              "The pre-November-2024 eight-domain scheme (Purpose and Direction; Governance, Leadership and Ownership; Teaching and Assessing for Learning; Student Support and Wellbeing; Staffing; Premises and Facilities; Community and Home Partnerships; Operational Systems). Retained only for mapping historical evidence.",
+              "Quick Guide to Standards",
+              "Domain-by-domain list of core and non-core standards",
+              "CIS Member Portal",
+              "Section 18"
+            ],
+            [
+              "Process Overview (v1.0, October 2024)",
+              "The Cornerstones and the Three Dimensions (Learning, Well-being, Guiding Principles), each with six aspirational standards, engaged during the self-study",
+              "CIS Member Portal",
+              "Section 18"
+            ],
+            [
+              "Instructions for Submission of Reflections and Evidence",
+              "How a school submits its reflections and evidence for a visit",
               "CIS Member Portal",
               "Section 18"
             ]
