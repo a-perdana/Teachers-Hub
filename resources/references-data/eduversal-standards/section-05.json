@@ -1,7 +1,7 @@
 {
   "id": "05",
   "title": "Curriculum Architecture",
-  "lastUpdated": "2025-01-20",
+  "lastUpdated": "2026-08-16",
   "subsections": [
     {
       "id": "5.1",
@@ -144,7 +144,7 @@
           "type": "list",
           "items": [
             "Core Subjects: English, Mathematics, Science",
-            "Additional Subjects (School Discretion):",
+            "Extra Subjects (School Discretion):",
             "Global Perspectives (interdisciplinary thinking, research skills)",
             "ICT (digital literacy and computational thinking)",
             "Arts (Visual Arts, Music, Drama)",
@@ -197,7 +197,7 @@
           "steps": [
             "Students receive counseling in Grade 8 (Term 2-3) for IGCSE subject selection",
             "Sample IGCSE Subject Selection Form provided to students in Semester II of Grade 8",
-            "Refer to the \"Cambridge Pathway \\- Subject Selection\" document for detailed subject combinations by career path (Engineering, Business, Medical)"
+            "Refer to the \"Cambridge Pathway - Subject Selection\" document for detailed subject combinations by career path (Engineering, Business, Medical)"
           ]
         },
         {
@@ -211,13 +211,13 @@
             "English as a Second Language (ESL) or English Literature",
             "Mathematics (Core or Extended)",
             "Sciences: Biology, Chemistry, Physics (separate or Combined Science)",
-            "Elective Subjects (Students choose 2-7 additional subjects based on interest and capacity):",
+            "Elective Subjects (Students choose 2-7 extra subjects based on interest and capacity):",
             "Humanities: Geography, History, Global Perspectives, Economics",
-            "Languages: Indonesian First Language, Foreign Languages (Mandarin, French, Spanish \\- availability varies)",
+            "Languages: Indonesian First Language, Foreign Languages (Mandarin, French, Spanish - availability varies)",
             "Business: Business Studies, Accounting",
             "Technology: ICT, Computer Science, Design & Technology",
             "Creative Arts: Art & Design, Music, Drama",
-            "Other: Physical Education, Additional Mathematics (for strong math students)"
+            "Other: Physical Education, Extra Mathematics (for strong math students)"
           ],
           "title": "Stage 3: Cambridge IGCSE (Ages 14-16, Grades 9-10)"
         },
@@ -380,7 +380,7 @@
           "items": [
             "Pancasila Principles:"
           ],
-          "title": "1. Pendidikan Pancasila dan Kewarganegaraan (PPKn) \\- Civics Education"
+          "title": "1. Pendidikan Pancasila dan Kewarganegaraan (PPKn) - Civics Education"
         },
         {
           "type": "process",
@@ -388,7 +388,7 @@
             "Belief in One God (Ketuhanan Yang Maha Esa)",
             "Just and Civilized Humanity (Kemanusiaan yang Adil dan Beradab)",
             "Unity of Indonesia (Persatuan Indonesia)",
-            "Democracy Guided by Wisdom (Kerakyatan yang Dipimpin oleh Hikmat Kebijaksanaan)",
+            "Democracy Guided by Wisdom (Kerakyatan yang Dipimpin oleh Hikmat Kebijaksanaan dalam Permusyawaratan/Perwakilan)",
             "Social Justice (Keadilan Sosial)"
           ]
         },
@@ -436,7 +436,7 @@
             "Communication: Formal and informal registers, presentations, debates",
             "Media Literacy: Analyzing texts, critical reading"
           ],
-          "title": "2. Bahasa Indonesia \\- Indonesian Language"
+          "title": "2. Bahasa Indonesia - Indonesian Language"
         },
         {
           "type": "text",
@@ -539,7 +539,7 @@
             "Regional History (e.g., Jakarta history and development)",
             "Traditional Crafts (e.g., batik, weaving)"
           ],
-          "title": "4. Muatan Lokal (Mulok) \\- Local Content"
+          "title": "4. Muatan Lokal (Mulok) - Local Content"
         },
         {
           "type": "text",
@@ -583,7 +583,7 @@
           "type": "list",
           "items": [
             "Kurikulum Nasional (Merdeka) (current framework as of 2024-2025)",
-            "Capaian Pembelajaran (CP) \\- Learning Outcomes for each subject and phase"
+            "Capaian Pembelajaran (CP) - Learning Outcomes for each subject and phase"
           ],
           "title": "National Curriculum Standards by Grade Level"
         },
@@ -658,7 +658,7 @@
           "items": [
             "Subject-specific document (e.g., \"Mathematics Scope & Sequence Grades 1-12\")",
             "Grade-by-grade breakdown of topics",
-            "Spiral curriculum approach: Topics revisited with increasing depth (e.g., fractions in Grade 3, 5, 7, 9 \\- each time more complex)"
+            "Spiral curriculum approach: Topics revisited with increasing depth (e.g., fractions in Grade 3, 5, 7, 9 - each time more complex)"
           ]
         },
         {
@@ -674,17 +674,17 @@
         },
         {
           "type": "text",
-          "text": "Example: Grade 10 Weekly Timetable (40 periods @ 45 minutes each) (Demo Only) ![][image4] Notes:"
+          "text": "Example: Grade 10 Weekly Timetable (40 periods @ 45 minutes each) (illustrative example) ![][image4] Notes:"
         },
         {
           "type": "list",
           "items": [
-            "Cambridge subjects \\= 27 periods (66%)",
-            "National subjects \\= 10 periods (24%)",
-            "P5 & PE \\= 4 periods (10%)",
+            "Cambridge subjects = 27 periods (66%)",
+            "National subjects = 10 periods (24%)",
+            "P5 & PE = 4 periods (10%)",
             "Balanced but Cambridge-focused (prepares for IGCSE exams while fulfilling Indonesian requirements)"
           ],
-          "title": "Integration: Cambridge \\+ National Subjects in Weekly Timetable"
+          "title": "Integration: Cambridge + National Subjects in Weekly Timetable"
         }
       ]
     },
@@ -838,7 +838,7 @@
         },
         {
           "type": "text",
-          "text": "Example 1: Grade 8 \\- \"Water: A Global Resource\" Participating Subjects:"
+          "text": "Example 1: Grade 8 - \"Water: A Global Resource\" Participating Subjects:"
         },
         {
           "type": "list",
@@ -878,7 +878,7 @@
         },
         {
           "type": "text",
-          "text": "Example 2: Grade 10 IGCSE \\- \"Globalization\" Participating Subjects:"
+          "text": "Example 2: Grade 10 IGCSE - \"Globalization\" Participating Subjects:"
         },
         {
           "type": "list",
@@ -945,7 +945,7 @@
     },
     {
       "id": "5.8",
-      "title": "English as an Additional Language Integration",
+      "title": "English as an Extra Language Integration",
       "content": [
         {
           "type": "text",
@@ -980,7 +980,7 @@
         },
         {
           "type": "text",
-          "text": "1. Pull-Out EAL (Beginner \\- A1/A2):"
+          "text": "1. Pull-Out EAL (Beginner - A1/A2):"
         },
         {
           "type": "list",
@@ -993,7 +993,7 @@
         },
         {
           "type": "text",
-          "text": "2. Push-In EAL (Intermediate \\- B1/B2):"
+          "text": "2. Push-In EAL (Intermediate - B1/B2):"
         },
         {
           "type": "list",
@@ -1111,7 +1111,7 @@
           "type": "list",
           "items": [
             "Choice boards: Students select from menu of assessment options (essay, presentation, video, poster, model)",
-            "Varied criteria: Rubrics with multiple pathways to success (e.g., creativity, accuracy, depth \\- students excel in different areas)"
+            "Varied criteria: Rubrics with multiple pathways to success (e.g., creativity, accuracy, depth - students excel in different areas)"
           ]
         },
         {
@@ -1277,7 +1277,7 @@
           "type": "list",
           "items": [
             "Primary (Grades 1-6): Shared devices (computer lab, tablet cart) for specific activities",
-            "Secondary (Grades 7-12): Students may use personal devices (BYOD \\- Bring Your Own Device) or school-provided laptops/tablets",
+            "Secondary (Grades 7-12): Students may use personal devices (BYOD - Bring Your Own Device) or school-provided laptops/tablets",
             "School provides: Interactive Flat Panels (IFP) or projectors in all classrooms, reliable internet"
           ],
           "title": "Technology Infrastructure"
@@ -1317,7 +1317,7 @@
           "items": [
             "Setup: Multiple learning stations in classroom (teacher-led, collaborative, technology-based, independent)",
             "Process: Students rotate through stations in timed intervals",
-            "Example: Grade 8 English \\- Station 1: Teacher works with small group on essay structure; Station 2: Peer editing pairs; Station 3: Vocabulary practice on tablets; Station 4: Independent reading"
+            "Example: Grade 8 English - Station 1: Teacher works with small group on essay structure; Station 2: Peer editing pairs; Station 3: Vocabulary practice on tablets; Station 4: Independent reading"
           ]
         },
         {
@@ -1511,12 +1511,12 @@
           "type": "list",
           "items": [
             "Selection: Students identified through strong academic performance and interest",
-            "Training: After-school sessions (2-3x/week) \\+ intensive camps (7-20 days during school holidays)",
+            "Training: After-school sessions (2-3x/week) + intensive camps (7-20 days during school holidays)",
             "Coaches: Expert teachers (often with Olympiad medal experience themselves) or external specialists",
             "Curriculum: Advanced problem-solving, beyond standard IGCSE/A Level content",
             "Competitions: Students represent school (and Indonesia) at regional, national, international Olympiads"
           ],
-          "title": "EduOS (Eduversal Olimpiade Sains) \\- Specialized Olympiad Preparation"
+          "title": "EduOS (Eduversal Olimpiade Sains) - Specialized Olympiad Preparation"
         },
         {
           "type": "text",
@@ -1615,7 +1615,7 @@
             "Evening Study Hall: Supervised study time (2-3 hours) for homework, exam preparation, independent reading",
             "Teacher On-Call: Subject teachers available for tutoring or questions during study hall"
           ],
-          "title": "Additional Curriculum Components for Boarding Schools"
+          "title": "Extra Curriculum Components for Boarding Schools"
         },
         {
           "type": "text",
@@ -1666,7 +1666,7 @@
         },
         {
           "type": "text",
-          "text": "Challenge: Boarding schools must balance rigorous academic program with need for rest, recreation, and social-emotional wellbeing. Strategy: Weekday Schedule (Example \\- SMP/SMA Boarding School): Weekend (Friday-Sunday in some schools; Saturday-Sunday in others):"
+          "text": "Challenge: Boarding schools must balance rigorous academic program with need for rest, recreation, and social-emotional wellbeing. Strategy: Weekday Schedule (Example - SMP/SMA Boarding School): Weekend (Friday-Sunday in some schools; Saturday-Sunday in others):"
         },
         {
           "type": "list",
@@ -1703,7 +1703,7 @@
         },
         {
           "type": "text",
-          "text": "1. EASE (Eduversal Achievement of Standardized Echievement): EASE is a core component of Eduversal's Quality Management System (QMS), providing standardized assessments four times per year to measure:"
+          "text": "1. EASE (Evaluation of Achievement Standardized Exam): EASE is a core component of Eduversal's Quality Management System (QMS), providing standardized assessments three times per year to measure:"
         },
         {
           "type": "process",
@@ -1725,7 +1725,7 @@
           "items": [
             "Cambridge External Exams: Checkpoint, IGCSE, AS/A Level results (compare to previous years, international benchmarks)",
             "ANBK (National Assessment): Indonesian national literacy and numeracy assessment (sample of students Grades 5, 8, 11)",
-            "School-Based Assessments: Unit tests, projects, presentations \\- analyze pass rates, grade distributions, learning gaps"
+            "School-Based Assessments: Unit tests, projects, presentations - analyze pass rates, grade distributions, learning gaps"
           ]
         },
         {
@@ -1748,7 +1748,7 @@
           "items": [
             "Student Surveys: Termly surveys on engagement, clarity of instruction, workload balance",
             "Parent-Teacher Conferences: Parents provide feedback on student experience, curriculum rigor, communication",
-            "Focus Groups: Sample of students/parents participate in discussions on curriculum strengths and areas for improvement"
+            "Focus Groups: Sample of students/parents take part in discussions on curriculum strengths and areas for improvement"
           ]
         },
         {
@@ -1841,7 +1841,7 @@
         },
         {
           "type": "text",
-          "text": "Five-Year Comprehensive Review: Process:"
+          "text": "Five-Year full review: Process:"
         },
         {
           "type": "list",
@@ -1989,12 +1989,12 @@
         },
         {
           "type": "text",
-          "text": "1. Supports Cambridge Rigour with Inclusive Access: Cambridge International Education emphasizes high academic standards and the development of transferable skills (critical thinking, problem-solving, communication). UDL ensures that all students—regardless of their starting point—can access these challenging curricula without lowering expectations. By designing lessons with built-in flexibility, teachers maintain rigour while removing barriers that prevent students from demonstrating their true capabilities. 2. Aligns with Indonesian Inclusion Requirements: Indonesia's national education framework (Kurikulum Merdeka) and Profil Pelajar Pancasila emphasize inclusive education and recognizing students' diverse potentials. UDL operationalizes these principles by ensuring that curriculum design honours kebinekaan (diversity) and supports all learners, including those with special educational needs (SEN), English as an Additional Language (EAL) learners, and students from varied socio-economic backgrounds. 3. Enhances Differentiation Already in Practice: As outlined in Section 5.9, Eduversal schools already implement differentiation strategies. UDL provides a systematic framework that makes differentiation more proactive, sustainable, and embedded in curriculum design rather than reactive accommodations made on-the-fly. While differentiation often focuses on modifying instruction for individual students, UDL builds flexibility into the curriculum from the start, reducing the need for constant adaptations. 4. Addresses the Needs of EAL Learners: With 40-70% of students in Eduversal schools being EAL learners (Section 5.8), UDL strategies—such as providing visual supports, offering multiple ways to express understanding, and scaffolding language—are essential for linguistic and academic access. UDL and the EAL framework work synergistically to support language development while ensuring content mastery. 5. Prepares for CIS/WASC Accreditation: UDL demonstrates the school's commitment to inclusive practices, responsive curriculum design, and evidence-based pedagogy—all of which are valued by CIS (Council of International Schools) and WASC (Western Association of Schools and Colleges) accreditors. UDL artifacts (planning templates, student work samples, curriculum audits) serve as compelling evidence of teaching and learning excellence.",
+          "text": "1. Supports Cambridge Rigour with Inclusive Access: Cambridge International Education emphasizes high academic standards and the development of transferable skills (critical thinking, problem-solving, communication). UDL ensures that all students—regardless of their starting point—can access these challenging curricula without lowering expectations. By designing lessons with built-in flexibility, teachers maintain rigour while removing barriers that prevent students from demonstrating their true capabilities. 2. Aligns with Indonesian Inclusion Requirements: Indonesia's national education framework (Kurikulum Merdeka) and Profil Pelajar Pancasila emphasize inclusive education and recognizing students' diverse potentials. UDL operationalizes these principles by ensuring that curriculum design honours kebinekaan (diversity) and supports all learners, including those with special educational needs (SEN), English as an Extra Language (EAL) learners, and students from varied socio-economic backgrounds. 3. Enhances Differentiation Already in Practice: As outlined in Section 5.9, Eduversal schools already implement differentiation strategies. UDL provides a systematic framework that makes differentiation more proactive, sustainable, and embedded in curriculum design rather than reactive accommodations made on-the-fly. While differentiation often focuses on modifying instruction for individual students, UDL builds flexibility into the curriculum from the start, reducing the need for constant adaptations. 4. Addresses the Needs of EAL Learners: With 40-70% of students in Eduversal schools being EAL learners (Section 5.8), UDL strategies—such as providing visual supports, offering multiple ways to express understanding, and scaffolding language—are essential for linguistic and academic access. UDL and the EAL framework work synergistically to support language development while ensuring content mastery. 5. Prepares for CIS/WASC Accreditation: UDL demonstrates the school's commitment to inclusive practices, responsive curriculum design, and evidence-based pedagogy—all of which are valued by CIS (Council of International Schools) and WASC (Western Association of Schools and Colleges) accreditors. UDL artifacts (planning templates, student work samples, curriculum audits) serve as compelling evidence of teaching and learning excellence.",
           "title": "Why UDL Matters for Eduversal Partner Schools"
         },
         {
           "type": "text",
-          "text": "Guideline: Provide learners various ways to acquire information and knowledge. Why It Matters: Students process information differently. Some are visual learners; others learn better through auditory or kinaesthetic experiences. EAL learners may struggle with text-heavy materials, while students with dyslexia benefit from audio options. Presenting content in multiple formats ensures no student is disadvantaged by a single mode of delivery. Application in Cambridge \\+ Indonesian Curriculum Context: 1. Visual Supports:"
+          "text": "Guideline: Provide learners various ways to acquire information and knowledge. Why It Matters: Students process information differently. Some are visual learners; others learn better through auditory or kinaesthetic experiences. EAL learners may struggle with text-heavy materials, while students with dyslexia benefit from audio options. Presenting content in multiple formats ensures no student is disadvantaged by a single mode of delivery. Application in Cambridge + Indonesian Curriculum Context: 1. Visual Supports:"
         },
         {
           "type": "process",
@@ -2015,7 +2015,7 @@
             "Text: Provide textbook chapter with definitions and explanations",
             "Visual: Show animated video of Newton's Laws in action (e.g., collision simulations)",
             "Kinaesthetic: Conduct hands-on experiment with toy cars and ramps",
-            "Audio: Offer recorded explanation for students who prefer listening or need additional language support"
+            "Audio: Offer recorded explanation for students who prefer listening or need extra language support"
           ]
         },
         {
@@ -2063,14 +2063,14 @@
         {
           "type": "process",
           "steps": [
-            "Text-to-speech software: Tools like Immersive Reader (Microsoft), Read\\&Write, or NaturalReader allow students to listen to text",
+            "Text-to-speech software: Tools like Immersive Reader (Microsoft), Read&Write, or NaturalReader allow students to listen to text",
             "Interactive simulations: PhET Interactive Simulations for science concepts",
             "Cambridge Digital Resources: Utilize Cambridge GO platform for interactive activities and multimedia content"
           ]
         },
         {
           "type": "text",
-          "text": "Guideline: Provide learners alternatives for demonstrating what they know. Why It Matters: A student may deeply understand photosynthesis but struggle to write a coherent essay about it due to language barriers or learning disabilities. Another student might excel in hands-on experiments but find written tests intimidating. UDL recognizes that assessment should measure understanding, not just writing or test-taking skills. Application in Cambridge \\+ Indonesian Curriculum Context: 1. Varied Assessment Formats:"
+          "text": "Guideline: Provide learners alternatives for demonstrating what they know. Why It Matters: A student may deeply understand photosynthesis but struggle to write a coherent essay about it due to language barriers or learning disabilities. Another student might excel in hands-on experiments but find written tests intimidating. UDL recognizes that assessment should measure understanding, not just writing or test-taking skills. Application in Cambridge + Indonesian Curriculum Context: 1. Varied Assessment Formats:"
         },
         {
           "type": "process",
@@ -2148,7 +2148,7 @@
         },
         {
           "type": "text",
-          "text": "Guideline: Tap into learners' interests, offer appropriate challenges, and increase motivation. Why It Matters: Engagement is the gateway to learning. Students disengage when content feels irrelevant, too easy, or insurmountably difficult. UDL promotes engagement by connecting curriculum to real-world contexts, offering choices, and creating a supportive learning environment where mistakes are part of growth. Application in Cambridge \\+ Indonesian Curriculum Context: 1. Relevance and Real-World Connection:"
+          "text": "Guideline: Tap into learners' interests, offer appropriate challenges, and increase motivation. Why It Matters: Engagement is the gateway to learning. Students disengage when content feels irrelevant, too easy, or insurmountably difficult. UDL promotes engagement by connecting curriculum to real-world contexts, offering choices, and creating a supportive learning environment where mistakes are part of growth. Application in Cambridge + Indonesian Curriculum Context: 1. Relevance and Real-World Connection:"
         },
         {
           "type": "process",
@@ -2161,7 +2161,7 @@
         },
         {
           "type": "text",
-          "text": "Example—Grade 8 PPKn (Civics) \\+ Cambridge Global Perspectives Integration: Topic: Democracy and Civic Participation"
+          "text": "Example—Grade 8 PPKn (Civics) + Cambridge Global Perspectives Integration: Topic: Democracy and Civic Participation"
         },
         {
           "type": "process",
@@ -2179,7 +2179,7 @@
           "type": "process",
           "steps": [
             "Topic choice: Within a unit, let students choose focus area (e.g., Chemistry unit on acids/bases—students pick whether to research industrial uses, environmental impacts, or household applications)",
-            "Learning pathways: Offer \"must-do\" core activities \\+ \"may-do\" extension options",
+            "Learning pathways: Offer \"must-do\" core activities + \"may-do\" extension options",
             "Goal-setting: Students set personal learning goals at start of unit; reflect on progress at end"
           ]
         },
@@ -2238,7 +2238,7 @@
         {
           "type": "process",
           "steps": [
-            "Content available in at least 2 formats (e.g., text \\+ video, lecture \\+ visual diagram)",
+            "Content available in at least 2 formats (e.g., text + video, lecture + visual diagram)",
             "Key vocabulary pre-taught and supported with glossaries, visuals, or translations",
             "Complex texts have simplified versions or scaffolds (graphic organizers, sentence frames)",
             "Real-world examples and cultural connections included (Indonesian context where relevant)",
@@ -2423,7 +2423,7 @@
           "type": "process",
           "steps": [
             "Visual supports: EAL learners rely heavily on images, diagrams, and gestures when verbal explanations are unclear",
-            "Text \\+ audio combination: Listening while reading helps with pronunciation and comprehension",
+            "Text + audio combination: Listening while reading helps with pronunciation and comprehension",
             "Simplified language versions: Provide same content with reduced linguistic complexity (shorter sentences, common vocabulary)",
             "L1 (first language) support: Where feasible, provide Indonesian translations of key concepts (especially in early stages)"
           ],
@@ -2438,7 +2438,7 @@
           "steps": [
             "All students: Read textbook chapter on climate zones (Cambridge resource)",
             "EAL support: Provide infographic with climate types, temperature/rainfall charts, and example countries (including Indonesia) labeled in both English and Bahasa Indonesia",
-            "Additional support: Show video with narration; pause to explain key terms; students create visual vocabulary journal"
+            "Extra support: Show video with narration; pause to explain key terms; students create visual vocabulary journal"
           ]
         },
         {
@@ -2464,7 +2464,7 @@
             "Standard: Written lab report explaining experiment, results, and conclusion",
             "UDL for EAL: Offer options:",
             "Traditional written report with sentence frames (\"We observed that \\\\ because \\\\\")",
-            "Oral explanation (recorded video) \\+ annotated data table",
+            "Oral explanation (recorded video) + annotated data table",
             "Poster with labeled diagrams, brief captions, and peer presentation",
             "All options must demonstrate understanding of scientific concepts and use of evidence (Cambridge AO1, AO2)"
           ]
@@ -2491,7 +2491,7 @@
           "steps": [
             "Pull-Out EAL (A1/A2 beginners): UDL principles guide intensive English lessons (visual vocab, games, songs, TPR—Total Physical Response)",
             "Push-In EAL (B1/B2 intermediate): UDL is the tool for mainstream teachers to make content accessible (visuals, sentence frames, flexible assessment)",
-            "Sheltered Instruction (All levels): UDL \\= Sheltered Instruction in action (explicit language teaching \\+ content mastery)"
+            "Sheltered Instruction (All levels): UDL = Sheltered Instruction in action (explicit language teaching + content mastery)"
           ],
           "title": "Connection to Existing EAL Framework (Section 5.8)"
         },
@@ -2513,8 +2513,8 @@
             ],
             [
               "A2 (Elementary)",
-              "Visuals \\+ simple English text, audio support, glossaries",
-              "Short sentences, fill-in-blanks, simple paragraphs, oral \\+ written mix",
+              "Visuals + simple English text, audio support, glossaries",
+              "Short sentences, fill-in-blanks, simple paragraphs, oral + written mix",
               "Relatable topics, partner work, low-stakes practice"
             ],
             [
@@ -2525,7 +2525,7 @@
             ],
             [
               "B2 (Upper Intermediate)",
-              "Mostly authentic Cambridge materials \\+ selective scaffolds",
+              "Mostly authentic Cambridge materials + selective scaffolds",
               "Essays, reports, presentations with minimal frames",
               "Student-led projects, debates, real-world applications"
             ],
@@ -2557,7 +2557,7 @@
         {
           "type": "process",
           "steps": [
-            "Multimodal instruction: Combine verbal explanation \\+ written text \\+ visual diagram (UDL Representation)",
+            "Multimodal instruction: Combine verbal explanation + written text + visual diagram (UDL Representation)",
             "Chunking and pausing: Break instruction into short segments; pause for processing and questions",
             "Cooperative structures: Think-Pair-Share, jigsaw activities (UDL Engagement)",
             "Comprehension checks: Quick formative assessments (thumbs up/down, exit tickets, mini-quizzes)"
@@ -2602,7 +2602,7 @@
         },
         {
           "type": "text",
-          "text": "Phase 2: Systematic Integration (Terms 2-3, Year 1 \\+ Year 2) Goal: Embed UDL into all curriculum planning documents and teaching practice Actions:"
+          "text": "Phase 2: Systematic Integration (Terms 2-3, Year 1 + Year 2) Goal: Embed UDL into all curriculum planning documents and teaching practice Actions:"
         },
         {
           "type": "process",
@@ -2674,7 +2674,7 @@
             "Subject-specific UDL workshops: Science teachers explore UDL for labs; language teachers for literacy",
             "Lesson study with UDL focus: Observe, analyze, and refine lessons specifically for UDL implementation",
             "Technology integration: Training on assistive tech tools (text-to-speech, Immersive Reader, graphic design apps)",
-            "EAL \\+ UDL: Special sessions for mainstream teachers on UDL strategies for language learners"
+            "EAL + UDL: Special sessions for mainstream teachers on UDL strategies for language learners"
           ]
         },
         {
@@ -2715,12 +2715,12 @@
         },
         {
           "type": "text",
-          "text": "Step 2: Apply UDL Audit Tool Use this rubric to rate each unit (1 \\= Not Evident, 2 \\= Developing, 3 \\= Proficient, 4 \\= Exemplary):"
+          "text": "Step 2: Apply UDL Audit Tool Use this rubric to rate each unit (1 = Not Evident, 2 = Developing, 3 = Proficient, 4 = Exemplary):"
         },
         {
           "type": "table",
           "headers": [
-            "UDL Component 1 \\- Not Evident 2 \\- Developing 3 \\- Proficient 4 \\- Exemplary"
+            "UDL Component 1 - Not Evident 2 - Developing 3 - Proficient 4 - Exemplary"
           ],
           "rows": [
             [
@@ -2891,7 +2891,7 @@
           "type": "process",
           "steps": [
             "Differentiated Learning (Pembelajaran Berdiferensiasi): UDL operationalizes the Merdeka Curriculum's call for personalized, student-centered learning",
-            "Inclusive Education: UDL supports government mandate (Permendikbud No. 70/2009) for inclusive schools accepting diverse learners"
+            "Inclusive Education: UDL supports government mandate (Permendiknas No. 70/2009) for inclusive schools accepting diverse learners"
           ],
           "title": "Indonesian National Education Requirements"
         },
@@ -2969,7 +2969,7 @@
         {
           "type": "process",
           "steps": [
-            "Text: Textbook chapter \\+ primary source documents (Proclamation text, Sukarno speeches)",
+            "Text: Textbook chapter + primary source documents (Proclamation text, Sukarno speeches)",
             "Visual: Timeline infographic; maps showing Japanese occupation; photo gallery of key figures",
             "Audio: Recorded speeches or interviews with historians (Indonesian language available)",
             "Multimedia: Documentary film clips"
@@ -3027,7 +3027,7 @@
           "steps": [
             "Option A: Traditional lab report (hypothesis, method, results, analysis, conclusion)",
             "Option B: Video demonstration of experiments with voice-over explanation and data analysis",
-            "Option C: Infographic poster showing factors affecting rates \\+ real-world application (e.g., food preservation) (All assessed on Cambridge AO2: experimental design, data analysis, evaluation of method)"
+            "Option C: Infographic poster showing factors affecting rates + real-world application (e.g., food preservation) (All assessed on Cambridge AO2: experimental design, data analysis, evaluation of method)"
           ]
         },
         {
@@ -3061,7 +3061,7 @@
         },
         {
           "type": "text",
-          "text": "Q7: How does UDL relate to IEPs (Individualized Education Plans)? A: UDL is Tier 1 universal support for all students. If UDL alone isn't sufficient for a student with SEN, an IEP (Tier 3) provides additional individualized accommodations/modifications. UDL should reduce the number of students needing IEPs by proactively addressing barriers. See Section 8 (Inclusion) for detailed MTSS (Multi-Tiered System of Supports) integration."
+          "text": "Q7: How does UDL relate to IEPs (Individualized Education Plans)? A: UDL is Tier 1 universal support for all students. If UDL alone isn't enough for a student with SEN, an IEP (Tier 3) provides extra individualized accommodations/modifications. UDL should reduce the number of students needing IEPs by proactively addressing barriers. See Section 8 (Inclusion) for detailed MTSS (Multi-Tiered System of Supports) integration."
         },
         {
           "type": "text",
@@ -3149,7 +3149,7 @@
         {
           "type": "process",
           "steps": [
-            "Section 5.8: English as an Additional Language Integration (UDL strategies specifically for EAL learners)",
+            "Section 5.8: English as an Extra Language Integration (UDL strategies specifically for EAL learners)",
             "Section 5.9: Differentiation for Diverse Learners (UDL as systematic differentiation framework)",
             "Section 7: Teaching Quality and Professional Practice (UDL in lesson planning and classroom practice—see Section 7.X)",
             "Section 8: Inclusion, EAL, and Learning Support (UDL as Tier 1 Universal Support in MTSS framework—see Section 8.X)",

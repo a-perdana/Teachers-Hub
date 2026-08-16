@@ -1,7 +1,7 @@
 {
   "id": "14",
   "title": "Data Protection, Records, and Information Systems",
-  "lastUpdated": "2025-01-20",
+  "lastUpdated": "2026-08-16",
   "subsections": [
     {
       "id": "14.1",
@@ -140,8 +140,8 @@
           "type": "list",
           "items": [
             "Cambridge Assessment International Education requirements: Data protection obligations under UK GDPR (Cambridge operates from UK); secure handling of examination data; candidate confidentiality",
-            "CIS (Council of International Schools) Standards: Domain D (Resources) \\- Resource Management & Development, emphasis on secure data systems and ethical information governance",
-            "WASC (Western Association of Schools and Colleges) Accreditation: Category A (Organization) \\- Evidence-based governance and record-keeping; Category D (Resources) \\- Technology infrastructure and data security"
+            "CIS (Council of International Schools) Standards: Domain D (Resources) - Resource Management & Development, emphasis on secure data systems and ethical information governance",
+            "WASC (Western Association of Schools and Colleges) Accreditation: Category A (Organization) - Evidence-based governance and record-keeping; Category D (Resources) - Technology infrastructure and data security"
           ]
         },
         {
@@ -190,17 +190,17 @@
         },
         {
           "type": "text",
-          "text": "Data Protection Officer (DPO) \\- if designated:"
+          "text": "Data Protection Officer (DPO) - if designated:"
         },
         {
           "type": "list",
           "items": [
-            "Large schools (\\>500 students or \\>50 staff) may appoint a dedicated DPO",
+            "A Data Protection Officer is mandatory where any of the three tests in UU No. 27/2022 Article 53 is met: processing for public services; core activity requiring large-scale regular and systematic monitoring; or core activity involving large-scale processing of specific or criminal personal data. Schools process children's health and safeguarding data at scale and should assess themselves against these tests rather than against headcount",
             "Monitoring compliance with data protection policy and regulations",
             "Providing advice on DPIAs and complex data protection issues",
             "Acting as contact point for data subjects and regulatory authorities",
             "Conducting internal data protection audits",
-            "Note: Smaller schools may assign DPO responsibilities to Principal or IT Manager as additional duty"
+            "Note: Smaller schools may assign DPO responsibilities to Principal or IT Manager as extra duty"
           ]
         },
         {
@@ -285,7 +285,7 @@
         },
         {
           "type": "text",
-          "text": "Cross-reference: Section 1 (Governance Charter \\- Board oversight of data governance), Section 2 (Indonesian Regulatory Compliance \\- Dapodik/SIMPKB workflows), Section 3 (Cambridge Centre Compliance \\- examination data security)"
+          "text": "Cross-reference: Section 1 (Governance Charter - Board oversight of data governance), Section 2 (Indonesian Regulatory Compliance - Dapodik/SIMPKB workflows), Section 3 (Cambridge Centre Compliance - examination data security)"
         }
       ]
     },
@@ -300,7 +300,7 @@
         {
           "type": "list",
           "items": [
-            "Lawfulness: All data processing has a valid legal basis (consent, contract, legal obligation, legitimate interest)",
+            "Lawfulness: All data processing has a valid legal basis (consent, contract, legal obligation, vital interest, public interest, or legitimate interest - the six bases in UU No. 27/2022 Articles 20-21)",
             "Fairness: Data is used in ways that data subjects would reasonably expect; no hidden or deceptive processing",
             "Transparency: Clear, accessible privacy notices inform data subjects about how their data is used; provided in both English and Bahasa Indonesia"
           ],
@@ -391,7 +391,7 @@
             "When required: Processing is not necessary for core educational services; data will be used for purposes beyond education (e.g., marketing, photo/video publication, optional trips)",
             "How obtained: Clear, specific, freely given consent via signed consent forms; separate consent for each distinct purpose",
             "Withdrawal: Data subjects can withdraw consent at any time; school must stop processing unless another legal basis applies",
-            "Age considerations: For students under 18, parent/guardian consent is required; mature students (age 16+) may provide own consent for certain non-educational purposes"
+            "Age considerations: For students under 18, parent/guardian consent is required; parental consent is required for all data subjects under 18, per UU No. 27/2022 Article 25"
           ],
           "title": "14.2.2 Legal Bases for Data Processing"
         },
@@ -551,7 +551,7 @@
             "Why it is collected (to assess suitability for admission, communicate with family)",
             "How it will be used (admissions decision process, initial enrollment setup if accepted)",
             "Who it will be shared with (Admissions Committee, Principal, Cambridge for exam center registration if accepted)",
-            "How long it will be retained (If accepted: duration of enrollment \\+ per retention schedule; If declined: 1 year then securely disposed)",
+            "How long it will be retained (If accepted: duration of enrollment + per retention schedule; If declined: 1 year then securely disposed)",
             "Rights of data subjects (access, rectification, erasure)",
             "Contact information for data protection inquiries (Principal's email and phone)",
             "Languages: Provided in English with Bahasa Indonesia summary or full translation",
@@ -577,7 +577,7 @@
             "Contact information and complaint procedure (if dissatisfied with data handling, escalate to Principal, then Board Chair, then Indonesian data protection authority if established)",
             "Consent sections (separate from privacy notice):",
             "Photos and videos for educational purposes: Consent for classroom photos, school website gallery, yearbook, social media (with option to opt out of public sharing)",
-            "Photos and videos for marketing: Consent for use in school promotional materials (prospectus, advertisements) \\- explicitly separate from educational use",
+            "Photos and videos for marketing: Consent for use in school promotional materials (prospectus, advertisements) - explicitly separate from educational use",
             "Trips and activities: General consent for off-campus activities; specific consent forms for high-risk activities (see Section 15)",
             "Medical treatment: Consent for school clinic to provide first aid and basic medical care; emergency medical treatment by external providers",
             "Communication preferences: Preferred communication channels (email, WhatsApp, phone); language preference (English or Bahasa Indonesia)",
@@ -605,7 +605,7 @@
             "Background checks: Consent for school to conduct criminal background checks and contact referees",
             "Professional photos: Consent for staff photo on school website and ID badge",
             "Emergency contacts: Authorization to contact designated persons in emergency",
-            "Languages: English (all staff) \\+ Bahasa Indonesia for local staff",
+            "Languages: English (all staff) + Bahasa Indonesia for local staff",
             "Signature: Employee signature confirming understanding and agreement"
           ]
         },
@@ -651,7 +651,7 @@
         },
         {
           "type": "text",
-          "text": "Cross-reference: Section 11 (Admissions \\- privacy notice integration in admissions process), Section 12 (Staff recruitment \\- background check consent and employment privacy notice) Evidence/Artifacts Table for Section 14.2:"
+          "text": "Cross-reference: Section 11 (Admissions - privacy notice integration in admissions process), Section 12 (Staff recruitment - background check consent and employment privacy notice) Evidence/Artifacts Table for Section 14.2:"
         }
       ]
     },
@@ -725,12 +725,12 @@
         },
         {
           "type": "text",
-          "text": "Document Disposal \\- Secure Destruction:"
+          "text": "Document Disposal - Secure Destruction:"
         },
         {
           "type": "list",
           "items": [
-            "Confidential waste bins: Lockable bins in administrative areas for documents awaiting shredding; clearly labeled \"Confidential Waste \\- Do Not Throw in General Trash\"",
+            "Confidential waste bins: Lockable bins in administrative areas for documents awaiting shredding; clearly labeled \"Confidential Waste - Do Not Throw in General Trash\"",
             "Shredding procedures:",
             "On-site shredding: Cross-cut shredder (minimum P-4 security level) for routine confidential documents; shredding witnessed by staff member",
             "Off-site shredding service: For bulk disposal during annual records purge; certificated shredding vendor provides Certificate of Destruction",
@@ -764,11 +764,11 @@
         },
         {
           "type": "text",
-          "text": "Cross-reference: Section 10 (Cambridge Examinations Management \\- secure materials storage and handling procedures in detail), Section 15 (Risk Management \\- physical security risk assessments)"
+          "text": "Cross-reference: Section 10 (Cambridge Examinations Management - secure materials storage and handling procedures in detail), Section 15 (Risk Management - physical security risk assessments)"
         },
         {
           "type": "text",
-          "text": "Comprehensive technical safeguards protect electronic data across all school systems: EduNav School Information System (SIS) \\- Security Architecture:"
+          "text": "Comprehensive technical safeguards protect electronic data across all school systems: EduNav School Information System (SIS) - Security Architecture:"
         },
         {
           "type": "list",
@@ -802,7 +802,7 @@
             "Alerting: Automated alerts for high-risk activities (admin account created, bulk data export, access to safeguarding records)",
             "Data Backup and Recovery:",
             "Backup frequency: Daily incremental backups; weekly full backups",
-            "Backup location: On-site backup (encrypted external drive in secure storage) \\+ cloud backup (encrypted, stored in Indonesian data center for data sovereignty)",
+            "Backup location: On-site backup (encrypted external drive in secure storage) + cloud backup (encrypted, stored in Indonesian data center for data sovereignty)",
             "Backup testing: Monthly verification that backups can be restored; annual full disaster recovery test",
             "Retention: Daily backups retained for 30 days; weekly backups for 12 months; annual backups for 7 years"
           ],
@@ -810,7 +810,7 @@
         },
         {
           "type": "text",
-          "text": "Dapodik and SIMPKB Systems \\- Government Data Security:"
+          "text": "Dapodik and SIMPKB Systems - Government Data Security:"
         },
         {
           "type": "list",
@@ -831,7 +831,7 @@
             "Local Database Backup:",
             "Dapodik operator creates manual backup before each synchronization (in case sync causes errors)",
             "Backup files stored on encrypted external drive; kept in secure storage separate from Dapodik computer",
-            "Backup retention: Current semester backups \\+ previous 2 semesters (18 months total)",
+            "Backup retention: Current semester backups + previous 2 semesters (18 months total)",
             "Network Security:",
             "Dapodik computer connected to dedicated VLAN (virtual LAN) separate from general student/staff WiFi",
             "Firewall rules limit Dapodik computer to communicate only with Ministry servers and internal school network",
@@ -840,14 +840,14 @@
         },
         {
           "type": "text",
-          "text": "Cambridge Examination Systems \\- Compliance with Cambridge Security Standards:"
+          "text": "Cambridge Examination Systems - Compliance with Cambridge Security Standards:"
         },
         {
           "type": "list",
           "items": [
             "CIE Direct (Exam Entries and Results):",
             "Access limited to Exams Officer and Principal only",
-            "Centre number \\+ access codes stored in encrypted password manager (not written down or in browser autofill)",
+            "Centre number + access codes stored in encrypted password manager (not written down or in browser autofill)",
             "Passwords changed every 6 months minimum; immediately upon Exams Officer role change",
             "Two-factor authentication enabled (Cambridge requires for all Centres)",
             "Cambridge Admin Hub (Centre Management):",
@@ -885,8 +885,8 @@
             "Staff instructed never to click links or download attachments from unknown senders",
             "Verification protocol: If email requests sensitive data or urgent financial transfer, verify request via phone call to known number (not number in email)",
             "Email Retention Policy:",
-            "Staff email accounts: Emails retained for 2 years in active mailbox; archived for additional 5 years (total 7 years retention aligned with employment records)",
-            "Student email accounts: Retained during enrollment \\+ 1 year; then archived for 2 years (total 3 years)",
+            "Staff email accounts: Emails retained for 2 years in active mailbox; archived for extra 5 years (total 7 years retention aligned with employment records)",
+            "Student email accounts: Retained during enrollment + 1 year; then archived for 2 years (total 3 years)",
             "Safeguarding-related emails: Forwarded to DSL secure folder; retained per safeguarding retention schedule (see Section 14.5)",
             "Automatic deletion: Emails older than retention period automatically purged from archive"
           ]
@@ -918,7 +918,7 @@
         },
         {
           "type": "text",
-          "text": "Cross-reference: Section 21 (Digital Learning and Technology Infrastructure \\- detailed IT policies, acceptable use policies, device management)"
+          "text": "Cross-reference: Section 21 (Digital Learning and Technology Infrastructure - detailed IT policies, acceptable use policies, device management)"
         },
         {
           "type": "text",
@@ -929,7 +929,7 @@
           "items": [
             "Quarterly: IT Manager generates user access report from each system; Principal reviews and approves",
             "Upon role change: Immediate access revocation for departing staff; immediate access provisioning for new staff in role",
-            "Annual comprehensive review: All user accounts and permissions reviewed; dormant accounts (no login in 6 months) disabled; unused permissions removed (principle of least privilege)"
+            "Annual full review: All user accounts and permissions reviewed; dormant accounts (no login in 6 months) disabled; unused permissions removed (principle of least privilege)"
           ],
           "title": "14.3.3 Access Control Matrix"
         },
@@ -1045,7 +1045,7 @@
             "BYOD Restrictions:",
             "Personal devices cannot store school confidential data (if accidentally received via email, must be deleted immediately)",
             "School email accessed only via web browser or official email app (no email download to personal device)",
-            "School applications not installed on personal devices (EduNav app, Dapodik, etc.) \\- access via web browser only"
+            "School applications not installed on personal devices (EduNav app, Dapodik, etc.) - access via web browser only"
           ]
         },
         {
@@ -1082,7 +1082,7 @@
         },
         {
           "type": "text",
-          "text": "Cross-reference: Section 21 (Digital Learning and Technology Infrastructure \\- comprehensive device management policies, student device guidelines, acceptable use policies)"
+          "text": "Cross-reference: Section 21 (Digital Learning and Technology Infrastructure - comprehensive device management policies, student device guidelines, acceptable use policies)"
         },
         {
           "type": "text",
@@ -1091,7 +1091,7 @@
         {
           "type": "process",
           "steps": [
-            "PT. Global Zerone Digital (Zerone) \\- EduNav Platform:"
+            "PT. Global Zerone Digital (Zerone) - EduNav Platform:"
           ],
           "title": "14.3.5 Third-Party Data Processors and Vendor Management"
         },
@@ -1107,22 +1107,22 @@
         {
           "type": "process",
           "steps": [
-            "PT. Edukasi Aditama Indonesia (Edutama) \\- EASE Assessment Platform:"
+            "PT. Edukasi Aditama Indonesia (Edutama) - EASE Assessment Platform:"
           ]
         },
         {
           "type": "list",
           "items": [
             "Data processed: Student assessment results, test responses, demographic data for EASE exams",
-            "Data location: Cloud servers (location specified in contract \\- verify Indonesian or acceptable international location)",
+            "Data location: Cloud servers (location specified in contract - verify Indonesian or acceptable international location)",
             "Security measures: Encryption, secure transmission protocols, limited access to exam data",
-            "DPIA conducted: Yes (see Section 14.4 \\- EASE DPIA)"
+            "DPIA conducted: Yes (see Section 14.4 - EASE DPIA)"
           ]
         },
         {
           "type": "process",
           "steps": [
-            "PT. Edukasi Universal Indonesia \\- DTP Professional Development Platform:"
+            "PT. Edukasi Universal Indonesia - DTP Professional Development Platform:"
           ]
         },
         {
@@ -1136,7 +1136,7 @@
         {
           "type": "process",
           "steps": [
-            "Eduversal Central Office \\- Appraisal System and Quality Management:"
+            "Eduversal Central Office - Appraisal System and Quality Management:"
           ]
         },
         {
@@ -1150,7 +1150,7 @@
         {
           "type": "process",
           "steps": [
-            "Cambridge Assessment International Education \\- Examination Services:"
+            "Cambridge Assessment International Education - Examination Services:"
           ]
         },
         {
@@ -1244,7 +1244,7 @@
           "type": "process",
           "steps": [
             "DPIA (if high risk): Conduct Data Protection Impact Assessment before engaging high-risk vendor (see Section 14.4)",
-            "Approval: Principal approval required for all vendors; Board approval for high-risk vendors or contracts \\>IDR 100 million/year"
+            "Approval: Principal approval required for all vendors; Board approval for high-risk vendors or contracts >IDR 100 million/year"
           ]
         },
         {
@@ -1294,7 +1294,7 @@
         },
         {
           "type": "text",
-          "text": "Cross-reference: Section 13 (Operations, Finance, and Resources \\- procurement procedures and vendor contracts), Section 15 (Risk Management \\- vendor risk assessment) Evidence/Artifacts Table for Section 14.3:"
+          "text": "Cross-reference: Section 13 (Operations, Finance, and Resources - procurement procedures and vendor contracts), Section 15 (Risk Management - vendor risk assessment) Evidence/Artifacts Table for Section 14.3:"
         }
       ]
     },
@@ -1373,7 +1373,7 @@
         {
           "type": "list",
           "items": [
-            "School-wide database consolidations affecting \\>500 students",
+            "School-wide database consolidations affecting >500 students",
             "Network-wide data sharing across Eduversal partner schools",
             "Data analytics projects using student records from multiple years"
           ]
@@ -1414,7 +1414,7 @@
           "type": "list",
           "items": [
             "Necessity test: Is this processing necessary to achieve the purpose? Could the purpose be achieved with less invasive means?",
-            "Alternative analysis: What other options were considered? Why were they insufficient?",
+            "Alternative analysis: What other options were considered? Why were they not enough?",
             "Example: For CCTV, alternatives might include increased security staff presence, visitor sign-in logs. CCTV chosen because provides continuous monitoring and evidence for incident investigation that human monitoring cannot match.",
             "Proportionality test: Is the processing proportionate to the purpose? Does benefit outweigh privacy intrusion?",
             "Benefits: What risks are mitigated? What operational improvements?",
@@ -1441,7 +1441,7 @@
         },
         {
           "type": "text",
-          "text": "Example Risk: \"CCTV footage unauthorized access \\- Medium likelihood (footage stored on network-connected DVR with password protection but no encryption; potential for hacking). High severity (footage includes children; disclosure could be reputational harm or safety risk if used for stalking). Overall risk rating: HIGH.\" Step 4: Identify Mitigation Measures For each identified risk, specify controls to reduce likelihood or impact: Technical Controls:"
+          "text": "Example Risk: \"CCTV footage unauthorized access - Medium likelihood (footage stored on network-connected DVR with password protection but no encryption; potential for hacking). High severity (footage includes children; disclosure could be reputational harm or safety risk if used for stalking). Overall risk rating: HIGH.\" Step 4: Identify Mitigation Measures For each identified risk, specify controls to reduce likelihood or impact: Technical Controls:"
         },
         {
           "type": "list",
@@ -1504,7 +1504,7 @@
             "Low residual risk: Acceptable; proceed with processing",
             "Medium residual risk: Acceptable with ongoing monitoring and periodic review (e.g., annual DPIA update)",
             "High residual risk: May be acceptable if benefits very clearly outweigh risks AND no further mitigation possible; Principal approval required; Board notification recommended",
-            "Critical residual risk: Not acceptable; do not proceed with processing OR implement additional substantial mitigation measures before proceeding"
+            "Critical residual risk: Not acceptable; do not proceed with processing OR implement extra substantial mitigation measures before proceeding"
           ]
         },
         {
@@ -1598,12 +1598,12 @@
             "ISO 27001 certified vendor; regular security audits; encryption in transit and at rest",
             "Role-based access control in EduNav; quarterly access audits by IT Manager",
             "Daily backups to separate encrypted system; annual backup recovery test",
-            "Privacy notice provided to all parents at enrollment (English \\+ Bahasa Indonesia); consent forms for optional data uses"
+            "Privacy notice provided to all parents at enrollment (English + Bahasa Indonesia); consent forms for optional data uses"
           ]
         },
         {
           "type": "text",
-          "text": "Residual Risk: LOW \\- acceptable for school operations Approval: Principal approved implementation; Board notified via governance report Review Schedule: Annual DPIA review; triggered review if major EduNav feature changes Example DPIA 2: EASE (Evaluation of Achievement Standardized Exam) Participation Description: School participation in EASE digital assessment program (vendor: PT. Edukasi Aditama Indonesia). Students take standardized tests online four times per year. Results processed by vendor and reported to school and Eduversal network for benchmarking. Data Processed:"
+          "text": "Residual Risk: LOW - acceptable for school operations Approval: Principal approved implementation; Board notified via governance report Review Schedule: Annual DPIA review; triggered review if major EduNav feature changes Example DPIA 2: EASE (Evaluation of Achievement Standardized Exam) Participation Description: School participation in EASE digital assessment program (vendor: PT. Edukasi Aditama Indonesia). Students take standardized tests online three times per year. Results processed by vendor and reported to school and Eduversal network for benchmarking. Data Processed:"
         },
         {
           "type": "list",
@@ -1658,21 +1658,21 @@
           "steps": [
             "Data Processing Agreement specifies vendor deletes student-level data 2 years after assessment (aligned with school assessment retention policy)",
             "DPA prohibits vendor use of student data for any purpose other than EASE service provision; vendor confirms in annual security questionnaire",
-            "Anonymization protocol: Aggregate data only shared at grade level (not class level) if grade \\<30 students; no demographic breakdown if would enable re-identification",
+            "Anonymization protocol: Aggregate data only shared at grade level (not class level) if grade <30 students; no demographic breakdown if would enable re-identification",
             "Privacy notice updated to explicitly mention EASE and Eduversal network data sharing; parent consent form includes EASE participation clause",
             "Teacher training on communicating EASE results to students (focus on growth, avoid comparisons); parent guidance on interpreting reports"
           ]
         },
         {
           "type": "text",
-          "text": "Residual Risk: MEDIUM \\- acceptable with ongoing vendor monitoring Approval: Principal approved EASE participation with mitigation conditions; Foundation Representative (Eduversal) confirmed network data handling procedures Review Schedule: Annual DPIA review; immediate review if vendor changes or new data uses proposed Example DPIA 3: CCTV Expansion Project Description: Expansion of existing CCTV system from entrance/admin areas only to full coverage of corridors, playgrounds, parking area, and perimeter. Upgrade to HD cameras with 90-day storage (previously 30 days). Purpose: Enhanced security, incident investigation, visitor management. Data Processed:"
+          "text": "Residual Risk: MEDIUM - acceptable with ongoing vendor monitoring Approval: Principal approved EASE participation with mitigation conditions; Foundation Representative (Eduversal) confirmed network data handling procedures Review Schedule: Annual DPIA review; immediate review if vendor changes or new data uses proposed Example DPIA 3: CCTV Expansion Project Description: Expansion of existing CCTV system from entrance/admin areas only to full coverage of corridors, playgrounds, parking area, and perimeter. Upgrade to HD cameras with 90-day storage (previously 30 days). Purpose: Enhanced security, incident investigation, visitor management. Data Processed:"
         },
         {
           "type": "list",
           "items": [
             "Video footage capturing faces and activities of students, staff, parents, visitors",
             "Audio recording not enabled (privacy protection)",
-            "Facial recognition not used (significant additional privacy impact)"
+            "Facial recognition not used (significant extra privacy impact)"
           ]
         },
         {
@@ -1682,7 +1682,7 @@
         {
           "type": "list",
           "items": [
-            "Necessary: Previous security incidents (theft, unauthorized visitor access) not resolved due to insufficient camera coverage; manual security patrols cannot provide continuous monitoring",
+            "Necessary: Previous security incidents (theft, unauthorized visitor access) not resolved due to not enough camera coverage; manual security patrols cannot provide continuous monitoring",
             "Proportionate: Camera placement balances security needs with privacy (no cameras in toilets, changing rooms, counseling offices, staff break rooms); 90-day retention justified by investigation timelines (some incidents reported weeks after occurrence)"
           ]
         },
@@ -1728,7 +1728,7 @@
         },
         {
           "type": "text",
-          "text": "Residual Risk: MEDIUM \\- acceptable with strict access controls and ongoing compliance monitoring Approval: Principal approved with mitigation conditions; Board Chair notified; parent notification letter sent explaining CCTV expansion and privacy safeguards Review Schedule: Biannual DPIA review (every 6 months for first year, then annual); triggered review if new cameras added or facial recognition considered"
+          "text": "Residual Risk: MEDIUM - acceptable with strict access controls and ongoing compliance monitoring Approval: Principal approved with mitigation conditions; Board Chair notified; parent notification letter sent explaining CCTV expansion and privacy safeguards Review Schedule: Biannual DPIA review (every 6 months for first year, then annual); triggered review if new cameras added or facial recognition considered"
         },
         {
           "type": "text",
@@ -1750,10 +1750,10 @@
         {
           "type": "list",
           "items": [
-            "Each DPIA saved as separate file (PDF \\+ editable Word/Excel)",
+            "Each DPIA saved as separate file (PDF + editable Word/Excel)",
             "Contains: Full DPIA report, stakeholder consultation records, approval signatures, review log",
             "Stored in confidential Data Protection folder (access restricted to Principal, IT Manager, DPO)",
-            "Retention: Duration of processing \\+ 3 years after processing ends"
+            "Retention: Duration of processing + 3 years after processing ends"
           ]
         },
         {
@@ -1770,7 +1770,7 @@
         },
         {
           "type": "text",
-          "text": "Cross-reference: Section 15 (Risk Management \\- integration with school risk register), Section 17 (Quality Assurance \\- DPIA review as part of internal audit cycle), Section 18 (Accreditation Toolkit \\- DPIAs as evidence for CIS/WASC data governance) Evidence/Artifacts Table for Section 14.4:"
+          "text": "Cross-reference: Section 15 (Risk Management - integration with school risk register), Section 17 (Quality Assurance - DPIA review as part of internal audit cycle), Section 18 (Accreditation Toolkit - DPIAs as evidence for CIS/WASC data governance) Evidence/Artifacts Table for Section 14.4:"
         }
       ]
     },
@@ -1800,7 +1800,7 @@
         },
         {
           "type": "text",
-          "text": "STAFF RECORDS OPERATIONAL AND FINANCIAL RECORDS GOVERNANCE AND COMPLIANCE RECORDS ⇒ Table ⇐ COMMUNICATIONS AND TECHNOLOGY \\=\\> Table \\<=",
+          "text": "STAFF RECORDS OPERATIONAL AND FINANCIAL RECORDS GOVERNANCE AND COMPLIANCE RECORDS ⇒ Table ⇐ COMMUNICATIONS AND TECHNOLOGY => Table <=",
           "title": "STUDENT RECORDS"
         },
         {
@@ -1810,7 +1810,7 @@
         {
           "type": "list",
           "items": [
-            "IT Manager \\+ Records Officer (or designated Admin Staff): Overall coordination of retention and disposal process",
+            "IT Manager + Records Officer (or designated Admin Staff): Overall coordination of retention and disposal process",
             "Department Heads: Responsible for records in their respective areas (Academic Coordinator for student records, HR Manager for staff files, Finance Officer for financial records)",
             "Principal: Approval authority for disposal of sensitive records (safeguarding, disciplinary, high-value contracts)"
           ],
@@ -1910,7 +1910,7 @@
         },
         {
           "type": "text",
-          "text": "Exceptions to Routine Disposal \\- Legal Holds: If school is involved in litigation, government investigation, audit, or other legal matter:"
+          "text": "Exceptions to Routine Disposal - Legal Holds: If school is involved in litigation, government investigation, audit, or other legal matter:"
         },
         {
           "type": "process",
@@ -1945,7 +1945,7 @@
           "items": [
             "Active records (current year): Easily accessible locked filing cabinets in department offices",
             "Semi-active records (past 1-3 years): Locked storage room adjacent to main office; organized chronologically",
-            "Inactive records (archival \\- beyond 3 years): Secure archive room (climate-controlled if possible for long-term preservation); organized by year and record type; inventory log maintained",
+            "Inactive records (archival - beyond 3 years): Secure archive room (climate-controlled if possible for long-term preservation); organized by year and record type; inventory log maintained",
             "Permanent records (student transcripts, Board minutes): Fireproof safe or safety deposit box for most critical records; duplicate copies in separate secure location"
           ],
           "title": "14.5.4 Records Storage Best Practices"
@@ -1978,7 +1978,7 @@
         },
         {
           "type": "text",
-          "text": "Every disposal action documented in Records Disposal Log: \\=\\> Table \\<= Cross-reference: Section 8 (Safeguarding \\- special retention for child protection records), Section 10 (Cambridge Examinations \\- exam materials retention), Section 12 (Staff HR \\- employment records retention) --- Evidence/Artifacts Table for Section 14.5: \\=\\> Table \\<=",
+          "text": "Every disposal action documented in Records Disposal Log: => Table <= Cross-reference: Section 8 (Safeguarding - special retention for child protection records), Section 10 (Cambridge Examinations - exam materials retention), Section 12 (Staff HR - employment records retention) --- Evidence/Artifacts Table for Section 14.5: => Table <=",
           "title": "14.5.5 Records Disposal Log Template"
         }
       ]
@@ -2073,7 +2073,7 @@
         {
           "type": "process",
           "steps": [
-            "Any staff discovering breach → IT Manager \\+ Principal (immediately, even outside office hours if serious)"
+            "Any staff discovering breach → IT Manager + Principal (immediately, even outside office hours if serious)"
           ]
         },
         {
@@ -2113,7 +2113,7 @@
         },
         {
           "type": "text",
-          "text": "Step 2: Containment (Within 4-12 Hours) Purpose: Stop breach from continuing; prevent further data exposure or loss Containment Actions by Breach Type: \\=\\> Table \\<= Step 3: Initial Documentation (Within 24 Hours) IT Manager or designated staff begins Breach Incident Log (template in Section 19): Required Information:"
+          "text": "Step 2: Containment (Within 4-12 Hours) Purpose: Stop breach from continuing; prevent further data exposure or loss Containment Actions by Breach Type: => Table <= Step 3: Initial Documentation (Within 24 Hours) IT Manager or designated staff begins Breach Incident Log (template in Section 19): Required Information:"
         },
         {
           "type": "list",
@@ -2144,7 +2144,7 @@
         },
         {
           "type": "text",
-          "text": "Step 4: Detailed Risk Assessment Breach Response Team (Principal, IT Manager, Data Protection Officer if designated, relevant department head) conducts thorough risk analysis: Assessment Criteria: 1. Data Sensitivity Analysis: \\=\\> Table \\<= Example Risk Assessments: Example 1: Teacher sends student grades via unencrypted email to wrong parent"
+          "text": "Step 4: Detailed Risk Assessment Breach Response Team (Principal, IT Manager, Data Protection Officer if designated, relevant department head) conducts thorough risk analysis: Assessment Criteria: 1. Data Sensitivity Analysis: => Table <= Example Risk Assessments: Example 1: Teacher sends student grades via unencrypted email to wrong parent"
         },
         {
           "type": "list",
@@ -2192,7 +2192,7 @@
             "Data sensitivity: Medium (academic records)",
             "Likelihood: High (malicious actor; large scale; data in attacker's hands)",
             "Impact: Medium (privacy violation; potential misuse for phishing; reputational harm to school)",
-            "Overall Risk: HIGH RISK (large scale \\+ malicious actor elevates risk)"
+            "Overall Risk: HIGH RISK (large scale + malicious actor elevates risk)"
           ]
         },
         {
@@ -2221,7 +2221,7 @@
           "items": [
             "Preferred: Letter (physical mail or email to personal email address, not school system if school email compromised)",
             "Urgent cases: Phone call followed by written confirmation",
-            "Large scale: Combination of individual letters \\+ school-wide notice (website, newsletter)"
+            "Large scale: Combination of individual letters + school-wide notice (website, newsletter)"
           ]
         },
         {
@@ -2295,9 +2295,9 @@
         {
           "type": "list",
           "items": [
-            "School contact person for questions (Principal's direct line \\+ email)",
+            "School contact person for questions (Principal's direct line + email)",
             "Data Protection Officer contact if designated",
-            "Complaint/escalation information (if dissatisfied with school's handling, contact Board Chair; if still unresolved, contact Indonesian data protection authority when established)"
+            "Complaint/escalation information (if dissatisfied with school's handling, contact Board Chair; if still unresolved, contact the Indonesian data protection supervisory authority)"
           ]
         },
         {
@@ -2312,7 +2312,7 @@
             "Sincere apology for breach and concern caused",
             "Assurance of school's commitment to data protection",
             "Statement of corrective actions to prevent recurrence",
-            "Example: \"We sincerely apologize for this incident and any concern it may cause. Protecting your family's personal information is our highest priority. We are implementing additional security measures including mandatory encryption and enhanced staff training.\""
+            "Example: \"We sincerely apologize for this incident and any concern it may cause. Protecting your family's personal information is our highest priority. We are implementing extra security measures including mandatory encryption and enhanced staff training.\""
           ]
         },
         {
@@ -2337,19 +2337,19 @@
           "items": [
             "DSL directly contacts affected families (not delegated to admin staff)",
             "Face-to-face meeting offered for highly sensitive cases (not just letter)",
-            "Additional support offered (counseling referral, safety planning)",
+            "Extra support offered (counseling referral, safety planning)",
             "Law enforcement notified immediately if safety risk"
           ]
         },
         {
           "type": "text",
-          "text": "Notification to Regulatory Authorities: Indonesian Data Protection Authority (when established under UU PDP):"
+          "text": "Notification to Regulatory Authorities: Indonesian data protection supervisory authority under UU No. 27/2022:"
         },
         {
           "type": "list",
           "items": [
             "When required: High or Critical risk breaches likely to result in harm to rights and freedoms",
-            "Timeline: Within 72 hours of becoming aware of breach",
+            "Timeline: Within 3x24 hours of becoming aware of the breach, to both the affected data subject and the supervisory authority, per UU No. 27/2022 Article 56",
             "Content: Detailed incident report (similar to individual notification but more technical detail); school's assessment of risk; mitigation measures; contact information",
             "Process: Follow procedures specified by Indonesian data protection authority (check authority website for current requirements)"
           ]
@@ -2363,7 +2363,7 @@
           "items": [
             "When required: Breach involves Cambridge examination data (candidate information, exam scripts, results)",
             "Timeline: Immediately (do not wait 72 hours)",
-            "Method: Cambridge Admin Hub incident report system \\+ phone call to School Support Hub",
+            "Method: Cambridge Admin Hub incident report system + phone call to School Support Hub",
             "Content: Full details of Cambridge data compromised; number of candidates affected; containment actions; school's assessment of exam security impact"
           ]
         },
@@ -2423,7 +2423,7 @@
             "Error (accidental email mis-send, device left unsecured, incorrect data entry)",
             "Negligence (ignoring security procedures, using weak passwords, not locking devices)",
             "Lack of training (staff unaware of proper procedures)",
-            "Deliberate misconduct (unauthorized access, data theft by insider) \\- rare but possible"
+            "Deliberate misconduct (unauthorized access, data theft by insider) - rare but possible"
           ]
         },
         {
@@ -2456,7 +2456,7 @@
         },
         {
           "type": "text",
-          "text": "Root Cause: Insufficient practical, scenario-based training on email security for sensitive data. Corrective Action Plan: For each root cause, identify Corrective Actions and Preventive Measures: Additional Corrective Actions Based on Breach Type:"
+          "text": "Root Cause: Insufficient practical, scenario-based training on email security for sensitive data. Corrective Action Plan: For each root cause, identify Corrective Actions and Preventive Measures: Extra Corrective Actions Based on Breach Type:"
         },
         {
           "type": "list",
@@ -2578,7 +2578,7 @@
           "items": [
             "Board reviews breach report in confidential executive session",
             "Board approves (or modifies) corrective action plan",
-            "Board may establish additional oversight measures for high-risk breaches (e.g., quarterly security updates to Board for 1 year)",
+            "Board may establish extra oversight measures for high-risk breaches (e.g., quarterly security updates to Board for 1 year)",
             "Board minutes reflect breach discussion (confidential; not publicly disclosed)"
           ]
         },
@@ -2589,11 +2589,11 @@
         {
           "type": "list",
           "items": [
-            "Risk Register: Add data breach as realized risk; document impact; update risk controls (see Section 15 \\- Risk Management)",
+            "Risk Register: Add data breach as realized risk; document impact; update risk controls (see Section 15 - Risk Management)",
             "Incident Response Log: Complete final entry in Breach Incident Log (template in Section 19):",
             "Incident closure date",
             "Final outcome: Resolved, no harm; Resolved, minor harm; Resolved, significant harm",
-            "Total cost: Direct costs (notification expenses, forensic investigation, legal fees); Indirect costs (staff time, reputational impact \\- estimated)",
+            "Total cost: Direct costs (notification expenses, forensic investigation, legal fees); Indirect costs (staff time, reputational impact - estimated)",
             "Lessons learned summary",
             "Linked corrective actions: Reference to Corrective Action Plan",
             "Data Protection Audit Plan: Schedule follow-up audit to verify corrective actions implemented effectively"
@@ -2665,7 +2665,7 @@
           "type": "list",
           "items": [
             "Timing: Once per year (during professional development week)",
-            "Participants: Breach Response Team \\+ key staff",
+            "Participants: Breach Response Team + key staff",
             "Scenario: Realistic breach scenario simulated (e.g., \"ransomware attack encrypts student database\" or \"laptop with financial data stolen\")",
             "Process:"
           ],
@@ -2677,7 +2677,7 @@
             "Facilitator (IT Manager or external consultant) presents scenario progressively (reveals information as in real incident)",
             "Team discusses: Who would we notify? What actions would we take? What are decision points?",
             "Team works through response steps using Breach Response Procedure checklist",
-            "Debriefing: What went well? What gaps identified? What additional resources/training needed?"
+            "Debriefing: What went well? What gaps identified? What extra resources/training needed?"
           ]
         },
         {
@@ -2689,7 +2689,7 @@
         },
         {
           "type": "text",
-          "text": "Cross-reference: Section 15 (Risk Management \\- data breach as cyber risk category; risk assessment), Section 17 (Quality Assurance \\- breach simulation as part of internal audit/quality cycle) Evidence/Artifacts Table for Section 14.6: \\=\\> Table \\<="
+          "text": "Cross-reference: Section 15 (Risk Management - data breach as cyber risk category; risk assessment), Section 17 (Quality Assurance - breach simulation as part of internal audit/quality cycle) Evidence/Artifacts Table for Section 14.6: => Table <="
         }
       ]
     },
@@ -2699,7 +2699,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Dapodik (Data Pokok Pendidikan \\- Basic Education Data):"
+          "text": "Dapodik (Data Pokok Pendidikan - Basic Education Data):"
         },
         {
           "type": "list",
@@ -2711,7 +2711,7 @@
             "Teacher assignments (subjects taught, class hours, qualifications)",
             "School infrastructure (classrooms, facilities, equipment)",
             "Curriculum implementation (national subjects: Pancasila, Bahasa Indonesia, Religion)",
-            "Financial data (BOS \\- Bantuan Operasional Sekolah funding if applicable)",
+            "Financial data (BOS - Bantuan Operasional Sekolah funding if applicable)",
             "Reporting Schedule:",
             "Real-time updates required (changes made within 7 days of actual change)",
             "Semester cut-off dates: Mid-December (Semester 1), Mid-June (Semester 2)",
@@ -2726,7 +2726,7 @@
         },
         {
           "type": "text",
-          "text": "SIMPKB (Sistem Informasi Manajemen Pengembangan Keprofesian Berkelanjutan \\- Continuing Professional Development Management System):"
+          "text": "SIMPKB (Sistem Informasi Manajemen Pengembangan Keprofesian Berkelanjutan - Continuing Professional Development Management System):"
         },
         {
           "type": "list",
@@ -2743,7 +2743,7 @@
             "Dapodik synchronization: Teacher data in Dapodik linked to SIMPKB accounts",
             "Annual Requirements:",
             "Certified teachers (holding Sertifikat Pendidik): Minimum PD hours per year (varies by certification level)",
-            "Non-certified teachers: Encouraged to participate in SIMPKB for career development"
+            "Non-certified teachers: Encouraged to take part in SIMPKB for career development"
           ]
         },
         {
@@ -2769,7 +2769,7 @@
           "items": [
             "Common accuracy issues:",
             "Student names misspelled or not matching official ID (KTP, Kartu Keluarga)",
-            "Incorrect NISN (Nomor Induk Siswa Nasional) \\- must match Ministry database",
+            "Incorrect NISN (Nomor Induk Siswa Nasional) - must match Ministry database",
             "Teacher NIP (Nomor Induk Pegawai) or NUPTK incorrect",
             "Wrong dates of birth (causes rejection by Ministry system if inconsistent with NISN)",
             "Accuracy standards:",
@@ -2856,17 +2856,17 @@
           "type": "list",
           "items": [
             "Required documents:",
-            "Birth certificate (Akta Kelahiran) \\- official copy",
-            "Family Card (Kartu Keluarga) \\- for family address and parent names",
-            "Previous school report card \\- for education history",
-            "Student ID (if transferring from another Indonesian school) \\- to verify existing NISN",
-            "Parent ID cards (KTP) \\- for parent identification and contact verification"
+            "Birth certificate (Akta Kelahiran) - official copy",
+            "Family Card (Kartu Keluarga) - for family address and parent names",
+            "Previous school report card - for education history",
+            "Student ID (if transferring from another Indonesian school) - to verify existing NISN",
+            "Parent ID cards (KTP) - for parent identification and contact verification"
           ],
           "title": "14.7.3 Dapodik Data Entry Procedures"
         },
         {
           "type": "text",
-          "text": "Step 2: Data Entry in EduNav (Admissions Officer \\- Primary Entry Point)"
+          "text": "Step 2: Data Entry in EduNav (Admissions Officer - Primary Entry Point)"
         },
         {
           "type": "list",
@@ -2877,7 +2877,7 @@
         },
         {
           "type": "text",
-          "text": "Step 3: Data Transfer to Dapodik (Dapodik Operator \\- Weekly Batch Process)"
+          "text": "Step 3: Data Transfer to Dapodik (Dapodik Operator - Weekly Batch Process)"
         },
         {
           "type": "list",
@@ -2908,7 +2908,7 @@
         },
         {
           "type": "text",
-          "text": "Step 5: Synchronization with Ministry Server (Dapodik Operator \\- Weekly)"
+          "text": "Step 5: Synchronization with Ministry Server (Dapodik Operator - Weekly)"
         },
         {
           "type": "list",
@@ -2943,7 +2943,7 @@
             "Collect and verify teacher credentials:",
             "Degree certificates (S1/Bachelor's, S2/Master's if applicable)",
             "Teaching certificate (Sertifikat Pendidik if certified teacher)",
-            "NIP (Nomor Induk Pegawai \\- civil servant ID if PNS) OR NUPTK (Nomor Unik Pendidik dan Tenaga Kependidikan \\- unique teacher ID if non-PNS)",
+            "NIP (Nomor Induk Pegawai - civil servant ID if PNS) OR NUPTK (Nomor Unik Pendidik dan Tenaga Kependidikan - unique teacher ID if non-PNS)",
             "Training certificates (relevant PD history)",
             "Verify degree authenticity through university if possible (phone verification or official transcript request)"
           ]
@@ -2968,15 +2968,15 @@
           "items": [
             "Enter teacher master data in Dapodik:",
             "Personal Data: Full name (as on ID), NIP or NUPTK, Date of birth, Gender, Address",
-            "Employment Status: PNS (Pegawai Negeri Sipil \\- civil servant) or Non-PNS; Full-time or Part-time; Permanent or Contract",
+            "Employment Status: PNS (Pegawai Negeri Sipil - civil servant) or Non-PNS; Full-time or Part-time; Permanent or Contract",
             "Qualifications: Degree level (S1, S2, S3), Major/subject area, Issuing institution, Graduation year",
             "Certification: Sertifikat Pendidik number (if certified), Certification date, Certification subject area",
-            "Teaching Assignment: Subjects taught (dropdown menu \\- must match Ministry's subject codes), Grade levels, Total teaching hours per week"
+            "Teaching Assignment: Subjects taught (dropdown menu - must match Ministry's subject codes), Grade levels, Total teaching hours per week"
           ]
         },
         {
           "type": "text",
-          "text": "Step 4: SIMPKB Registration (Teacher \\+ Dapodik Operator)"
+          "text": "Step 4: SIMPKB Registration (Teacher + Dapodik Operator)"
         },
         {
           "type": "list",
@@ -3001,7 +3001,7 @@
         },
         {
           "type": "text",
-          "text": "Facility and Infrastructure Data: Annual Facility Audit (Facilities Manager \\+ Dapodik Operator \\- July/August)"
+          "text": "Facility and Infrastructure Data: Annual Facility Audit (Facilities Manager + Dapodik Operator - July/August)"
         },
         {
           "type": "list",
@@ -3038,7 +3038,7 @@
         },
         {
           "type": "text",
-          "text": "Solution: Mapping Table and Reconciliation Process Mapping Table Example: \\=\\> Table \\< \\= Quarterly Reconciliation Process (Dapodik Operator \\+ Academic Coordinator) Timing: End of each quarter (September, December, March, June) Process:"
+          "text": "Solution: Mapping Table and Reconciliation Process Mapping Table Example: => Table < = Quarterly Reconciliation Process (Dapodik Operator + Academic Coordinator) Timing: End of each quarter (September, December, March, June) Process:"
         },
         {
           "type": "process",
@@ -3049,8 +3049,8 @@
         {
           "type": "list",
           "items": [
-            "EduNav: Export current student enrollment list (CSV) \\- includes student names, IDs, grade levels, enrollment status",
-            "Dapodik: Export student list from Dapodik aplikasi (Excel report) \\- includes student names, NISN, grade levels"
+            "EduNav: Export current student enrollment list (CSV) - includes student names, IDs, grade levels, enrollment status",
+            "Dapodik: Export student list from Dapodik aplikasi (Excel report) - includes student names, NISN, grade levels"
           ]
         },
         {
@@ -3108,7 +3108,7 @@
           "items": [
             "Create Reconciliation Report: Number of discrepancies found, types of errors, corrections made, current alignment percentage",
             "Target: 98%+ alignment (2% tolerance for students in transition, e.g., recent enrollments not yet synced)",
-            "If alignment \\<95%, flag as data quality issue requiring immediate attention"
+            "If alignment <95%, flag as data quality issue requiring immediate attention"
           ]
         },
         {
@@ -3137,7 +3137,7 @@
         },
         {
           "type": "text",
-          "text": "Pre-Semester Verification (Dapodik Operator \\+ Principal) Timing: 2 weeks before semester cut-off dates (Early December for Semester 1, Early June for Semester 2) Purpose: Ensure data accuracy before Ministry's semester verification process; correct any errors before they are \"locked\" in Ministry system Verification Checklist: \\=\\> Table \\< \\= Principal Approval:"
+          "text": "Pre-Semester Verification (Dapodik Operator + Principal) Timing: 2 weeks before semester cut-off dates (Early December for Semester 1, Early June for Semester 2) Purpose: Ensure data accuracy before Ministry's semester verification process; correct any errors before they are \"locked\" in Ministry system Verification Checklist: => Table < = Principal Approval:"
         },
         {
           "type": "list",
@@ -3169,14 +3169,14 @@
         {
           "type": "list",
           "items": [
-            "Frequency: May occur 0-2 times per year (random selection by local Dinas Pendidikan \\- Education Office)",
+            "Frequency: May occur 0-2 times per year (random selection by local Dinas Pendidikan - Education Office)",
             "Inspection Scope:",
             "Verify Dapodik data matches physical reality (count students in classrooms, verify facilities, inspect teacher credentials)",
             "Review Dapodik processes (interview Dapodik Operator, review synchronization logs, check data entry procedures)",
             "Assess data quality (check for common errors, placeholder data, outdated information)",
             "School Preparation:",
             "Dapodik Operator maintains organized files: Source documents (student birth certificates, teacher degrees), synchronization logs, verification certificates",
-            "Principal briefs inspection team on school structure and any unique circumstances (e.g., Cambridge \\+ Indonesian dual curriculum)",
+            "Principal briefs inspection team on school structure and any unique circumstances (e.g., Cambridge + Indonesian dual curriculum)",
             "Facilities Manager prepares for physical audit of facilities",
             "Inspection Report:",
             "Ministry provides written inspection report within 2-4 weeks",
@@ -3243,7 +3243,7 @@
           "type": "list",
           "items": [
             "If legitimate: Approve in SIMPKB (activity then counts toward teacher's PD total and certification)",
-            "If questionable: Reject with explanation; teacher must provide additional documentation or correction"
+            "If questionable: Reject with explanation; teacher must provide extra documentation or correction"
           ]
         },
         {
@@ -3291,7 +3291,7 @@
             "Identify Teachers at Risk: Teachers not on track to meet annual PD requirements (e.g., by Q3, should have ≥75% of required hours)",
             "Intervention: HR Manager notifies at-risk teachers; encourage participation in upcoming DTP sessions or other PD opportunities",
             "Annual Summary Report: End of academic year, HR Manager prepares summary:",
-            "Total PD hours delivered (school-based \\+ external)",
+            "Total PD hours delivered (school-based + external)",
             "Percentage of teachers meeting PD requirements (target: 100% of certified teachers)",
             "Most popular PD topics (informs future PD planning)",
             "Submit summary to Principal and Eduversal Foundation Representative"
@@ -3299,7 +3299,7 @@
         },
         {
           "type": "text",
-          "text": "Cross-reference: Section 12 (Staff Lifecycle \\- professional development tracking and appraisal integration with SIMPKB) Evidence/Artifacts Table for Section 14.7:"
+          "text": "Cross-reference: Section 12 (Staff Lifecycle - professional development tracking and appraisal integration with SIMPKB) Evidence/Artifacts Table for Section 14.7:"
         }
       ]
     },
@@ -3410,7 +3410,7 @@
           "items": [
             "Schools must transfer ONLY data required by Cambridge:",
             "Required: Full legal name, Date of birth, Gender, Candidate number (school-assigned)",
-            "Conditional: Special considerations/access arrangements (only if applicable \\- medical info, disability details)",
+            "Conditional: Special considerations/access arrangements (only if applicable - medical info, disability details)",
             "Prohibited: Unnecessary personal data (race, religion, financial info, parent details unless specifically required for access arrangements)"
           ]
         },
@@ -3434,7 +3434,7 @@
         {
           "type": "list",
           "items": [
-            "Centre Number: Unique identifier (format: XY123 \\- two letters, three numbers)",
+            "Centre Number: Unique identifier (format: XY123 - two letters, three numbers)",
             "Centre Password/Access Code: Alphanumeric password for CIE Direct login",
             "Admin Hub Credentials: Separate login for Cambridge Admin Hub (Principal's email-based account)"
           ],
@@ -3508,8 +3508,8 @@
           "type": "list",
           "items": [
             "In addition to password manager, sealed envelope with emergency credentials stored in fireproof safe or bank safety deposit box (Board Chair holds key)",
-            "Envelope labeled: \"Emergency Cambridge Credentials \\- Open Only in Crisis\"",
-            "Envelope contains: Centre Number, temporary access password (not current password \\- separate emergency password set for this purpose), contact information for Cambridge support",
+            "Envelope labeled: \"Emergency Cambridge Credentials - Open Only in Crisis\"",
+            "Envelope contains: Centre Number, temporary access password (not current password - separate emergency password set for this purpose), contact information for Cambridge support",
             "Envelope checked annually to ensure not tampered; replaced if seal broken or annually as precaution"
           ]
         },
@@ -3522,7 +3522,7 @@
           "items": [
             "Name Verification: Candidate name in CIE Direct must match official identification document (passport, national ID, birth certificate)",
             "Common issues: Spelling variations (e.g., \"Mohammed\" vs \"Muhammad\"), missing hyphens (e.g., \"Jean-Pierre\" entered as \"Jean Pierre\"), extra spaces",
-            "Consequences of error: Certificate printed with wrong name → candidate cannot use for university applications → school must request certificate reprint (delay of 6-8 weeks \\+ reprint fee)",
+            "Consequences of error: Certificate printed with wrong name → candidate cannot use for university applications → school must request certificate reprint (delay of 6-8 weeks + reprint fee)",
             "Date of Birth Verification: Must match official ID; incorrect DOB can cause exam registration rejection",
             "Gender: Must match official records (M/F); Cambridge uses for statistical analysis"
           ],
@@ -3655,7 +3655,7 @@
             "Acceptable public sharing:",
             "Aggregate results (e.g., \"School achieved 95% A-C pass rate in IGCSE Mathematics\")",
             "Anonymized examples (e.g., \"A student in our school achieved 5 A grades in IGCSE\")",
-            "Individual results WITH student's explicit consent (e.g., student agrees to be named in school newsletter celebrating achievement \\- obtain written consent first; see template in Section 19)"
+            "Individual results WITH student's explicit consent (e.g., student agrees to be named in school newsletter celebrating achievement - obtain written consent first; see template in Section 19)"
           ]
         },
         {
@@ -3675,7 +3675,7 @@
         },
         {
           "type": "text",
-          "text": "5. Post-Results Services (Enquiry Upon Results \\- EARs): If student believes result is incorrect, school can request Cambridge review (remark, script review, clerical check): Privacy Protection:"
+          "text": "5. Post-Results Services (Enquiry Upon Results - EARs): If student believes result is incorrect, school can request Cambridge review (remark, script review, clerical check): Privacy Protection:"
         },
         {
           "type": "list",
@@ -3695,7 +3695,7 @@
           "items": [
             "Internal analysis: Subject Leaders analyze grade distributions, identify topics students struggled with, inform curriculum planning",
             "Teacher development: Identify teaching areas needing improvement; plan professional development",
-            "Student support: Identify students needing additional support in specific subjects/topics",
+            "Student support: Identify students needing extra support in specific subjects/topics",
             "Reporting to Board/Foundation: Aggregate results (no individual student identification) for governance oversight",
             "Benchmarking: Compare school's results to Cambridge global averages (Results Plus provides this comparison automatically)"
           ],
@@ -3752,7 +3752,7 @@
         {
           "type": "list",
           "items": [
-            "Primary: Cambridge Admin Hub \\- Incident Report Form (online submission)",
+            "Primary: Cambridge Admin Hub - Incident Report Form (online submission)",
             "Urgent/After Hours: Cambridge School Support Hub phone line (UK number; 24/7 support during exam periods)"
           ],
           "title": "14.8.7 Cambridge Security Incidents and Breach Reporting"
@@ -3768,7 +3768,7 @@
             "Description of incident (what happened, when, how discovered)",
             "Data or exams affected (which candidates, which subjects, which exam series)",
             "Immediate actions taken (containment, affected individuals notified)",
-            "Contact person at school (Principal \\+ phone number \\+ email)"
+            "Contact person at school (Principal + phone number + email)"
           ]
         },
         {
@@ -3779,7 +3779,7 @@
           "type": "list",
           "items": [
             "Cambridge acknowledges incident report (typically within 4 hours during UK business hours)",
-            "Cambridge investigates and provides guidance (may require additional information from school)",
+            "Cambridge investigates and provides guidance (may require extra information from school)",
             "For serious breaches (exam material leakage, large-scale malpractice, significant data breach), Cambridge may:",
             "Escalate to Cambridge senior management",
             "Require formal investigation report from school within specified timeframe (e.g., 14 days)",
@@ -3877,7 +3877,7 @@
         },
         {
           "type": "text",
-          "text": "Cross-reference: Section 10 (Cambridge Examinations Management \\- comprehensive exam procedures), Section 3 (Cambridge Centre Compliance \\- overview of Centre obligations) --- Evidence/Artifacts Table for Section 14.8:"
+          "text": "Cross-reference: Section 10 (Cambridge Examinations Management - comprehensive exam procedures), Section 3 (Cambridge Centre Compliance - overview of Centre obligations) --- Evidence/Artifacts Table for Section 14.8:"
         }
       ]
     },
@@ -3931,7 +3931,7 @@
           "items": [
             "What is personal data? (definition, examples from school context: student names, grades, staff salaries, parent contact info)",
             "What is sensitive/special category data? (medical info, safeguarding records, biometric data, financial data)",
-            "Why does data protection matter? (Legal obligation under UU PDP, ethical responsibility to protect privacy, consequences of breaches \\- harm to individuals, legal penalties, reputational damage to school)",
+            "Why does data protection matter? (Legal obligation under UU PDP, ethical responsibility to protect privacy, consequences of breaches - harm to individuals, legal penalties, reputational damage to school)",
             "Key principles of data protection (lawfulness, fairness, transparency, data minimization, accuracy, storage limitation, security, accountability)"
           ]
         },
@@ -3957,7 +3957,7 @@
           "items": [
             "✅ DO: Use school email for school business; verify recipient before sending sensitive data; use BCC for group emails to protect email addresses",
             "❌ DON'T: Use personal email for school work; send confidential data to wrong recipient; use Reply All unnecessarily (exposes email addresses)",
-            "Practical exercise: Scenario \\- \"You need to send student grades to parents. How do you do it securely?\" (Answer: Individual emails to each parent with only their child's grades; use EduNav system if available; password-protect attachment if highly sensitive)"
+            "Practical exercise: Scenario - \"You need to send student grades to parents. How do you do it securely?\" (Answer: Individual emails to each parent with only their child's grades; use EduNav system if available; password-protect attachment if highly sensitive)"
           ]
         },
         {
@@ -3969,7 +3969,7 @@
           "items": [
             "✅ DO: Use strong passwords (12+ characters, mix of character types); use unique passwords for each account; enable MFA where available; use password manager",
             "❌ DON'T: Use simple passwords (e.g., \"password123\"); reuse same password across multiple accounts; write passwords on sticky notes; share passwords with colleagues",
-            "Practical exercise: \"Create a strong password using a passphrase method\" (e.g., \"ILove2TeachMath@SchoolName!\" \\- memorable but strong)"
+            "Practical exercise: \"Create a strong password using a passphrase method\" (e.g., \"ILove2TeachMath@SchoolName!\" - memorable but strong)"
           ]
         },
         {
@@ -3979,9 +3979,9 @@
         {
           "type": "list",
           "items": [
-            "✅ DO: Lock computer when away from desk (Windows: Windows Key \\+ L; Mac: Control \\+ Command \\+ Q); store confidential documents in locked cabinets; shred confidential waste; escort visitors; report lost/stolen devices immediately",
+            "✅ DO: Lock computer when away from desk (Windows: Windows Key + L; Mac: Control + Command + Q); store confidential documents in locked cabinets; shred confidential waste; escort visitors; report lost/stolen devices immediately",
             "❌ DON'T: Leave confidential documents on desk overnight; throw confidential papers in regular trash; allow visitors unattended access; delay reporting lost devices",
-            "Practical exercise: Walk through scenario \\- \"You're leaving your classroom for lunch. What do you do?\" (Answer: Lock computer, secure any student work or grade sheets in desk drawer or take with you, close door)"
+            "Practical exercise: Walk through scenario - \"You're leaving your classroom for lunch. What do you do?\" (Answer: Lock computer, secure any student work or grade sheets in desk drawer or take with you, close door)"
           ]
         },
         {
@@ -4003,7 +4003,7 @@
           "type": "list",
           "items": [
             "What is a data breach? (examples: lost laptop, email sent to wrong person, hacking incident, paper files left unsecured)",
-            "How to recognize potential breaches: If you think \"Did I just accidentally expose someone's personal data?\" \\- likely yes",
+            "How to recognize potential breaches: If you think \"Did I just accidentally expose someone's personal data?\" - likely yes",
             "IMMEDIATE ACTION REQUIRED: Report ANY suspected breach to IT Manager and Principal immediately (within 1 hour if possible; same day at latest)",
             "Reporting is NOT optional; delays increase harm",
             "No blame culture: Accidents happen; school needs to know quickly to respond effectively",
@@ -4012,7 +4012,7 @@
         },
         {
           "type": "text",
-          "text": "Module 5: Q\\&A and Scenarios (10 minutes)"
+          "text": "Module 5: Q&A and Scenarios (10 minutes)"
         },
         {
           "type": "list",
@@ -4079,7 +4079,7 @@
         },
         {
           "type": "text",
-          "text": "--- Annual Refresher Training (All Staff \\- Every Year): Target Audience: All staff (both continuing and new staff) Duration: 60 minutes Delivery Method:"
+          "text": "--- Annual Refresher Training (All Staff - Every Year): Target Audience: All staff (both continuing and new staff) Duration: 60 minutes Delivery Method:"
         },
         {
           "type": "list",
@@ -4122,7 +4122,7 @@
           "type": "list",
           "items": [
             "Phishing awareness: How to recognize phishing emails (common signs: urgent requests, suspicious sender, spelling errors, requests for passwords or financial info)",
-            "Real examples: Show actual phishing emails that have been sent to school (or similar institutions) \\- REDACTED to remove identifying info",
+            "Real examples: Show actual phishing emails that have been sent to school (or similar institutions) - REDACTED to remove identifying info",
             "What to do if you suspect phishing:"
           ]
         },
@@ -4139,7 +4139,7 @@
           "type": "list",
           "items": [
             "Ransomware awareness: Brief explanation of ransomware (malware that encrypts data and demands payment); prevention relies on not clicking suspicious links/attachments",
-            "Social engineering: Warning about phone calls or messages claiming to be IT support asking for passwords \\- IT never asks for passwords"
+            "Social engineering: Warning about phone calls or messages claiming to be IT support asking for passwords - IT never asks for passwords"
           ]
         },
         {
@@ -4198,7 +4198,7 @@
         {
           "type": "list",
           "items": [
-            "Frequency: Upon appointment \\+ annual updates",
+            "Frequency: Upon appointment + annual updates",
             "Provider: Cambridge Professional Development platform (online courses) or Cambridge regional training events",
             "Content: CIE Direct system, secure materials handling, exam administration, results processing, incident reporting",
             "Duration: 4-6 hours (self-paced online modules)"
@@ -4245,7 +4245,7 @@
         },
         {
           "type": "text",
-          "text": "Beyond formal training, school runs ongoing awareness campaigns to keep data protection \"top of mind\": Data Protection Day (Annual Event \\- January 28): January 28 is International Data Privacy Day (chosen to commemorate signing of Convention 108, first international data protection treaty) School Activities: Staff Event:"
+          "text": "Beyond formal training, school runs ongoing awareness campaigns to keep data protection \"top of mind\": Data Protection Day (Annual Event - January 28): January 28 is International Data Privacy Day (chosen to commemorate signing of Convention 108, first international data protection treaty) School Activities: Staff Event:"
         },
         {
           "type": "list",
@@ -4263,8 +4263,8 @@
         {
           "type": "list",
           "items": [
-            "Primary students (Years 1-6): Assembly on \"Keeping Your Information Safe\" \\- teaching students not to share passwords, not to post personal information online, understanding that some information is private (addresses, phone numbers, photos shouldn't be shared with strangers)",
-            "Secondary students (Years 7-12): Assembly or class session on \"Digital Footprint and Privacy\" \\- discussing social media privacy settings, risks of oversharing online, understanding data collection by websites and apps, how to protect personal information"
+            "Primary students (Years 1-6): Assembly on \"Keeping Your Information Safe\" - teaching students not to share passwords, not to post personal information online, understanding that some information is private (addresses, phone numbers, photos shouldn't be shared with strangers)",
+            "Secondary students (Years 7-12): Assembly or class session on \"Digital Footprint and Privacy\" - discussing social media privacy settings, risks of oversharing online, understanding data collection by websites and apps, how to protect personal information"
           ]
         },
         {
@@ -4274,7 +4274,7 @@
         {
           "type": "list",
           "items": [
-            "Newsletter article: \"How We Protect Your Family's Data\" \\- explaining school's data protection measures, what data is collected and why, parents' rights (access, rectification, deletion), how to contact school with data protection questions",
+            "Newsletter article: \"How We Protect Your Family's Data\" - explaining school's data protection measures, what data is collected and why, parents' rights (access, rectification, deletion), how to contact school with data protection questions",
             "Website update: Data protection page on school website updated with FAQs (e.g., \"How is my child's data used?\" \"Who has access to student records?\" \"How long are records kept?\")"
           ]
         },
@@ -4286,26 +4286,26 @@
           "type": "list",
           "items": [
             "Posters: Data protection posters displayed in staff room, admin offices, corridors",
-            "Example messages: \"Lock Your Screen When You Step Away\", \"Think Before You Click \\- Avoid Phishing\", \"Shred Confidential Documents, Don't Trash Them\", \"Confidential? Lock It!\"",
-            "Email signature reminders: During Data Protection Day week, staff add reminder to email signature: \"January 28 is Data Privacy Day \\- Protecting Personal Information is Everyone's Responsibility\""
+            "Example messages: \"Lock Your Screen When You Step Away\", \"Think Before You Click - Avoid Phishing\", \"Shred Confidential Documents, Don't Trash Them\", \"Confidential? Lock It!\"",
+            "Email signature reminders: During Data Protection Day week, staff add reminder to email signature: \"January 28 is Data Privacy Day - Protecting Personal Information is Everyone's Responsibility\""
           ]
         },
         {
           "type": "text",
-          "text": "--- Quarterly Security Tips (Email Bulletins): Frequency: 4 times per year (end of each quarter) Delivery: Email from IT Manager to all staff Content (Rotating Topics): Q1 (September) \\- Password Security:"
+          "text": "--- Quarterly Security Tips (Email Bulletins): Frequency: 4 times per year (end of each quarter) Delivery: Email from IT Manager to all staff Content (Rotating Topics): Q1 (September) - Password Security:"
         },
         {
           "type": "list",
           "items": [
             "Reminder to use strong, unique passwords",
             "How to use school's password manager (if provided)",
-            "Enable MFA on personal accounts (bank, email, social media) for additional security",
+            "Enable MFA on personal accounts (bank, email, social media) for extra security",
             "Warning about password reuse (if one account compromised, others at risk)"
           ]
         },
         {
           "type": "text",
-          "text": "Q2 (December) \\- Phishing Awareness (Holiday Scams):"
+          "text": "Q2 (December) - Phishing Awareness (Holiday Scams):"
         },
         {
           "type": "list",
@@ -4317,7 +4317,7 @@
         },
         {
           "type": "text",
-          "text": "Q3 (March) \\- Physical Security and Clean Desk Policy:"
+          "text": "Q3 (March) - Physical Security and Clean Desk Policy:"
         },
         {
           "type": "list",
@@ -4330,7 +4330,7 @@
         },
         {
           "type": "text",
-          "text": "Q4 (June) \\- Data Breach Prevention and End-of-Year Data Cleanup:"
+          "text": "Q4 (June) - Data Breach Prevention and End-of-Year Data Cleanup:"
         },
         {
           "type": "list",
@@ -4338,7 +4338,7 @@
             "Reminder that end of academic year is time to review and delete unnecessary data",
             "Teachers should delete outdated student files (per retention schedule)",
             "Securely dispose of old documents (use confidential shredding bins)",
-            "Reminder to report any suspected breaches immediately (even if occurred months ago \\- better late than never)"
+            "Reminder to report any suspected breaches immediately (even if occurred months ago - better late than never)"
           ]
         },
         {
@@ -4351,12 +4351,12 @@
             "Short email (300-500 words)",
             "Visual graphic or infographic",
             "Quick tip or checklist",
-            "Link to additional resources (e.g., school's data protection policy, online training modules)"
+            "Link to extra resources (e.g., school's data protection policy, online training modules)"
           ]
         },
         {
           "type": "text",
-          "text": "--- Data Protection Champions Program (Optional \\- for Larger Schools): Concept: Designate one staff member per department as \"Data Protection Champion\" Role of Champion:"
+          "text": "--- Data Protection Champions Program (Optional - for Larger Schools): Concept: Designate one staff member per department as \"Data Protection Champion\" Role of Champion:"
         },
         {
           "type": "list",
@@ -4365,7 +4365,7 @@
             "Promote data protection awareness among colleagues",
             "Report data protection concerns to IT Manager or Principal",
             "Attend quarterly Data Protection Champions meetings (30 minutes; led by IT Manager)",
-            "Receive slightly more advanced training (e.g., 1 additional hour of training per year on emerging topics)"
+            "Receive slightly more advanced training (e.g., 1 extra hour of training per year on emerging topics)"
           ]
         },
         {
@@ -4416,7 +4416,7 @@
           "items": [
             "Induction training completion rate: Target 100% within first month of employment",
             "Annual refresher training completion rate: Target 100% within 2 weeks of training launch (typically July/August)",
-            "Average quiz scores: Monitor to identify if training content needs improvement (if average score \\<85%, may indicate training unclear or too difficult)",
+            "Average quiz scores: Monitor to identify if training content needs improvement (if average score <85%, may indicate training unclear or too difficult)",
             "Training compliance report: Generated monthly; Principal reviews; non-compliant staff receive reminders"
           ],
           "title": "14.9.4 Training Documentation and Compliance Tracking"
@@ -4428,7 +4428,7 @@
         {
           "type": "list",
           "items": [
-            "Individual training records (certificates, quiz results) retained in staff HR files (per Section 14.5: Employment \\+ 3 years)",
+            "Individual training records (certificates, quiz results) retained in staff HR files (per Section 14.5: Employment + 3 years)",
             "Training Register (master log) retained permanently (institutional record of training compliance)"
           ]
         },
@@ -4440,13 +4440,13 @@
           "type": "list",
           "items": [
             "All training materials (presentation slides, videos, quizzes, handouts) archived in school's shared drive (staff training folder)",
-            "Version control: Dated versions retained (e.g., \"Data Protection Induction Training \\- Version 2024.1\", \"Version 2025.1\")",
+            "Version control: Dated versions retained (e.g., \"Data Protection Induction Training - Version 2024.1\", \"Version 2025.1\")",
             "Allows review of what staff were trained on in specific year (useful if questions arise later)"
           ]
         },
         {
           "type": "text",
-          "text": "Cross-reference: Section 12 (Staff Lifecycle \\- professional development tracking; induction program overview) --- Evidence/Artifacts Table for Section 14.9:"
+          "text": "Cross-reference: Section 12 (Staff Lifecycle - professional development tracking; induction program overview) --- Evidence/Artifacts Table for Section 14.9:"
         }
       ]
     },
@@ -4471,7 +4471,7 @@
         },
         {
           "type": "text",
-          "text": "Quarterly Access Audits (IT Manager \\- End of Each Quarter) Purpose: Verify that user access permissions are appropriate; detect unauthorized access or dormant accounts Audit Scope: EduNav System Access:"
+          "text": "Quarterly Access Audits (IT Manager - End of Each Quarter) Purpose: Verify that user access permissions are appropriate; detect unauthorized access or dormant accounts Audit Scope: EduNav System Access:"
         },
         {
           "type": "list",
@@ -4481,7 +4481,7 @@
             "Dormant accounts: Users who haven't logged in for 6+ months (except accounts for staff on approved leave)",
             "Action: Disable dormant accounts; re-enable if user returns and requests access",
             "Former staff with active accounts: Staff who left school but accounts not yet disabled",
-            "Action: Immediate account deactivation; investigate why not disabled during departure process (see Section 12 \\- staff offboarding)",
+            "Action: Immediate account deactivation; investigate why not disabled during departure process (see Section 12 - staff offboarding)",
             "Excessive permissions: Users with admin-level access who don't need it (e.g., teacher accidentally granted admin role)",
             "Action: Downgrade to appropriate role-based access",
             "Generic/shared accounts: Accounts not assigned to specific individual (e.g., \"Admin\", \"Guest\", \"Teacher1\")",
@@ -4496,9 +4496,9 @@
         {
           "type": "list",
           "items": [
-            "Verify Dapodik Operator account: Confirm only designated Operator has access (no unauthorized additional users)",
+            "Verify Dapodik Operator account: Confirm only designated Operator has access (no unauthorized extra users)",
             "Password change verification: Confirm Dapodik password changed if Operator role changed in past quarter",
-            "Access logs: Review Dapodik access logs (if available) for unusual access times (e.g., 2 AM on Saturday \\- potential unauthorized access)"
+            "Access logs: Review Dapodik access logs (if available) for unusual access times (e.g., 2 AM on Saturday - potential unauthorized access)"
           ]
         },
         {
@@ -4542,7 +4542,7 @@
         },
         {
           "type": "text",
-          "text": "Frequency: Quarterly (September, December, March, June) --- Annual Comprehensive Data Protection Audit (Principal \\+ IT Manager \\+ External Auditor if Available) Purpose: In-depth review of entire data protection program; assess compliance with policies and regulations; identify systemic improvements Audit Scope: 1. Policy Compliance Review:"
+          "text": "Frequency: Quarterly (September, December, March, June) --- Annual Comprehensive Data Protection Audit (Principal + IT Manager + External Auditor if Available) Purpose: In-depth review of entire data protection program; assess compliance with policies and regulations; identify systemic improvements Audit Scope: 1. Policy Compliance Review:"
         },
         {
           "type": "list",
@@ -4635,7 +4635,7 @@
             "Password policies enforced (minimum length, complexity, expiration)",
             "Multi-factor authentication enabled for admin accounts",
             "Encryption enabled (data at rest and in transit)",
-            "Backup verification: Test data restoration from backups (Section 14.3.2); confirm backups recoverable within acceptable timeframe (RTO \\- Recovery Time Objective)",
+            "Backup verification: Test data restoration from backups (Section 14.3.2); confirm backups recoverable within acceptable timeframe (RTO - Recovery Time Objective)",
             "Vulnerability scan: If budget allows, conduct external penetration test or vulnerability scan; review results and prioritize remediation",
             "Patch management: Verify all systems have latest security patches installed"
           ]
@@ -4675,7 +4675,7 @@
         {
           "type": "list",
           "items": [
-            "Evidence mapping: Verify data protection evidence aligns with CIS/WASC accreditation standards (Section 14.11 \\- Compliance Alignment)",
+            "Evidence mapping: Verify data protection evidence aligns with CIS/WASC accreditation standards (Section 14.11 - Compliance Alignment)",
             "Evidence availability: Confirm required evidence documents readily available and well-organized (for accreditation self-study or site visit)"
           ]
         },
@@ -4691,7 +4691,7 @@
             "Detailed findings by audit scope area (Sections 1-10 above)",
             "Risk rating for each finding (Low, Medium, High, Critical)",
             "Recommendations with action owners and target completion dates",
-            "Positive findings (areas of strong compliance) \\- not just focus on deficiencies",
+            "Positive findings (areas of strong compliance) - not just focus on deficiencies",
             "Delivery: Report presented to Principal; summary presented to Board in governance meeting",
             "Follow-up: Action plan developed to address audit recommendations; progress tracked quarterly"
           ]
@@ -4710,7 +4710,7 @@
         },
         {
           "type": "text",
-          "text": "Frequency: Annual (typically conducted during summer break \\- June/July \\- when less disruption to school operations)"
+          "text": "Frequency: Annual (typically conducted during summer break - June/July - when less disruption to school operations)"
         },
         {
           "type": "text",
@@ -4735,7 +4735,7 @@
           "type": "list",
           "items": [
             "Network traffic monitoring: IDS monitors network traffic for suspicious patterns (port scans, brute-force login attempts, unusual data transfers)",
-            "Automated alerts: IT Manager receives alerts for high-priority events (e.g., multiple failed login attempts from external IP address \\- possible hacking attempt)",
+            "Automated alerts: IT Manager receives alerts for high-priority events (e.g., multiple failed login attempts from external IP address - possible hacking attempt)",
             "Log review: IT Manager reviews firewall and IDS logs weekly (30-45 minutes) to identify anomalies",
             "Blocked connections: Review list of blocked connection attempts; verify firewall rules effective"
           ]
@@ -4790,7 +4790,7 @@
           "items": [
             "Legal advisor (if available): School's legal counsel or Foundation legal team monitors regulatory developments; provides updates to Principal when new regulations issued",
             "Government websites: IT Manager or Principal periodically checks Indonesian Ministry of Communication and Information Technology website for UU PDP updates (https://www.kominfo.go.id/)",
-            "Professional networks: Principal participates in Indonesian school leadership associations (e.g., ASPENSI \\- Indonesian Private School Association); regulatory updates often shared via these networks",
+            "Professional networks: Principal participates in Indonesian school leadership associations (e.g., ASPENSI - Indonesian Private School Association); regulatory updates often shared via these networks",
             "Eduversal network: Eduversal Foundation monitors regulatory changes affecting partner schools; provides briefings to school Principals"
           ],
           "title": "14.10.4 Compliance Monitoring and Regulatory Updates"
@@ -4853,7 +4853,7 @@
         },
         {
           "type": "text",
-          "text": "Data Protection Committee (Optional \\- For Larger Schools): Purpose: Oversight body for data protection program; provides governance and strategic direction Composition:"
+          "text": "Data Protection Committee (Optional - For Larger Schools): Purpose: Oversight body for data protection program; provides governance and strategic direction Composition:"
         },
         {
           "type": "list",
@@ -4901,9 +4901,9 @@
             "Annual staff survey (anonymous): Include data protection questions:",
             "\"Do you feel confident handling student/staff data securely?\" (Likert scale 1-5)",
             "\"Have you encountered any data protection challenges in your work? Please describe.\" (Open-ended)",
-            "\"What additional training or support would help you manage data more securely?\" (Open-ended)",
+            "\"What extra training or support would help you manage data more securely?\" (Open-ended)",
             "Survey results: IT Manager and HR Manager analyze results; identify common concerns or suggestions",
-            "Action: Based on feedback, adjust training program, clarify procedures, provide additional resources"
+            "Action: Based on feedback, adjust training program, clarify procedures, provide extra resources"
           ]
         },
         {
@@ -4916,8 +4916,8 @@
             "Privacy notice feedback: When parents receive privacy notices (Section 14.2.4), include feedback mechanism:",
             "\"Do you have any questions or concerns about how we use your family's data? Contact [Principal email]\"",
             "Annual parent survey: Include data protection question:",
-            "\"Do you trust that the school protects your family's personal information?\" (Yes/No/Unsure \\+ optional comment)",
-            "Parent-Teacher Conferences: Teachers may hear data protection concerns from parents during conferences (e.g., \"I received my neighbor's child's report card by mistake\" \\- breach!); teachers report concerns to Principal"
+            "\"Do you trust that the school protects your family's personal information?\" (Yes/No/Unsure + optional comment)",
+            "Parent-Teacher Conferences: Teachers may hear data protection concerns from parents during conferences (e.g., \"I received my neighbor's child's report card by mistake\" - breach!); teachers report concerns to Principal"
           ]
         },
         {
@@ -4962,7 +4962,7 @@
         {
           "type": "list",
           "items": [
-            "Principal and IT Manager participate in international school associations (e.g., CIS regional meetings, ECIS \\- European Council of International Schools conferences)",
+            "Principal and IT Manager take part in international school associations (e.g., CIS regional meetings, ECIS - European Council of International Schools conferences)",
             "Sessions on data protection, cybersecurity, GDPR compliance provide insights from schools worldwide",
             "Adapt international best practices to Indonesian context"
           ]
@@ -4974,7 +4974,7 @@
         {
           "type": "list",
           "items": [
-            "IT Manager attends data protection conferences or webinars (e.g., IAPP \\- International Association of Privacy Professionals)",
+            "IT Manager attends data protection conferences or webinars (e.g., IAPP - International Association of Privacy Professionals)",
             "Stays current on emerging threats (ransomware trends, new phishing techniques)",
             "Implements preventive measures proactively (before school affected)"
           ]
@@ -5050,7 +5050,7 @@
         },
         {
           "type": "text",
-          "text": "Cross-reference: Section 17 (Quality Assurance and Internal Review \\- data protection audits integrated with broader school quality assurance cycles), Section 15 (Risk Management \\- data protection risks monitored via risk register) --- Evidence/Artifacts Table for Section 14.10:"
+          "text": "Cross-reference: Section 17 (Quality Assurance and Internal Review - data protection audits integrated with broader school quality assurance cycles), Section 15 (Risk Management - data protection risks monitored via risk register) --- Evidence/Artifacts Table for Section 14.10:"
         }
       ]
     },
@@ -5074,7 +5074,7 @@
         },
         {
           "type": "text",
-          "text": "The following table maps each subsection of Section 14 to relevant compliance frameworks: \\=\\> Table \\<=",
+          "text": "The following table maps each subsection of Section 14 to relevant compliance frameworks: => Table <=",
           "title": "14.11.2 Comprehensive Compliance Mapping Table"
         },
         {
@@ -5086,7 +5086,7 @@
           "steps": [
             "UU No. 27/2022 tentang Pelindungan Data Pribadi (Personal Data Protection Law)"
           ],
-          "title": "14.11.3 Indonesian Legal References \\- Detailed Citations"
+          "title": "14.11.3 Indonesian Legal References - Detailed Citations"
         },
         {
           "type": "list",
@@ -5209,7 +5209,7 @@
         {
           "type": "list",
           "items": [
-            "Full Title: \"Cambridge Handbook [Year] \\- For Cambridge Schools\"",
+            "Full Title: \"Cambridge Handbook [Year] - For Cambridge Schools\"",
             "Published by: Cambridge Assessment International Education",
             "Key Sections Relevant to Data Protection:",
             "Section 2: Centre Administration (Centre Head responsibilities, Exams Officer role, secure administration)",
@@ -5233,7 +5233,7 @@
             "Legal contract between Cambridge and registered Centre (school)",
             "Data Protection Clauses:",
             "School's obligation to protect candidate personal data",
-            "School's obligation to obtain consent from students/parents for data transfer to Cambridge UK",
+            "School's obligation to get consent from students/parents for data transfer to Cambridge UK",
             "Cambridge's obligations as data processor (UK GDPR compliance, secure data handling, breach notification)",
             "Data retention periods (Cambridge retains exam data per UK GDPR requirements)",
             "Liability provisions (which party liable for data breaches in various scenarios)",
@@ -5304,7 +5304,7 @@
           "type": "list",
           "items": [
             "Standard D1: The school attracts, recruits, and retains high-quality staff",
-            "Data protection alignment: Safer recruitment includes background checks and secure handling of staff personal data (Section 14.5 \\- staff HR records retention)",
+            "Data protection alignment: Safer recruitment includes background checks and secure handling of staff personal data (Section 14.5 - staff HR records retention)",
             "Standard D5: The school provides appropriate resources to support learning",
             "Data protection alignment: Technology resources (EduNav, secure IT systems) managed responsibly with data protection safeguards (Section 14.3)",
             "Standard D6: The school manages resources effectively",
@@ -5321,7 +5321,7 @@
           "type": "list",
           "items": [
             "Standard E4: The school provides effective support for student wellbeing",
-            "Data protection alignment: Safeguarding records managed with highest confidentiality (Section 14.5 \\- extended retention; Section 14.3.1 \\- secure storage); student privacy respected",
+            "Data protection alignment: Safeguarding records managed with highest confidentiality (Section 14.5 - extended retention; Section 14.3.1 - secure storage); student privacy respected",
             "Standard E5: The school promotes ethical behavior",
             "Data protection alignment: Ethical handling of personal data; staff trained on data protection principles; culture of accountability (Section 14.9)"
           ]
@@ -5363,7 +5363,7 @@
             "Criterion A3: The school has effective governance and leadership",
             "Data protection alignment: Board and Principal accountable for data protection; policies and procedures in place",
             "Criterion A4: The school complies with applicable laws, regulations, and policies",
-            "Data protection alignment: Compliance with Indonesian data protection law (UU PDP), Cambridge requirements (Section 14.11.2 \\- compliance table)",
+            "Data protection alignment: Compliance with Indonesian data protection law (UU PDP), Cambridge requirements (Section 14.11.2 - compliance table)",
             "Criterion A7: The school regularly reviews its mission, core values, and strategic plan",
             "Data protection alignment: Data protection policies reviewed annually; improvement plans developed (Section 14.10.5)"
           ],
@@ -5377,7 +5377,7 @@
           "type": "list",
           "items": [
             "Criterion B5: The school uses a variety of assessment strategies",
-            "Data protection alignment: Assessment data (EduNav gradebook, EASE results, Cambridge exam results) managed securely and confidentially (Section 14.3.2 \\- EduNav security; Section 14.8 \\- Cambridge exam data security)"
+            "Data protection alignment: Assessment data (EduNav gradebook, EASE results, Cambridge exam results) managed securely and confidentially (Section 14.3.2 - EduNav security; Section 14.8 - Cambridge exam data security)"
           ]
         },
         {
@@ -5387,12 +5387,12 @@
         {
           "type": "list",
           "items": [
-            "Criterion D1: The school has sufficient resources to support its mission",
+            "Criterion D1: The school has enough resources to support its mission",
             "Data protection alignment: Investment in secure IT systems, data protection training, cybersecurity tools demonstrates commitment of resources",
             "Criterion D2: The school maintains safe, functional, and well-maintained facilities",
             "Data protection alignment: Physical security (locked storage, secure exam room) protects data; facilities support confidentiality (Section 14.3.1)",
             "Criterion D3: The school provides appropriate technology and resources",
-            "Data protection alignment: Technology resources (EduNav, Dapodik, Cambridge systems) used responsibly with data protection safeguards (Section 14.3.2 \\- digital security)",
+            "Data protection alignment: Technology resources (EduNav, Dapodik, Cambridge systems) used responsibly with data protection safeguards (Section 14.3.2 - digital security)",
             "Criterion D4: The school has effective systems for managing resources",
             "Data protection alignment: Records retention schedule (Section 14.5); access control matrix (Section 14.3.3); vendor management (Section 14.3.5); audit processes (Section 14.10)"
           ]

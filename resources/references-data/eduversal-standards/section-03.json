@@ -1,7 +1,7 @@
 {
   "id": "03",
   "title": "Cambridge Centre Compliance",
-  "lastUpdated": "2025-01-20",
+  "lastUpdated": "2026-08-16",
   "subsections": [
     {
       "id": "3.1",
@@ -33,7 +33,7 @@
         },
         {
           "type": "text",
-          "text": "Centre Number: Each Eduversal Partner School holds a unique Cambridge Centre number (e.g., ID### for Indonesian centres) that identifies the school in all Cambridge systems and correspondence."
+          "text": "Centre Number: Each Eduversal Partner School holds a unique Cambridge Centre number (issued by Cambridge International and shown on the Centre certificate) that identifies the school in all Cambridge systems and correspondence."
         },
         {
           "type": "text",
@@ -79,7 +79,7 @@
         {
           "type": "list",
           "items": [
-            "Cambridge reviews the application and may request additional information or a site visit",
+            "Cambridge reviews the application and may request extra information or a site visit",
             "Approval typically takes 4-8 weeks"
           ]
         },
@@ -162,7 +162,7 @@
             "Liaise with Cambridge regarding Centre matters",
             "Ensure staff understand and follow Cambridge policies"
           ],
-          "title": "Centre Head (Principal \\- Primary or Secondary School Principal)"
+          "title": "Centre Head (Principal - Primary or Secondary School Principal)"
         },
         {
           "type": "text",
@@ -255,7 +255,7 @@
             "Facilitate internal moderation and standardization",
             "Identify professional development needs for Cambridge curriculum delivery",
             "Liaise with Cambridge on curriculum updates, resources, and support",
-            "Participate in Cambridge training and quality assurance initiatives (e.g., webinars, regional meetings)"
+            "take part in Cambridge training and quality assurance initiatives (e.g., webinars, regional meetings)"
           ],
           "title": "Quality Nominee"
         },
@@ -327,7 +327,7 @@
         {
           "type": "list",
           "items": [
-            "Subjects: English, Mathematics, Science (core); additional subjects may include ICT, Global Perspectives, Art, Music, PE",
+            "Subjects: English, Mathematics, Science (core); extra subjects may include ICT, Global Perspectives, Art, Music, PE",
             "Builds on Primary; deepens conceptual understanding and skills"
           ],
           "title": "Cambridge Lower Secondary (Ages 11-14)"
@@ -382,7 +382,7 @@
         },
         {
           "type": "text",
-          "text": "Additional Subjects (Student choice based on interest and university plans):"
+          "text": "Extra Subjects (Student choice based on interest and university plans):"
         },
         {
           "type": "list",
@@ -401,8 +401,8 @@
         {
           "type": "list",
           "items": [
-            "Grades: A (highest), A, B, C, D, E, F, G, U (ungraded/fail)",
-            "New 9-1 grading scale introduced for some subjects (9 \\= A, 1 \\= G)",
+            "Grades: A* (highest), A, B, C, D, E, F, G, U (ungraded/fail)",
+            "New 9-1 grading scale introduced for some subjects (9 = A* (highest), 4 = C-equivalent, 1 = G)",
             "Students typically take 5-10 IGCSEs over two years (Grades 10-11)"
           ]
         },
@@ -453,7 +453,7 @@
           "type": "list",
           "items": [
             "AS Level: Grades a, b, c, d, e (lowercase to distinguish from A Level)",
-            "A Level: Grades A (highest), A, B, C, D, E, U (ungraded)"
+            "A Level: Grades A* (highest), A, B, C, D, E, U (ungraded)"
           ]
         },
         {
@@ -631,7 +631,7 @@
         {
           "type": "list",
           "items": [
-            "Request accommodations for students with documented learning needs (e.g., extra time, scribe, rest breaks) \\- must be pre-approved by Cambridge (Section 3.9)"
+            "Request accommodations for students with documented learning needs (e.g., extra time, scribe, rest breaks) - must be pre-approved by Cambridge (Section 3.9)"
           ]
         },
         {
@@ -783,7 +783,7 @@
             "Opens in presence of invigilators and students at Key Time",
             "Distributes question papers and answer booklets",
             "Invigilator verifies all students have correct paper and materials",
-            "Exam commences"
+            "Exam starts"
           ],
           "title": "Exam Paper Distribution"
         },
@@ -818,7 +818,7 @@
           "items": [
             "Teachers (from any subject, not just the exam subject)",
             "Senior administrators",
-            "External invigilators (if school hires additional support)"
+            "External invigilators (if school hires extra support)"
           ],
           "title": "Invigilator Qualifications"
         },
@@ -874,7 +874,7 @@
         {
           "type": "list",
           "items": [
-            "If more than 30 students, assign additional invigilators"
+            "If more than 30 students, assign extra invigilators"
           ]
         },
         {
@@ -887,7 +887,7 @@
             "Desks arranged with adequate spacing (minimum 1.25 meters between students to prevent copying)",
             "Seating plan displayed (students assigned specific seats by candidate number)",
             "Clock visible to all students",
-            "\"Examination in Progress \\- Silence\" signs on doors"
+            "\"Examination in Progress - Silence\" signs on doors"
           ],
           "title": "Exam Room Setup"
         },
@@ -1004,7 +1004,7 @@
         {
           "type": "list",
           "items": [
-            "Extra time (typically 25% additional time)",
+            "Extra time (typically 25% extra time)",
             "Supervised rest breaks",
             "Scribe (someone writes student's dictated answers)",
             "Reader (someone reads questions aloud to student)",
@@ -1066,7 +1066,7 @@
         {
           "type": "list",
           "items": [
-            "Cambridge reviews and approves or requests additional information",
+            "Cambridge reviews and approves or requests extra information",
             "Approval valid for duration of student's time at Centre (not re-applied annually unless need changes)"
           ]
         },
@@ -1314,7 +1314,7 @@
           "type": "process",
           "steps": [
             "Cambridge reviews report and evidence",
-            "May request additional information from Centre or student",
+            "May request extra information from Centre or student",
             "Makes a determination (malpractice occurred or not)",
             "If malpractice confirmed, imposes sanction"
           ],
@@ -1492,7 +1492,7 @@
           "type": "list",
           "items": [
             "Cambridge reviews uploads for legibility",
-            "May request re-scan if quality insufficient"
+            "May request re-scan if quality not enough"
           ]
         },
         {
@@ -1592,7 +1592,7 @@
         {
           "type": "list",
           "items": [
-            "Cambridge dispatches certificates approximately 3 months after results release",
+            "Cambridge dispatches certificates about 3 months after results release",
             "Certificates sent to Centre (not directly to students)"
           ],
           "title": "Certificates"
@@ -1646,7 +1646,7 @@
             "Return of scripts: Student receives photocopy of marked script to see examiner comments (no grade change; for learning purposes)",
             "Priority re-mark: Full re-mark by senior examiner (may result in grade change up or down)"
           ],
-          "title": "1. Enquiry About Results (EAR)"
+          "title": "1. Enquiries About Results (EARs)"
         },
         {
           "type": "text",
@@ -1948,7 +1948,7 @@
           "items": [
             "Teachers download resources for planning and instruction",
             "Students access past papers for exam preparation",
-            "School may purchase additional resources (textbooks, online platforms like Cambridge GO)"
+            "School may purchase extra resources (textbooks, online platforms like Cambridge GO)"
           ]
         },
         {
@@ -2117,7 +2117,7 @@
           "items": [
             "Exam questions and materials are copyrighted by Cambridge",
             "Schools may not reproduce or share exam papers publicly (except past papers released by Cambridge)",
-            "Violation \\= breach of Centre agreement"
+            "Violation = breach of Centre agreement"
           ]
         },
         {
@@ -2144,7 +2144,7 @@
             "☐ Update Centre details in Cambridge International Direct (staff changes, contact info)",
             "☐ Submit Annual Centre Declaration (if due)",
             "☐ Confirm exam series usage for academic year (May/June and/or Oct/Nov)",
-            "☐ EduOS Cambridge prep sessions commence (for students targeting Olympiad alongside Cambridge)"
+            "☐ EduOS Cambridge prep sessions start (for students targeting Olympiad alongside Cambridge)"
           ],
           "title": "Annual Compliance Checklist (Cambridge-Specific)"
         },
@@ -2168,11 +2168,11 @@
         {
           "type": "list",
           "items": [
-            "☐ May/June exam entries deadline (early April) \\- CRITICAL",
+            "☐ May/June exam entries deadline (early April) - CRITICAL",
             "☐ Finalize timetable and invigilation schedules",
             "☐ Conduct mock exams (February-March) for May/June candidates",
             "☐ Train/retrain invigilators",
-            "☐ Oct/Nov series results released (mid-January) \\- analyze and communicate"
+            "☐ Oct/Nov series results released (mid-January) - analyze and communicate"
           ]
         },
         {
@@ -2182,7 +2182,7 @@
         {
           "type": "list",
           "items": [
-            "☐ May/June exams administered (late April \\- early June)",
+            "☐ May/June exams administered (late April - early June)",
             "☐ Secure materials received and stored",
             "☐ Scripts dispatched or uploaded within 2 days",
             "☐ Oct/Nov exam entries window opens (April-May)",
@@ -2413,7 +2413,7 @@
           "items": [
             "Warning letter",
             "Suspension of Centre status (temporary)",
-            "Withdrawal of Centre status (permanent) \\- rare; only for major breaches"
+            "Withdrawal of Centre status (permanent) - rare; only for major breaches"
           ]
         }
       ]
@@ -2433,8 +2433,8 @@
         {
           "type": "list",
           "items": [
-            "Cambridge Subjects: \\~25-30 periods/week (English, Math, Sciences, Humanities, etc.) \\- taught in English",
-            "Indonesian National Subjects: \\~10-12 periods/week (Bahasa Indonesia, PPKn, Religion, Mulok) \\- taught in Bahasa Indonesia",
+            "Cambridge Subjects: \\~25-30 periods/week (English, Math, Sciences, Humanities, etc.) - taught in English",
+            "Indonesian National Subjects: \\~10-12 periods/week (Bahasa Indonesia, PPKn, Religion, Mulok) - taught in Bahasa Indonesia",
             "Profil Pelajar Pancasila Projects & Character Education: \\~3-5 periods/week (integrated or dedicated time)",
             "Co-curricular/PE/Arts: \\~5 periods/week"
           ],

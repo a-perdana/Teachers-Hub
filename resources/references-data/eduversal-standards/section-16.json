@@ -1,7 +1,7 @@
 {
   "id": "16",
   "title": "Parent, Student, and Community Engagement",
-  "lastUpdated": "2025-01-20",
+  "lastUpdated": "2026-08-16",
   "subsections": [
     {
       "id": "16.1",
@@ -25,9 +25,9 @@
           "steps": [
             "Transparency: Open, honest, and timely communication builds trust. School policies, decisions, and student progress information are shared proactively with families.",
             "Accessibility: Information is provided in plain language and made available in both English and Bahasa Indonesia. We recognize linguistic diversity and provide translation support when needed.",
-            "Inclusivity: We actively engage families across diverse backgrounds, including English as an Additional Language (EAL) learners, students with Special Educational Needs (SEN), families of varying socioeconomic backgrounds, and those with limited technology access. (See Section 8: Inclusion, EAL, and Learning Support for additional guidance.)",
+            "Inclusivity: We actively engage families across diverse backgrounds, including English as an Extra Language (EAL) learners, students with Special Educational Needs (SEN), families of varying socioeconomic backgrounds, and those with limited technology access. (See Section 8: Inclusion, EAL, and Learning Support for extra guidance.)",
             "Mutual Respect: We value the knowledge, cultural perspectives, and lived experiences that families bring. Cultural responsiveness is embedded in all communication and engagement strategies.",
-            "Collaborative Decision-Making: While the Yayasan (Foundation) and school leadership retain governance authority, we actively seek stakeholder input on matters affecting the school community. Parent and student voices inform school improvement priorities. (See Section 4: Strategic Planning and School Improvement for governance structure.)",
+            "Collaborative Decision-Making: While the Yayasan (Foundation) and school leadership retain governance authority, we actively seek stakeholder input on matters affecting the school community. Parent and student voices inform school improvement priorities. (See Section 1: Front Matter and Governance Charter for governance structure.)",
             "Responsiveness: We listen actively to feedback, acknowledge concerns promptly, and close communication loops by sharing how input has been addressed or incorporated."
           ],
           "title": "16.1.2 Core Principles"
@@ -201,7 +201,7 @@
         },
         {
           "type": "text",
-          "text": "Parent-Teacher Conference Invitations: Invitations are sent two weeks prior to the scheduled PTC window, using an online booking system that allows parents to:"
+          "text": "Parent-Teacher Conference Invitations: Invitations are sent two weeks before the scheduled PTC window, using an online booking system that allows parents to:"
         },
         {
           "type": "process",
@@ -250,18 +250,18 @@
         },
         {
           "type": "text",
-          "text": "Annual Workshop Calendar: A minimum of four parent workshops are offered each year, addressing topics relevant to the Eduversal community. Workshops are scheduled on weekday evenings or Saturday mornings to accommodate working parents. Example Workshop Topics: Understanding the Cambridge Curriculum (September):"
+          "text": "Annual Workshop Calendar: at least four parent workshops are offered each year, addressing topics relevant to the Eduversal community. Workshops are scheduled on weekday evenings or Saturday mornings to accommodate working parents. Example Workshop Topics: Understanding the Cambridge Curriculum (September):"
         },
         {
           "type": "list",
           "items": [
-            "Overview of Cambridge Primary, Lower Secondary, IGCSE, AS, and A Level programs. Explanation of assessment formats, grading systems, and university recognition. Q\\&A session with Subject Leaders."
+            "Overview of Cambridge Primary, Lower Secondary, IGCSE, AS, and A Level programs. Explanation of assessment formats, grading systems, and university recognition. Q&A session with Subject Leaders."
           ],
           "title": "16.4.1 Parent Education Series"
         },
         {
           "type": "text",
-          "text": "Supporting English as an Additional Language (EAL) Learners at Home (October):"
+          "text": "Supporting English as an Extra Language (EAL) Learners at Home (October):"
         },
         {
           "type": "list",
@@ -306,7 +306,7 @@
         {
           "type": "list",
           "items": [
-            "For secondary students and families, covering university application processes, scholarship opportunities, personal statement writing, and navigating international university systems. Led by College Counselor. (Cross-reference Section 7.8 for college counseling support.)"
+            "For secondary students and families, covering university application processes, scholarship opportunities, personal statement writing, and navigating international university systems. Led by College Counselor. (Cross-reference Section 23 for college counselling support.)"
           ]
         },
         {
@@ -316,7 +316,7 @@
         {
           "type": "process",
           "steps": [
-            "Format: Interactive presentations (45-60 minutes) followed by Q\\&A. Bilingual delivery or simultaneous translation provided.",
+            "Format: Interactive presentations (45-60 minutes) followed by Q&A. Bilingual delivery or simultaneous translation provided.",
             "Attendance Tracking: Sign-in sheets maintained as evidence for accreditation and program evaluation.",
             "Post-Event Feedback: Brief surveys distributed to assess satisfaction and gather suggestions for future topics.",
             "Materials: Handouts and slide decks shared via email and posted on the Parent Portal for families unable to attend."
@@ -379,7 +379,7 @@
         },
         {
           "type": "text",
-          "text": "Note: The PTA is advisory and does not have governance authority. Governance decisions remain with the Yayasan and Principal. (See Section 2: Governance and Organizational Structure.) PTA Elections and Membership:"
+          "text": "Note: The PTA is advisory and does not have governance authority. Governance decisions remain with the Yayasan and Principal. (See Section 1: Front Matter and Governance Charter.) PTA Elections and Membership:"
         },
         {
           "type": "process",
@@ -538,7 +538,7 @@
         },
         {
           "type": "text",
-          "text": "When informal resolution is not sufficient, parents may file a formal complaint following the process outlined below. Step 1: Informal Resolution Parents are encouraged to first attempt informal resolution by:"
+          "text": "When informal resolution is not enough, parents may file a formal complaint following the process outlined below. Step 1: Informal Resolution Parents are encouraged to first attempt informal resolution by:"
         },
         {
           "type": "process",
@@ -587,6 +587,11 @@
         {
           "type": "text",
           "text": "(Cross-reference Teacher Guidebook for grievance policy details.)"
+        },
+        {
+          "type": "text",
+          "title": "Safeguarding complaints - carve-out",
+          "text": "A complaint that raises a safeguarding or child-protection concern does NOT follow the parent complaints ladder in this section. It goes immediately to the Designated Safeguarding Lead (DSL) and is handled under Section 9. Under Permendikdasmen No. 6/2026 (BSAN) the Principal is the singular accountable officer, and serious cases escalate externally to the Pokja BSAN at kabupaten/kota level. A safeguarding concern is never resolved by the school alone as an internal complaint, and the parent complaints escalation route (which ends at the Foundation Representative) does not apply to it."
         }
       ]
     },
@@ -602,7 +607,7 @@
           "type": "process",
           "steps": [
             "Minimum twice per year: Once in Term 1 (October-November) and once in Term 2 (March-April).",
-            "Additional conferences may be requested by parents or teachers as needed."
+            "Extra conferences may be requested by parents or teachers as needed."
           ],
           "title": "16.7.1 Frequency and Format"
         },
@@ -633,7 +638,7 @@
         },
         {
           "type": "text",
-          "text": "Parent Preparation: Two weeks prior to conferences, parents receive a PTC Preparation Form (Appendix 16B) encouraging them to:"
+          "text": "Parent Preparation: Two weeks before conferences, parents receive a PTC Preparation Form (Appendix 16B) encouraging them to:"
         },
         {
           "type": "process",
@@ -666,7 +671,7 @@
             "Social-Emotional Development: Address the student's wellbeing, peer relationships, and behavior.",
             "Goal Setting: Collaboratively set 2-3 specific, achievable goals for the student to work toward before the next conference.",
             "Home-School Partnership: Discuss strategies parents can use at home to support learning and reinforce goals.",
-            "Next Steps: Clarify follow-up actions (e.g., additional support, monitoring progress, next check-in date)."
+            "Next Steps: Clarify follow-up actions (e.g., extra support, monitoring progress, next check-in date)."
           ],
           "title": "16.7.3 Conference Content"
         },
@@ -681,7 +686,7 @@
         },
         {
           "type": "text",
-          "text": "Target Attendance Rate: Minimum 90% of families participate in PTCs. For families unable to attend, alternative communication (email summary, phone call) ensures they remain informed."
+          "text": "Target Attendance Rate: Minimum 90% of families take part in PTCs. For families unable to attend, alternative communication (email summary, phone call) ensures they remain informed."
         }
       ]
     },
@@ -691,7 +696,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Empowering students to actively participate in shaping their school experience is central to Eduversal's commitment to Ethical Leadership and Global Competence SLOs."
+          "text": "Empowering students to actively take part in shaping their school experience is central to Eduversal's commitment to Ethical Leadership and Global Competence SLOs."
         },
         {
           "type": "text",
@@ -820,7 +825,7 @@
         },
         {
           "type": "text",
-          "text": "Philosophy: Service learning integrates meaningful community service with academic learning, fostering students' sense of civic responsibility, empathy, and global competence. All students participate in age-appropriate service learning projects each year. Service Learning Cycle:"
+          "text": "Philosophy: Service learning integrates meaningful community service with academic learning, fostering students' sense of civic responsibility, empathy, and global competence. All students take part in age-appropriate service learning projects each year. Service Learning Cycle:"
         },
         {
           "type": "process",
@@ -1148,7 +1153,7 @@
         },
         {
           "type": "text",
-          "text": "## Appendices (Templates) The following templates support the implementation of Section 16 policies and procedures. All templates are available in bilingual format (English and Bahasa Indonesia) and stored in the school's digital repository."
+          "text": "## Appendices (Templates) The following templates support how the school puts in place Section 16 policies and procedures. All templates are available in bilingual format (English and Bahasa Indonesia) and stored in the school's digital repository."
         },
         {
           "type": "process",
@@ -1173,10 +1178,10 @@
         {
           "type": "process",
           "steps": [
-            "Section 2: Governance and Organizational Structure (Yayasan, Foundation Representative roles)",
+            "Section 1: Front Matter and Governance Charter (Yayasan, Foundation Representative roles)",
             "Section 4: Strategic Planning and School Improvement (stakeholder involvement in SIP)",
             "Section 6: Assessment, Reporting, and Data Use (report card formats, progress reporting)",
-            "Section 7: Teaching, Learning, and Curriculum Leadership (Cambridge curriculum overview)",
+            "Section 5: Curriculum Architecture (Cambridge curriculum overview)",
             "Section 8: Inclusion, EAL, and Learning Support (support for diverse learners)",
             "Section 9: Safeguarding, Child Protection, and Wellbeing (student wellbeing programs, safer recruitment)",
             "Section 10: Cambridge Examinations Management (exam schedules, results communication)",

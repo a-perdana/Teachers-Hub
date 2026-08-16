@@ -1,7 +1,7 @@
 {
   "id": "21",
   "title": "Digital Learning and Technology Infrastructure",
-  "lastUpdated": "2025-01-20",
+  "lastUpdated": "2026-08-16",
   "subsections": [
     {
       "id": "21.1",
@@ -68,7 +68,7 @@
         },
         {
           "type": "text",
-          "text": "EduNav implements role-based access control to ensure users can only access information appropriate to their role: Students: Access to personal academic records, course materials, assignments, grades, attendance records, and communication tools. Students can submit work, participate in discussions, and view feedback. Teachers: Access to class rosters, gradebook functionality, course management tools, communication features, and student academic information for assigned classes. Teachers are required to use EduNav-LMS exclusively for lesson delivery; use of alternative platforms is prohibited without explicit approval. Parents/Guardians: Access to their child's academic progress, grades, attendance, behavior records, and school communications. Parents receive automated notifications for significant assessments and communications. School Administrators: Full access to administrative functions, reporting tools, and system configuration. Access to student records is governed by need-to-know principles. Eduversal Central: Oversight access for quality assurance, appraisal data, and network-wide reporting while respecting data protection requirements.",
+          "text": "EduNav implements role-based access control to ensure users can only access information appropriate to their role: Students: Access to personal academic records, course materials, assignments, grades, attendance records, and communication tools. Students can submit work, take part in discussions, and view feedback. Teachers: Access to class rosters, gradebook functionality, course management tools, communication features, and student academic information for assigned classes. EduNav-LMS is the primary platform for lesson delivery. Approved third-party tools (see 21.9.1) complement it; they do not replace it. Tools outside the approved list require approval under 21.9.3. Parents/Guardians: Access to their child's academic progress, grades, attendance, behavior records, and school communications. Parents receive automated notifications for significant assessments and communications. School Administrators: Full access to administrative functions, reporting tools, and system configuration. Access to student records is governed by need-to-know principles. Eduversal Central: Oversight access for quality assurance, appraisal data, and network-wide reporting while respecting data protection requirements.",
           "title": "21.2.3 User Access and Roles"
         },
         {
@@ -83,7 +83,7 @@
             "Update gradebook regularly with assessment results and feedback",
             "Encourage students to use comment features for communication",
             "Respond to student queries within reasonable timeframes",
-            "Participate in training programs for LMS usage",
+            "take part in training programs for LMS usage",
             "Report technical issues promptly to IT support"
           ],
           "title": "21.2.4 Teacher Responsibilities in EduNav"
@@ -592,7 +592,7 @@
         {
           "type": "list",
           "items": [
-            "May be inspected at any time without notice",
+            "May be inspected where there is a specific concern, with the student present wherever practicable. Routine inspection is announced in advance",
             "Content considered school property",
             "Students have no expectation of privacy on school devices"
           ],
@@ -648,6 +648,17 @@
         {
           "type": "text",
           "text": "Cross-Reference: See Section 9.6 for cyberbullying within safeguarding framework; Section 22.8.1 for anti-bullying policy."
+        },
+        {
+          "type": "list",
+          "title": "Limits on monitoring student devices and activity",
+          "items": [
+            "Purpose limitation: monitoring data is collected only for safeguarding and for enforcing the Acceptable Use Policy. It is not used for any other purpose.",
+            "Retention: browsing logs for managed devices are retained for 90 days and then deleted, unless retained longer as part of a specific safeguarding record.",
+            "Scope: monitoring is active during school hours and on school networks. Take-home devices are not monitored outside school hours except where a live safeguarding concern requires it, authorised by the Principal.",
+            "Notice: students and parents are told in plain language, at enrolment and annually, what is monitored, why, how long it is kept, and who can see it. Monitoring that has not been notified is not permitted.",
+            "Proportionality: these limits implement UU No. 27/2022 (purpose limitation and data minimisation) and PP No. 17/2025 (risk assessment and protection of minors' data)."
+          ]
         }
       ]
     },
@@ -796,9 +807,9 @@
         {
           "type": "list",
           "items": [
-            "Minimum 8 characters (12+ for administrators)",
+            "Minimum 12 characters (12+ for administrators)",
             "Combination of uppercase, lowercase, numbers, and symbols",
-            "Regular password changes (90 days for staff, annually for students)",
+            "Passwords are changed on suspected compromise, not on a fixed schedule (scheduled rotation is deprecated by NIST SP 800-63B because it drives predictable, weaker passwords). Multi-factor authentication is mandatory for all administrator accounts",
             "No password sharing under any circumstances",
             "No reuse of previous passwords"
           ],
@@ -1028,6 +1039,18 @@
         {
           "type": "text",
           "text": "Cross-Reference: See Section 6.4 for academic integrity; Section 22.8.2 for AI-related misconduct consequences."
+        },
+        {
+          "type": "list",
+          "title": "AI and safeguarding - harms, not just academic integrity",
+          "items": [
+            "Synthetic sexual imagery. Creating, requesting, sharing, or possessing AI-generated sexual or \"nudified\" images of any student or staff member is a Level 4 safeguarding matter. It is referred to the DSL immediately and handled under Section 9, never as an ordinary conduct matter under Section 22. Where the subject is a child, this may constitute a criminal offence.",
+            "Deepfake harassment. AI-generated images, audio, or video used to humiliate, impersonate, or threaten a member of the school community is treated as digital kekerasan under Permendikdasmen No. 6/2026 (BSAN), which names \"digital\" as one of its six forms of violence.",
+            "AI companions and chatbots. Students may form sustained relationships with AI companion applications. Staff who become aware of a student relying on an AI companion for emotional support refer the concern to the school counsellor.",
+            "AI-enabled grooming. Staff safeguarding training covers how AI tools can be used to generate convincing false identities and to scale grooming attempts.",
+            "Age-appropriate design. Any AI tool approved for student use must be age-appropriate for the year group, must not target advertising at minors, and must not train on student data. This test is applied in the app-approval process at 21.9.3 and is not optional.",
+            "Anchors: PP No. 17/2025 (PP Tunas), Permendikdasmen No. 6/2026 (BSAN), and the 5Rights Children and AI Design Code (2025)."
+          ]
         }
       ]
     },
@@ -1113,7 +1136,7 @@
           "type": "process",
           "steps": [
             "Teacher or department submits request with educational justification",
-            "IT Coordinator conducts technical and security review",
+            "IT Coordinator conducts technical and security review, and a data processing agreement is signed with the vendor before any student data is shared (this is the same requirement as 21.13.4 and cannot be bypassed by the app-approval route)",
             "Data Protection Impact Assessment if personal data processed",
             "Principal approval for school-wide adoption",
             "Deployment through MDM for managed devices",
@@ -1124,7 +1147,7 @@
         },
         {
           "type": "text",
-          "text": "Teachers are required to use EduNav-LMS as the primary platform for lesson delivery. Alternative applications should complement, not replace, the LMS. This ensures:"
+          "text": "Teachers must use EduNav-LMS as the primary platform for lesson delivery. Alternative applications should complement, not replace, the LMS. This ensures:"
         },
         {
           "type": "list",
@@ -1192,7 +1215,7 @@
             "Flipped classroom: Content delivered online, class time for application and discussion",
             "Station rotation: Students rotate through online and face-to-face activities",
             "Enrichment: Online resources extend and deepen classroom learning",
-            "Remediation: Online tools support students needing additional practice"
+            "Remediation: Online tools support students needing extra practice"
           ],
           "title": "21.11.1 Blended Learning Approach"
         },
@@ -1516,7 +1539,7 @@
             "Implement technology effectively in teaching",
             "Model responsible technology use",
             "Monitor and manage student device use during lessons",
-            "Participate in technology-related professional development",
+            "take part in technology-related professional development",
             "Report technical issues and security concerns",
             "Maintain EduNav/LMS with current content and grades",
             "Teach digital citizenship within subject areas"
@@ -1541,7 +1564,7 @@
             "Support school technology policies at home",
             "Monitor student technology use outside school",
             "Report concerns about online safety",
-            "Participate in parent education opportunities",
+            "take part in parent education opportunities",
             "Sign AUP acknowledgments annually",
             "Support student in responsible device use"
           ],
@@ -1711,7 +1734,7 @@
           "items": [
             "UU No. 27/2022 concerning Personal Data Protection (UU PDP)",
             "Government Regulation on Electronic Systems and Transactions (PP PSTE)",
-            "Ministry of Communication and Information Technology (Kominfo) cybersecurity guidelines"
+            "Ministry of Communication and Digital Affairs (Komdigi) cybersecurity guidelines"
           ]
         },
         {
@@ -1738,6 +1761,17 @@
             "Technology integration in EASE evaluation criteria",
             "School appraisal Domain 4 indicators",
             "DTP professional development alignment"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Indonesian regulations governing digital learning and child online protection",
+          "items": [
+            "UU No. 27/2022 concerning Personal Data Protection (UU PDP) - lawful basis, purpose limitation, data-subject rights, and breach notification within 3x24 hours (Article 56). Section 14 is the controlling text.",
+            "PP No. 17/2025 concerning Tata Kelola Penyelenggaraan Sistem Elektronik dalam Pelindungan Anak (\"PP Tunas\"), effective 1 April 2025 - the framework regulation for child protection in electronic systems. It requires age verification, tiered parental consent for users under 17, content filtering, risk assessment, and protection of minors' images and data. School WiFi filtering and student-device policy sit under this instrument.",
+            "Permen Komdigi No. 9/2026 - the implementing regulation for PP Tunas.",
+            "Sector lead: Kementerian Komunikasi dan Digital (Komdigi), formerly Kemkominfo.",
+            "Permendikdasmen No. 6/2026 (BSAN) - note that BSAN includes \"digital\" as one of its six forms of kekerasan, so online harm between students is a safeguarding matter under Section 9 as well as a conduct matter under Section 22."
           ]
         }
       ]

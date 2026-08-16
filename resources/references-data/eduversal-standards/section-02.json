@@ -1,7 +1,7 @@
 {
   "id": "02",
   "title": "Legal and Regulatory Compliance",
-  "lastUpdated": "2025-01-20",
+  "lastUpdated": "2026-08-16",
   "subsections": [
     {
       "id": "2.0",
@@ -9,7 +9,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Term Definition EASE Evaluation of Achievement Standardized Exam DTP Development of Teaching Proficiency (also called Educamp) EduNav Eduversal's School Information System EduOS Eduversal Olimpiade Sains (Science Olympiad preparation) Dapodik Data Pokok Pendidikan (National Education Database) NPSN Nomor Pokok Sekolah Nasional (National School ID Number) BAN-PDM National School Accreditation Board ANBK Asesmen Nasional Berbasis Komputer (Computer-Based National Assessment) PPKn Pendidikan Pancasila dan Kewarganegaraan (Civics Education) NISN Nomor Induk Siswa Nasional (National Student ID) NUPTK Nomor Unik Pendidik dan Tenaga Kependidikan (Teacher ID) NIK Nomor Induk Kependudukan (National ID Card Number) KITAS Kartu Izin Tinggal Terbatas (Limited Stay Permit) KITAP Kartu Izin Tinggal Tetap (Permanent Stay Permit) IMTA Izin Mempekerjakan Tenaga Kerja Asing (Work Permit) PPh 21 Personal Income Tax Withholding PPh 23 Withholding Tax on Services BPJS Badan Penyelenggara Jaminan Sosial (Social Security) SLO Schoolwide Learner Outcome GM General Manager SLT Senior Leadership Team DSL Designated Safeguarding Lead SIP School Improvement Plan PAS Penilaian Akhir Semester (End of Semester Assessment)"
+          "text": "Term Definition EASE Evaluation of Achievement Standardized Exam DTP Development of Teaching Proficiency (delivered by Educamp / PT. Edukasi Universal Indonesia) EduNav Eduversal's School Information System EduOS Eduversal Olimpiade Sains (Science Olympiad preparation) Dapodik Data Pokok Pendidikan (National Education Database) NPSN Nomor Pokok Sekolah Nasional (National School ID Number) BAN-S/M National School Accreditation Board ANBK Asesmen Nasional Berbasis Komputer (Computer-Based National Assessment) PPKn Pendidikan Pancasila dan Kewarganegaraan (Civics Education) NISN Nomor Induk Siswa Nasional (National Student ID) NUPTK Nomor Unik Pendidik dan Tenaga Kependidikan (Teacher ID) NIK Nomor Induk Kependudukan (National ID Card Number) KITAS Kartu Izin Tinggal Terbatas (Limited Stay Permit) KITAP Kartu Izin Tinggal Tetap (Permanent Stay Permit) IMTA Izin Mempekerjakan Tenaga Kerja Asing (Work Permit) PPh 21 Personal Income Tax Withholding PPh 23 Withholding Tax on Services BPJS Badan Penyelenggara Jaminan Sosial (Social Security) SLO Schoolwide Learner Outcome GM General Manager SLT Senior Leadership Team DSL Designated Safeguarding Lead SIP School Improvement Plan PAS Penilaian Akhir Semester (End of Semester Assessment)"
         }
       ]
     },
@@ -29,7 +29,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Requirement: Each Eduversal Partner School operates under a legally registered Yayasan (foundation) as the school owner and license holder, in accordance with Law No. 28 of 2004 concerning Foundations (as amended by Law No. 16 of 2001). Key Obligations:"
+          "text": "Requirement: Each Eduversal Partner School operates under a legally registered Yayasan (foundation) as the school owner and license holder, in accordance with UU No. 16/2001 concerning Foundations, as amended by UU No. 28/2004. Key Obligations:"
         },
         {
           "type": "list",
@@ -73,7 +73,7 @@
           "items": [
             "Yayasan legal documents (Akta, registration)",
             "Land ownership/lease documentation with minimum area compliance",
-            "Building safety certificate (IMB \\- Izin Mendirikan Bangunan)",
+            "Building safety certificate (IMB - Izin Mendirikan Bangunan)",
             "Fire safety clearance",
             "Environmental health clearance (Puskesmas)",
             "Proposed curriculum and staffing plan",
@@ -243,7 +243,7 @@
         {
           "type": "list",
           "items": [
-            "All certified teachers (with NRG \\- Nomor Registrasi Guru) must maintain SIMPKB accounts",
+            "All certified teachers (with NRG - Nomor Registrasi Guru) must maintain SIMPKB accounts",
             "Record all CPD activities: workshops, training, conferences, lesson study, action research",
             "Upload supporting evidence (certificates, attendance records)",
             "Minimum CPD hours per year as mandated by regulations"
@@ -284,7 +284,7 @@
           "type": "list",
           "items": [
             "All religion teachers, both ASN and non-ASN, must have an active SIAGA account.",
-            "Teachers are required to regularly update their personal and professional data, including:",
+            "Teachers must regularly update their personal and professional data, including:",
             "Identity and employment data (NIK, NUPTK, education background, certification, and employment status)",
             "School assignment and teaching load (subject, number of teaching hours, grade level)",
             "Certification data and current verification status",
@@ -357,7 +357,7 @@
         {
           "type": "process",
           "steps": [
-            "Pendidikan Pancasila dan Kewarganegaraan (PPKn) \\- Civics and Pancasila Education"
+            "Pendidikan Pancasila dan Kewarganegaraan (PPKn) - Civics and Pancasila Education"
           ],
           "title": "Kurikulum Nasional with Profil Pelajar Pancasila"
         },
@@ -384,7 +384,7 @@
         {
           "type": "process",
           "steps": [
-            "Pendidikan Agama \\- Religious Education"
+            "Pendidikan Agama - Religious Education"
           ]
         },
         {
@@ -398,7 +398,7 @@
         {
           "type": "process",
           "steps": [
-            "Muatan Lokal (Mulok) \\- Local Content"
+            "Muatan Lokal (Mulok) - Local Content"
           ]
         },
         {
@@ -520,7 +520,7 @@
           "type": "list",
           "items": [
             "Intercultural competence and respect",
-            "Understanding Indonesian diversity (SARA \\- ethnicity, religion, race, social groups)",
+            "Understanding Indonesian diversity (SARA - ethnicity, religion, race, social groups)",
             "Global citizenship and perspective-taking"
           ]
         },
@@ -597,7 +597,7 @@
         },
         {
           "type": "text",
-          "text": "Both frameworks emphasize critical thinking, global competence, collaboration, and character. Profil Pelajar Pancasila \\- Delivered Through EduSTEAM: The Profil Pelajar Pancasila program is the primary vehicle for developing Profil Pelajar Pancasila competencies. At Eduversal schools, projects are designed and delivered using the EduSTEAM framework, which integrates:"
+          "text": "Both frameworks emphasize critical thinking, global competence, collaboration, and character. Profil Pelajar Pancasila - Delivered Through EduSTEAM: The Profil Pelajar Pancasila program is the primary vehicle for developing Profil Pelajar Pancasila competencies. At Eduversal schools, projects are designed and delivered using the EduSTEAM framework, which integrates:"
         },
         {
           "type": "process",
@@ -634,9 +634,9 @@
         {
           "type": "process",
           "steps": [
-            "Sustainable Living: Students design solar-powered solutions for local communities (Science \\+ Technology \\+ Engineering)",
-            "Local Wisdom: Document and preserve traditional crafts using digital media and create museum exhibits (Arts \\+ Technology)",
-            "Entrepreneurship: Develop social enterprises using market research, financial modeling, and product design (Math \\+ Arts \\+ Technology)",
+            "Sustainable Living: Students design solar-powered solutions for local communities (Science + Technology + Engineering)",
+            "Local Wisdom: Document and preserve traditional crafts using digital media and create museum exhibits (Arts + Technology)",
+            "Entrepreneurship: Develop social enterprises using market research, financial modeling, and product design (Math + Arts + Technology)",
             "Project Process (aligned with EduSTEAM pedagogy):",
             "Empathize & Define: Students identify real community needs through interviews and observation",
             "Research & Ideate: Investigate scientific/cultural background; brainstorm multiple solutions",
@@ -805,7 +805,7 @@
             "Draft annual calendar by April for next academic year",
             "Submit to Eduversal for review",
             "Balance national requirements with Cambridge exam prep and administration",
-            "Communicate calendar to families in multiple languages (English \\+ Bahasa Indonesia)"
+            "Communicate calendar to families in multiple languages (English + Bahasa Indonesia)"
           ]
         },
         {
@@ -840,7 +840,7 @@
         {
           "type": "list",
           "items": [
-            "1 jam pelajaran \\= 35-45 minutes (depending on school level and regulation)"
+            "1 jam pelajaran = 35-45 minutes (depending on school level and regulation)"
           ]
         },
         {
@@ -880,8 +880,8 @@
         {
           "type": "list",
           "items": [
-            "Law No. 35 of 2014 amending Law No. 23 of 2002 on Child Protection",
-            "Minister of Education Regulation on Prevention and Handling of Violence in Educational Settings"
+            "UU No. 35/2014 amending UU No. 23/2002 on Child Protection",
+            "Permendikdasmen No. 6/2026 concerning Budaya Sekolah Aman dan Nyaman (BSAN), which revoked Permendikbudristek No. 46/2023 (PPKSP) on 9 January 2026"
           ],
           "title": "National Child Protection Compliance"
         },
@@ -983,7 +983,7 @@
           "steps": [
             "Daily attendance taken and recorded in school information system (EduNav)",
             "Absences exceeding 3 consecutive days trigger parent contact",
-            "Chronic absenteeism (\\>10% over semester) → meeting with parents, counselor, and GM to develop support plan",
+            "Chronic absenteeism (>10% over semester) → meeting with parents, counselor, and GM to develop support plan",
             "Unresolved truancy may be reported to local authorities as per regulations"
           ]
         },
@@ -1014,20 +1014,20 @@
           "type": "list",
           "items": [
             "PAUD: Diploma IV (D-IV) or Bachelor's (S1) in Early Childhood Education or related field",
-            "SD: S1 in Primary Education or relevant subject \\+ teaching credential",
-            "SMP/SMA: S1 in subject area \\+ teaching credential (Akta IV or equivalent)"
+            "SD: S1 in Primary Education or relevant subject + teaching credential",
+            "SMP/SMA: S1 in subject area + teaching credential (Akta IV or equivalent)"
           ],
           "title": "Teacher Qualifications"
         },
         {
           "type": "text",
-          "text": "Additional Eduversal Standards:"
+          "text": "Extra Eduversal Standards:"
         },
         {
           "type": "list",
           "items": [
             "Preference for teachers with Cambridge training or international school experience",
-            "EAL (English as an Additional Language) competency for teachers delivering Cambridge curriculum",
+            "EAL (English as an Extra Language) competency for teachers delivering Cambridge curriculum",
             "All teachers must meet minimum national qualifications; Eduversal often recruits above these minimums"
           ]
         },
@@ -1103,7 +1103,7 @@
         },
         {
           "type": "text",
-          "text": "Requirement: All foreign nationals employed by Eduversal Partner Schools must hold valid work authorization from Indonesian immigration authorities. Key Permits: 1. KITAS (Kartu Izin Tinggal Terbatas) \\- Limited Stay Permit:"
+          "text": "Requirement: All foreign nationals employed by Eduversal Partner Schools must hold valid work authorization from Indonesian immigration authorities. Key Permits: 1. KITAS (Kartu Izin Tinggal Terbatas) - Limited Stay Permit:"
         },
         {
           "type": "list",
@@ -1121,7 +1121,7 @@
         },
         {
           "type": "text",
-          "text": "2. KITAP (Kartu Izin Tinggal Tetap) \\- Permanent Stay Permit:"
+          "text": "2. KITAP (Kartu Izin Tinggal Tetap) - Permanent Stay Permit:"
         },
         {
           "type": "list",
@@ -1132,12 +1132,12 @@
         },
         {
           "type": "text",
-          "text": "3. Work Permit (IMTA \\- Izin Mempekerjakan Tenaga Kerja Asing):"
+          "text": "3. Work Permit (IMTA - Izin Mempekerjakan Tenaga Kerja Asing):"
         },
         {
           "type": "list",
           "items": [
-            "Employer (Yayasan) must obtain approval from Ministry of Manpower to employ a foreign worker",
+            "Employer (Yayasan) must get approval from Ministry of Manpower to employ a foreign worker",
             "Justification required (specialized skills not available locally)",
             "Position must comply with \"Negative List\" (positions restricted to Indonesian citizens)"
           ]
@@ -1175,7 +1175,7 @@
           "type": "list",
           "items": [
             "Passport valid for at least 18 months",
-            "Comply with reporting requirements (SKLD \\- Surat Keterangan Lapor Diri) within 24 hours of arrival/address change",
+            "Comply with reporting requirements (SKLD - Surat Keterangan Lapor Diri) within 24 hours of arrival/address change",
             "Obtain EPO (Exit Permit Only) or multiple re-entry permit for international travel",
             "Maintain valid health and accident insurance"
           ]
@@ -1269,7 +1269,7 @@
         },
         {
           "type": "text",
-          "text": "3. VAT (PPN \\- Pajak Pertambangan Nilai):"
+          "text": "3. VAT (PPN - Pajak Pertambahan Nilai):"
         },
         {
           "type": "list",
@@ -1362,10 +1362,10 @@
           "type": "list",
           "items": [
             "Four programs:",
-            "JKK (Jaminan Kecelakaan Kerja) \\- Work accident insurance",
-            "JKM (Jaminan Kematian) \\- Death benefit",
-            "JHT (Jaminan Hari Tua) \\- Old age savings",
-            "JP (Jaminan Pensiun) \\- Pension (for employees earning above threshold)",
+            "JKK (Jaminan Kecelakaan Kerja) - Work accident insurance",
+            "JKM (Jaminan Kematian) - Death benefit",
+            "JHT (Jaminan Hari Tua) - Old age savings",
+            "JP (Jaminan Pensiun) - Pension (for employees earning above threshold)",
             "Premiums vary by program and salary; split between employer and employee"
           ]
         },
@@ -1505,7 +1505,7 @@
         },
         {
           "type": "text",
-          "text": "Note: Eduversal also conducts internal quality assurance visits separate from national accreditation. See Section 2.21 (Eduversal Quality Assurance Visits) for details on the annual appraisal process. Preparation: Principal Responsibilities:"
+          "text": "Note: Eduversal also conducts internal quality assurance visits separate from national accreditation. See Section 2.17 (Eduversal Quality Assurance Visits) for details on the annual appraisal process. Preparation: Principal Responsibilities:"
         },
         {
           "type": "process",
@@ -1574,12 +1574,12 @@
         {
           "type": "list",
           "items": [
-            "A (Unggul) \\- Excellent: Score 91-100 / Score 96–100 (for SPK schools)",
-            "B (Baik) \\- Good: Score 81-90 / Score 86–95 (for SPK schools)",
-            "C (Cukup) \\- Adequate: Score 71-80 / Score 71–85 (for SPK schools)",
-            "TT (Tidak Terakreditasi) \\- Not accredited: Score \\<71"
+            "A (Unggul) - Excellent: Score 91-100 / Score 96–100 (for SPK schools)",
+            "B (Baik) - Good: Score 81-90 / Score 86–95 (for SPK schools)",
+            "C (Cukup) - Adequate: Score 71-80 / Score 71–85 (for SPK schools)",
+            "TT (Tidak Terakreditasi) - Not accredited: Score <71"
           ],
-          "title": "National Accreditation (BAN-PDM)"
+          "title": "National Accreditation (BAN-S/M)"
         },
         {
           "type": "text",
@@ -1639,7 +1639,7 @@
             "Student academic outcomes (national & international)",
             "Infrastructure, safety, and learning resources",
             "Financial accountability and governance",
-            "Curriculum implementation (national \\+ international for SPK)"
+            "Curriculum implementation (national + international for SPK)"
           ]
         },
         {
@@ -1705,7 +1705,7 @@
           "type": "list",
           "items": [
             "BAN-S/M accreditation certificate (current)",
-            "Self-assessment report (ISED \\- Instrumen Sekolah/Madrasah)",
+            "Self-assessment report (ISED - Instrumen Sekolah/Madrasah)",
             "Accreditation visit schedule and assessor team info",
             "Evidence portfolio mapped to 8 standards",
             "Final accreditation report and improvement recommendations"
@@ -1766,7 +1766,7 @@
         {
           "type": "list",
           "items": [
-            "Competitive bidding for major contracts (e.g., \\>IDR 50M threshold)",
+            "Competitive bidding for major contracts (e.g., >IDR 50M threshold)",
             "Written procurement policy with approval thresholds",
             "Conflict of interest disclosure for decision-makers",
             "Documentation of vendor selection rationale",
@@ -1942,7 +1942,7 @@
         {
           "type": "list",
           "items": [
-            "Clear health and safety guidelines shared with families (English \\+ Bahasa Indonesia)",
+            "Clear health and safety guidelines shared with families (English + Bahasa Indonesia)",
             "Transparency about cases while protecting individual privacy",
             "Regular updates aligned with government announcements"
           ]
@@ -1999,7 +1999,7 @@
         {
           "type": "list",
           "items": [
-            "Law No. 27 of 2022 on Personal Data Protection (PDP Law) \\- Indonesia's comprehensive data privacy law",
+            "UU No. 27/2022 on Personal Data Protection (PDP Law) - Indonesia's comprehensive data privacy law",
             "Minister of Communication and Information Technology regulations on electronic data",
             "Education sector-specific guidance on student records"
           ],
@@ -2025,7 +2025,7 @@
           "type": "list",
           "items": [
             "Personal data collected only for specified, explicit purposes",
-            "No secondary use without additional consent"
+            "No secondary use without extra consent"
           ]
         },
         {
@@ -2160,7 +2160,7 @@
           "type": "list",
           "items": [
             "Personal data register",
-            "Privacy notices (English \\+ Bahasa Indonesia)",
+            "Privacy notices (English + Bahasa Indonesia)",
             "Consent forms (enrollment, photo release, etc.)",
             "Data Processing Agreements with vendors",
             "Staff confidentiality agreements and training records",
@@ -2257,7 +2257,7 @@
           "items": [
             "Written report (10-15 pages) with appendices (data tables, charts)",
             "Oral presentation to Yayasan Board or leadership (60-90 minutes)",
-            "Q\\&A session"
+            "Q&A session"
           ]
         },
         {
@@ -2306,7 +2306,7 @@
             "DTP activities and teacher participation",
             "Appraisal results and trends",
             "EduOS participation and outcomes",
-            "EduNav utilization metrics"
+            "EduNav use metrics"
           ]
         },
         {
@@ -2411,7 +2411,7 @@
           "type": "list",
           "items": [
             "Yayasan Akta Pendirian and amendments",
-            "Operational licenses (PAUD, SD, SMP, SMA) \\- current and historical",
+            "Operational licenses (PAUD, SD, SMP, SMA) - current and historical",
             "NPSN certificate",
             "BAN-S/M accreditation certificate",
             "Ministry inspection reports (past 5 years)",
@@ -2452,7 +2452,7 @@
         {
           "type": "list",
           "items": [
-            "Child protection policy (English \\+ Bahasa Indonesia)",
+            "Child protection policy (English + Bahasa Indonesia)",
             "Anti-bullying policy",
             "Emergency response plan",
             "Drill logs",
@@ -2583,12 +2583,12 @@
             "Staff conduct or performance",
             "Financial matters (fees, billing)",
             "Discrimination, harassment, or bullying",
-            "Safeguarding concerns (separate expedited process \\- Section 9)"
+            "Safeguarding concerns (separate expedited process - Section 9)"
           ]
         },
         {
           "type": "text",
-          "text": "Process: Level 1 \\- Informal Resolution:"
+          "text": "Process: Level 1 - Informal Resolution:"
         },
         {
           "type": "list",
@@ -2600,7 +2600,7 @@
         },
         {
           "type": "text",
-          "text": "Level 2 \\- Formal Complaint to Principal:"
+          "text": "Level 2 - Formal Complaint to Principal:"
         },
         {
           "type": "list",
@@ -2613,7 +2613,7 @@
         },
         {
           "type": "text",
-          "text": "Level 3 \\- Appeal to General Manager:"
+          "text": "Level 3 - Appeal to General Manager:"
         },
         {
           "type": "list",
@@ -2627,7 +2627,7 @@
         },
         {
           "type": "text",
-          "text": "Level 4 \\- Yayasan and/or Eduversal (if applicable):"
+          "text": "Level 4 - Yayasan and/or Eduversal (if applicable):"
         },
         {
           "type": "list",
@@ -2642,7 +2642,7 @@
         },
         {
           "type": "text",
-          "text": "Level 5 \\- External Authorities:"
+          "text": "Level 5 - External Authorities:"
         },
         {
           "type": "list",
@@ -2696,7 +2696,7 @@
         {
           "type": "list",
           "items": [
-            "Complaints policy (English \\+ Bahasa Indonesia) published on website and in parent/student handbook",
+            "Complaints policy (English + Bahasa Indonesia) published on website and in parent/student handbook",
             "Complaint form template",
             "Complaints log (anonymized summary)",
             "Sample complaint files (with personal data redacted if needed for review)",
@@ -2712,7 +2712,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Purpose: ANBK replaced the Ujian Nasional (UN) as Indonesia's national assessment. It measures student competencies, learning environment quality, and school performance. Components: 1. Asesmen Kompetensi Minimum (AKM) \\- Minimum Competency Assessment:"
+          "text": "Purpose: ANBK replaced the Ujian Nasional (UN) as Indonesia's national assessment. It measures student competencies, learning environment quality, and school performance. Components: 1. Asesmen Kompetensi Minimum (AKM) - Minimum Competency Assessment:"
         },
         {
           "type": "list",
@@ -2725,7 +2725,7 @@
         },
         {
           "type": "text",
-          "text": "2. Survei Karakter \\- Character Survey:"
+          "text": "2. Survei Karakter - Character Survey:"
         },
         {
           "type": "list",
@@ -2736,7 +2736,7 @@
         },
         {
           "type": "text",
-          "text": "3. Survei Lingkungan Belajar \\- Learning Environment Survey:"
+          "text": "3. Survei Lingkungan Belajar - Learning Environment Survey:"
         },
         {
           "type": "list",
@@ -3009,7 +3009,7 @@
           "type": "process",
           "steps": [
             "Gain objective, detailed insights into child's academic progress",
-            "Understand specific skills/topics requiring additional support at home",
+            "Understand specific skills/topics requiring extra support at home",
             "Compare child's growth across multiple assessment points",
             "Engage in informed conversations with teachers during conferences"
           ]
@@ -3094,7 +3094,7 @@
         {
           "type": "list",
           "items": [
-            "Pass all required subjects (Cambridge \\+ National) with minimum grades:",
+            "Pass all required subjects (Cambridge + National) with minimum grades:",
             "Cambridge IGCSE subjects: Minimum grade C (or 4 in new 9-1 scale) in core subjects",
             "Cambridge AS/A Levels: Minimum grade D for AS, C for A Level (varies by university requirements)",
             "Indonesian National subjects: Minimum score 70/100",
@@ -3141,7 +3141,7 @@
         {
           "type": "list",
           "items": [
-            "Participate in minimum 1 co-curricular activity per year",
+            "take part in minimum 1 co-curricular activity per year",
             "Complete 60 hours of community service over 3 years"
           ]
         },
@@ -3208,7 +3208,7 @@
           "type": "list",
           "items": [
             "Minimum 3 visits per school per academic year",
-            "Additional visits as needed for new schools, turnaround situations, or accreditation preparation"
+            "Extra visits as needed for new schools, turnaround situations, or accreditation preparation"
           ]
         },
         {
@@ -3260,7 +3260,7 @@
             "DTP participation and impact",
             "Appraisal cycle compliance and quality",
             "EduOS enrollment and outcomes",
-            "EduNav utilization and data quality"
+            "EduNav use and data quality"
           ]
         },
         {
@@ -3309,7 +3309,7 @@
           "type": "list",
           "items": [
             "Entry meeting with GM and SLT",
-            "Classroom observations (random sample \\+ targeted)",
+            "Classroom observations (random sample + targeted)",
             "Document review (policies, student work, data dashboards)",
             "Interviews with staff, students, and parents (as needed)",
             "Facility walkthrough",
@@ -3386,7 +3386,7 @@
           "items": [
             "Recognized as equivalent to Indonesian SMA completion for university admission purposes",
             "Students typically need 5+ IGCSE passes (grades A-C) for competitive university admission",
-            "Some Indonesian universities require additional Indonesian national subjects (Bahasa Indonesia, PPKn, Religion) for admission \\- Eduversal schools fulfill this by teaching national curriculum"
+            "Some Indonesian universities require extra Indonesian national subjects (Bahasa Indonesia, PPKn, Religion) for admission - Eduversal schools fulfill this by teaching national curriculum"
           ]
         },
         {
@@ -3432,7 +3432,7 @@
           "type": "list",
           "items": [
             "Stay updated on Ministry of Education and Ministry of Research & Higher Education policies regarding Cambridge recognition",
-            "Advocate through Eduversal network and associations (e.g., ISANA \\- Indonesian Schools Association) for continued recognition"
+            "Advocate through Eduversal network and associations (e.g., ISANA - Indonesian Schools Association) for continued recognition"
           ]
         },
         {
@@ -3590,7 +3590,7 @@
         {
           "type": "list",
           "items": [
-            "EASE reports (all 4 cycles) \\- individual, class, and school-wide",
+            "EASE reports (all 4 cycles) - individual, class, and school-wide",
             "EASE data analysis meeting minutes and action plans",
             "Intervention tracking logs informed by EASE",
             "ANBK results and SIP integration",
@@ -3657,10 +3657,10 @@
         {
           "type": "process",
           "steps": [
-            "BAN-S/M certificate (current) \\- 5-year cycle",
+            "BAN-S/M certificate (current) - 5-year cycle",
             "BAN-S/M self-assessment report (ISED)",
             "CIS/WASC status (if applicable)",
-            "Eduversal Appraisal reports (annual \\- minimum 3 visits per year)",
+            "Eduversal Appraisal reports (annual - minimum 3 visits per year)",
             "Action plans from Eduversal Appraisal visits"
           ]
         },

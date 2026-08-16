@@ -1,7 +1,7 @@
 {
   "id": "10",
   "title": "Cambridge Examinations Management",
-  "lastUpdated": "2025-01-20",
+  "lastUpdated": "2026-08-16",
   "subsections": [
     {
       "id": "10.1",
@@ -207,7 +207,7 @@
             "Lead internal quality assurance reviews (moderation, marking accuracy, procedures)",
             "Ensure syllabus changes and assessment updates are communicated to teaching staff",
             "Support the Principal and Exams Officer during malpractice investigations",
-            "Participate in Cambridge training webinars and share updates with the team"
+            "take part in Cambridge training webinars and share updates with the team"
           ],
           "title": "Quality Nominee"
         },
@@ -249,9 +249,9 @@
           "items": [
             "Dedicated secure room or cabinet with:",
             "Steel construction or equivalent",
-            "Dual locks (e.g., key \\+ combination or two separate keys held by different individuals)",
+            "Dual locks (e.g., key + combination or two separate keys held by different individuals)",
             "Sealed access log mounted on the exterior",
-            "Environmental controls: Temperature 15-25°C, humidity \\<70%, fire suppression system or proximity to fire extinguishers",
+            "Environmental controls: Temperature 15-25°C, humidity <70%, fire suppression system or proximity to fire extinguishers",
             "Access restrictions: Only the Principal and Exams Officer hold keys; any access requires dual authorization and log entry"
           ],
           "title": "10.3.1 Secure Storage Requirements"
@@ -364,7 +364,7 @@
         {
           "type": "list",
           "items": [
-            "[ ] Test all devices (laptops, tablets) and ensure battery charge \\>80%",
+            "[ ] Test all devices (laptops, tablets) and ensure battery charge >80%",
             "[ ] Load assessment software and verify network isolation",
             "[ ] Prepare backup devices (10% of cohort size as spares)",
             "[ ] Test printer functionality for on-demand printing of scripts"
@@ -441,7 +441,7 @@
         },
         {
           "type": "text",
-          "text": "When a candidate is entered for two examinations scheduled at the same time, Cambridge permits the following clash resolution methods: Option 1: Different Start Times (Supervised Rest Break)"
+          "text": "When a candidate is entered for two examinations scheduled at the same time, Cambridge allows the following clash resolution methods: Option 1: Different Start Times (Supervised Rest Break)"
         },
         {
           "type": "list",
@@ -462,7 +462,7 @@
           "items": [
             "The candidate takes both exams simultaneously in a separate room",
             "Extended time may be required to complete both papers",
-            "An additional invigilator is required for the separate room"
+            "An extra invigilator is required for the separate room"
           ]
         },
         {
@@ -613,7 +613,7 @@
         {
           "type": "list",
           "items": [
-            "Extra time (typically 25% additional)",
+            "Extra time (typically 25% extra)",
             "Separate invigilation in a smaller room",
             "Reader or scribe support (for candidates with specific learning difficulties)",
             "Modified question papers (enlarged text, Braille, colored overlays)",
@@ -674,7 +674,7 @@
             "Illness on exam day (fever, injury, severe headache) with medical certificate",
             "Bereavement (death of immediate family member within 1 month of exam)",
             "Accident or trauma (car accident en route to exam, witnessed violence)",
-            "Centre-related issues (fire alarm interruption \\>15 minutes, heating failure)"
+            "Centre-related issues (fire alarm interruption >15 minutes, heating failure)"
           ]
         },
         {
@@ -833,7 +833,7 @@
         {
           "type": "list",
           "items": [
-            "Purpose: Obtain a copy of the candidate's marked script for review",
+            "Purpose: get a copy of the candidate's marked script for review",
             "Outcome: Useful for understanding examiner feedback; does NOT change the grade",
             "Cost: Approx. $20 per component",
             "Recommendation: Use for learning purposes (improve future performance) rather than grade disputes"
@@ -873,7 +873,7 @@
         {
           "type": "list",
           "items": [
-            "Cambridge dispatches examination certificates to the Centre approximately 3 months after results release (November for Aug results; February for Nov results)",
+            "Cambridge dispatches examination certificates to the Centre about 3 months after results release (November for Aug results; February for Nov results)",
             "Exams Officer verifies certificate accuracy against results data",
             "Distribution methods:",
             "Continuing students: Distributed during assemblies or form time",
@@ -900,7 +900,7 @@
         {
           "type": "list",
           "items": [
-            "Results data and certificates: Permanent digital archive (EduNav \\+ secure cloud storage)",
+            "Results data and certificates: Permanent digital archive (EduNav + secure cloud storage)",
             "Unused question papers and unused answer booklets/scripts: Securely destroyed (e.g., cross-shredded) after the post-results service window has closed. A destruction log must be maintained. (typically 6 months post-results)",
             "Access arrangements and special consideration documentation: 6 years",
             "Malpractice records: 6 years (secure, confidential storage)"
@@ -1143,7 +1143,7 @@
             "IGCSE: $100-150 per subject",
             "AS Level: $120-180 per subject",
             "A Level: $150-220 per subject",
-            "Late entry surcharge: \\+30% of the subject fee",
+            "Late entry surcharge: +30% of the subject fee",
             "Post-results services: $30-150 per component"
           ],
           "title": "10.11.1 Examination Fee Structure"
@@ -1157,7 +1157,7 @@
           "items": [
             "Standard entries: Included in school tuition fees (parents do not pay separately)",
             "Late entries: Parent responsibility (if due to student/parent delay)",
-            "Resits or additional subjects: Parent responsibility",
+            "Resits or extra subjects: Parent responsibility",
             "Post-results services: Parent responsibility (refunded if grade changes)"
           ]
         },
@@ -1210,7 +1210,7 @@
       "content": [
         {
           "type": "text",
-          "text": "The following templates support standardized, efficient examination management. All templates are version-controlled and available via EduNav \\> Resources \\> Examinations Template ![][image6] ![][image7] Management:"
+          "text": "The following templates support standardized, efficient examination management. All templates are version-controlled and available via EduNav > Resources > Examinations Template ![][image6] ![][image7] Management:"
         },
         {
           "type": "list",
@@ -1228,7 +1228,7 @@
       "content": [
         {
           "type": "text",
-          "text": "The Exams Officer is required to maintain current knowledge of Cambridge regulations and best practices. Mandatory Training:"
+          "text": "The Exams Officer must maintain current knowledge of Cambridge regulations and best practices. Mandatory Training:"
         },
         {
           "type": "list",
@@ -1274,7 +1274,7 @@
             "Cambridge regulations (45 min): Examination instructions, permitted materials, prohibited items, special arrangements",
             "Scenario-based practice (60 min): Handling late arrivals, suspected malpractice, medical emergencies, and technology failures",
             "Documentation requirements (30 min): Completing attendance registers, incident reports, and confidentiality",
-            "Q\\&A and assessment (30 min): Knowledge check quiz (80% pass required)"
+            "Q&A and assessment (30 min): Knowledge check quiz (80% pass required)"
           ],
           "title": "10.13.2 Invigilator Training Program"
         },
@@ -1455,7 +1455,7 @@
         },
         {
           "type": "text",
-          "text": "Evidence for Accreditation Visits: All templates, dashboards, logs, and reports listed in this section are maintained as accreditation evidence and organized in the Accreditation Evidence Repository (EduNav \\> Accreditation \\> Cambridge Examinations)."
+          "text": "Evidence for Accreditation Visits: All templates, dashboards, logs, and reports listed in this section are maintained as accreditation evidence and organized in the Accreditation Evidence Repository (EduNav > Accreditation > Cambridge Examinations)."
         }
       ]
     },

@@ -1,11 +1,11 @@
 {
   "id": "09",
   "title": "Safeguarding, Child Protection, and Wellbeing",
-  "lastUpdated": "2025-01-15",
+  "lastUpdated": "2026-08-16",
   "subsections": [
     {
       "id": "9.1",
-      "title": "Summary",
+      "title": "Summary and Purpose",
       "content": [
         {
           "type": "text",
@@ -20,15 +20,9 @@
             "✅ Report to DSL immediately (same day)",
             "✅ Complete Concern Form (Appendix 9-A)",
             "❌ DON'T promise confidentiality",
-            "❌ DON'T investigate yourself Emergency? Call DSL: [phone number] DSL not available? Call DDSL: [phone number] Immediate danger? Call 112 (Police/Medical) For full details, see Section 9.8 (page 37)"
+            "❌ DON'T investigate yourself Emergency? Call DSL: [each school completes this field] DSL not available? Call DDSL: [each school completes this field] - NOTE: this quick-reference card is NOT operational until both numbers are filled in. Immediate danger? Call 112 (Police/Medical) For full details, see Section 9.8 (page 37)"
           ]
-        }
-      ]
-    },
-    {
-      "id": "9.1",
-      "title": "Purpose",
-      "content": [
+        },
         {
           "type": "text",
           "text": "To establish a comprehensive framework that protects all students from harm, promotes their well-being, and creates a culture of safety across all Eduversal Partner Schools. This section ensures compliance with Indonesian child protection laws, aligns with CIS/WASC standards, and reflects Cambridge Centre safeguarding requirements."
@@ -107,14 +101,14 @@
         {
           "type": "process",
           "steps": [
-            "DSL \\= Designated Safeguarding Lead",
-            "DDSL \\= Deputy Designated Safeguarding Lead",
-            "SCR \\= Single Central Register",
-            "KPAI \\= Indonesian Child Protection Commission",
-            "P2TP2A \\= Local Integrated Service Center",
-            "CPD \\= Continuous Professional Development",
-            "PSHE \\= Personal, Social, Health Education",
-            "PPKn \\= Pancasila and Citizenship Education"
+            "DSL = Designated Safeguarding Lead",
+            "DDSL = Deputy Designated Safeguarding Lead",
+            "SCR = Single Central Register",
+            "KPAI = Indonesian Child Protection Commission",
+            "P2TP2A = Local Integrated Service Center",
+            "CPD = Continuous Professional Development",
+            "PSHE = Personal, Social, Health Education",
+            "PPKn = Pancasila and Citizenship Education"
           ]
         }
       ]
@@ -130,8 +124,8 @@
         {
           "type": "list",
           "items": [
-            "Law No. 35 of 2014 (Amendment to Law No. 23 of 2002 on Child Protection)",
-            "Law No. 17 of 2016 (Child Protection in the Digital Environment)",
+            "UU No. 35/2014 (Amendment to UU No. 23/2002 on Child Protection)",
+            "PP No. 17/2025 (Tata Kelola Penyelenggaraan Sistem Elektronik dalam Pelindungan Anak - \"PP Tunas\"), effective 1 April 2025 - age verification, tiered parental consent, content filtering, and protection of minors' images and data",
             "Ministry of Education regulations on school safety and anti-violence"
           ],
           "title": "Indonesian Child Protection Law"
@@ -157,20 +151,20 @@
         {
           "type": "list",
           "items": [
-            "Komisi Perlindungan Anak Indonesia (KPAI) \\- Indonesian Child Protection Commission",
-            "Pusat Pelayanan Terpadu Pemberdayaan Perempuan dan Anak (P2TP2A) \\- Local integrated service centers",
-            "Police (Unit Perlindungan Perempuan dan Anak) \\- Women and Children Protection Unit"
+            "Komisi Perlindungan Anak Indonesia (KPAI) - Indonesian Child Protection Commission",
+            "Pusat Pelayanan Terpadu Pemberdayaan Perempuan dan Anak (P2TP2A) - Local integrated service centers",
+            "Police (Unit Perlindungan Perempuan dan Anak) - Women and Children Protection Unit"
           ]
         },
         {
           "type": "text",
-          "text": "A. UU No. 35/2014 \\- Key Provisions for Schools Mandatory Reporting (Pasal 76):"
+          "text": "A. UU No. 35/2014 - Key Provisions for Schools Mandatory Reporting (UU No. 35/2014 and its implementing regulations):"
         },
         {
           "type": "list",
           "items": [
-            "Legal Obligation: Every person who knows, sees, or experiences child abuse MUST report within 24 hours",
-            "Criminal Penalties for Failure to Report:",
+            "Eduversal network standard (not a statutory deadline): report to the DSL the same day, and make any external referral within 24 hours",
+            "Penalties under UU No. 35/2014 apply to those who commit offences against children:",
             "Prison: Up to 5 years",
             "Fine: Up to Rp 100,000,000",
             "Protected Reporters: Those reporting in good faith cannot be sued (civil immunity)"
@@ -185,15 +179,15 @@
           "type": "process",
           "steps": [
             "Physical Violence (Pasal 76C): Hitting, slapping, kicking → Report to Police Unit PPA",
-            "Sexual Abuse (Pasal 76D/E): Any sexual activity with child under 18 → Report immediately to police \\+ P2TP2A",
-            "Neglect (Pasal 77): Failure to provide basic needs → Report to Dinas Sosial \\+ P2TP2A",
-            "Exploitation (Pasal 76I): Child labor, forcing begging → Report to police \\+ Dinas Sosial",
-            "Online Exploitation (UU 17/2016): Cyberbullying, grooming, child pornography → Report to police cybercrime unit \\+ Kemkominfo"
+            "Sexual Abuse (Pasal 76D/E): Any sexual activity with child under 18 → Report immediately to police + P2TP2A",
+            "Neglect (Pasal 77): Failure to provide basic needs → Report to Dinas Sosial + P2TP2A",
+            "Exploitation (Pasal 76I): Child labor, forcing begging → Report to police + Dinas Sosial",
+            "Online Exploitation (PP No. 17/2025 - PP Tunas): Cyberbullying, grooming, child pornography → Report to police cybercrime unit + Komdigi (formerly Kemkominfo)"
           ]
         },
         {
           "type": "text",
-          "text": "School-Specific Requirements: Permendikbud No. 82/2015 (Anti-Violence in Education):"
+          "text": "School-Specific Requirements: Permendikdasmen No. 6/2026 (Budaya Sekolah Aman dan Nyaman - BSAN), in force 9 January 2026, which revoked Permendikbudristek No. 46/2023 (PPKSP). SPK schools running Cambridge are in scope:"
         },
         {
           "type": "list",
@@ -224,9 +218,9 @@
         {
           "type": "list",
           "items": [
-            "24-hour rule is LEGAL REQUIREMENT \\- failure is criminal offense",
-            "Do NOT delay to \"gather more evidence\" \\- report suspicion, let authorities investigate",
-            "Police report number (BAP/LP) must be obtained \\- file in secure safeguarding records"
+            "The 24-hour referral rule is an Eduversal network standard, not a statutory deadline. Permendikdasmen No. 6/2026 fixes no statutory reporting timeframe",
+            "Do NOT delay to \"gather more evidence\" - report suspicion, let authorities investigate",
+            "Police report number (BAP/LP) must be obtained - file in secure safeguarding records"
           ],
           "title": "Reporting Flowchart"
         },
@@ -294,6 +288,20 @@
         {
           "type": "text",
           "text": "UN Convention on the Rights of the Child (UNCRC): Indonesia is a signatory; schools uphold children’s rights to protection, participation, and provision."
+        },
+        {
+          "type": "list",
+          "title": "Permendikdasmen No. 6/2026 (BSAN) - what changed and who to notify",
+          "items": [
+            "BSAN defines kekerasan (violence) in six forms: fisik (physical), psikis (psychological), seksual (sexual), digital, sosial, and spiritual. The digital, social and spiritual dimensions are new in 6/2026.",
+            "The kepala sekolah (Principal) is the singular accountable officer for BSAN at school level. The standing TPPK team required by the former Permendikbudristek 46/2023 has been dissolved.",
+            "The Principal triages reports and handles non-criminal cases at school level \"secara edukatif, proporsional dan berkeadilan\" (in an educative, proportionate and fair manner).",
+            "Serious cases escalate to the Pokja BSAN (Kelompok Kerja) for verification, initial analysis and referral. Pokja sits at kabupaten/kota level (chaired by the Bupati/Wali Kota, coordinated by the Kepala Dinas Pendidikan) and at provinsi level (chaired by the Sekretaris Daerah). Jurisdiction follows the school's location.",
+            "Each school must confirm the contact details for its local Pokja BSAN and record them alongside the police, P2TP2A and Dinas Sosial contacts.",
+            "Where a case was already under investigation when BSAN took effect on 9 January 2026, the previous team completes that case until the Pokja is in place.",
+            "BSAN fixes no statutory reporting timeframe. Eduversal therefore sets its own standard: same-day report to the DSL, external referral within 24 hours.",
+            "Cambridge International maintains its own safeguarding expectations. Eduversal schools comply with both: Cambridge as the daily operating layer, Permendikdasmen 6/2026 as the Indonesian legal-compliance anchor."
+          ]
         }
       ]
     },
@@ -362,7 +370,7 @@
             "Overall accountability for safeguarding at school level",
             "Ensure policy is implemented, staff trained, and systems functional",
             "Appoint and support the Designated Safeguarding Lead (DSL)",
-            "Report serious incidents to Chief of Academics and local Yayasan",
+            "Report serious incidents to Chief Academic Officer and local Yayasan",
             "Liaise with Indonesian authorities on safeguarding matters",
             "Ensure annual safeguarding audit and action plan"
           ],
@@ -399,7 +407,7 @@
         {
           "type": "process",
           "steps": [
-            "Overall accountability at school level (as per Indonesian law \\- GM is employer representative)",
+            "Overall accountability at school level (as per Indonesian law - GM is employer representative)",
             "Appoint DSL",
             "Liaise with authorities",
             "Authorize suspensions",
@@ -460,8 +468,8 @@
             "Must be a senior leader with authority to make safeguarding decisions",
             "Recommended: Vice Principal (Student Affairs/Wellbeing) or Head of Pastoral Care",
             "May NOT be: School Culture Coordinator (unless they also hold senior leadership position)",
-            "Distinction:DSL \\= Safeguarding (abuse, neglect, child protection)",
-            "School Culture Coordinator \\= Discipline and behavioral management (under DSL oversight for safeguarding-related behavior issues)"
+            "Distinction:DSL = Safeguarding (abuse, neglect, child protection)",
+            "School Culture Coordinator = Discipline and behavioral management (under DSL oversight for safeguarding-related behavior issues)"
           ],
           "title": "Designated Safeguarding Lead (DSL)"
         },
@@ -571,7 +579,7 @@
           "items": [
             "Same as DSL when acting in their absence",
             "Support DSL with case management (as assigned)",
-            "Participate in training and meetings"
+            "take part in training and meetings"
           ],
           "title": "Deputy Designated Safeguarding Lead(s) (DDSL)"
         },
@@ -634,7 +642,7 @@
           "type": "list",
           "items": [
             "Enhanced vigilance given 24/7 contact with students",
-            "Additional training on managing disclosures in a residential setting",
+            "Extra training on managing disclosures in a residential setting",
             "Safeguarding risk assessments for the boarding environment"
           ]
         },
@@ -802,7 +810,7 @@
         {
           "type": "list",
           "items": [
-            "SKCK (Surat Keterangan Catatan Kepolisian) \\- Police clearance certificate",
+            "SKCK (Surat Keterangan Catatan Kepolisian) - Police clearance certificate",
             "Obtained from local police (valid 6 months)",
             "Check for criminal history, including crimes against children"
           ]
@@ -957,7 +965,7 @@
           "type": "list",
           "items": [
             "Course: Level 1 Child Protection Introduction for Educators",
-            "Duration: Full online course (self-paced, approximately 4-6 hours)",
+            "Duration: Full online course (self-paced, about 4-6 hours)",
             "Content:",
             "Child protection and duty of care",
             "Abuse types, behaviors, and indicators",
@@ -1300,7 +1308,7 @@
         },
         {
           "type": "text",
-          "text": "Additional Parent Education:"
+          "text": "Extra Parent Education:"
         },
         {
           "type": "list",
@@ -1339,7 +1347,7 @@
             "Induction: Mix of self-paced eLearning (completion before start date) and live facilitated session (first week)",
             "Annual Refresher: Live facilitated sessions with online follow-up modules",
             "Specialized Training: In-person workshops, external provider courses, online accredited programs",
-            "Parent Training: Tutorial (live broadcast or online access) \\+ resources"
+            "Parent Training: Tutorial (live broadcast or online access) + resources"
           ],
           "title": "Training Delivery and Accessibility"
         },
@@ -1576,7 +1584,7 @@
         },
         {
           "type": "text",
-          "text": "If a student discloses abuse or concern to you: DO: ✅ Listen carefully, calmly, without interrupting ✅ Take it seriously \\- believe the student ✅ Reassure \\- “Thank you for telling me. You were brave to share this. I’m here to help.” ✅ Record \\- Write down what the student said (use their words, not your interpretation) ✅ Report immediately \\- Tell DSL/DDSL same day (or immediately if urgent) ✅ Maintain confidentiality \\- Share only with DSL and those who need to know DON’T: ❌ Promise absolute confidentiality \\- “I can keep this private” (You can’t; you must report) ❌ Investigate \\- Don’t question extensively or ask leading questions (“Did your dad hit you?”) ❌ Show shock or disbelief \\- Stay calm even if information is disturbing ❌ Delay reporting \\- Act same day ❌ Tell the alleged abuser \\- This could place the student at greater risk Immediate Safety: If student is in immediate danger:"
+          "text": "If a student discloses abuse or concern to you: DO: ✅ Listen carefully, calmly, without interrupting ✅ Take it seriously - believe the student ✅ Reassure - “Thank you for telling me. You were brave to share this. I’m here to help.” ✅ Record - Write down what the student said (use their words, not your interpretation) ✅ Report immediately - Tell DSL/DDSL same day (or immediately if urgent) ✅ Maintain confidentiality - Share only with DSL and those who need to know DON’T: ❌ Promise absolute confidentiality - “I can keep this private” (You can’t; you must report) ❌ Investigate - Don’t question extensively or ask leading questions (“Did your dad hit you?”) ❌ Show shock or disbelief - Stay calm even if information is disturbing ❌ Delay reporting - Act same day ❌ Tell the alleged abuser - This could place the student at greater risk Immediate Safety: If student is in immediate danger:"
         },
         {
           "type": "process",
@@ -1626,7 +1634,7 @@
           "type": "list",
           "items": [
             "Level 1 (Low risk): Monitor, provide internal support (counseling, check-ins)",
-            "Level 2 (Medium risk): Internal support \\+ inform parents (unless parental involvement poses risk)",
+            "Level 2 (Medium risk): Internal support + inform parents (unless parental involvement poses risk)",
             "Level 3 (High risk): External referral to authorities required"
           ]
         },
@@ -1662,10 +1670,10 @@
         {
           "type": "list",
           "items": [
-            "Police (Unit PPA) \\- If criminal offense suspected",
-            "P2TP2A (local integrated service center) \\- For child protection services",
-            "KPAI (Child Protection Commission) \\- For advocacy and support",
-            "Medical services \\- If medical attention needed"
+            "Police (Unit PPA) - If criminal offense suspected",
+            "P2TP2A (local integrated service center) - For child protection services",
+            "KPAI (Child Protection Commission) - For advocacy and support",
+            "Medical services - If medical attention needed"
           ]
         },
         {
@@ -1727,12 +1735,12 @@
         },
         {
           "type": "text",
-          "text": "CORRECT RESPONSE: Type: Low-Level Concern (Code of Conduct violation \\- Section 9.11) Immediate Actions:"
+          "text": "CORRECT RESPONSE: Type: Low-Level Concern (Code of Conduct violation - Section 9.11) Immediate Actions:"
         },
         {
           "type": "process",
           "steps": [
-            "Homeroom teacher completes Low-Level Concern Form (Appendix 9-B) \\- same day",
+            "Homeroom teacher completes Low-Level Concern Form (Appendix 9-B) - same day",
             "Report to DSL (not directly to Mr. Budi)",
             "DSL investigates:"
           ]
@@ -1755,7 +1763,7 @@
           "items": [
             "Finding: Mr. Budi violated Code of Conduct (Section 9.11: \"Do NOT friend or follow students on personal social media\")",
             "Action:",
-            "Written warning \\+ removal of all students from personal social media within 48 hours",
+            "Written warning + removal of all students from personal social media within 48 hours",
             "Mandatory boundaries training",
             "Logged in Low-Level Concerns Register",
             "If pattern continues or escalates → formal disciplinary process"
@@ -1763,11 +1771,11 @@
         },
         {
           "type": "text",
-          "text": "Key Learning Points: ✅ Well-intentioned behavior can still be inappropriate ✅ Blurred boundaries create safeguarding risk (grooming often starts with friendly relationship) ✅ Low-level concerns MUST be reported \\- pattern recognition prevents escalation"
+          "text": "Key Learning Points: ✅ Well-intentioned behavior can still be inappropriate ✅ Blurred boundaries create safeguarding risk (grooming often starts with friendly relationship) ✅ Low-level concerns MUST be reported - pattern recognition prevents escalation"
         },
         {
           "type": "text",
-          "text": "Context: Primary Year 4 Classroom Scenario: It's Monday morning break. Year 4 student Arif (age 9) approaches his teacher, Ms. Sarah, looking upset. The conversation: Arif: \"Miss, can I talk to you?\" Ms. Sarah: \"Of course! What's wrong?\" Arif: (crying) \"My uncle hit me this weekend. My arm hurts.\" Ms. Sarah: \"Oh no! Can you show me?\" (Arif pulls up sleeve \\- large bruise on upper arm) Arif: \"Please don't tell anyone. He'll be really angry.\" Questions:"
+          "text": "Context: Primary Year 4 Classroom Scenario: It's Monday morning break. Year 4 student Arif (age 9) approaches his teacher, Ms. Sarah, looking upset. The conversation: Arif: \"Miss, can I talk to you?\" Ms. Sarah: \"Of course! What's wrong?\" Arif: (crying) \"My uncle hit me this weekend. My arm hurts.\" Ms. Sarah: \"Oh no! Can you show me?\" (Arif pulls up sleeve - large bruise on upper arm) Arif: \"Please don't tell anyone. He'll be really angry.\" Questions:"
         },
         {
           "type": "process",
@@ -1788,9 +1796,9 @@
           "steps": [
             "Now (10:45 AM): Take Arif to quiet space; call DSL immediately",
             "10:50 AM: DSL sees student; documents disclosure using Arif's exact words",
-            "11:00 AM: DSL calls parents to inform (required under Indonesian law)",
-            "11:15 AM: DSL assesses: Physical injury visible → HIGH RISK",
-            "12:00 PM (latest): DSL reports to Police Unit PPA \\+ P2TP2A (24-hour requirement)",
+            "11:00 AM: DSL completes risk assessment BEFORE any family contact (the disclosure names a family member)",
+            "11:15 AM: HIGH RISK confirmed (visible injury, alleged perpetrator is a family member) - do NOT notify family; refer to authorities first",
+            "12:00 PM (latest): DSL reports to Police Unit PPA + P2TP2A (24-hour requirement)",
             "12:30 PM: General Manager and Principal informed; student safety plan created",
             "Same day: Ms. Sarah completes Concern Form; DSL starts Case Management Log"
           ]
@@ -1811,7 +1819,7 @@
         },
         {
           "type": "text",
-          "text": "Key Learning Points: ✅ Disclosures happen unexpectedly \\- stay calm ✅ NEVER promise confidentiality ✅ Physical injury \\= HIGH RISK \\= report to authorities same day ✅ Student safety plan continues even after external report"
+          "text": "Key Learning Points: ✅ Disclosures happen unexpectedly - stay calm ✅ NEVER promise confidentiality ✅ Physical injury = HIGH RISK = report to authorities same day ✅ Student safety plan continues even after external report"
         },
         {
           "type": "text",
@@ -1834,9 +1842,9 @@
         {
           "type": "list",
           "items": [
-            "Type: Peer-on-Peer Abuse (Section 9.13.4) \\+ possible cyberbullying (Section 9.13.3)",
+            "Type: Peer-on-Peer Abuse (Section 9.13.4) + possible cyberbullying (Section 9.13.3)",
             "Risk Level: MEDIUM-HIGH (coercion, threat of image-based abuse)",
-            "Enough info? YES \\- can identify dorm and year group"
+            "Enough info? YES - can identify dorm and year group"
           ]
         },
         {
@@ -1847,7 +1855,7 @@
           "type": "process",
           "steps": [
             "Same day: Report to DSL (do NOT investigate alone)",
-            "Next 24 hours: DSL \\+ dormitory coordinator:"
+            "Next 24 hours: DSL + dormitory coordinator:"
           ]
         },
         {
@@ -1874,7 +1882,7 @@
         },
         {
           "type": "text",
-          "text": "Protecting Anonymous Reporter: ✅ Do NOT try to identify them (discourages future reporting) ✅ Thank them publicly (assembly): \"We received important information that helped keep a student safe\" ✅ Remind all students: reporting \\= brave, not snitching Investigation Process:"
+          "text": "Protecting Anonymous Reporter: ✅ Do NOT try to identify them (discourages future reporting) ✅ Thank them publicly (assembly): \"We received important information that helped keep a student safe\" ✅ Remind all students: reporting = brave, not snitching Investigation Process:"
         },
         {
           "type": "process",
@@ -1901,7 +1909,7 @@
           "type": "list",
           "items": [
             "If substantiated:",
-            "Perpetrators: disciplinary action (Section 22) \\+ counseling \\+ possibly police if distribution of images",
+            "Perpetrators: disciplinary action (Section 22) + counseling + possibly police if distribution of images",
             "Victim: safety plan, counseling, academic support",
             "Dorm supervision increased",
             "If unsubstantiated but concern remains: Continue monitoring"
@@ -1909,7 +1917,7 @@
         },
         {
           "type": "text",
-          "text": "Key Learning Points: ✅ Anonymous reports ARE actionable ✅ Peer-on-peer abuse often hidden \\- requires proactive detection ✅ Image-based threats \\= serious (potential criminal offense in Indonesia \\- UU ITE)"
+          "text": "Key Learning Points: ✅ Anonymous reports ARE actionable ✅ Peer-on-peer abuse often hidden - requires proactive detection ✅ Image-based threats = serious (potential criminal offense in Indonesia - UU ITE)"
         },
         {
           "type": "text",
@@ -1927,24 +1935,24 @@
         },
         {
           "type": "text",
-          "text": "CORRECT RESPONSE: Did school act correctly? YES \\- absolutely."
+          "text": "CORRECT RESPONSE: Did school act correctly? YES - absolutely."
         },
         {
           "type": "list",
           "items": [
-            "Physical injury on child \\= mandatory report under UU 35/2014",
-            "24-hour reporting requirement \\- no exceptions",
-            "School legally REQUIRED to report; failure is criminal offense (Pasal 76)"
+            "Physical injury on child = mandatory report under UU No. 35/2014",
+            "Eduversal requires external referral within 24 hours - no exceptions",
+            "Indonesian child protection law requires the school to report suspected abuse"
           ]
         },
         {
           "type": "text",
-          "text": "Principal's Response (Remain calm, professional, firm): \"Mr. [Name], I understand this is distressing. However, I need to explain our legal obligations. Under Indonesian law \\- specifically UU No. 35 Tahun 2014 \\- schools are REQUIRED to report suspected child abuse to authorities. We don't have the option to not report; failing to report is a criminal offense. Our role is not to investigate or judge your family. Our role is to report concerns so professionals \\- police and social services \\- can assess the situation. They are trained to determine what support your family may need. We reported in good faith based on visible injuries and Lila's statement. The law protects us from legal action when we report in good faith (Pasal 76). We remain committed to supporting Lila and your family. We can discuss how the school and Dinas Sosial can work together to help.\" Can parents sue? Unlikely to succeed."
+          "text": "Principal's Response (Remain calm, professional, firm): \"Mr. [Name], I understand this is distressing. However, I need to explain our legal obligations. Indonesian child protection law requires schools to report suspected abuse to the authorities. This is not a decision we can make case by case. Our role is not to investigate or judge your family. Our role is to report concerns so professionals - police and social services - can assess the situation. They are trained to determine what support your family may need. We reported in good faith based on visible injuries and Lila's statement. Staff who report in good faith are protected. We remain committed to supporting Lila and your family. We can discuss how the school and Dinas Sosial can work together to help.\" Can parents sue? Unlikely to succeed."
         },
         {
           "type": "list",
           "items": [
-            "Legal protection: UU 35/2014 provides civil immunity for good-faith reporting",
+            "Legal protection: UU No. 35/2014 provides civil immunity for good-faith reporting",
             "School has evidence: Photos, child's statement, professional concern"
           ]
         },
@@ -1968,18 +1976,18 @@
           "type": "process",
           "steps": [
             "DSL documents entire interaction",
-            "GM informs Eduversal Director of Education",
+            "GM informs Eduversal Chief Academic Officer",
             "School continues cooperation with authorities as required",
             "If Lila returns: monitor closely, liaise with Dinas Sosial"
           ]
         },
         {
           "type": "text",
-          "text": "Key Learning Points: ✅ Schools have legal protection when reporting in good faith ✅ NEVER let parents intimidate you out of proper safeguarding action ✅ \"It's family business\" is NEVER a reason not to report child abuse ✅ Document everything \\- including parents' responses"
+          "text": "Key Learning Points: ✅ Schools have legal protection when reporting in good faith ✅ NEVER let parents intimidate you out of proper safeguarding action ✅ \"It's family business\" is NEVER a reason not to report child abuse ✅ Document everything - including parents' responses"
         },
         {
           "type": "text",
-          "text": "Context: Year 10 (IGCSE) Scenario: Thursday, 1 PM. The school counselor receives urgent message from Year 11 student Rina's friend: \"Miss, I'm really worried. Rina sent me messages last night saying she wants to die. She said she has pills hidden in her dorm. I showed her your number but she won't call. Can you help? Please don't tell her I told you \\- she'll hate me.\" Questions:"
+          "text": "Context: Year 10 (IGCSE) Scenario: Thursday, 1 PM. The school counselor receives urgent message from Year 11 student Rina's friend: \"Miss, I'm really worried. Rina sent me messages last night saying she wants to die. She said she has pills hidden in her dorm. I showed her your number but she won't call. Can you help? Please don't tell her I told you - she'll hate me.\" Questions:"
         },
         {
           "type": "process",
@@ -1993,14 +2001,14 @@
         },
         {
           "type": "text",
-          "text": "CORRECT RESPONSE: Immediate Priority: FIND RINA and ensure her physical safety (prevent suicide attempt) Counselor Actions (Next 15 minutes \\- URGENT):"
+          "text": "CORRECT RESPONSE: Immediate Priority: FIND RINA and ensure her physical safety (prevent suicide attempt) Counselor Actions (Next 15 minutes - URGENT):"
         },
         {
           "type": "process",
           "steps": [
             "1:00 PM: Thank the friend; explain must act immediately to keep Rina safe",
-            "1:02 PM: Contact DSL \\+ boarding house coordinator immediately",
-            "1:05 PM: Locate Rina (check timetable \\- which class? If absent, check dorm immediately)",
+            "1:02 PM: Contact DSL + boarding house coordinator immediately",
+            "1:05 PM: Locate Rina (check timetable - which class? If absent, check dorm immediately)",
             "1:10 PM: DSL or counselor stays with Rina (DO NOT LEAVE ALONE)",
             "1:15 PM: Counselor conducts suicide risk assessment:"
           ]
@@ -2015,7 +2023,7 @@
         },
         {
           "type": "text",
-          "text": "Risk Level Determination: \\=== Add Table Here \\=== IF HIGH RISK (As in this scenario): Timeline:"
+          "text": "Risk Level Determination: [TABLE MISSING - the low/medium/high suicide-risk criteria (ideation / plan / means / intent / protective factors) must be authored and clinically signed off before this case study is used in training. See AUDIT-2026-08-16.md.] IF HIGH RISK (As in this scenario): Timeline:"
         },
         {
           "type": "process",
@@ -2044,7 +2052,7 @@
         },
         {
           "type": "text",
-          "text": "Protecting the Reporting Friend: ✅ Explain: \"You may have saved Rina's life by telling me\" ✅ Rina may be angry initially, but safety comes first ✅ Support friend's wellbeing too (secondary trauma) Key Learning Points: ✅ Suicidal ideation \\= IMMEDIATE action required ✅ Specific plan \\+ means \\= HIGH RISK → hospital evaluation ✅ Never leave suicidal student alone ✅ Mental health is safeguarding issue \\- DSL must be involved ✅ Balance confidentiality with safety (safety always wins)"
+          "text": "Protecting the Reporting Friend: ✅ Explain: \"You may have saved Rina's life by telling me\" ✅ Rina may be angry initially, but safety comes first ✅ Support friend's wellbeing too (secondary trauma) Key Learning Points: ✅ Suicidal ideation = IMMEDIATE action required ✅ Specific plan + means = HIGH RISK → hospital evaluation ✅ Never leave suicidal student alone ✅ Mental health is safeguarding issue - DSL must be involved ✅ Balance confidentiality with safety (safety always wins)"
         },
         {
           "type": "text",
@@ -2064,7 +2072,7 @@
           "items": [
             "Boarding staff: deep dive on Case 3",
             "Counselors: deep dive on Case 5",
-            "Sports coaches: Case 1 plus additional peer pressure scenarios"
+            "Sports coaches: Case 1 plus extra peer pressure scenarios"
           ]
         },
         {
@@ -2077,7 +2085,7 @@
             "Read scenario aloud (5 min)",
             "Small groups discuss questions (10 min)",
             "Groups present their responses (10 min)",
-            "Facilitator reveals \"correct response\" \\+ discussion (10 min)",
+            "Facilitator reveals \"correct response\" + discussion (10 min)",
             "Connect to school policy sections (5 min)"
           ]
         },
@@ -2315,7 +2323,7 @@
           "type": "list",
           "items": [
             "Any allegation against staff reported immediately to Principal (not to DSL if DSL is the subject of allegation)",
-            "If allegation is against GM, report to Eduversal Director of Education"
+            "If allegation is against GM, report to Eduversal Chief Academic Officer"
           ],
           "title": "Immediate Actions"
         },
@@ -2427,7 +2435,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Boarding environments require additional safeguarding measures due to 24/7 student care. Dormitory Supervision:"
+          "text": "Boarding environments require extra safeguarding measures due to 24/7 student care. Dormitory Supervision:"
         },
         {
           "type": "list",
@@ -2519,7 +2527,7 @@
         {
           "type": "list",
           "items": [
-            "Supervision ratios: Minimum 1:10 (1 adult per 10 students); higher ratio for younger students, higher-risk activities, or students with additional needs",
+            "Supervision ratios: Minimum 1:10 (1 adult per 10 students); higher ratio for younger students, higher-risk activities, or students with extra needs",
             "Gender balance: Mixed-gender trips should have both male and female staff",
             "Student medical and safeguarding information: Trip leaders carry confidential list of students with medical conditions, allergies, IEPs, safeguarding concerns",
             "Accommodation: Overnight trips require careful accommodation planning (student sleeping areas separate from staff but accessible; gender-appropriate arrangements)",
@@ -2880,8 +2888,8 @@
           "type": "process",
           "steps": [
             "Report to GM (if concern about DSL or other staff)",
-            "Report to Chief of Academics (if concern about GM or school-level leadership)",
-            "Report to Board Chair (if concern about Director of Education or systemic network issue)"
+            "Report to Chief Academic Officer (if concern about GM or school-level leadership)",
+            "Report to Board Chair (if concern about Chief Academic Officer or systemic network issue)"
           ],
           "title": "How to Report:"
         },
@@ -2957,7 +2965,7 @@
         },
         {
           "type": "text",
-          "text": "Police (Unit PPA \\- Unit Perlindungan Perempuan dan Anak):"
+          "text": "Police (Unit PPA - Unit Perlindungan Perempuan dan Anak):"
         },
         {
           "type": "list",
@@ -3189,7 +3197,7 @@
           "type": "list",
           "items": [
             "Local Yayasan",
-            "Eduversal Board of Trustees (via Director of Education)"
+            "Eduversal Board of Trustees (via Chief Academic Officer)"
           ],
           "title": "Annual Safeguarding Report"
         },
@@ -3241,7 +3249,7 @@
         {
           "type": "list",
           "items": [
-            "Single Central Register (SCR) \\- complete and current, including:",
+            "Single Central Register (SCR) - complete and current, including:",
             "All safeguarding training completion dates",
             "Certificate issue and expiry dates (2-year validity tracked)",
             "Training type and frequency by role:",
@@ -3274,7 +3282,7 @@
         {
           "type": "list",
           "items": [
-            "Concern/Incident Report Forms (Appendix 9-A) \\- all submitted reports",
+            "Concern/Incident Report Forms (Appendix 9-A) - all submitted reports",
             "DSL Case Management Log (secure, confidential)",
             "Low-Level Concerns Log (Appendix 9-B)",
             "Safeguarding records for individual students (secure, confidential files)",
@@ -3295,7 +3303,7 @@
         {
           "type": "list",
           "items": [
-            "Trip risk assessments (Appendix 9-C) \\- all trips, past 3 years",
+            "Trip risk assessments (Appendix 9-C) - all trips, past 3 years",
             "Boarding safeguarding risk assessment (if applicable)",
             "Online safety risk assessment",
             "Physical environment safety audits"
@@ -3335,8 +3343,8 @@
         {
           "type": "list",
           "items": [
-            "Law No. 35 of 2014 (Child Protection): Mandatory reporting, safe school environment, anti-violence",
-            "Law No. 17 of 2016 (Digital Child Protection): Online safety measures",
+            "UU No. 35/2014 (Child Protection): Mandatory reporting, safe school environment, anti-violence",
+            "PP No. 17/2025 (PP Tunas - child protection in electronic systems): age verification, parental consent, content filtering, online safety measures",
             "Ministry of Education regulations: Child-friendly schools (Sekolah Ramah Anak)"
           ],
           "title": "Indonesian Legal Requirements:"
@@ -3400,7 +3408,7 @@
             "Appendix 9-F: Safeguarding Training Attendance Record",
             "Appendix 9-G: Annual Safeguarding Audit Checklist",
             "Appendix 9-H: Student Safety Plan Template",
-            "Appendix 9-I: Parent Information Sheet (Safeguarding Policy Summary \\- English and Bahasa Indonesia)"
+            "Appendix 9-I: Parent Information Sheet (Safeguarding Policy Summary - English and Bahasa Indonesia)"
           ]
         }
       ]
@@ -3411,7 +3419,7 @@
       "content": [
         {
           "type": "text",
-          "text": "When: End of each academic year (May-June), as part of annual safeguarding audit Who: DSL leads review, with input from GM, Principal, SLT, and Eduversal Director of Education What to Review:"
+          "text": "When: End of each academic year (May-June), as part of annual safeguarding audit Who: DSL leads review, with input from GM, Principal, SLT, and Eduversal Chief Academic Officer What to Review:"
         },
         {
           "type": "list",
@@ -3531,7 +3539,7 @@
         },
         {
           "type": "text",
-          "text": "Eduversal Director of Education:"
+          "text": "Eduversal Chief Academic Officer:"
         },
         {
           "type": "list",
@@ -3567,7 +3575,7 @@
         },
         {
           "type": "text",
-          "text": "P2TP2A (Integrated Service Center \\- Local):"
+          "text": "P2TP2A (Integrated Service Center - Local):"
         },
         {
           "type": "list",
@@ -3604,7 +3612,7 @@
         {
           "type": "list",
           "items": [
-            "Telepon Sahabat Anak (TSA): 129 (child helpline \\- counseling and reporting)"
+            "Telepon Sahabat Anak (TSA): 129 (child helpline - counseling and reporting)"
           ]
         },
         {

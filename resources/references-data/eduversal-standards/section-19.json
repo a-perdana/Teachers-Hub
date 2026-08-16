@@ -1,7 +1,7 @@
 {
   "id": "19",
   "title": "Templates and Operational Tools (Appendices)",
-  "lastUpdated": "2025-01-17",
+  "lastUpdated": "2026-08-16",
   "subsections": [
     {
       "id": "19.1",
@@ -75,7 +75,7 @@
           "items": [
             "Problem/Opportunity Statement: [Clear description of issue or improvement opportunity]",
             "Root Cause Analysis: [Data and evidence supporting the identified cause]",
-            "Improvement Theory: [Hypothesis \\- \"If we... then we expect...\"]",
+            "Improvement Theory: [Hypothesis - \"If we... then we expect...\"]",
             "Action Plan: [Specific steps, responsible persons, timeline]",
             "Predicted Outcomes: [Measurable indicators of success]"
           ],
@@ -219,7 +219,7 @@
         },
         {
           "type": "text",
-          "text": "Purpose: To identify and manage potential conflicts of interest among board members, senior leadership, and staff with procurement or hiring responsibilities. Cross-Reference: Section 1.6 (Conflict of Interest Policy), Section 13.4 (Procurement Ethics) Declaration Form Fields: ![][image13] Compliance Note: Annual declarations required for all board members and senior leadership. Update required within 30 days of any material change. Forms are maintained by the Foundation Representative with a copy to the General Manager.",
+          "text": "Purpose: To identify and manage potential conflicts of interest among board members, senior leadership, and staff with procurement or hiring responsibilities. Cross-Reference: Section 1.6 (Conflict of Interest Policy), Section 13.4 (Procurement Ethics) Declaration Form Fields: ![][image13] Compliance Note: Annual declarations required for all board members and senior leadership. Update required within 30 days of any material change. Forms are maintained by the Foundation Representative (General Manager), with a copy to the Board Secretary so that the custodian and the independent recipient are different people.",
           "title": "19.4.2 Conflict of Interest Declaration Form (T-07)"
         }
       ]
@@ -239,9 +239,9 @@
         {
           "type": "list",
           "items": [
-            "Reporter Name: [Full name, role, contact details] \\- Required",
+            "Reporter Name: [Full name, role, contact details] - Required",
             "Date & Time of Report: [When form completed]",
-            "Date & Time of Concern: [When concern observed/disclosed] \\- Be specific"
+            "Date & Time of Concern: [When concern observed/disclosed] - Be specific"
           ],
           "title": "19.5.1 Safeguarding Concern/Incident Form (T-08)"
         },
@@ -252,10 +252,10 @@
         {
           "type": "list",
           "items": [
-            "Student Name: [Full name] \\- Required",
+            "Student Name: [Full name] - Required",
             "Class/Grade: [Current class]",
             "Student ID: [School ID number]",
-            "Date of Birth/Age: [DOB and current age] \\- Required",
+            "Date of Birth/Age: [DOB and current age] - Required",
             "Parent/Guardian Contact: [Name and phone number]"
           ]
         },
@@ -278,7 +278,7 @@
             "Other: \\\\\\\\\\\\",
             "Description of Concern: [Factual account of what was observed, heard, or disclosed. Use child's own words in quotation marks where possible. Record facts only, not opinions or interpretations.]",
             "Context: [Where did this occur? Who was present? Any previous concerns?]",
-            "Visible Signs/Injuries: [If applicable, describe location, size, color \\- do not photograph]",
+            "Visible Signs/Injuries: [If applicable, describe location, size, color - do not photograph]",
             "Immediate Actions Taken: [Actions to ensure immediate safety, who was informed]",
             "Child's Wishes: [If disclosed, what does the child want to happen?]"
           ]
@@ -310,7 +310,7 @@
             "Record facts, not interpretations; use exact words where disclosed by child",
             "Maintain strict confidentiality; share only on need-to-know basis",
             "Do not promise the child that you will keep information secret",
-            "Do not investigate \\- that is the role of DSL and authorities",
+            "Do not investigate - that is the role of DSL and authorities",
             "Retain according to records retention policy (see Section 14)"
           ]
         },
@@ -396,13 +396,13 @@
             "Right to work in Indonesia confirmed",
             "Qualifications verified (original certificates)",
             "Teaching license (STR) confirmed (if applicable)",
-            "SKCK (Police clearance) obtained \\- Date: \\\\\\_",
+            "SKCK (Police clearance) obtained - Date: \\\\\\_",
             "International criminal check (for expatriates, where feasible)",
-            "Reference 1 received using safeguarding pro-forma \\- Date: \\\\\\_",
-            "Reference 2 received using safeguarding pro-forma \\- Date: \\\\\\_",
+            "Reference 1 received using safeguarding pro-forma - Date: \\\\\\_",
+            "Reference 2 received using safeguarding pro-forma - Date: \\\\\\_",
             "References verified by direct contact with referee",
             "Medical fitness declaration obtained",
-            "Prohibition check (teaching profession)"
+            "SKCK (police clearance) and STR / teaching registration check"
           ]
         },
         {
@@ -416,7 +416,7 @@
             "Code of Conduct read and signed",
             "Child protection declaration signed",
             "DSL and reporting procedures identified",
-            "Safeguarding induction training completed \\- Date: \\\\\\_",
+            "Safeguarding induction training completed - Date: \\\\\\_",
             "Probationary supervision arrangements in place"
           ]
         },
@@ -666,7 +666,7 @@
         {
           "type": "list",
           "items": [
-            "Agreement Rate: \\\\\\_% (target: \\>90% within tolerance)",
+            "Agreement Rate: \\\\\\_% (target: >90% within tolerance)",
             "Systematic issues identified: \\\\\\\\\\\\_",
             "Remarking required: [ ] Yes (\\\\\\_ scripts) [ ] No"
           ]
@@ -749,7 +749,7 @@
             "Candidate cautioned",
             "Unauthorized material confiscated",
             "Seating adjusted",
-            "Additional time given (\\\\\\_ minutes)",
+            "Extra time given (\\\\\\_ minutes)",
             "Candidate removed from examination room",
             "Other: \\\\\\\\\\\\_"
           ]
@@ -821,7 +821,7 @@
           "items": [
             "Number of Students: \\\\\\\\ Age Range: \\\\\\\\",
             "Number of Staff: \\\\\\\\ Ratio: \\\\\\\\",
-            "Students with Additional Needs: \\\\\\_ (attach individual risk assessments)"
+            "Students with Extra Needs: \\\\\\_ (attach individual risk assessments)"
           ]
         },
         {
@@ -910,15 +910,15 @@
         },
         {
           "type": "text",
-          "text": "Risk Score \\= Likelihood × Impact"
+          "text": "Risk Score = Likelihood × Impact"
         },
         {
           "type": "list",
           "items": [
             "1-4: Low (Monitor)",
             "5-9: Medium (Active management)",
-            "10-15: High (Priority action)",
-            "16-25: Critical (Immediate action required)"
+            "10-14: High (Priority action)",
+            "15-25: Critical (Immediate action required)"
           ]
         },
         {

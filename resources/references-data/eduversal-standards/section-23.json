@@ -1,7 +1,7 @@
 {
   "id": "23",
   "title": "External Partnerships and Student Pathways",
-  "lastUpdated": "2025-01-20",
+  "lastUpdated": "2026-08-16",
   "subsections": [
     {
       "id": "23.1",
@@ -9,7 +9,7 @@
       "content": [
         {
           "type": "text",
-          "text": "This section establishes the framework for developing and maintaining external partnerships that enhance student learning opportunities and prepare students for post-secondary success. Eduversal Partner Schools are committed to creating meaningful pathways that connect students with universities, employers, cultural institutions, and alumni networks, ensuring graduates are well-prepared for their chosen futures. The external partnerships and student pathways program supports the achievement of Schoolwide Learner Outcomes (SLOs), particularly Academic Excellence, Global Competence, Communication, and Innovation, while aligning with CIS Domain F (Community Partnerships) and WASC Category E (School Culture and Support for Student Learning)."
+          "text": "This section establishes the framework for developing and maintaining external partnerships that enhance student learning opportunities and prepare students for post-secondary success. Eduversal Partner Schools are committed to creating meaningful pathways that connect students with universities, employers, cultural institutions, and alumni networks, ensuring graduates are well-prepared for their chosen futures. The external partnerships and student pathways program supports the achievement of Schoolwide Learner Outcomes (SLOs), particularly Academic Excellence, Global Competence, Communication, and Innovation, while aligning with CIS Domain 9 (Community and Partnerships) and WASC Category C (Support for Student Personal and Academic Growth)."
         },
         {
           "type": "text",
@@ -102,7 +102,7 @@
         },
         {
           "type": "text",
-          "text": "Schools provide comprehensive support for major university application systems: UCAS (Universities and Colleges Admissions Service \\- UK)"
+          "text": "Schools provide comprehensive support for major university application systems: UCAS (Universities and Colleges Admissions Service - UK)"
         },
         {
           "type": "list",
@@ -164,7 +164,7 @@
             "English proficiency test preparation (IELTS, TOEFL, Duolingo) integrated into program",
             "Essay support with awareness of language development stages",
             "University recommendations that consider EAL context and progress",
-            "Information about foundation/pathway programs for students requiring additional preparation",
+            "Information about foundation/pathway programs for students requiring extra preparation",
             "Bilingual parent communication (English and Bahasa Indonesia)",
             "Connections with universities offering strong EAL support services"
           ],
@@ -471,6 +471,19 @@
             "Conflict of interest declaration required when alumni involved in procurement"
           ],
           "title": "23.5.5 Alumni and Business Relationships"
+        },
+        {
+          "type": "list",
+          "title": "Safeguarding due diligence for mentors, hosts, and external instructors",
+          "items": [
+            "Background check: every alumni mentor, work-experience supervisor, and external instructor who will have contact with students provides a current SKCK (police clearance) and two checkable references before any contact begins. Checks are renewed annually.",
+            "Written agreement: each external adult signs the school safeguarding agreement and completes a safeguarding briefing before their first session.",
+            "No unsupervised one-to-one contact, in person or in a private digital channel. Mentoring takes place in a school-monitored setting or on a school-monitored channel.",
+            "Monitored communication: all mentor-student communication runs through a school-approved channel with logs retained for the duration of the placement plus one year. Personal phone numbers, personal email, and personal social media are not used.",
+            "DSL sign-off: the Designated Safeguarding Lead approves every external placement and every mentor match before it starts, and keeps the register.",
+            "Concerns: any concern about an external adult is reported to the DSL immediately and handled under Section 9, including the allegations-against-adults procedure.",
+            "Work experience: placements additionally confirm the host employer's insurance cover, the student's working hours against Indonesian child-labour limits, and a named supervisor at the host site."
+          ]
         }
       ]
     },
@@ -574,7 +587,7 @@
           "items": [
             "Achievement of stated objectives",
             "Student participation and outcomes",
-            "Resource utilization and cost-effectiveness",
+            "Resource use and cost-effectiveness",
             "Alignment with school values and strategic priorities",
             "Stakeholder feedback (students, parents, staff)",
             "Safeguarding compliance",
@@ -646,7 +659,7 @@
         },
         {
           "type": "text",
-          "text": "Cambridge Learner Destination Tracking: Schools participate in Cambridge's destination tracking to contribute to global data on Cambridge learner outcomes."
+          "text": "Cambridge Learner Destination Tracking: Schools take part in Cambridge's destination tracking to contribute to global data on Cambridge learner outcomes."
         },
         {
           "type": "text",
@@ -729,11 +742,11 @@
         {
           "type": "list",
           "items": [
-            "Section 8 (Inclusion and EAL) \\- EAL support in university preparation",
-            "Section 11 (Admissions) \\- Transition support for incoming students",
-            "Section 12 (Staff Lifecycle) \\- College Counsellor professional development",
-            "Section 16 (Community Engagement) \\- Parent communication about pathways",
-            "Section 19 (Templates) \\- Partnership MOU template, counseling record forms"
+            "Section 8 (Inclusion and EAL) - EAL support in university preparation",
+            "Section 11 (Admissions) - Transition support for incoming students",
+            "Section 12 (Staff Lifecycle) - College Counsellor professional development",
+            "Section 16 (Community Engagement) - Parent communication about pathways",
+            "Section 19 (Templates) - Partnership MOU template, counseling record forms"
           ]
         },
         {

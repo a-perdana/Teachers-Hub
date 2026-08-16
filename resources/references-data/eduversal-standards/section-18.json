@@ -1,12 +1,17 @@
 {
   "id": "18",
   "title": "Accreditation Toolkit (CIS:WASC)",
-  "lastUpdated": "2025-01-17",
+  "lastUpdated": "2026-08-16",
   "subsections": [
     {
       "id": "18.1",
       "title": "INTRODUCTION AND RATIONALE",
       "content": [
+        {
+          "type": "text",
+          "title": "Status of this section",
+          "text": "WARNING - this section is incomplete. Maddes 18.5 to 18.11 (self-study process, stakeholder surveys, visit preparation, mini self-reviews, action plans, evidence checklist, and roles) have not yet been authored. The summary at the end of this section refers to them as though they were complete; they are not. A school preparing for a CIS or WASC visit should not treat this section as a full toolkit. Sections 18.2 to 18.4 (framework overview, crosswalk, evidence index) are written, but their CIS and WASC framework references are out of date - see the note below and Section 24 for the current mapping."
+        },
         {
           "type": "text",
           "text": "International accreditation through the Council of International Schools (CIS) and the Western Association of Schools and Colleges (WASC) represents more than a certificate on the wall—it is a comprehensive quality assurance framework that validates our commitment to continuous improvement and educational excellence. For Eduversal Partner Schools, pursuing CIS and WASC accreditation aligns directly with our mission to provide world-class Cambridge education integrated with Indonesian values and compliance requirements.",
@@ -33,7 +38,7 @@
         },
         {
           "type": "text",
-          "text": "The accreditation cycle typically spans 2-3 years from initial self-study to the accreditation team visit and final decision. However, schools should begin preparation at least 12-18 months before formal self-study begins to ensure systems, evidence, and stakeholder engagement mechanisms are firmly in place. Typical Accreditation Timeline: YEAR 1 (Pre-Self-Study Phase)"
+          "text": "ACS WASC operates a six-year accreditation cycle, with a mid-cycle visit before the end of the third year. The CIS cycle length should be confirmed directly with CIS before a school plans against it. However, schools should begin preparation at least 12-18 months before formal self-study begins to ensure systems, evidence, and stakeholder engagement mechanisms are firmly in place. Typical Accreditation Timeline: YEAR 1 (Pre-Self-Study Phase)"
         },
         {
           "type": "list",
@@ -100,7 +105,7 @@
           "type": "list",
           "items": [
             "Mission, vision, and values",
-            "Schoolwide Learning Outcomes (SLOs)",
+            "Schoolwide Learner Outcomes (SLOs)",
             "Strategic planning and goal-setting",
             "Alignment between stated purpose and actual practice"
           ],
@@ -231,7 +236,7 @@
         {
           "type": "list",
           "items": [
-            "Vision, mission, and Schoolwide Learning Outcomes (SLOs)",
+            "Vision, mission, and Schoolwide Learner Outcomes (SLOs)",
             "Governance and leadership structures",
             "School culture and support systems",
             "Professional development and collaboration",
@@ -302,7 +307,7 @@
         {
           "type": "list",
           "items": [
-            "Schoolwide Learning Outcomes (SLOs): All programs and practices should demonstrably support SLOs",
+            "Schoolwide Learner Outcomes (SLOs): All programs and practices should demonstrably support SLOs",
             "Data-driven culture: Schools must systematically collect, analyze, and act on data",
             "Continuous school improvement: Accreditation is a cycle, not a destination",
             "Critical areas for follow-up: Honest identification of areas needing improvement, with concrete action plans"
@@ -380,11 +385,16 @@
             "Innovation and Creativity",
             "Wellbeing"
           ],
-          "title": "Eduversal's Six Student Learning Outcomes (SLOs)"
+          "title": "Eduversal's Six Schoolwide Learner Outcomes (SLOs)"
         },
         {
           "type": "text",
           "text": "Throughout the accreditation process, we demonstrate how curriculum, instruction, assessment, student support, and all school operations systematically advance these SLOs."
+        },
+        {
+          "type": "text",
+          "title": "Framework currency - read before using the crosswalk",
+          "text": "The CIS and WASC references in this section describe superseded editions. CIS replaced its domain structure in November 2024 with 18 standards organised in three dimensions (Guiding Principles, Learning, Well-being); the nine-domain scheme used in 18.2 to 18.4 is two editions old. ACS WASC International Focus on Learning (2017 edition) has four categories, A to D - \"Focus on Learning\" is the name of the whole self-study process, not a category within it, and there is no Category E. Section 24 (School Appraisal Framework: International Alignment) carries the current mapping and is the source of truth for CIS and WASC vocabulary across this manual. Until this section is rebuilt, use Section 24."
         }
       ]
     },
@@ -417,7 +427,7 @@
           "type": "list",
           "items": [
             "Primary CIS domain(s): The main CIS domain(s) addressed",
-            "Secondary CIS domains: Additional domains with connections",
+            "Secondary CIS domains: Extra domains with connections",
             "Primary WASC category: The main WASC category addressed",
             "Key evidence/artifacts: Specific documents and records",
             "Responsible party: Who maintains and updates the evidence",
@@ -456,7 +466,7 @@
           "type": "list",
           "items": [
             "School vision, mission, and values statements",
-            "Six Student Learning Outcomes (SLOs) with definitions",
+            "Six Schoolwide Learner Outcomes (SLOs) with definitions",
             "Organizational chart (Yayasan → Principal → SLT)",
             "Board Terms of Reference (ToR) and governance calendar",
             "Board meeting agendas and minutes (last 3 years)",
@@ -500,7 +510,7 @@
           "type": "list",
           "items": [
             "School operational license (Izin Operasional)",
-            "NPSN (National School Principal Number) registration",
+            "NPSN (Nomor Pokok Sekolah Nasional - National School Identification Number) registration",
             "Dapodik and SIMPKB data entries and updates",
             "BOS (School Operational Assistance) funding documentation",
             "BAN-S/M accreditation certificate and reports",
@@ -596,7 +606,7 @@
             "Risk register with mitigation strategies",
             "Stakeholder consultation records (staff, parents, students, Board)",
             "PDSA (Plan-Do-Study-Act) cycle documentation",
-            "M\\&E (Monitoring and Evaluation) calendar",
+            "M&E (Monitoring and Evaluation) calendar",
             "Termly SIP progress reports to SLT and Board",
             "Action log for accreditation recommendations (integrated into SIP)"
           ]
@@ -607,7 +617,7 @@
         },
         {
           "type": "text",
-          "text": "CURRICULUM ARCHITECTURE (CAMBRIDGE \\+ NATIONAL) CIS Domains:"
+          "text": "CURRICULUM ARCHITECTURE (CAMBRIDGE + NATIONAL) CIS Domains:"
         },
         {
           "type": "list",
@@ -1230,7 +1240,7 @@
         },
         {
           "type": "text",
-          "text": "Responsible Party: Principal (overall), Accreditation Coordinator (day-to-day), Self-Study Steering Committee Storage Location: EduNav → Accreditation folder; Physical accreditation binders (evidence samples) Using the Crosswalk for Accreditation Preparation 1. Regular Review: During termly mini self-reviews (see Section 18.8), select one handbook section and verify that all listed evidence is current and accessible. 2. Gap Analysis: If evidence is missing or outdated, add to SIP action log with timeline and responsible party for completion. 3. Evidence Navigation: When writing the self-study or preparing for the visit, use this crosswalk to quickly locate relevant artifacts. 4. Continuous Improvement: Update the crosswalk annually as handbook sections evolve and new evidence is generated. This crosswalk demonstrates that accreditation is not separate from our daily work—it is the validation that we are doing what we say we do, with evidence to prove it."
+          "text": "Responsible Party: Principal (overall), Accreditation Coordinator (day-to-day), Self-Study Steering Committee Storage Location: EduNav → Accreditation folder; Physical accreditation binders (evidence samples) Using the Crosswalk for Accreditation Preparation 1. Regular Review: During termly mini self-reviews (see Section 18.8), select one handbook section and verify that all listed evidence is current and accessible. 2. Gap Analysis: If evidence is missing or outdated, add to SIP action log with timeline and responsible party for completion. 3. Evidence Navigation: When writing the self-study or preparing for the visit, use this crosswalk to quickly locate relevant artifacts. 4. Continuous Improvement: Update the crosswalk annually as handbook sections evolve and new evidence is generated. This crosswalk shows that accreditation is not separate from our daily work—it is the validation that we are doing what we say we do, with evidence to prove it."
         }
       ]
     },
@@ -1269,7 +1279,7 @@
           "type": "list",
           "items": [
             "School vision, mission, and values statements (current and approved by Board)",
-            "Six Student Learning Outcomes (SLOs) with detailed definitions",
+            "Six Schoolwide Learner Outcomes (SLOs) with detailed definitions",
             "Strategic Plan (3-5 years) with measurable goals",
             "Annual School Improvement Plan (SIP) linked to Strategic Plan",
             "Strategic Plan approval records (Board minutes)",
@@ -1937,7 +1947,7 @@
       "content": [
         {
           "type": "text",
-          "text": "[Content for this section would continue with detailed timeline, self-study structure, chapter templates, quality criteria, etc.]"
+          "text": "[NOT YET AUTHORED - this madde is a placeholder. Planned scope: detailed timeline, self-study structure, chapter templates, quality criteria, etc.. Do not rely on this section for accreditation preparation until it is written. See AUDIT-2026-08-16.md.]"
         }
       ]
     },
@@ -1947,7 +1957,7 @@
       "content": [
         {
           "type": "text",
-          "text": "[Content for this section would continue with survey design, focus groups, analysis methods, etc.]"
+          "text": "[NOT YET AUTHORED - this madde is a placeholder. Planned scope: survey design, focus groups, analysis methods, etc.. Do not rely on this section for accreditation preparation until it is written. See AUDIT-2026-08-16.md.]"
         }
       ]
     },
@@ -1957,7 +1967,7 @@
       "content": [
         {
           "type": "text",
-          "text": "[Content for this section would continue with logistics planning, visit schedule, team activities, etc.]"
+          "text": "[NOT YET AUTHORED - this madde is a placeholder. Planned scope: logistics planning, visit schedule, team activities, etc.. Do not rely on this section for accreditation preparation until it is written. See AUDIT-2026-08-16.md.]"
         }
       ]
     },
@@ -1967,7 +1977,7 @@
       "content": [
         {
           "type": "text",
-          "text": "[Content for this section would continue with termly rotation, review process, checklists, etc.]"
+          "text": "[NOT YET AUTHORED - this madde is a placeholder. Planned scope: termly rotation, review process, checklists, etc.. Do not rely on this section for accreditation preparation until it is written. See AUDIT-2026-08-16.md.]"
         }
       ]
     },
@@ -1977,7 +1987,7 @@
       "content": [
         {
           "type": "text",
-          "text": "[Content for this section would continue with SMART goals, action plan structure, integration with SIP, etc.]"
+          "text": "[NOT YET AUTHORED - this madde is a placeholder. Planned scope: SMART goals, action plan structure, integration with SIP, etc.. Do not rely on this section for accreditation preparation until it is written. See AUDIT-2026-08-16.md.]"
         }
       ]
     },
@@ -1987,7 +1997,7 @@
       "content": [
         {
           "type": "text",
-          "text": "[Content for this section would continue with comprehensive evidence checklist organized by category]"
+          "text": "[NOT YET AUTHORED - this madde is a placeholder. Planned scope: comprehensive evidence checklist organized by category. Do not rely on this section for accreditation preparation until it is written. See AUDIT-2026-08-16.md.]"
         }
       ]
     },
@@ -1997,7 +2007,7 @@
       "content": [
         {
           "type": "text",
-          "text": "[Content for this section would continue with detailed role descriptions for all stakeholders] ## CONCLUSION ACCREDITATION AS EMBEDDED EXCELLENCE Accreditation is not a destination—it is a journey of continuous improvement. By embedding accreditation practices into our daily operations through: ✓ Systematic evidence collection (Section 18.4) ✓ Comprehensive crosswalks linking practice to standards (Section 18.3) ✓ Meaningful stakeholder engagement (Section 18.6) ✓ Rigorous self-study (Section 18.5) ✓ Thorough visit preparation (Section 18.7) ✓ Termly mini self-reviews (Section 18.8) ✓ Action-oriented improvement cycles (Section 18.9) ...we ensure that accreditation becomes a natural validation of our commitment to excellence, not an overwhelming compliance burden. Eduversal Partner Schools pursue CIS and WASC accreditation because we believe in:"
+          "text": "[NOT YET AUTHORED - this madde is a placeholder. Planned scope: detailed role descriptions for all stakeholders. Do not rely on this section for accreditation preparation until it is written. See AUDIT-2026-08-16.md.] ## CONCLUSION ACCREDITATION AS EMBEDDED EXCELLENCE Accreditation is not a destination—it is a journey of continuous improvement. By embedding accreditation practices into our daily operations through: ✓ Systematic evidence collection (Section 18.4) ✓ Comprehensive crosswalks linking practice to standards (Section 18.3) ✓ Meaningful stakeholder engagement (Section 18.6) ✓ Rigorous self-study (Section 18.5) ✓ Thorough visit preparation (Section 18.7) ✓ Termly mini self-reviews (Section 18.8) ✓ Action-oriented improvement cycles (Section 18.9) ...we ensure that accreditation becomes a natural validation of our commitment to excellence, not an overwhelming compliance burden. Eduversal Partner Schools pursue CIS and WASC accreditation because we believe in:"
         },
         {
           "type": "list",
