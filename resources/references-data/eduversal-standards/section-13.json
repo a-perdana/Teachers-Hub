@@ -78,8 +78,8 @@
         },
         {
           "type": "text",
-          "title": "Verification status",
-          "text": "VERIFICATION PENDING — the Indonesian regulatory claims in this madde were updated on 2026-08-16 from general knowledge, not from the version-pinned research archive. UU No. 16/2001, UU No. 28/2004, and PP No. 63/2008 are not currently held in docs/research/. Confirm each against the salinan before this madde is relied on for compliance, and extract the source into docs/research/permendiknas/ so the claim becomes checkable (Common Mistake #45). See AUDIT-2026-08-16.md."
+          "title": "Source verification",
+          "text": "Verified against the source statutes on 2026-08-16. The Indonesian foundation law is UU No. 16/2001 tentang Yayasan, amended by UU No. 28/2004 (\"Perubahan Atas Undang-undang Nomor 16 Tahun 2001\"), with implementing regulation PP No. 63/2008. UU No. 35/2014, previously cited here as foundation law, is the amendment to the Child Protection Law and has no application to Yayasan governance. Sources: docs/research/permendiknas/no-16-2001-yayasan.json, no-28-2004-yayasan.json."
         }
       ]
     },
@@ -129,7 +129,7 @@
         {
           "type": "text",
           "title": "Verification status",
-          "text": "VERIFICATION PENDING — the Indonesian regulatory claims in this madde were updated on 2026-08-16 from general knowledge, not from the version-pinned research archive. UU No. 7/2021 (HPP) and the current PPN rate are not currently held in docs/research/. Confirm each against the salinan before this madde is relied on for compliance, and extract the source into docs/research/permendiknas/ so the claim becomes checkable (Common Mistake #45). See AUDIT-2026-08-16.md."
+          "text": "Partially verified on 2026-08-16. UU No. 7/2021 (Harmonisasi Peraturan Perpajakan) is confirmed as the governing amendment to the income tax and VAT regime. However, the applicable PPN rate and the extent of the exemption for educational services provided by a yayasan were NOT confirmed against the statute in this pass, and the surplus-reinvestment condition for income tax exemption was not checked. Confirm both with the school finance function or a tax adviser before relying on this madde. Note that educational services are broadly PPN-exempt in Indonesia, so any blanket statement of PPN liability here would be wrong."
         }
       ]
     },
