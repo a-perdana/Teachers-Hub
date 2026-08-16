@@ -1990,6 +1990,11 @@
             "EASE evaluation indicators for student wellbeing",
             "Teacher KPI on classroom management"
           ]
+        },
+        {
+          "type": "text",
+          "title": "Verification status",
+          "text": "VERIFICATION PENDING — the Indonesian regulatory claims in this madde were updated on 2026-08-16 from general knowledge, not from the version-pinned research archive. UU No. 12/2022 (TPKS) are not currently held in docs/research/. Confirm each against the salinan before this madde is relied on for compliance, and extract the source into docs/research/permendiknas/ so the claim becomes checkable (Common Mistake #45). See AUDIT-2026-08-16.md."
         }
       ]
     },
