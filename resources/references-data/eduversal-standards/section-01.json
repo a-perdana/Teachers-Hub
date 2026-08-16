@@ -1221,9 +1221,16 @@
           "text": ""
         },
         {
-          "type": "text",
-          "title": "International Baccalaureate (IB) — scope note",
-          "text": "Some schools in the Eduversal network run International Baccalaureate programmes alongside or instead of Cambridge pathways. These Academic Standards are written around the Cambridge pathway and Indonesian national requirements. Where a school runs an IB programme, IB programme standards and practices apply in addition to this manual, and the school follows IB requirements wherever the two differ on programme delivery, assessment, or authorisation. A dedicated IB section is a known gap in this edition."
+          "type": "list",
+          "title": "International Baccalaureate (IB) — how it sits alongside this manual",
+          "items": [
+            "Some schools in the Eduversal network run International Baccalaureate programmes. These Academic Standards are written around the Cambridge pathway and Indonesian national requirements, so an IB school reads this manual together with the IB framework, not instead of it.",
+            "The governing IB document is Programme Standards and Practices (published October 2018, updated April 2020). It is organised in four pillars: Purpose (01), Environment (02), Culture (03) and Learning (04).",
+            "Its nine standards are: Purpose (0101); Leadership and governance (0201); Student support (0202); Teacher support (0203); Culture through policy implementation (0301); Designing a coherent curriculum (0401); Students as lifelong learners (0402); Approaches to teaching (0403); Approaches to assessment (0404). Individual practices carry codes of the form 0101-01-0100.",
+            "Where this manual and IB Programme Standards and Practices differ on programme delivery, assessment, or authorisation, the IB requirements govern for the IB programme. Where they differ on Indonesian legal compliance, Indonesian law governs for both.",
+            "A dedicated IB section is a known gap in this edition. Until it is written, an IB school maps its practice to the nine standards above and keeps that mapping as evidence.",
+            "Source: docs/research/international/ib-programme-standards-and-practices-2020.json."
+          ]
         }
       ]
     }

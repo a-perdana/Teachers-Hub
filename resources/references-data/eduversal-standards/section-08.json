@@ -1237,6 +1237,18 @@
             "Schools may appeal denied applications with extra evidence",
             "Allow 4+ weeks for appeal processing"
           ]
+        },
+        {
+          "type": "list",
+          "title": "Extra time - what Cambridge actually allows (Cambridge Handbook 2026)",
+          "items": [
+            "Up to 25% extra time: the Handbook states this \"should meet the needs of most candidates\". It is the normal award, not a ceiling written into the rules.",
+            "Over 25% extra time: allowed only \"for candidates who have very significant and persistent difficulties and where there is a strong justification\". Do not assume a student is limited to 25% - apply for what the evidence supports.",
+            "Supervised rest breaks: a candidate granted extra time over 25% is entitled to take supervised rest breaks.",
+            "Reading and writing speed: candidates who need extra time because of below-average reading and writing speed will typically have results measured in tests of speed.",
+            "Syllabus coverage is unchanged: the candidate must still cover the content of the whole syllabus.",
+            "Source: Cambridge Handbook 2026, access arrangements section. Confirm against the current year Handbook before each series."
+          ]
         }
       ]
     },

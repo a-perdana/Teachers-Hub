@@ -395,6 +395,18 @@
           "type": "text",
           "title": "Framework currency - read before using the crosswalk",
           "text": "The CIS and WASC references in this section describe superseded editions. CIS replaced its domain structure in November 2024 with 18 standards organised in three dimensions (Guiding Principles, Learning, Well-being); the nine-domain scheme used in 18.2 to 18.4 is two editions old. ACS WASC International Focus on Learning (2017 edition) has four categories, A to D - \"Focus on Learning\" is the name of the whole self-study process, not a category within it, and there is no Category E. Section 24 (School Appraisal Framework: International Alignment) carries the current mapping and is the source of truth for CIS and WASC vocabulary across this manual. Until this section is rebuilt, use Section 24."
+        },
+        {
+          "type": "list",
+          "title": "Indonesian recognition of international accreditation bodies",
+          "items": [
+            "Kepmendikdasmen No. 73/O/2025, dated 3 June 2025, lists the international accreditation bodies recognised by the Ministry of Primary and Secondary Education.",
+            "The recognised bodies are: ACS-WASC (Accrediting Commission for Schools - Western Association of Schools and Colleges); CIS (Council of International Schools); ASIC (Accreditation Service for International Colleges); and ACSI (Association of Christian Schools International).",
+            "Diktum KEDUA of the decree states that these are \"Lembaga Akreditasi Internasional yang diakui oleh Kementerian Pendidikan Dasar dan Menengah\" - international accreditation bodies recognised by the Ministry.",
+            "This matters for two reasons. It confirms that a CIS or ACS-WASC accreditation is recognised by the Indonesian Ministry, and it means a school choosing an accreditor outside this list carries the burden of showing recognition separately.",
+            "National accreditation through BAN-S/M is a separate obligation and is not replaced by international accreditation.",
+            "Source: docs/research/permendiknas/no-73-2025-lembaga-akreditasi-internasional.json."
+          ]
         }
       ]
     },

@@ -333,6 +333,11 @@
             "Secure Storage Register entries",
             "Dispatch photos and manifests"
           ]
+        },
+        {
+          "type": "text",
+          "title": "Script despatch deadline - the binding rule",
+          "text": "Cambridge Handbook 2026: \"If you do not send scripts back to us on the day of the exam, or within five working days after the exam, we consider them to be late. For late scripts, we cannot guarantee results will be released on time. We may not accept late scripts and we may issue a NO RESULT (X grade) on candidates certificates.\" Eduversal sets its own tighter internal target so that the Cambridge deadline is never at risk, but five working days is the deadline that carries the consequence. Earlier editions of this manual gave 48 hours in this section and two weeks in Section 14; both were wrong."
         }
       ]
     },
@@ -570,7 +575,7 @@
           "type": "list",
           "items": [
             "The principal determines if malpractice occurred",
-            "If malpractice confirmed: Complete the Cambridge Report of Suspected Malpractice form (JF code) via CID",
+            "If malpractice confirmed: Report the suspected malpractice to Cambridge through the Cambridge Admin Hub incident-report route, using the current form named in the Cambridge Handbook",
             "Cambridge reviews the case and determines sanctions (warning, grade penalty, disqualification, ban from future exams)",
             "School sanctions (if applicable): Aligned with Student Conduct Policy (See Section 22)"
           ]
@@ -806,7 +811,7 @@
           "items": [
             "Purpose: Verify that all parts of the script were marked and totaled correctly",
             "Outcome: No change to marks (unless addition error found); very rare",
-            "Cost: Approx. $30 per component",
+            "Cost: Fee per the current Cambridge fee schedule issued to the Centre",
             "Deadline: Typically 3 weeks after results release",
             "Recommendation: Use only if candidate believes sections were not marked"
           ],
@@ -821,7 +826,7 @@
           "items": [
             "Purpose: Re-mark by a senior examiner to check for marking errors",
             "Outcome: Marks may go up, down, or stay the same (candidates must accept potential downgrade)",
-            "Cost: Approx. $100-$150 per component (refunded if grade changes)",
+            "Cost: Fee per the current Cambridge fee schedule issued to the Centre$150 per component (refunded if grade changes)",
             "Deadline: Typically 3 weeks after results release",
             "Recommendation: Use when performance is significantly lower than expected (e.g., predicted A, achieved D) and internal moderation suggests marking error"
           ]
@@ -835,7 +840,7 @@
           "items": [
             "Purpose: get a copy of the candidate's marked script for review",
             "Outcome: Useful for understanding examiner feedback; does NOT change the grade",
-            "Cost: Approx. $20 per component",
+            "Cost: Fee per the current Cambridge fee schedule issued to the Centre",
             "Recommendation: Use for learning purposes (improve future performance) rather than grade disputes"
           ]
         },
@@ -917,6 +922,23 @@
             "Digital archive of results (backed up quarterly)",
             "Destruction logs for question papers (with Principal authorization)"
           ]
+        },
+        {
+          "type": "list",
+          "title": "Appeals - the stage above an enquiry about results",
+          "items": [
+            "An appeal follows an enquiry about results. A candidate must already have received an enquiry outcome before an appeal can be made.",
+            "Stage 1 appeal: made in writing. The Head of Centre must sign and support it.",
+            "Only the centre may appeal. Cambridge does not accept appeals directly from parents, guardians or candidates. Associate Centres appeal through their Cambridge Associate.",
+            "Stage 2 follows if the Stage 1 outcome is disputed.",
+            "Tell parents this at results time: the school lodges any appeal on the candidate behalf, and the school controls the deadline.",
+            "Source: Cambridge Handbook 2026, Section 7 (Appeals). Confirm deadlines against the current Handbook each series."
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Access to Scripts",
+          "text": "Access to Scripts is a separate Cambridge service, not a numbered enquiry service. The Handbook describes it as new and being launched in phases: it allows a centre to download candidate exam scripts after results release, and Cambridge contacts the centre by email when it becomes available to them. Earlier editions of this manual listed script return as \"Service 3\", which conflated it with the enquiry services."
         }
       ]
     },
@@ -1201,6 +1223,11 @@
             "Quarterly budget vs. actual reports",
             "Board approval minutes"
           ]
+        },
+        {
+          "type": "text",
+          "title": "Unclaimed certificates",
+          "text": "Cambridge Handbook 2026: \"You must keep unclaimed certificates in a safe place for at least 12 months from the date we issue them.\" After that period they are returned to Cambridge. Record collection against the Certificate Distribution Log."
         }
       ]
     },

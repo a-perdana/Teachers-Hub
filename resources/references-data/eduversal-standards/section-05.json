@@ -599,6 +599,18 @@
             "Assessment measures progress against CP",
             "Documentation available for inspection (Dapodik, Dinas visits)"
           ]
+        },
+        {
+          "type": "list",
+          "title": "Indonesian national curriculum - the instruments in force",
+          "items": [
+            "Permendikbudristek No. 12/2024 tentang Kurikulum pada Pendidikan Anak Usia Dini, Jenjang Pendidikan Dasar, dan Jenjang Pendidikan Menengah is the governing curriculum regulation.",
+            "Permendikbudristek No. 8/2024 sets the Standar Isi (content standards) for the same jenjang.",
+            "Permendikdasmen No. 10/2025 sets the Standar Kompetensi Lulusan (SKL), replacing Permendikbudristek No. 5/2022.",
+            "Learning outcomes (Capaian Pembelajaran) are set by Keputusan Kepala BSKAP No. 32/2024; the Projek Penguatan Profil Pelajar Pancasila competencies and themes by Keputusan Kepala BSKAP No. 31/2024.",
+            "Schools running the Cambridge pathway meet these national requirements alongside the Cambridge curriculum; they are not alternatives to each other.",
+            "Sources: the corresponding files in docs/research/permendiknas/."
+          ]
         }
       ]
     },
