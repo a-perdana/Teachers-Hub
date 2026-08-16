@@ -288,7 +288,7 @@
         },
         {
           "type": "text",
-          "text": "Category E: Focus on Learning (Action Plan) [VERIFICATION PENDING - a later review found that ACS WASC Focus on Learning uses Categories A to D, with the action plan treated as a product of the self-study rather than a fifth category. That finding rests on a 2017 edition which is not held in Desktop/Eduversal Sources/, so this entry is flagged rather than removed. Obtain the current ACS WASC FOL manual before relying on either reading.]"
+          "text": "Schoolwide Action Plan - Chapter V of the self-study report, correlating to Task 5. This is NOT a fifth category. An earlier revision listed it as \"Category E\"; ACS WASC Focus on Learning, 2019 edition defines Categories A-D only and treats the action plan as a separate deliverable of the self-study. [VERIFICATION PENDING - a later review found that ACS WASC Focus on Learning uses Categories A to D, with the action plan treated as a product of the self-study rather than a fifth category. That finding rests on a 2017 edition which is not held in Desktop/Eduversal Sources/, so this entry is flagged rather than removed. Obtain the current ACS WASC FOL manual before relying on either reading.]"
         },
         {
           "type": "list",
@@ -665,7 +665,7 @@
         {
           "type": "list",
           "items": [
-            "Primary: Category A (Organization for Student Learning), Category E (Focus on Learning—Action Plan) [VERIFICATION PENDING - WASC category count. Section 20.5 states that ACS WASC International Focus on Learning (2017) defines Categories A to D only, and that school-culture content sits in Category C. No ACS WASC manual is held in Desktop/Eduversal Sources/, so that finding cannot be checked from this repo and this reference has been flagged rather than rewritten. Note also that the manual uses the Category E label for two different things - \"School Culture and Support\" in most places, \"Focus on Learning / Action Plan\" in Section 18 - so at most one can be correct. Obtain the current ACS WASC FOL manual, then clear every occurrence of this flag at once.]",
+            "Primary: Category A (Organization for Student Learning), plus the Schoolwide Action Plan (Chapter V / Task 5 - a self-study deliverable, not a category)",
             "Secondary: All categories (SIP is schoolwide)"
           ]
         },
@@ -1265,7 +1265,7 @@
         {
           "type": "list",
           "items": [
-            "Primary: Category E (Focus on Learning—monitoring improvement), Category A (Self-accountability) [VERIFICATION PENDING - WASC category count. Section 20.5 states that ACS WASC International Focus on Learning (2017) defines Categories A to D only, and that school-culture content sits in Category C. No ACS WASC manual is held in Desktop/Eduversal Sources/, so that finding cannot be checked from this repo and this reference has been flagged rather than rewritten. Note also that the manual uses the Category E label for two different things - \"School Culture and Support\" in most places, \"Focus on Learning / Action Plan\" in Section 18 - so at most one can be correct. Obtain the current ACS WASC FOL manual, then clear every occurrence of this flag at once.]",
+            "Primary: the Schoolwide Action Plan and its follow-up process (Chapter V / Task 5 - monitoring improvement), Category A (Self-accountability)",
             "Secondary: All categories (QA informs all areas)"
           ]
         },
@@ -2117,7 +2117,7 @@
             "Section 14: Data Protection, Records, and Information Systems → Evidence for CIS Domain 8, WASC Category D",
             "Section 15: Risk Management, Emergency Preparedness, and Business Continuity → Evidence for CIS Domain 8, WASC Category D",
             "Section 16: Parent, Student, and Community Engagement → Evidence for CIS Domain 9, WASC Categories A & C",
-            "Section 17: Quality Assurance and Internal Review → Evidence for CIS Domain 1, WASC Category E [VERIFICATION PENDING - WASC category count. Section 20.5 states that ACS WASC International Focus on Learning (2017) defines Categories A to D only, and that school-culture content sits in Category C. No ACS WASC manual is held in Desktop/Eduversal Sources/, so that finding cannot be checked from this repo and this reference has been flagged rather than rewritten. Note also that the manual uses the Category E label for two different things - \"School Culture and Support\" in most places, \"Focus on Learning / Action Plan\" in Section 18 - so at most one can be correct. Obtain the current ACS WASC FOL manual, then clear every occurrence of this flag at once.]",
+            "Section 17: Quality Assurance and Internal Review → Evidence for CIS Domain A, and for the WASC Schoolwide Action Plan follow-up process (Chapter V / Task 5)",
             "Section 19: Templates and Operational Tools → Practical tools for implementing accreditation practices",
             "Section 20: References and Compliance Library → CIS/WASC standards and guidance documents"
           ]

@@ -842,7 +842,7 @@
         {
           "type": "text",
           "title": "Note on this table",
-          "text": "The source image listed a sixth row, \"Category E: School Culture and Environment for Learning\". ACS WASC International Focus on Learning (2017) defines four categories only, A to D. Category E does not exist and has been removed; its school-climate content is folded into Category C, where the 2017 framework places it."
+          "text": "The source image listed a sixth row, \"Category E: School Culture and Environment for Learning\". It has been removed. Verified against ACS WASC Focus on Learning, 2019 edition (Focus on Learning: The Accreditation Manual, 186 pp.): the string \"Category E\" does not appear anywhere in the manual, which states that \"Categories A-D will form the basis of Chapter III of the self-study report\". School-culture content belongs to Category C, Support for Student Personal and Academic Growth. Note that page 40 of the manual introduces its own list with \"The five criteria categories are:\" and then lists four - that typo is the likely origin of the phantom Category E carried by earlier revisions of this handbook."
         },
         {
           "type": "table",

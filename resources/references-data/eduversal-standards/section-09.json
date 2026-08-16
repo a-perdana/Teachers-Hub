@@ -323,7 +323,7 @@
         {
           "type": "list",
           "items": [
-            "Category E: School Culture and Support for Student Personal and Academic Growth (safety, wellbeing, support systems) [VERIFICATION PENDING - WASC category count. Section 20.5 states that ACS WASC International Focus on Learning (2017) defines Categories A to D only, and that school-culture content sits in Category C. No ACS WASC manual is held in Desktop/Eduversal Sources/, so that finding cannot be checked from this repo and this reference has been flagged rather than rewritten. Note also that the manual uses the Category E label for two different things - \"School Culture and Support\" in most places, \"Focus on Learning / Action Plan\" in Section 18 - so at most one can be correct. Obtain the current ACS WASC FOL manual, then clear every occurrence of this flag at once.]"
+            "Category C: Support for Student Personal and Academic Growth (safety, wellbeing, support systems, school culture)"
           ]
         },
         {
@@ -3449,7 +3449,7 @@
         {
           "type": "list",
           "items": [
-            "Category E: School Culture and Support for Student Personal and Academic Growth [VERIFICATION PENDING - WASC category count. Section 20.5 states that ACS WASC International Focus on Learning (2017) defines Categories A to D only, and that school-culture content sits in Category C. No ACS WASC manual is held in Desktop/Eduversal Sources/, so that finding cannot be checked from this repo and this reference has been flagged rather than rewritten. Note also that the manual uses the Category E label for two different things - \"School Culture and Support\" in most places, \"Focus on Learning / Action Plan\" in Section 18 - so at most one can be correct. Obtain the current ACS WASC FOL manual, then clear every occurrence of this flag at once.]",
+            "Category C: Support for Student Personal and Academic Growth",
             "E1: Safe, respectful, equitable learning environment",
             "E2: Student support systems (counseling, intervention for at-risk students)",
             "E3: Policies and practices that ensure student wellbeing"

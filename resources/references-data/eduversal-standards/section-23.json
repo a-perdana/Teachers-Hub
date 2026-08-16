@@ -1403,7 +1403,7 @@
         {
           "type": "text",
           "title": "Note on this table",
-          "text": "The \"Category E: Culture\" row is flagged VERIFICATION PENDING. Section 20.5 states that ACS WASC International Focus on Learning (2017) defines Categories A to D only, with school-culture content sitting in Category C - but no ACS WASC manual is held in Desktop/Eduversal Sources/, so that finding cannot be checked from this repo. Obtain the current ACS WASC FOL manual before re-filing this row. The alumni-engagement and community-partnership evidence in that row is real and should be re-filed under an existing category (Category A: Organization, or Category D) when Section 24 mapping is refreshed. Categories C and A in the other two rows are valid."
+          "text": "The \"Category E: Culture\" row in the source image is wrong and has been re-filed under Category C. ACS WASC Focus on Learning, 2019 edition defines Categories A-D only - the string \"Category E\" does not appear anywhere in the manual - and school culture sits in Category C, Support for Student Personal and Academic Growth. The alumni-engagement and community-partnership evidence in that row is real and should be re-filed under an existing category (Category A: Organization, or Category D) when Section 24 mapping is refreshed. Categories C and A in the other two rows are valid."
         },
         {
           "type": "table",
@@ -1418,7 +1418,7 @@
               "Destination data, career development progression"
             ],
             [
-              "Category E: Culture",
+              "Category C: Support for Student Personal and Academic Growth",
               "Alumni engagement, community partnerships"
             ],
             [
