@@ -1439,7 +1439,7 @@
         {
           "type": "list",
           "items": [
-            "Data processed: Student assessment results, test responses, demographic data for EASE exams [Processor identity - verification pending 2026-08-17. Every AY 2026-2027 EASE source document names Latihan.id as the delivery platform for EASE Growth, EASE Assessment and EASE Academic, and the network integration authenticates against latihan.id. The legal entity operating Latihan.id has not been confirmed against this DPIA, and a DPIA that names the wrong processor is itself a data-protection defect. Confirm the operating company and, if it differs from the entity named here, re-run this DPIA before the next annual review.]",
+            "Data processed: Student assessment results, test responses, demographic data for EASE exams [Processor identity - verification pending 2026-08-17, narrowed. Every AY 2026-2027 EASE source document names Latihan.id as the delivery platform for all three EASE programmes, and the network integration authenticates against latihan.id. Whether Latihan.id is operated by the entity named here or by another company is not yet confirmed. This question is specific to the EASE platform; the EduNav processor is separately confirmed as PT. Global Zerone Digital (see Example DPIA 1 and clause 4.3.2). Confirm the operating company behind Latihan.id and, if it differs from the entity named here, re-run this DPIA before the next annual review.]",
             "Data location: Cloud servers (location specified in contract - verify Indonesian or acceptable international location)",
             "Security measures: Encryption, secure transmission protocols, limited access to exam data",
             "DPIA conducted: Yes (see Section 14.4 - EASE DPIA)"
@@ -2017,7 +2017,7 @@
         },
         {
           "type": "text",
-          "text": "Example DPIA 1: EduNav School Information System (SIS) Implementation Description: Implementation of cloud-based SIS (EduNav) to manage student enrollment, attendance, grades, behavior tracking, parent communication, staff records. Replaces previous paper-based and spreadsheet systems. Data Processed:"
+          "text": "Example DPIA 1: EduNav School Information System (SIS) Implementation [Processor confirmed: PT. Global Zerone Digital, per clause 4.3.2. A bilingual English / Bahasa Indonesia parent-facing Terms and Conditions and consent instrument for the Edunav App is held on file and is the consent mechanism for this processing.] Description: Implementation of cloud-based SIS (EduNav) to manage student enrollment, attendance, grades, behavior tracking, parent communication, staff records. Replaces previous paper-based and spreadsheet systems. Data Processed:"
         },
         {
           "type": "list",
