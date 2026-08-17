@@ -972,7 +972,10 @@ const { copyFiles, copyDir, resolveSrcDir } = require('./build-tools/copy-tree.j
   if (pigpSrc) copyFiles(
     pigpSrc,
     path.join(distDir, 'research', 'permendiknas'),
-    ['no-27-2010-pigp.json', 'no-10-2025-skl.json', 'no-16-2007.json'],
+    // 13/2007 is the PRINCIPAL standard (five competency dimensions); 16/2007
+    // is the teacher four-pillar one.
+    ['no-27-2010-pigp.json', 'no-10-2025-skl.json', 'no-16-2007.json',
+     'permendiknas-13-2007.json'],
     'dist/research/permendiknas'
   );
 
