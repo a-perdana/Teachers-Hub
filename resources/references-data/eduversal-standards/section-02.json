@@ -8,8 +8,109 @@
       "title": "Key Terms and Acronyms",
       "content": [
         {
-          "type": "text",
-          "text": "Term Definition EASE Evaluation of Achievement Standardized Exam DTP Development of Teaching Proficiency (delivered by Educamp / PT. Edukasi Universal Indonesia) EduNav Eduversal's School Information System EduOS Eduversal Olimpiade Sains (Science Olympiad preparation) Dapodik Data Pokok Pendidikan (National Education Database) NPSN Nomor Pokok Sekolah Nasional (National School ID Number) BAN-S/M National School Accreditation Board ANBK Asesmen Nasional Berbasis Komputer (Computer-Based National Assessment) PPKn Pendidikan Pancasila dan Kewarganegaraan (Civics Education) NISN Nomor Induk Siswa Nasional (National Student ID) NUPTK Nomor Unik Pendidik dan Tenaga Kependidikan (Teacher ID) NIK Nomor Induk Kependudukan (National ID Card Number) KITAS Kartu Izin Tinggal Terbatas (Limited Stay Permit) KITAP Kartu Izin Tinggal Tetap (Permanent Stay Permit) IMTA Izin Mempekerjakan Tenaga Kerja Asing (Work Permit) PPh 21 Personal Income Tax Withholding PPh 23 Withholding Tax on Services BPJS Badan Penyelenggara Jaminan Sosial (Social Security) SLO Schoolwide Learner Outcome GM General Manager SLT Senior Leadership Team DSL Designated Safeguarding Lead SIP School Improvement Plan PAS Penilaian Akhir Semester (End of Semester Assessment)"
+          "type": "table",
+          "headers": [
+            "Term",
+            "Definition"
+          ],
+          "rows": [
+            [
+              "EASE",
+              "Evaluation of Achievement Standardized Exam"
+            ],
+            [
+              "DTP",
+              "Development of Teaching Proficiency (delivered by Educamp / PT. Edukasi Universal Indonesia)"
+            ],
+            [
+              "EduNav",
+              "Eduversal's School Information System"
+            ],
+            [
+              "EduOS",
+              "Eduversal Olimpiade Sains (Science Olympiad preparation)"
+            ],
+            [
+              "Dapodik",
+              "Data Pokok Pendidikan (National Education Database)"
+            ],
+            [
+              "NPSN",
+              "Nomor Pokok Sekolah Nasional (National School ID Number)"
+            ],
+            [
+              "BAN-S/M",
+              "National School Accreditation Board"
+            ],
+            [
+              "ANBK",
+              "Asesmen Nasional Berbasis Komputer (Computer-Based National Assessment)"
+            ],
+            [
+              "PPKn",
+              "Pendidikan Pancasila dan Kewarganegaraan (Civics Education)"
+            ],
+            [
+              "NISN",
+              "Nomor Induk Siswa Nasional (National Student ID)"
+            ],
+            [
+              "NUPTK",
+              "Nomor Unik Pendidik dan Tenaga Kependidikan (Teacher ID)"
+            ],
+            [
+              "NIK",
+              "Nomor Induk Kependudukan (National ID Card Number)"
+            ],
+            [
+              "KITAS",
+              "Kartu Izin Tinggal Terbatas (Limited Stay Permit)"
+            ],
+            [
+              "KITAP",
+              "Kartu Izin Tinggal Tetap (Permanent Stay Permit)"
+            ],
+            [
+              "IMTA",
+              "Izin Mempekerjakan Tenaga Kerja Asing (Work Permit)"
+            ],
+            [
+              "PPh 21",
+              "Personal Income Tax Withholding"
+            ],
+            [
+              "PPh 23",
+              "Withholding Tax on Services"
+            ],
+            [
+              "BPJS",
+              "Badan Penyelenggara Jaminan Sosial (Social Security)"
+            ],
+            [
+              "SLO",
+              "Schoolwide Learner Outcome"
+            ],
+            [
+              "GM",
+              "General Manager"
+            ],
+            [
+              "SLT",
+              "Senior Leadership Team"
+            ],
+            [
+              "DSL",
+              "Designated Safeguarding Lead"
+            ],
+            [
+              "SIP",
+              "School Improvement Plan"
+            ],
+            [
+              "PAS",
+              "Penilaian Akhir Semester (End of Semester Assessment)"
+            ]
+          ]
         }
       ]
     },
