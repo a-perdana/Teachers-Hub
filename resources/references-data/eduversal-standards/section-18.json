@@ -519,16 +519,12 @@
           "title": "How to Use the Crosswalk Table"
         },
         {
-          "type": "text",
-          "text": "FRONT MATTER AND GOVERNANCE CHARTER CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain A (Purpose and direction), Domain B (Governance, ownership and leadership)",
             "Secondary: Domain B (Governance, ownership and leadership, B6) - policies"
           ],
-          "title": "HANDBOOK SECTION 1:"
+          "title": "HANDBOOK SECTION 1: Front Matter and Governance Charter — CIS Domains"
         },
         {
           "type": "text",
@@ -563,16 +559,12 @@
           "text": "Responsible Party: Principal, Board Secretary, Yayasan leadership Storage Location: EduNav → Governance folder; Board secure repository"
         },
         {
-          "type": "text",
-          "text": "LEGAL AND REGULATORY COMPLIANCE (INDONESIA) CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain B (Governance, ownership and leadership, B6) - regulatory compliance",
             "Secondary: Domain B (Governance, ownership and leadership) - legal oversight"
           ],
-          "title": "HANDBOOK SECTION 2:"
+          "title": "HANDBOOK SECTION 2: Legal and Regulatory Compliance (Indonesia) — CIS Domains"
         },
         {
           "type": "text",
@@ -608,16 +600,12 @@
           "text": "Responsible Party: Principal, Administrative Manager, Foundation Representative/General Manager Storage Location: EduNav → Compliance folder; Physical secure files (licenses)"
         },
         {
-          "type": "text",
-          "text": "CAMBRIDGE CENTRE COMPLIANCE CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain C (The curriculum), Domain D (Teaching and assessing for learning, D7-D8)",
             "Secondary: Domain G (Premises, facilities, technology systems and auxiliary services) - exam security"
           ],
-          "title": "HANDBOOK SECTION 3:"
+          "title": "HANDBOOK SECTION 3: Cambridge Centre Compliance — CIS Domains"
         },
         {
           "type": "text",
@@ -654,16 +642,12 @@
           "text": "Responsible Party: Principal (Centre Coordinator), Exams Officer, Subject Leaders Storage Location: EduNav → Cambridge folder; Secure physical exam storage room logs"
         },
         {
-          "type": "text",
-          "text": "STRATEGIC PLANNING AND SCHOOL IMPROVEMENT CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain A (Purpose and direction)",
             "Secondary: All domains (SIP addresses all areas of school operation)"
           ],
-          "title": "HANDBOOK SECTION 4:"
+          "title": "HANDBOOK SECTION 4: Strategic Planning and School Improvement — CIS Domains"
         },
         {
           "type": "text",
@@ -699,16 +683,12 @@
           "text": "Responsible Party: Principal, Senior Leadership Team Storage Location: EduNav → Strategic Planning folder; Board reports archive"
         },
         {
-          "type": "text",
-          "text": "CURRICULUM ARCHITECTURE (CAMBRIDGE + NATIONAL) CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain C (The curriculum)",
             "Secondary: Domain D (Teaching and assessing for learning, D1-D6), Domain E (Wellbeing) - EAL"
           ],
-          "title": "HANDBOOK SECTION 5:"
+          "title": "HANDBOOK SECTION 5: Curriculum Architecture (Cambridge + National) — CIS Domains"
         },
         {
           "type": "text",
@@ -743,16 +723,12 @@
           "text": "Responsible Party: Principal, Director of Primary/Secondary Education, Subject Leaders Storage Location: EduNav → Curriculum folder; Subject Leader archives"
         },
         {
-          "type": "text",
-          "text": "ASSESSMENT, MODERATION, AND REPORTING CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain D (Teaching and assessing for learning, D7-D8)",
             "Secondary: Domain D (Teaching and assessing for learning, D1-D6) - data use"
           ],
-          "title": "HANDBOOK SECTION 6:"
+          "title": "HANDBOOK SECTION 6: Assessment, Moderation, and Reporting — CIS Domains"
         },
         {
           "type": "text",
@@ -791,16 +767,12 @@
           "text": "Responsible Party: Principal, Assessment Coordinator, Subject Leaders, Exams Officer Storage Location: EduNav → Assessment folder; Secure exam results archive"
         },
         {
-          "type": "text",
-          "text": "TEACHING QUALITY AND PROFESSIONAL PRACTICE CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain D (Teaching and assessing for learning, D1-D6)",
             "Secondary: Domain F (Staffing)"
           ],
-          "title": "HANDBOOK SECTION 7:"
+          "title": "HANDBOOK SECTION 7: Teaching Quality and Professional Practice — CIS Domains"
         },
         {
           "type": "text",
@@ -837,16 +809,12 @@
           "text": "Responsible Party: Principal, Heads of Department, Senior Teachers Storage Location: EduNav → Teaching Quality folder; Professional development archives"
         },
         {
-          "type": "text",
-          "text": "INCLUSION, EAL, AND LEARNING SUPPORT (MTSS/RTI) CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain E (Wellbeing)",
             "Secondary: Domain D (Teaching and assessing for learning, D1-D6) - differentiation"
           ],
-          "title": "HANDBOOK SECTION 8:"
+          "title": "HANDBOOK SECTION 8: Inclusion, EAL, and Learning Support (MTSS/RTI) — CIS Domains"
         },
         {
           "type": "text",
@@ -884,16 +852,12 @@
           "text": "Responsible Party: Principal, SENCO/Learning Support Coordinator, EAL Coordinator Storage Location: EduNav → Student Support folder; Confidential student files (restricted access)"
         },
         {
-          "type": "text",
-          "text": "SAFEGUARDING, CHILD PROTECTION, AND WELLBEING CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain E (Wellbeing), Domain G (Premises, facilities, technology systems and auxiliary services) - health & safety",
             "Secondary: Domain F (Staffing) - safeguarding training"
           ],
-          "title": "HANDBOOK SECTION 9:"
+          "title": "HANDBOOK SECTION 9: Safeguarding, Child Protection, and Wellbeing — CIS Domains"
         },
         {
           "type": "text",
@@ -934,16 +898,12 @@
           "text": "Responsible Party: Principal (policy owner), DSL, School Nurse, HR (recruitment) Storage Location: EduNav → Safeguarding folder (restricted access); HR secure files; Health clinic records"
         },
         {
-          "type": "text",
-          "text": "CAMBRIDGE EXAMINATIONS MANAGEMENT CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain D (Teaching and assessing for learning, D7-D8) - exam integrity",
             "Secondary: Domain G (Premises, facilities, technology systems and auxiliary services) - secure facilities"
           ],
-          "title": "HANDBOOK SECTION 10:"
+          "title": "HANDBOOK SECTION 10: Cambridge Examinations Management — CIS Domains"
         },
         {
           "type": "text",
@@ -980,16 +940,12 @@
           "text": "Responsible Party: Principal (Centre Coordinator), Exams Officer Storage Location: EduNav → Cambridge Exams folder; Secure physical exam storage with access logs"
         },
         {
-          "type": "text",
-          "text": "ADMISSIONS, ENROLLMENT, AND MARKETING ETHICS CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain H (Community and home partnerships) - admissions transparency",
             "Secondary: Domain E (Wellbeing) - equitable access"
           ],
-          "title": "HANDBOOK SECTION 11:"
+          "title": "HANDBOOK SECTION 11: Admissions, Enrollment, and Marketing Ethics — CIS Domains"
         },
         {
           "type": "text",
@@ -1024,16 +980,12 @@
           "text": "Responsible Party: Principal, Admissions Officer, Marketing Coordinator Storage Location: EduNav → Admissions folder; Marketing compliance files"
         },
         {
-          "type": "text",
-          "text": "STAFF LIFECYCLE (RECRUITMENT, INDUCTION, APPRAISAL, PD, WELLBEING) CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain F (Staffing)",
             "Secondary: Domain B (Governance, ownership and leadership) - HR oversight"
           ],
-          "title": "HANDBOOK SECTION 12:"
+          "title": "HANDBOOK SECTION 12: Staff Lifecycle (Recruitment, Induction, Appraisal, PD, Wellbeing) — CIS Domains"
         },
         {
           "type": "text",
@@ -1071,16 +1023,12 @@
           "text": "Responsible Party: Principal, HR Manager, Professional Development Coordinator Storage Location: EduNav → HR folder (restricted access); Staff personnel files"
         },
         {
-          "type": "text",
-          "text": "OPERATIONS, FINANCE, AND RESOURCES CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain G (Premises, facilities, technology systems and auxiliary services)",
             "Secondary: Domain B (Governance, ownership and leadership) - financial oversight"
           ],
-          "title": "HANDBOOK SECTION 13:"
+          "title": "HANDBOOK SECTION 13: Operations, Finance, and Resources — CIS Domains"
         },
         {
           "type": "text",
@@ -1117,16 +1065,12 @@
           "text": "Responsible Party: Principal, Finance Manager, Facilities Manager Storage Location: EduNav → Operations folder; Finance secure repository"
         },
         {
-          "type": "text",
-          "text": "DATA PROTECTION, RECORDS, AND INFORMATION SYSTEMS CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain G (Premises, facilities, technology systems and auxiliary services) - data security",
             "Secondary: Domain D (Teaching and assessing for learning, D7-D8) - secure data handling"
           ],
-          "title": "HANDBOOK SECTION 14:"
+          "title": "HANDBOOK SECTION 14: Data Protection, Records, and Information Systems — CIS Domains"
         },
         {
           "type": "text",
@@ -1162,16 +1106,12 @@
           "text": "Responsible Party: Principal, Data Protection Officer (if designated), IT Manager Storage Location: EduNav → Data Protection folder; IT security logs"
         },
         {
-          "type": "text",
-          "text": "RISK MANAGEMENT, EMERGENCY PREPAREDNESS, AND BUSINESS CONTINUITY CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain G (Premises, facilities, technology systems and auxiliary services) - risk and safety",
             "Secondary: Domain B (Governance, ownership and leadership) - risk oversight"
           ],
-          "title": "HANDBOOK SECTION 15:"
+          "title": "HANDBOOK SECTION 15: Risk Management, Emergency Preparedness, and Business Continuity — CIS Domains"
         },
         {
           "type": "text",
@@ -1208,16 +1148,12 @@
           "text": "Responsible Party: Principal, Health and Safety Officer, Risk Management Committee Storage Location: EduNav → Risk Management folder; Emergency response plans (physical copies in key locations)"
         },
         {
-          "type": "text",
-          "text": "PARENT, STUDENT, AND COMMUNITY ENGAGEMENT CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain H (Community and home partnerships)",
             "Secondary: Domain A (Purpose and direction) - stakeholder input"
           ],
-          "title": "HANDBOOK SECTION 16:"
+          "title": "HANDBOOK SECTION 16: Parent, Student, and Community Engagement — CIS Domains"
         },
         {
           "type": "text",
@@ -1254,16 +1190,12 @@
           "text": "Responsible Party: Principal, Communications Coordinator, Community Partnerships Coordinator Storage Location: EduNav → Community Engagement folder; Communications archives"
         },
         {
-          "type": "text",
-          "text": "QUALITY ASSURANCE AND INTERNAL REVIEW CIS Domains:"
-        },
-        {
           "type": "list",
           "items": [
             "Primary: Domain A (Purpose and direction) - continuous improvement",
             "Secondary: All domains (QA reviews all areas)"
           ],
-          "title": "HANDBOOK SECTION 17:"
+          "title": "HANDBOOK SECTION 17: Quality Assurance and Internal Review — CIS Domains"
         },
         {
           "type": "text",
