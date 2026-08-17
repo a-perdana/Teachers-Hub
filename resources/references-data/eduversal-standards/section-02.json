@@ -2417,11 +2417,11 @@
         {
           "type": "process",
           "steps": [
-            "Cycle-by-cycle participation rates",
-            "School-wide trends across all three windows",
+            "Participation rates per EASE Week",
+            "School-wide trends across the year's EASE Weeks",
             "Comparison to network averages",
             "Interventions implemented based on data",
-            "Impact evidence (growth from the Term 1 window to the Term 3 window)"
+            "Impact evidence (growth from the Semester 1 sitting to the Semester 2 sitting)"
           ]
         },
         {
@@ -2936,12 +2936,12 @@
         },
         {
           "type": "text",
-          "text": "Purpose: EASE is Eduversal's flagship standardized assessment program designed to measure student progress, evaluate teaching effectiveness, and provide data-driven insights for continuous improvement across all partner schools. It is one of the most prestigious services Eduversal provides to schools as part of the Quality Management System (QMS). Program Overview: EASE is a comprehensive, computer-based assessment platform that evaluates student achievement in both Cambridge curriculum and Indonesian national subjects. It provides detailed analytics to support personalized learning, inform instructional decisions, and prepare schools for accreditation. Provider: PT. Edukasi Aditama Indonesia (Edutama), an Eduversal partner company, delivers EASE using advanced technology and assessment expertise. Key Features: Four Annual Assessment Cycles:"
+          "text": "Purpose: EASE is Eduversal's flagship standardized assessment program designed to measure student progress, evaluate teaching effectiveness, and provide data-driven insights for continuous improvement across all partner schools. It is one of the most prestigious services Eduversal provides to schools as part of the Quality Management System (QMS). Program Overview: EASE is a comprehensive, computer-based assessment platform that evaluates student achievement in both Cambridge curriculum and Indonesian national subjects. It provides detailed analytics to support personalized learning, inform instructional decisions, and prepare schools for accreditation. Provider: PT. Edukasi Aditama Indonesia (Edutama), an Eduversal partner company, delivers EASE using advanced technology and assessment expertise. Key Features: three programs, each on its own cadence:"
         },
         {
           "type": "process",
           "steps": [
-            "EASE is conducted three times per academic year for core subjects (Term 1 / Term 2 / Term 3 windows; see 5.13)",
+            "EASE Growth runs twice a year for Secondary (Grades 7-12), once per semester, and once a year for Primary (Grades 4-6) in Semester 2; EASE Assessment runs continuously through the year as Teacher-Paced Tests (every 1-3 chapters) plus a Synchronized Test at the end of each semester (see 5.13)",
             "Spaced throughout the year to track progress and inform intervention",
             "Results available immediately after each cycle via online platform"
           ],
@@ -3754,7 +3754,7 @@
         {
           "type": "list",
           "items": [
-            "EASE reports (all three windows) - individual, class, and school-wide",
+            "EASE reports (every sitting in the year) - individual, class, and school-wide",
             "EASE data analysis meeting minutes and action plans",
             "Intervention tracking logs informed by EASE",
             "ANBK results and SIP integration",
