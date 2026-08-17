@@ -848,61 +848,82 @@
         },
         {
           "type": "text",
-          "text": "Quarterly Review Cycle KPIs are formally reviewed four times per academic year, aligned with the quarter structure and EASE exam cycle: Quarter 1 Review (September/early October) Focus: Academic year launch and baseline establishment"
+          "title": "Two kinds of review",
+          "text": "KPIs are reviewed four times a year, on the rhythm of the four EASE Weeks — but the four reviews are not the same exercise, because the four weeks do not produce the same data. EASE Weeks 1 and 3 fall mid-semester and produce EASE Growth results: reasoning and literacy, independent of the curriculum, carrying no report-card weight. EASE Weeks 2 and 4 fall at semester-end and produce Synchronized Test results: subject content, counting toward the student's grade. The review cycle follows that difference."
         },
         {
-          "type": "process",
-          "steps": [
-            "Verification that SIP initiatives have launched as planned",
-            "Assessment of early implementation fidelity and troubleshooting",
-            "Analysis of EASE 1 results and initial progress indicators",
-            "Attendance, behavioral, and engagement patterns in first quarter",
-            "Identification of early concerns requiring intervention or resource reallocation"
+          "type": "table",
+          "title": "The four KPI reviews",
+          "headers": [
+            "Review",
+            "Timing",
+            "Status",
+            "EASE data available",
+            "Scope"
+          ],
+          "rows": [
+            [
+              "Quarter 1",
+              "September / early October",
+              "Interim check-in",
+              "EASE Week 1 — Growth",
+              "Growth trend only"
+            ],
+            [
+              "Quarter 2",
+              "December / early January",
+              "Full review",
+              "EASE Week 2 — Synchronized Test",
+              "All six KPI domains"
+            ],
+            [
+              "Quarter 3",
+              "April",
+              "Interim check-in",
+              "EASE Week 3 — Growth",
+              "Growth trend only"
+            ],
+            [
+              "Quarter 4",
+              "May / June",
+              "Full review",
+              "EASE Week 4 — Synchronized Test",
+              "All six KPI domains"
+            ]
           ]
         },
         {
           "type": "text",
-          "text": "Quarter 2 Review (December/early January) Focus: Semester 1 completion and mid-year assessment"
+          "title": "Interim check-ins (Quarters 1 and 3)",
+          "text": "An interim check-in looks only at the EASE Growth data from that week — the trend in Mathematical Reasoning, Science Literacy and English Reading. It is an early signal, not a decision point."
         },
         {
-          "type": "process",
-          "steps": [
-            "Analysis of EASE 2 results and semester 1 final assessments",
-            "Progress toward annual targets—on track, at risk, or exceeding expectations",
-            "Effectiveness of interventions introduced in Q1",
-            "Staff feedback on SIP initiative implementation challenges and successes",
-            "Budget review and potential reallocation to support struggling priorities",
-            "Adjustment decisions for Semester 2"
+          "type": "list",
+          "items": [
+            "No formal red / amber / green KPI status is assigned. The dashboard status set at the previous full review stands until the next one.",
+            "Findings are not reported to the Yayasan Board. The check-in is internal monitoring at Senior Leadership Team and Principal level.",
+            "Grades 4-6 sit EASE Growth once a year, in Semester 2, so they have no Growth data at the Quarter 1 check-in. Record \"no data this cycle; assessed at the next full review\" — this is the expected pattern for those grades, not a gap to escalate.",
+            "Where the trend is falling, the response is a teaching or support adjustment inside the department, not a KPI re-rating."
           ]
         },
         {
           "type": "text",
-          "text": "Quarter 3 Review (March/early April) Focus: Acceleration toward year-end targets and exam preparation"
+          "title": "Full reviews (Quarters 2 and 4)",
+          "text": "A full review assesses all six KPI domains — Academic Excellence, Teaching Quality, Inclusion, Operational, Stakeholder Engagement, and Strategic Plan Implementation — against the Synchronized Test results together with the other end-of-semester indicators (attendance, behaviour, engagement, SIP implementation evidence, stakeholder feedback)."
         },
         {
-          "type": "process",
-          "steps": [
-            "Assessment of EASE 3 results and identification of students/areas requiring intensive support",
-            "Analysis of predictive data for Cambridge examinations and checkpoints",
-            "Acceleration strategies for initiatives behind schedule",
-            "Preliminary identification of successes to sustain and challenges to address in following year's SIP",
-            "Beginning of next year's SIP development process incorporating current year learnings"
+          "type": "list",
+          "items": [
+            "The formal red / amber / green status is assigned here, for every domain.",
+            "Results are reported to the Yayasan Board and feed the quarterly Board meeting (see 4.8.2 Governance Reporting).",
+            "Quarter 2 additionally reviews progress toward annual targets — on track, at risk, or exceeding — and reallocates resource where a target is at risk with a semester still to run.",
+            "Quarter 4 is the summative review: achievement against all annual KPI targets, evaluation of SIP delivery, and the evidence base for setting the next year's targets."
           ]
         },
         {
           "type": "text",
-          "text": "Quarter 4 Review (June/July) Focus: Summative evaluation and transition to new cycle"
-        },
-        {
-          "type": "process",
-          "steps": [
-            "full analysis of EASE 4 and year-end outcomes against all KPI targets",
-            "Evaluation of SIP achievement—quantitative goal attainment and qualitative implementation quality",
-            "Identification of lessons learned, effective practices to codify, and areas requiring continued focus",
-            "Final reporting to Yayasan Board and Eduversal leadership",
-            "Integration of findings into next year's SIP and ongoing Strategic Plan implementation",
-            "Celebration of successes and recognition of staff contributions to improvement"
-          ]
+          "title": "Note on this cycle",
+          "text": "Revised 2026-08-17. The cycle previously ran four equivalent reviews, each tied to one of four administrations of a single subject-based EASE exam. Under the AY 2026-2027 model the four EASE Weeks do different things, so two of the four reviews no longer have subject-attainment data to assess. Rather than ask them to rate KPI domains on a curriculum-independent reasoning benchmark, the cycle now distinguishes interim check-ins from full reviews. Decided by the Academic Board, 2026-08-17. Review dates follow the confirmed EASE Week dates; Quarter 4 moved from June/July to May/June because the academic year closes in June."
         },
         {
           "type": "text",
@@ -1199,7 +1220,7 @@
           "type": "list",
           "items": [
             "Monthly Progress Updates: Principal submits brief progress reports to GM on SIP implementation and Appraisal action plan",
-            "EASE Exam Analysis: Quarterly review of student assessment results (EASE 1, 2, 3, 4) informing instructional adjustments",
+            "EASE Analysis: review of student assessment results at each EASE Week, informing instructional adjustments",
             "Internal School-Based Appraisals: Ongoing lesson observations and teacher appraisals conducted by school leadership (HODs, Principal) using same frameworks",
             "EduNav Dashboard Monitoring: Real-time tracking of KPIs and institutional performance indicators",
             "Mid-Year Review: GM conducts comprehensive progress review (typically February/March) assessing implementation of Appraisal recommendations"
@@ -1329,54 +1350,57 @@
         },
         {
           "type": "text",
-          "text": "EASE Exam Cycle Monitoring — EASE runs three times per year (Term 1 / Term 2 / Term 3 windows; see 5.13 and 6.3). Results provide systematic data for monitoring: EASE 1 (Quarter 1 - August/September):"
+          "text": "EASE Monitoring — the four EASE Weeks give the school four scheduled points at which assessment data enters the monitoring cycle. Two carry EASE Growth and two carry the Synchronized Test, so they answer different questions (see 6.4 for the calendar and 6.14 for the programme structure)."
+        },
+        {
+          "type": "text",
+          "text": "EASE Week 1 — Semester 1, mid-semester (EASE Growth):"
         },
         {
           "type": "process",
           "steps": [
-            "Baseline assessment of student achievement at start of academic year",
-            "Identification of students requiring intervention",
-            "Early indicators of curriculum implementation effectiveness",
-            "Establishes individual student progress targets"
+            "Baseline reading of reasoning and literacy for the year, Grades 7-12",
+            "Early identification of students whose thinking skills need support before subject grades reflect it",
+            "Establishes the Semester 1 point of comparison for each student's growth trajectory",
+            "Grades 4-6 do not sit EASE Growth this semester; their annual sitting falls in Semester 2"
           ]
         },
         {
           "type": "text",
-          "text": "EASE 2 (Quarter 2 - November/December):"
+          "text": "EASE Week 2 — Semester 1, semester-end (Synchronized Test):"
         },
         {
           "type": "process",
           "steps": [
-            "End of Semester 1 progress assessment",
-            "Evaluation of intervention effectiveness for struggling students",
+            "End of Semester 1 subject-attainment assessment across the network",
+            "Evaluation of intervention effectiveness for students identified earlier in the semester",
             "Adjustment of instructional strategies before Semester 2",
-            "Informs parent reporting and semester break planning"
+            "Informs parent reporting and the semester-break planning cycle"
           ]
         },
         {
           "type": "text",
-          "text": "EASE 3 (Quarter 3 - February/March):"
+          "text": "EASE Week 3 — Semester 2, mid-semester (EASE Growth):"
         },
         {
           "type": "process",
           "steps": [
-            "Mid-Semester 2 progress check",
-            "Critical assessment before Cambridge external examinations",
-            "Targeted support for Cambridge Checkpoint/IGCSE/AS-A Level students",
-            "Final intervention opportunities before high-stakes assessments"
+            "Second Growth sitting for Grades 7-12, compared against the Semester 1 result to measure growth rather than a fixed score",
+            "Annual Growth sitting for Grades 4-6, establishing the Primary baseline, progress or exit profile for that year group",
+            "Signals where reasoning or literacy is limiting attainment ahead of the Cambridge external examinations"
           ]
         },
         {
           "type": "text",
-          "text": "EASE 4 (Quarter 4 - May/June):"
+          "text": "EASE Week 4 — Semester 2, semester-end (Synchronized Test):"
         },
         {
           "type": "process",
           "steps": [
-            "End-of-academic-year summative assessment",
+            "End-of-year subject-attainment assessment across the network",
             "Comprehensive evaluation of annual progress against targets",
-            "Data informing promotion decisions and summer intervention",
-            "Foundation for next academic year's SIP development and class placement"
+            "Data informing promotion decisions and holiday intervention",
+            "Foundation for the next academic year's SIP development and class placement"
           ]
         },
         {

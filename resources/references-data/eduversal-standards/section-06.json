@@ -192,7 +192,7 @@
         {
           "type": "text",
           "title": "Correction history",
-          "text": "This calendar previously scheduled numbered EASE cycles across the year, and a later note reinterpreted them as term windows. Both predate the AY 2026-2027 model. Corrected 2026-08-17: the EASE rows now show the four EASE Weeks — two per semester. Weeks 1 and 3 sit mid-semester and normal lessons continue; Weeks 2 and 4 sit at semester-end and normal lessons stop for the Synchronized Test. That distinction matters for timetabling and the old rows could not express it. Rebuilt 2026-08-17 from EASE Framework 26-27 s.5 (p.10); the week structure is derived from that source, not transcribed from the original calendar image."
+          "text": "This calendar previously scheduled numbered EASE cycles across the year, and a later note reinterpreted them as term windows. Both predate the AY 2026-2027 model. Corrected 2026-08-17: the EASE rows now show the four EASE Weeks — two per semester. Weeks 1 and 3 sit mid-semester and normal lessons continue; Weeks 2 and 4 sit at semester-end and normal lessons stop for the Synchronized Test. That distinction matters for timetabling and the old rows could not express it. Rebuilt 2026-08-17 from EASE Framework 26-27 s.5 (p.10); the week structure is derived from that source, not transcribed from the original calendar image. Two scheduling collisions follow from placing the EASE Weeks on their confirmed dates, and both need an Academic Board decision rather than a documentation fix. EASE Week 4 (Semester 2, Week 19, 10-14 May) falls inside the Cambridge external examination window at Weeks 18-20: a week that suspends normal teaching cannot sit on top of the external exam fortnight for Grades 11-13, so either the Synchronized Test runs on a different week for those grades or they are exempted that cycle. EASE Week 1 (Semester 1, Week 12, 28 Sep - 4 Oct) coincides with ANBK where a school is scheduled for it, affecting Grades 5, 8 and 11 in the sample year."
         },
         {
           "type": "table",
@@ -211,12 +211,6 @@
               "Check for learning retention, re-teach as needed"
             ],
             [
-              "Week 4",
-              "EASE Week 3 (mid-semester)",
-              "4-12",
-              "EASE Growth sitting, Semester 2; lessons continue as normal"
-            ],
-            [
               "Week 8-9",
               "PTS (Mid-Term Exams)",
               "7-13",
@@ -229,10 +223,10 @@
               "Mid-year check-in"
             ],
             [
-              "Week 22-23",
-              "EASE Week 4 (semester-end)",
-              "All",
-              "Synchronized Test, Semester 2; normal lessons stop for the week"
+              "Week 13",
+              "EASE Week 3 (mid-semester)",
+              "4-12",
+              "EASE Growth sitting, Semester 2 (29 Mar - 2 Apr); lessons continue as normal"
             ],
             [
               "Week 14-16",
@@ -245,6 +239,12 @@
               "Cambridge External Exams (May/June series)",
               "11, 12, 13 (IGCSE, AS, A)",
               "Official Cambridge exams (high-stakes)"
+            ],
+            [
+              "Week 19",
+              "EASE Week 4 (semester-end)",
+              "All",
+              "Synchronized Test, Semester 2 (10 - 14 May); normal lessons stop for the week"
             ],
             [
               "Week 22-23",
@@ -289,10 +289,10 @@
               "Summative assessment of Term 1 content (first half of term)"
             ],
             [
-              "Week 10",
+              "Week 12",
               "EASE Week 1 (mid-semester)",
               "4-12",
-              "EASE Growth sitting, Semester 1; lessons continue as normal"
+              "EASE Growth sitting, Semester 1 (28 Sep - 4 Oct); lessons continue as normal"
             ],
             [
               "Week 12",
@@ -308,12 +308,6 @@
             ],
             [
               "Week 18-19",
-              "EASE Week 2 (semester-end)",
-              "All",
-              "Synchronized Test, Semester 1; normal lessons stop for the week"
-            ],
-            [
-              "Week 18-19",
               "PAS (Penilaian Akhir Semester) - End-of-Term Exams",
               "7-13",
               "Summative assessment of full Term 1 content"
@@ -323,6 +317,12 @@
               "Report Card Distribution, Parent-Teacher Conferences",
               "All",
               "Communicate progress, set goals"
+            ],
+            [
+              "Week 22",
+              "EASE Week 2 (semester-end)",
+              "All",
+              "Synchronized Test, Semester 1 (7 - 13 Dec); normal lessons stop for the week"
             ]
           ]
         },
