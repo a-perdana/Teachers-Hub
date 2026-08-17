@@ -99,7 +99,7 @@
         },
         {
           "type": "text",
-          "text": "CIS is one of the most respected accreditation bodies for international schools worldwide. Its evaluation framework is organised in lettered domains, A to I, listed with their official titles in the table below. An earlier version of this paragraph gave a numbered list with names such as \"Assessment\", \"Student Support\" and \"Operational Systems\"; those names were not the official domain titles and have been removed so that this paragraph and the table no longer disagree."
+          "text": "CIS is one of the most respected accreditation bodies for international schools worldwide. Its evaluation framework is organised in lettered domains, A to I, listed with their official titles in the table below. An earlier version of this clause listed the domains as a numbered 1-9 sequence with names such as \"Assessment\", \"Student Support\" and \"Operational Systems\". Those were not the official domain titles, and on 2026-08-17 the headings below were relabelled to the lettered domain names used in the table, so that the paragraph, the headings and the table now agree."
         },
         {
           "type": "list",
@@ -109,11 +109,11 @@
             "Strategic planning and goal-setting",
             "Alignment between stated purpose and actual practice"
           ],
-          "title": "CIS (Council of International Schools) Framework"
+          "title": "Domain A - Purpose and direction"
         },
         {
           "type": "text",
-          "text": "2. Governance and Leadership"
+          "text": "Domain B - Governance, ownership and leadership"
         },
         {
           "type": "list",
@@ -126,7 +126,7 @@
         },
         {
           "type": "text",
-          "text": "3. Curriculum"
+          "text": "Domain C - The curriculum"
         },
         {
           "type": "list",
@@ -139,7 +139,7 @@
         },
         {
           "type": "text",
-          "text": "4. Teaching and Learning"
+          "text": "Domain D - Teaching and assessing for learning (teaching, D1-D6)"
         },
         {
           "type": "list",
@@ -152,7 +152,7 @@
         },
         {
           "type": "text",
-          "text": "5. Assessment"
+          "text": "Domain D - Teaching and assessing for learning (assessment, D7-D8)"
         },
         {
           "type": "list",
@@ -165,7 +165,7 @@
         },
         {
           "type": "text",
-          "text": "6. Student Support"
+          "text": "Domain E - Well-being"
         },
         {
           "type": "list",
@@ -178,7 +178,7 @@
         },
         {
           "type": "text",
-          "text": "7. Staff Recruitment, Development, and Wellbeing"
+          "text": "Domain F - Staffing"
         },
         {
           "type": "list",
@@ -191,7 +191,7 @@
         },
         {
           "type": "text",
-          "text": "8. Operational Systems"
+          "text": "Domain G - Premises, facilities, technology systems and auxiliary services"
         },
         {
           "type": "list",
@@ -204,7 +204,7 @@
         },
         {
           "type": "text",
-          "text": "9. Community and Partnerships"
+          "text": "Domain H - Community and home partnerships"
         },
         {
           "type": "list",
