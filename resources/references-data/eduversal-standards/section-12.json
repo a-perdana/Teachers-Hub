@@ -3713,7 +3713,8 @@
         },
         {
           "type": "text",
-          "text": "## Compliance Alignment Summary"
+          "title": "Compliance Alignment Summary",
+          "text": ""
         },
         {
           "type": "text",

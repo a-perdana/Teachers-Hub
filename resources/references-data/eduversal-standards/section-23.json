@@ -1554,7 +1554,8 @@
       "content": [
         {
           "type": "text",
-          "text": "## — End of Section 23 — For related information, see:"
+          "title": "— End of Section 23 — For related information, see:",
+          "text": ""
         },
         {
           "type": "list",

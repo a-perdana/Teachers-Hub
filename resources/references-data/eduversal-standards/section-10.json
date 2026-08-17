@@ -1,7 +1,7 @@
 {
   "id": "10",
   "title": "Cambridge Examinations Management",
-  "lastUpdated": "2026-08-16",
+  "lastUpdated": "2026-08-17",
   "subsections": [
     {
       "id": "10.1",
@@ -1963,7 +1963,12 @@
         },
         {
           "type": "text",
-          "text": "The Principal, Exams Officer, Quality Nominee, and all examination personnel are entrusted with upholding these standards. Their professionalism, vigilance, and dedication ensure that every Cambridge certificate issued reflects genuine achievement and opens doors to future success. ## Appendices"
+          "text": "The Principal, Exams Officer, Quality Nominee, and all examination personnel are entrusted with upholding these standards. Their professionalism, vigilance, and dedication ensure that every Cambridge certificate issued reflects genuine achievement and opens doors to future success."
+        },
+        {
+          "type": "text",
+          "title": "Appendices",
+          "text": ""
         },
         {
           "type": "text",

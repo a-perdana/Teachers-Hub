@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-17T03:08:53.481Z",
+  "generatedAt": "2026-08-17T03:16:49.711Z",
   "source": "Academic Hub/Sections/Section NN.json",
   "description": "Eduversal Academic Standards — flat madde id index for the ES chip family runtime.",
   "sectionCount": 24,
@@ -73,7 +73,7 @@
       "id": "10",
       "slug": "section-10",
       "title": "Cambridge Examinations Management",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 18
     },
     {
@@ -101,7 +101,7 @@
       "id": "14",
       "slug": "section-14",
       "title": "Data Protection, Records, and Information Systems",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 11
     },
     {
@@ -122,7 +122,7 @@
       "id": "17",
       "slug": "section-17",
       "title": "Quality Assurance and Internal Review",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 18
     },
     {
@@ -150,14 +150,14 @@
       "id": "21",
       "slug": "section-21",
       "title": "Digital Learning and Technology Infrastructure",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 18
     },
     {
       "id": "22",
       "slug": "section-22",
       "title": "Student Conduct, Discipline, and Restorative Practices",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 16
     },
     {

@@ -1,7 +1,7 @@
 {
   "id": "21",
   "title": "Digital Learning and Technology Infrastructure",
-  "lastUpdated": "2026-08-16",
+  "lastUpdated": "2026-08-17",
   "subsections": [
     {
       "id": "21.1",
@@ -1782,7 +1782,12 @@
       "content": [
         {
           "type": "text",
-          "text": "Appendix 21A: Acceptable Use Policy Agreement Form (Student) Appendix 21B: Acceptable Use Policy Agreement Form (Staff) Appendix 21C: Device Care Agreement Form Appendix 21D: BYOD Registration and Agreement Form Appendix 21E: Educational Application Request Form Appendix 21F: Cybersecurity Incident Report Form Appendix 21G: Data Processing Agreement Template Appendix 21H: Technology Equipment Inventory Template Appendix 21I: Digital Citizenship Curriculum Scope and Sequence Appendix 21J: AI Use Disclosure Template ## Related Sections"
+          "text": "Appendix 21A: Acceptable Use Policy Agreement Form (Student) Appendix 21B: Acceptable Use Policy Agreement Form (Staff) Appendix 21C: Device Care Agreement Form Appendix 21D: BYOD Registration and Agreement Form Appendix 21E: Educational Application Request Form Appendix 21F: Cybersecurity Incident Report Form Appendix 21G: Data Processing Agreement Template Appendix 21H: Technology Equipment Inventory Template Appendix 21I: Digital Citizenship Curriculum Scope and Sequence Appendix 21J: AI Use Disclosure Template"
+        },
+        {
+          "type": "text",
+          "title": "Related Sections",
+          "text": ""
         },
         {
           "type": "list",

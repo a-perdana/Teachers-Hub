@@ -6050,7 +6050,12 @@
         },
         {
           "type": "text",
-          "text": "Section 15 supports compliance with the following standards and regulations: ## CIS/WASC Accreditation Standards"
+          "text": "Section 15 supports compliance with the following standards and regulations:"
+        },
+        {
+          "type": "text",
+          "title": "CIS/WASC Accreditation Standards",
+          "text": ""
         },
         {
           "type": "text",
@@ -6122,7 +6127,8 @@
         },
         {
           "type": "text",
-          "text": "## Indonesian Health, Safety, and Environment (HSE) Regulations"
+          "title": "Indonesian Health, Safety, and Environment (HSE) Regulations",
+          "text": ""
         },
         {
           "type": "text",
@@ -6182,7 +6188,8 @@
         },
         {
           "type": "text",
-          "text": "## Cambridge Exam Contingency Planning"
+          "title": "Cambridge Exam Contingency Planning",
+          "text": ""
         },
         {
           "type": "text",
@@ -6227,7 +6234,8 @@
         },
         {
           "type": "text",
-          "text": "## Insurance and Liability"
+          "title": "Insurance and Liability",
+          "text": ""
         },
         {
           "type": "list",
@@ -6252,7 +6260,12 @@
         },
         {
           "type": "text",
-          "text": "Risk management, emergency preparedness, and business continuity are essential responsibilities of school leadership. This section has provided comprehensive frameworks, protocols, and procedures to help you anticipate, prevent, and respond to threats to your school's mission of providing excellent education in a safe environment. ## Core Principles to Remember:"
+          "text": "Risk management, emergency preparedness, and business continuity are essential responsibilities of school leadership. This section has provided comprehensive frameworks, protocols, and procedures to help you anticipate, prevent, and respond to threats to your school's mission of providing excellent education in a safe environment."
+        },
+        {
+          "type": "text",
+          "title": "Core Principles to Remember:",
+          "text": ""
         },
         {
           "type": "process",
@@ -6281,7 +6294,12 @@
         },
         {
           "type": "text",
-          "text": "Your students, staff, and families trust you to keep them safe. This section equips you with the knowledge and tools to honor that trust. ## Next Steps:"
+          "text": "Your students, staff, and families trust you to keep them safe. This section equips you with the knowledge and tools to honor that trust."
+        },
+        {
+          "type": "text",
+          "title": "Next Steps:",
+          "text": ""
         },
         {
           "type": "list",

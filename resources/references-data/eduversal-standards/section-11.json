@@ -679,7 +679,17 @@
         },
         {
           "type": "text",
-          "text": "Sample Parent Communication: Based on [Student Name]'s placement assessments, we recommend enrollment in Year 7 with Tier 2 EAL support. [He/She] demonstrates strong mathematical reasoning and problem-solving skills. In English, [he/she] is currently at CEFR A2 level (elementary), which means [he/she] can communicate in simple, routine tasks but will need scaffolding for academic language. We will provide small-group EAL sessions three times per week, alongside in-class differentiation. We expect [Student Name] to reach B1 level (intermediate) within 12-18 months with consistent effort and support. Appeals Process for Placement Decisions If parents disagree with placement recommendations: 1. Schedule a follow-up meeting with Principal and relevant Subject Leaders 2. Review assessment results in detail, with examples of student work 3. Discuss parent concerns and rationale for school's recommendation 4. Consider trial period in requested level with progress monitoring 5. If disagreement persists, offer external assessment by educational psychologist (at family's expense) Final Authority: Principal makes the final placement decision in consultation with Subject Leaders and General Manager, prioritizing student's best interest and realistic chance of success."
+          "text": "Sample Parent Communication: Based on [Student Name]'s placement assessments, we recommend enrollment in Year 7 with Tier 2 EAL support. [He/She] demonstrates strong mathematical reasoning and problem-solving skills. In English, [he/she] is currently at CEFR A2 level (elementary), which means [he/she] can communicate in simple, routine tasks but will need scaffolding for academic language. We will provide small-group EAL sessions three times per week, alongside in-class differentiation. We expect [Student Name] to reach B1 level (intermediate) within 12-18 months with consistent effort and support. Appeals Process for Placement Decisions If parents disagree with placement recommendations:"
+        },
+        {
+          "type": "process",
+          "steps": [
+            "Schedule a follow-up meeting with Principal and relevant Subject Leaders",
+            "Review assessment results in detail, with examples of student work",
+            "Discuss parent concerns and rationale for school's recommendation",
+            "Consider trial period in requested level with progress monitoring",
+            "If disagreement persists, offer external assessment by educational psychologist (at family's expense) Final Authority: Principal makes the final placement decision in consultation with Subject Leaders and General Manager, prioritizing student's best interest and realistic chance of success."
+          ]
         }
       ]
     },
@@ -2887,7 +2897,12 @@
         },
         {
           "type": "text",
-          "text": "Data Entry and Portal Setup: 1. Student Profile Creation: - Enter new student data into EduNav (demographics, contact information, enrollment details) - Assign student ID number and homeroom - Generate parent portal login credentials 2. Dapodik Entry: - Input student data into Dapodik system (Indonesian government database) - Request and verify NISN (national student ID number) - Update Dapodik each semester with enrollment status 3. Data Security: - Ensure student data is stored securely with appropriate access controls - Regularly backup data - Monitor for data breaches or unauthorized access 4. Parent Portal Training: - help parents with logging into EduNav during orientation - Troubleshoot technical issues (forgotten passwords, access problems) - Provide user guides in English and Bahasa Indonesia 5. Reporting and Analytics: - Generate admissions reports (applications, enrollments, demographics) - Track key metrics (acceptance rate, yield rate, retention rate) - Support data-driven decision-making for admissions strategy ## CROSS-REFERENCES This section connects with:"
+          "text": "Data Entry and Portal Setup: 1. Student Profile Creation: - Enter new student data into EduNav (demographics, contact information, enrollment details) - Assign student ID number and homeroom - Generate parent portal login credentials 2. Dapodik Entry: - Input student data into Dapodik system (Indonesian government database) - Request and verify NISN (national student ID number) - Update Dapodik each semester with enrollment status 3. Data Security: - Ensure student data is stored securely with appropriate access controls - Regularly backup data - Monitor for data breaches or unauthorized access 4. Parent Portal Training: - help parents with logging into EduNav during orientation - Troubleshoot technical issues (forgotten passwords, access problems) - Provide user guides in English and Bahasa Indonesia 5. Reporting and Analytics: - Generate admissions reports (applications, enrollments, demographics) - Track key metrics (acceptance rate, yield rate, retention rate) - Support data-driven decision-making for admissions strategy"
+        },
+        {
+          "type": "text",
+          "title": "CROSS-REFERENCES This section connects with:",
+          "text": ""
         },
         {
           "type": "list",
