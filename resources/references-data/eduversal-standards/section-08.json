@@ -1851,7 +1851,7 @@
             ],
             [
               "8.4 EAL Support",
-              "UDL's emphasis on visual supports, multiple modalities, and flexible expression naturally supports language learners (see Section 8.X.4)"
+              "UDL's emphasis on visual supports, multiple modalities, and flexible expression naturally supports language learners (see madde 8.4)"
             ],
             [
               "8.5 Tier 3 / IEPs",
@@ -1943,7 +1943,7 @@
           ],
           "rows": [
             [
-              "Extra time (25%)",
+              "Extra time (up to 25%; over 25% where strongly justified)",
               "A Grade 10 student with dyslexia receives 75 minutes instead of 60 minutes for a Math test",
               "Only that student gets extra time; documented in IEP; requires Cambridge access arrangement approval"
             ],
@@ -2195,7 +2195,66 @@
         },
         {
           "type": "text",
-          "text": "UDL Strategies (Tier 1 for ALL Students): [TABLE TO BE RESTORED - see AUDIT-2026-08-16.md] Classroom Vignette: Teacher: Pak Joko (Grade 5 Science) Lesson: Investigating the water cycle (60-minute practical lesson) UDL Implementation:"
+          "text": "UDL Strategies (Tier 1 for ALL Students): Classroom Vignette: Teacher: Pak Joko (Grade 5 Science) Lesson: Investigating the water cycle (60-minute practical lesson) UDL Implementation:"
+        },
+        {
+          "type": "table",
+          "title": "UDL Strategies for Attention and Executive Function Challenges (Tier 1 for ALL Students)",
+          "headers": [
+            "UDL Principle",
+            "Strategy",
+            "Implementation Example",
+            "Who Benefits"
+          ],
+          "rows": [
+            [
+              "Multiple Means of Representation",
+              "Visual lesson schedule",
+              "Display the lesson in numbered parts with the time for each, and point to the current part as you move through it",
+              "Students who lose track of multi-step tasks can see what comes next; ALL students know how the lesson is paced"
+            ],
+            [
+              "",
+              "Task checklists",
+              "Give each student or group a printed or laminated checklist with one line per step, to tick off as they go",
+              "Students with weak working memory keep their place without asking; ALL students self-check before saying they are finished"
+            ],
+            [
+              "",
+              "Chunked instruction with movement breaks",
+              "Teach in segments of about 10 minutes, then run a one-minute stretch or partner share before the next segment",
+              "Students who cannot sustain attention get a legitimate reset; ALL students return to the task more focused"
+            ],
+            [
+              "",
+              "Visual timer",
+              "Project a countdown timer for independent and group work so the remaining time is always visible",
+              "Students who struggle with time management can pace themselves; ALL students finish more work inside the time given"
+            ],
+            [
+              "Multiple Means of Engagement",
+              "Movement built into the task",
+              "Design at least one part of the lesson that requires standing, moving to a station, or working at a wall or easel",
+              "Students who find it hard to stay still have a permitted outlet; ALL students concentrate better after moving"
+            ],
+            [
+              "",
+              "Clear routines for starting and finishing",
+              "Use the same opening and closing routine every lesson, posted where students can see it",
+              "Students who struggle with planning start without prompting; ALL students lose less time in transitions"
+            ],
+            [
+              "Multiple Means of Expression",
+              "Choice of how to record work",
+              "Let students record findings as notes, a labelled diagram, a table, or a short voice recording",
+              "Students who cannot organise a long written response still show what they know; ALL students choose the format that suits the task"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Note on this table",
+          "text": "Authored by Eduversal, 2026-08-17. This table is new content, not transcribed source material. The source document contains a strategy table only for barrier A (Reading Difficulties); tables for B, C and D were never written, and the earlier restoration placeholders promised a recovery that was not possible. Each strategy below answers a barrier named in the \"Common Barriers\" list above it and sets up a practice demonstrated in the Classroom Vignette below it. The four-column structure and the three-principle grouping follow table A."
         },
         {
           "type": "process",
@@ -2234,7 +2293,66 @@
         },
         {
           "type": "text",
-          "text": "UDL Strategies (Tier 1 for ALL Students): (Note: These UDL strategies complement EAL-specific interventions described in Section 8.4. UDL is for everyone; EAL support is for specific students.) [TABLE TO BE RESTORED - see AUDIT-2026-08-16.md] Classroom Vignette: Teacher: Ms. Sari (Grade 7 Humanities - Geography) Lesson: Climate zones and their characteristics UDL Implementation:"
+          "text": "UDL Strategies (Tier 1 for ALL Students): (Note: These UDL strategies complement EAL-specific interventions described in Section 8.4. UDL is for everyone; EAL support is for specific students.) Classroom Vignette: Teacher: Ms. Sari (Grade 7 Humanities - Geography) Lesson: Climate zones and their characteristics UDL Implementation:"
+        },
+        {
+          "type": "table",
+          "title": "UDL Strategies for Language Barriers (Tier 1 for ALL Students)",
+          "headers": [
+            "UDL Principle",
+            "Strategy",
+            "Implementation Example",
+            "Who Benefits"
+          ],
+          "rows": [
+            [
+              "Multiple Means of Representation",
+              "Visual support alongside every explanation",
+              "Pair each new concept with an image, map, diagram or short video, not with spoken explanation alone",
+              "EAL (English as an Additional Language) learners meet the concept even when the words are new; ALL students remember the concept better"
+            ],
+            [
+              "",
+              "Bilingual glossary of key terms",
+              "Give a handout listing 5-10 key terms in English with the Bahasa Indonesia equivalent and a simple definition",
+              "EAL learners connect new English terms to what they already know; ALL students have the subject vocabulary in one place"
+            ],
+            [
+              "",
+              "Simplified sentence structure in written material",
+              "Rewrite instructions and key passages in short sentences, keeping the subject vocabulary but removing complex clauses",
+              "EAL learners spend their effort on the concept rather than the grammar; ALL students misread instructions less often"
+            ],
+            [
+              "",
+              "Pre-taught background knowledge",
+              "Before a topic that assumes cultural or prior knowledge, spend five minutes supplying it with images and examples",
+              "EAL learners and students new to the school are not excluded by assumed knowledge; ALL students start the topic from the same base"
+            ],
+            [
+              "Multiple Means of Engagement",
+              "Think-Pair-Share with thinking time",
+              "Ask the question, give one minute of silent thinking time, then two minutes of paired discussion before taking answers",
+              "EAL learners get processing time and can rehearse with a partner, including in Bahasa Indonesia; ALL students give better answers than with hands-up"
+            ],
+            [
+              "",
+              "Sentence frames for speaking and writing",
+              "Post frames such as \"I think ___ because ___\" and \"This is similar to ___ because ___\" and expect their use",
+              "EAL learners express an idea they already hold but cannot yet phrase; ALL students produce more precise academic language"
+            ],
+            [
+              "Multiple Means of Expression",
+              "Multimodal assessment",
+              "Allow the same learning to be shown as a labelled poster, a short oral explanation, a diagram, or a written response",
+              "EAL learners are assessed on the subject rather than on English fluency; ALL students demonstrate understanding in their strongest mode"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Note on this table",
+          "text": "Authored by Eduversal, 2026-08-17. This table is new content, not transcribed source material. The source document contains a strategy table only for barrier A (Reading Difficulties); tables for B, C and D were never written, and the earlier restoration placeholders promised a recovery that was not possible. Each strategy below answers a barrier named in the \"Common Barriers\" list above it and sets up a practice demonstrated in the Classroom Vignette below it. The four-column structure and the three-principle grouping follow table A."
         },
         {
           "type": "process",
@@ -2272,7 +2390,66 @@
         },
         {
           "type": "text",
-          "text": "UDL Strategies (Tier 1 for ALL Students): [TABLE TO BE RESTORED - see AUDIT-2026-08-16.md] Classroom Vignette: Teacher: Bu Rina (Grade 4 Math) Lesson: Fractions (adding fractions with like denominators) UDL Implementation:"
+          "text": "UDL Strategies (Tier 1 for ALL Students): Classroom Vignette: Teacher: Bu Rina (Grade 4 Math) Lesson: Fractions (adding fractions with like denominators) UDL Implementation:"
+        },
+        {
+          "type": "table",
+          "title": "UDL Strategies for Sensory and Physical Needs (Tier 1 for ALL Students)",
+          "headers": [
+            "UDL Principle",
+            "Strategy",
+            "Implementation Example",
+            "Who Benefits"
+          ],
+          "rows": [
+            [
+              "Multiple Means of Representation",
+              "Concrete manipulatives for abstract concepts",
+              "Provide physical materials and a digital equivalent for the whole class, not only for students who ask",
+              "Students with fine-motor difficulty can handle larger objects instead of small pencil work; ALL students build understanding before symbols"
+            ],
+            [
+              "",
+              "High-contrast, uncluttered materials",
+              "Use large clear fonts, strong contrast, and one idea per slide or handout section",
+              "Students who cannot see the board clearly access the material; ALL students find the key information faster"
+            ],
+            [
+              "",
+              "Say what you write, and write what you say",
+              "Speak every instruction that appears on the board, and write the key words of every spoken instruction",
+              "Students with a hearing or vision difficulty receive the instruction through a second channel; ALL students catch instructions they missed"
+            ],
+            [
+              "",
+              "Predictable physical layout",
+              "Keep equipment, materials and quiet areas in the same place, and keep walkways clear",
+              "Students with a physical or visual difficulty move independently; ALL students spend less time looking for materials"
+            ],
+            [
+              "Multiple Means of Engagement",
+              "Sensory options within the room",
+              "Offer headphones, a designated quiet area, and a collaborative area, and let students choose according to the task",
+              "Students who are overwhelmed or under-stimulated by noise can regulate themselves; ALL students work in the setting that suits the task"
+            ],
+            [
+              "",
+              "Flexible seating and working positions",
+              "Allow work at tables, standing at an easel or wall, or on floor mats with a clipboard",
+              "Students with pain, restlessness or postural needs stay comfortable; ALL students choose a position that supports concentration"
+            ],
+            [
+              "Multiple Means of Expression",
+              "Choice of physical output",
+              "Accept handwriting, typing, photographing a built model, or recording a spoken answer as equivalent evidence",
+              "Students with fine-motor or handwriting difficulty are not assessed on handwriting; ALL students show learning without an unnecessary physical barrier"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Note on this table",
+          "text": "Authored by Eduversal, 2026-08-17. This table is new content, not transcribed source material. The source document contains a strategy table only for barrier A (Reading Difficulties); tables for B, C and D were never written, and the earlier restoration placeholders promised a recovery that was not possible. Each strategy below answers a barrier named in the \"Common Barriers\" list above it and sets up a practice demonstrated in the Classroom Vignette below it. The four-column structure and the three-principle grouping follow table A."
         },
         {
           "type": "process",
@@ -2692,7 +2869,7 @@
             [
               "EASE Proficiency (Grade 3-12)",
               "Reading: 72% | Math: 68% | Science: 71%",
-              "Math below target; PD needed on UDL for numeracy (Section 8.X.3 B strategies?)"
+              "Math below target; PD needed on UDL for numeracy (Section 8.9.3 B strategies?)"
             ],
             [
               "Tier 2 Exit Rate (last 8 weeks)",
@@ -2746,7 +2923,7 @@
             [
               "Teacher UDL self-assessment scores",
               "Average score ≥3.5 out of 5",
-              "UDL Classroom Observation Checklist (Section 8.X.4.D) or teacher self-report",
+              "UDL Classroom Observation Checklist (Section 8.9.4 D) or teacher self-report",
               "Twice per year",
               "Teacher capacity to implement UDL; identifies PD needs"
             ],
@@ -2840,7 +3017,7 @@
             ],
             [
               "EAL Stage 3 students disproportionately in Tier 2 Reading across all grades",
-              "Tier 1 teachers may not be using EAL visual supports (Section 8.X.3.C)",
+              "Tier 1 teachers may not be using EAL visual supports (Section 8.9.3 C)",
               "(1) PLC session on \"UDL for EAL\" (Feb PD day) (2) Provide bilingual glossary templates (3) LSC models \"pre-teaching vocabulary\" strategy",
               "LSC + EAL Coordinator",
               "Term 3"
@@ -2914,7 +3091,7 @@
           ],
           "rows": [
             [
-              "Extra time (25%)",
+              "Extra time (up to 25%; over 25% where strongly justified)",
               "Flexible pacing in classroom (students can use extra time during formative assessments if needed)",
               "Student has always used extra time; not sudden accommodation for exams only"
             ],
@@ -4031,13 +4208,13 @@
           "rows": [
             [
               "Q1 (Aug-Oct)",
-              "August PD Week: UDL foundation training (Section 8.X.8); Teachers audit classrooms using UDL checklist; Principal models UDL in staff meetings",
+              "August PD Week: UDL foundation training (Section 8.9.8); Teachers audit classrooms using UDL checklist; Principal models UDL in staff meetings",
               "Principal, LSC",
               "100% of teachers complete UDL PD; Photos of UDL classroom setups; 1 UDL lesson plan per teacher"
             ],
             [
               "Q2 (Nov-Jan)",
-              "Monthly PLCs focus on UDL strategies (Section 8.X.8); LSC begins classroom walkthroughs with UDL lens; Collect baseline MTSS data (% in each tier)",
+              "Monthly PLCs focus on UDL strategies (Section 8.9.8); LSC begins classroom walkthroughs with UDL lens; Collect baseline MTSS data (% in each tier)",
               "LSC, HODs",
               "PLC meeting minutes; Walkthrough data (UDL checklist scores); MTSS baseline: __% Tier 1, __% Tier 2, __% Tier 3"
             ],
@@ -4049,7 +4226,7 @@
             ],
             [
               "Q4 (May-Jun)",
-              "End-of-year UDL program evaluation (Section 8.X.5); Collect artifacts for accreditation (Section 8.X.10); Plan Year 2 priorities based on data",
+              "End-of-year UDL program evaluation (Section 8.9.5); Collect artifacts for accreditation (Section 8.9.10); Plan Year 2 priorities based on data",
               "Principal, LSC",
               "Annual report on UDL implementation; Year 2 action plan drafted; Budget requests for UDL resources"
             ]

@@ -134,7 +134,7 @@
         {
           "type": "text",
           "title": "Note on this table",
-          "text": "Currency check needed: several instruments in this block are 15 to 19 years old. Permendiknas No. 13/2007 and No. 28/2010 have been largely displaced by Permendikbud No. 6/2018 on principal appointment. Verify each against JDIH at the next review."
+          "text": "Currency check needed: several instruments in this block are 15 to 19 years old. Permendiknas No. 13/2007 and No. 28/2010 have been largely displaced by Permendikbud No. 6/2018 on principal appointment. Verify each against JDIH at the next review. [Revoked instrument - Permendikdasmen No. 21/2025 (Standar Tenaga Kependidikan) Pasal 21 revoked this regulation (\"dicabut dan dinyatakan tidak berlaku\"). The four-pillar competence model it defined is restated in 21/2025, so the substance carries over; cite 21/2025 as the live instrument. Verified 2026-08-17 against Desktop/Eduversal Sources/mevzuat/Nomor 21 Tahun 2025.pdf.]"
         },
         {
           "type": "table",
@@ -147,13 +147,13 @@
           ],
           "rows": [
             [
-              "Permendiknas No. 16/2007",
+              "Permendiknas No. 16/2007 [Revoked instrument - Permendikdasmen No. 21/2025 (Standar Tenaga Kependidikan) Pasal 21 revoked this regulation (\"dicabut dan dinyatakan tidak berlaku\"). The four-pillar competence model it defined is restated in 21/2025, so the substance carries over; cite 21/2025 as the live instrument. Verified 2026-08-17 against Desktop/Eduversal Sources/mevzuat/Nomor 21 Tahun 2025.pdf.]",
               "Standar Kualifikasi Akademik dan Kompetensi Guru",
               "Teacher qualifications and the four-pillar competency model",
               "Section 12"
             ],
             [
-              "Permendiknas No. 13/2007",
+              "Permendiknas No. 13/2007 [Revoked instrument - Permendikdasmen No. 21/2025 (Standar Tenaga Kependidikan) Pasal 21 revoked this regulation (\"dicabut dan dinyatakan tidak berlaku\"). The four-pillar competence model it defined is restated in 21/2025, so the substance carries over; cite 21/2025 as the live instrument. Verified 2026-08-17 against Desktop/Eduversal Sources/mevzuat/Nomor 21 Tahun 2025.pdf.]",
               "Standar Kualifikasi dan Kompetensi Kepala Sekolah/Madrasah",
               "Principal qualification standards",
               "Sections 1, 12"
@@ -727,7 +727,7 @@
           "rows": [
             [
               "CIS International Accreditation Evaluation Framework (Revised)",
-              "The nine domains (A to I), 45 standards in the core 8 domains of which 24 are core standards, plus 8 further standards (5 core) in Domain I for boarding and homestay. Underpinned by four drivers.",
+              "Eight domains (A to H) containing 45 standards, of which 24 are core standards; plus Domain I (Residential services) with a further 8 standards, of which 5 are core, applicable only to schools with boarding or homestay. Note that \"core\" is a property of standards, not of domain I for boarding and homestay. Underpinned by four drivers.",
               "CIS Member Portal",
               "Sections 18, 24"
             ],
@@ -1079,7 +1079,7 @@
       "content": [
         {
           "type": "text",
-          "text": "20.7.2 Eduversal Policy Documents 20.7.3 Network Contacts Eduversal Website: https://eduversal.net/",
+          "text": "20.7.2 Eduversal Policy Documents 20.7.3 Network Contacts Eduversal Website: https://eduversal.org/",
           "title": "20.7.1 Core QMS Components"
         },
         {
@@ -1173,7 +1173,7 @@
         {
           "type": "text",
           "title": "Note on this table",
-          "text": "Contact addresses transcribed verbatim from the image on the eduversal.net domain. Confirm at the next review whether these mailboxes are still live and whether the network has migrated to eduversal.org - a contacts table that routes to dead mailboxes is worse than no table."
+          "text": "Contact addresses were transcribed from the source image on the eduversal.net domain and have been moved to eduversal.org, which is the network's live domain (it gates staff sign-in across the Eduversal hubs, and is the domain used in 9.21). STILL OPEN: the domain is corrected but the individual mailboxes are not verified — confirm that each address is monitored before relying on it for escalation, and record the confirmation date here. An unmonitored mailbox in an escalation table fails silently."
         },
         {
           "type": "table",
@@ -1186,22 +1186,22 @@
           "rows": [
             [
               "Director of Primary Education",
-              "primary.edu@eduversal.net",
+              "primary.edu@eduversal.org",
               "Primary curriculum, assessment, and support"
             ],
             [
               "Director of Secondary Education",
-              "secondary.edu@eduversal.net",
+              "secondary.edu@eduversal.org",
               "Secondary curriculum, Cambridge pathway"
             ],
             [
               "Chief Academic Officer",
-              "academic@eduversal.net",
+              "academic@eduversal.org",
               "Overall academic strategy and quality"
             ],
             [
               "Eduversal General Inquiries",
-              "info@eduversal.net",
+              "info@eduversal.org",
               "General coordination"
             ]
           ]
@@ -1214,7 +1214,168 @@
       "content": [
         {
           "type": "text",
-          "text": "This index maps each handbook section to its primary regulatory and standards references: [TABLE MISSING - the handbook-to-regulation cross-reference index was lost in conversion and must be re-authored. See AUDIT-2026-08-16.md.]"
+          "text": "This index maps each handbook section to its primary regulatory and standards references:"
+        },
+        {
+          "type": "table",
+          "title": "Handbook cross-reference index — section to primary references",
+          "headers": [
+            "Handbook section",
+            "Indonesian regulation",
+            "CIS domain",
+            "ACS WASC category"
+          ],
+          "rows": [
+            [
+              "1. Front Matter and Governance Charter",
+              "UU No. 16/2001 jo. UU No. 28/2004 (Yayasan), PP No. 63/2008",
+              "A: Purpose and direction; B: Governance, ownership and leadership",
+              "A: Organization for Student Learning"
+            ],
+            [
+              "2. Legal and Regulatory Compliance",
+              "Panduan Akreditasi SPK 2025; UU No. 20/2003; sector regulations as cited in the madde",
+              "B (B6: written policies and regulatory compliance)",
+              "A: Organization for Student Learning"
+            ],
+            [
+              "3. Cambridge Centre Compliance",
+              "Cambridge Handbook 2026 (centre regulations)",
+              "C: The curriculum; D: Teaching and assessing for learning",
+              "B: Curriculum, Instruction, and Assessment"
+            ],
+            [
+              "4. Strategic Planning and School Improvement",
+              "Permendikdasmen No. 12/2025 (Standar Isi) as cited",
+              "A: Purpose and direction",
+              "A: Organization for Student Learning"
+            ],
+            [
+              "5. Curriculum Architecture",
+              "Panduan Akreditasi SPK 2025 (compulsory subjects, language of instruction)",
+              "C: The curriculum",
+              "B: Curriculum, Instruction, and Assessment"
+            ],
+            [
+              "6. Assessment and Reporting",
+              "Permendikdasmen No. 10/2025 (SKL)",
+              "D (D7-D8: assessment methods and achievement data)",
+              "B: Curriculum, Instruction, and Assessment"
+            ],
+            [
+              "7. Teaching Quality and Practice",
+              "Permendikdasmen No. 21/2025 (Standar Tenaga Kependidikan, replacing Permendiknas No. 16/2007)",
+              "D: Teaching and assessing for learning",
+              "B: Curriculum, Instruction, and Assessment"
+            ],
+            [
+              "8. Inclusion, EAL, and Learning Support",
+              "Inclusion provisions as cited in the madde",
+              "D (D4-D5: access and language support); E: Wellbeing",
+              "C: Support for Student Personal and Academic Growth"
+            ],
+            [
+              "9. Safeguarding, Child Protection, and Wellbeing",
+              "Permendikdasmen No. 6/2026 (BSAN); UU No. 35/2014; PP No. 17/2025 (PP Tunas)",
+              "E: Wellbeing (E2: child protection and safeguarding)",
+              "C: Support for Student Personal and Academic Growth"
+            ],
+            [
+              "10. Cambridge Examinations Management",
+              "Cambridge Handbook 2026 (exam administration)",
+              "D (D7-D8); G (G2-G3: secure facilities and systems)",
+              "B: Curriculum, Instruction, and Assessment"
+            ],
+            [
+              "11. Admissions, Enrollment, and Marketing Ethics",
+              "UU No. 27/2022 (UU PDP)",
+              "A (A6: inclusion in admissions); H: Community and home partnerships",
+              "A: Organization for Student Learning"
+            ],
+            [
+              "12. Staff Lifecycle",
+              "UU No. 13/2003 as amended by UU No. 6/2023; PP No. 35/2021; UU No. 4/2024; Permendiknas No. 27/2010 (PIGP); Panduan Akreditasi SPK 2025 (nationality floors)",
+              "F: Staffing",
+              "A: Organization for Student Learning; D: Resource Management and Development"
+            ],
+            [
+              "13. Operations, Finance, and Resources",
+              "UU No. 16/2001 jo. UU No. 28/2004; PP No. 63/2008; UU No. 7/2021 (tax)",
+              "B (B3: educational and financial planning); G: Premises, facilities, technology systems and auxiliary services",
+              "D: Resource Management and Development"
+            ],
+            [
+              "14. Data Protection, Records, and Information Systems",
+              "UU No. 27/2022, Pasal 46(1) for breach notification",
+              "G (G3: technology systems and data)",
+              "D: Resource Management and Development"
+            ],
+            [
+              "15. Risk Management, Emergency Preparedness, and Business Continuity",
+              "HSE regulations as cited in the madde",
+              "E (E4: activities outside school); G (G2: health, safety and security)",
+              "D: Resource Management and Development"
+            ],
+            [
+              "16. Parent, Student, and Community Engagement",
+              "Public information duties as cited in the madde",
+              "H: Community and home partnerships",
+              "C: Support for Student Personal and Academic Growth"
+            ],
+            [
+              "17. Quality Assurance and Internal Review",
+              "Panduan Akreditasi SPK 2025",
+              "A (A5: monitoring and review)",
+              "A: Organization for Student Learning"
+            ],
+            [
+              "18. Accreditation Toolkit (CIS/WASC)",
+              "Panduan Akreditasi SPK 2025",
+              "All applicable domains A-H",
+              "All categories A-D"
+            ],
+            [
+              "19. Templates and Operational Tools",
+              "Supports the regulations cited by the section each template serves",
+              "Varies by template — see 19.11",
+              "Varies by template — see 19.11"
+            ],
+            [
+              "20. References and Compliance Library",
+              "Indexes the instruments cited across the manual",
+              "Not domain-specific",
+              "Not category-specific"
+            ],
+            [
+              "21. Digital Learning and Technology Infrastructure",
+              "UU No. 27/2022; PP No. 17/2025 (PP Tunas, child online protection)",
+              "D (D6: resources, media and technologies); G (G3: technology systems)",
+              "B: Curriculum, Instruction, and Assessment"
+            ],
+            [
+              "22. Student Conduct, Discipline, and Restorative Practices",
+              "Permendikdasmen No. 6/2026 (BSAN)",
+              "E: Wellbeing (E1: environment and culture; E3: physical and mental health)",
+              "C: Support for Student Personal and Academic Growth"
+            ],
+            [
+              "23. External Partnerships and Student Pathways",
+              "Partnership and public information duties as cited in the madde",
+              "H: Community and home partnerships; E (E5-E6: transitions, guidance and careers)",
+              "C: Support for Student Personal and Academic Growth"
+            ],
+            [
+              "24. School Appraisal Framework: International Alignment",
+              "Permendikdasmen No. 21/2025; BAN-S/M IASP",
+              "Mapped per domain — see 24.3",
+              "Mapped per domain — see 24.4"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Note on this index",
+          "text": "Rebuilt by Eduversal on 2026-08-17. The original index was lost in conversion. This version is derived from the corrected corpus rather than from the lost original, so it carries the corrections made in the 2026-08-17 audit: CIS domains are lettered A-I with their official titles (the numbered scheme is retired), ACS WASC runs Categories A-D only, breach notification is UU No. 27/2022 Pasal 46(1), safeguarding answers to Permendikdasmen No. 6/2026 (BSAN), educator standards to Permendikdasmen No. 21/2025, and yayasan governance to UU No. 16/2001 jo. UU No. 28/2004. This index is a NAVIGATION AID, not an authority. Each section states its own references in full, with article and page citations; where this index and a section differ, the section governs. Re-check the index whenever a section's regulatory basis changes."
         }
       ]
     },

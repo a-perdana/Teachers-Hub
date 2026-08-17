@@ -311,7 +311,7 @@
         },
         {
           "type": "text",
-          "text": "Internal audits are structured around five key domains aligned with CIS/WASC standards: Domain A: Purpose and Direction"
+          "text": "Internal audits are structured around the CIS domains that apply to Eduversal partner schools (A-H; Domain I covers residential provision and does not apply). Audit scope must cover all eight - a five-domain scope leaves Staffing (F), Premises and technology (G) and Community partnerships (H) unaudited: Domain A: Purpose and Direction"
         },
         {
           "type": "list",
@@ -338,7 +338,7 @@
         },
         {
           "type": "text",
-          "text": "Domain C: Teaching and Learning"
+          "text": "Domain C: The curriculum"
         },
         {
           "type": "list",
@@ -351,7 +351,7 @@
         },
         {
           "type": "text",
-          "text": "Domain D: Resource Management and Development"
+          "text": "Domain D: Teaching and assessing for learning"
         },
         {
           "type": "list",
@@ -364,7 +364,7 @@
         },
         {
           "type": "text",
-          "text": "Domain E: Student Support and Wellbeing"
+          "text": "Domain E: Wellbeing"
         },
         {
           "type": "list",
@@ -2723,7 +2723,7 @@
         },
         {
           "type": "text",
-          "text": "CIS Domain C: Teaching and Learning"
+          "text": "CIS Domain C: The curriculum"
         },
         {
           "type": "list",
@@ -2745,7 +2745,7 @@
         },
         {
           "type": "text",
-          "text": "CIS Domain E: Student Support and Wellbeing"
+          "text": "CIS Domain E: Wellbeing"
         },
         {
           "type": "list",

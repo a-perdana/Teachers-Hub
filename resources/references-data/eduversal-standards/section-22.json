@@ -1709,7 +1709,7 @@
             "Parents may request to review their child's behavioral record",
             "Records secured in EduNav with appropriate access controls",
             "Physical files locked and secure",
-            "Records retained per school retention policy (typically 7 years after departure)",
+            "Records retained per the consolidated retention schedule at 14.5: disciplinary records are kept for enrolment + 5 years after resolution or graduation, whichever is later. Do not retain longer without a stated basis — over-retention of student disciplinary data is an exposure under UU No. 27/2022",
             "Destruction of records follows secure protocols",
             "Records may be shared with authorities when legally required"
           ],
@@ -1986,8 +1986,8 @@
         {
           "type": "list",
           "items": [
-            "Domain C: Student Wellbeing—ensuring safe, supportive environment",
-            "Domain E: Student Support Systems—behavior management and intervention"
+            "Domain E: Wellbeing (E1 - environment and culture)—ensuring safe, supportive environment",
+            "Domain E: Wellbeing—behavior management and intervention"
           ]
         },
         {
@@ -2030,7 +2030,7 @@
         {
           "type": "text",
           "title": "Source verification",
-          "text": "Verified against the source statute on 2026-08-16. UU No. 12/2022 tentang Tindak Pidana Kekerasan Seksual (TPKS) is in force and governs sexual violence offences. Permendikdasmen No. 6/2026 (BSAN) leans on it, together with UU No. 35/2014, for its sanctions provisions rather than carrying a self-contained ladder. Source: docs/research/permendiknas/no-12-2022-tpks.json."
+          "text": "Verified against the source statute on 2026-08-16. UU No. 12/2022 tentang Tindak Pidana Kekerasan Seksual (TPKS) is in force and governs sexual violence offences. Permendikdasmen No. 6/2026 (BSAN) leans on it, together with UU No. 35/2014, for its sanctions provisions rather than carrying a self-contained ladder. Source: Desktop/Eduversal Sources/mevzuat/Nomor 12 Tahun 2022.pdf (salinan). [Provenance note, 2026-08-17: this regulation is NOT yet extracted into the docs/research/ archive. The citation above points to the source PDF held in Desktop/Eduversal Sources/mevzuat/, which is what was read. Extracting it into docs/research/permendiknas/ remains outstanding — until then, treat this note as a pointer to the salinan, not as an archive-backed verification.]"
         }
       ]
     },

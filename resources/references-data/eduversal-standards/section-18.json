@@ -9,6 +9,11 @@
       "content": [
         {
           "type": "text",
+          "title": "SECTION STATUS — provenance of maddes 18.5 to 18.11",
+          "text": "Maddes 18.1 to 18.4 (framework comparison, domain and category structure, the standards crosswalk, and the evidence index) and maddes 18.5 to 18.11 (the self-study process, stakeholder involvement, visit preparation, mini self-reviews, action plans, evidence and artifacts, and roles and responsibilities) are all written. Maddes 18.5 to 18.11 were authored by Eduversal on 2026-08-17 and are new content rather than transcribed source material; each carries its own provenance note. Their procedural facts are cited inline to ACS WASC Focus on Learning (2019 edition) and to the CIS Evaluation Framework [Revised] and CIS Instructions for Submission (August 2024), with page numbers, so any statement can be checked at source. Where CIS and ACS WASC differ, both are stated separately rather than merged into a single false process. Two source cautions worth carrying into any review of this section: WASC Focus on Learning 2020 is the Supplementary Education Programs edition and is NOT authority for whole-school accreditation (use the 2019 edition), and two CIS frameworks are currently in circulation - see 18.2."
+        },
+        {
+          "type": "text",
           "title": "Status of this section",
           "text": "WARNING - this section is incomplete. Maddes 18.5 to 18.11 (self-study process, stakeholder surveys, visit preparation, mini self-reviews, action plans, evidence checklist, and roles) have not yet been authored. The summary at the end of this section refers to them as though they were complete; they are not. A school preparing for a CIS or WASC visit should not treat this section as a full toolkit. Sections 18.2 to 18.4 (framework overview, crosswalk, evidence index) are written, but their CIS and WASC framework references are out of date - see the note below and Section 24 for the current mapping."
         },
@@ -288,7 +293,7 @@
         },
         {
           "type": "text",
-          "text": "Schoolwide Action Plan - Chapter V of the self-study report, correlating to Task 5. This is NOT a fifth category. An earlier revision listed it as \"Category E\"; ACS WASC Focus on Learning, 2019 edition defines Categories A-D only and treats the action plan as a separate deliverable of the self-study. [VERIFICATION PENDING - a later review found that ACS WASC Focus on Learning uses Categories A to D, with the action plan treated as a product of the self-study rather than a fifth category. That finding rests on a 2017 edition which is not held in Desktop/Eduversal Sources/, so this entry is flagged rather than removed. Obtain the current ACS WASC FOL manual before relying on either reading.]"
+          "text": "Schoolwide Action Plan - Chapter V of the self-study report, correlating to Task 5. This is NOT a fifth category. An earlier revision of this handbook listed it as \"Category E\". Verified against ACS WASC Focus on Learning, 2019 edition (186 pp.): the string \"Category E\" does not appear anywhere in the manual, which states that the findings and evidence \"for each criterion within Categories A-D will form the basis of Chapter III of the self-study report\" (p. 66). School-culture content belongs to Category C, Support for Student Personal and Academic Growth. Note that p. 40 of the manual introduces its own list with \"The five criteria categories are:\" and then lists four - that typo is the likely origin of the phantom Category E. (Source caveat: \"WASC Focus on Learning 2020\" is the Supplementary Education Programs edition and is not authority for whole-school accreditation.)"
         },
         {
           "type": "list",
@@ -333,7 +338,7 @@
           "type": "list",
           "items": [
             "CIS: Eight domains covering comprehensive school operations, plus a ninth (Domain I) that applies only to schools with boarding or homestay provision",
-            "WASC: Focus on Learning categories, with stronger emphasis on SLOs and improvement cycles. The number of categories is flagged VERIFICATION PENDING in Section 18.2 - no current ACS WASC source is held in the repo."
+            "WASC: four Focus on Learning criteria categories (A Organization for Student Learning; B Curriculum, Instruction, and Assessment; C Support for Student Personal and Academic Growth; D Resource Management and Development), with stronger emphasis on SLOs and improvement cycles. Verified against ACS WASC Focus on Learning, 2019 edition, p. 66. The schoolwide action plan is Chapter V / Task 5, a deliverable rather than a category - see 18.2."
           ]
         },
         {
@@ -518,8 +523,8 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 1 (Purpose and Direction), Domain 2 (Governance and Leadership)",
-            "Secondary: Domain 8 (Operational Systems—policies)"
+            "Primary: Domain A (Purpose and direction), Domain B (Governance, ownership and leadership)",
+            "Secondary: Domain B (Governance, ownership and leadership, B6) - policies"
           ],
           "title": "HANDBOOK SECTION 1:"
         },
@@ -562,8 +567,8 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 8 (Operational Systems—regulatory compliance)",
-            "Secondary: Domain 2 (Governance—legal oversight)"
+            "Primary: Domain B (Governance, ownership and leadership, B6) - regulatory compliance",
+            "Secondary: Domain B (Governance, ownership and leadership) - legal oversight"
           ],
           "title": "HANDBOOK SECTION 2:"
         },
@@ -607,8 +612,8 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 3 (Curriculum), Domain 5 (Assessment)",
-            "Secondary: Domain 8 (Operational Systems—exam security)"
+            "Primary: Domain C (The curriculum), Domain D (Teaching and assessing for learning, D7-D8)",
+            "Secondary: Domain G (Premises, facilities, technology systems and auxiliary services) - exam security"
           ],
           "title": "HANDBOOK SECTION 3:"
         },
@@ -653,7 +658,7 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 1 (Purpose and Direction)",
+            "Primary: Domain A (Purpose and direction)",
             "Secondary: All domains (SIP addresses all areas of school operation)"
           ],
           "title": "HANDBOOK SECTION 4:"
@@ -698,8 +703,8 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 3 (Curriculum)",
-            "Secondary: Domain 4 (Teaching and Learning), Domain 6 (Student Support—EAL)"
+            "Primary: Domain C (The curriculum)",
+            "Secondary: Domain D (Teaching and assessing for learning, D1-D6), Domain E (Wellbeing) - EAL"
           ],
           "title": "HANDBOOK SECTION 5:"
         },
@@ -742,8 +747,8 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 5 (Assessment)",
-            "Secondary: Domain 4 (Teaching and Learning—data use)"
+            "Primary: Domain D (Teaching and assessing for learning, D7-D8)",
+            "Secondary: Domain D (Teaching and assessing for learning, D1-D6) - data use"
           ],
           "title": "HANDBOOK SECTION 6:"
         },
@@ -790,8 +795,8 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 4 (Teaching and Learning)",
-            "Secondary: Domain 7 (Staff Development)"
+            "Primary: Domain D (Teaching and assessing for learning, D1-D6)",
+            "Secondary: Domain F (Staffing)"
           ],
           "title": "HANDBOOK SECTION 7:"
         },
@@ -836,8 +841,8 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 6 (Student Support)",
-            "Secondary: Domain 4 (Teaching and Learning—differentiation)"
+            "Primary: Domain E (Wellbeing)",
+            "Secondary: Domain D (Teaching and assessing for learning, D1-D6) - differentiation"
           ],
           "title": "HANDBOOK SECTION 8:"
         },
@@ -883,8 +888,8 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 6 (Student Support), Domain 8 (Operational Systems—health & safety)",
-            "Secondary: Domain 7 (Staff Development—safeguarding training)"
+            "Primary: Domain E (Wellbeing), Domain G (Premises, facilities, technology systems and auxiliary services) - health & safety",
+            "Secondary: Domain F (Staffing) - safeguarding training"
           ],
           "title": "HANDBOOK SECTION 9:"
         },
@@ -933,8 +938,8 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 5 (Assessment—exam integrity)",
-            "Secondary: Domain 8 (Operational Systems—secure facilities)"
+            "Primary: Domain D (Teaching and assessing for learning, D7-D8) - exam integrity",
+            "Secondary: Domain G (Premises, facilities, technology systems and auxiliary services) - secure facilities"
           ],
           "title": "HANDBOOK SECTION 10:"
         },
@@ -979,8 +984,8 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 9 (Community and Partnerships—admissions transparency)",
-            "Secondary: Domain 6 (Student Support—equitable access)"
+            "Primary: Domain H (Community and home partnerships) - admissions transparency",
+            "Secondary: Domain E (Wellbeing) - equitable access"
           ],
           "title": "HANDBOOK SECTION 11:"
         },
@@ -1023,8 +1028,8 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 7 (Staff Recruitment, Development, and Wellbeing)",
-            "Secondary: Domain 2 (Leadership—HR oversight)"
+            "Primary: Domain F (Staffing)",
+            "Secondary: Domain B (Governance, ownership and leadership) - HR oversight"
           ],
           "title": "HANDBOOK SECTION 12:"
         },
@@ -1070,8 +1075,8 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 8 (Operational Systems)",
-            "Secondary: Domain 2 (Governance—financial oversight)"
+            "Primary: Domain G (Premises, facilities, technology systems and auxiliary services)",
+            "Secondary: Domain B (Governance, ownership and leadership) - financial oversight"
           ],
           "title": "HANDBOOK SECTION 13:"
         },
@@ -1116,8 +1121,8 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 8 (Operational Systems—data security)",
-            "Secondary: Domain 5 (Assessment—secure data handling)"
+            "Primary: Domain G (Premises, facilities, technology systems and auxiliary services) - data security",
+            "Secondary: Domain D (Teaching and assessing for learning, D7-D8) - secure data handling"
           ],
           "title": "HANDBOOK SECTION 14:"
         },
@@ -1161,8 +1166,8 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 8 (Operational Systems—risk and safety)",
-            "Secondary: Domain 2 (Governance—risk oversight)"
+            "Primary: Domain G (Premises, facilities, technology systems and auxiliary services) - risk and safety",
+            "Secondary: Domain B (Governance, ownership and leadership) - risk oversight"
           ],
           "title": "HANDBOOK SECTION 15:"
         },
@@ -1207,8 +1212,8 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 9 (Community and Partnerships)",
-            "Secondary: Domain 1 (Purpose and Direction—stakeholder input)"
+            "Primary: Domain H (Community and home partnerships)",
+            "Secondary: Domain A (Purpose and direction) - stakeholder input"
           ],
           "title": "HANDBOOK SECTION 16:"
         },
@@ -1253,7 +1258,7 @@
         {
           "type": "list",
           "items": [
-            "Primary: Domain 1 (Purpose and Direction—continuous improvement)",
+            "Primary: Domain A (Purpose and direction) - continuous improvement",
             "Secondary: All domains (QA reviews all areas)"
           ],
           "title": "HANDBOOK SECTION 17:"
@@ -1294,7 +1299,7 @@
         },
         {
           "type": "text",
-          "text": "ACCREDITATION TOOLKIT (CIS/WASC) CIS Domains: All nine domains WASC Categories: All five categories Key Evidence/Artifacts:"
+          "text": "ACCREDITATION TOOLKIT (CIS/WASC) CIS Domains: A-H (all eight applicable domains). Domain I applies only to schools with boarding or homestay. WASC Categories: All five categories Key Evidence/Artifacts:"
         },
         {
           "type": "list",
@@ -2023,7 +2028,128 @@
       "content": [
         {
           "type": "text",
-          "text": "[NOT YET AUTHORED - this madde is a placeholder. Planned scope: detailed timeline, self-study structure, chapter templates, quality criteria, etc.. Do not rely on this section for accreditation preparation until it is written. See AUDIT-2026-08-16.md.]"
+          "text": "This madde explains how a school runs its self-study: what it produces, who does the work, and in what order. A self-study is the school's own honest review of itself against the standards. It is not a document the school writes for the visiting team at the last minute. The visit checks what the self-study found."
+        },
+        {
+          "type": "text",
+          "title": "The two processes are not the same shape",
+          "text": "Eduversal partner schools work with two accreditors, and their self-study processes differ. Do not try to run one process and submit it twice. Plan them as two products drawn from one body of evidence."
+        },
+        {
+          "type": "table",
+          "title": "Self-study at a glance — ACS WASC and CIS compared",
+          "headers": [
+            "Point of comparison",
+            "ACS WASC",
+            "CIS"
+          ],
+          "rows": [
+            [
+              "Cycle length",
+              "Six years (Focus on Learning 2019, p.15)",
+              "Five years (CIS Evaluation Framework [Revised], p.2)"
+            ],
+            [
+              "What the school writes",
+              "One self-study report in five chapters, produced by five Tasks (p.37)",
+              "A written reflection for each standard, with the school's own rating against the criteria"
+            ],
+            [
+              "How the work is organised",
+              "Leadership Team, Home Groups and Focus Groups (p.17)",
+              "The school decides. Most schools use a steering group plus a working group per domain"
+            ],
+            [
+              "Rating scale",
+              "Strengths and growth needs per criterion",
+              "Four evaluation stages: Membership, Preparatory, Team, Future aspirations (p.2)"
+            ],
+            [
+              "Report deadline",
+              "To the visiting committee no later than six weeks before the visit (p.14)",
+              "Submitted through the school's own digital space; date set with the CIS officers"
+            ],
+            [
+              "Mid-point check",
+              "Mid-cycle report in year three, with a possible one- or two-day review (p.15, p.31)",
+              "Progress is reviewed with the school's CIS officers across the five-year cycle"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "title": "The five ACS WASC Tasks and what each produces",
+          "text": "ACS WASC structures the self-study as five Tasks. Each Task produces one chapter of the report. The Model Timeline is at Focus on Learning 2019, p.37."
+        },
+        {
+          "type": "table",
+          "title": "ACS WASC Tasks 1-5 and their products",
+          "headers": [
+            "Task",
+            "What the school does",
+            "Product",
+            "Who leads"
+          ],
+          "rows": [
+            [
+              "Task 1",
+              "Summarise progress since the previous self-study",
+              "Chapter I: Progress Report on the schoolwide action plan",
+              "Leadership Team, with all stakeholders"
+            ],
+            [
+              "Task 2",
+              "Refine the student and community profile from analysed data; clarify the schoolwide learner outcomes and the major student learner needs",
+              "Chapter II: Student/Community Profile",
+              "Leadership Team or Profile Committee, with all stakeholders"
+            ],
+            [
+              "Task 3",
+              "Analyse the quality of the school programme against the ACS WASC criteria, focusing on the major student learner needs; decide strengths and growth needs",
+              "Chapter III: Self-Study Findings",
+              "Focus Groups and Home Groups"
+            ],
+            [
+              "Task 4",
+              "Summarise the identified major student learner needs from the profile and the group findings",
+              "Chapter IV: Summary of Identified Major Student Learner Needs",
+              "Leadership Team or Profile Committee"
+            ],
+            [
+              "Task 5",
+              "Revise the schoolwide action plan; set growth targets; set up follow-up monitoring",
+              "Chapter V: Schoolwide Action Plan",
+              "Leadership Team, with all stakeholders through Home and Focus Groups"
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "title": "A realistic timeline",
+          "items": [
+            "Start about 18 months before the visit. Schools that start six months before produce a description of the school rather than an analysis of it, and visiting teams can tell the difference.",
+            "Months 1-3: the Principal names the coordinator and the groups, and the school agrees how it will collect evidence. Nothing is written yet.",
+            "Months 4-9: groups gather and analyse evidence. Most of the real work happens here.",
+            "Months 10-14: the school writes. Each group drafts its own part; the coordinator edits for one voice.",
+            "Months 15-16: the school agrees the action plan and checks that every claim in the report has evidence behind it.",
+            "At least six weeks before the visit: the ACS WASC report goes to the visiting committee (Focus on Learning 2019, p.14). Submit the CIS reflection on the date agreed with the CIS officers."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Quality tests to apply before you submit",
+          "items": [
+            "Every judgement names its evidence. A statement with no evidence behind it is an opinion, and a visiting team will treat it as one.",
+            "The report says what is weak as well as what is strong. A self-study with no growth needs is not believed.",
+            "The findings and the action plan agree with each other. If Chapter III finds a problem, Chapter V must address it.",
+            "Staff who did not write the report recognise the school in it.",
+            "It is written in plain English. Most readers, including many staff, read English as an additional language."
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Note on this madde",
+          "text": "Authored by Eduversal, 2026-08-17. This madde is new content, not transcribed source material. It replaces a placeholder that marked the self-study process and timeline as not yet written. Procedural facts are cited to ACS WASC Focus on Learning (2019 edition) and to the CIS Evaluation Framework [Revised] and CIS Instructions for Submission (August 2024), with page numbers, so each can be checked at source. Where CIS and ACS WASC differ, both are stated separately rather than merged."
         }
       ]
     },
@@ -2033,7 +2159,57 @@
       "content": [
         {
           "type": "text",
-          "text": "[NOT YET AUTHORED - this madde is a placeholder. Planned scope: survey design, focus groups, analysis methods, etc.. Do not rely on this section for accreditation preparation until it is written. See AUDIT-2026-08-16.md.]"
+          "text": "Both accreditors expect the school community to take part in the self-study. Stakeholder involvement is part of the method, not an extra activity. A self-study written by three senior leaders is not a self-study, and both accreditors treat it as a weakness."
+        },
+        {
+          "type": "list",
+          "title": "How ACS WASC organises participation",
+          "items": [
+            "ACS WASC names three types of group (Focus on Learning 2019, p.17): the Leadership Team, Home Groups and Focus Groups.",
+            "Leadership Team: plans the process, keeps it moving, and edits the report so it reads as one document.",
+            "Home Groups: staff grouped by role or department. They analyse student data and achievement for their own area.",
+            "Focus Groups: mixed groups drawn from across the school. Each takes one criteria category (A to D) and analyses the whole school against it.",
+            "The two group types feed each other. Home Groups supply subject-level evidence; Focus Groups look across the school. A school that runs only one of the two produces a partial picture."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "How CIS organises participation",
+          "items": [
+            "CIS does not prescribe a group structure. The school chooses one and explains it.",
+            "Most schools use a steering group plus one working group per domain (A to H).",
+            "Each working group writes the reflection for its domain and gathers the evidence for it.",
+            "Domain I (Residential services) applies only to schools with boarding or homestay, so partner schools normally have eight working groups, not nine."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Who must be asked, and about what",
+          "items": [
+            "Teaching staff — teaching and learning, curriculum, assessment, professional development, workload, and how supported they feel.",
+            "Support and administrative staff — systems, communication, and whether they can do their work well. They see problems teachers do not.",
+            "Students — whether they feel safe, known and challenged; whether they know how to improve; whether adults listen to them.",
+            "Parents — communication, reporting, and whether the school does what it says it does.",
+            "The Yayasan (foundation) and governors — direction, finance, and the school's long-term plan.",
+            "Alumni, where the school can reach them — how well the school prepared them for what came next."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Running surveys well",
+          "items": [
+            "The Principal must decide, before the survey opens, what the school will do with the results. A survey the school does not act on damages trust more than no survey at all.",
+            "Offer surveys in Bahasa Indonesia as well as English. A parent answering in a second language gives you a shorter and less honest answer.",
+            "Keep responses anonymous, and say so clearly. Say who will see the results.",
+            "Ask a small number of clear questions. A long survey produces a low response rate and rushed answers at the end.",
+            "Report the results back to the people who answered, including the uncomfortable findings. This is the step schools skip, and it is the step that decides whether the next survey works.",
+            "Record the response rate for each group. A 12% parent response rate is itself a finding about communication."
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Note on this madde",
+          "text": "Authored by Eduversal, 2026-08-17. This madde is new content, not transcribed source material. It replaces a placeholder that marked stakeholder involvement and surveys as not yet written. Procedural facts are cited to ACS WASC Focus on Learning (2019 edition) and to the CIS Evaluation Framework [Revised] and CIS Instructions for Submission (August 2024), with page numbers, so each can be checked at source. Where CIS and ACS WASC differ, both are stated separately rather than merged."
         }
       ]
     },
@@ -2043,7 +2219,54 @@
       "content": [
         {
           "type": "text",
-          "text": "[NOT YET AUTHORED - this madde is a placeholder. Planned scope: logistics planning, visit schedule, team activities, etc.. Do not rely on this section for accreditation preparation until it is written. See AUDIT-2026-08-16.md.]"
+          "text": "This madde covers the practical preparation for an accreditation visit: what to send, what to give the team access to, and how to look after the school's data while doing it."
+        },
+        {
+          "type": "list",
+          "title": "Before the visit — documents",
+          "items": [
+            "ACS WASC: send the completed self-study report to the visiting committee members no later than six weeks before the visit (Focus on Learning 2019, p.14). This is a firm deadline. The team reads the report before they arrive.",
+            "CIS: submit the written reflections and the evidence in the school's own digital space, on the date agreed with the CIS officers. Evidence is never accepted by email (CIS Instructions for Submission, August 2024, p.8).",
+            "Send the school timetable, a site map, and the visit schedule with the report, so the team can plan their days."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Giving CIS access to evidence — the required set-up",
+          "items": [
+            "Nominate one person to give IT support for file access during the visit, and share that contact with the final report (CIS Instructions for Submission, p.8).",
+            "Give read-only access to four parties: the School Services Advisor (SSA), the School Support and Evaluation Officer (SSEO), accreditation@cois.org, and the visiting evaluators (p.8).",
+            "Read-only means read-only. Links must not allow download, printing, or sharing onward (p.7).",
+            "Share with named individuals, never through a public link (p.7).",
+            "Share credentials safely — for example a one-time password that must be changed at first login. Do not send passwords or personal data by email (p.7).",
+            "Store financial documents separately, in their own password-protected location. Only the SSEO reviews them; volunteer evaluators do not need access unless the SSEO asks (p.7, p.8).",
+            "Remove access afterwards: volunteer evaluators two weeks after the visit ends, CIS accounts after the final report is published (p.8)."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "During the visit — practical arrangements",
+          "items": [
+            "Give the team a private room with a door that closes, reliable internet, power sockets, and somewhere to leave papers safely overnight.",
+            "Do not put the team in a room where staff or students can overhear interviews.",
+            "Agree in advance who the team may talk to, and tell those people. Nobody should be surprised by an interview.",
+            "Let the team move around the school freely. A tightly controlled tour suggests the school is hiding something, even when it is not.",
+            "Name one person the team contacts with questions, and make sure that person is not teaching a full timetable that week."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "What not to do",
+          "items": [
+            "Do not rehearse students or staff. Visiting teams recognise it, and it costs the school credibility on everything else it says.",
+            "Do not repaint, redecorate or rearrange for the visit. The team is judging the normal school.",
+            "Do not hide a known weakness. A weakness the school has named and is acting on reads as strength; the same weakness found by the team reads as poor self-knowledge."
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Note on this madde",
+          "text": "Authored by Eduversal, 2026-08-17. This madde is new content, not transcribed source material. It replaces a placeholder that marked visit preparation and logistics as not yet written. Procedural facts are cited to ACS WASC Focus on Learning (2019 edition) and to the CIS Evaluation Framework [Revised] and CIS Instructions for Submission (August 2024), with page numbers, so each can be checked at source. Where CIS and ACS WASC differ, both are stated separately rather than merged."
         }
       ]
     },
@@ -2053,7 +2276,68 @@
       "content": [
         {
           "type": "text",
-          "text": "[NOT YET AUTHORED - this madde is a placeholder. Planned scope: termly rotation, review process, checklists, etc.. Do not rely on this section for accreditation preparation until it is written. See AUDIT-2026-08-16.md.]"
+          "text": "Accreditation runs on a cycle, not on a visit. Most of the cycle happens between visits. A school that stops working after a successful visit spends the next cycle rebuilding what it let go."
+        },
+        {
+          "type": "table",
+          "title": "The ACS WASC six-year Cycle of Quality",
+          "headers": [
+            "Year",
+            "What the school does"
+          ],
+          "rows": [
+            [
+              "Year 1",
+              "Update the profile, write a progress report, refine the schoolwide action plan"
+            ],
+            [
+              "Year 2",
+              "Update the profile, write a progress report, refine the action plan"
+            ],
+            [
+              "Year 3",
+              "Update the profile, write the mid-cycle progress report; a one- or two-day review is possible; refine the action plan"
+            ],
+            [
+              "Year 4",
+              "Update the profile, write a progress report, refine the action plan"
+            ],
+            [
+              "Year 5",
+              "Review all profile data, write a progress report, run the self-study process, refine the action plan"
+            ],
+            [
+              "Year 6",
+              "Complete the self-study, host the visit, refine the action plan — and the new cycle begins"
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "title": "The annual work between visits",
+          "items": [
+            "Involve all stakeholders in reviewing progress (Focus on Learning 2019, p.31).",
+            "Summarise progress on each section of the schoolwide action plan every year, note the key evidence, and change the plan where it needs changing.",
+            "Review the schoolwide learner outcomes, the vision and the mission from time to time — not every year, but never once per cycle either.",
+            "Analyse data that shows whether the school is actually progressing, and write the mid-cycle report for ACS WASC in year three.",
+            "Be ready to host a one- or two-day review in year three if the school holds a six-year accreditation status (p.31)."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Eduversal mini self-review — a light internal check",
+          "items": [
+            "Once a year, and separately from the accreditor's requirements, each partner school should run a short internal review against two or three domains rather than all of them.",
+            "Rotate the domains so every domain is reviewed at least twice in a cycle.",
+            "Keep it to one working day. This is a health check, not a rehearsal of the self-study.",
+            "Use the same evidence the school already produces. If a review needs new documents created for it, it is testing paperwork rather than practice.",
+            "Send the result to the Academic Coordinator and the Principal, and record any action in the school improvement plan — not in a separate accreditation file that nobody opens."
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Note on this madde",
+          "text": "Authored by Eduversal, 2026-08-17. This madde is new content, not transcribed source material. It replaces a placeholder that marked mini self-reviews and continuous readiness as not yet written. Procedural facts are cited to ACS WASC Focus on Learning (2019 edition) and to the CIS Evaluation Framework [Revised] and CIS Instructions for Submission (August 2024), with page numbers, so each can be checked at source. Where CIS and ACS WASC differ, both are stated separately rather than merged."
         }
       ]
     },
@@ -2063,7 +2347,52 @@
       "content": [
         {
           "type": "text",
-          "text": "[NOT YET AUTHORED - this madde is a placeholder. Planned scope: SMART goals, action plan structure, integration with SIP, etc.. Do not rely on this section for accreditation preparation until it is written. See AUDIT-2026-08-16.md.]"
+          "text": "The action plan is what the self-study is for. Everything before it — the data, the analysis, the findings — exists to produce a plan the school will actually follow."
+        },
+        {
+          "type": "text",
+          "title": "One plan, not several",
+          "text": "ACS WASC is explicit on this point: \"The school integrates the school initiatives into one overall plan\" (Focus on Learning 2019, p.69). A school must not keep an accreditation action plan beside a separate school improvement plan. Two plans compete for the same staff time, and the one nobody is watching is abandoned first. Merge them, and let the single plan serve both the accreditor and the school."
+        },
+        {
+          "type": "list",
+          "title": "What each section of the plan must contain",
+          "items": [
+            "A statement of the area for improvement, written in terms of students — what will be better for them, not what the school will install.",
+            "The reason for choosing it, taken from a specific self-study finding.",
+            "Growth targets for the whole school and for any subgroup that the data shows is behind.",
+            "The steps the school will take, in order.",
+            "Who is responsible for each step, by role.",
+            "The resources needed, including staff time.",
+            "How progress will be measured, and how often.",
+            "How the school will report progress to its stakeholders."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Writing targets that can be checked",
+          "items": [
+            "Weak: \"Improve student writing.\" Nobody can tell whether this happened.",
+            "Better: \"Raise the proportion of Year 8 students reaching the expected standard in extended writing from 54% to 70% by June, measured by the common assessment.\"",
+            "A target must name the group, the measure, the starting point, the intended end point, and the date.",
+            "Three or four well-chosen targets beat twelve. A plan with twelve targets is a plan the school will not finish, and the visiting team knows this."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Keeping the plan alive between visits",
+          "items": [
+            "The Principal must put the action plan on a leadership meeting agenda at a fixed interval — termly at least.",
+            "Each named owner reports on their own section. A plan reviewed only by the coordinator becomes the coordinator's plan.",
+            "Record what did not work and why. A plan that shows only successes is not being used honestly.",
+            "Update the plan when circumstances change. A plan that is never revised has stopped describing the school.",
+            "After an ACS WASC visit, the school should send the modified action plan to the ACS WASC office no later than six weeks after the visit, as one PDF or Word document, incorporating the areas for follow-up the visiting committee left (Focus on Learning 2019, p.137)."
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Note on this madde",
+          "text": "Authored by Eduversal, 2026-08-17. This madde is new content, not transcribed source material. It replaces a placeholder that marked action plans and improvement cycles as not yet written. Procedural facts are cited to ACS WASC Focus on Learning (2019 edition) and to the CIS Evaluation Framework [Revised] and CIS Instructions for Submission (August 2024), with page numbers, so each can be checked at source. Where CIS and ACS WASC differ, both are stated separately rather than merged."
         }
       ]
     },
@@ -2073,7 +2402,89 @@
       "content": [
         {
           "type": "text",
-          "text": "[NOT YET AUTHORED - this madde is a placeholder. Planned scope: comprehensive evidence checklist organized by category. Do not rely on this section for accreditation preparation until it is written. See AUDIT-2026-08-16.md.]"
+          "text": "Evidence is the material that shows a claim is true. Both accreditors judge the school on evidence, not on description. This madde covers how to organise it so it can be found and used."
+        },
+        {
+          "type": "list",
+          "title": "CIS rules for evidence files — these are requirements, not advice",
+          "items": [
+            "Use a simple, logical naming convention. The filename must say what the file contains: \"Teaching and Learning Policy\", not \"C1_Policy 4.23\" (CIS Instructions for Submission, August 2024, p.5).",
+            "Do NOT put the standard or criteria number in the filename. One file is often hyperlinked from several parts of the report — a Teaching and Learning Policy may be cited under A2, C1 and D1 — and a number in the name makes it look as if it belongs to only one (p.5).",
+            "Hyperlink every piece of evidence from the writing that refers to it. A reader should never have to search for a file (p.5).",
+            "Store evidence somewhere searchable, and organise the folders so a stranger can navigate them (p.5).",
+            "Do not keep duplicate copies of the same file in different folders. Link to one copy."
+          ]
+        },
+        {
+          "type": "text",
+          "title": "What counts as strong evidence",
+          "text": "Strong evidence shows practice, not intention. A policy shows what the school intends. A completed observation form, a set of minutes recording a decision, or a data set showing a change over time shows what the school does. Both are needed, but a folder holding only policies will not satisfy either accreditor."
+        },
+        {
+          "type": "table",
+          "title": "Evidence types — with the Eduversal source for each",
+          "headers": [
+            "Evidence type",
+            "Examples",
+            "Where it already exists at Eduversal"
+          ],
+          "rows": [
+            [
+              "Policy and governance",
+              "Policy register, board minutes, organisational chart, Yayasan documents",
+              "Section 1 and Section 2; the policy register at 2.14"
+            ],
+            [
+              "Curriculum",
+              "Schemes of work, curriculum maps, subject documentation",
+              "Section 5; the pacing documents each school maintains"
+            ],
+            [
+              "Teaching and learning",
+              "Observation records, walkthrough notes, appraisal records, professional development logs",
+              "Section 7 and Section 12; the appraisal framework"
+            ],
+            [
+              "Assessment and achievement",
+              "Common assessment results, EASE data, Cambridge results analysis, reporting samples",
+              "Section 6 and Section 10"
+            ],
+            [
+              "Wellbeing and safeguarding",
+              "Safeguarding policy, training records, incident logs, student voice records",
+              "Section 9 and Section 22"
+            ],
+            [
+              "Staffing",
+              "Recruitment records, induction records, qualification register, staff composition data",
+              "Section 12; the SPK nationality composition at 12.2"
+            ],
+            [
+              "Premises and technology",
+              "Maintenance records, health and safety checks, risk assessments, IT and data protection records",
+              "Section 13, Section 14 and Section 15"
+            ],
+            [
+              "Community and home",
+              "Parent communication records, survey results, partnership agreements",
+              "Section 16 and Section 23"
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Practical rules for the school",
+          "items": [
+            "Collect evidence as it is produced, throughout the cycle. A school that assembles evidence in the final three months produces a thin file and exhausts its staff.",
+            "Name one person as evidence owner per domain — normally the person who already holds that work.",
+            "Check yearly that stored evidence is still current. Out-of-date evidence is worse than none: it shows the school is not looking.",
+            "Keep personal data out of shared evidence folders unless it is necessary, and follow Section 14 when it is. Accreditation does not suspend UU No. 27/2022."
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Note on this madde",
+          "text": "Authored by Eduversal, 2026-08-17. This madde is new content, not transcribed source material. It replaces a placeholder that marked the evidence and artifacts checklist as not yet written. Procedural facts are cited to ACS WASC Focus on Learning (2019 edition) and to the CIS Evaluation Framework [Revised] and CIS Instructions for Submission (August 2024), with page numbers, so each can be checked at source. Where CIS and ACS WASC differ, both are stated separately rather than merged."
         }
       ]
     },
@@ -2083,7 +2494,122 @@
       "content": [
         {
           "type": "text",
-          "text": "[NOT YET AUTHORED - this madde is a placeholder. Planned scope: detailed role descriptions for all stakeholders. Do not rely on this section for accreditation preparation until it is written. See AUDIT-2026-08-16.md.] ## CONCLUSION ACCREDITATION AS EMBEDDED EXCELLENCE Accreditation is not a destination—it is a journey of continuous improvement. By embedding accreditation practices into our daily operations through: ✓ Systematic evidence collection (Section 18.4) ✓ Comprehensive crosswalks linking practice to standards (Section 18.3) ✓ Meaningful stakeholder engagement (Section 18.6) ✓ Rigorous self-study (Section 18.5) ✓ Thorough visit preparation (Section 18.7) ✓ Termly mini self-reviews (Section 18.8) ✓ Action-oriented improvement cycles (Section 18.9) ...we ensure that accreditation becomes a natural validation of our commitment to excellence, not an overwhelming compliance burden. Eduversal Partner Schools pursue CIS and WASC accreditation because we believe in:"
+          "text": "Accreditation fails most often for one reason: everybody assumed somebody else was doing it. This madde names who does what. Each school writes the names of real people against these roles at the start of the cycle."
+        },
+        {
+          "type": "table",
+          "title": "Roles inside the school",
+          "headers": [
+            "Role",
+            "Who normally holds it",
+            "What they are responsible for"
+          ],
+          "rows": [
+            [
+              "Accreditation Coordinator",
+              "Academic Coordinator, or a senior teacher given released time",
+              "Runs the process day to day. Keeps the timeline, chases drafts, edits the report into one voice, and is the single contact for the accreditors."
+            ],
+            [
+              "Principal",
+              "Principal",
+              "Owns the outcome. Decides the group structure. Protects the time the work needs. Approves the report before it is submitted, and answers to the Yayasan and to Eduversal for the result."
+            ],
+            [
+              "Steering group",
+              "Principal, Accreditation Coordinator, Academic Coordinator, and domain or Focus Group leads",
+              "Meets regularly through the cycle. Reviews progress, resolves disagreements about findings, and signs off each chapter or reflection."
+            ],
+            [
+              "Domain or Focus Group leads",
+              "Middle leaders and experienced teachers",
+              "Lead the analysis for one domain or one criteria category, gather its evidence, and draft that part of the report."
+            ],
+            [
+              "Home Group leads (ACS WASC)",
+              "Heads of department or phase leaders",
+              "Lead analysis of student data and achievement within their own area, and feed it to the Focus Groups."
+            ],
+            [
+              "Evidence owner",
+              "The person who already produces that evidence",
+              "Keeps their domain's evidence current, named clearly, and hyperlinked from the report."
+            ],
+            [
+              "IT contact",
+              "IT Manager or equivalent",
+              "Provides access support for the evaluators' file access, and removes access on schedule after the visit. CIS requires this person to be nominated (CIS Instructions for Submission, August 2024, p.8)."
+            ],
+            [
+              "Data Protection point of contact",
+              "As designated in Section 14",
+              "Checks that sharing evidence with evaluators complies with UU No. 27/2022 and with Section 14."
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "External roles — who is who at the accreditor",
+          "headers": [
+            "Role",
+            "Body",
+            "What they do"
+          ],
+          "rows": [
+            [
+              "School Services Advisor (SSA)",
+              "CIS",
+              "The school's operational contact for membership and submission matters."
+            ],
+            [
+              "School Support and Evaluation Officer (SSEO)",
+              "CIS",
+              "Advises on the framework and the content of the reflections. The only person who reviews the school's financial documents (CIS Instructions for Submission, p.7)."
+            ],
+            [
+              "accreditation@cois.org",
+              "CIS",
+              "The urgent support address. Also holds read-only access to the school's evidence space (p.8)."
+            ],
+            [
+              "Visiting evaluators",
+              "CIS",
+              "Read the reflections, visit the school, and report. Their access is removed two weeks after the visit ends (p.8)."
+            ],
+            [
+              "Visiting committee",
+              "ACS WASC",
+              "Reads the self-study report at least six weeks before arriving. Visits the school. Leaves growth areas for the school to add to its action plan (Focus on Learning 2019, p.14, p.37)."
+            ]
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Eduversal's role",
+          "items": [
+            "Eduversal supports partner schools through the cycle. It does not run the self-study for them, and it must not: an accreditor judges the school's own capacity to see itself clearly.",
+            "The Subject Specialists and the Academic Board supply network-level evidence — the standards in this manual, the common assessment data, and the appraisal framework.",
+            "Eduversal reviews a school's draft report if asked, and gives an outside reading before submission.",
+            "A school must tell Eduversal when a visit is scheduled, so support can be planned around it."
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Setting the roles at the start of the cycle",
+          "items": [
+            "The Principal must fill these roles by name, in writing, before the self-study begins.",
+            "Give the Accreditation Coordinator released time. A coordinator with a full timetable will do the work badly and resent it.",
+            "Review the names each year. Staff leave, and an unowned role is discovered at the worst moment."
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Note on this madde",
+          "text": "Authored by Eduversal, 2026-08-17. This madde is new content, not transcribed source material. It replaces a placeholder that marked roles and responsibilities as not yet written. Procedural facts are cited to ACS WASC Focus on Learning (2019 edition) and to the CIS Evaluation Framework [Revised] and CIS Instructions for Submission (August 2024), with page numbers, so each can be checked at source. Where CIS and ACS WASC differ, both are stated separately rather than merged."
+        },
+        {
+          "type": "text",
+          "text": "## CONCLUSION ACCREDITATION AS EMBEDDED EXCELLENCE Accreditation is not a destination—it is a journey of continuous improvement. By embedding accreditation practices into our daily operations through: ✓ Systematic evidence collection (Section 18.4) ✓ Comprehensive crosswalks linking practice to standards (Section 18.3) ✓ Meaningful stakeholder engagement (Section 18.6) ✓ Rigorous self-study (Section 18.5) ✓ Thorough visit preparation (Section 18.7) ✓ Termly mini self-reviews (Section 18.8) ✓ Action-oriented improvement cycles (Section 18.9) ...we ensure that accreditation becomes a natural validation of our commitment to excellence, not an overwhelming compliance burden. Eduversal Partner Schools pursue CIS and WASC accreditation because we believe in:"
         },
         {
           "type": "list",
@@ -2096,27 +2622,27 @@
         },
         {
           "type": "text",
-          "text": "When accreditation is embedded in how we work—when evidence generation is part of professional practice, when stakeholder feedback is routinely sought, when improvement is systematic—then accreditation becomes what it should be: a celebration of quality, not a test to pass. This toolkit empowers Eduversal Partner School Principals and leadership teams to lead accreditation with confidence, clarity, and purpose. Use it well, and accreditation will strengthen everything we do in service of our mission and our students' success. ## CROSS-REFERENCES TO OTHER HANDBOOK SECTIONS:"
+          "text": "When accreditation is embedded in how we work—when evidence generation is part of professional practice, when stakeholder feedback is routinely sought, when improvement is systematic—then accreditation becomes what it should be: a celebration of quality, not a test to pass. Once maddes 18.5-18.11 are written, this toolkit will empower Eduversal Partner School Principals and leadership teams to lead accreditation with confidence, clarity, and purpose. Use it well, and accreditation will strengthen everything we do in service of our mission and our students' success. ## CROSS-REFERENCES TO OTHER HANDBOOK SECTIONS:"
         },
         {
           "type": "list",
           "items": [
-            "Section 1: Governance Charter → Evidence for CIS Domain 2, WASC Category A",
-            "Section 2: Indonesian Compliance → Evidence for CIS Domain 8, WASC Category D",
+            "Section 1: Governance Charter → Evidence for CIS Domain B (Governance, ownership and leadership), WASC Category A",
+            "Section 2: Indonesian Compliance → Evidence for CIS Domain B (Governance, ownership and leadership; B6 written policies and regulatory compliance), WASC Category D",
             "Section 3: Cambridge Centre Compliance → Evidence for CIS Domains 3 & 5, WASC Category B",
             "Section 4: Strategic Planning and School Improvement → Foundation for accreditation action plans",
-            "Section 5: Curriculum Architecture → Evidence for CIS Domain 3, WASC Category B",
-            "Section 6: Assessment, Moderation, and Reporting → Evidence for CIS Domain 5, WASC Category B",
-            "Section 7: Teaching Quality and Professional Practice → Evidence for CIS Domain 4, WASC Category B",
-            "Section 8: Inclusion, EAL, and Learning Support → Evidence for CIS Domain 6, WASC Category C",
+            "Section 5: Curriculum Architecture → Evidence for CIS Domain C (The curriculum), WASC Category B",
+            "Section 6: Assessment, Moderation, and Reporting → Evidence for CIS Domain D (Teaching and assessing for learning, D7-D8), WASC Category B",
+            "Section 7: Teaching Quality and Professional Practice → Evidence for CIS Domain D (Teaching and assessing for learning, D1-D6), WASC Category B",
+            "Section 8: Inclusion, EAL, and Learning Support → Evidence for CIS Domain E (Wellbeing), WASC Category C",
             "Section 9: Safeguarding, Child Protection, and Wellbeing → Evidence for CIS Domains 6 & 8, WASC Categories C & D",
-            "Section 10: Cambridge Examinations Management → Evidence for CIS Domain 5, WASC Category B",
-            "Section 11: Admissions, Enrollment, and Marketing Ethics → Evidence for CIS Domain 9, WASC Categories A & C",
-            "Section 12: Staff Lifecycle → Evidence for CIS Domain 7, WASC Categories A & D",
-            "Section 13: Operations, Finance, and Resources → Evidence for CIS Domain 8, WASC Category D",
-            "Section 14: Data Protection, Records, and Information Systems → Evidence for CIS Domain 8, WASC Category D",
-            "Section 15: Risk Management, Emergency Preparedness, and Business Continuity → Evidence for CIS Domain 8, WASC Category D",
-            "Section 16: Parent, Student, and Community Engagement → Evidence for CIS Domain 9, WASC Categories A & C",
+            "Section 10: Cambridge Examinations Management → Evidence for CIS Domain D (Teaching and assessing for learning, D7-D8), WASC Category B",
+            "Section 11: Admissions, Enrollment, and Marketing Ethics → Evidence for CIS Domain H (Community and home partnerships), WASC Categories A & C",
+            "Section 12: Staff Lifecycle → Evidence for CIS Domain F (Staffing), WASC Categories A & D",
+            "Section 13: Operations, Finance, and Resources → Evidence for CIS Domain B (B3 educational and financial planning) and Domain G (premises and facilities), WASC Category D",
+            "Section 14: Data Protection, Records, and Information Systems → Evidence for CIS Domain G (Premises, facilities, technology systems and auxiliary services), WASC Category D",
+            "Section 15: Risk Management, Emergency Preparedness, and Business Continuity → Evidence for CIS Domain G (Premises, facilities, technology systems and auxiliary services), WASC Category D",
+            "Section 16: Parent, Student, and Community Engagement → Evidence for CIS Domain H (Community and home partnerships), WASC Categories A & C",
             "Section 17: Quality Assurance and Internal Review → Evidence for CIS Domain A, and for the WASC Schoolwide Action Plan follow-up process (Chapter V / Task 5)",
             "Section 19: Templates and Operational Tools → Practical tools for implementing accreditation practices",
             "Section 20: References and Compliance Library → CIS/WASC standards and guidance documents"

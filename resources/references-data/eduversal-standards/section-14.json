@@ -290,7 +290,7 @@
         {
           "type": "text",
           "title": "Source verification",
-          "text": "Verified against the source statute on 2026-08-16. UU No. 27/2022: Article 20 enumerates the lawful bases for processing, beginning \"Pengendali Data Pribadi wajib memiliki dasar pemrosesan Data Pribadi\"; Article 53 makes a data protection officer mandatory on three tests - processing for public services, core activity requiring large-scale regular and systematic monitoring, and core activity involving large-scale specific or criminal personal data - none of which is a headcount threshold; Article 56 sets breach notification at \"3 x 24 (tiga kali dua puluh empat) jam\". Administrative sanctions for breach of Articles 53, 55 and 56 are set out in the following article and include written warning, suspension of processing, erasure, and administrative fines. Source: docs/research/permendiknas/no-27-2022-pdp.json."
+          "text": "Verified against the source statute on 2026-08-16. UU No. 27/2022: Article 20 enumerates the lawful bases for processing, beginning \"Pengendali Data Pribadi wajib memiliki dasar pemrosesan Data Pribadi\"; Article 53 makes a data protection officer mandatory on three tests - processing for public services, core activity requiring large-scale regular and systematic monitoring, and core activity involving large-scale specific or criminal personal data - none of which is a headcount threshold; Article 46(1) sets breach notification at \"3 x 24 (tiga kali dua puluh empat) jam\". Administrative sanctions for breach of Articles 46, 53 and 55 are set out in the following article and include written warning, suspension of processing, erasure, and administrative fines. Source: Desktop/Eduversal Sources/mevzuat/Nomor 27 Tahun 2022.pdf (salinan). [Provenance note, 2026-08-17: this regulation is NOT yet extracted into the docs/research/ archive. The citation above points to the source PDF held in Desktop/Eduversal Sources/mevzuat/, which is what was read. Extracting it into docs/research/permendiknas/ remains outstanding — until then, treat this note as a pointer to the salinan, not as an archive-backed verification.]"
         }
       ]
     },
@@ -2499,6 +2499,13 @@
               "HR confidential files"
             ],
             [
+              "Low-Level Concern Log (T-09) — concerns about adult conduct toward children",
+              "Employment + 25 years after separation",
+              "Eduversal network policy on a safeguarding rationale (NOT a statutory period — no Indonesian instrument fixes one). Aligned to the safeguarding category rather than the employment-discipline category because the log exists to reveal patterns over time, and the risk it guards against is delayed disclosure by a former student. Review entries that never formed part of a pattern at each annual review and dispose of them where retention is no longer justified, per UU No. 27/2022 storage limitation.",
+              "Shred (highly confidential); secure deletion",
+              "DSL secure safeguarding files, separate from HR personnel files"
+            ],
+            [
               "Training Records (Induction, Mandatory Training)",
               "Employment + 3 years after separation",
               "Staff development tracking; audit trail",
@@ -3183,7 +3190,7 @@
           "type": "list",
           "items": [
             "When required: High or Critical risk breaches likely to result in harm to rights and freedoms",
-            "Timeline: Within 3x24 hours of becoming aware of the breach, to both the affected data subject and the supervisory authority, per UU No. 27/2022 Article 56",
+            "Timeline: Within 3x24 hours of becoming aware of the breach, to both the affected data subject and the supervisory authority, per UU No. 27/2022 Article 46(1)",
             "Content: Detailed incident report (similar to individual notification but more technical detail); school's assessment of risk; mitigation measures; contact information",
             "Process: Follow procedures specified by Indonesian data protection authority (check authority website for current requirements)"
           ]
@@ -6453,7 +6460,7 @@
             "Article 33-40: Data subject rights (access, rectification, erasure, restriction, portability, objection)",
             "Article 42-43: Security obligations of data controllers and processors",
             "Article 44-45: Data processor agreements, data sharing requirements",
-            "Article 56-59: Data breach notification obligations (to data protection authority and affected individuals)",
+            "Article 46: Data breach notification obligations - written notice within 3x24 hours to the data subject and to the supervisory authority (Articles 56-59 govern cross-border transfer, not breach notification)",
             "Article 60: Accountability and documentation obligations",
             "Status of implementing regulations: As of 2025, Ministry of Communication and Information Technology developing implementing regulations on specific topics (breach notification procedures, DPIA requirements, etc.); schools should monitor for updates"
           ]
@@ -6652,7 +6659,7 @@
         },
         {
           "type": "text",
-          "text": "Domain D: Staffing and Resources (Resource Management & Development)"
+          "text": "Domain F: Staffing; Domain G: Premises, facilities, technology systems and auxiliary services (G3 covers technology systems and data)"
         },
         {
           "type": "list",
@@ -6669,7 +6676,7 @@
         },
         {
           "type": "text",
-          "text": "Domain E: School Culture and Partnerships (Culture & Environment)"
+          "text": "Domain H: Community and home partnerships (Culture & Environment)"
         },
         {
           "type": "list",

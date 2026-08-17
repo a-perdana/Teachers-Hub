@@ -117,11 +117,11 @@
         {
           "type": "list",
           "items": [
-            "Ensure secure dispatch of scripts to Cambridge within 48 hours (or per specification)",
+            "Ensure secure dispatch of scripts to Cambridge on the day of each exam wherever possible; five working days after the exam is the Cambridge deadline (late scripts risk NO RESULT / X grade). Eduversal internal target: 48 hours. (Cambridge Handbook 2026, s.5.4)",
             "Submit special consideration and access arrangements reports via CID",
             "Collate and analyze the results data upon release",
             "Manage post-results services (enquiries about results, access to scripts, remarks)",
-            "Maintain examination records for the required retention period (minimum 2 years)"
+            "Maintain examination records for the period set in the consolidated retention schedule at 14.5 (which states the legal basis per record type)"
           ]
         },
         {
@@ -301,7 +301,7 @@
         {
           "type": "text",
           "title": "Note on this table",
-          "text": "The script dispatch row states \"Within 48 hours of exam\". Cambridge Handbook 2026 sets the binding rule at the day of the exam or within five working days after it, beyond which scripts are late and may attract a NO RESULT (X grade). The 48-hour figure is an Eduversal internal target, not the Cambridge deadline, and must not be presented as the regulatory one - the corrected statement of the rule already appears in the 10.3.2 note \"Script despatch deadline - the binding rule\"."
+          "text": "The script despatch row now states the Cambridge rule directly: the day of the exam, or within five working days after it, beyond which scripts are late and may attract a NO RESULT (X grade) (Cambridge Handbook 2026, s.5.4). Eduversal keeps a tighter 48-hour internal target so the Cambridge deadline is never at risk; the internal target is labelled as such wherever it appears and is never presented as the regulatory deadline."
         },
         {
           "type": "table",
@@ -329,12 +329,12 @@
             ],
             [
               "Scripts dispatched to Cambridge",
-              "Within 48 hours of exam",
+              "Day of the exam wherever possible; five working days after the exam is the Cambridge deadline (late scripts risk NO RESULT / X grade). Eduversal internal target: 48 hours. (Cambridge Handbook 2026, s.5.4)",
               "Exams Officer + Courier"
             ],
             [
               "Special consideration requests",
-              "7 days after exam",
+              "Seven days after the LAST exam of the affected syllabus in the series (not seven days from the individual paper) - Cambridge Handbook 2026 p.117",
               "Exams Officer"
             ],
             [
@@ -700,7 +700,7 @@
         {
           "type": "list",
           "items": [
-            "Extra time (typically 25% extra)",
+            "Extra time (up to 25%, or over 25% where strongly justified - see 8.6)",
             "Separate invigilation in a smaller room",
             "Reader or scribe support (for candidates with specific learning difficulties)",
             "Modified question papers (enlarged text, Braille, colored overlays)",
@@ -747,7 +747,7 @@
           "items": [
             "Candidate was present and completed the exam (or made a genuine attempt)",
             "Adverse circumstances were beyond the candidate's control",
-            "Evidence (medical certificate, death certificate) is available and submitted within 7 days of the exam"
+            "Evidence (medical certificate, death certificate) is available and submitted no later than seven days after the LAST exam of the affected syllabus in that exam series (Cambridge Handbook 2026 p.117) - not seven days from the individual paper"
           ],
           "title": "10.6.2 Special Consideration"
         },
@@ -785,7 +785,7 @@
           "steps": [
             "Candidate or parent reports adverse circumstances to Exams Officer within 24 hours",
             "Collect evidence (medical certificate, incident report)",
-            "Exams Officer submits special consideration request via CID within 7 days of the exam",
+            "Exams Officer submits the special consideration request via CID no later than seven days after the LAST exam of the affected syllabus in that exam series (Cambridge Handbook 2026 p.117) - not seven days from the individual paper",
             "Cambridge reviews the evidence and, if approved, may apply a small percentage adjustment to the candidate's mark. The exact adjustment is at Cambridge's discretion and is not disclosed.",
             "Inform candidate of outcome when results are released"
           ]
@@ -1968,7 +1968,7 @@
         {
           "type": "text",
           "title": "Note on this table",
-          "text": "Square-bracket placeholders are present in the source image and are transcribed as-is rather than invented. Orphaned image with no marker; placed in the 10.18 appendices block. Two items to verify at the next review: the Eduversal address is on the eduversal.net domain (see the same question raised on the Section 20.7 contacts table), and the Cambridge addresses use the legacy cambridgeassessment.org.uk domain rather than cambridgeinternational.org."
+          "text": "Square-bracket placeholders are present in the source image and are transcribed as-is rather than invented. Orphaned image with no marker; placed in the 10.18 appendices block. Two items to verify at the next review: the Eduversal address is on the eduversal.org domain (see the same question raised on the Section 20.7 contacts table), and the Cambridge addresses use the legacy cambridgeassessment.org.uk domain rather than cambridgeinternational.org."
         },
         {
           "type": "table",
@@ -2008,7 +2008,7 @@
               "Eduversal network support",
               "Eduversal Chief of Academics",
               "[Eduversal number]",
-              "academics@eduversal.net"
+              "academics@eduversal.org"
             ]
           ]
         },
@@ -2067,8 +2067,8 @@
               "Exams Officer + Invigilators"
             ],
             [
-              "June 30",
-              "All scripts dispatched to Cambridge",
+              "Each exam day (May-June)",
+              "Scripts dispatched per exam on a rolling basis — each paper despatched on its own exam day (Cambridge deadline: five working days after that paper). There is no single end-of-series despatch date. (Cambridge Handbook 2026, s.5.4)",
               "Exams Officer"
             ],
             [

@@ -67,6 +67,18 @@
             "Digital Access: Available via the EduNav platform for authorized users"
           ],
           "title": "Language and Accessibility"
+        },
+        {
+          "type": "list",
+          "title": "How to read \"must\", \"should\" and \"may\" in this manual",
+          "items": [
+            "MUST — mandatory. The school has no discretion. Either the law requires it, Cambridge requires it as a centre, or Eduversal requires it as a condition of network membership. Non-compliance is a finding.",
+            "SHOULD — strongly recommended. This is Eduversal's expected practice and a school departing from it should be able to explain why. Not a finding on its own, but a pattern of departures is.",
+            "MAY — permitted and optional. The school decides. Where \"may\" is used to mean \"might happen\", the sentence is rewritten to say so, because \"may\" alone is ambiguous in English between permission and possibility.",
+            "This manual does not use \"shall\". Where older material used it, read it as \"must\".",
+            "Where a statement gives no modal at all, it is descriptive - it explains how something works rather than imposing a duty.",
+            "If a duty appears with different modal strength in two places, the stronger reading applies until the conflict is resolved. Report the conflict to Eduversal so the text can be corrected."
+          ]
         }
       ]
     },
@@ -368,7 +380,7 @@
         },
         {
           "type": "text",
-          "text": "In smaller schools, a single Principal may oversee multiple levels. In larger schools, separate Principals report to the Foundation Representative / General Manager and collaborate through the SLT. Core Competencies (Aligned with Permendiknas No. 13/2007): All Principals must demonstrate competency in:"
+          "text": "In smaller schools, a single Principal may oversee multiple levels. In larger schools, separate Principals report to the Foundation Representative / General Manager and collaborate through the SLT. Core Competencies (aligned with Permendikdasmen No. 21/2025, Standar Tenaga Kependidikan, which replaced Permendiknas No. 13/2007): All Principals must demonstrate competency in:"
         },
         {
           "type": "process",

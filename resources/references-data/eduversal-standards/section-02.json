@@ -930,7 +930,7 @@
         {
           "type": "list",
           "items": [
-            "Suspected child abuse or neglect must be reported to authorities (police, social services)",
+            "Any member of staff who suspects child abuse or neglect must tell the Designated Safeguarding Lead (DSL) the same day - staff do not contact outside agencies themselves. The DSL then makes the external referral to the police (Unit PPA), the Pokja BSAN, and social services (Dinas Sosial) as the case requires. See Section 9 for the full procedure.",
             "School maintains confidential incident log",
             "Cooperation with external investigations"
           ]
@@ -2317,10 +2317,10 @@
           "type": "process",
           "steps": [
             "Cycle-by-cycle participation rates",
-            "School-wide trends across all 4 cycles",
+            "School-wide trends across all three windows",
             "Comparison to network averages",
             "Interventions implemented based on data",
-            "Impact evidence (growth from Cycle 1 to Cycle 4)"
+            "Impact evidence (growth from the Term 1 window to the Term 3 window)"
           ]
         },
         {
@@ -2550,6 +2550,18 @@
             "Annual review checklist and sign-off",
             "Inclusion Policy: Comprehensive document outlining EAL/SEN philosophies, aligned with CIS/WASC",
             ""
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Category 9: Language",
+          "items": [
+            "Whole-school Language Policy — a single document stating the school's position on language across the whole institution, reviewed on the same cycle as the other policies in this register.",
+            "It must cover: the language(s) of instruction by phase and subject; the place of Bahasa Indonesia, including the SPK requirement that Bahasa Indonesia, Pendidikan Pancasila and Agama are taught separately to WNI students in Bahasa Indonesia (see 5.4); the place of local languages; and how English is developed as the language of the Cambridge pathway.",
+            "It must also state how the school supports students learning through a language that is not their first — connecting to the EAL provision in Section 8 rather than restating it.",
+            "It should treat multilingualism as a resource for learning as well as a support need. Most students in the network are already multilingual; a policy that frames additional languages only as a deficit to remediate misdescribes its own student body.",
+            "Owner: Academic Coordinator, approved by the Principal. Evidence: the policy document, its review log, and the curriculum documentation showing the language of instruction per subject.",
+            "Note: a documented language policy is expected by CIS (Domain D, standard D5 — support in the language(s) of instruction) and is one of the four policies the IB requires at authorisation, so a school later pursuing an additional programme will already hold it."
           ]
         }
       ]
@@ -2828,7 +2840,7 @@
         {
           "type": "process",
           "steps": [
-            "EASE is conducted 4 times per academic year for core subjects",
+            "EASE is conducted three times per academic year for core subjects (Term 1 / Term 2 / Term 3 windows; see 5.13)",
             "Spaced throughout the year to track progress and inform intervention",
             "Results available immediately after each cycle via online platform"
           ],
@@ -3021,7 +3033,7 @@
         {
           "type": "process",
           "steps": [
-            "SIP Alignment: EASE data informs annual School Improvement Plan goals and success criteria (e.g., \"Increase Cycle 4 Mathematics proficiency by 10% for Grade 8\")",
+            "SIP Alignment: EASE data informs annual School Improvement Plan goals and success criteria (e.g., \"Increase Term 3 Mathematics proficiency by 10% for Grade 8\")",
             "Teacher Appraisal: Aggregate EASE results (not individual teacher data) contribute to school-wide evaluation of instructional quality during Eduversal Appraisal visits",
             "Curriculum Review: Multi-year EASE trends guide curriculum mapping adjustments and vertical alignment efforts",
             "Professional Development: DTP workshops and PLCs use EASE data to focus on high-need instructional areas (e.g., writing instruction, problem-solving strategies)"
@@ -3641,7 +3653,7 @@
         {
           "type": "list",
           "items": [
-            "EASE reports (all 4 cycles) - individual, class, and school-wide",
+            "EASE reports (all three windows) - individual, class, and school-wide",
             "EASE data analysis meeting minutes and action plans",
             "Intervention tracking logs informed by EASE",
             "ANBK results and SIP integration",

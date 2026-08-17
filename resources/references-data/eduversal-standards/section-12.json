@@ -219,6 +219,17 @@
         {
           "type": "text",
           "text": "Example: A mid-sized Eduversal school (500 students, Primary through A Level) might employ 40-50 teaching staff, 8-12 support staff (counselors, librarian, EAL/SEN specialists, admin), 3-5 lab/technical staff, and a 4-6 person leadership team (Principal, Vice Principal, Subject Leaders). The staffing budget would include provisions for at least 2-3 replacement teachers annually to account for normal turnover."
+        },
+        {
+          "type": "list",
+          "title": "SPK nationality floors — a scored accreditation requirement",
+          "items": [
+            "Teaching staff (pendidik): at least 30% must be Indonesian citizens (WNI); foreign teaching staff (WNA) may be at most 70% of the total. Source: Panduan Akreditasi SPK 2025, p.11.",
+            "Non-teaching staff (tenaga kependidikan — administration, IT, maintenance, cleaning, security): at least 80% must be WNI; WNA at most 20%. Source: Panduan Akreditasi SPK 2025, p.13.",
+            "Evidence at visitation: staff composition documents on the prescribed templates — form A5 and A6 (Lampiran 2) for pendidik, form A7 and A8 (Lampiran 3) for tenaga kependidikan. Outsourced staff require the cooperation agreement as supporting evidence.",
+            "Operational consequence: check the ratio BEFORE making an expatriate offer, not at accreditation. A school that recruits to fill a subject gap without tracking the composition can cross the floor with no other warning, and the breach is only discovered when it is scored.",
+            "Owner: the General Manager or Foundation Representative maintains the running composition figure alongside the staff register."
+          ]
         }
       ]
     },
@@ -391,7 +402,7 @@
         {
           "type": "text",
           "title": "Note on this table",
-          "text": "STALE PROBATION FIGURE - the NQT row's \"probationary period typically 6-12 months\" contradicts the corrected statutory text already in this madde. Madde 12.3 now records (verified against the source statute 2026-08-16) that UU No. 13/2003 Pasal 60(1) permits probation of \"paling lama 3 (tiga) bulan\" - three months maximum - in a PKWTT permanent contract, and that Pasal 58(1)-(2) forbid any probationary period in a fixed-term PKWT contract, any such clause being \"batal demi hukum\" (void by operation of law). A 6-12 month probation is unlawful under either contract type. All other rows are unaffected and transcribed verbatim."
+          "text": "Note on this table. The NQT row previously read \"probationary period typically 6-12 months\", which contradicted the statutory rule stated in this madde. The row has been corrected: probation is capped at 3 months and only in a PKWTT (UU No. 13/2003 Pasal 60(1)), and is PROHIBITED in a PKWT, where any such clause is void by law (Pasal 58(1)-(2)). Induction support continues for the full first year regardless of contract type - induction is not probation."
         },
         {
           "type": "table",
@@ -405,7 +416,7 @@
             [
               "New Teacher (NQT)",
               "Newly qualified teacher",
-              "Comprehensive induction support provided; probationary period typically 6-12 months"
+              "Comprehensive induction support provided. Probation: maximum 3 months, and only in a PKWTT (permanent) contract (UU No. 13/2003 Pasal 60(1)). Probation is PROHIBITED in a PKWT (fixed-term) contract and any such clause is void by law (Pasal 58(1)-(2)). Induction support continues for the full first year regardless of contract type - induction is not probation."
             ],
             [
               "Classroom Teacher",
@@ -724,7 +735,7 @@
         {
           "type": "text",
           "title": "Source verification",
-          "text": "Verified against the source statute on 2026-08-16. UU No. 13/2003 Article 58(1) states that a fixed-term contract \"tidak dapat mensyaratkan adanya masa percobaan kerja\" - may not impose a probationary period - and Article 58(2) states that any such clause is \"batal demi hukum\", void by operation of law. Article 60(1) permits probation of \"paling lama 3 (tiga) bulan\" (maximum three months) in a PKWTT permanent contract only. Source: docs/research/permendiknas/no-13-2003-ketenagakerjaan.json."
+          "text": "Verified against the source statute on 2026-08-16. UU No. 13/2003 Article 58(1) states that a fixed-term contract \"tidak dapat mensyaratkan adanya masa percobaan kerja\" - may not impose a probationary period - and Article 58(2) states that any such clause is \"batal demi hukum\", void by operation of law. Article 60(1) permits probation of \"paling lama 3 (tiga) bulan\" (maximum three months) in a PKWTT permanent contract only. Source: Desktop/Eduversal Sources/mevzuat/Nomor 13 Tahun 2003.pdf (salinan). [Provenance note, 2026-08-17: this regulation is NOT yet extracted into the docs/research/ archive. The citation above points to the source PDF held in Desktop/Eduversal Sources/mevzuat/, which is what was read. Extracting it into docs/research/permendiknas/ remains outstanding — until then, treat this note as a pointer to the salinan, not as an archive-backed verification.]"
         }
       ]
     },
@@ -841,7 +852,7 @@
           "type": "list",
           "items": [
             "School covers KITAS (limited stay permit) application and renewal costs",
-            "Work permit (IMTA - Izin Mempekerjakan Tenaga Kerja Asing) processed by school",
+            "Foreign-worker authorisation: an approved RPTKA (Rencana Penggunaan Tenaga Kerja Asing) obtained by the school. Note: IMTA was abolished by the Cipta Kerja reform of UU No. 13/2003 Pasal 42; any reference to IMTA in local practice is to the superseded regime. Confirm the current procedure with the Ministry of Manpower before each hire",
             "See Section 2 for detailed KITAS procedures"
           ]
         },
@@ -888,7 +899,7 @@
           "items": [
             "12-15 days paid leave per year (beyond school holiday periods)",
             "Sick leave: typically 12 days per year (with medical certificate beyond 2 days)",
-            "Maternity leave: up to 6 months under UU No. 4/2024 (Kesejahteraan Ibu dan Anak) - 3 months guaranteed plus up to 3 further months on medical certification. Paternity leave: 2 days paid, extendable per the same law",
+            "Maternity leave: up to 6 months under UU No. 4/2024 (Kesejahteraan Ibu dan Anak) - 3 months guaranteed plus up to 3 further months on medical certification. Wages during that leave are set by Pasal 5(2): full pay for the first three months, full pay for the fourth month, and 75% of pay for the fifth and sixth months. Paternity leave: 2 days paid, extendable per the same law",
             "Compassionate leave: case-by-case for family emergencies"
           ]
         },
@@ -1248,7 +1259,7 @@
         {
           "type": "text",
           "title": "Source verification",
-          "text": "Verified against the source statutes on 2026-08-16. PKWT duration: PP No. 35/2021 sets \"paling lama 5 (lima) tahun\" (maximum five years) including extension or renewal. Compensation: the same regulation establishes \"Uang Kompensasi\", payable on the expiry of every PKWT, calculated pro-rata to length of service. Maternity leave: UU No. 4/2024 Article 4 provides \"paling singkat 3 (tiga) bulan pertama\" (at least three months) plus \"paling lama 3 (tiga) bulan berikutnya jika terdapat kondisi khusus yang dibuktikan dengan surat keterangan dokter\" (up to three further months on medical certification) - so up to six months in total. Paternity leave: the same article gives the husband \"cuti pendampingan istri\" of \"2 (dua) hari\" at the birth. Sources: docs/research/permendiknas/no-35-2021-pkwt.json, no-13-2003-ketenagakerjaan.json, no-4-2024-kia.json."
+          "text": "Verified against the source statutes on 2026-08-16. PKWT duration: PP No. 35/2021 sets \"paling lama 5 (lima) tahun\" (maximum five years) including extension or renewal. Compensation: the same regulation establishes \"Uang Kompensasi\", payable on the expiry of every PKWT, calculated pro-rata to length of service. Maternity leave: UU No. 4/2024 Article 4 provides \"paling singkat 3 (tiga) bulan pertama\" (at least three months) plus \"paling lama 3 (tiga) bulan berikutnya jika terdapat kondisi khusus yang dibuktikan dengan surat keterangan dokter\" (up to three further months on medical certification) - so up to six months in total. Paternity leave: the same article gives the husband \"cuti pendampingan istri\" of \"2 (dua) hari\" at the birth. Sources: Desktop/Eduversal Sources/mevzuat/Nomor 35 Tahun 2021.pdf (salinan), no-13-2003-ketenagakerjaan.json, no-4-2024-kia.json. [Provenance note, 2026-08-17: this regulation is NOT yet extracted into the docs/research/ archive. The citation above points to the source PDF held in Desktop/Eduversal Sources/mevzuat/, which is what was read. Extracting it into docs/research/permendiknas/ remains outstanding — until then, treat this note as a pointer to the salinan, not as an archive-backed verification.]"
         },
         {
           "type": "text",
@@ -1750,7 +1761,7 @@
         {
           "type": "list",
           "items": [
-            "Students with documented SEN may qualify for accommodations: extra time (typically 25%), separate room, reader, scribe, use of laptop",
+            "Students with documented SEN may qualify for accommodations: extra time (up to 25%, or over 25% where strongly justified - see 8.6), separate room, reader, scribe, use of laptop",
             "Application process: SEN Coordinator applies to Cambridge (with evidence); must be done months before exam",
             "Practice accommodations: students must use access arrangements in classroom assessments before exam (to demonstrate normal practice)"
           ]
@@ -2170,7 +2181,7 @@
         },
         {
           "type": "text",
-          "text": "End of Probationary Period (typically after 6-12 months):"
+          "text": "End of Probationary Period (maximum 3 months, PKWTT only - probation is prohibited in a PKWT; UU No. 13/2003 Pasal 58 and 60). Note that year-one induction continues past the end of probation and is a separate process:"
         },
         {
           "type": "process",

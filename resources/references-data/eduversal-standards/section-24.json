@@ -23,7 +23,7 @@
           "type": "list",
           "items": [
             "A mapping is a correspondence, not an equivalence. \"D2 maps to WASC Category B\" means evidence gathered for one is substantially usable for the other — not that a strong D2 rating satisfies WASC Category B, and not that the two ask identical questions.",
-            "The mapping is many-to-many. Our five domains cover CIS's nine and WASC's five, so most of our domains answer to more than one external domain, and several external domains are split across two of ours.",
+            "The mapping is many-to-many. Our five domains cover CIS's eight applicable domains (A-H) and WASC's five, so most of our domains answer to more than one external domain, and several external domains are split across two of ours.",
             "An accreditation body judges its own framework. Nothing in this section is a claim about accreditation outcomes. A school pursuing CIS or WASC still completes that body's own self-study; the appraisal reduces the evidence-gathering burden, it does not substitute for the process."
           ]
         }
@@ -59,18 +59,18 @@
       "content": [
         {
           "type": "text",
-          "text": "CIS assesses against nine domains (see Section 18.2 for the full list). Its evaluation is process-oriented — \"how do we operate as an organisation?\" — and its self-study plus peer-review visit is the structural model the Eduversal appraisal follows most closely."
+          "text": "CIS assesses against eight domains (A-H), plus Domain I for schools with boarding or homestay - which no Eduversal partner school currently operates (see Section 18.2 for the full list). Its evaluation is process-oriented — \"how do we operate as an organisation?\" — and its self-study plus peer-review visit is the structural model the Eduversal appraisal follows most closely."
         },
         {
           "type": "list",
           "items": [
-            "CIS 1 Purpose and Direction -> D1 (vision, mission, strategic planning). CIS also expects Schoolwide Learner Outcomes here; see 24.7.",
-            "CIS 2 Governance and Leadership -> D1 (leadership structure, governance, transparent decision-making)",
-            "CIS 3 Curriculum -> D3 (curriculum delivery, departmental organisation, resources)",
-            "CIS 4 Teaching and Learning -> D2 (classroom practice, differentiation, technology in learning)",
-            "CIS 5 Assessment -> D2 (assessment methods, feedback quality) and D4 (achievement data, reporting)",
-            "CIS 6 Student Wellbeing -> D5 (safeguarding, culture, behaviour) and D4 (language support, extra learning needs)",
-            "CIS 7 Staffing -> D1 (performance management) and D3 (mentoring, peer observation, PD evaluation)",
+            "CIS Domain A (Purpose and direction) -> D1 (vision, mission, strategic planning). CIS also expects Schoolwide Learner Outcomes here; see 24.7.",
+            "CIS Domain B (Governance, ownership and leadership) -> D1 (leadership structure, governance, transparent decision-making)",
+            "CIS Domain C (The curriculum) -> D3 (curriculum delivery, departmental organisation, resources)",
+            "CIS Domain D (Teaching and assessing for learning), standards D1-D6 -> D2 (classroom practice, differentiation, technology in learning)",
+            "CIS Domain D (Teaching and assessing for learning), standards D7-D8 -> D2 (assessment methods, feedback quality) and D4 (achievement data, reporting). Note: assessment is not a separate CIS domain; it sits inside Domain D.",
+            "CIS Domain E (Wellbeing) -> D5 (safeguarding, culture, behaviour); language support and extra learning needs sit in Domain D (D4, D5) -> D4",
+            "CIS Domain F (Staffing) -> D1 (performance management) and D3 (mentoring, peer observation, PD evaluation)",
             "CIS 8 Premises and Resources -> D3 (learning resources) and D5 (facilities as they bear on culture). Financial and facilities management sit largely outside our scope; see 24.8.",
             "CIS 9 Community and Partnerships -> D5 (parent and community engagement)"
           ]

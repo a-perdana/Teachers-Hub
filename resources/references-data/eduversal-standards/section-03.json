@@ -216,7 +216,7 @@
             "Submit attendance registers and any incident reports",
             "Communicate results to students when released by Cambridge",
             "Manage post-results services (enquiries about results, access to scripts, appeals)",
-            "Archive exam documentation per Cambridge retention requirements (5 years)"
+            "Archive exam documentation per the consolidated retention schedule in 14.5, which gives the period and the legal basis for each record type. Cambridge sets event-based retention (for example, keep delivery and printing records until certificates are received) rather than one flat term — do not apply a single blanket figure"
           ]
         },
         {
@@ -580,7 +580,7 @@
             ],
             [
               "Scripts dispatch to Cambridge",
-              "Within 2 working days of exam completion (or e-upload)"
+              "Day of the exam wherever possible; five working days after the exam is the Cambridge deadline (late scripts risk NO RESULT / X grade). Eduversal internal target: 2 working days. (Cambridge Handbook 2026, s.5.4)"
             ],
             [
               "Results release",
@@ -631,7 +631,7 @@
             ],
             [
               "Scripts dispatch",
-              "Within 2 working days"
+              "Day of the exam wherever possible; five working days after the exam is the Cambridge deadline (late scripts risk NO RESULT / X grade). Eduversal internal target: 2 working days. (Cambridge Handbook 2026, s.5.4)"
             ],
             [
               "Results release",
@@ -1110,7 +1110,7 @@
         {
           "type": "list",
           "items": [
-            "Extra time (typically 25% extra time)",
+            "Extra time (up to 25% meets the needs of most candidates; over 25% where difficulties are very significant and persistent and the evidence supports it - see 8.6)",
             "Supervised rest breaks",
             "Scribe (someone writes student's dictated answers)",
             "Reader (someone reads questions aloud to student)",
@@ -1236,7 +1236,7 @@
         {
           "type": "process",
           "steps": [
-            "Special Consideration Form (within 7 days of exam):"
+            "Special Consideration Form (submit no later than seven days after the LAST exam of the affected syllabus in that exam series (Cambridge Handbook 2026 p.117) - not seven days from the individual paper):"
           ]
         },
         {
@@ -1395,7 +1395,7 @@
         {
           "type": "list",
           "items": [
-            "Mandatory: Centre must report all suspected malpractice to Cambridge within 7 days",
+            "Mandatory: the Head of Centre must tell Cambridge straight away about any suspected malpractice they become aware of or that is reported to them. There is no grace period and no 7-day window (Cambridge Handbook 2026 p.122, s.5.6.2)",
             "Failure to report is itself malpractice by Centre"
           ]
         },
@@ -1585,7 +1585,7 @@
           "type": "list",
           "items": [
             "Upload PDFs to Cambridge via secure portal",
-            "Deadline: Within 48 hours of exam"
+            "Deadline: upload on the day of the exam wherever possible. five working days after the exam is the Cambridge deadline (late scripts risk NO RESULT / X grade). Eduversal internal target: 48 hours. (Cambridge Handbook 2026, s.5.4)"
           ]
         },
         {
@@ -2303,7 +2303,7 @@
           "type": "list",
           "items": [
             "☐ Access arrangements applications (as students identified)",
-            "☐ Special considerations submissions (within 7 days of incident)",
+            "☐ Special consideration submissions (no later than seven days after the LAST exam of the affected syllabus in that exam series (Cambridge Handbook 2026 p.117) - not seven days from the individual paper)",
             "☐ Malpractice reporting (immediate)",
             "☐ Quality Nominee liaison with Cambridge (webinars, updates)"
           ]

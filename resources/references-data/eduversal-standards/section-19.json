@@ -770,7 +770,7 @@
         },
         {
           "type": "text",
-          "text": "Review Protocol: DSL reviews the log monthly to identify patterns. Annual review with Principal and HR. Entries retained for the duration of employment plus 10 years."
+          "text": "Review Protocol: the Designated Safeguarding Lead (DSL) reviews the log monthly to identify patterns, and reviews it annually with the Principal and HR. Retention: employment + 25 years after separation, per the consolidated schedule at 14.5. This log is held as a safeguarding record, not as a staff discipline record, because its purpose is to reveal a pattern over time and because a former student may disclose years later. It is stored in the DSL's secure safeguarding files, separate from HR personnel files. At the annual review, entries that never formed part of a pattern are considered for disposal — retention must stay justified under UU No. 27/2022."
         },
         {
           "type": "text",
@@ -2385,11 +2385,82 @@
         {
           "type": "text",
           "title": "Note on this table",
-          "text": "DO NOT USE THIS MAPPING FOR ACCREDITATION. It is reproduced only as a record of the legacy alignment, and it is wrong on three counts. (1) The CIS column uses lettered domains, which is the correct form - CIS domains are lettered A to I, confirmed against the CIS International Accreditation Evaluation Framework [Revised]. Check the domain NAMES against the official titles in Section 18.2, since several entries here use shortened or altered names, and note that two rows assign the same letter to different domains. (2) Three rows assign a WASC \"Category E\", which does not exist. Verified against ACS WASC Focus on Learning, 2019 edition: the string \"Category E\" appears nowhere in the 186-page manual, which states that \"Categories A-D will form the basis of Chapter III of the self-study report\". School culture belongs to Category C; the schoolwide action plan is Chapter V / Task 5, a deliverable rather than a category. (3) The CIS letters here contradict the CIS table in Section 20. Section 24 (School Appraisal Framework: International Alignment) is the source of truth for CIS and WASC mapping and must be used instead. Also verify the \"BOS compliance\" row: BOS is state-school operational funding and its applicability to private SPK schools is limited."
+          "text": "This mapping is CORRECTED and may be used. It replaces a legacy version that assigned the same letter to different domains (A to both Purpose and Governance; B to both Teaching and Assessment; D to both Finance and Risk) and used a WASC \"Category E\" that does not exist. CIS letters and titles verified against the CIS Quick Guide to Standards, July 2021, pp.2-11; WASC categories against ACS WASC Focus on Learning, 2019 edition, p.66 — Categories A-D only, with school culture in Category C and the schoolwide action plan as a Chapter V deliverable rather than a category. Two structural points carried over from the correction: assessment is not a separate CIS domain (it is standards D7-D8 inside Domain D), and there is no CIS \"Operational Systems\" domain — policy and compliance evidence belongs to B6, premises and technology to G. A school that filed evidence under the legacy scheme should re-file against this table; the legacy rows are preserved immediately below for that purpose only."
         },
         {
           "type": "table",
-          "title": "Template Compliance Alignment — LEGACY MAPPING, NOT CURRENT",
+          "title": "Template compliance alignment — CORRECTED (use this one)",
+          "headers": [
+            "Templates",
+            "CIS Domain",
+            "WASC Category",
+            "Indonesian Regulation"
+          ],
+          "rows": [
+            [
+              "T-01 to T-04",
+              "A: Purpose and direction",
+              "A: Organization for Student Learning",
+              "BAN-S/M Standard 1"
+            ],
+            [
+              "T-05 to T-07",
+              "B: Governance, ownership and leadership",
+              "A: Organization for Student Learning",
+              "Yayasan requirements (UU 16/2001 jo. UU 28/2004)"
+            ],
+            [
+              "T-08 to T-11",
+              "E: Wellbeing",
+              "C: Support for Student Personal and Academic Growth",
+              "Child protection (Permendikdasmen 6/2026 BSAN)"
+            ],
+            [
+              "T-12 to T-16",
+              "E: Wellbeing (E5 transitions, E6 guidance); learning support in D4-D5",
+              "C: Support for Student Personal and Academic Growth",
+              "Inclusion policies"
+            ],
+            [
+              "T-17 to T-20",
+              "D: Teaching and assessing for learning (D1-D6)",
+              "B: Curriculum, Instruction, and Assessment",
+              "Teacher competency standards (Permendikdasmen 21/2025)"
+            ],
+            [
+              "T-21 to T-24",
+              "D: Teaching and assessing for learning (D7-D8)",
+              "B: Curriculum, Instruction, and Assessment",
+              "Cambridge requirements"
+            ],
+            [
+              "T-25 to T-27",
+              "B: Governance, ownership and leadership (B3 financial planning)",
+              "D: Resource Management and Development",
+              "BOS compliance"
+            ],
+            [
+              "T-28 to T-31",
+              "G: Premises, facilities, technology systems and auxiliary services (G2)",
+              "D: Resource Management and Development",
+              "HSE regulations"
+            ],
+            [
+              "T-32 to T-35",
+              "H: Community and home partnerships",
+              "C: Support for Student Personal and Academic Growth",
+              "Public information duties"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Legacy mapping",
+          "text": "LEGACY MAPPING — SUPERSEDED, DO NOT USE FOR ACCREDITATION. Retained only so a school that organised evidence under the old scheme can trace where each template previously sat. Every row above replaces the corresponding row here."
+        },
+        {
+          "type": "table",
+          "title": "Template compliance alignment — LEGACY, SUPERSEDED (reference only)",
           "headers": [
             "Templates",
             "CIS Domain (retired scheme)",
