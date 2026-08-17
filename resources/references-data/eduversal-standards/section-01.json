@@ -1106,7 +1106,31 @@
         },
         {
           "type": "text",
-          "text": "Network-Wide Organizational Structure - Eduversal Partner Schools BOARD OF TRUSTEES │ (Yayasan Edukasi Universal Indonesia) CHIEF ACADEMIC OFFICER SCHOOL 1 │ │ SCHOOL 2 │ │ SCHOOL 3 │ │ SCHOOL 4 │ SCHOOL-LEVEL STRUCTURE Local Yayasan (e.g., Y-KBM) ├─ Legal Owner ├─ Funding Provider └─ Compliance Oversight General Manager / Foundation Representative ├─ Full Operational Authority ├─ Appointed by Eduversal └─ Reports to: Chief Academic Officer (functional) + Yayasan (administrative) Add Early Years Principal (Kepala Sekolah PAUD) Primary Principal (Kepala Sekolah SD) ├─ Reports to: GM ├─ Collaborates with: Director of Primary Education (Eduversal) └─ Supervises: ├─ Primary Subject Leaders (English, Math, Science, Religion, PPKn, Bahasa Indonesia, STEAM) │ └─ Primary Extracurricular Coordinator │ └─ Secondary Principal (Kepala Sekolah SMP/SMA) ├─ Reports to: GM ├─ Collaborates with: Director of Secondary Education (Eduversal) └─ Supervises: ├─ Secondary Subject Leaders (Math, Physics, Chemistry, Biology, Religion, STEAM, …) ├─ School Olympiad Coordinator ├─ School College Counsellor ├─ School Extracurricular Coordinator ├─ Cambridge Exams Officer └─ Quality Nominee (may overlap with GM or Principal) Senior Leadership Team (SLT) ├─ General Manager (Chair) ├─ Primary Principal ├─ Secondary Principal ├─ Vice Principal(s) (if applicable) ├─ Selected Subject Leaders (rotating representation) ├─ EAL/SEN Coordinator ├─ Designated Safeguarding Lead (DSL) └─ Cambridge Quality Nominee Teaching & Support Staff ├─ Rotational Staff (assigned by Eduversal: 3-year contracts) └─ Non-Rotational Staff (hired locally by GM) To ensure regulatory safety in Indonesia, specific oversight of Dapodik and P5 is required within the leadership roles."
+          "title": "Network-Wide Organizational Structure — Eduversal Partner Schools",
+          "text": "BOARD OF TRUSTEES\n(Yayasan Edukasi Universal Indonesia)\n      │\nCHIEF ACADEMIC OFFICER\n      │\n      ├── SCHOOL 1\n      ├── SCHOOL 2\n      ├── SCHOOL 3\n      └── SCHOOL 4"
+        },
+        {
+          "type": "text",
+          "title": "School-Level Structure",
+          "text": "Local Yayasan (e.g., Y-KBM)\n├─ Legal Owner\n├─ Funding Provider\n└─ Compliance Oversight\n      │\nGeneral Manager / Foundation Representative\n├─ Full Operational Authority\n├─ Appointed by Eduversal\n└─ Reports to: Chief Academic Officer (functional) + Yayasan (administrative)\n      │\n      ├─ Early Years Principal (Kepala Sekolah PAUD)     [see note below]\n      │\n      ├─ Primary Principal (Kepala Sekolah SD)\n      │  ├─ Reports to: GM\n      │  ├─ Collaborates with: Director of Primary Education (Eduversal)\n      │  └─ Supervises:\n      │     ├─ Primary Subject Leaders (English, Math, Science, Religion,\n      │     │  PPKn, Bahasa Indonesia, STEAM)\n      │     └─ Primary Extracurricular Coordinator\n      │\n      └─ Secondary Principal (Kepala Sekolah SMP/SMA)\n         ├─ Reports to: GM\n         ├─ Collaborates with: Director of Secondary Education (Eduversal)\n         └─ Supervises:\n            ├─ Secondary Subject Leaders (Math, Physics, Chemistry,\n            │  Biology, Religion, STEAM, …)\n            ├─ School Olympiad Coordinator\n            ├─ School College Counsellor\n            ├─ School Extracurricular Coordinator\n            ├─ Cambridge Exams Officer\n            └─ Quality Nominee (may overlap with GM or Principal)"
+        },
+        {
+          "type": "text",
+          "text": "Note: the source text read \"Add Early Years Principal (Kepala Sekolah PAUD)\" — an editorial instruction rather than part of the chart. The role is shown in its logical position above, but whether it is confirmed for every school is an open question for Eduversal to settle."
+        },
+        {
+          "type": "text",
+          "title": "Senior Leadership Team (SLT)",
+          "text": "Senior Leadership Team (SLT)\n├─ General Manager (Chair)\n├─ Primary Principal\n├─ Secondary Principal\n├─ Vice Principal(s) (if applicable)\n├─ Selected Subject Leaders (rotating representation)\n├─ EAL/SEN Coordinator\n├─ Designated Safeguarding Lead (DSL)\n└─ Cambridge Quality Nominee"
+        },
+        {
+          "type": "text",
+          "title": "Teaching & Support Staff",
+          "text": "Teaching & Support Staff\n├─ Rotational Staff (assigned by Eduversal: 3-year contracts)\n└─ Non-Rotational Staff (hired locally by GM)"
+        },
+        {
+          "type": "text",
+          "text": "To ensure regulatory safety in Indonesia, specific oversight of Dapodik and P5 is required within the leadership roles."
         },
         {
           "type": "list",
