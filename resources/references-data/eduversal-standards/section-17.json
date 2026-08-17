@@ -91,7 +91,7 @@
         {
           "type": "process",
           "steps": [
-            "EASE (Evaluation of Achievement Standardized Exam): Standardized assessments measuring student achievement in Cambridge and National curriculum subjects",
+            "EASE (Eduversal Analytical & Skills Evaluation): Standardized assessments measuring student achievement in Cambridge and National curriculum subjects",
             "EduNav Platform: Digital quality management system providing dashboards, KPI tracking, and evidence repositories",
             "DTP (Development of Teaching Proficiency): Professional development program supporting continuous teacher growth",
             "Appraisal Program: Systematic evaluation of teacher and school performance against defined standards",
@@ -1467,7 +1467,7 @@
           "items": [
             "Summary of Phase 1 Teaching Quality Visit and Phase 3 Validation Visit findings",
             "Domain ratings across all five domains on the 1-4 scale, plus specific commendations (minimum 2) and priority recommendations (maximum 3)",
-            "Teacher Appraisal aggregate data and A-EASE teacher performance summary — school-level, anonymised — plus the school's EASE Growth and Common Assessment summary",
+            "Teacher Appraisal aggregate data and the EASE Academic participation rate — school-level, anonymised; EASE Academic scores are confidential to the teacher and are never reported into school appraisal — plus the school's EASE Growth and EASE Assessment summary",
             "A School Development Rating: the mean of the five domain scores, banded as Outstanding (3.5-4.0) / Strong (2.5-3.4) / Developing (1.5-2.4) / Needs Intervention (1.0-1.4). It is a development indicator, not a ranking — schools are assessed against the framework standard, not against each other"
           ]
         },

@@ -33,7 +33,7 @@
           "items": [
             "EduNav School Information System (SIS): Student enrollment, attendance, grades, behavior tracking, parent communication",
             "Cambridge examination systems: CIE Direct, Admin Hub, Results Plus",
-            "EASE (Evaluation of Achievement Standardized Exam) assessment platform",
+            "EASE (Eduversal Analytical & Skills Evaluation) assessment platform",
             "Learning Management Systems and digital learning platforms"
           ],
           "title": "14.1.2 Scope of Application"
@@ -2069,7 +2069,7 @@
         },
         {
           "type": "text",
-          "text": "Residual Risk: LOW - acceptable for school operations Approval: Principal approved implementation; Board notified via governance report Review Schedule: Annual DPIA review; triggered review if major EduNav feature changes Example DPIA 2: EASE (Evaluation of Achievement Standardized Exam) Participation Description: School participation in EASE digital assessment program (vendor: PT. Edukasi Aditama Indonesia). Students take standardized tests online three times per year. Results processed by vendor and reported to school and Eduversal network for benchmarking. Data Processed:"
+          "text": "Residual Risk: LOW - acceptable for school operations Approval: Principal approved implementation; Board notified via governance report Review Schedule: Annual DPIA review; triggered review if major EduNav feature changes Example DPIA 2: EASE (Eduversal Analytical & Skills Evaluation) Participation Description: School participation in EASE digital assessment program (vendor: PT. Edukasi Aditama Indonesia). Students take standardized tests online three times per year. Results processed by vendor and reported to school and Eduversal network for benchmarking. Data Processed:"
         },
         {
           "type": "list",
