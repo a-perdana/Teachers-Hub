@@ -2319,6 +2319,68 @@
         {
           "type": "text",
           "text": "See Section 12.8 for connection between appraisal goals and PD planning."
+        },
+        {
+          "type": "text",
+          "title": "EASE Academic — teacher subject and pedagogical knowledge",
+          "text": "EASE Academic is the third programme under the EASE umbrella and the only one sat by teachers rather than students. It gives Subject Specialists and school leaders a shared professional benchmark of subject and pedagogical knowledge, used for planning professional development. It is not a performance evaluation."
+        },
+        {
+          "type": "table",
+          "title": "EASE Academic — structure",
+          "headers": [
+            "Element",
+            "Detail"
+          ],
+          "rows": [
+            [
+              "Who sits it",
+              "Teachers currently teaching Grades 1-12 in English, Mathematics, Physics, Chemistry, Biology and Integrated Science"
+            ],
+            [
+              "Format",
+              "50 multiple-choice questions, 120 minutes"
+            ],
+            [
+              "Subject Content Knowledge (SCK)",
+              "25 questions — conceptual clarity, depth of subject understanding, curriculum alignment"
+            ],
+            [
+              "Pedagogical Content Knowledge (PCK)",
+              "10 questions — diagnosing common learner misconceptions, selecting effective explanations, interpreting student responses"
+            ],
+            [
+              "General Pedagogical Knowledge (GPK)",
+              "15 questions — formative assessment, classroom interaction, active learning, reflective practice"
+            ],
+            [
+              "Frequency",
+              "Once a year; the window is confirmed each academic year in the network Assessment Schedule"
+            ],
+            [
+              "Platform",
+              "Latihan.id"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "title": "What happens to the results",
+          "text": "The boundary here is deliberate and is the same one stated in the Teacher Appraisal Handbook. Individual scores are shared confidentially with the teacher only. School-level aggregated data goes to the principal for professional development planning. Network-level anonymous trends inform Eduversal-wide PD priorities. Results are never used for performance management, contract decisions, or public ranking, and they do not enter the teacher appraisal frameworks F1-F4, the appraisal composite, or level progression. Where School Appraisal refers to EASE Academic it refers only to the school-level participation rate — how many eligible teachers sat it, never how they scored."
+        },
+        {
+          "type": "list",
+          "title": "Because it is formative, not summative",
+          "items": [
+            "There are no retakes to improve a score. A teacher who misses the exam through illness or another unavoidable circumstance notifies the principal and the Academic Office before the exam date, and a make-up window is arranged within two weeks.",
+            "A low score carries no employment consequence. Its purpose is to show, at group level, where teachers would benefit from further support.",
+            "Teachers may request a personal results review with the Academic Director."
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Note on this block",
+          "text": "Authored by Eduversal, 2026-08-17. This block is new content, not transcribed source material. The corpus previously mentioned this programme once, under its retired name and as a \"teacher performance summary\" reported into school appraisal — which contradicted the instrument's own confidentiality rule. Content is derived from EASE Academic: Overview 26-27 (structure and section split at p.3; the confidentiality and use-of-data rules at p.7). The boundary statement is worded to match the Teacher Appraisal Handbook's sister-systems map so the two cannot drift."
         }
       ]
     },

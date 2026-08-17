@@ -1733,6 +1733,119 @@
       "content": [
         {
           "type": "text",
+          "title": "The three EASE programs at a glance",
+          "text": "EASE (Eduversal Analytical & Skills Evaluation) is an umbrella name, not a single test. Three evaluations run under it. They measure different things, sit different people, and run on different cadences, so a school planning its year needs all three on the calendar separately."
+        },
+        {
+          "type": "table",
+          "title": "The three EASE programs",
+          "headers": [
+            "",
+            "EASE Growth",
+            "EASE Assessment (Common Assessment)",
+            "EASE Academic"
+          ],
+          "rows": [
+            [
+              "What it measures",
+              "Student reasoning and literacy, independent of the curriculum",
+              "Student knowledge of subject content, following the Cambridge curriculum",
+              "Teacher subject knowledge and knowledge of how to teach the subject"
+            ],
+            [
+              "Who sits it",
+              "Students, Grades 4-12",
+              "Students, all grades, all subjects",
+              "Teachers of Grades 1-12 in English, Mathematics, Physics, Chemistry, Biology and Integrated Science"
+            ],
+            [
+              "Domains",
+              "Mathematical Reasoning, Science Literacy, English Reading",
+              "The subject being tested",
+              "Subject Content Knowledge, Pedagogical Content Knowledge, General Pedagogical Knowledge"
+            ],
+            [
+              "How often",
+              "Twice a year for Grades 7-12 (once per semester); once a year for Grades 4-6, in Semester 2",
+              "Teacher-Paced Tests every 1-3 chapters, plus a Synchronized Test at the end of each semester",
+              "Once a year"
+            ],
+            [
+              "Where it sits in the year",
+              "EASE Weeks 1 and 3 (mid-semester)",
+              "Teacher-Paced: any time within the planned window. Synchronized: EASE Weeks 2 and 4 (semester-end)",
+              "Window confirmed each year — see the network Assessment Schedule"
+            ],
+            [
+              "Counts toward a student grade?",
+              "No",
+              "Yes",
+              "Not applicable"
+            ],
+            [
+              "Used in teacher appraisal?",
+              "No",
+              "No",
+              "No — formative, for professional development only"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "EASE Growth grade bands",
+          "headers": [
+            "Band",
+            "Grades",
+            "Questions per domain",
+            "Total questions"
+          ],
+          "rows": [
+            [
+              "Band 1 — Primary",
+              "Grades 4-6",
+              "15",
+              "45"
+            ],
+            [
+              "Band 2 — Lower Secondary",
+              "Grades 7-8",
+              "18",
+              "54"
+            ],
+            [
+              "Band 3 — Upper Secondary / IGCSE",
+              "Grades 9-10",
+              "20",
+              "60"
+            ],
+            [
+              "Band 4 — Advanced / AS and A Level",
+              "Grades 11-12",
+              "25",
+              "75"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Each band sits the same fixed set of questions — every student in the band sees the same paper at the same time. Because Secondary students sit EASE Growth twice in one year, each band has two equivalent papers: Form A in Semester 1 and Form B in Semester 2. The two forms test the same skills at the same difficulty with different content, so that a higher Semester 2 score reflects growth in reasoning rather than a student remembering the Semester 1 questions."
+        },
+        {
+          "type": "text",
+          "title": "EASE Weeks — and the difference between them",
+          "text": "There are four EASE Weeks in the school year, two per semester. They are not interchangeable, and the difference matters for timetabling. In EASE Weeks 1 and 3, which fall mid-semester, EASE Growth is administered in the first two periods of the assigned day and normal lessons continue for the rest of the week. In EASE Weeks 2 and 4, which fall at the end of each semester, normal lessons stop and the week is given over to the Synchronized Tests. A school that treats all four weeks as normal teaching weeks will over-schedule the semester-end ones."
+        },
+        {
+          "type": "text",
+          "text": "EASE Academic is a teacher instrument and is described in Section 12.6, alongside the other professional development provision. It is named here only so that the umbrella is complete: no part of it involves students, and none of its results enter any student record."
+        },
+        {
+          "type": "text",
+          "title": "Note on this block",
+          "text": "Authored by Eduversal, 2026-08-17. This block is new content, not transcribed source material. The corpus previously described EASE as a single subject-based exam and carried no statement of the three-program structure, the grade bands, or the EASE Week cycle. Content is derived from EASE Framework 26-27 (the comparison table at p.10 and the EASE Week description at p.11) and from EASE Growth: Overview 26-27 (grade bands and question counts at p.8; the Form A / Form B design at p.23). Where the two sources overlap they agree; where only one carries a fact, it is cited individually above."
+        },
+        {
+          "type": "text",
           "text": "Purpose: Compare student performance to external standards, track growth over time, inform school improvement."
         },
         {
