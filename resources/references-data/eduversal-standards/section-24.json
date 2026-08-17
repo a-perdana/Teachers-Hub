@@ -23,7 +23,7 @@
           "type": "list",
           "items": [
             "A mapping is a correspondence, not an equivalence. \"D2 maps to WASC Category B\" means evidence gathered for one is substantially usable for the other — not that a strong D2 rating satisfies WASC Category B, and not that the two ask identical questions.",
-            "The mapping is many-to-many. Our five domains cover CIS's eight applicable domains (A-H) and WASC's five, so most of our domains answer to more than one external domain, and several external domains are split across two of ours.",
+            "The mapping is many-to-many. Our five domains cover CIS's eight applicable domains (A-H) and WASC's four categories, so most of our domains answer to more than one external domain, and several external domains are split across two of ours.",
             "An accreditation body judges its own framework. Nothing in this section is a claim about accreditation outcomes. A school pursuing CIS or WASC still completes that body's own self-study; the appraisal reduces the evidence-gathering burden, it does not substitute for the process."
           ]
         }
@@ -71,8 +71,8 @@
             "CIS Domain D (Teaching and assessing for learning), standards D7-D8 -> D2 (assessment methods, feedback quality) and D4 (achievement data, reporting). Note: assessment is not a separate CIS domain; it sits inside Domain D.",
             "CIS Domain E (Wellbeing) -> D5 (safeguarding, culture, behaviour); language support and extra learning needs sit in Domain D (D4, D5) -> D4",
             "CIS Domain F (Staffing) -> D1 (performance management) and D3 (mentoring, peer observation, PD evaluation)",
-            "CIS 8 Premises and Resources -> D3 (learning resources) and D5 (facilities as they bear on culture). Financial and facilities management sit largely outside our scope; see 24.8.",
-            "CIS 9 Community and Partnerships -> D5 (parent and community engagement)"
+            "CIS Domain G (Premises, facilities, technology systems and auxiliary services) -> D3 (learning resources) and D5 (facilities as they bear on culture). Financial and facilities management sit largely outside our scope; see 24.8.",
+            "CIS Domain H (Community and home partnerships) -> D5 (parent and community engagement)"
           ]
         },
         {
@@ -87,7 +87,7 @@
       "content": [
         {
           "type": "text",
-          "text": "The relevant WASC framework for partner schools is the ACS WASC \"Focus on Learning\" (FOL) model for K-12 schools — not the Postsecondary framework, which applies to colleges and universities. FOL is more outcome-oriented than CIS: it asks what impact school practices have on student learning. Its five categories:"
+          "text": "The relevant WASC framework for partner schools is the ACS WASC \"Focus on Learning\" (FOL) model for K-12 schools — not the Postsecondary framework, which applies to colleges and universities. FOL is more outcome-oriented than CIS: it asks what impact school practices have on student learning. Its four categories, plus the schoolwide action plan as a required deliverable:"
         },
         {
           "type": "list",
@@ -199,7 +199,7 @@
           "type": "list",
           "items": [
             "Schoolwide Learner Outcomes. Both CIS and WASC place SLOs at the centre — WASC's entire FOL model is organised around them. Eduversal added an explicit SLO aspect (D1-a6) on 2026-07-29, so the appraisal now prompts for them; a school preparing for CIS or WASC will be asked whether its SLOs are defined, mapped into curriculum, and evidenced. The aspect asks whether SLOs exist and work — it does not author them for the school.",
-            "Financial and facilities management. CIS 8 and WASC Category D both assess financial sustainability, facilities and resourcing as institutional quality. The Eduversal appraisal is academically scoped: it touches resources only where they bear on teaching (D3) or culture (D5). Governance of finance sits with the Yayasan and is outside the appraisal.",
+            "Financial and facilities management. CIS Domain G and WASC Category D both assess financial sustainability, facilities and resourcing as institutional quality. The Eduversal appraisal is academically scoped: it touches resources only where they bear on teaching (D3) or culture (D5). Governance of finance sits with the Yayasan and is outside the appraisal.",
             "Cycle length and independence. CIS and WASC run multi-year cycles with teams drawn from independent peer schools. The Eduversal cycle is annual and the team is drawn from the network's own specialists. This is a considered trade-off — it buys frequency, subject expertise and continuity, at the cost of the external independence an accreditation body requires. The appraisal is internal quality assurance, not an accreditation simulation.",
             "Outcome type. Accreditation yields a binary decision (accredited or not). The appraisal yields a School Development Rating, explicitly a development indicator and not a ranking. A school rated Developing is not \"failing accreditation\"; it has named priorities and a supervisor assigned to them."
           ]

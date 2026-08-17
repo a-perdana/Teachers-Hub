@@ -1439,7 +1439,7 @@
         {
           "type": "list",
           "items": [
-            "Data processed: Student assessment results, test responses, demographic data for EASE exams",
+            "Data processed: Student assessment results, test responses, demographic data for EASE exams [Processor identity - verification pending 2026-08-17. Every AY 2026-2027 EASE source document names Latihan.id as the delivery platform for EASE Growth, EASE Assessment and EASE Academic, and the network integration authenticates against latihan.id. The legal entity operating Latihan.id has not been confirmed against this DPIA, and a DPIA that names the wrong processor is itself a data-protection defect. Confirm the operating company and, if it differs from the entity named here, re-run this DPIA before the next annual review.]",
             "Data location: Cloud servers (location specified in contract - verify Indonesian or acceptable international location)",
             "Security measures: Encryption, secure transmission protocols, limited access to exam data",
             "DPIA conducted: Yes (see Section 14.4 - EASE DPIA)"
