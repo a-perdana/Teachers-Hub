@@ -1,7 +1,7 @@
 {
   "id": "04",
   "title": "Strategic Planning and School Improvement",
-  "lastUpdated": "2026-08-16",
+  "lastUpdated": "2026-08-17",
   "subsections": [
     {
       "id": "4.1",
@@ -2828,5 +2828,15 @@
         }
       ]
     }
-  ]
+  ],
+  "corpusVersion": {
+    "manual": "Academic Standards: Eduversal Partner Schools Network",
+    "version": "1.1",
+    "effectiveDate": "2026-08-17",
+    "midYearCheck": "2027-02-17",
+    "nextFullReview": "2027-08-17",
+    "reviewCycle": "Annual, with a mid-year check",
+    "releaseNote": "Corpus audit and remediation: defect markers cleared, CIS/WASC framework references corrected, extraction artefacts swept.",
+    "scope": "This version applies to all 24 sections of the manual."
+  }
 }

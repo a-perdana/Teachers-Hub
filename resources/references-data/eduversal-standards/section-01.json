@@ -15,10 +15,12 @@
         {
           "type": "list",
           "items": [
-            "Current Version: 1.0",
-            "Effective Date: July 30, 2025",
-            "Next Review Date: January 2026",
-            "Review Cycle: Annual (with mid-year evaluation)"
+            "Current Version: 1.1",
+            "Effective Date: 2026-08-17",
+            "Mid-Year Check: 2027-02-17",
+            "Next Full Review: 2027-08-17",
+            "Review Cycle: Annual, with a mid-year check",
+            "Scope: this version number applies to all 24 sections of the manual"
           ],
           "title": "Version Control"
         },
@@ -1246,5 +1248,15 @@
         }
       ]
     }
-  ]
+  ],
+  "corpusVersion": {
+    "manual": "Academic Standards: Eduversal Partner Schools Network",
+    "version": "1.1",
+    "effectiveDate": "2026-08-17",
+    "midYearCheck": "2027-02-17",
+    "nextFullReview": "2027-08-17",
+    "reviewCycle": "Annual, with a mid-year check",
+    "releaseNote": "Corpus audit and remediation: defect markers cleared, CIS/WASC framework references corrected, extraction artefacts swept.",
+    "scope": "This version applies to all 24 sections of the manual."
+  }
 }
