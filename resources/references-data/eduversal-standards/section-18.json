@@ -18,8 +18,16 @@
           "title": "Purpose of International Accreditation"
         },
         {
-          "type": "text",
-          "text": "1. Quality Assurance and Validation International accreditation provides external validation that our school meets rigorous global standards for educational excellence. It assures parents, students, university admissions officers, and other stakeholders that we deliver high-quality education comparable to the world's best international schools. 2. Continuous Improvement Culture Accreditation is not a one-time achievement but an ongoing cycle of self-reflection, evidence collection, stakeholder feedback, and systematic improvement. It transforms quality assurance from compliance-driven to values-driven practice. 3. International Recognition CIS and WASC accreditation is recognized worldwide by universities, educational authorities, and international school networks. It enhances student mobility and university admissions prospects, particularly for students applying to institutions in North America, Europe, and other regions that value these credentials. 4. Stakeholder Confidence Accreditation demonstrates to the Yayasan (Foundation), parents, prospective families, and the wider community that the school is committed to accountability, transparency, and evidence-based decision-making. 5. Professional Development and Networking The accreditation process connects our schools to a global community of educators committed to excellence. It provides access to professional development opportunities, peer schools for collaboration, and best practices from around the world. 6. Alignment with Eduversal's Commitment to Excellence Accreditation aligns seamlessly with Eduversal's Quality Management System, including:"
+          "type": "process",
+          "title": "Why Pursue International Accreditation?",
+          "steps": [
+            "Quality Assurance and Validation International accreditation provides external validation that our school meets rigorous global standards for educational excellence. It assures parents, students, university admissions officers, and other stakeholders that we deliver high-quality education comparable to the world's best international schools.",
+            "Continuous Improvement Culture Accreditation is not a one-time achievement but an ongoing cycle of self-reflection, evidence collection, stakeholder feedback, and systematic improvement. It transforms quality assurance from compliance-driven to values-driven practice.",
+            "International Recognition CIS and WASC accreditation is recognized worldwide by universities, educational authorities, and international school networks. It enhances student mobility and university admissions prospects, particularly for students applying to institutions in North America, Europe, and other regions that value these credentials.",
+            "Stakeholder Confidence Accreditation demonstrates to the Yayasan (Foundation), parents, prospective families, and the wider community that the school is committed to accountability, transparency, and evidence-based decision-making.",
+            "Professional Development and Networking The accreditation process connects our schools to a global community of educators committed to excellence. It provides access to professional development opportunities, peer schools for collaboration, and best practices from around the world.",
+            "Alignment with Eduversal's Commitment to Excellence Accreditation aligns seamlessly with Eduversal's Quality Management System, including:"
+          ]
         },
         {
           "type": "list",
@@ -28,8 +36,7 @@
             "EduNav platform for evidence repository and dashboards",
             "DTP (Development of Teaching Proficiency) for professional growth",
             "Appraisal Program for teacher and school evaluation"
-          ],
-          "title": "Why Pursue International Accreditation?"
+          ]
         },
         {
           "type": "text",
@@ -1316,7 +1323,17 @@
         },
         {
           "type": "text",
-          "text": "Responsible Party: Principal (overall), Accreditation Coordinator (day-to-day), Self-Study Steering Committee Storage Location: EduNav → Accreditation folder; Physical accreditation binders (evidence samples) Using the Crosswalk for Accreditation Preparation 1. Regular Review: During termly mini self-reviews (see Section 18.8), select one handbook section and verify that all listed evidence is current and accessible. 2. Gap Analysis: If evidence is missing or outdated, add to SIP action log with timeline and responsible party for completion. 3. Evidence Navigation: When writing the self-study or preparing for the visit, use this crosswalk to quickly locate relevant artifacts. 4. Continuous Improvement: Update the crosswalk annually as handbook sections evolve and new evidence is generated. This crosswalk shows that accreditation is not separate from our daily work—it is the validation that we are doing what we say we do, with evidence to prove it."
+          "text": "Responsible Party: Principal (overall), Accreditation Coordinator (day-to-day), Self-Study Steering Committee Storage Location: EduNav → Accreditation folder; Physical accreditation binders (evidence samples) Using the Crosswalk for Accreditation Preparation"
+        },
+        {
+          "type": "process",
+          "title": "Using the Crosswalk for Accreditation Preparation",
+          "steps": [
+            "Regular Review: During termly mini self-reviews (see Section 18.8), select one handbook section and verify that all listed evidence is current and accessible.",
+            "Gap Analysis: If evidence is missing or outdated, add to SIP action log with timeline and responsible party for completion.",
+            "Evidence Navigation: When writing the self-study or preparing for the visit, use this crosswalk to quickly locate relevant artifacts.",
+            "Continuous Improvement: Update the crosswalk annually as handbook sections evolve and new evidence is generated. This crosswalk shows that accreditation is not separate from our daily work—it is the validation that we are doing what we say we do, with evidence to prove it."
+          ]
         }
       ]
     },
@@ -1999,8 +2016,18 @@
           ]
         },
         {
-          "type": "text",
-          "text": "1. Collect Evidence Continuously Do not wait for accreditation self-study to begin collecting evidence. Embed evidence generation into daily workflows. 2. Organize as You Go File documents promptly in the correct EduNav folder with proper naming. Avoid accumulating unorganized files. 3. Version Control Matters When policies or documents are revised, archive old versions clearly labeled (e.g., \"2024\\Policy\\Assessment\\v1.0\\Superseded.pdf\") and mark the current version prominently. 4. Anonymize Sensitive Data For student or staff records shared with accreditation teams, remove identifying information (names, photos, ID numbers) while preserving the substance of evidence. 5. Quality Over Quantity Accreditation teams value concise, well-curated evidence more than exhaustive document dumps. Select representative samples that clearly demonstrate compliance. 6. Regular Backups EduNav should have automatic backups, but critical evidence should also be backed up locally (external drive, cloud storage) as redundancy. 7. Access Permissions Restrict sensitive evidence (HR files, safeguarding records, financial data) to authorized personnel only. Accreditation teams receive read-only access to relevant evidence. 8. Evidence Audit Schedule"
+          "type": "process",
+          "title": "Best Practices for Evidence Management",
+          "steps": [
+            "Collect Evidence Continuously Do not wait for accreditation self-study to begin collecting evidence. Embed evidence generation into daily workflows.",
+            "Organize as You Go File documents promptly in the correct EduNav folder with proper naming. Avoid accumulating unorganized files.",
+            "Version Control Matters When policies or documents are revised, archive old versions clearly labeled (e.g., \"2024\\Policy\\Assessment\\v1.0\\Superseded.pdf\") and mark the current version prominently.",
+            "Anonymize Sensitive Data For student or staff records shared with accreditation teams, remove identifying information (names, photos, ID numbers) while preserving the substance of evidence.",
+            "Quality Over Quantity Accreditation teams value concise, well-curated evidence more than exhaustive document dumps. Select representative samples that clearly demonstrate compliance.",
+            "Regular Backups EduNav should have automatic backups, but critical evidence should also be backed up locally (external drive, cloud storage) as redundancy.",
+            "Access Permissions Restrict sensitive evidence (HR files, safeguarding records, financial data) to authorized personnel only. Accreditation teams receive read-only access to relevant evidence.",
+            "Evidence Audit Schedule"
+          ]
         },
         {
           "type": "list",
@@ -2008,8 +2035,7 @@
             "Quarterly: Review one category of evidence (rotate through all categories over the year)",
             "Annually: Comprehensive evidence audit of all categories",
             "Pre-Self-Study: Intensive audit to identify and address gaps"
-          ],
-          "title": "Best Practices for Evidence Management"
+          ]
         },
         {
           "type": "text",
