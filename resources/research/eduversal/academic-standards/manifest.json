@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-17T02:39:48.743Z",
+  "generatedAt": "2026-08-17T02:45:24.240Z",
   "source": "Academic Hub/Sections/Section NN.json",
   "description": "Eduversal Academic Standards — flat madde id index for the ES chip family runtime.",
   "sectionCount": 24,
@@ -10,7 +10,7 @@
       "id": "01",
       "slug": "section-01",
       "title": "Front Matter and Governance Charter",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 10
     },
     {
@@ -38,7 +38,7 @@
       "id": "05",
       "slug": "section-05",
       "title": "Curriculum Architecture",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 17
     },
     {
@@ -52,21 +52,21 @@
       "id": "07",
       "slug": "section-07",
       "title": "Teaching Quality and Practice",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 27
     },
     {
       "id": "08",
       "slug": "section-08",
       "title": "Inclusion, EAL, and Learning Support",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 18
     },
     {
       "id": "09",
       "slug": "section-09",
       "title": "Safeguarding, Child Protection, and Wellbeing",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 22
     },
     {
@@ -80,14 +80,14 @@
       "id": "11",
       "slug": "section-11",
       "title": "Admissions, Enrollment, and Marketing Ethics",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 12
     },
     {
       "id": "12",
       "slug": "section-12",
       "title": "Staff Lifecycle: Recruitment, Induction, Appraisal, PD, Wellbeing",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 14
     },
     {
@@ -108,7 +108,7 @@
       "id": "15",
       "slug": "section-15",
       "title": "Risk Management, Emergency Preparedness, and Business Continuity",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 50
     },
     {
@@ -136,14 +136,14 @@
       "id": "19",
       "slug": "section-19",
       "title": "Templates and Operational Tools (Appendices)",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 12
     },
     {
       "id": "20",
       "slug": "section-20",
       "title": "References and Compliance Library",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 11
     },
     {
@@ -164,7 +164,7 @@
       "id": "23",
       "slug": "section-23",
       "title": "External Partnerships and Student Pathways",
-      "lastUpdated": "2026-08-16",
+      "lastUpdated": "2026-08-17",
       "maddeCount": 12
     },
     {

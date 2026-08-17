@@ -1,7 +1,7 @@
 {
   "id": "20",
   "title": "References and Compliance Library",
-  "lastUpdated": "2026-08-16",
+  "lastUpdated": "2026-08-17",
   "subsections": [
     {
       "id": "20.1",
@@ -1085,7 +1085,7 @@
         {
           "type": "text",
           "title": "Note on this table",
-          "text": "Two corrections to the source image. First, EASE was described as a single \"Evaluation of Achievement Standardized Exam\"; under the current model EASE is an umbrella brand with two applications. Second, the image listed the EduNav platform as the live quality-management dashboard and evidence repository. That is correct and the question raised in an earlier revision — whether EduNav might be a legacy product — is settled: EduNav is Eduversal's current school information system, developed by PT. Global Zerone Digital for Eduversal and defined at madde 4.3.2, and it is listed among the QMS products at madde 1.3 (DTP, Appraisal, EduOS, EduNav, EASE). The EduNav storage instructions in Sections 19 and 20 therefore point at the right system. Where a storage instruction reads \"Google Drive, EduNav, or similar\", keep that hedged form — it is what allows an instruction to survive a future change of platform."
+          "text": "Two corrections to the source image. First, EASE was described as a single \"Evaluation of Achievement Standardized Exam\"; under the current model EASE is an umbrella brand with two applications. Second, the image listed the EduNav platform as the live quality-management dashboard and evidence repository. That is correct and the question raised in an earlier revision — whether EduNav might be a legacy product — is settled: EduNav is Eduversal's current school information system, developed by PT. Global Zerone Digital for Eduversal and defined at clause 4.3.2, and it is listed among the QMS products at clause 1.3 (DTP, Appraisal, EduOS, EduNav, EASE). The EduNav storage instructions in Sections 19 and 20 therefore point at the right system. Where a storage instruction reads \"Google Drive, EduNav, or similar\", keep that hedged form — it is what allows an instruction to survive a future change of platform."
         },
         {
           "type": "table",
@@ -1234,7 +1234,7 @@
             ],
             [
               "2. Legal and Regulatory Compliance",
-              "Panduan Akreditasi SPK 2025; UU No. 20/2003; sector regulations as cited in the madde",
+              "Panduan Akreditasi SPK 2025; UU No. 20/2003; sector regulations as cited in the clause",
               "B (B6: written policies and regulatory compliance)",
               "A: Organization for Student Learning"
             ],
@@ -1270,7 +1270,7 @@
             ],
             [
               "8. Inclusion, EAL, and Learning Support",
-              "Inclusion provisions as cited in the madde",
+              "Inclusion provisions as cited in the clause",
               "D (D4-D5: access and language support); E: Wellbeing",
               "C: Support for Student Personal and Academic Growth"
             ],
@@ -1312,13 +1312,13 @@
             ],
             [
               "15. Risk Management, Emergency Preparedness, and Business Continuity",
-              "HSE regulations as cited in the madde",
+              "HSE regulations as cited in the clause",
               "E (E4: activities outside school); G (G2: health, safety and security)",
               "D: Resource Management and Development"
             ],
             [
               "16. Parent, Student, and Community Engagement",
-              "Public information duties as cited in the madde",
+              "Public information duties as cited in the clause",
               "H: Community and home partnerships",
               "C: Support for Student Personal and Academic Growth"
             ],
@@ -1360,7 +1360,7 @@
             ],
             [
               "23. External Partnerships and Student Pathways",
-              "Partnership and public information duties as cited in the madde",
+              "Partnership and public information duties as cited in the clause",
               "H: Community and home partnerships; E (E5-E6: transitions, guidance and careers)",
               "C: Support for Student Personal and Academic Growth"
             ],

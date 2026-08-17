@@ -1,7 +1,7 @@
 {
   "id": "19",
   "title": "Templates and Operational Tools (Appendices)",
-  "lastUpdated": "2026-08-16",
+  "lastUpdated": "2026-08-17",
   "subsections": [
     {
       "id": "19.1",
@@ -2015,7 +2015,7 @@
         {
           "type": "text",
           "title": "Note on this table",
-          "text": "Scale note: this form uses a three-band L/M/H scale, while the Risk Register (T-31) in the same madde uses the 1-5 x 1-5 numeric scale with four bands. When transferring a trip risk onto the register, map L to 1-4, M to 5-9, and H to 10 or above."
+          "text": "Scale note: this form uses a three-band L/M/H scale, while the Risk Register (T-31) in the same clause uses the 1-5 x 1-5 numeric scale with four bands. When transferring a trip risk onto the register, map L to 1-4, M to 5-9, and H to 10 or above."
         },
         {
           "type": "table",
@@ -2354,7 +2354,7 @@
         {
           "type": "text",
           "title": "Note on this table",
-          "text": "This form was orphaned in the source: madde 19.10 ends on the bare heading \"Conference Notes:\" with nothing following. The conference record captures student, class, date, parents present, translator (if applicable), key points discussed, the agreed actions below, whether follow-up is required, and the teacher signature."
+          "text": "This form was orphaned in the source: clause 19.10 ends on the bare heading \"Conference Notes:\" with nothing following. The conference record captures student, class, date, parents present, translator (if applicable), key points discussed, the agreed actions below, whether follow-up is required, and the teacher signature."
         },
         {
           "type": "table",
