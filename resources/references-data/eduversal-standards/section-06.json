@@ -123,8 +123,8 @@
         },
         {
           "type": "text",
-          "title": "Note on this table",
-          "text": "The \"Benchmark/Interim\" row states EASE runs 2-4 times per year. Under the AY 2026-2027 model EASE Growth runs on a fixed three-window cycle (Term 1 / Term 2 / Term 3) — 3x/year, not a 2-4 range. Read the frequency for that row as three windows per year."
+          "title": "Correction history",
+          "text": "The Benchmark/Interim row previously carried a range for EASE, and a later note read that range as a three-window cycle. Both predate the AY 2026-2027 model. Corrected 2026-08-17: the row now states the EASE Growth cadence from EASE Framework 26-27 p.9 — twice a year for Grades 7-12, once a year for Grades 4-6."
         },
         {
           "type": "table",
@@ -161,7 +161,7 @@
             [
               "Benchmark/Interim",
               "Track progress toward annual goals, compare to external standards",
-              "2-4 times/year",
+              "EASE Growth: 2x/year (Grades 7-12), 1x/year (Grades 4-6)",
               "EASE tests, Cambridge Progression Tests, internal common assessments",
               "Yes (summary in reports)"
             ],
@@ -191,8 +191,8 @@
         },
         {
           "type": "text",
-          "title": "Note on this table",
-          "text": "This calendar schedules four EASE cycles across the academic year (Cycle 1 and Cycle 4 in this half alone). EASE Growth now runs three windows per year — Term 1, Term 2, Term 3. The \"EASE Cycle 4\" row at Week 18 and the Cycle 1/2/3 numbering no longer describe the live cycle; treat the EASE rows as illustrative placement only and read the window count as three."
+          "title": "Correction history",
+          "text": "This calendar previously scheduled numbered EASE cycles across the year, and a later note reinterpreted them as term windows. Both predate the AY 2026-2027 model. Corrected 2026-08-17: the EASE rows now show the four EASE Weeks — two per semester. Weeks 1 and 3 sit mid-semester and normal lessons continue; Weeks 2 and 4 sit at semester-end and normal lessons stop for the Synchronized Test. That distinction matters for timetabling and the old rows could not express it. Rebuilt 2026-08-17 from EASE Framework 26-27 s.5 (p.10); the week structure is derived from that source, not transcribed from the original calendar image."
         },
         {
           "type": "table",
@@ -212,9 +212,9 @@
             ],
             [
               "Week 4",
-              "EASE Cycle 2",
-              "All",
-              "Track growth since Cycle 1"
+              "EASE Week 3 (mid-semester)",
+              "4-12",
+              "EASE Growth sitting, Semester 2; lessons continue as normal"
             ],
             [
               "Week 8-9",
@@ -229,10 +229,10 @@
               "Mid-year check-in"
             ],
             [
-              "Week 11",
-              "EASE Cycle 3",
+              "Week 22-23",
+              "EASE Week 4 (semester-end)",
               "All",
-              "Continue progress monitoring"
+              "Synchronized Test, Semester 2; normal lessons stop for the week"
             ],
             [
               "Week 14-16",
@@ -245,12 +245,6 @@
               "Cambridge External Exams (May/June series)",
               "11, 12, 13 (IGCSE, AS, A)",
               "Official Cambridge exams (high-stakes)"
-            ],
-            [
-              "Week 18",
-              "EASE Cycle 4",
-              "7-10 (non-exam grades)",
-              "End-of-year benchmark"
             ],
             [
               "Week 22-23",
@@ -296,9 +290,9 @@
             ],
             [
               "Week 10",
-              "EASE Cycle 1",
-              "All",
-              "Benchmark literacy, numeracy, subject mastery"
+              "EASE Week 1 (mid-semester)",
+              "4-12",
+              "EASE Growth sitting, Semester 1; lessons continue as normal"
             ],
             [
               "Week 12",
@@ -311,6 +305,12 @@
               "Cambridge Progression Tests (Optional)",
               "7-9",
               "Benchmark readiness for next stage"
+            ],
+            [
+              "Week 18-19",
+              "EASE Week 2 (semester-end)",
+              "All",
+              "Synchronized Test, Semester 1; normal lessons stop for the week"
             ],
             [
               "Week 18-19",
@@ -1351,7 +1351,7 @@
         },
         {
           "type": "text",
-          "text": "Re-Assessment: Quiz given 1 week after intervention Result: 85% of students now score above 70%; significant improvement Next Steps: Continue scaffolding; build in more frequent practice opportunities; monitor progress closely Example 2: Grade 10 IGCSE English (Essay Writing) Data: EASE Cycle 2 writing scores show 40% of Grade 10 students below proficiency in argumentative writing Analysis: Students struggle with:"
+          "text": "Re-Assessment: Quiz given 1 week after intervention Result: 85% of students now score above 70%; significant improvement Next Steps: Continue scaffolding; build in more frequent practice opportunities; monitor progress closely Example 2: Grade 10 IGCSE English (Essay Writing) Data: Semester 1 EASE writing scores show 40% of Grade 10 students below proficiency in argumentative writing Analysis: Students struggle with:"
         },
         {
           "type": "list",
@@ -1737,7 +1737,7 @@
         },
         {
           "type": "text",
-          "text": "What: Eduversal network-wide standardized assessment administered 4x/year Who: All students Grades 1-12 (except Grade 11, 13 during Cambridge external exam periods) What It Measures:"
+          "text": "What: Eduversal network-wide standardized assessment. EASE Growth runs twice a year for Secondary (Grades 7-12), once per semester, and once a year for Primary (Grades 4-6) in Semester 2. Who: EASE Growth covers Grades 4-12 in four grade bands; EASE Assessment covers all grades and all subjects What It Measures:"
         },
         {
           "type": "list",
@@ -1756,7 +1756,7 @@
           "type": "list",
           "items": [
             "Online platform (Edutama/EASE system)",
-            "Scheduled windows: Week 10 (Cycle 1), Week 4 (Cycle 2), Week 11 (Cycle 3), Week 18 (Cycle 4) per calendar",
+            "Scheduled windows: the four EASE Weeks, two per semester — Weeks 1 and 3 mid-semester (EASE Growth; lessons continue) and Weeks 2 and 4 at semester-end (Synchronized Tests; lessons stop). See the assessment calendar",
             "Proctored by teachers (not high-stakes; classroom-based)"
           ]
         },

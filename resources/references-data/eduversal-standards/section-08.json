@@ -133,8 +133,8 @@
         },
         {
           "type": "text",
-          "title": "Note on this table",
-          "text": "The EASE Benchmark Tests row states 4x/year. The corpus now runs EASE on three windows per year (Term 1 / Term 2 / Term 3). Row retained verbatim for provenance; the correct frequency is 3x/year."
+          "title": "Correction history",
+          "text": "The EASE Benchmark Tests row previously carried a frequency that predates the AY 2026-2027 model, and an earlier note read it as a three-window cycle without amending the row. Corrected 2026-08-17: the row now states the EASE Growth cadence from EASE Framework 26-27 p.9."
         },
         {
           "type": "table",
@@ -147,7 +147,7 @@
           "rows": [
             [
               "EASE Benchmark Tests",
-              "4x/year",
+              "2x/year (Grades 7-12); 1x/year (Grades 4-6)",
               "Track growth in literacy/numeracy vs. grade-level standards"
             ],
             [
@@ -2867,7 +2867,7 @@
               "Tier 2 slightly high (target 10-15%); review UDL implementation"
             ],
             [
-              "EASE Proficiency (Grade 3-12)",
+              "EASE Growth Proficiency (Grades 4-12)",
               "Reading: 72% | Math: 68% | Science: 71%",
               "Math below target; PD needed on UDL for numeracy (Section 8.9.3 B strategies?)"
             ],
@@ -2885,8 +2885,8 @@
         },
         {
           "type": "text",
-          "title": "Note on this table",
-          "text": "The \"EASE benchmark proficiency rates\" row lists the data source as \"EASE assessments (4x/year)\". The corpus now runs EASE on three windows per year (Term 1 / Term 2 / Term 3), so the correct frequency is 3x/year. Note the MTSS row already carries the corrected Tier 2 = 10-15% figure, unlike image002/image018."
+          "title": "Correction history",
+          "text": "The EASE benchmark proficiency row previously named a data source whose frequency predates the AY 2026-2027 model, and an earlier note diagnosed it as a three-window cycle without amending the row. Corrected 2026-08-17 to the EASE Growth cadence from EASE Framework 26-27 p.9. Note the MTSS row already carries the corrected Tier 2 = 10-15% figure, unlike image002/image018."
         },
         {
           "type": "table",
@@ -2909,8 +2909,8 @@
             [
               "EASE benchmark proficiency rates",
               "≥70% of students at/above grade level",
-              "EASE assessments (4x/year)",
-              "Per EASE cycle",
+              "EASE Growth sittings (2x/year Grades 7-12; 1x/year Grades 4-6)",
+              "Per EASE Growth sitting",
               "General academic health; if <70% proficient, UDL + core instruction needs strengthening"
             ],
             [
