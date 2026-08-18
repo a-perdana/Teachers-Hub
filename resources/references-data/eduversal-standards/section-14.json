@@ -1440,8 +1440,9 @@
           "type": "list",
           "items": [
             "Data processed: Student assessment results, test responses, demographic data for EASE exams",
-            "Data location: Cloud servers (location specified in contract - verify Indonesian or acceptable international location)",
-            "Security measures: Encryption, secure transmission protocols, limited access to exam data",
+            "Data location: Servers hosted in Indonesian data center (data sovereignty compliance) - same hosting arrangement as EduNav, both platforms being supplied by PT. Global Zerone Digital under the same terms",
+            "Security measures: ISO 27001 certified; annual security audits; encryption in transit and at rest; access to exam data limited to authorised roles",
+            "Contract requirements: Data Processing Agreement (DPA) specifies school as data controller, vendor as processor; vendor prohibited from using school data for own purposes; vendor must notify school of breaches within 24 hours",
             "DPIA conducted: Yes (see Section 14.4 - EASE DPIA)"
           ]
         },
