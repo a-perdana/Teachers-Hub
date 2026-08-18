@@ -35,14 +35,14 @@
       "content": [
         {
           "type": "text",
-          "text": "The framework rates 32 aspects across five domains, each aspect on a 1-4 scale (Beginning / Developing / Established / Exemplary) with band descriptors written for that aspect rather than a generic scale. The domains:"
+          "text": "The framework rates 32 aspects across five domains, each aspect on a 1-4 scale (1 Needs Intervention / 2 Developing / 3 Strong / 4 Outstanding), with a shared four-level descriptor set defining what each level looks like in practice. The domains:"
         },
         {
           "type": "list",
           "items": [
             "D1 — Leadership & Governance (6 aspects): vision and strategic direction, SMART goals and the P.I.E. model, leadership structure and shared leadership, performance management and staff KPIs, governance and transparent decision-making, Schoolwide Learner Outcomes",
             "D2 — Teaching & Learning Quality (6 aspects): in-class documents and observation records, assessment methods, student understanding and goal setting, assessment and feedback quality, evaluation of teaching and PD records, LMS and technology integration",
-            "D3 — Curriculum & Academic Programmes (8 aspects): department structure, department meetings and HoD coordination, teacher self-assessment, formal observations and walkthroughs, mentoring and peer observation, PD evaluation, cultural and authentic contexts, digital policy",
+            "D3 — Curriculum & Academic Programmes (9 aspects): department structure, department meetings and HoD coordination, teacher self-assessment, formal observations and walkthroughs, mentoring and peer observation, PD evaluation, cultural and authentic contexts, digital policy, curriculum design, coverage and progression",
             "D4 — Student Achievement & Learning Outcomes (6 aspects): achievement data and dashboards, Olympiad resourcing and academic follow-up, Olympiad student wellbeing, support for advanced students, language support, identification of and support for extra learning needs",
             "D5 — School Culture & Community (6 aspects): culture, climate and student behaviour, safeguarding and child protection, communication structures, educational and co-curricular programmes, parent and community engagement, staff wellbeing"
           ]
