@@ -2189,10 +2189,10 @@
           "items": [
             "Nominate one person to give IT support for file access during the visit, and share that contact with the final report (CIS Instructions for Submission, p.8).",
             "Give read-only access to four parties: the School Services Advisor (SSA), the School Support and Evaluation Officer (SSEO), accreditation@cois.org, and the visiting evaluators (p.8).",
-            "Read-only means read-only. Links must not allow download, printing, or sharing onward (p.7).",
+            "Read-only means read-only. CIS asks that shared links grant read-only access, without the option to download, print, or share onward (p.7). Eduversal treats this as mandatory.",
             "Share with named individuals, never through a public link (p.7).",
-            "Share credentials safely — for example a one-time password that must be changed at first login. Do not send passwords or personal data by email (p.7).",
-            "Store financial documents separately, in their own password-protected location. Only the SSEO reviews them; volunteer evaluators do not need access unless the SSEO asks (p.7, p.8).",
+            "Share credentials safely — for example a one-time password that must be changed at first login (p.7). Avoid sending passwords or personal data by email (p.7).",
+            "Store financial documents separately, in their own password-protected location — CIS asks schools to consider this (p.7, p.8), and Eduversal requires it. Share access to that location with the SSA, the SSEO, and accreditation@cois.org. Only the SSEO reviews the files; volunteer evaluators do not need access unless the SSEO asks (p.8).",
             "Remove access afterwards: volunteer evaluators two weeks after the visit ends, CIS accounts after the final report is published (p.8)."
           ]
         },
@@ -2280,7 +2280,7 @@
           "type": "list",
           "title": "Eduversal mini self-review — a light internal check",
           "items": [
-            "Once a year, and separately from the accreditor's requirements, each partner school should run a short internal review against two or three domains rather than all of them.",
+            "Once a term, and separately from the accreditor's requirements, each partner school should run a short internal review against two or three domains rather than all of them. Reviewing two or three domains each term means every domain is covered within the year.",
             "Rotate the domains so every domain is reviewed at least twice in a cycle.",
             "Keep it to one working day. This is a health check, not a rehearsal of the self-study.",
             "Use the same evidence the school already produces. If a review needs new documents created for it, it is testing paperwork rather than practice.",
@@ -2359,10 +2359,10 @@
         },
         {
           "type": "list",
-          "title": "CIS rules for evidence files — these are requirements, not advice",
+          "title": "CIS guidance on evidence files — published as tips, treated by Eduversal as requirements",
           "items": [
             "Use a simple, logical naming convention. The filename must say what the file contains: \"Teaching and Learning Policy\", not \"C1_Policy 4.23\" (CIS Instructions for Submission, August 2024, p.5).",
-            "Do NOT put the standard or criteria number in the filename. One file is often hyperlinked from several parts of the report — a Teaching and Learning Policy may be cited under A2, C1 and D1 — and a number in the name makes it look as if it belongs to only one (p.5).",
+            "Avoid putting the standard or criteria number in the filename. One file is often hyperlinked from several parts of the report — a Teaching and Learning Policy may be cited under A2, C1 and D1 — and a number in the name makes it look as if it belongs to only one (p.5).",
             "Hyperlink every piece of evidence from the writing that refers to it. A reader should never have to search for a file (p.5).",
             "Store evidence somewhere searchable, and organise the folders so a stranger can navigate them (p.5).",
             "Do not keep duplicate copies of the same file in different folders. Link to one copy."
