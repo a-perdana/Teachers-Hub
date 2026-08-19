@@ -1128,7 +1128,7 @@
           "type": "list",
           "items": [
             "Preference for teachers with Cambridge training or international school experience",
-            "EAL (English as an Extra Language) competency for teachers delivering Cambridge curriculum",
+            "EAL (English as an Additional Language) competency for teachers delivering Cambridge curriculum",
             "All teachers must meet minimum national qualifications; Eduversal often recruits above these minimums"
           ]
         },
@@ -1233,12 +1233,12 @@
         },
         {
           "type": "text",
-          "text": "3. Work Permit (IMTA - Izin Mempekerjakan Tenaga Kerja Asing):"
+          "text": "3. Foreign-Worker Authorisation (RPTKA — Rencana Penggunaan Tenaga Kerja Asing):"
         },
         {
           "type": "list",
           "items": [
-            "Employer (Yayasan) must get approval from Ministry of Manpower to employ a foreign worker",
+            "Employer (Yayasan) must obtain an approved RPTKA and its notification from the Ministry of Manpower before employing a foreign worker — the former IMTA was abolished by the Cipta Kerja reform (see 12.4); confirm the current procedure (TKA Online / OSS) before each hire",
             "Justification required (specialized skills not available locally)",
             "Position must comply with \"Negative List\" (positions restricted to Indonesian citizens)"
           ]

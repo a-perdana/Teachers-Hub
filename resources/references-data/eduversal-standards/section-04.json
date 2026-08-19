@@ -1109,7 +1109,7 @@
         {
           "type": "list",
           "items": [
-            "Subject Appraisals: Formal lesson observations of teachers in priority subjects (English, Mathematics, Science, Biology, Chemistry, Physics, STEAM, Religion)",
+            "Subject Observations (formative): lesson observations of teachers in priority subjects (English, Mathematics, Science, Biology, Chemistry, Physics, STEAM, Religion)",
             "Walkthrough Observations: Brief classroom visits (15-20 minutes) across all year levels and subjects to observe instructional patterns, student engagement, and learning environment",
             "Timetable Adjustments: Schools ensure all key subject teachers have scheduled lessons during the visit days"
           ]
@@ -1158,14 +1158,13 @@
         },
         {
           "type": "text",
-          "text": "2. Teacher Appraisal Reports"
+          "text": "2. Formative Observation Feedback (no scores)"
         },
         {
           "type": "list",
           "items": [
-            "Individual reports for each observed teacher through EduNav system",
-            "Scores across four teaching domains",
-            "Specific feedback on strengths and growth areas",
+            "Formative feedback (Glow / Grow / Go) delivered directly to each observed teacher — visit observations carry no scores and no weight in any teacher's appraisal (teacher-observation-ownership decision, 2026-08-17: the official classroom-observation score comes solely from the school's own appraisers)",
+            "A Domain-2 validation memo to the school: whether the visit evidence supports the school's own observation ratings, with the gap explained where it does not — individual teacher scores are never issued or retrospectively changed by the visiting team",
             "Development recommendations and resources",
             "Professional learning priorities"
           ]

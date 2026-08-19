@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-19T14:42:07.417Z",
+  "generatedAt": "2026-08-19T18:26:02.328Z",
   "source": "Academic Hub/Sections/Section NN.json",
   "description": "Eduversal Academic Standards — flat madde id index for the ES chip family runtime.",
   "sectionCount": 24,
@@ -529,7 +529,7 @@
     "5.8": {
       "sectionId": "05",
       "sectionTitle": "Curriculum Architecture",
-      "maddeTitle": "English as an Extra Language Integration"
+      "maddeTitle": "English as an Additional Language Integration"
     },
     "5.9": {
       "sectionId": "05",
