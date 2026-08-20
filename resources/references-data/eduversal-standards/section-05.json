@@ -3276,7 +3276,33 @@
         },
         {
           "type": "text",
-          "text": "Q1: Isn't UDL just good teaching? Why do we need a special framework? A: Yes, UDL incorporates many best practices! The value of the framework is that it provides a systematic, research-based structure to ensure we're not leaving out any students. Without UDL, teachers might intuitively differentiate for some students but miss others. UDL makes inclusive design intentional and comprehensive. Q2: Does UDL mean lowering standards? A: No. UDL maintains rigorous learning objectives (e.g., Cambridge Assessment Objectives) while providing multiple pathways to reach them. Removing barriers is not the same as removing challenge. UDL actually raises the bar by expecting all students to access grade-level content and demonstrate understanding. Q3: Do I have to offer 10 different assessment options for every task? A: No. Start small. Offer 2-3 options that align with learning objectives. Over time, as you build a toolkit of UDL strategies, it becomes easier. Also, not every task needs choices—sometimes a specific format is necessary to teach that skill (e.g., students must learn to write essays, so essay practice is appropriate). The key is offering flexibility where possible without compromising learning goals. Q4: What about students who always choose the easiest option? A: This is where teacher guidance and rubrics matter. Ensure all options are equally rigorous (aligned to same learning objectives) even if the format differs. Also, encourage students to stretch: \"Last time you made a poster; this time, try writing an essay to develop your writing skills.\" Coach students to choose based on learning goals, not just comfort. Q5: How do I balance UDL with Cambridge exam preparation? A: UDL and exam prep are not in conflict. UDL ensures all students access the curriculum and develop the skills Cambridge exams assess. As exams approach, explicitly teach exam-specific skills (time management, question interpretation, essay structure) while continuing UDL supports. UDL actually improves exam performance by building deep understanding rather than rote memorization. Q6: What if I don't have enough resources (technology, materials)? A: Start with low-tech UDL:"
+          "title": "Q1: Isn't UDL just good teaching? Why do we need a special framework?",
+          "text": "A: Yes, UDL incorporates many best practices! The value of the framework is that it provides a systematic, research-based structure to ensure we're not leaving out any students. Without UDL, teachers might intuitively differentiate for some students but miss others. UDL makes inclusive design intentional and comprehensive."
+        },
+        {
+          "type": "text",
+          "title": "Q2: Does UDL mean lowering standards?",
+          "text": "A: No. UDL maintains rigorous learning objectives (e.g., Cambridge Assessment Objectives) while providing multiple pathways to reach them. Removing barriers is not the same as removing challenge. UDL actually raises the bar by expecting all students to access grade-level content and demonstrate understanding."
+        },
+        {
+          "type": "text",
+          "title": "Q3: Do I have to offer 10 different assessment options for every task?",
+          "text": "A: No. Start small. Offer 2-3 options that align with learning objectives. Over time, as you build a toolkit of UDL strategies, it becomes easier. Also, not every task needs choices—sometimes a specific format is necessary to teach that skill (e.g., students must learn to write essays, so essay practice is appropriate). The key is offering flexibility where possible without compromising learning goals."
+        },
+        {
+          "type": "text",
+          "title": "Q4: What about students who always choose the easiest option?",
+          "text": "A: This is where teacher guidance and rubrics matter. Ensure all options are equally rigorous (aligned to same learning objectives) even if the format differs. Also, encourage students to stretch: \"Last time you made a poster; this time, try writing an essay to develop your writing skills.\" Coach students to choose based on learning goals, not just comfort."
+        },
+        {
+          "type": "text",
+          "title": "Q5: How do I balance UDL with Cambridge exam preparation?",
+          "text": "A: UDL and exam prep are not in conflict. UDL ensures all students access the curriculum and develop the skills Cambridge exams assess. As exams approach, explicitly teach exam-specific skills (time management, question interpretation, essay structure) while continuing UDL supports. UDL actually improves exam performance by building deep understanding rather than rote memorization."
+        },
+        {
+          "type": "text",
+          "title": "Q6: What if I don't have enough resources (technology, materials)?",
+          "text": "A: Start with low-tech UDL:"
         },
         {
           "type": "process",
@@ -3359,7 +3385,7 @@
         },
         {
           "type": "text",
-          "text": "Universal Design for Learning is not an add-on or a special program; it is a mindset shift that transforms curriculum from \"one-size-fits-all\" to \"flexible and inclusive by design.\" By embedding UDL principles into curriculum planning at Eduversal Partner Schools, we ensure that all students—regardless of language background, learning differences, or socio-economic status—have equitable access to the rigorous Cambridge pathway and Indonesian national curriculum. UDL does not dilute academic standards; it amplifies them by removing barriers that prevent students from demonstrating their true capabilities. It empowers teachers with a systematic framework for differentiation and honors the diversity of our students as a strength, not a deficit. As we move forward, UDL will be integrated into every aspect of our curriculum architecture—from unit planning to resource selection, from assessment design to professional development. The journey requires time, collaboration, and continuous learning, but the outcome is a school where every student can thrive. Remember:"
+          "text": "Universal Design for Learning is not an add-on or a special program; it is a mindset shift that transforms curriculum from \"one-size-fits-all\" to \"flexible and inclusive by design.\" By embedding UDL principles into curriculum planning at Eduversal Partner Schools, we ensure that all students—regardless of language background, learning differences, or socio-economic status—have equitable access to the rigorous Cambridge pathway and Indonesian national curriculum. UDL does not dilute academic standards; it amplifies them by removing barriers that prevent students from demonstrating their true capabilities. It empowers teachers with a systematic framework for differentiation and honors the diversity of our students as a strength, not a deficit.\n\nAs we move forward, UDL will be integrated into every aspect of our curriculum architecture—from unit planning to resource selection, from assessment design to professional development. The journey requires time, collaboration, and continuous learning, but the outcome is a school where every student can thrive. Remember:"
         },
         {
           "type": "process",

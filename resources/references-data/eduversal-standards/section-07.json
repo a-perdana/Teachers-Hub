@@ -5203,48 +5203,570 @@
         },
         {
           "type": "text",
-          "text": "School leaders are responsible for developing a coherent AI integration strategy aligned with Cambridge International standards, Indonesian regulatory requirements, and the school's improvement priorities. Key Components of an AI Integration Plan: Vision and Objectives Articulate how AI integration supports the school's educational mission Define specific, measurable goals for AI adoption (e.g., percentage of teachers using AI for lesson planning, student AI literacy benchmarks) Align AI initiatives with existing school improvement plans and Cambridge quality standards Priority Areas for Implementation Phase 1: Teacher productivity tools (lesson planning, material creation, administrative tasks) Phase 2: Assessment and feedback enhancement Phase 3: Student-facing applications and AI literacy curriculum Phase 4: Advanced personalisation and data-driven instruction Resource Requirements Infrastructure needs (reliable internet, devices, platform subscriptions) Budget allocation for AI tools and professional development Technical support capacity Timeline and Milestones Realistic implementation schedule with clear checkpoints Pilot programmes before full-scale rollout Regular review points to assess progress and adjust approach Risk Assessment Identification of potential challenges (staff resistance, technical issues, academic integrity concerns) Mitigation strategies for each identified risk Contingency plans for implementation setbacks",
-          "title": "7.14.1 Strategic Planning for AI Integration"
+          "title": "7.14.1 Strategic Planning for AI Integration",
+          "text": "School leaders are responsible for developing a coherent AI integration strategy aligned with Cambridge International standards, Indonesian regulatory requirements, and the school's improvement priorities.\n\n**Key Components of an AI Integration Plan:**"
+        },
+        {
+          "type": "list",
+          "title": "Vision and Objectives",
+          "items": [
+            "Articulate how AI integration supports the school's educational mission",
+            "Define specific, measurable goals for AI adoption (e.g., percentage of teachers using AI for lesson planning, student AI literacy benchmarks)",
+            "Align AI initiatives with existing school improvement plans and Cambridge quality standards"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Priority Areas for Implementation",
+          "items": [
+            "Phase 1: Teacher productivity tools (lesson planning, material creation, administrative tasks)",
+            "Phase 2: Assessment and feedback enhancement",
+            "Phase 3: Student-facing applications and AI literacy curriculum",
+            "Phase 4: Advanced personalisation and data-driven instruction"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Resource Requirements",
+          "items": [
+            "Infrastructure needs (reliable internet, devices, platform subscriptions)",
+            "Budget allocation for AI tools and professional development",
+            "Technical support capacity"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Timeline and Milestones",
+          "items": [
+            "Realistic implementation schedule with clear checkpoints",
+            "Pilot programmes before full-scale rollout",
+            "Regular review points to assess progress and adjust approach"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Risk Assessment",
+          "items": [
+            "Identification of potential challenges (staff resistance, technical issues, academic integrity concerns)",
+            "Mitigation strategies for each identified risk",
+            "Contingency plans for implementation setbacks"
+          ]
         },
         {
           "type": "text",
-          "text": "Schools must maintain a curated list of approved AI tools that have been vetted for educational suitability, data privacy compliance, and alignment with school values. Criteria for Tool Approval: Educational Value Clear pedagogical purpose and demonstrated benefit to teaching or learning Age-appropriateness for intended users Alignment with Cambridge curriculum objectives Data Privacy and Security Compliance with Indonesian data protection regulations (UU PDP - Undang-Undang Pelindungan Data Pribadi) Clear data handling policies from the provider No requirement to input identifiable student information, or robust protection if such input is necessary Data storage location and security measures Reliability and Support Stable platform with consistent availability Adequate technical support from provider Regular updates and improvement Cost-Effectiveness Reasonable pricing relative to educational benefit Sustainable within school budget constraints Clear licensing terms The Eduversal network maintains a centrally approved tool list, updated termly. Schools may propose extra tools for network review. Using non-approved tools for work involving student information is prohibited. Current Categories of Approved Tools: Generative AI assistants for teacher productivity Assessment and quiz generation platforms Language support tools for EAL students Administrative automation tools Specific approved tools are listed in a separate document maintained by the Eduversal Academic Directorate and distributed to all partner schools.",
-          "title": "7.14.2 Approved AI Tools and Platforms"
+          "title": "7.14.2 Approved AI Tools and Platforms",
+          "text": "Schools must maintain a curated list of approved AI tools that have been vetted for educational suitability, data privacy compliance, and alignment with school values.\n\n**Criteria for Tool Approval:**"
+        },
+        {
+          "type": "list",
+          "title": "Educational Value",
+          "items": [
+            "Clear pedagogical purpose and demonstrated benefit to teaching or learning",
+            "Age-appropriateness for intended users",
+            "Alignment with Cambridge curriculum objectives"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Data Privacy and Security",
+          "items": [
+            "Compliance with Indonesian data protection regulations (UU PDP - Undang-Undang Pelindungan Data Pribadi)",
+            "Clear data handling policies from the provider",
+            "No requirement to input identifiable student information, or robust protection if such input is necessary",
+            "Data storage location and security measures"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Reliability and Support",
+          "items": [
+            "Stable platform with consistent availability",
+            "Adequate technical support from provider",
+            "Regular updates and improvement"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Cost-Effectiveness",
+          "items": [
+            "Reasonable pricing relative to educational benefit",
+            "Sustainable within school budget constraints",
+            "Clear licensing terms"
+          ]
         },
         {
           "type": "text",
-          "text": "Protecting student data is a fundamental leadership responsibility. School leaders must establish and enforce robust data governance practices. Core Data Protection Principles: Data Minimisation Use only the minimum necessary information in any AI application Avoid entering detailed student information when general queries suffice Aggregate data rather than individual records where possible Anonymisation Requirements When AI analysis of student performance is needed, remove or code identifying information Use class-level or cohort-level data rather than individual student data where feasible Establish clear protocols for any exceptions requiring identifiable data Consent and Transparency Inform parents about AI tools used in instruction through appropriate communications Obtain necessary consents as required by Indonesian regulations Maintain transparency about how student data is used and protected Secure Storage and Transmission Ensure any locally stored AI-related data is properly secured Use encrypted connections when transmitting sensitive information Regularly audit data storage practices Incident Response Establish clear procedures for responding to suspected data breaches Immediate reporting requirements to school leadership and Eduversal Documentation and remediation protocols Prohibited Data Practices: Entering student names, ID numbers, or photographs into public AI platforms Sharing assessment results or academic records with non-approved AI tools Using AI to make automated decisions about student placement or intervention without human review Storing AI conversation logs containing student information on personal devices",
-          "title": "7.14.3 Data Governance and Privacy Protection"
+          "text": "The Eduversal network maintains a centrally approved tool list, updated termly. Schools may propose extra tools for network review. Using non-approved tools for work involving student information is prohibited."
+        },
+        {
+          "type": "list",
+          "title": "Current Categories of Approved Tools",
+          "items": [
+            "Generative AI assistants for teacher productivity",
+            "Assessment and quiz generation platforms",
+            "Language support tools for EAL students",
+            "Administrative automation tools"
+          ]
         },
         {
           "type": "text",
-          "text": "Effective AI integration requires systematic investment in staff capabilities. School leaders should implement a structured professional development programme. AI Competency Levels: Foundation Level (All Teaching Staff) Basic understanding of AI capabilities and limitations Ability to use approved tools for lesson planning and material creation Knowledge of data privacy requirements and academic integrity policies Skills in reviewing and refining AI-generated content Expected timeline: All staff achieve foundation level within first year of implementation Practitioner Level (Teachers Progressing in AI Integration) Advanced prompt engineering for complex instructional tasks Integration of AI tools into differentiated instruction strategies Use of AI for assessment development and feedback generation Ability to guide students in responsible AI use Expected timeline: Majority of staff achieve practitioner level within two years Leader Level (Department Heads, Senior Teachers, Instructional Coaches) Ability to mentor colleagues in effective AI integration Skills in evaluating new AI tools for educational suitability Capacity to lead professional development sessions on AI topics Contribution to school and network policy development Expected timeline: Identified teacher leaders achieve this level within 18 months Professional Development Delivery Methods: Network-wide training sessions coordinated by Eduversal Academic Directorate School-based professional learning communities focused on AI integration Online self-directed learning modules and resources Peer observation and collaborative planning sessions External workshops and conferences where appropriate Documentation and Recognition: keep records of staff participation in AI professional development Include AI competency development in teacher appraisal discussions Recognise and celebrate effective AI integration practices Create opportunities for skilled teachers to share expertise across the network",
-          "title": "7.14.4 Professional Development Framework"
+          "text": "Specific approved tools are listed in a separate document maintained by the Eduversal Academic Directorate and distributed to all partner schools."
         },
         {
           "type": "text",
-          "text": "School leaders must establish mechanisms to monitor AI integration quality and ensure alignment with educational objectives. Classroom Observation Focus Areas: When observing lessons involving AI integration, observers should consider: Pedagogical Purpose Is AI being used to enhance specific learning objectives? Does AI use align with the lesson's educational goals? Is there clear value added by AI integration? Quality of Implementation Has AI-generated content been appropriately reviewed and refined? Is the teacher exercising professional judgment in AI use? Are students engaging meaningfully with learning, not passively consuming AI output? Student Learning Impact Are students developing understanding and skills, not just receiving AI-generated answers? Is AI supporting differentiation for diverse learner needs? Are students being taught to critically evaluate AI-assisted work? Observation feedback should address AI integration constructively, recognising effective practices and identifying areas for growth. School-Level Monitoring: Regular Review Meetings Termly discussion of AI integration progress at leadership meetings Department-level sharing of effective practices and challenges Student and parent feedback collection and analysis Data Collection Track professional development participation and competency progression Monitor academic integrity incidents related to AI Gather teacher self-assessment data on AI integration confidence and frequency Annual Review full review of AI integration progress against strategic plan Analysis of impact on teacher workload and student outcomes Recommendations for policy and practice adjustments Network-Level Quality Assurance: Eduversal school appraisal visits will include AI integration as an observation focus Cross-school sharing of effective practices through principal meetings and network forums Annual network report on AI integration progress and recommendations",
-          "title": "7.14.5 Quality Assurance and Monitoring"
+          "title": "7.14.3 Data Governance and Privacy Protection",
+          "text": "Protecting student data is a fundamental leadership responsibility. School leaders must establish and enforce robust data governance practices.\n\n**Core Data Protection Principles:**"
+        },
+        {
+          "type": "list",
+          "title": "Data Minimisation",
+          "items": [
+            "Use only the minimum necessary information in any AI application",
+            "Avoid entering detailed student information when general queries suffice",
+            "Aggregate data rather than individual records where possible"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Anonymisation Requirements",
+          "items": [
+            "When AI analysis of student performance is needed, remove or code identifying information",
+            "Use class-level or cohort-level data rather than individual student data where feasible",
+            "Establish clear protocols for any exceptions requiring identifiable data"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Consent and Transparency",
+          "items": [
+            "Inform parents about AI tools used in instruction through appropriate communications",
+            "Obtain necessary consents as required by Indonesian regulations",
+            "Maintain transparency about how student data is used and protected"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Secure Storage and Transmission",
+          "items": [
+            "Ensure any locally stored AI-related data is properly secured",
+            "Use encrypted connections when transmitting sensitive information",
+            "Regularly audit data storage practices"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Incident Response",
+          "items": [
+            "Establish clear procedures for responding to suspected data breaches",
+            "Immediate reporting requirements to school leadership and Eduversal",
+            "Documentation and remediation protocols"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Prohibited Data Practices",
+          "items": [
+            "Entering student names, ID numbers, or photographs into public AI platforms",
+            "Sharing assessment results or academic records with non-approved AI tools",
+            "Using AI to make automated decisions about student placement or intervention without human review",
+            "Storing AI conversation logs containing student information on personal devices"
+          ]
         },
         {
           "type": "text",
-          "text": "AI integration must support equitable access to quality education for all students. School leaders are responsible for ensuring AI benefits reach all learners. Access Equity: Infrastructure Equity Ensure reliable internet and appropriate devices are available for all classes Prioritise resource allocation to address gaps in access Provide in-school access for students without home technology resources Teacher Capacity Equity Support all teachers in developing AI competencies, not only early adopters Provide extra support for teachers who find technology integration challenging Ensure professional development is accessible to all staff Student Opportunity Equity Monitor whether AI-enhanced instruction reaches all student groups equally Address any emerging gaps in AI-related learning opportunities Ensure extracurricular AI activities are accessible to diverse students Supporting Diverse Learners: English as Extra Language Students Leverage AI tools for vocabulary development, translation support, and language scaffolding Use AI to create differentiated reading materials at appropriate language levels Ensure AI integration does not disadvantage students still developing English proficiency Students with Special Educational Needs Incorporate appropriate AI tools into Individual Education Plans Use AI for creating personalised learning materials and accommodations Ensure accessibility features are used in AI-enhanced instruction High-Ability Students Use AI to provide extension activities and advanced challenges Teach sophisticated AI literacy skills to students ready for deeper engagement Avoid using AI in ways that reduce intellectual challenge for capable learners Addressing Algorithmic Bias: Train staff to recognise potential bias in AI-generated content Review AI outputs for cultural appropriateness and representation Adapt AI-generated materials to reflect Indonesian contexts and diverse perspectives Report concerns about biased AI outputs to tool providers and Eduversal network",
-          "title": "7.14.6 Equity and Inclusion in AI Integration"
+          "title": "7.14.4 Professional Development Framework",
+          "text": "Effective AI integration requires systematic investment in staff capabilities. School leaders should implement a structured professional development programme.\n\n**AI Competency Levels:**"
+        },
+        {
+          "type": "list",
+          "title": "Foundation Level (All Teaching Staff)",
+          "items": [
+            "Basic understanding of AI capabilities and limitations",
+            "Ability to use approved tools for lesson planning and material creation",
+            "Knowledge of data privacy requirements and academic integrity policies",
+            "Skills in reviewing and refining AI-generated content",
+            "Expected timeline: All staff achieve foundation level within first year of implementation"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Practitioner Level (Teachers Progressing in AI Integration)",
+          "items": [
+            "Advanced prompt engineering for complex instructional tasks",
+            "Integration of AI tools into differentiated instruction strategies",
+            "Use of AI for assessment development and feedback generation",
+            "Ability to guide students in responsible AI use",
+            "Expected timeline: Majority of staff achieve practitioner level within two years"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Leader Level (Department Heads, Senior Teachers, Instructional Coaches)",
+          "items": [
+            "Ability to mentor colleagues in effective AI integration",
+            "Skills in evaluating new AI tools for educational suitability",
+            "Capacity to lead professional development sessions on AI topics",
+            "Contribution to school and network policy development",
+            "Expected timeline: Identified teacher leaders achieve this level within 18 months"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Professional Development Delivery Methods",
+          "items": [
+            "Network-wide training sessions coordinated by Eduversal Academic Directorate",
+            "School-based professional learning communities focused on AI integration",
+            "Online self-directed learning modules and resources",
+            "Peer observation and collaborative planning sessions",
+            "External workshops and conferences where appropriate"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Documentation and Recognition",
+          "items": [
+            "keep records of staff participation in AI professional development",
+            "Include AI competency development in teacher appraisal discussions",
+            "Recognise and celebrate effective AI integration practices",
+            "Create opportunities for skilled teachers to share expertise across the network"
+          ]
         },
         {
           "type": "text",
-          "text": "Effective AI integration requires clear communication with all stakeholders. Parent and Guardian Communication: Initial Communication Inform parents about the school's approach to AI integration Explain the educational benefits and safeguards in place Address common concerns proactively (academic integrity, screen time, data privacy) Provide opportunity for questions and feedback Ongoing Updates Include AI-related updates in regular school communications Share examples of effective AI-enhanced learning Notify parents of any significant changes to AI policies or tools Parent Education Consider offering information sessions on AI in education Provide resources for parents on supporting responsible AI use at home Address generational differences in AI familiarity and comfort Student Communication: Clear Expectations Ensure all students understand AI use policies (refer to Section 7.13) Communicate expectations at start of year and reinforce regularly Make policies accessible and age-appropriate Student Voice Gather student feedback on AI integration experiences Include student perspectives in policy review processes Empower students as partners in responsible AI use Staff Communication: Policy Clarity Ensure all staff have access to and understand AI policies Provide regular updates on approved tools and practice guidance Create channels for staff questions and concerns Collaborative Development Involve teachers in AI policy development and review Value practitioner expertise in shaping implementation approaches Foster culture of shared learning and experimentation",
-          "title": "7.14.7 Communication and Community Engagement"
+          "title": "7.14.5 Quality Assurance and Monitoring",
+          "text": "School leaders must establish mechanisms to monitor AI integration quality and ensure alignment with educational objectives.\n\n**Classroom Observation Focus Areas:**\n\nWhen observing lessons involving AI integration, observers should consider:"
+        },
+        {
+          "type": "list",
+          "title": "Pedagogical Purpose",
+          "items": [
+            "Is AI being used to enhance specific learning objectives?",
+            "Does AI use align with the lesson's educational goals?",
+            "Is there clear value added by AI integration?"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Quality of Implementation",
+          "items": [
+            "Has AI-generated content been appropriately reviewed and refined?",
+            "Is the teacher exercising professional judgment in AI use?",
+            "Are students engaging meaningfully with learning, not passively consuming AI output?"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Student Learning Impact",
+          "items": [
+            "Are students developing understanding and skills, not just receiving AI-generated answers?",
+            "Is AI supporting differentiation for diverse learner needs?",
+            "Are students being taught to critically evaluate AI-assisted work?"
+          ]
         },
         {
           "type": "text",
-          "text": "AI technology and best practices evolve rapidly. School leaders must ensure policies and practices remain current and effective. Review Schedule: Annual comprehensive policy review (aligned with school year planning cycle) Termly check-ins on implementation progress and emerging issues Ad-hoc reviews when significant new developments occur (new tools, regulatory changes, incidents) Review Process: Gather input from teachers, students, parents, and leadership Analyse monitoring data and incident reports Review developments in AI technology and educational research Benchmark against Cambridge International guidance and peer institutions Propose and approve policy updates through appropriate governance channels Documentation: Maintain version history of AI policies Document rationale for significant policy changes Ensure updated policies are promptly communicated and accessible Continuous Improvement Culture: Encourage experimentation within policy boundaries Learn from both successes and setbacks Share learning across the Eduversal network Stay connected to broader developments in AI and education",
-          "title": "7.14.8 Policy Review and Continuous Improvement"
+          "text": "Observation feedback should address AI integration constructively, recognising effective practices and identifying areas for growth.\n\n**School-Level Monitoring:**"
+        },
+        {
+          "type": "list",
+          "title": "Regular Review Meetings",
+          "items": [
+            "Termly discussion of AI integration progress at leadership meetings",
+            "Department-level sharing of effective practices and challenges",
+            "Student and parent feedback collection and analysis"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Data Collection",
+          "items": [
+            "Track professional development participation and competency progression",
+            "Monitor academic integrity incidents related to AI",
+            "Gather teacher self-assessment data on AI integration confidence and frequency"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Annual Review",
+          "items": [
+            "full review of AI integration progress against strategic plan",
+            "Analysis of impact on teacher workload and student outcomes",
+            "Recommendations for policy and practice adjustments"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Network-Level Quality Assurance",
+          "items": [
+            "Eduversal school appraisal visits will include AI integration as an observation focus",
+            "Cross-school sharing of effective practices through principal meetings and network forums",
+            "Annual network report on AI integration progress and recommendations"
+          ]
         },
         {
           "type": "text",
-          "text": "Policy and Governance School AI integration plan developed and approved Local guidelines aligned with Eduversal network policy AI policies included in Staff Handbook and communicated to all staff Student AI use policies included in Student Handbook Parent communication completed Review schedule established Infrastructure and Resources Reliable internet access confirmed across campus Appropriate devices available for staff and students Approved AI tool subscriptions active Technical support arrangements in place Budget allocation for ongoing AI-related costs Professional Development Staff AI competency baseline assessed Professional development plan developed Training schedule communicated to staff Progress tracking mechanism established Teacher leaders identified and supported Quality Assurance AI integration included in classroom observation framework Monitoring data collection processes established Termly review meetings scheduled Academic integrity monitoring in place Feedback mechanisms active for staff, students, and parents Equity and Inclusion Access gaps identified and addressed EAL and SEN support strategies developed Bias awareness included in staff training Diverse learner needs considered in AI implementation Compliance and Risk Management Data privacy requirements understood and communicated Approved tools list distributed to staff Incident reporting procedures established Indonesian regulatory compliance confirmed Risk mitigation strategies in place",
-          "title": "7.14.9 Appendix: Leadership Checklist for AI Integration"
+          "title": "7.14.6 Equity and Inclusion in AI Integration",
+          "text": "AI integration must support equitable access to quality education for all students. School leaders are responsible for ensuring AI benefits reach all learners.\n\n**Access Equity:**"
+        },
+        {
+          "type": "list",
+          "title": "Infrastructure Equity",
+          "items": [
+            "Ensure reliable internet and appropriate devices are available for all classes",
+            "Prioritise resource allocation to address gaps in access",
+            "Provide in-school access for students without home technology resources"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Teacher Capacity Equity",
+          "items": [
+            "Support all teachers in developing AI competencies, not only early adopters",
+            "Provide extra support for teachers who find technology integration challenging",
+            "Ensure professional development is accessible to all staff"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Student Opportunity Equity",
+          "items": [
+            "Monitor whether AI-enhanced instruction reaches all student groups equally",
+            "Address any emerging gaps in AI-related learning opportunities",
+            "Ensure extracurricular AI activities are accessible to diverse students"
+          ]
+        },
+        {
+          "type": "text",
+          "text": "**Supporting Diverse Learners:**"
+        },
+        {
+          "type": "list",
+          "title": "English as Extra Language Students",
+          "items": [
+            "Leverage AI tools for vocabulary development, translation support, and language scaffolding",
+            "Use AI to create differentiated reading materials at appropriate language levels",
+            "Ensure AI integration does not disadvantage students still developing English proficiency"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Students with Special Educational Needs",
+          "items": [
+            "Incorporate appropriate AI tools into Individual Education Plans",
+            "Use AI for creating personalised learning materials and accommodations",
+            "Ensure accessibility features are used in AI-enhanced instruction"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "High-Ability Students",
+          "items": [
+            "Use AI to provide extension activities and advanced challenges",
+            "Teach sophisticated AI literacy skills to students ready for deeper engagement",
+            "Avoid using AI in ways that reduce intellectual challenge for capable learners"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Addressing Algorithmic Bias",
+          "items": [
+            "Train staff to recognise potential bias in AI-generated content",
+            "Review AI outputs for cultural appropriateness and representation",
+            "Adapt AI-generated materials to reflect Indonesian contexts and diverse perspectives",
+            "Report concerns about biased AI outputs to tool providers and Eduversal network"
+          ]
+        },
+        {
+          "type": "text",
+          "title": "7.14.7 Communication and Community Engagement",
+          "text": "Effective AI integration requires clear communication with all stakeholders.\n\n**Parent and Guardian Communication:**"
+        },
+        {
+          "type": "list",
+          "title": "Initial Communication",
+          "items": [
+            "Inform parents about the school's approach to AI integration",
+            "Explain the educational benefits and safeguards in place",
+            "Address common concerns proactively (academic integrity, screen time, data privacy)",
+            "Provide opportunity for questions and feedback"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Ongoing Updates",
+          "items": [
+            "Include AI-related updates in regular school communications",
+            "Share examples of effective AI-enhanced learning",
+            "Notify parents of any significant changes to AI policies or tools"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Parent Education",
+          "items": [
+            "Consider offering information sessions on AI in education",
+            "Provide resources for parents on supporting responsible AI use at home",
+            "Address generational differences in AI familiarity and comfort"
+          ]
+        },
+        {
+          "type": "text",
+          "text": "**Student Communication:**"
+        },
+        {
+          "type": "list",
+          "title": "Clear Expectations",
+          "items": [
+            "Ensure all students understand AI use policies (refer to Section 7.13)",
+            "Communicate expectations at start of year and reinforce regularly",
+            "Make policies accessible and age-appropriate"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Student Voice",
+          "items": [
+            "Gather student feedback on AI integration experiences",
+            "Include student perspectives in policy review processes",
+            "Empower students as partners in responsible AI use"
+          ]
+        },
+        {
+          "type": "text",
+          "text": "**Staff Communication:**"
+        },
+        {
+          "type": "list",
+          "title": "Policy Clarity",
+          "items": [
+            "Ensure all staff have access to and understand AI policies",
+            "Provide regular updates on approved tools and practice guidance",
+            "Create channels for staff questions and concerns"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Collaborative Development",
+          "items": [
+            "Involve teachers in AI policy development and review",
+            "Value practitioner expertise in shaping implementation approaches",
+            "Foster culture of shared learning and experimentation"
+          ]
+        },
+        {
+          "type": "text",
+          "title": "7.14.8 Policy Review and Continuous Improvement",
+          "text": "AI technology and best practices evolve rapidly. School leaders must ensure policies and practices remain current and effective."
+        },
+        {
+          "type": "list",
+          "title": "Review Schedule",
+          "items": [
+            "Annual comprehensive policy review (aligned with school year planning cycle)",
+            "Termly check-ins on implementation progress and emerging issues",
+            "Ad-hoc reviews when significant new developments occur (new tools, regulatory changes, incidents)"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Review Process",
+          "items": [
+            "Gather input from teachers, students, parents, and leadership",
+            "Analyse monitoring data and incident reports",
+            "Review developments in AI technology and educational research",
+            "Benchmark against Cambridge International guidance and peer institutions",
+            "Propose and approve policy updates through appropriate governance channels"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Documentation",
+          "items": [
+            "Maintain version history of AI policies",
+            "Document rationale for significant policy changes",
+            "Ensure updated policies are promptly communicated and accessible"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Continuous Improvement Culture",
+          "items": [
+            "Encourage experimentation within policy boundaries",
+            "Learn from both successes and setbacks",
+            "Share learning across the Eduversal network",
+            "Stay connected to broader developments in AI and education"
+          ]
+        },
+        {
+          "type": "text",
+          "title": "7.14.9 Appendix: Leadership Checklist for AI Integration",
+          "text": ""
+        },
+        {
+          "type": "list",
+          "title": "Policy and Governance",
+          "items": [
+            "School AI integration plan developed and approved",
+            "Local guidelines aligned with Eduversal network policy",
+            "AI policies included in Staff Handbook and communicated to all staff",
+            "Student AI use policies included in Student Handbook",
+            "Parent communication completed",
+            "Review schedule established"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Infrastructure and Resources",
+          "items": [
+            "Reliable internet access confirmed across campus",
+            "Appropriate devices available for staff and students",
+            "Approved AI tool subscriptions active",
+            "Technical support arrangements in place",
+            "Budget allocation for ongoing AI-related costs"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Professional Development",
+          "items": [
+            "Staff AI competency baseline assessed",
+            "Professional development plan developed",
+            "Training schedule communicated to staff",
+            "Progress tracking mechanism established",
+            "Teacher leaders identified and supported"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Quality Assurance",
+          "items": [
+            "AI integration included in classroom observation framework",
+            "Monitoring data collection processes established",
+            "Termly review meetings scheduled",
+            "Academic integrity monitoring in place",
+            "Feedback mechanisms active for staff, students, and parents"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Equity and Inclusion",
+          "items": [
+            "Access gaps identified and addressed",
+            "EAL and SEN support strategies developed",
+            "Bias awareness included in staff training",
+            "Diverse learner needs considered in AI implementation"
+          ]
+        },
+        {
+          "type": "list",
+          "title": "Compliance and Risk Management",
+          "items": [
+            "Data privacy requirements understood and communicated",
+            "Approved tools list distributed to staff",
+            "Incident reporting procedures established",
+            "Indonesian regulatory compliance confirmed",
+            "Risk mitigation strategies in place"
+          ]
         }
       ]
     },
