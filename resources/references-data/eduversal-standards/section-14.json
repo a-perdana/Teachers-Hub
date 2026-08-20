@@ -2380,7 +2380,7 @@
             ],
             [
               "Safeguarding/Child Protection Records",
-              "Enrollment + 25 years after subject turns 18 (or longer if required by specific case)",
+              "Until the subject reaches age 25 (or longer if a serious abuse case, an ongoing investigation, or a potential legal claim requires it)",
               "Safeguarding best practice; Indonesian child protection law; potential future legal claims",
               "Secure destruction by authorized personnel only (DSL or Principal)",
               "DSL confidential secure files (separate from general student files)"
@@ -2435,6 +2435,11 @@
               "Trips coordination files"
             ]
           ]
+        },
+        {
+          "type": "text",
+          "title": "Note on the safeguarding row",
+          "text": "Aligned 2026-08-20: the Safeguarding/Child Protection row previously required retention for 25 years after the subject turned 18 (until about age 43). The schedule now carries the network rule stated in Section 9.10 — retain until the subject reaches age 25, or longer where a serious case, an ongoing investigation, or a potential legal claim requires it. This schedule (14.5.2) remains the single consolidated retention schedule; Sections 9 and 11 point to it."
         },
         {
           "type": "text",
@@ -2765,7 +2770,7 @@
         {
           "type": "list",
           "items": [
-            "Extended retention: Safeguarding records retained minimum 25 years after subject turns 18 (for students) or 7 years after employment ends (for staff allegations), but MAY need retention longer if:",
+            "Extended retention: Safeguarding records retained until the subject reaches age 25 (for students — the network rule stated in 9.10 and in the schedule above) or 7 years after employment ends (for staff allegations), but MAY need retention longer if:",
             "Individual requests records be retained longer (survivor of abuse may want school to retain records as evidence)",
             "Ongoing police investigation or court proceedings",
             "Historical abuse inquiry (government or institutional review of past safeguarding cases)",

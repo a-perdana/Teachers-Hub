@@ -102,12 +102,12 @@
         },
         {
           "type": "text",
-          "text": "POST-ACCREDITATION (Years 4-7)"
+          "text": "POST-ACCREDITATION (after the visit)"
         },
         {
           "type": "list",
           "items": [
-            "Mid-cycle reports (typically Year 5); continuous mini self-reviews; preparation for next full cycle"
+            "Mid-cycle report three years after the visit — before the end of Year 3 of the six-year accreditation cycle; continuous mini self-reviews; preparation for the next full cycle. (Corrected 2026-08-20: this row previously placed the mid-cycle report two years later, inside a post-accreditation window that overran the six-year cycle, contradicting the sourced year-three statements in 18.1, 18.5 and 18.8.)"
           ]
         },
         {
@@ -730,7 +730,7 @@
           "items": [
             "Cambridge Pathway curriculum map (Early Years, Primary, Lower Secondary, IGCSE, AS/A Level)",
             "Schemes of work for all subjects and year levels",
-            "Vertical progression matrices (showing learning progression K-13)",
+            "Vertical progression matrices (showing learning progression K-12)",
             "Indonesian national curriculum integration plan (Pancasila, Bahasa Indonesia, Religion, Civics, Mulok)",
             "EAL framework and placement criteria (CEFR/WIDA alignment)",
             "Curriculum review and revision cycle documentation",
@@ -1406,7 +1406,7 @@
             "Cambridge Pathway curriculum map (Early Years, Primary, Lower Secondary, IGCSE, AS/A Level)",
             "Schemes of work for all subjects and year levels",
             "Unit and lesson plans (sample across subjects and year levels)",
-            "Vertical progression matrices (showing skill/concept development K-13)",
+            "Vertical progression matrices (showing skill/concept development K-12)",
             "Indonesian national curriculum integration plan (Pancasila, Bahasa Indonesia, Religion, Civics, Mulok)",
             "Curriculum maps linked to SLOs (showing how each subject contributes to SLOs)",
             "Curriculum review and revision cycle documentation"

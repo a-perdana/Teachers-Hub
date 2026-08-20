@@ -2290,15 +2290,21 @@
         },
         {
           "type": "text",
-          "text": "Complaint Description: [Detailed account of the complaint as stated by complainant] Desired Outcome: [What resolution is the complainant seeking?] Stage of Complaint:"
+          "text": "Complaint Description: [Detailed account of the complaint as stated by complainant] Desired Outcome: [What resolution is the complainant seeking?] Stage of Complaint (per the five-level ladder in Section 2.15):"
         },
         {
           "type": "list",
           "items": [
-            "Stage 1: Informal resolution (Class Teacher/Subject Leader)",
-            "Stage 2: Formal investigation (Principal/Vice Principal)",
-            "Stage 3: Board/Yayasan review"
+            "Level 1: Informal resolution (relevant staff member — teacher, counselor, or department head)",
+            "Level 2: Formal written complaint to the Principal (response within 10 working days)",
+            "Level 3: Appeal to the General Manager (decision within 10 working days — final at school level)",
+            "Level 4: Yayasan Board and/or Chief Academic Officer (review within 15 working days)",
+            "Level 5: External authorities (Dinas Pendidikan, Ministry of Education, labor courts, or police — where the law provides)"
           ]
+        },
+        {
+          "type": "text",
+          "text": "(Aligned 2026-08-20: this form previously used a three-stage list ending at a Yayasan board review, which did not match the five-level ladder in Section 2.15.)"
         },
         {
           "type": "text",

@@ -162,9 +162,9 @@
             "Overall School Ratio: Target 1:10 (including all academic staff and leadership)",
             "Early Years: 1:8-10 (teacher-student) with classroom assistants",
             "Primary (Years 1-6): 1:10-12 average class size; specialist teachers for PE, Music, Art",
-            "Lower Secondary (Years 7-9): 1:20-24 average class size; subject specialist teachers",
-            "IGCSE (Years 10-11): 1:18-24 depending on subject; smaller for practical subjects (Science, Design, ICT)",
-            "AS & A Level (Years 12-13): 1:8-16 to enable individualized support and university preparation",
+            "Lower Secondary (Grades 7-8): 1:20-24 average class size; subject specialist teachers",
+            "IGCSE (Grades 9-10): 1:18-24 depending on subject; smaller for practical subjects (Science, Design, ICT)",
+            "AS & A Level (Grades 11-12): 1:8-16 to enable individualized support and university preparation",
             "Support Staff: EAL support (1:40-60 EAL learners), SEN support (1:30-50 students), Counselors (1:200-300 students), Librarian (1 per school minimum)"
           ],
           "title": "Staff-Student Ratios"
@@ -1960,8 +1960,8 @@
           "type": "list",
           "items": [
             "Cambridge Checkpoint (end of Lower Secondary): optional diagnostic tests in English, Math, Science; helps track progress",
-            "IGCSE (Years 10-11): Cambridge syllabi, coursework requirements (if applicable), exam formats (multiple choice, structured questions, essays)",
-            "AS & A Level (Years 12-13): modular exams (AS at end of Year 12, A2 at end of Year 13), practical assessments (for sciences), extended projects",
+            "IGCSE (Grades 9-10): Cambridge syllabi, coursework requirements (if applicable), exam formats (multiple choice, structured questions, essays)",
+            "AS & A Level (Grades 11-12): modular exams (AS at end of Grade 11, A2 at end of Grade 12), practical assessments (for sciences), extended projects",
             "Cambridge exam calendar: entries deadlines (October for May/June exams, April for October/November exams), timetable release, results day",
             "Teacher-assessed coursework and practical skills: submission deadlines, moderation by Cambridge, secure storage of student work",
             "Predicted grades: role in university applications, based on student performance and potential"
@@ -2394,12 +2394,13 @@
           "type": "process",
           "steps": [
             "Administrative Domain (20% weight): attendance, punctuality, policy compliance, professionalism",
-            "Classroom Observation (60% weight):",
+            "Classroom Observation (50% weight for Primary & Secondary; 60% at Early Years):",
             "Planning and Organization",
             "Classroom Management",
             "Instructional Process",
             "Assessment",
-            "Work Inspection (20% weight): lesson plans, student work samples, data records, parent communication"
+            "Work Inspection (20% weight): lesson plans, student work samples, data records, parent communication",
+            "Student Satisfaction Survey (10% weight for Primary & Secondary; not administered at Early Years): student feedback on teaching effectiveness. (Corrected 2026-08-20: this instrument list previously showed a 20/60/20 split with no Student Survey domain; it now matches the canonical weights in 7.3.)"
           ]
         },
         {

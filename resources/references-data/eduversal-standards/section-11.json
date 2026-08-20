@@ -115,7 +115,7 @@
         {
           "type": "list",
           "items": [
-            "Year 1: 5-6 years old",
+            "Year 1 (Grade 1): minimum age 6 years by July 1 of the enrollment year — the PPDB rule stated in 11.10. (Corrected 2026-08-20: this row previously admitted children aged 5-6 on a September-1 cutoff, which conflicted with 11.10.)",
             "Year 2: 6-7 years old",
             "Year 3: 7-8 years old",
             "Year 4: 8-9 years old",
@@ -972,7 +972,7 @@
           "items": [
             "Grace period (e.g., 10 days after due date)",
             "Late fee (e.g., 2% per month)",
-            "Consequences for non-payment (e.g., withholding report cards, exam entry, or continued attendance)"
+            "Consequences for non-payment, limited to: a structured payment plan, late fees, or suspension of optional services (e.g., extracurricular clubs, optional trips). Academic records, report cards, diplomas, and entry to Cambridge exams for which the student is already registered are NEVER withheld or blocked (see 2.9). (Corrected 2026-08-20: this row previously allowed the school to hold back report cards, block entry to exams, or bar attendance for non-payment, which contradicted the prohibition in Section 2.)"
           ]
         },
         {
@@ -2326,7 +2326,7 @@
           "type": "list",
           "title": "Records Retention",
           "items": [
-            "School retains copies of all student records for minimum 5 years after withdrawal (see Section 14 for data retention policy)"
+            "School retains copies of student records for the periods set in the consolidated retention schedule in Section 14.5 — the period differs by record category. (Corrected 2026-08-20: this line previously stated a blanket minimum of 5 years for all records.)"
           ]
         },
         {
@@ -2428,12 +2428,12 @@
         },
         {
           "type": "text",
-          "text": "Final Report Card: • Provide most recent term report (or mid-term progress report if withdrawal occurs mid-term) • Include teacher comments and attendance summary Certificates to Provide: • Cambridge Checkpoint certificates (if student completed Year 6 or Year 9) • IGCSE or A Level certificates (if exams completed) • Participation certificates for extracurricular activities, sports, or competitions • Character or service awards earned during enrollment Ensure all certificates are signed, dated, and bear official school seal.",
+          "text": "Final Report Card: • Provide most recent term report (or mid-term progress report if withdrawal occurs mid-term) • Include teacher comments and attendance summary Certificates to Provide: • Cambridge Checkpoint certificates (if student completed Grade 6 or Grade 8) • IGCSE or A Level certificates (if exams completed) • Participation certificates for extracurricular activities, sports, or competitions • Character or service awards earned during enrollment Ensure all certificates are signed, dated, and bear official school seal.",
           "title": "Final Report and Certificates"
         },
         {
           "type": "text",
-          "text": "Refer to Enrollment Contract and Section 11.4 for detailed refund policy: Tuition Refund: • Calculated on pro-rata basis for unused portion of term • If student withdraws in October, refund for November-June tuition (if paid in advance) • Deduct one month's tuition if notice period not met Non-Refundable Fees: • Enrollment fee • Development fee • Exam fees (if already registered with Cambridge) Refund Processing Timeline: • Refunds processed within 30 days of withdrawal confirmation • Paid via bank transfer or check to parent's account Outstanding Balances: • Any unpaid tuition, fees, or fines must be settled before records are released • School may withhold transcripts and certificates until account is cleared",
+          "text": "Refer to Enrollment Contract and Section 11.4 for detailed refund policy: Tuition Refund: • Calculated on pro-rata basis for unused portion of term • If student withdraws in October, refund for November-June tuition (if paid in advance) • Deduct one month's tuition if notice period not met Non-Refundable Fees: • Enrollment fee • Development fee • Exam fees (if already registered with Cambridge) Refund Processing Timeline: • Refunds processed within 30 days of withdrawal confirmation • Paid via bank transfer or check to parent's account Outstanding Balances: • The school pursues unpaid tuition, fees, or fines through a structured payment plan, late fees, or suspension of optional services • Academic records, transcripts, report cards, diplomas, and certificates are NEVER withheld for non-payment, and results of exams the student has already sat are never blocked (see 2.9). (Corrected 2026-08-20: this clause previously allowed the school to withhold transcripts and certificates until the account was cleared, which contradicted the prohibition in Section 2.)",
           "title": "Refund Policy Application"
         },
         {
@@ -2622,6 +2622,11 @@
           "text": "How Long to Keep Student Records: Active Students: • All records maintained in current student file • Updated annually (new report cards, health forms, etc.) Withdrawn or Graduated Students: Minimum Retention Periods (after departure): Secure Disposal After Retention Period:"
         },
         {
+          "type": "text",
+          "title": "Note on this table",
+          "text": "The consolidated records retention schedule in Section 14.5 is the controlling text; this table is a summary of it for admissions and student-file staff. Aligned 2026-08-20: the attendance, disciplinary, financial and admissions rows previously carried different periods (7, 7, 7 and 5 years) than the consolidated schedule."
+        },
+        {
           "type": "table",
           "title": "Student Record Retention Periods After Departure",
           "headers": [
@@ -2637,13 +2642,13 @@
             ],
             [
               "Attendance records",
-              "7 years",
-              "Indonesian labor law compliance"
+              "Enrollment + 5 years after graduation",
+              "Dapodik reporting requirements; audit trail (per 14.5)"
             ],
             [
               "Disciplinary records",
-              "7 years",
-              "Legal defense in case of disputes or investigations"
+              "Enrollment + 5 years after resolution or graduation (whichever is later)",
+              "Indonesian student rights regulations; appeals period (per 14.5)"
             ],
             [
               "Health and medical records",
@@ -2652,13 +2657,13 @@
             ],
             [
               "Financial records (tuition payments)",
-              "7 years",
-              "Tax audits and financial reporting"
+              "10 years",
+              "Indonesian tax law — audit trail (per 14.5)"
             ],
             [
               "Admissions files (applications, test results)",
-              "5 years",
-              "Historical data for admissions analysis"
+              "Enrollment + 3 years after graduation (accepted students); 1 year after decision (declined applicants)",
+              "Admissions policy; audit trail; data minimization (per 14.5)"
             ],
             [
               "IEPs and learning support documentation",

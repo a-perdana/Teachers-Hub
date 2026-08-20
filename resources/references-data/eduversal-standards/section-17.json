@@ -937,7 +937,7 @@
         },
         {
           "type": "text",
-          "text": "Cambridge Checkpoint (Year 6 & Year 9):"
+          "text": "Cambridge Checkpoint (end of Grade 6 and Grade 8):"
         },
         {
           "type": "list",
@@ -951,7 +951,7 @@
         },
         {
           "type": "text",
-          "text": "IGCSE (Year 11):"
+          "text": "IGCSE (Grade 10):"
         },
         {
           "type": "list",
@@ -964,7 +964,7 @@
         },
         {
           "type": "text",
-          "text": "AS & A Level (Years 12-13):"
+          "text": "AS & A Level (AS Grade 11, A Level Grade 12):"
         },
         {
           "type": "list",
@@ -1387,7 +1387,7 @@
         {
           "type": "list",
           "items": [
-            "School self-rates all 32 aspects across the five domains and attaches evidence to each",
+            "School self-rates all 33 aspects across the five domains and attaches evidence to each",
             "Evidence is uploaded to the school's appraisal record in Academic Hub",
             "Documents include: strategic plans, organisational charts, meeting minutes, student performance reports, policy documents, sample assessments"
           ],

@@ -150,7 +150,7 @@
             "Arts (Visual Arts, Music, Drama)",
             "Physical Education"
           ],
-          "title": "Stage 2: Cambridge Lower Secondary (Ages 11-14, Grades 7-8)"
+          "title": "Stage 2: Cambridge Lower Secondary (Ages 11-13, Grades 7-8)"
         },
         {
           "type": "text",
@@ -649,7 +649,7 @@
         },
         {
           "type": "text",
-          "text": "Example: Grade 10 IGCSE Biology Curriculum Map (Excerpt) Full Map:"
+          "text": "Example: Grade 9 IGCSE Biology Curriculum Map (Excerpt) Full Map:"
         },
         {
           "type": "text",
@@ -658,7 +658,7 @@
         },
         {
           "type": "table",
-          "title": "Grade 10 IGCSE Biology Curriculum Map (Excerpt)",
+          "title": "Grade 9 IGCSE Biology Curriculum Map (Excerpt)",
           "headers": [
             "Term",
             "Unit/Topic",
@@ -675,7 +675,7 @@
               "Understand features of living organisms; classify organisms using binomial system",
               "Observation, classification, use of keys",
               "Formative: Lab practical (microscope use); Summative: Unit test",
-              "Links to Indonesian Biology CP (Grade 10)",
+              "Links to Indonesian Biology CP",
               "SLO: Academic Excellence (scientific inquiry), P8: Bernalar Kritis (critical thinking)"
             ],
             [
@@ -764,21 +764,26 @@
               "Grade 8 (Lower Sec)",
               "Number: Powers, roots, standard form",
               "Algebra: Simultaneous equations, graphs",
-              "Geometry: Circles, Pythagoras, transformations; Statistics: Data collection, charts"
+              "Geometry: Circles, Pythagoras, transformations; Statistics: Data collection, charts; Review for Checkpoint"
             ],
             [
-              "Grade 9 (Lower Sec/Checkpoint)",
+              "Grade 9 (IGCSE Yr 1)",
               "Number: Rational & irrational numbers; Algebra: Quadratic equations",
               "Geometry: Similarity, congruence, trigonometry (basic)",
-              "Probability; Statistics: Mean, median, mode, range; Review for Checkpoint"
+              "Probability; Statistics: Mean, median, mode, range"
             ],
             [
-              "Grade 10 (IGCSE Yr 1)",
+              "Grade 10 (IGCSE Yr 2)",
               "Number: Sets, Venn diagrams; Algebra: Factorization, algebraic fractions",
               "Geometry: Circle theorems, constructions; Trigonometry: Sine, cosine, tangent",
               "Functions and graphs; Vectors"
             ]
           ]
+        },
+        {
+          "type": "text",
+          "title": "Note on grade placement",
+          "text": "Aligned 2026-08-20: these exemplar tables previously placed Checkpoint review in Grade 9 and the start of IGCSE in Grade 10 (a legacy placement). The network pathway is Lower Secondary Grades 7-8 with Checkpoint at the end of Grade 8, IGCSE Grades 9-10, AS Grade 11, A Level Grade 12 (see 5.3). The Biology excerpt above is retitled Grade 9 for the same reason."
         },
         {
           "type": "list",
@@ -1550,7 +1555,7 @@
           "type": "list",
           "items": [
             "Combination: Mix of face-to-face and online learning (especially useful for exam prep, remediation, or when student absent)",
-            "Example: Grade 12 AS Level students attend 3 in-person classes and 1 online asynchronous lesson per week (online: watch recorded lecture, complete practice problems; submit for feedback)"
+            "Example: Grade 12 A Level students attend 3 in-person classes and 1 online asynchronous lesson per week (online: watch recorded lecture, complete practice problems; submit for feedback)"
           ]
         },
         {

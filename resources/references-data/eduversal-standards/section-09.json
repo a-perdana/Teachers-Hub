@@ -193,7 +193,7 @@
           "type": "list",
           "items": [
             "Schools must have written safeguarding policy (✓ This document)",
-            "Annual training for ALL staff (minimum 4 hours)",
+            "Safeguarding training for ALL staff: minimum 4 hours in the first year of employment, then an annual refresher of at least 90 minutes (see 9.7). This is the Eduversal network standard — BSAN requires training but does not set a minimum number of hours. (Corrected 2026-08-20: this row previously required a minimum of 4 hours of training every year.)",
             "Student-friendly reporting mechanism (suggestion box, trusted adult system)",
             "Anti-bullying curriculum integrated into PPKN"
           ]
@@ -1257,7 +1257,7 @@
         },
         {
           "type": "text",
-          "text": "Lower Secondary (Grades 7-9):"
+          "text": "Lower Secondary (Grades 7-8):"
         },
         {
           "type": "list",
@@ -1269,7 +1269,7 @@
         },
         {
           "type": "text",
-          "text": "Upper Secondary (Grades 10-13):"
+          "text": "Upper Secondary (Grades 9-12):"
         },
         {
           "type": "list",
