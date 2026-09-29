@@ -374,7 +374,7 @@ function renderCertBanner() {
   if (!myCertification) {
     banner.innerHTML = `
       <div class="cert-banner expired">
-        <strong>You have no Mentor Certification on file.</strong> If you are a current mentor, please contact the Eduversal Induction Coordinator. Per Charter Non-Negotiable 3, new assignments cannot be made to uncertified mentors.
+        <strong>You have no Mentor Certification on file.</strong> If you are a current mentor, please contact the Induction Coordinator. Per Charter Non-Negotiable 3, new assignments cannot be made to uncertified mentors.
       </div>
     `;
     setCertKpi('None', 'no cert on file');
@@ -408,7 +408,7 @@ function showNoMentees() {
   document.getElementById('content').innerHTML = `
     <div class="no-mentees">
       <h2>No active mentees</h2>
-      <p>You are not currently assigned as a mentor for any induction. The Eduversal Induction Coordinator assigns mentors and mentees together at the start of each cohort.</p>
+      <p>You are not currently assigned as a mentor for any induction. The Induction Coordinator assigns mentors and mentees together at the start of each cohort.</p>
     </div>
   `;
 }
