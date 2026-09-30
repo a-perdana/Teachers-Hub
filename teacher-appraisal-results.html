@@ -694,7 +694,13 @@ document.addEventListener('authReady', async ({ detail: { user, profile } }) => 
       return;
     }
 
-    const appraisalDoc = snap.docs[0];
+    // Since 2026-10-01 each formal observation and the annual record are separate
+    // teacher_appraisals docs; the annual record (sessionType 'endofyear') is the
+    // one that carries F1–F4 and the composite, so prefer it.
+    const byNewest = [...snap.docs].sort((a, b) => (b.data().updatedAt?.seconds || 0) - (a.data().updatedAt?.seconds || 0));
+    const appraisalDoc = byNewest.find(d => d.data().sessionType === 'endofyear' && d.data().status !== 'draft')
+      || byNewest.find(d => d.data().status !== 'draft')
+      || byNewest[0];
     const appraisal = { id: appraisalDoc.id, ...appraisalDoc.data() };
 
     // Only show if shared or later
