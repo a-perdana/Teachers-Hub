@@ -232,7 +232,7 @@
 
   function viewBody() {
     if (events.length === 0) {
-      return `<div class="ec-empty"><div class="ec-empty-icon">📅</div><div>No events in Firestore yet.</div><div class="ec-empty-hint">CH admin can sync from Sheets at /academic-calendar.</div></div>`;
+      return `<div class="ec-empty"><div class="ec-empty-icon">📅</div><div>No events for this period yet.</div><div class="ec-empty-hint">Eduversal adds the network calendar for each academic year.</div></div>`;
     }
     if (view === 'strip') return stripView();
     if (view === 'month') return monthView();
