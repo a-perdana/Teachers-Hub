@@ -329,8 +329,11 @@ body:has(> .page-footer) > .page-wrap { width: 100%; align-self: stretch; }
 
       if (unsubAttempts) unsubAttempts();
       unsubAttempts = onSnapshot(
+        // schoolId pinned too: the rule lets staff read attempts of their own
+        // school only, and a query must prove that (2026-10-04).
         query(collection(window.db, 'chapter_test_attempts'),
-              where('sessionId', '==', sessionId)),
+              where('sessionId', '==', sessionId),
+              where('schoolId', '==', s.schoolId || '')),
         snap => {
           const attempts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
           renderAttempts(attempts);
